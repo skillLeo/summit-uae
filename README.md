@@ -67,7 +67,7 @@ suggests the firm is a law firm or that a result is guaranteed.
 | Admin | Filament 5 on Livewire 4 |
 | Front end | Blade components, Alpine.js (CSP build), modern CSS (cascade layers, container queries, subgrid, logical properties), Vite 8 |
 | Content | Translatable models (`spatie/laravel-translatable`, JSON columns `{en, ar, ru}`) behind a cached `ContentRepository` |
-| Database | SQLite by default (MySQL or MariaDB supported through `DB_CONNECTION`) |
+| Database | MySQL (local, test and production); content stored as JSON text so the approved field order is kept |
 | Testing | PHPUnit, Vitest, Playwright, axe-core, Lighthouse |
 
 ### Content pipeline
@@ -116,16 +116,16 @@ qa/                   Playwright suites and shared QA library
 
 ## Getting started
 
-Requirements: PHP 8.4+ with `pdo_sqlite`, `intl`, `mbstring`, `fileinfo`; Composer; Node 22+.
+Requirements: PHP 8.4+ with `pdo_mysql`, `intl`, `mbstring`, `fileinfo`; MySQL 8 (or MariaDB 10.6+); Composer; Node 22+.
 
 ```sh
 git clone https://github.com/skillLeo/summit-uae.git
 cd summit-uae
 composer install
 npm install
-cp .env.example .env
+cp .env.example .env                 # set DB_DATABASE, DB_USERNAME, DB_PASSWORD
 php artisan key:generate
-touch database/database.sqlite
+# create the databases first, e.g. in MySQL: CREATE DATABASE summit; CREATE DATABASE summit_test;
 php artisan migrate --seed
 
 composer run dev          # app server, queue, logs and Vite together

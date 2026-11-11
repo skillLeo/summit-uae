@@ -1,5 +1,8 @@
 <?php
 
+// Translatable and structured content is stored as JSON text in longText columns, not the JSON type: MySQL's JSON type
+// re-sorts object keys, and several blocks render their fields in stored order (the order of the approved documents).
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -19,11 +22,11 @@ return new class extends Migration
             $t->string('code', 8)->primary();          // P01–P08, L01, L02, U01
             $t->string('slug')->nullable();
             $t->unsignedSmallInteger('position')->default(0);
-            $t->json('h1')->nullable();
-            $t->json('seo_title')->nullable();
-            $t->json('meta_description')->nullable();
-            $t->json('data')->nullable();
-            $t->json('meta')->nullable();
+            $t->longText('h1')->nullable();
+            $t->longText('seo_title')->nullable();
+            $t->longText('meta_description')->nullable();
+            $t->longText('data')->nullable();
+            $t->longText('meta')->nullable();
             $t->timestamps();
         });
 
@@ -31,9 +34,9 @@ return new class extends Migration
             $t->string('code', 8)->primary();          // S01–S11
             $t->string('slug');
             $t->unsignedSmallInteger('position');
-            $t->json('title')->nullable();
-            $t->json('data')->nullable();
-            $t->json('meta')->nullable();
+            $t->longText('title')->nullable();
+            $t->longText('data')->nullable();
+            $t->longText('meta')->nullable();
             $t->timestamps();
         });
 
@@ -42,18 +45,18 @@ return new class extends Migration
             $t->string('anchor');
             $t->string('category')->nullable();
             $t->unsignedSmallInteger('position');
-            $t->json('title')->nullable();
-            $t->json('data')->nullable();
-            $t->json('meta')->nullable();
+            $t->longText('title')->nullable();
+            $t->longText('data')->nullable();
+            $t->longText('meta')->nullable();
             $t->timestamps();
         });
 
         Schema::create('guide_categories', function (Blueprint $t) {
             $t->string('code', 8)->primary();          // gc-01–gc-03
             $t->unsignedSmallInteger('position');
-            $t->json('name')->nullable();
-            $t->json('data')->nullable();
-            $t->json('meta')->nullable();
+            $t->longText('name')->nullable();
+            $t->longText('data')->nullable();
+            $t->longText('meta')->nullable();
             $t->timestamps();
         });
 
@@ -61,9 +64,9 @@ return new class extends Migration
             $t->string('code', 12)->primary();         // case-01–case-06
             $t->string('anchor');
             $t->unsignedSmallInteger('position');
-            $t->json('title')->nullable();
-            $t->json('data')->nullable();
-            $t->json('meta')->nullable();
+            $t->longText('title')->nullable();
+            $t->longText('data')->nullable();
+            $t->longText('meta')->nullable();
             $t->timestamps();
         });
 
@@ -71,9 +74,9 @@ return new class extends Migration
             $t->string('code', 8)->primary();          // cat-01–cat-12
             $t->string('anchor');
             $t->unsignedSmallInteger('position');
-            $t->json('name')->nullable();
-            $t->json('data')->nullable();
-            $t->json('meta')->nullable();
+            $t->longText('name')->nullable();
+            $t->longText('data')->nullable();
+            $t->longText('meta')->nullable();
             $t->timestamps();
         });
 
@@ -82,9 +85,9 @@ return new class extends Migration
             $t->string('anchor');
             $t->string('category', 8)->nullable()->index();
             $t->unsignedSmallInteger('position');
-            $t->json('question')->nullable();
-            $t->json('data')->nullable();
-            $t->json('meta')->nullable();
+            $t->longText('question')->nullable();
+            $t->longText('data')->nullable();
+            $t->longText('meta')->nullable();
             $t->timestamps();
         });
 
@@ -93,9 +96,9 @@ return new class extends Migration
             $t->string('anchor');
             $t->unsignedSmallInteger('position');
             $t->string('portrait')->nullable();
-            $t->json('name')->nullable();
-            $t->json('data')->nullable();
-            $t->json('meta')->nullable();
+            $t->longText('name')->nullable();
+            $t->longText('data')->nullable();
+            $t->longText('meta')->nullable();
             $t->timestamps();
         });
 
@@ -104,21 +107,21 @@ return new class extends Migration
             $t->unsignedSmallInteger('position');
             $t->string('domain');
             $t->string('url');
-            $t->json('label')->nullable();
-            $t->json('data')->nullable();
-            $t->json('meta')->nullable();
+            $t->longText('label')->nullable();
+            $t->longText('data')->nullable();
+            $t->longText('meta')->nullable();
             $t->timestamps();
         });
 
         Schema::create('ui_strings', function (Blueprint $t) {
             $t->string('key')->primary();
-            $t->json('value');
+            $t->longText('value');
             $t->timestamps();
         });
 
         Schema::create('settings', function (Blueprint $t) {
             $t->string('key')->primary();
-            $t->json('value');
+            $t->longText('value');
             $t->timestamps();
         });
     }

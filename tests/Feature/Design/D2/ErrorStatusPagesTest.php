@@ -235,14 +235,15 @@ final class ErrorStatusPagesTest extends TestCase
         // connection becomes the default, so RefreshDatabase's own connection and transaction stay intact.)
         $default = config('database.default');
         config([
-            'database.connections.gone' => ['driver' => 'sqlite', 'database' => storage_path('framework/testing/missing-'.uniqid().'/none.sqlite'), 'prefix' => ''],
+            // A MySQL server that is not there (port 1 refuses at once).
+            'database.connections.gone' => ['driver' => 'mysql', 'host' => '127.0.0.1', 'port' => 1, 'database' => 'summit_gone', 'username' => 'nobody', 'password' => '', 'prefix' => ''],
             'database.default' => 'gone',
         ]);
 
         try {
             $html = (string) $this->visit('/en/d2-test-database/', '2')->assertStatus(500)->getContent();
             $this->assertDesignTwoPage($html, 500, 'en');
-            Exceptions::assertReported(fn (QueryException $e) => str_contains($e->getMessage(), 'none.sqlite'));
+            Exceptions::assertReported(fn (QueryException $e) => str_contains($e->getMessage(), 'Connection: gone'));
 
             foreach (self::STATUSES as $status) {
                 $this->assertDesignTwoPage((string) $this->visit("/ar/d2-test-status/{$status}", '2')->assertStatus($status)->getContent(), $status, 'ar');
