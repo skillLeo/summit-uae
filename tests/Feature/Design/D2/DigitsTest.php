@@ -118,7 +118,10 @@ final class DigitsTest extends TestCase
 
     public function test_the_mode_comes_from_the_config_and_defaults_to_western(): void
     {
-        $this->assertSame('western', config('design.d2.arabic_digits'), 'owner decision: Western 0-9');
+        // Since Phase 3 the CMS setting languages.arabic_digits decides ("western", owner decision: Western 0-9);
+        // SUMMIT_ARABIC_DIGITS (config design.d2.arabic_digits) overrides it for one environment when set.
+        $this->assertNull(config('design.d2.arabic_digits'), 'no environment override');
+        $this->assertSame('western', content()->settings('languages')['arabic_digits'], 'owner decision: Western 0-9');
         $this->assertSame(Digits::WESTERN, Digits::mode());
         foreach (['eastern' => Digits::EASTERN, ' Eastern ' => Digits::EASTERN, 'western' => Digits::WESTERN, 'arabic' => Digits::WESTERN, '' => Digits::WESTERN] as $value => $mode) {
             config(['design.d2.arabic_digits' => $value]);

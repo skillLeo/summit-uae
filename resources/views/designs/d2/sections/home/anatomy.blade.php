@@ -1,6 +1,7 @@
 {{--
     Design 2 home: Anatomy of a Document (#anatomy; upgrade spec §5.4, §7.3 row 5, §12 C3; Design 2.1 brief D28, §6).
-    A switchable block between approved sections (pages/home.blade.php, Pending::block('anatomy')): all copy is proposed.
+    A switchable block between approved sections (pages/home.blade.php, its home block in the CMS): all copy is proposed.
+    The documents and their parts are the CMS document samples (content()->documentSamples()).
 
     Document choice: the one chip (<x-d2.ui.chip>, aria-pressed toggle buttons) in a toolbar (one Tab stop, arrow keys).
     Each document panel:
@@ -23,11 +24,31 @@
     use App\Design\D2\Docs;
     use App\Design\D2\Prefill;
 
-    $types = Docs::ANATOMY;
-    $part = fn (string $type, string $id, string $key) => d2p('anatomy.fields.'.$type.'.'.$id.'.'.$key);
+    // The sample documents of the CMS (document_samples, in their order; pending copy): each one's name, the service it
+    // leads to and its parts (label, what it can show, what we check). Only documents with an illustration
+    // (components/d2/doc/*) and only parts that are fields of it (Docs::HOTSPOTS) are drawn.
+    $samples = [];
+    foreach (content()->documentSamples() as $sample) {
+        $fields = Docs::HOTSPOTS[$sample['code']] ?? null;
+        if ($fields === null) {
+            continue;
+        }
+        $parts = [];
+        foreach ($sample['parts'] as $p) {
+            if (in_array($p['key'], $fields, true)) {
+                $parts[$p['key']] = ['name' => (string) $p['label'], 'show' => (string) $p['can_show'], 'check' => (string) $p['we_check']];
+            }
+        }
+        if ($parts !== []) {
+            $samples[$sample['code']] = $sample + ['fields' => $parts];
+        }
+    }
+    $types = array_keys($samples);
+    $part = fn (string $type, string $id, string $key) => $samples[$type]['fields'][$id][$key] ?? '';
+    $docName = fn (string $type) => (string) ($samples[$type]['title'] ?? Docs::name($type));
     $proposed = app()->isProduction() ? null : 'proposed';
 @endphp
-<section class="section anatomy" id="anatomy" aria-labelledby="anatomy-title">
+<section class="section anatomy" id="{{ $sectionId ?? 'anatomy' }}" aria-labelledby="anatomy-title">
     <div class="container">
         <div class="section__head">
             <h2 id="anatomy-title" @proposed>{{ d2p('anatomy.title') }}</h2>
@@ -37,15 +58,15 @@
         <div class="anatomy__app" x-data="d2Anatomy" data-anatomy>
             <div class="anatomy__docs" role="toolbar" aria-label="{{ d2p('anatomy.docs_label') }}" @proposed data-anatomy-docs>
                 @foreach ($types as $i => $type)
-                    <x-d2.ui.chip :pressed="$i === 0" data-anatomy-doc="{{ $type }}" aria-controls="anatomy-panel-{{ $type }}" :data-copy-status="$proposed">{{ Docs::name($type) }}</x-d2.ui.chip>
+                    <x-d2.ui.chip :pressed="$i === 0" data-anatomy-doc="{{ $type }}" aria-controls="anatomy-panel-{{ $type }}" :data-copy-status="$proposed">{{ $docName($type) }}</x-d2.ui.chip>
                 @endforeach
             </div>
 
             @foreach ($types as $i => $type)
                 @php
-                    $hotspots = Docs::HOTSPOTS[$type];
-                    $service = Docs::SERVICE[$type] ?? null;
-                    $name = Docs::name($type);
+                    $hotspots = array_keys($samples[$type]['fields']);
+                    $service = $samples[$type]['practice_area'];
+                    $name = $docName($type);
                 @endphp
                 <div class="anatomy__panel" id="anatomy-panel-{{ $type }}" data-anatomy-panel="{{ $type }}" @if ($i > 0) hidden @endif>
                     <div class="anatomy__desk">

@@ -15,7 +15,7 @@
     $about = $c['about'] ?? [];
     $paras = array_values(array_filter((array) ($about['paragraphs'] ?? []), fn ($p) => is_string($p) && $p !== ''));
 @endphp
-<section class="section about" id="about" aria-labelledby="about-title">
+<section class="section about" id="{{ $sectionId ?? 'about' }}" aria-labelledby="about-title">
     <div class="container about__grid">
         <div class="about__head">
             <h2 id="about-title">{{ Bidi::isolate($about['heading'] ?? '') }}</h2>

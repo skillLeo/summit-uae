@@ -19,7 +19,7 @@
     $intro = trim((string) ($cases['intro'] ?? ''));
     $previews = array_values(array_filter(content()->all('case_studies'), fn ($case) => filled($case['home_title'] ?? null)));
 @endphp
-<section class="section cases" id="case-studies" aria-labelledby="cases-title">
+<section class="section cases" id="{{ $sectionId ?? 'case-studies' }}" aria-labelledby="cases-title">
     <div class="container">
         <div class="section__head">
             <h2 id="cases-title">{{ Bidi::isolate($cases['heading'] ?? '') }}</h2>

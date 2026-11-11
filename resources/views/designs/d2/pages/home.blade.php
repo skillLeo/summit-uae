@@ -1,9 +1,12 @@
 {{--
     Design 2 home (replaces Design 1's pages.home by name; same HomeController data).
 
-    Section order (Design 2.1 brief §5.1, the order of 01_Homepage_EN_Revised.docx, same in AR and RU; D26): the
-    approved sections 01-09 are fixed. The switchable blocks (App\Design\D2\Pending::block(), switches in
-    config('design.d2.home.blocks'); Phase 4 moves them to the admin) sit between approved sections, never inside one:
+    The page is its blocks (docs/briefs/design-2.1-and-admin-cms.md §8.4): the blocks of page P01 in the CMS, in their
+    order, each rendered by its component in components/d2/blocks/ (App\Content\Cms\HomeBlocks lists the types and the
+    defaults the import writes). A block renders when it is on and, when its copy is pending, pending copy is shown
+    (App\Design\D2\Pending::shows()). Its anchor is the section's id. The default order (brief §5.1, the order of
+    01_Homepage_EN_Revised.docx, same in AR and RU; D26): the approved sections 01-09 are fixed, the switchable blocks
+    sit between approved sections, never inside one:
         01 hero
            [start]      "Start your matter" (pending copy)
         02 services
@@ -22,30 +25,16 @@
     Phones: no sticky consultation bar on the home (service pages keep theirs).
 --}}
 @php
+    use App\Content\Cms\HomeBlocks;
     use App\Design\D2\Pending;
 @endphp
 @extends('d2::layouts.app')
 
 @section('content')
-    @include('d2::sections.home.hero')
-    @if (Pending::block('start'))
-        @include('d2::sections.home.start')
-    @endif
-    @include('d2::sections.home.services')
-    @if (Pending::block('anatomy'))
-        @include('d2::sections.home.anatomy')
-    @endif
-    @include('d2::sections.home.who')
-    @include('d2::sections.home.method')
-    @if (Pending::block('navigator'))
-        @include('d2::sections.home.navigator')
-    @endif
-    @include('d2::sections.home.about')
-    @if (Pending::block('team'))
-        @include('d2::sections.home.team')
-    @endif
-    @include('d2::sections.home.cases')
-    @include('d2::sections.home.guides')
-    @include('d2::sections.home.faq')
-    @include('d2::sections.home.contact')
+    @php $homeScope = $__data; @endphp
+    @foreach (content()->blocks(HomeBlocks::PAGE) as $homeBlockItem)
+        @if (in_array($homeBlockItem['type'], HomeBlocks::types(), true) && Pending::shows($homeBlockItem))
+            <x-dynamic-component :component="'d2.blocks.'.$homeBlockItem['type']" :block="$homeBlockItem" :scope="$homeScope" />
+        @endif
+    @endforeach
 @endsection

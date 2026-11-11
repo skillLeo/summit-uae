@@ -16,7 +16,7 @@
     $faq = ($c ?? content()->page('P01')['content'] ?? [])['faq'] ?? [];
     $items = array_values(array_filter((array) ($faq['items'] ?? []), fn ($item) => is_array($item) && trim((string) ($item['question'] ?? '')) !== ''));
 @endphp
-<section class="section faq-section" id="questions" aria-labelledby="faq-title">
+<section class="section faq-section" id="{{ $sectionId ?? 'questions' }}" aria-labelledby="faq-title">
     <div class="container">
         <div class="section__head">
             <h2 id="faq-title">{{ $faq['heading'] ?? '' }}</h2>

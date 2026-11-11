@@ -11,7 +11,7 @@
     $whoSection = $c['who_we_help'] ?? [];
     $whoItems = array_values(array_filter($whoSection['items'] ?? [], fn ($item) => ($item['key'] ?? '') !== '' && ($item['title'] ?? '') !== ''));
 @endphp
-<section class="section who" id="who-we-help" aria-labelledby="who-title">
+<section class="section who" id="{{ $sectionId ?? 'who-we-help' }}" aria-labelledby="who-title">
     <div class="container">
         <header class="section__head">
             <h2 id="who-title">{{ $whoSection['heading'] ?? '' }}</h2>

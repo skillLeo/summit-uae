@@ -198,7 +198,7 @@ final class DocxBlack extends Command
                 'excluded' => [['file' => '00_Site_Map*', 'why' => 'The link registry and release checks (destinations, link IDs, registry labels); not a page. Its black lines still count as approved copy wherever they appear.']],
                 'pending' => [
                     'show' => \App\Design\D2\Pending::visible(),
-                    'homeBlocks' => config('design.d2.home.blocks'),
+                    'homeBlocks' => \App\Design\D2\Pending::homeBlocks(),
                 ],
                 'pages' => $pages,
             ];

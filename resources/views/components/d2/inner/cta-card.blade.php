@@ -55,7 +55,7 @@
         'situation' => $situation, 'audience' => $audience, 'consultant' => $consultant, 'tool' => $tool,
     ], fn ($v) => is_string($v) && $v !== ''));
     $whatsappUrl = is_string($whatsappDraft) && trim($whatsappDraft) !== ''
-        ? 'https://wa.me/'.config('summit.contact.whatsapp_number').'?text='.rawurlencode($whatsappDraft)
+        ? 'https://wa.me/'.setting('whatsapp_number').'?text='.rawurlencode($whatsappDraft)
         : (string) setting('whatsapp_url');
     $titleId = $id.'-title';
     $tag = $hasHeading ? 'aside' : 'div';

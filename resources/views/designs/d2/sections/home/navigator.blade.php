@@ -58,7 +58,7 @@
     ];
     $cs = app()->isProduction() ? null : 'proposed';
 @endphp
-<section class="section section--dark on-dark navigator" id="navigator" aria-labelledby="navigator-title" x-data="d2Navigator" data-navigator>
+<section class="section section--dark on-dark navigator" id="{{ $sectionId ?? 'navigator' }}" aria-labelledby="navigator-title" x-data="d2Navigator" data-navigator>
     <div class="container">
         <header class="section__head navigator__head">
             <h2 id="navigator-title" @unless ($approvedHeading) @proposed @endunless>{{ $heading }}</h2>

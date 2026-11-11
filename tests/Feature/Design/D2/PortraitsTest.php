@@ -3,13 +3,16 @@
 namespace Tests\Feature\Design\D2;
 
 use App\Design\D2\Portraits;
+use App\Models\Content\TeamMember;
 use Database\Seeders\ContentSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
  * Design 2.1 D42 / D43: the team portraits' shared eye line and the "photo pending" flag
- * (App\Design\D2\Portraits, config('design.d2.team'); the admin sets the values per photo in Phase 4).
+ * (App\Design\D2\Portraits: the CMS columns team_members.focal_point and .photo_pending, imported from
+ * config('design.d2.team.portraits'); the eye line stays config('design.d2.team.eye_line'); the admin sets the values
+ * per photo in Phase 4).
  */
 final class PortraitsTest extends TestCase
 {
@@ -39,6 +42,7 @@ final class PortraitsTest extends TestCase
 
     public function test_the_page_rules_follow_the_config(): void
     {
+        $this->seed(ContentSeeder::class);
         $css = Portraits::css();
         $this->assertMatchesRegularExpression('/\.portrait\[data-member="team-ahmed"\]\{--portrait-x:49\.7%;--portrait-y:33\.2%;--portrait-scale:[0-9.]+;--portrait-ox:[0-9.]+%;--portrait-oy:[0-9.]+%\}/', $css);
         $this->assertStringContainsString('.portrait[data-member="team-mohamed"]', $css);
@@ -47,15 +51,13 @@ final class PortraitsTest extends TestCase
         $this->assertTrue(Portraits::pending('team-sarah'));
         $this->assertFalse(Portraits::pending('team-ahmed'));
 
-        config([
-            'design.d2.team.eye_line' => 40,
-            'design.d2.team.portraits' => [
-                'team-ahmed' => ['focus' => [50, 40]],
-                'team-bad' => ['focus' => ['x', 1]],
-                'team-edge' => ['focus' => [0, 50]],
-                'Not A Code"}' => ['focus' => [50, 30]],
-            ],
-        ]);
+        // The CMS values win over the config; invalid ones are ignored like before.
+        config(['design.d2.team.eye_line' => 40]);
+        TeamMember::query()->findOrFail('team-ahmed')->update(['focal_point' => [50, 40]]);
+        TeamMember::query()->findOrFail('team-mohamed')->update(['focal_point' => null]);
+        foreach (['team-bad' => ['x', 1], 'team-edge' => [0, 50], 'Not A Code"}' => [50, 30]] as $code => $focus) {
+            TeamMember::query()->create(['code' => $code, 'anchor' => 'qa', 'position' => 9, 'name' => ['en' => 'QA'], 'focal_point' => $focus]);
+        }
         $this->assertSame('.portrait[data-member="team-ahmed"]{--portrait-x:50%;--portrait-y:40%;--portrait-scale:1;--portrait-ox:50%;--portrait-oy:40%}', Portraits::css(), 'invalid codes and focal points are ignored');
         $this->assertNull(Portraits::settings('team-edge')['focus']);
         $this->assertFalse(Portraits::pending('team-unknown'));
@@ -65,10 +67,11 @@ final class PortraitsTest extends TestCase
     {
         $this->seed(ContentSeeder::class);
         foreach (content()->teamMembers() as $member) {
-            $entry = config('design.d2.team.portraits.'.$member['code']);
-            $this->assertIsArray($entry, $member['code']);
+            $this->assertIsArray(config('design.d2.team.portraits.'.$member['code']), $member['code'].': an import default');
+            $entry = content()->portraits()[$member['code']] ?? null;
+            $this->assertIsArray($entry, $member['code'].': a CMS portrait entry');
             $hasFile = is_string($member['portrait'] ?? null);
-            $this->assertSame(! $hasFile, (bool) ($entry['photo_pending'] ?? false), $member['code'].': photo_pending matches the supplied files');
+            $this->assertSame(! $hasFile, $entry['pending'], $member['code'].': photo_pending matches the supplied files');
             if ($hasFile) {
                 $this->assertNotNull(Portraits::settings($member['code'])['focus'], $member['code'].': a focal point');
             }

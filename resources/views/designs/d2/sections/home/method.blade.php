@@ -19,7 +19,7 @@
     $reviewSteps = array_values(array_filter($review['steps'] ?? [], fn ($step) => trim($step['title'] ?? '') !== ''));
     $reviewQuestions = array_values(array_filter($review['questions'] ?? [], fn ($q) => is_string($q) && trim($q) !== ''));
 @endphp
-<section class="section method" id="review" aria-labelledby="review-title">
+<section class="section method" id="{{ $sectionId ?? 'review' }}" aria-labelledby="review-title">
     <div class="container">
         <h2 class="method__title" id="review-title">{{ $review['heading'] ?? '' }}</h2>
 

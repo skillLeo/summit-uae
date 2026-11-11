@@ -2,17 +2,23 @@
 
 namespace App\Models\Content;
 
+use App\Content\Cms\Schema;
+use App\Models\Concerns\HasCmsFields;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
 
 /**
- * Base for the imported content tables. Core columns are real columns; any other imported
- * field lives in the translatable `data` JSON column (per-language structures) or the
- * language-independent `meta` JSON column.
+ * Base of the content datasets (App\Content\Cms\Schema): keyed by the stable site-map code (P01, S06, G01, faq-12 …),
+ * one column per field. Translatable fields are {en, ar, ru} JSON text (spatie/laravel-translatable); blocks is one
+ * structure for every language with the texts inside (brief §8.3, §8.4). CMS fields: App\Models\Concerns\HasCmsFields.
  */
 abstract class ContentModel extends Model
 {
+    use HasCmsFields;
     use HasTranslations;
+
+    /** The dataset name in App\Content\Cms\Schema::DATASETS. */
+    public const DATASET = '';
 
     protected $primaryKey = 'code';
 
@@ -22,22 +28,28 @@ abstract class ContentModel extends Model
 
     protected $guarded = [];
 
-    protected $casts = ['meta' => 'array'];
-
-    /** Translatable core columns besides `data`. */
-    protected const TRANSLATABLE = [];
-
-    /** Language-independent core columns besides `meta`. */
-    public const PLAIN = [];
-
     public function getTranslatableAttributes(): array
     {
-        return [...static::TRANSLATABLE, 'data'];
+        return Schema::DATASETS[static::DATASET]['translatable'];
     }
 
-    /** Core column names that the seeder writes directly. */
-    public static function columns(): array
+    protected function casts(): array
     {
-        return [...static::TRANSLATABLE, ...static::PLAIN];
+        $schema = Schema::DATASETS[static::DATASET];
+        $casts = ['position' => 'integer'];
+        foreach ($schema['json'] as $column) {
+            $casts[$column] = 'array';
+        }
+        if ($schema['blocks'] !== null) {
+            $casts['blocks'] = 'array';
+        }
+
+        return $casts + static::extraCasts();
+    }
+
+    /** @return array<string, string> */
+    protected static function extraCasts(): array
+    {
+        return [];
     }
 }

@@ -27,7 +27,7 @@ use NumberFormatter;
  *    الساعة 6 مساءً" (AR, as the homepage line "من 9 صباحًا إلى 6 مساءً"), and for visitors outside UAE time "UAE
  *    time is 1 hour behind yours" (D40) on its own line. No middle dots, no response-time promise. Optional:
  *    config('design.d2.live_status') (SUMMIT_LIVE_STATUS, which follows the older SUMMIT_OPEN_NOW_INDICATOR while it
- *    is unset); settings replace the flag in a later phase.
+ *    is unset) and the CMS setting hours.live_status (Phase 3): either one turns it off.
  *    copy() is the script's data, printed once per page as #d2-hours-copy by <x-d2.shell.palette>.
  *
  * 3. line(), time() and offset() write the same strings on the server (styleguide specimens, tests), and sizer()
@@ -64,23 +64,27 @@ final class Hours
         '/(?<![\p{L}\p{N}])(с|со|до|в|во|к|ко|от|по)[ \t]+(?=[0-9]{1,2}[:.][0-9]{2}(?![0-9]))/iu' => "\$1\u{00A0}",
     ];
 
-    /** The proposed live status is shown (default on). */
+    /**
+     * The proposed live status is shown (default on): the environment's switch (config design.d2.live_status) and the
+     * CMS setting hours.live_status (App\Settings\OfficeHoursSettings) are both on.
+     */
     public static function liveStatus(): bool
     {
-        return (bool) config('design.d2.live_status', true);
+        return (bool) config('design.d2.live_status', true) && (bool) (content()->settings('hours')['live_status'] ?? true);
     }
 
     /**
-     * Office hours (config/summit.php contact; Settings in a later phase).
+     * Office hours: the CMS settings group "hours" (App\Settings\OfficeHoursSettings; imported from config/summit.php
+     * contact.hours and contact.timezone).
      *
      * @return array{timeZone: string, days: list<int>, open: string, close: string}
      */
     public static function schedule(): array
     {
-        $hours = (array) config('summit.contact.hours');
+        $hours = content()->settings('hours');
 
         return [
-            'timeZone' => (string) config('summit.contact.timezone', 'Asia/Dubai'),
+            'timeZone' => (string) ($hours['timezone'] ?? 'Asia/Dubai'),
             'days' => array_values(array_map('intval', (array) ($hours['days'] ?? [1, 2, 3, 4, 5]))),
             'open' => (string) ($hours['open'] ?? '09:00'),
             'close' => (string) ($hours['close'] ?? '18:00'),

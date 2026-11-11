@@ -37,15 +37,8 @@
     $samePage = fn (string $href) => rtrim((string) parse_url($href, PHP_URL_PATH), '/') === $path
         && ! parse_url($href, PHP_URL_FRAGMENT);
 
-    $nav = [
-        ['key' => 'home', 'label' => ui('nav.home'), 'href' => SiteUrl::home()],
-        ['key' => 'practice', 'label' => ui('nav.practice_areas'), 'href' => SiteUrl::page('P02')],
-        ['key' => 'resources', 'label' => ui('nav.resources'), 'href' => SiteUrl::page('P03')],
-        ['key' => 'cases', 'label' => ui('nav.case_studies'), 'href' => SiteUrl::page('P04')],
-        ['key' => 'faq', 'label' => ui('nav.faq'), 'href' => SiteUrl::page('P05')],
-        ['key' => 'about', 'label' => ui('nav.about'), 'href' => SiteUrl::page('P06')],
-        ['key' => 'contact', 'label' => ui('nav.contact'), 'href' => SiteUrl::contact()],
-    ];
+    // The approved navigation (H-L001 … H-L007): the CMS menu "primary", as in the header.
+    $nav = Shell::nav('primary');
 
     // Display order Arabic · English · Russian (the DOCX language switcher order).
     $order = ['ar' => 0, 'en' => 1, 'ru' => 2];
@@ -160,7 +153,7 @@
 
 <x-d2.ui.sheet id="services" class="sheet--services" :title="ui('nav.practice_areas')" :close-label="ui('a11y.close_menu')">
     <ul class="services-sheet__list" role="list">
-        @foreach (content()->services() as $service)
+        @foreach (Shell::practiceAreas('mega') as $service)
             @php
                 $code = $service['code'];
                 $summary = $service['hub_summary'] ?? $service['home_summary'] ?? null;

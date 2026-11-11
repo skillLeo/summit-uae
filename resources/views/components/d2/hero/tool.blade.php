@@ -3,7 +3,7 @@
     'audience' => 'individual',
     'situation' => null,      // a situation code such as S06-2 (preselected)
     'map' => null,            // audience => service codes (default config('audience_map.hero')); an unmapped audience lists everything
-    'picks' => null,          // quick-pick situation codes (default config('design.d2.home.quick_picks')); at most three
+    'picks' => null,          // quick-pick situation codes (default: the featured situations of the CMS); at most three
     'idPrefix' => 'hero',
     'interactive' => true,    // false: styleguide specimen without the d2HeroTool script
 ])
@@ -15,7 +15,7 @@
         keeps only the services config('audience_map.hero') maps to the chosen audience (all of them when
         the audience has no mapping);
       - the result half (D19: never an empty box):
-          before a choice, "Common situations" and up to three quick picks (config('design.d2.home.quick_picks'),
+          before a choice, "Common situations" and up to three quick picks (the featured situations of the CMS,
           the admin sets them in Phase 4): <x-d2.ui.chip>s holding the approved situation text, no icon, no dot.
           A pick follows the audience like the select does (hidden when the audience does not list its service);
           choosing one selects that situation, shows its documents and moves focus to the select. Each pick is
@@ -39,7 +39,9 @@
 
     $services ??= (new NavigatorData(content()))->services();
     $map ??= (array) config('audience_map.hero', []);
-    $picks ??= (array) config('design.d2.home.quick_picks', []);
+    // The featured situations of the CMS (situations.featured, in their order; config design.d2.home.quick_picks is
+    // what the import copies there).
+    $picks ??= content()->featuredSituations();
     $proposed = app()->isProduction() ? null : 'proposed';
 
     $audiences = [];

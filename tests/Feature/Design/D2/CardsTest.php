@@ -38,7 +38,8 @@ final class CardsTest extends TestCase
     /** The home with the "Our Team" block switched on (it is off by default: D24). */
     private function homeWithTeam(string $locale = 'en'): string
     {
-        config(['design.d2.home.blocks.team.enabled' => true]);
+        // The environment's override of the CMS block switch (SUMMIT_HOME_TEAM=1).
+        config(['design.d2.home.block_overrides.team' => true]);
 
         return $this->home($locale);
     }

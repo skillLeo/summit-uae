@@ -30,19 +30,12 @@
     open.
 --}}
 @php
-    use App\Support\SiteUrl;
-
-    $practiceHref = SiteUrl::page('P02');
     $path = rtrim(request()->getPathInfo(), '/');
     $samePage = fn (string $href) => rtrim((string) parse_url($href, PHP_URL_PATH), '/') === $path;
 
-    // The four approved labels (01_Homepage DOCX header, H-L001, H-L002, H-L003, H-L007), in the DOCX order.
-    $items = [
-        ['key' => 'home', 'label' => ui('nav.home'), 'href' => SiteUrl::home(), 'sheet' => null],
-        ['key' => 'practice', 'label' => ui('nav.practice_areas'), 'href' => $practiceHref, 'sheet' => 'services'],
-        ['key' => 'resources', 'label' => ui('nav.resources'), 'href' => SiteUrl::page('P03'), 'sheet' => null],
-        ['key' => 'contact', 'label' => ui('nav.contact'), 'href' => SiteUrl::contact(), 'sheet' => null],
-    ];
+    // The four approved labels (01_Homepage DOCX header, H-L001, H-L002, H-L003, H-L007), in the DOCX order: the CMS
+    // menu "tabbar" (Practice Areas opens the services sheet: options.sheet).
+    $items = \App\Design\D2\Shell::nav('tabbar');
     // "page" on the page itself; "true" on its sub-pages (a service page is under Practice Areas).
     $currentAttr = fn (array $item) => $current === $item['key'] ? ($static || $samePage($item['href']) ? 'page' : 'true') : null;
 

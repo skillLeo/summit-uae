@@ -1,6 +1,6 @@
 {{--
     Design 2 home block "Our Team" (Design 2.1 brief §5.1, D24): the team grid, a switchable block after section 05
-    About, OFF by default (config('design.d2.home.blocks.team'), SUMMIT_HOME_TEAM=1 for one environment; the team stays
+    About, OFF by default (its home block in the CMS; SUMMIT_HOME_TEAM=1 for one environment; the team stays
     on the About page unless the client approves it on the home: client question 7).
     The approved "Our Team" heading of the About page, then the three profile cards (content()->teamMembers(), the
     approved order: Ahmed, Mohamed, Sarah). Each card opens the member's profile on the About page (P06#team-…) and
@@ -16,7 +16,7 @@
     $teamHeading = content()->page('P06')['content']['team']['heading'] ?? null;
 @endphp
 @if ($members !== [])
-    <section class="section team" id="our-team" @if ($teamHeading) aria-labelledby="home-team-title" @endif>
+    <section class="section team" id="{{ $sectionId ?? 'our-team' }}" @if ($teamHeading) aria-labelledby="home-team-title" @endif>
         <div class="container">
             <div class="team__people">
                 @if ($teamHeading)

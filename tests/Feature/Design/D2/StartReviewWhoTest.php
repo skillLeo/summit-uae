@@ -3,14 +3,17 @@
 namespace Tests\Feature\Design\D2;
 
 use App\Content\NavigatorData;
+use App\Models\Content\Situation;
 use Database\Seeders\ContentSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Blade;
 use Tests\TestCase;
 
 /**
  * Design 2.1 Phase 2, area start-review-who:
  *   D19  "Start your matter" (#start, <x-d2.hero.tool>): before a choice the result half shows the quick picks
- *        (config design.d2.home.quick_picks, the one chip, approved situations), after a choice the documents; never
+ *        (the featured situations of the CMS, imported from config design.d2.home.quick_picks; the one chip, approved
+ *        situations), after a choice the documents; never
  *        an empty box. The picks follow the audience, work without JavaScript and never cut their text.
  *   D49  "What a Review of Your Matter Can Clarify" (#review): paragraphs on the start side, the five questions under
  *        their H3 on the end side, then the four workflow steps in one row of four (2 x 2 on tablets, stacked on
@@ -78,7 +81,8 @@ final class StartReviewWhoTest extends TestCase
 
     public function test_the_default_quick_picks_are_three_known_situations(): void
     {
-        $codes = config('design.d2.home.quick_picks');
+        $codes = content()->featuredSituations();
+        $this->assertSame(config('design.d2.home.quick_picks'), $codes, 'the import copies the default picks into situations.featured');
         $this->assertIsArray($codes);
         $this->assertCount(3, $codes);
         $this->assertSame($codes, array_values(array_unique($codes)));
@@ -91,7 +95,7 @@ final class StartReviewWhoTest extends TestCase
 
     public function test_before_a_choice_the_result_half_shows_the_quick_picks_as_chips(): void
     {
-        $codes = config('design.d2.home.quick_picks');
+        $codes = content()->featuredSituations();
         foreach (self::LOCALES as $locale) {
             $start = $this->start($this->home($locale));
             $situations = $this->situations($locale);
@@ -125,7 +129,7 @@ final class StartReviewWhoTest extends TestCase
         // Investor lists S05 but not S01 or S06 (config audience_map.hero): those picks are hidden, like the select's groups.
         $start = $this->start($this->home('en', 'audience=investor'));
         $map = config('audience_map.hero.investor');
-        foreach (config('design.d2.home.quick_picks') as $code) {
+        foreach (content()->featuredSituations() as $code) {
             [$service] = explode('-', $code);
             $hidden = ! in_array($service, $map, true);
             $this->assertSame($hidden ? 1 : 0, preg_match('/<li class="hero-tool__pick" data-pick-service="'.$service.'"\s+hidden/', $start), "{$code} hidden for investors: ".($hidden ? 'yes' : 'no'));
@@ -138,21 +142,42 @@ final class StartReviewWhoTest extends TestCase
         $this->assertStringContainsString('>'.e(trans_choice('proposed.d2.hero.tool.documents', 4, ['count' => 4])).'</p>', $start);
     }
 
+    public function test_the_quick_picks_are_the_featured_situations_of_the_cms(): void
+    {
+        foreach (Situation::query()->where('featured', true)->get() as $situation) {
+            $situation->update(['featured' => false, 'featured_position' => null]);
+        }
+        Situation::query()->findOrFail('S08-1')->update(['featured' => true, 'featured_position' => 2]);
+        Situation::query()->findOrFail('S06-1')->update(['featured' => true, 'featured_position' => 1]);
+
+        $this->assertSame(['S06-1', 'S08-1'], content()->featuredSituations(), 'in featured_position order');
+        $this->assertSame(['S06-1', 'S08-1'], $this->picks($this->start($this->home('en'))), 'the home shows the saved picks at once');
+    }
+
     public function test_unknown_duplicate_or_extra_codes_are_ignored_and_no_pick_falls_back_to_one_quiet_line(): void
     {
-        config(['design.d2.home.quick_picks' => ['S99-1', 'S06-1', 'S06-1', 'S01-1', 'S02-1', 'S03-1', 'S06-9', ['S04-1']]]);
-        $this->assertSame(['S06-1', 'S01-1', 'S02-1'], $this->picks($this->start($this->home('en'))), 'known codes, each once, at most three');
+        app()->setLocale('en');
+        $tool = fn (array $picks, string $audience = 'individual') => Blade::render(
+            '<x-d2.hero.tool :picks="$picks" :audience="$audience" />',
+            ['picks' => $picks, 'audience' => $audience],
+        );
+        $this->assertSame(['S06-1', 'S01-1', 'S02-1'], $this->picks($tool(['S99-1', 'S06-1', 'S06-1', 'S01-1', 'S02-1', 'S03-1', 'S06-9', ['S04-1']])), 'known codes, each once, at most three');
 
         // The investor audience lists none of these picks: the plain documents label and the hint, never a box.
-        config(['design.d2.home.quick_picks' => ['S06-1']]);
-        $start = $this->start($this->home('en', 'audience=investor'));
+        $start = $tool(['S06-1'], 'investor');
         $this->assertStringContainsString('>'.e(d2p('hero.tool.documents_label')).'</p>', $start);
         $this->assertMatchesRegularExpression('/<p class="hero-tool__hint" data-picks-none\s+data-copy-status="proposed">'.preg_quote(e(d2p('hero.tool.documents_empty')), '/').'<\/p>/', $start);
 
-        config(['design.d2.home.quick_picks' => []]);
-        $start = $this->start($this->home('en'));
+        $start = $tool([]);
         $this->assertStringNotContainsString('hero-tool__pick-list', $start);
         $this->assertStringContainsString('>'.e(d2p('hero.tool.documents_label')).'</p>', $start);
+
+        // No featured situation in the CMS: the home falls back to the same quiet line.
+        foreach (Situation::query()->where('featured', true)->get() as $situation) {
+            $situation->update(['featured' => false, 'featured_position' => null]);
+        }
+        $start = $this->start($this->home('en'));
+        $this->assertStringNotContainsString('hero-tool__pick-list', $start);
     }
 
     public function test_the_picks_css_never_cuts_and_draws_no_box(): void

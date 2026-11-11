@@ -8,7 +8,7 @@
 @php
     $contact = $c['contact'] ?? [];
 @endphp
-<section class="section contact-section" id="consultation-form" aria-labelledby="contact-title" tabindex="-1">
+<section class="section contact-section" id="{{ $sectionId ?? 'consultation-form' }}" aria-labelledby="contact-title" tabindex="-1">
     <div class="container">
         <div class="section__head">
             <h2 id="contact-title">{{ $contact['heading'] ?? '' }}</h2>

@@ -32,7 +32,7 @@
     $svcAudiences = fn (string $code) => array_keys(array_filter($svcMap, fn (array $codes) => in_array($code, $codes, true)));
     $svcTotal = count($svcList);
 @endphp
-<section class="section svc" id="services" aria-labelledby="services-title" x-data="d2Services">
+<section class="section svc" id="{{ $sectionId ?? 'services' }}" aria-labelledby="services-title" x-data="d2Services">
     <div class="container">
         <header class="section__head">
             <h2 id="services-title">{{ $svc['heading'] ?? '' }}</h2>

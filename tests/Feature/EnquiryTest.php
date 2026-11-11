@@ -51,9 +51,11 @@ final class EnquiryTest extends TestCase
         parent::setUp();
 
         $now = now();
+        // Approved interface strings are group "ui" of the CMS interface text (App\Models\Content\UiString).
         DB::table('ui_strings')->insert(array_map(fn (string $key) => [
+            'group' => 'ui',
             'key' => $key,
-            'value' => json_encode(['en' => "en:{$key}", 'ar' => "ar:{$key}", 'ru' => "ru:{$key}"]),
+            'text' => json_encode(['en' => "en:{$key}", 'ar' => "ar:{$key}", 'ru' => "ru:{$key}"]),
             'created_at' => $now,
             'updated_at' => $now,
         ], self::UI_KEYS));

@@ -29,7 +29,8 @@
     use App\Support\SiteUrl;
 
     // Arabic copy: Latin runs (USDT, TxID …) are isolated in <bdi dir="ltr"> by Bidi::isolate().
-    $services = content()->services();
+    // The practice areas of the CMS menu "mega" (S01–S11 in the approved order).
+    $services = \App\Design\D2\Shell::practiceAreas('mega');
     $panelId = $idPrefix.'-megamenu';
     $codes = array_column($services, 'code');
     $first = $preview && in_array($preview, $codes, true) ? $preview : ($currentService ?: ($codes[0] ?? null));

@@ -4,10 +4,11 @@ namespace App\Design\D2;
 
 /**
  * Design 2 team portraits (Design 2.1 D42, D43): one 4:5 frame and one eye line for every photo, and the "photo
- * pending" panel. Settings: config('design.d2.team') (the admin sets them per photo in Phase 4):
- *   eye_line                     the eyes' height in every frame, % from the top
- *   portraits.<code>.focus       [x, y], % of the photo: the midpoint between the pupils (the focal point)
- *   portraits.<code>.photo_pending  no portrait yet: <x-d2.team.portrait> draws the initials panel
+ * pending" panel. Settings (the admin sets the per-photo ones in Phase 4):
+ *   config design.d2.team.eye_line   the eyes' height in every frame, % from the top
+ *   team_members.focal_point         [x, y], % of the photo: the midpoint between the pupils (the focal point)
+ *   team_members.photo_pending       no portrait yet: <x-d2.team.portrait> draws the initials panel
+ * (the CMS columns, content()->portraits(); config design.d2.team.portraits for a member the CMS does not know)
  *
  * Placement: the photo files are 4:5, like the frame, so object-fit alone cannot move a face. The photo is scaled
  * (never below 1, so it always covers the frame) about an origin chosen so that the focal point lands on the eye
@@ -28,8 +29,7 @@ final class Portraits
      */
     public static function settings(string $code): array
     {
-        $entry = config('design.d2.team.portraits.'.$code);
-        $entry = is_array($entry) ? $entry : [];
+        $entry = self::entries()[$code] ?? [];
         $focus = $entry['focus'] ?? null;
         $point = null;
         if (is_array($focus) && count($focus) === 2 && is_numeric($focus[0] ?? null) && is_numeric($focus[1] ?? null)) {
@@ -41,6 +41,27 @@ final class Portraits
         }
 
         return ['focus' => $point, 'pending' => (bool) ($entry['photo_pending'] ?? false)];
+    }
+
+    /**
+     * The focal point and pending flag of every member: the CMS columns team_members.focal_point and .photo_pending
+     * (content()->portraits()), and for a member the CMS does not know, config('design.d2.team.portraits').
+     *
+     * @return array<string, array{focus: mixed, photo_pending: bool}>
+     */
+    public static function entries(): array
+    {
+        $entries = [];
+        foreach ((array) config('design.d2.team.portraits', []) as $code => $entry) {
+            if (is_array($entry)) {
+                $entries[(string) $code] = ['focus' => $entry['focus'] ?? null, 'photo_pending' => (bool) ($entry['photo_pending'] ?? false)];
+            }
+        }
+        foreach (content()->portraits() as $code => $portrait) {
+            $entries[(string) $code] = ['focus' => $portrait['focus'], 'photo_pending' => $portrait['pending']];
+        }
+
+        return $entries;
     }
 
     /** Whether the member's photo is flagged as pending (the initials panel is drawn even if files exist). */
@@ -80,7 +101,7 @@ final class Portraits
     {
         $eye = self::eyeLine();
         $rules = [];
-        foreach ((array) config('design.d2.team.portraits', []) as $code => $entry) {
+        foreach (array_keys(self::entries()) as $code) {
             $code = (string) $code;
             if (preg_match('/^team-[a-z]+$/', $code) !== 1) {
                 continue;

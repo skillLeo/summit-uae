@@ -37,12 +37,13 @@
     // The homepage file's own hours line (P01 contact.hours: the footer's Word file); its digits follow the Arabic
     // digits setting at render time (App\Design\D2\Digits).
     $hours = Hours::sentence('footer');
-    $year = now()->timezone(config('summit.contact.timezone'))->format('Y');
+    $year = now()->timezone((string) (content()->settings('hours')['timezone'] ?? config('summit.contact.timezone')))->format('Y');
     // Approved line "© 2026 Summit Legal Consultancy…": the year is rendered dynamically (DOCX red note, as in Design 1).
     $copyright = preg_replace('/\b(19|20)\d{2}\b/', $year, ui('footer.copyright'), 1);
     $languages = collect(Shell::languageLinks($pageKey))->keyBy('code');
     $order = array_values(array_intersect(['ar', 'en', 'ru'], $languages->keys()->all()));
     $newTab = proposed('external.new_tab');
+    $channels = Shell::nav('footer_contact');
 
     // Official lockup (resources/brand/lockup.svg, fill="currentColor"): inlined, gold on dark.
     $lockup = trim((string) preg_replace('/<\?xml.*?\?>|<!--.*?-->/s', '', (string) @file_get_contents(resource_path('brand/lockup.svg'))));
@@ -60,26 +61,29 @@
                 </div>
 
                 <div class="d2-footer__contact">
+                    {{-- The CMS menu "footer_contact": H-L040 TEL, H-L041 WA01, H-L042 EMAIL. --}}
                     <ul class="d2-footer__channels" role="list">
-                        <li>
-                            <a class="d2-footer__channel" href="{{ setting('phone_href') }}">
-                                <x-d2.ui.icon name="phone" size="20" class="d2-footer__channel-icon" />
-                                <bdi class="d2-footer__channel-text" dir="ltr">{{ setting('phone_display') }}</bdi>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="d2-footer__channel" href="{{ setting('whatsapp_url') }}" target="_blank" rel="noopener noreferrer">
-                                <x-d2.ui.icon name="whatsapp" size="20" class="d2-footer__channel-icon" />
-                                <span class="d2-footer__channel-text">{{ ui('footer.whatsapp') }}</span>
-                                <span class="sr-only" @proposed>{{ $newTab }}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="d2-footer__channel" href="{{ setting('email_href') }}">
-                                <x-d2.ui.icon name="mail" size="20" class="d2-footer__channel-icon" />
-                                <bdi class="d2-footer__channel-text d2-footer__email" dir="ltr">{{ setting('email') }}</bdi>
-                            </a>
-                        </li>
+                        @foreach ($channels as $channel)
+                            <li>
+                                @if ($channel['channel'] === 'WA01')
+                                    <a class="d2-footer__channel" href="{{ $channel['href'] }}" target="_blank" rel="noopener noreferrer">
+                                        <x-d2.ui.icon name="whatsapp" size="20" class="d2-footer__channel-icon" />
+                                        <span class="d2-footer__channel-text">{{ $channel['label'] }}</span>
+                                        <span class="sr-only" @proposed>{{ $newTab }}</span>
+                                    </a>
+                                @elseif ($channel['channel'] === 'EMAIL')
+                                    <a class="d2-footer__channel" href="{{ $channel['href'] }}">
+                                        <x-d2.ui.icon name="mail" size="20" class="d2-footer__channel-icon" />
+                                        <bdi class="d2-footer__channel-text d2-footer__email" dir="ltr">{{ $channel['label'] }}</bdi>
+                                    </a>
+                                @else
+                                    <a class="d2-footer__channel" href="{{ $channel['href'] }}">
+                                        <x-d2.ui.icon name="phone" size="20" class="d2-footer__channel-icon" />
+                                        <bdi class="d2-footer__channel-text" dir="ltr">{{ $channel['label'] }}</bdi>
+                                    </a>
+                                @endif
+                            </li>
+                        @endforeach
                     </ul>
                     @if ($hours !== '')
                         <p class="d2-footer__hours">{{ $hours }}</p>
@@ -90,8 +94,8 @@
             <nav class="d2-footer__col d2-footer__group d2-footer__group--practice" aria-labelledby="{{ $p }}-practice">
                 <h3 class="d2-footer__title t-minor" id="{{ $p }}-practice">{{ ui('footer.practice_areas') }}</h3>
                 <ul class="d2-footer__links" role="list">
-                    @foreach (content()->services() as $service)
-                        <li><a class="d2-footer__link" href="{{ SiteUrl::service($service['code']) }}">{{ $service['title'] ?? '' }}</a></li>
+                    @foreach (Shell::nav('footer_practice') as $link)
+                        <li><a class="d2-footer__link" href="{{ $link['href'] }}">{{ $link['label'] }}</a></li>
                     @endforeach
                 </ul>
             </nav>
@@ -99,20 +103,18 @@
             <nav class="d2-footer__col d2-footer__group d2-footer__group--resources" aria-labelledby="{{ $p }}-resources">
                 <h3 class="d2-footer__title t-minor" id="{{ $p }}-resources">{{ ui('footer.resources') }}</h3>
                 <ul class="d2-footer__links" role="list">
-                    <li><a class="d2-footer__link" href="{{ SiteUrl::page('P03') }}">{{ ui('footer.resources_centre') }}</a></li>
-                    <li><a class="d2-footer__link" href="{{ SiteUrl::page('P05') }}">{{ ui('footer.faq') }}</a></li>
-                    <li><a class="d2-footer__link" href="{{ SiteUrl::page('P04') }}">{{ ui('footer.case_studies') }}</a></li>
+                    @foreach (Shell::nav('footer_resources') as $link)
+                        <li><a class="d2-footer__link" href="{{ $link['href'] }}">{{ $link['label'] }}</a></li>
+                    @endforeach
                 </ul>
             </nav>
 
             <nav class="d2-footer__col d2-footer__group d2-footer__group--useful" aria-labelledby="{{ $p }}-useful">
                 <h3 class="d2-footer__title t-minor" id="{{ $p }}-useful">{{ ui('footer.useful_links') }}</h3>
                 <ul class="d2-footer__links" role="list">
-                    <li><a class="d2-footer__link" href="{{ SiteUrl::page('P06') }}">{{ ui('footer.about') }}</a></li>
-                    <li><a class="d2-footer__link" href="{{ SiteUrl::contact() }}">{{ ui('footer.contact') }}</a></li>
-                    <li><a class="d2-footer__link" href="{{ SiteUrl::page('P08') }}">{{ ui('footer.legal_notice') }}</a></li>
-                    <li><a class="d2-footer__link" href="{{ SiteUrl::page('L01') }}">{{ ui('footer.privacy') }}</a></li>
-                    <li><a class="d2-footer__link" href="{{ SiteUrl::page('L02') }}">{{ ui('footer.terms') }}</a></li>
+                    @foreach (Shell::nav('footer_useful') as $link)
+                        <li><a class="d2-footer__link" href="{{ $link['href'] }}">{{ $link['label'] }}</a></li>
+                    @endforeach
                 </ul>
             </nav>
         </div>
@@ -123,10 +125,12 @@
         <section class="d2-footer__specialist" aria-labelledby="{{ $p }}-specialist">
             <h3 class="d2-footer__title t-minor" id="{{ $p }}-specialist">{{ ui('footer.specialist_heading') }}</h3>
             <ul class="d2-footer__sites" role="list">
-                @foreach (content()->specialistSites() as $site)
+                @foreach (Shell::nav('footer_specialist') as $link)
+                    @continue($link['record'] === null)
+                    @php $site = $link['record']; @endphp
                     <li>
-                        <a class="d2-footer__site" href="{{ $site['url'] }}" target="_blank" rel="noopener noreferrer">
-                            <span class="d2-footer__site-label">{{ $site['label'] ?? '' }}</span>
+                        <a class="d2-footer__site" href="{{ $link['href'] }}" target="_blank" rel="noopener noreferrer">
+                            <span class="d2-footer__site-label">{{ $link['label'] }}</span>
                             <span class="d2-footer__site-meta">
                                 <bdi class="d2-footer__site-domain" dir="ltr">{{ $site['domain'] ?? '' }}</bdi>
                                 <x-d2.ui.icon name="external" size="20" class="d2-footer__site-icon" />

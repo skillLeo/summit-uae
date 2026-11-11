@@ -13,7 +13,8 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
  *
  * The approved Arabic copy mixes Western digits (the homepage) and Eastern Arabic digits (Contact, About, the
  * Legal Notice, Terms and Privacy), and scripts write numbers of their own. One setting,
- * config('design.d2.arabic_digits') (SUMMIT_ARABIC_DIGITS: "western", the default, or "eastern"), is applied at
+ * the CMS setting languages.arabic_digits ("western", the default, or "eastern"; SUMMIT_ARABIC_DIGITS, read as
+ * config('design.d2.arabic_digits'), decides for one environment when it is set), is applied at
  * render time to every Design 2 HTML response, so Arabic text never mixes 0-9 and ٠-٩ and shows the same digits
  * wherever it appears: on an Arabic page the whole page is converted; on an English or Russian page only its
  * Arabic blocks are (an element with an Arabic lang and everything in it, such as the styleguide's specimens in the
@@ -121,7 +122,7 @@ final class Digits
 
     public static function mode(): string
     {
-        return strtolower(trim((string) config('design.d2.arabic_digits', self::WESTERN))) === self::EASTERN
+        return strtolower(trim((string) (config('design.d2.arabic_digits') ?? content()->settings('languages')['arabic_digits'] ?? self::WESTERN))) === self::EASTERN
             ? self::EASTERN
             : self::WESTERN;
     }

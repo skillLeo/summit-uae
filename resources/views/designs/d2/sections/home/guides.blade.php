@@ -31,7 +31,7 @@
         }
     }
 @endphp
-<section class="section guides" id="guides" aria-labelledby="guides-title">
+<section class="section guides" id="{{ $sectionId ?? 'guides' }}" aria-labelledby="guides-title">
     <div class="container">
         <div class="section__head">
             <h2 id="guides-title">{{ Bidi::isolate($head['heading'] ?? '') }}</h2>

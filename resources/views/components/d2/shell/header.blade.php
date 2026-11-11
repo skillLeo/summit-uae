@@ -46,16 +46,10 @@
     $static = $demo !== null;
 
     // The seven approved navigation labels, in the DOCX order (01_Homepage: "the next seven labels form the
-    // desktop and mobile navigation; keep the same order"). H-L001 … H-L007.
-    $nav = [
-        ['key' => 'home', 'label' => ui('nav.home'), 'href' => SiteUrl::home()],
-        ['key' => 'practice', 'label' => ui('nav.practice_areas'), 'href' => SiteUrl::page('P02')],
-        ['key' => 'resources', 'label' => ui('nav.resources'), 'href' => SiteUrl::page('P03')],
-        ['key' => 'cases', 'label' => ui('nav.case_studies'), 'href' => SiteUrl::page('P04')],
-        ['key' => 'faq', 'label' => ui('nav.faq'), 'href' => SiteUrl::page('P05')],
-        ['key' => 'about', 'label' => ui('nav.about'), 'href' => SiteUrl::page('P06')],
-        ['key' => 'contact', 'label' => ui('nav.contact'), 'href' => SiteUrl::contact()],
-    ];
+    // desktop and mobile navigation; keep the same order"). H-L001 … H-L007: the CMS menu "primary".
+    $nav = Shell::nav('primary');
+    // The call to action (H-L011 "Request a Legal Consultation" → A01): the CMS menu "actions".
+    $cta = Shell::nav('actions')[0] ?? null;
 
     // aria-current: "page" on the page itself, "true" on its sub-pages (a service page under Practice Areas).
     $currentAttr = fn (string $key) => $current === $key ? ($key === 'practice' && $currentService ? 'true' : 'page') : null;
@@ -117,7 +111,9 @@
                 <x-d2.shell.langmenu class="d2-header__lang" :links="Shell::languageLinks($pageKey)" :id-prefix="$idPrefix" :open="$demo === 'lang'" />
 
                 {{-- D06: always the Ink button, at the top of the page and after scrolling; gold is the hero's alone. --}}
-                <x-d2.ui.button variant="ink" size="44" :href="SiteUrl::consultation()" class="d2-header__cta">{{ ui('cta.request_consultation') }}</x-d2.ui.button>
+                @if ($cta)
+                    <x-d2.ui.button variant="ink" size="44" :href="$cta['href']" class="d2-header__cta">{{ $cta['label'] }}</x-d2.ui.button>
+                @endif
 
                 <x-d2.ui.icon-button class="d2-header__menu d2-header__menu--end" icon="menu" :label="ui('a11y.open_menu')"
                     size="44" href="#{{ $footerNav }}" data-sheet-open="menu" tip="none" />
@@ -129,7 +125,7 @@
         <nav class="container d2-nav" aria-label="{{ proposed('nav.main') }}">
             <ul class="d2-nav__list">
                 @foreach ($nav as $item)
-                    @if ($item['key'] === 'practice')
+                    @if ($item['mega'])
                         <x-d2.shell.megamenu
                             :label="$item['label']"
                             :href="$item['href']"
