@@ -45,6 +45,14 @@ final class ContentRepository
 
     private string $source = self::SOURCE_DATABASE;
 
+    /**
+     * Preview overlays (App\Http\Middleware\CmsPreview, brief §8.5): table => key column, the rows read instead of the
+     * published ones, and optionally a scope (column => value) whose published rows they replace. Never cached.
+     *
+     * @var array<string, array{key: string, rows: list<array<string, mixed>>, scope?: array<string, mixed>}>
+     */
+    private array $overlays = [];
+
     /** Replaces the cache version (the next read rebuilds) and forgets what this instance memoised. */
     public function flush(): void
     {
@@ -72,6 +80,23 @@ final class ContentRepository
     public function source(): string
     {
         return $this->source;
+    }
+
+    /**
+     * Render with unpublished rows (a signed preview of a draft): see $overlays. The snapshot is then built for this
+     * request only, never cached.
+     *
+     * @param  array<string, array{key: string, rows: list<array<string, mixed>>, scope?: array<string, mixed>}>  $overlays
+     */
+    public function preview(array $overlays): void
+    {
+        $this->overlays = $overlays;
+        $this->forget();
+    }
+
+    public function previewing(): bool
+    {
+        return $this->overlays !== [];
     }
 
     public function locale(?string $locale = null): string
@@ -403,7 +428,7 @@ final class ContentRepository
         if ($this->shared !== null) {
             return $this->shared;
         }
-        if ($this->source === self::SOURCE_FILES) {
+        if ($this->source === self::SOURCE_FILES || $this->overlays !== []) {
             return $this->shared = $this->buildShared();
         }
 
@@ -416,7 +441,7 @@ final class ContentRepository
         if (isset($this->snapshots[$locale])) {
             return $this->snapshots[$locale];
         }
-        if ($this->source === self::SOURCE_FILES || ! in_array($locale, Tree::LOCALES, true)) {
+        if ($this->source === self::SOURCE_FILES || $this->overlays !== [] || ! in_array($locale, Tree::LOCALES, true)) {
             return $this->snapshots[$locale] = $this->buildSnapshot($locale);
         }
 
@@ -605,12 +630,42 @@ final class ContentRepository
      */
     private function dbRows(string $table, string $order, ?int $limit = null): array
     {
-        return $this->tableRows($table, function ($query) use ($order, $limit) {
+        $rows = $this->tableRows($table, function ($query) use ($order, $limit) {
             $query->where('status', Status::PUBLISHED)->whereNull('deleted_at')->orderBy($order);
             if ($limit !== null) {
                 $query->limit($limit);
             }
         });
+
+        return isset($this->overlays[$table]) && $this->source !== self::SOURCE_FILES ? $this->overlaid($table, $rows, $order) : $rows;
+    }
+
+    /**
+     * @param  list<array<string, mixed>>  $rows
+     * @return list<array<string, mixed>>
+     */
+    private function overlaid(string $table, array $rows, string $order): array
+    {
+        $overlay = $this->overlays[$table];
+        $key = $overlay['key'];
+        $ids = array_map(fn (array $row) => (string) ($row[$key] ?? ''), $overlay['rows']);
+        $scope = $overlay['scope'] ?? [];
+        $rows = array_values(array_filter($rows, function (array $row) use ($key, $ids, $scope) {
+            if (in_array((string) ($row[$key] ?? ''), $ids, true)) {
+                return false;
+            }
+            foreach ($scope as $column => $value) {
+                if ((string) ($row[$column] ?? '') !== (string) $value) {
+                    return true;
+                }
+            }
+
+            return $scope === [];
+        }));
+        $rows = [...$rows, ...$overlay['rows']];
+        usort($rows, fn (array $a, array $b) => [$a[$order] ?? null, (string) ($a[$key] ?? '')] <=> [$b[$order] ?? null, (string) ($b[$key] ?? '')]);
+
+        return $rows;
     }
 
     /** @return list<array<string, mixed>> */

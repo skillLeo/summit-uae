@@ -37,6 +37,9 @@ class EnquiryResource extends Resource
 
     protected static ?int $navigationSort = 1;
 
+    /** Brief §9.1 group "Requests" (AdminPanelProvider::navigationGroups()). */
+    protected static string|\UnitEnum|null $navigationGroup = 'requests';
+
     protected static bool $isGloballySearchable = false;
 
     /** Sentence case in every language (Filament would title-case "Заявки На Консультацию"). */

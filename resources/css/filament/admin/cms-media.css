@@ -1,0 +1,147 @@
+/* Admin CMS: media screens (Phase 4). Imported by theme.css; plain CSS with the Design 2 tokens, logical properties only.
+   Media Library (app/Filament/Resources/MediaLibrary), Team (app/Filament/Resources/Team), Document Samples, and the
+   focal point picker (resources/views/filament/media/focal-point.blade.php). */
+@layer components {
+    /* ------------------------------------------------------------ focal point picker */
+    .cms-focal {
+        display: grid;
+        gap: var(--s-3);
+    }
+
+    .cms-focal__frame {
+        justify-self: start;
+        max-inline-size: 100%;
+    }
+
+    .cms-focal__image {
+        position: relative;
+        display: block;
+        max-inline-size: 100%;
+        padding: 0;
+        border: 1px solid var(--line);
+        border-radius: var(--r-xs);
+        background: var(--band);
+        cursor: crosshair;
+        overflow: hidden;
+        line-height: 0;
+    }
+
+    .cms-focal__image:focus-visible {
+        outline: 2px solid var(--focus);
+        outline-offset: 2px;
+    }
+
+    .cms-focal__image:disabled {
+        cursor: default;
+    }
+
+    .cms-focal__image img {
+        display: block;
+        max-inline-size: 100%;
+        max-block-size: 28rem;
+        inline-size: auto;
+        block-size: auto;
+        user-select: none;
+        pointer-events: none;
+    }
+
+    /* the point: a ring with a dark and a light edge, readable on any photo */
+    .cms-focal__marker {
+        position: absolute;
+        inline-size: var(--s-6);
+        block-size: var(--s-6);
+        margin-inline-start: calc(var(--s-6) / -2);
+        margin-block-start: calc(var(--s-6) / -2);
+        border: 2px solid var(--canvas);
+        border-radius: 50%;
+        box-shadow: 0 0 0 2px var(--ink);
+        pointer-events: none;
+    }
+
+    .cms-focal__marker::after {
+        content: "";
+        position: absolute;
+        inset-block-start: 50%;
+        inset-inline-start: 50%;
+        inline-size: var(--s-1);
+        block-size: var(--s-1);
+        margin: calc(var(--s-1) / -2);
+        border-radius: 50%;
+        background: var(--canvas);
+        box-shadow: 0 0 0 1px var(--ink);
+    }
+
+    .cms-focal__hint,
+    .cms-focal__readout {
+        margin: 0;
+        color: var(--ink-3);
+        font-size: var(--fs-meta);
+    }
+
+    .cms-focal__fields {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: end;
+        gap: var(--s-3);
+    }
+
+    .cms-focal__field {
+        display: grid;
+        gap: var(--s-1);
+        inline-size: 10rem;
+    }
+
+    .cms-focal__label {
+        color: var(--ink-2);
+        font-size: var(--fs-meta);
+        font-weight: var(--fw-medium);
+    }
+
+    .cms-focal__field input {
+        font-variant-numeric: tabular-nums;
+    }
+
+    .cms-focal__clear {
+        min-block-size: 2.25rem;
+    }
+
+    /* ------------------------------------------------------------ media list and details */
+    .cms-media-thumb,
+    .cms-media-table .fi-ta-image img.cms-media-thumb {
+        object-fit: contain;
+        border: 1px solid var(--line);
+        border-radius: var(--r-mark);
+        background: var(--band);
+    }
+
+    .cms-media-figures {
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+    }
+
+    .cms-media-url {
+        overflow-wrap: anywhere;
+    }
+
+    .cms-media-panel__img {
+        inline-size: 100%;
+        max-block-size: 16rem;
+        object-fit: contain;
+        border: 1px solid var(--line);
+        border-radius: var(--r-xs);
+        background: var(--band);
+    }
+
+    /* the media list on a phone: the name keeps its room */
+    @media (width < 40rem) {
+        .cms-media-table .fi-ta-image img {
+            max-inline-size: 3.5rem;
+        }
+    }
+
+    /* ------------------------------------------------------------ team */
+    .cms-team-photo-hint {
+        color: var(--ink-3);
+        font-size: var(--fs-meta);
+    }
+}

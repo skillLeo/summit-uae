@@ -6,4 +6,4 @@
     Home block "About (text plus link)" (docs/briefs/design-2.1-and-admin-cms.md §8.4; App\Content\Cms\HomeBlocks). Renders the section
     partial d2::sections.home.about with the view's data; the section id is the block's anchor.
 --}}
-@include('d2::sections.home.about', ['sectionId' => $block['anchor'], 'homeBlock' => $block] + $scope)
+@include('d2::sections.home.about', ['sectionId' => $block['anchor'], 'homeBlock' => $block, 'c' => (array) ($block['data'] ?? []) + (array) ($scope['c'] ?? [])] + $scope)

@@ -19,6 +19,7 @@ use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationGroup;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Assets\AssetManager;
@@ -73,7 +74,10 @@ class AdminPanelProvider extends PanelProvider
             ->userMenuItems([$this->languageActions()])
             ->renderHook(PanelsRenderHook::HEAD_END, fn () => AdminBrand::fonts())
             ->renderHook(PanelsRenderHook::AUTH_LOGIN_FORM_AFTER, fn () => AdminBrand::loginLanguages())
+            ->renderHook(PanelsRenderHook::BODY_END, fn () => view('filament.cms.scripts'))
+            ->navigationGroups(self::navigationGroups())
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
+            ->discoverPages(in: app_path('Filament/Cms/Pages'), for: 'App\Filament\Cms\Pages')
             // Pages and widgets are listed, not discovered: the profile page is registered by ->profile().
             ->pages([
                 Dashboard::class,
@@ -97,6 +101,22 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ]);
+    }
+
+    /**
+     * The sidebar groups of brief §9.1, collapsible, in this order. Resources and pages name their group by its key
+     * (App\Filament\Cms\CmsResource: 'content'). Groups without screens yet (Phases 5-7) stay hidden.
+     *
+     * @return array<string, NavigationGroup>
+     */
+    public static function navigationGroups(): array
+    {
+        $groups = [];
+        foreach (['overview', 'requests', 'content', 'site', 'settings', 'system'] as $key) {
+            $groups[$key] = NavigationGroup::make(fn (): string => (string) __('cms.nav.'.$key))->collapsible();
+        }
+
+        return $groups;
     }
 
     public function register(): void

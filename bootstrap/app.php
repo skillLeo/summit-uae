@@ -3,8 +3,11 @@
 use App\Design\D2\Digits;
 use App\Design\D2\IconSprite;
 use App\Design\DesignManager;
+use App\Http\Middleware\CmsPreview;
 use App\Http\Middleware\DesignSwitcher;
+use App\Http\Middleware\EditThisPageBar;
 use App\Http\Middleware\SecurityHeaders;
+use App\Http\Middleware\ServeRedirects;
 use App\Http\Middleware\SetDesign;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -35,6 +38,13 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->append(SetDesign::class);
         $middleware->append(DesignSwitcher::class);
         $middleware->appendToGroup('web', SetDesign::class);
+        // CMS (docs/briefs/design-2.1-and-admin-cms.md §8.3, §8.5): redirects before routing (none exist today, so
+        // nothing changes), signed previews of drafts (global for the 404 page, and after the web group's SetDesign so
+        // the preview stays in Design 2), and the admins' "Edit this page" bar (visitors' responses are untouched).
+        $middleware->append(ServeRedirects::class);
+        $middleware->append(CmsPreview::class);
+        $middleware->appendToGroup('web', CmsPreview::class);
+        $middleware->appendToGroup('web', EditThisPageBar::class);
         // Preference cookies written by the browser (language choice, dismissed suggestion bar)
         // hold no secrets and cannot be encrypted client-side. The design cookie must be readable
         // by the global middleware, before the web group decrypts cookies.

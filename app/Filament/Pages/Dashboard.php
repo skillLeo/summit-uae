@@ -16,6 +16,9 @@ use Illuminate\Contracts\Support\Htmlable;
  */
 class Dashboard extends BaseDashboard
 {
+    /** Brief §9.1 group "Overview" (AdminPanelProvider::navigationGroups()). */
+    protected static string|\UnitEnum|null $navigationGroup = 'overview';
+
     public static function getNavigationLabel(): string
     {
         return (string) __('admin.dashboard.title');

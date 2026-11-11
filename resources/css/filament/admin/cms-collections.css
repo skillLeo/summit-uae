@@ -1,0 +1,21 @@
+/* Admin CMS: collections screens (Phase 4). Imported by theme.css; plain CSS with the Design 2 tokens, logical properties only. */
+
+/* The record's title column of the collection lists (Practice Areas, Case Studies, FAQs, FAQ groups, Situations,
+   Associated Sites): wide enough for a title on two or three lines next to the status, approval and translation
+   columns, instead of one word per line. */
+.cms-table .cms-col-title {
+    min-inline-size: 12rem;
+}
+
+@media (min-width: 1024px) {
+    .cms-table .cms-col-title {
+        min-inline-size: 16rem;
+    }
+}
+
+/* A Latin path, anchor or domain under a title: isolated left to right, also in the Arabic admin (no "/cases-/criminal"). */
+.cms-ltr {
+    direction: ltr;
+    unicode-bidi: isolate;
+    display: inline-block;
+}

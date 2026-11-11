@@ -1,0 +1,111 @@
+/*
+ * The generic CMS blocks of the block library (docs/briefs/design-2.1-and-admin-cms.md §8.4): rich text, two columns,
+ * call-to-action band, image and text. Views: resources/views/components/d2/blocks/{rich_text,two_columns,cta_band,
+ * image_text}.blade.php. They appear only when an editor adds one to the home page; no approved page uses them today.
+ * Layout: the About pattern (heading on columns 1-5, text on 6-12 from 1024 px); backgrounds white, band or dark
+ * through .section--band / .section--dark (layout.css).
+ */
+@layer sections {
+  .block-lib__grid {
+    display: grid;
+    gap: var(--head-gap);
+  }
+
+  .block-lib__body {
+    display: grid;
+    align-content: start;
+    gap: var(--s-4);
+    min-inline-size: 0;
+    max-inline-size: var(--prose);
+    color: var(--ink-2);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+
+    & :is(h2, h3) {
+      color: var(--ink);
+    }
+
+    & :is(ul, ol) {
+      display: grid;
+      gap: var(--s-2);
+      padding-inline-start: var(--s-6);
+    }
+
+    & blockquote {
+      padding-inline-start: var(--s-4);
+      border-inline-start: 2px solid var(--line-strong);
+    }
+
+    & a {
+      color: var(--ink);
+      text-decoration: underline;
+    }
+  }
+
+  .block-lib__cols {
+    display: grid;
+    gap: var(--s-8);
+  }
+
+  .block-lib__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+    margin-block-start: var(--s-4);
+  }
+
+  .block-lib__figure {
+    margin: 0;
+    min-inline-size: 0;
+
+    & img {
+      display: block;
+      inline-size: 100%;
+      block-size: auto;
+      border-radius: var(--r-md);
+      object-fit: cover;
+    }
+  }
+
+  :is(.section--dark, .section--night) .block-lib__body {
+    color: var(--on-night-2);
+
+    & :is(h2, h3, a) {
+      color: var(--on-night);
+    }
+  }
+
+  @media (width >= 1024px) {
+    .block-lib__grid {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gutter);
+    }
+
+    .block-lib__head {
+      grid-column: 1 / span 5;
+    }
+
+    .block-lib__body,
+    .block-lib__cols {
+      grid-column: 6 / -1;
+    }
+
+    .block-lib__cols {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .block-lib__figure {
+      grid-column: 1 / span 5;
+    }
+
+    .block-lib--image-end .block-lib__figure {
+      grid-column: 8 / -1;
+      grid-row: 1;
+    }
+
+    .block-lib--image-end .block-lib__body {
+      grid-column: 1 / span 6;
+      grid-row: 1;
+    }
+  }
+}

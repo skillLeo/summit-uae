@@ -16,6 +16,10 @@
     Photo pending (D43): while the member's photo_pending flag is on (Ms Sarah Zaki) or a file is missing, a neutral
     panel of the same 4:5 size on the band shows the initials of the last two words of the approved name in the
     interface sans (no serif, no ring), decorative (aria-hidden): never a placeholder photo, avatar or icon.
+    Uploaded photo (Phase 4, brief §8.9): a photo uploaded in the admin's Team screen (media collection "photo", custom
+    property source = upload; App\Content\Cms\MediaFiles::teamPhoto()) replaces the static files: its AVIF and WebP
+    conversions (4:5, 480 … 1600 px, never upscaled) are printed instead. Without an upload the output is unchanged
+    (the directives of that branch start at column 0, so they print no whitespace).
 --}}
 @php
     use App\Design\D2\Portraits;
@@ -24,7 +28,8 @@
     $code = (string) ($member['code'] ?? '');
     $slug = is_string($member['portrait'] ?? null) ? basename($member['portrait']) : '';
     $file = fn (int $width, string $ext) => "images/d2/team/{$slug}-{$width}.{$ext}";
-    $hasFiles = $slug !== '' && is_file(public_path($file(480, 'webp'))) && is_file(public_path($file(800, 'webp')));
+    $upload = \App\Content\Cms\MediaFiles::teamPhoto($code);
+    $hasFiles = $upload !== null || ($slug !== '' && is_file(public_path($file(480, 'webp'))) && is_file(public_path($file(800, 'webp'))));
     $hasPortrait = $hasFiles && ! Portraits::pending($code);
     $name = trim((string) ($member['name'] ?? ''));
     $alt = trim((string) ($member['alt'] ?? '')) ?: $name;
@@ -42,12 +47,21 @@
 <div {{ $attributes->class(['portrait', 'portrait--photo' => $hasPortrait, 'portrait--pending' => ! $hasPortrait]) }} data-member="{{ $code }}"
     @unless ($hasPortrait) data-photo-pending="true" @endunless>
     @if ($hasPortrait)
+@if ($upload !== null)
+        <picture>
+            <source type="image/avif" srcset="{{ \App\Content\Cms\MediaFiles::mediaSrcset($upload, 'avif') }}" sizes="{{ $sizes }}">
+            <img class="portrait__img" src="{{ \App\Content\Cms\MediaFiles::mediaUrl($upload, 'webp-480') }}" srcset="{{ \App\Content\Cms\MediaFiles::mediaSrcset($upload, 'webp') }}"
+                sizes="{{ $sizes }}" width="480" height="600" alt="{{ $alt }}"
+                @if ($eager) fetchpriority="high" @else loading="lazy" @endif decoding="async">
+        </picture>
+@else
         <picture>
             <source type="image/avif" srcset="/{{ $file(480, 'avif') }} 480w, /{{ $file(800, 'avif') }} 800w" sizes="{{ $sizes }}">
             <img class="portrait__img" src="/{{ $file(480, 'webp') }}" srcset="/{{ $file(480, 'webp') }} 480w, /{{ $file(800, 'webp') }} 800w"
                 sizes="{{ $sizes }}" width="480" height="600" alt="{{ $alt }}"
                 @if ($eager) fetchpriority="high" @else loading="lazy" @endif decoding="async">
         </picture>
+@endif
     @else
         <div class="portrait__panel" aria-hidden="true">
             <span class="portrait__initials">

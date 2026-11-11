@@ -18,7 +18,7 @@ final class ContentCache
     private const VERSION_KEY = 'summit.cms.version';
 
     /** Every part a version writes (forgotten when the version is replaced). */
-    public const PARTS = ['shared', 'records.en', 'records.ar', 'records.ru'];
+    public const PARTS = ['shared', 'records.en', 'records.ar', 'records.ru', 'slugs', 'redirects'];
 
     public static function version(): string
     {

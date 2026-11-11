@@ -53,7 +53,7 @@ final class ContentImportTest extends TestCase
             'pages' => 11, 'services' => 11, 'guides' => 9, 'guide_categories' => 3, 'case_studies' => 6, 'faq_categories' => 12,
             'faqs' => 74, 'team_members' => 3, 'specialist_sites' => 6, 'situations' => 44, 'document_samples' => 5,
             'ui_strings' => count((new Sources)->build()['ui_strings']), 'navigation_menus' => 9, 'navigation_items' => 51,
-            'calculator_rule_sets' => 2, 'settings' => 16,
+            'calculator_rule_sets' => 2, 'settings' => 20,
         ], $counts);
         $this->assertSame(144, DB::table('ui_strings')->where('group', 'ui')->count(), 'the approved DOCX interface strings');
     }

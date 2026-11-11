@@ -19,6 +19,9 @@
 
 @import '../../../../vendor/filament/filament/resources/css/theme.css';
 @import '../../d2/tokens.css';
+@import './cms-collections.css';
+@import './cms-media.css';
+@import './cms-site.css';
 
 @source '../../../../app/Filament/**/*';
 @source '../../../../app/Providers/Filament/**/*';
@@ -746,5 +749,101 @@ html.fi:not(:lang(ar)) [lang="ar"] {
         .fi-ta-row {
             transition: none;
         }
+    }
+}
+
+/* ------------------------------------------------------------------ CMS (Design 2.1 brief §8.3, §8.4, §9.3, §13) */
+@layer components {
+    /* the locale switcher: every translatable field exists in the three languages; only the chosen one is shown
+       (App\Filament\Cms\Forms\Translatable). Hidden fields stay in the form, so saving never loses them. */
+    .cms-locale--off,
+    .fi-grid-col:has(> .fi-sc-component > .cms-locale--off),
+    .fi-sc-component:has(> .cms-locale--off) {
+        display: none !important;
+    }
+
+    .cms-locale-switcher {
+        margin-block-end: var(--s-2);
+    }
+
+    /* Arabic fields: right to left in the Arabic face, in any interface language */
+    .cms-locale-ar,
+    .cms-locale-ar input,
+    .cms-locale-ar textarea,
+    .cms-locale-ar .tiptap {
+        font-family: "D2 Sans Arabic", "D2 Sans Arabic Fallback", sans-serif;
+    }
+
+    .cms-locale-ar input,
+    .cms-locale-ar textarea {
+        text-align: start;
+    }
+
+    /* the visible character counter of a field with a hard limit (resources/views/filament/cms/scripts.blade.php) */
+    .cms-counter {
+        margin-block-start: var(--s-1);
+        padding-inline: var(--s-3);
+        padding-block-end: var(--s-1);
+        color: var(--ink-3);
+        font-size: var(--fs-meta);
+        font-variant-numeric: tabular-nums;
+    }
+
+    .cms-counter--near {
+        color: var(--warning);
+    }
+
+    /* the Publishing panel stays in view on wide screens (§9.3) */
+    @media (width >= 64rem) {
+        .cms-publish-panel {
+            position: sticky;
+            inset-block-start: var(--s-6);
+        }
+    }
+
+    /* translation chips EN / AR / RU in lists */
+    .cms-translation-chips .fi-badge {
+        font-variant-numeric: tabular-nums;
+    }
+
+    /* revision diff */
+    .cms-diff {
+        overflow-x: auto;
+    }
+
+    .cms-diff__table {
+        inline-size: 100%;
+        border-collapse: collapse;
+        font-size: var(--fs-small, 0.875rem);
+    }
+
+    .cms-diff__table th,
+    .cms-diff__table td {
+        padding: var(--s-2) var(--s-3);
+        border-block-end: 1px solid var(--line);
+        text-align: start;
+        vertical-align: top;
+        overflow-wrap: anywhere;
+    }
+
+    .cms-diff__table thead th {
+        color: var(--ink-3);
+        font-weight: var(--fw-medium);
+    }
+
+    .cms-diff__table tbody th {
+        color: var(--ink-2);
+        font-weight: var(--fw-medium);
+        inline-size: 30%;
+    }
+
+    .cms-diff__old {
+        color: var(--ink-3);
+        text-decoration: line-through;
+        text-decoration-color: var(--line-strong);
+    }
+
+    .cms-diff__none {
+        color: var(--ink-3);
     }
 }

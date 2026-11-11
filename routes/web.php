@@ -1,5 +1,6 @@
 <?php
 
+use App\Content\Cms\Editing\Slugs;
 use App\Design\D2\Calculators;
 use App\Http\Controllers\CalculatorsController;
 use App\Http\Controllers\EnquiryController;
@@ -9,6 +10,10 @@ use App\Http\Controllers\SiteController;
 use App\Http\Middleware\EnsureTrailingSlash;
 use App\Http\Middleware\SetLocale;
 use Illuminate\Support\Facades\Route;
+
+// The published slugs of the CMS (pages, practice areas) decide the addresses below (App\Content\Cms\Editing\Slugs; brief
+// §8.3). While they equal config/summit.php, which they do after the import, nothing changes.
+Slugs::apply();
 
 // Neutral root: language chooser, or a 302 to a language the visitor chose before (cookie only).
 Route::get('/', [SiteController::class, 'root'])->name('root');

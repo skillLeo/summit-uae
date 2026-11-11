@@ -1,0 +1,120 @@
+/* Admin CMS: site screens (Phase 4). Imported by theme.css; plain CSS with the Design 2 tokens, logical properties only. */
+
+/* Interface Text list: a long dotted key (d2.tools.gratuity.result.references) breaks at its dots, never overflows. */
+.cms-table .cms-ui-key {
+    overflow-wrap: anywhere;
+    min-inline-size: 10rem;
+    max-inline-size: 22rem;
+}
+
+/* Navigation: the read-only site-map key of a link (H-L001 …) reads as a code, isolated left to right. */
+.cms-nav-items input[disabled] {
+    direction: ltr;
+    unicode-bidi: isolate;
+}
+
+/* Calculators: the test panel's comparison (draft rules against published rules). */
+.cms-calc-table-wrap {
+    overflow-x: auto;
+    border: var(--line-w, 1px) solid var(--line);
+    border-radius: var(--r-sm);
+}
+
+.cms-calc-table {
+    inline-size: 100%;
+    border-collapse: collapse;
+    font-size: var(--fs-small);
+    font-variant-numeric: tabular-nums;
+}
+
+.cms-calc-table th,
+.cms-calc-table td {
+    padding-block: var(--s-2);
+    padding-inline: var(--s-3);
+    text-align: start;
+    border-block-end: var(--line-w, 1px) solid var(--line);
+    vertical-align: top;
+}
+
+.cms-calc-table thead th {
+    background: var(--surface-sunken);
+    color: var(--ink-2);
+    font-weight: var(--fw-semibold);
+}
+
+.cms-calc-table tbody th {
+    font-weight: var(--fw-regular);
+    color: var(--ink-2);
+    min-inline-size: 9rem;
+}
+
+.cms-calc-table td {
+    overflow-wrap: anywhere;
+}
+
+@media (min-width: 640px) {
+    .cms-calc-table td {
+        white-space: nowrap;
+    }
+}
+
+/* Figures stay left to right in the Arabic admin; the column itself follows the page direction. */
+.cms-calc-table td[dir="ltr"] {
+    text-align: end;
+}
+
+.cms-calc-table tr:last-child th,
+.cms-calc-table tr:last-child td {
+    border-block-end: 0;
+}
+
+.cms-calc-table tr[data-total] th,
+.cms-calc-table tr[data-total] td {
+    font-weight: var(--fw-semibold);
+    color: var(--ink);
+}
+
+/* A figure that differs between the draft and the published rules. */
+.cms-calc-table tr.cms-calc-diff td:first-of-type {
+    background: var(--warning-tint);
+    color: var(--ink);
+}
+
+/* WhatsApp: the final WA01 link per language. */
+.cms-wa-preview {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--s-1) var(--s-3);
+}
+
+.cms-wa-preview__lang {
+    min-inline-size: 5rem;
+    font-weight: var(--fw-semibold);
+    color: var(--ink-2);
+}
+
+.cms-wa-preview__link {
+    flex: 1 1 16rem;
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
+    direction: ltr;
+    unicode-bidi: isolate;
+    text-align: start;
+    color: var(--bronze);
+    font-size: var(--fs-small);
+}
+
+.cms-wa-preview__missing {
+    color: var(--warning);
+}
+
+/* SEO: the records table inside its section keeps the section's padding on phones. */
+.cms-seo-records .fi-ta-ctn {
+    box-shadow: none;
+}
+
+/* Interface Text list: the text column gets room for a sentence. */
+.cms-table .cms-ui-text {
+    min-inline-size: 14rem;
+}

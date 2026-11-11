@@ -55,7 +55,7 @@ final class HomeBlocksTest extends TestCase
     public function test_every_block_renders_in_every_language(): void
     {
         $this->blocks(fn (array $blocks) => array_map(fn (array $b) => ['enabled' => true] + $b, $blocks));
-        $types = HomeBlocks::types();
+        $types = array_column(HomeBlocks::BLOCKS, 'type');
         foreach (['en', 'ar', 'ru'] as $locale) {
             $html = $this->home($locale);
             $positions = $this->positions($html, $types);

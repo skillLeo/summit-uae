@@ -46,9 +46,12 @@ final class HomeBlocks
         ['type' => 'contact', 'keys' => ['contact', 'form_home_variant'], 'anchor' => 'consultation-form', 'background' => 'white', 'copy_source' => CopySource::DOCX, 'enabled' => true],
     ];
 
+    /** The generic library blocks an editor may add (Phase 4, App\Filament\Cms\Forms\BlockBuilder::LIBRARY). */
+    public const LIBRARY = ['rich_text', 'two_columns', 'cta_band', 'image_text'];
+
     /** The block types that have a component in resources/views/components/d2/blocks/. */
     public static function types(): array
     {
-        return array_column(self::BLOCKS, 'type');
+        return [...array_column(self::BLOCKS, 'type'), ...self::LIBRARY];
     }
 }
