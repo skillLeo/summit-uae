@@ -33,6 +33,15 @@ class AppServiceProvider extends ServiceProvider
     {
         // One content repository per request (it memoises the cached snapshot it read).
         $this->app->scoped(ContentRepository::class);
+
+        // spatie/laravel-translation-loader builds its loader with the app's lang path only, which drops Laravel's own
+        // framework lines (validation.*, auth.*, pagination.*, passwords.*): forms then showed "validation.required".
+        // Same loader class, with the framework path first and the app's lang path after it, as Laravel's FileLoader.
+        $this->app->extend('translation.loader', function ($loader, $app) {
+            $class = config('translation-loader.translation_manager');
+
+            return new $class($app['files'], [base_path('vendor/laravel/framework/src/Illuminate/Translation/lang'), $app['path.lang']]);
+        });
     }
 
     /**
