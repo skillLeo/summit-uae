@@ -1,0 +1,702 @@
+@use "../tokens/tokens" as *;
+
+// =============================================================================
+// Home sections 2–10.
+// =============================================================================
+
+// ---------------------------------------------------------------- 02 services index
+.svc-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-block-start: var(--hairline) solid var(--ink);
+}
+
+.svc-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr);
+  gap: var(--s-8) var(--s-16);
+  padding-block: var(--s-24);
+  border-block-end: var(--hairline) solid var(--rule);
+
+  // Bronze inline-start rule on hover (a 2px index mark, scales in from the top).
+  &::before {
+    position: absolute;
+    inset-block: calc(-1 * var(--hairline)) 0;
+    inset-inline-start: calc(-1 * var(--s-16));
+    inline-size: var(--focus-w);
+    background: var(--bronze);
+    content: "";
+    transform: scaleY(0);
+    transform-origin: center top;
+    transition: transform var(--dur-2) var(--ease-out);
+  }
+
+  &:hover::before,
+  &:focus-within::before {
+    transform: scaleY(1);
+  }
+
+  @media (min-width: $bp-lg) {
+    grid-template-columns: 3.5rem minmax(0, 4fr) minmax(0, 6fr) minmax(0, 2fr);
+    align-items: baseline;
+    gap: var(--gutter);
+    padding-block: var(--s-32);
+
+    &::before {
+      inset-inline-start: calc(-1 * var(--s-24));
+    }
+  }
+}
+
+.svc-row__index {
+  padding-block-start: 0.35em;
+}
+
+.svc-row__title {
+  font-size: var(--fs-h4);
+  line-height: var(--lh-h4);
+
+  @media (min-width: $bp-lg) {
+    font-size: var(--fs-h3);
+    line-height: var(--lh-h3);
+  }
+}
+
+.svc-row__body {
+  display: grid;
+  grid-column: 2;
+  gap: var(--s-12);
+
+  @media (min-width: $bp-lg) {
+    display: contents;
+  }
+}
+
+.svc-row__summary {
+  color: var(--ink-2);
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+
+  @media (min-width: $bp-lg) {
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+  }
+}
+
+.svc-row__cta {
+  @media (min-width: $bp-lg) {
+    justify-self: end;
+    text-align: end;
+  }
+}
+
+// Mobile: rows expand on tap (JS only; without JS every summary stays visible).
+.svc-row__toggle {
+  display: none;
+}
+
+@media (max-width: $bp-md-max) {
+  .js {
+    .svc-row__static {
+      display: none;
+    }
+
+    .svc-row__toggle {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) var(--icon-lg);
+      align-items: center;
+      gap: var(--s-16);
+      inline-size: 100%;
+      min-block-size: var(--target-mobile);
+      padding: 0;
+      border: 0;
+      color: inherit;
+      background: transparent;
+      font: inherit;
+      text-align: start;
+      cursor: pointer;
+
+      .icon {
+        inline-size: var(--icon-lg);
+        block-size: var(--icon-lg);
+        color: var(--bronze);
+        transition: transform var(--dur-2) var(--ease-out);
+      }
+
+      &[aria-expanded="true"] .icon {
+        transform: rotate(180deg);
+      }
+    }
+
+    .svc-row:not(.is-open) .svc-row__body {
+      display: none;
+    }
+
+    .svc-row {
+      align-items: center;
+    }
+
+    .svc-row__index {
+      padding-block-start: 0;
+    }
+  }
+}
+
+// ---------------------------------------------------------------- 03 who we help
+.who-list {
+  display: grid;
+  gap: var(--s-32) var(--gutter);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @media (min-width: $bp-sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (min-width: $bp-lg) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @media (min-width: $bp-xl) {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0;
+  }
+}
+
+.who-item {
+  display: grid;
+  align-content: start;
+  gap: var(--s-12);
+  padding-block-start: var(--s-24);
+  border-block-start: var(--hairline) solid var(--ink);
+
+  @media (min-width: $bp-xl) {
+    padding-inline: var(--s-24);
+    border-inline-start: var(--hairline) solid var(--rule);
+
+    &:first-child {
+      padding-inline-start: 0;
+      border-inline-start: 0;
+    }
+  }
+
+  h3 {
+    font-size: var(--fs-h4);
+    line-height: var(--lh-h4);
+  }
+
+  p {
+    color: var(--ink-2);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+  }
+}
+
+// Mobile segmented scroller (JS enhances; without JS it is a plain swipeable row).
+.who-segments {
+  display: none;
+}
+
+@media (max-width: $bp-sm-max) {
+  .who-list {
+    grid-auto-columns: 84%;
+    grid-auto-flow: column;
+    grid-template-columns: none;
+    margin-inline: calc(-1 * var(--margin));
+    padding-inline: var(--margin);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-padding-inline: var(--margin);
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .who-item {
+    scroll-snap-align: start;
+  }
+
+  .js .who-segments {
+    display: flex;
+    gap: var(--s-8);
+    margin: 0 calc(-1 * var(--margin)) var(--s-24);
+    padding: 0 var(--margin);
+    overflow-x: auto;
+    list-style: none;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+.who-segment {
+  flex: none;
+  min-block-size: var(--target-mobile);
+  padding-inline: var(--s-16);
+  border: var(--hairline) solid var(--rule-strong);
+  border-radius: var(--radius-pill);
+  color: var(--ink);
+  background: var(--white);
+  font-family: var(--font-sans);
+  font-size: var(--fs-ui);
+  font-weight: var(--fw-medium);
+  white-space: nowrap;
+  cursor: pointer;
+
+  &[aria-current="true"] {
+    border-color: var(--ink);
+    color: var(--white);
+    background: var(--ink);
+  }
+}
+
+// ---------------------------------------------------------------- 04 review + method
+.review__intro {
+  display: grid;
+  gap: var(--s-24);
+
+  p {
+    color: var(--ink-2);
+  }
+}
+
+.review__grid {
+  row-gap: var(--s-64);
+}
+
+.questions {
+  display: grid;
+  gap: var(--s-24);
+}
+
+.questions__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-block-start: var(--hairline) solid var(--ink);
+
+  li {
+    padding-block: var(--s-24);
+    border-block-end: var(--hairline) solid var(--rule);
+    font-family: var(--font-serif);
+    font-size: var(--fs-h4);
+    line-height: var(--lh-h4);
+
+    @media (min-width: $bp-lg) {
+      font-size: var(--fs-h3);
+      line-height: var(--lh-h3);
+    }
+  }
+}
+
+.method {
+  margin-block-start: var(--s-96);
+}
+
+.method__sticky {
+  display: grid;
+  gap: var(--s-32);
+
+  @media (min-width: $bp-lg) {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+    gap: var(--gutter);
+    align-items: start;
+  }
+}
+
+.method__heading {
+  @media (min-width: $bp-lg) {
+    padding-block-start: var(--s-8);
+  }
+}
+
+.method__list {
+  position: relative;
+  padding-inline-start: var(--s-48);
+}
+
+.method__steps {
+  display: grid;
+  gap: var(--s-48);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+// Base spine (rule) and the gold progress line that fills as the file is worked through.
+.method__rail,
+.method__progress {
+  position: absolute;
+  inset-block: var(--s-12);
+  inset-inline-start: var(--s-12);
+  inline-size: var(--spine-w);
+  background: var(--rule);
+}
+
+.method__progress {
+  background: var(--gold);
+  transform-origin: center top;
+}
+
+.method-step {
+  position: relative;
+  display: grid;
+  gap: var(--s-12);
+}
+
+// Number on the spine (a true sequence). Ink on white 18.9:1, ink on gold 8.6:1.
+.method-step__marker {
+  position: absolute;
+  inset-block-start: 0.2em;
+  inset-inline-start: calc(-1 * var(--s-48));
+  display: grid;
+  place-items: center;
+  inline-size: var(--s-24);
+  block-size: var(--s-24);
+  border: var(--hairline) solid var(--gold);
+  border-radius: var(--radius-pill);
+  color: var(--ink);
+  background: var(--white);
+  font-size: var(--fs-micro);
+  font-weight: var(--fw-semibold);
+  font-variant-numeric: tabular-nums lining-nums;
+
+  &::before {
+    position: absolute;
+    inset: calc(-1 * var(--hairline));
+    z-index: 0;
+    border-radius: var(--radius-pill);
+    background: var(--gold);
+    content: "";
+  }
+
+  span {
+    position: relative;
+  }
+}
+
+.method-step__title {
+  font-size: var(--fs-h3);
+  line-height: var(--lh-h3);
+}
+
+.method-step p {
+  max-inline-size: 34rem;
+  color: var(--ink-2);
+}
+
+// Pinned, scroll-driven highlight (desktop, motion allowed). Markers fill as each step is
+// reached; the gold line grows along the spine. Static everywhere else.
+@media (min-width: $bp-lg) and (prefers-reduced-motion: no-preference) {
+  .method--pinned {
+    .method__track {
+      block-size: 190vh;
+    }
+
+    .method__sticky {
+      position: sticky;
+      inset-block-start: max(calc(var(--header-h) + var(--s-32)), calc(50vh - 13rem));
+    }
+
+    .method-step__marker::before {
+      opacity: 0;
+      transition: opacity var(--dur-2) var(--ease-out);
+    }
+
+    .method-step.is-reached .method-step__marker::before {
+      opacity: 1;
+    }
+
+    .method__progress {
+      transform: scaleY(var(--method-progress, 0));
+    }
+  }
+
+  @supports (animation-timeline: view()) {
+    .method--pinned {
+      view-timeline-name: --method;
+      view-timeline-axis: block;
+
+      .method__progress {
+        animation: method-progress linear both;
+        animation-timeline: --method;
+        animation-range: contain 0% contain 100%;
+      }
+
+      @for $i from 1 through 4 {
+        .method-step:nth-child(#{$i}) .method-step__marker::before {
+          animation: method-reached linear forwards;
+          animation-timeline: --method;
+          animation-range: contain #{($i - 1) * 25%} contain #{($i - 1) * 25% + 2%};
+        }
+      }
+    }
+  }
+}
+
+@keyframes method-progress {
+  from {
+    transform: scaleY(0);
+  }
+
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes method-reached {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+// ---------------------------------------------------------------- 06 about
+.about__grid {
+  row-gap: var(--s-48);
+  align-items: center;
+}
+
+.about__text {
+  display: grid;
+  grid-column: 1 / -1;
+  gap: var(--s-24);
+
+  @media (min-width: $bp-lg) {
+    grid-column: 1 / span 7;
+  }
+}
+
+.about__principle {
+  font-family: var(--font-serif);
+  font-size: var(--fs-h3);
+  line-height: var(--lh-h3);
+
+  @media (min-width: $bp-lg) {
+    font-size: 1.875rem;
+    line-height: 1.3;
+  }
+}
+
+.about__body {
+  color: var(--ink-2);
+}
+
+// The scope sentence is set apart: consultancy vs licensed advocacy is stated plainly.
+.about__scope {
+  padding-inline-start: var(--s-24);
+  border-inline-start: var(--spine-w) solid var(--gold);
+  color: var(--ink);
+}
+
+.about__emblem {
+  display: none;
+  grid-column: 9 / span 4;
+  justify-self: center;
+  inline-size: min(100%, 15rem);
+  color: var(--gold);
+
+  @media (min-width: $bp-lg) {
+    display: block;
+  }
+
+  svg {
+    inline-size: 100%;
+    fill: currentcolor;
+  }
+}
+
+// ---------------------------------------------------------------- 07 case previews
+.cases {
+  display: grid;
+  gap: var(--s-48) var(--gutter);
+
+  @media (min-width: $bp-lg) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.case-preview {
+  display: grid;
+  align-content: start;
+  gap: var(--s-16);
+  padding-block-start: var(--s-24);
+  border-block-start: var(--hairline) solid var(--ink);
+
+  h3 {
+    max-inline-size: 30rem;
+  }
+
+  p {
+    color: var(--ink-2);
+  }
+}
+
+.case-preview__matter {
+  color: var(--ink-2);
+  font-size: var(--fs-ui);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-ui);
+}
+
+// ---------------------------------------------------------------- 08 guides
+.guide-groups {
+  display: grid;
+  gap: var(--s-64) var(--gutter);
+
+  @media (min-width: $bp-lg) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.guide-group__title {
+  padding-block-end: var(--s-16);
+  border-block-end: var(--hairline) solid var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--fs-ui);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-ui);
+}
+
+.guide-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.guide-item {
+  display: grid;
+  gap: var(--s-8);
+  padding-block: var(--s-24);
+  border-block-end: var(--hairline) solid var(--rule);
+
+  h4 {
+    font-size: var(--fs-h4);
+    line-height: var(--lh-h4);
+  }
+
+  p {
+    color: var(--ink-2);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+  }
+}
+
+// ---------------------------------------------------------------- 09 FAQ
+.faq__grid {
+  row-gap: var(--s-32);
+}
+
+.faq__head {
+  grid-column: 1 / -1;
+
+  @media (min-width: $bp-lg) {
+    grid-column: 1 / span 4;
+  }
+}
+
+.faq__body {
+  grid-column: 1 / -1;
+
+  @media (min-width: $bp-lg) {
+    grid-column: 5 / span 8;
+  }
+}
+
+// ---------------------------------------------------------------- 10 contact
+.contact__grid {
+  row-gap: var(--s-64);
+}
+
+.contact__info {
+  display: grid;
+  grid-column: 1 / -1;
+  align-content: start;
+  gap: var(--s-32);
+
+  @media (min-width: $bp-lg) {
+    grid-column: 1 / span 5;
+    position: sticky;
+    inset-block-start: calc(var(--header-h) + var(--s-32));
+  }
+}
+
+.contact__form {
+  grid-column: 1 / -1;
+
+  @media (min-width: $bp-lg) {
+    grid-column: 7 / span 6;
+  }
+}
+
+.channels {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-block-start: var(--hairline) solid var(--ink);
+}
+
+.channel {
+  display: grid;
+  gap: var(--s-4);
+  padding-block: var(--s-16);
+  border-block-end: var(--hairline) solid var(--rule);
+}
+
+.channel__label {
+  color: var(--ink-2);
+  font-size: var(--fs-ui);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-ui);
+}
+
+.channel__value {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-12);
+  min-block-size: var(--target);
+  color: var(--ink);
+  font-size: var(--fs-h4);
+  font-weight: var(--fw-regular);
+  text-decoration-color: var(--rule-strong);
+
+  .icon {
+    inline-size: var(--icon);
+    block-size: var(--icon);
+    color: var(--bronze);
+  }
+}
+
+.contact__facts {
+  display: grid;
+  gap: var(--s-8);
+  color: var(--ink-2);
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+}
+
+// Each language named in its own script (decorative; the approved line carries the meaning).
+.lang-trio {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-8) var(--s-24);
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: var(--fs-h4);
+  line-height: 1.4;
+
+  :lang(ar) {
+    font-family: "Summit Naskh", var(--font-serif);
+  }
+}

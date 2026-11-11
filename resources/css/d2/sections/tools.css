@@ -1,0 +1,1159 @@
+/*
+ * Design 2 calculators (spec §12 C6, §5.2, §5.3, wireframe §7.1): the /{locale}/calculators/ page since Design 2.1
+ * Phase 2 (brief §5.1), the styleguide specimens and the links to the page. Owner: calculators.
+ * <section.tools> > tabs (<x-d2.ui.tabs>, D35) > panels; each panel holds one tool (<x-d2.tool.gratuity>,
+ * <x-d2.tool.rent>): the inputs card and the result card (white, 1px --line edge, --radius-card, no shadow:
+ * Design 2.1, brief 3.4 / 3.5).
+ *
+ *   - d2Tabs shows the chosen panel (hidden on the other); without JavaScript both panels show, one after the
+ *     other, under the tabs' jump links.
+ *   - html.js: JS-only parts (.tool-js) show (empty state), the no-JS note hides; .tool.is-ready = the
+ *     tool's script runs.
+ *   - Field rows align their controls with subgrid (label · hint · control · error), so a hint or an
+ *     error in one field never shifts the field next to it.
+ *   - The stacked bar animates its segment widths on the bar spring {200, 26} (the spec's one width
+ *     animation); numbers cross-fade (opacity, view.js); nothing counts up. Reduced motion: instant
+ *     (base/motion.css).
+ *   - Logical properties only: the bar, the timeline labels and the dock mirror in RTL by themselves;
+ *     the timeline SVG is drawn mirrored by its script.
+ *   - Design 2.1 (Phase 1): tokens of docs/d2.1/phase-1/tokens.md only; no eyebrow over the result (D01), no
+ *     icon tile (D04), no shadows (brief 3.4), weights 400/500/600 and nothing under the 13 px caption (D08).
+ *     Colour sits on the data marks only (the bar segments, their table keys and the service timeline); every
+ *     text stays ink. Icons next to a first line take the line's height (no optical margins off the scale).
+ *   - Design 2.1 (Phase 2): underline tabs choose the tool (D35); the sector is the segmented control where it fits
+ *     and a select elsewhere (D35); "—" until valid, muted, under the helper line (D31); the breakdown shows with a
+ *     result, amounts end-aligned in tabular figures (D32); the bar and the keys of parts with a value only (D34);
+ *     no scale on the active band; the dock shares its row with the shell's floating WhatsApp button on phones.
+ *     The date field and its calendar: components/date.css; the links to the page: components/tool-link.css.
+ */
+@layer sections {
+  /* ------------------------------------------------------------------ page + tabs */
+  /* The page head's bottom padding is the gap to the tabs (one rhythm, not the head's and a section's). */
+  .calculators__head + .tools {
+    padding-block-start: 0;
+  }
+
+  .tools__tabs {
+    gap: var(--s-8);
+  }
+
+  .tools__panels {
+    display: grid;
+    gap: var(--s-16);
+    min-inline-size: 0;
+  }
+
+  .tools__panel {
+    min-inline-size: 0;
+  }
+
+  /* The panel takes focus from the tabs (tabpanel, tabindex 0): its ring sits just outside the cards. */
+  .tools__panel:focus-visible {
+    outline-offset: var(--s-2);
+  }
+
+  .js.motion-ok .tools__panel {
+    transition:
+      opacity var(--dur-enter) var(--ease-out),
+      translate var(--dur-enter) var(--ease-out);
+
+    @starting-style {
+      opacity: 0;
+      translate: 0 var(--s-2);
+    }
+  }
+
+  /* home-mobile: after a switch the tool enters from the side of its tab (d2Tools sets data-enter: "end"
+     for the next tool, "start" for the previous one; tap, arrow keys, swipe and deep links alike). */
+  .js.motion-ok .tools[data-enter="end"] .tools__panel {
+    @starting-style {
+      translate: var(--s-8) 0;
+    }
+  }
+
+  .js.motion-ok .tools[data-enter="start"] .tools__panel {
+    @starting-style {
+      translate: calc(-1 * var(--s-8)) 0;
+    }
+  }
+
+  .js.motion-ok[dir="rtl"] .tools[data-enter="end"] .tools__panel {
+    @starting-style {
+      translate: calc(-1 * var(--s-8)) 0;
+    }
+  }
+
+  .js.motion-ok[dir="rtl"] .tools[data-enter="start"] .tools__panel {
+    @starting-style {
+      translate: var(--s-8) 0;
+    }
+  }
+
+  /* Phones: the panels swipe sideways between the tools (tools/swipe.js). The browser keeps vertical
+     scrolling and pinch zoom; anything that scrolls sideways inside (the scope control) still scrolls. */
+  @media (width < 768px) {
+    .js .tools__panels {
+      touch-action: pan-y pinch-zoom;
+    }
+  }
+
+  /* ------------------------------------------------------------------ tool shell */
+  .tool {
+    display: grid;
+    gap: var(--s-6);
+    min-inline-size: 0;
+  }
+
+  /*
+   * integration: with JavaScript on (html.js, set before the first paint) the JS-only parts show from the
+   * start in their server-rendered empty state; the lazy chunk only fills them, so mounting (.is-ready)
+   * never grows the section (an anchor jump or a smooth scroll past it used to land 92 px short).
+   */
+  html:not(.js) .tool-js,
+  .js .tool__nojs {
+    display: none;
+  }
+
+  /*
+   * The sector (D35): the segmented control where its six options fit, the select on phones and wherever they do
+   * not (d2Segmented marks the control .is-overflow). Both sit in one grid cell, so the swap never moves the page;
+   * the hidden one keeps its box (visibility), which is what lets the segmented control keep measuring its fit.
+   * Without JavaScript the segmented control stays (it scrolls sideways on a narrow screen).
+   */
+  .tool__scope {
+    display: grid;
+    min-inline-size: 0;
+  }
+
+  .tool__scope > * {
+    grid-area: 1 / 1;
+    align-self: end;
+    min-inline-size: 0;
+  }
+
+  .tool__scope-pick {
+    display: none;
+  }
+
+  .js .tool__scope:has(.tool__scope-seg.is-overflow) {
+    & > .tool__scope-pick {
+      display: block;
+    }
+
+    & > .tool__scope-seg {
+      visibility: hidden;
+    }
+  }
+
+  @media (width < 768px) {
+    .js .tool__scope > .tool__scope-pick {
+      display: block;
+    }
+
+    .js .tool__scope > .tool__scope-seg {
+      visibility: hidden;
+    }
+  }
+
+  .tool__grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-6);
+    min-inline-size: 0;
+  }
+
+  @media (width >= 1280px) {
+    .tool__grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gutter);
+      align-items: start;
+    }
+
+    .tool__form {
+      grid-column: 1 / span 6;
+    }
+
+    .tool__result {
+      grid-column: 7 / span 6;
+    }
+
+    /* The fields stay in view while the (taller) result card is read: a workbench, not a long form. */
+    .tool--rent .tool__form {
+      position: sticky;
+      inset-block-start: calc(var(--header-h) + var(--s-6));
+    }
+  }
+
+  /* The gratuity fields only when the whole card fits under the header. */
+  @media (width >= 1280px) and (height >= 980px) {
+    .tool--gratuity .tool__form {
+      position: sticky;
+      inset-block-start: calc(var(--header-h) + var(--s-6));
+    }
+  }
+
+  /* ------------------------------------------------------------------ out of scope (gratuity) */
+  .tool__out {
+    display: none;
+    max-inline-size: 52rem;
+    padding: var(--pad-card);
+    border: var(--line-w) solid var(--line);
+    border-radius: var(--radius-card);
+    background: var(--canvas);
+  }
+
+  .tool--gratuity[data-scope="out"] .tool__out {
+    display: grid;
+  }
+
+  .tool--gratuity[data-scope="out"] .tool__grid {
+    display: none;
+  }
+
+  /* Without JavaScript the checked scope decides (the script keeps data-scope in step with it). */
+  .tool--gratuity:not(.is-ready):has(.tool__scope :is(input[value="difc"], input[value="adgm"], input[value="government"], input[value="domestic"]):checked) .tool__out {
+    display: grid;
+  }
+
+  .tool--gratuity:not(.is-ready):has(.tool__scope :is(input[value="difc"], input[value="adgm"], input[value="government"], input[value="domestic"]):checked) .tool__grid {
+    display: none;
+  }
+
+  .tool--gratuity:not(.is-ready):has(.tool__scope :is(input[value="mainland"], input[value="freezone"]):checked) .tool__out {
+    display: none;
+  }
+
+  .tool--gratuity:not(.is-ready):has(.tool__scope :is(input[value="mainland"], input[value="freezone"]):checked) .tool__grid {
+    display: flex;
+  }
+
+  @media (width >= 1280px) {
+    .tool--gratuity:not(.is-ready):has(.tool__scope :is(input[value="mainland"], input[value="freezone"]):checked) .tool__grid {
+      display: grid;
+    }
+  }
+
+  .tool__out-body {
+    display: grid;
+    gap: var(--s-2);
+    justify-items: start;
+    min-inline-size: 0;
+  }
+
+  .tool__out-title {
+    color: var(--ink);
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+  }
+
+  .tool__out-text {
+    max-inline-size: 38rem;
+    color: var(--ink-2);
+  }
+
+  .tool__out-cta {
+    margin-block-start: var(--s-3);
+  }
+
+  @media (width < 768px) {
+    .tool__out-cta {
+      inline-size: 100%;
+    }
+  }
+
+  /* ------------------------------------------------------------------ inputs card */
+  .tool__form {
+    display: grid;
+    gap: var(--s-6);
+    min-inline-size: 0;
+    padding: var(--pad-card);
+    border: var(--line-w) solid var(--line);
+    border-radius: var(--radius-card);
+    background: var(--canvas);
+  }
+
+  .tool__group {
+    display: grid;
+    gap: var(--s-5);
+    min-inline-size: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .tool__group + .tool__group {
+    padding-block-start: var(--s-6);
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  /* Floated, the legend is an ordinary first item of the group (the separator line runs above it,
+     never through it); float itself has no effect on a grid item. */
+  .tool__legend {
+    float: inline-start;
+    inline-size: 100%;
+    margin-block-end: 0;
+    padding: 0;
+    color: var(--ink);
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+  }
+
+  .tool__fields {
+    display: grid;
+    gap: var(--s-5);
+    min-inline-size: 0;
+  }
+
+  .tool__part {
+    display: none;
+  }
+
+  .tool--gratuity[data-contract="part"] .tool__part {
+    display: grid;
+  }
+
+  .tool--gratuity:not(.is-ready):has([data-input="contractType"] option[value="part"]:checked) .tool__part {
+    display: grid;
+  }
+
+  .tool--gratuity:not(.is-ready):has([data-input="contractType"] option:not([value="part"]):checked) .tool__part {
+    display: none;
+  }
+
+  .tool__dld {
+    display: flex;
+    min-inline-size: 0;
+  }
+
+  /*
+   * Two fields per row from 768px. Each field spans four shared rows (label · hint · control · error):
+   * controls in a row line up whatever the length of the labels and hints, and an error under one control
+   * never moves its neighbour. The field's bottom padding is the space between rows.
+   */
+  @media (width >= 768px) {
+    .tool__group {
+      gap: 0;
+    }
+
+    .tool__legend {
+      margin-block-end: var(--s-4);
+    }
+
+    .tool__fields {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: var(--s-6);
+      row-gap: 0;
+    }
+
+    .tool__fields > .field {
+      grid-row: span 4;
+      grid-template-rows: subgrid;
+      row-gap: 0;
+      padding-block-end: var(--s-5);
+    }
+
+    .tool__fields > .field > .field__head {
+      grid-row: 1;
+      align-self: end;
+    }
+
+    .tool__fields > .field > .field__hint {
+      grid-row: 2;
+      margin-block-start: var(--s-1);
+    }
+
+    .tool__fields > .field > :not(.field__head, .field__hint, .field__error) {
+      grid-row: 3;
+      align-self: start;
+      margin-block-start: var(--s-2);
+    }
+
+    .tool__fields > .field > .field__error {
+      grid-row: 4;
+      margin-block-start: var(--s-2);
+    }
+
+    .tool__dld {
+      grid-column: 2;
+      margin-block: calc(-1 * var(--s-2)) var(--s-5);
+    }
+
+    /* The last row's padding is part of the card's bottom padding. */
+    .tool__form {
+      gap: 0;
+      padding-block-end: calc(var(--pad-card) - var(--s-5));
+    }
+  }
+
+  /* ------------------------------------------------------------------ result card */
+  .tool__result {
+    container-type: inline-size;
+    display: grid;
+    /* One column that never grows past the card (final pass r2, home-mobile): every part shrinks or wraps. */
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-5);
+    align-content: start;
+    min-inline-size: 0;
+    padding: var(--pad-card);
+    border: var(--line-w) solid var(--line);
+    border-radius: var(--radius-card);
+    background: var(--canvas);
+  }
+
+  .tool__nojs {
+    padding: var(--s-4) var(--s-5);
+    border-radius: var(--radius-card);
+    color: var(--ink-2);
+    background: var(--band);
+  }
+
+  .tool__state {
+    color: var(--ink-2);
+  }
+
+  .tool__state--invalid {
+    display: flex;
+    gap: var(--s-2);
+    align-items: flex-start;
+    color: var(--danger);
+    font-weight: var(--fw-medium);
+
+    /* the icon takes the first line's height, so it centres on that line */
+    & > .icon {
+      flex: none;
+      block-size: var(--lh-body);
+    }
+  }
+
+  /* values: old and new share one grid cell while they cross-fade */
+  .tool [data-out] {
+    display: grid;
+    justify-items: start;
+  }
+
+  .tool bdi[data-out] {
+    display: inline-grid;
+  }
+
+  /* No min-inline-size: 0 here: the value's own width must reach the table's column sizing. */
+  .tool__v {
+    grid-area: 1 / 1;
+  }
+
+  .tool__figure {
+    display: grid;
+    gap: var(--s-1);
+  }
+
+  .tool__total-label {
+    color: var(--ink-2);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+  }
+
+  .tool__total {
+    color: var(--ink);
+    font-size: var(--fs-h2);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h2);
+    letter-spacing: var(--ls-h2);
+    font-variant-numeric: tabular-nums lining-nums;
+    overflow-wrap: anywhere;
+  }
+
+  /* D31: before a result the figure is the placeholder "—" (muted), under the helper or the error line; never a
+     grey "AED 0.00" or "0%". */
+  .tool:is([data-state="empty"], [data-state="invalid"]) .tool__total {
+    color: var(--ink-3);
+  }
+
+  .tool__figure-line {
+    color: var(--ink);
+    font-size: var(--fs-lead);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-lead);
+  }
+
+  .tool__figure-line--quiet {
+    color: var(--ink-2);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-ui);
+  }
+
+  /* stacked bar: gratuity, leave, notice, unpaid wages (spec C6), separated by a 2px gap */
+  .tool__bar {
+    display: flex;
+    block-size: var(--s-3);
+    margin-block-start: var(--s-3);
+    overflow: hidden;
+    border-radius: var(--radius-pill);
+    background: var(--band);
+  }
+
+  .tool__seg {
+    flex: none;
+    inline-size: calc(var(--share, 0) * 1%);
+    transition: inline-size var(--spring-bar-dur) var(--spring-bar);
+  }
+
+  .tool__seg[data-on] ~ .tool__seg[data-on] {
+    border-inline-start: 2px solid var(--canvas);
+  }
+
+  /* Mark colours (D06, tokens.md rule 3: --gold is the hero primary's fill only): the gratuity in bronze, the
+     other parts in a neutral ramp that darkens along the bar (--field-border, --ink-3, --ink-2), each at least
+     3:1 on the band track and on white (WCAG 1.4.11); the table beside the bar carries every value as text. */
+  .tool__seg--gratuity,
+  .tool__key--gratuity {
+    background: var(--bronze);
+  }
+
+  .tool__seg--leave,
+  .tool__key--leave {
+    background: var(--field-border);
+  }
+
+  .tool__seg--notice,
+  .tool__key--notice {
+    background: var(--ink-3);
+  }
+
+  .tool__seg--unpaid,
+  .tool__key--unpaid {
+    background: var(--ink-2);
+  }
+
+  /* breakdown table (also the chart's text alternative) */
+  .tool__table {
+    inline-size: 100%;
+    border-collapse: collapse;
+  }
+
+  /* padding-inline 0 replaces the browser's 1px cell padding (off the spacing scale); th and the sub-rows set
+     their own inline padding below */
+  .tool__row > :is(th, td) {
+    padding-block: var(--s-3);
+    padding-inline: 0;
+    border-block-start: var(--line-w) solid var(--line);
+    vertical-align: top;
+  }
+
+  .tool__row > th {
+    padding-inline-end: var(--s-4);
+    color: var(--ink);
+    font-weight: var(--fw-regular);
+    text-align: start;
+  }
+
+  /* D32: amounts at the inline end of the row, in tabular figures, so they line up as a column. */
+  .tool__row > td {
+    color: var(--ink);
+    font-weight: var(--fw-semibold);
+    font-variant-numeric: tabular-nums lining-nums;
+    text-align: end;
+    white-space: nowrap;
+
+    & > [data-out] {
+      justify-items: end;
+    }
+  }
+
+  .tool__row--main > th .tool__label {
+    font-weight: var(--fw-semibold);
+  }
+
+  .tool__row--sub > :is(th, td) {
+    padding-block-start: 0;
+    border-block-start: 0;
+    color: var(--ink-2);
+    font-size: var(--fs-small);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-small);
+  }
+
+  /* Sub-rows, badges and notes start where the label text starts: the key (12) + its gap (8). */
+  .tool__row--sub > th {
+    padding-inline-start: var(--s-5);
+  }
+
+  /* The key sits on the label's first baseline (its bottom edge), so it lines up with the first line's
+     capitals whatever the line height of the language. */
+  .tool__label {
+    display: flex;
+    gap: var(--s-2);
+    align-items: first baseline;
+  }
+
+  .tool__key {
+    flex: none;
+    inline-size: var(--s-3);
+    block-size: var(--s-3);
+    border-radius: 0;
+  }
+
+  /* D34: a key is the bar's legend, so it shows only for a part that has a value (its box stays: labels align). */
+  .tool__key:not([data-on]) {
+    visibility: hidden;
+  }
+
+  .tool__badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-1) var(--s-2);
+    margin-block-start: var(--s-2);
+    padding-inline-start: var(--s-5);
+  }
+
+  /* Long badges ("Cap based on basic wage", Arabic and Russian) wrap beside the amount column on phones
+     instead of widening the table past the card (final pass r2, home-mobile). */
+  .tool__badges > .badge {
+    flex: 0 1 auto;
+    max-inline-size: 100%;
+    white-space: normal;
+  }
+
+  .tool__badges:not(:has(> :not([hidden]))) {
+    display: none;
+  }
+
+  .tool__note {
+    display: block;
+    margin-block-start: var(--s-1);
+    padding-inline-start: var(--s-5);
+    color: var(--ink-3);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+  }
+
+  /* service counted + timeline */
+  .tool__service {
+    display: grid;
+    gap: var(--s-2);
+    padding-block-start: var(--s-5);
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  .tool__service-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-1) var(--s-4);
+    align-items: baseline;
+    justify-content: space-between;
+    font-size: var(--fs-ui);
+    line-height: var(--lh-ui);
+  }
+
+  .tool__service-label {
+    color: var(--ink-2);
+    font-weight: var(--fw-medium);
+  }
+
+  .tool__service-value {
+    color: var(--ink);
+    font-weight: var(--fw-semibold);
+  }
+
+  /* Inline-size containment (final pass r2, home-mobile): the SVG is drawn at its measured width and its
+     viewBox would otherwise report that width as its intrinsic size, so the card could never shrink back. */
+  .tl {
+    position: relative;
+    display: grid;
+    min-inline-size: 0;
+    contain: inline-size;
+    gap: var(--s-1);
+    margin-block-start: var(--s-2);
+  }
+
+  .tl__labels,
+  .tl__ticks {
+    position: relative;
+    block-size: var(--lh-small);
+    color: var(--ink-2);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+    white-space: nowrap;
+  }
+
+  .tl__zones {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: var(--at, 0);
+    display: flex;
+  }
+
+  .tl__zone {
+    padding-inline-end: var(--s-2);
+  }
+
+  .tl__zone--30 {
+    padding-inline: var(--s-2) 0;
+    border-inline-start: var(--line-w) solid var(--ink-3);
+  }
+
+  .tl__svg {
+    display: block;
+    inline-size: 100%;
+    block-size: 28px;
+    overflow: visible;
+  }
+
+  .tl__track,
+  .tl__hatch-bg {
+    fill: var(--band);
+  }
+
+  /* the first five years (21 days a year) in a neutral, the years after (30 days a year) in bronze: no gold (D06) */
+  .tl__fill--21 {
+    fill: var(--field-border);
+  }
+
+  .tl__fill--30 {
+    fill: var(--bronze);
+  }
+
+  .tl__hatch {
+    stroke: var(--ink-3);
+    stroke-width: 1.5;
+  }
+
+  .tl__tick {
+    stroke: var(--field-border);
+    stroke-width: 1;
+  }
+
+  .tl__boundary {
+    stroke: var(--ink);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+  }
+
+  .tl__pin {
+    fill: var(--ink);
+  }
+
+  .tl__tick-label {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: var(--at, 0);
+    color: var(--ink-3);
+    font-variant-numeric: tabular-nums lining-nums;
+    translate: -50% 0;
+
+    &.is-first {
+      translate: 0 0;
+    }
+
+    &.is-last {
+      translate: -100% 0;
+    }
+
+    &.is-key {
+      color: var(--ink);
+      font-weight: var(--fw-semibold);
+    }
+  }
+
+  [dir="rtl"] .tl__tick-label {
+    translate: 50% 0;
+
+    &.is-first {
+      translate: 0 0;
+    }
+
+    &.is-last {
+      translate: 100% 0;
+    }
+  }
+
+  .tl__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-1) var(--s-5);
+    margin-block-start: var(--s-1);
+    color: var(--ink-2);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+    list-style: none;
+  }
+
+  .tl__legend-item {
+    display: inline-flex;
+    gap: var(--s-2);
+    align-items: center;
+
+    &::before {
+      content: "";
+      flex: none;
+    }
+  }
+
+  .tl__legend-item--one::before {
+    inline-size: 10px;
+    block-size: 7px;
+    background: var(--ink);
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+  }
+
+  .tl__legend-item--absence::before {
+    inline-size: 14px;
+    block-size: 8px;
+    border: var(--line-w) dashed var(--ink-3);
+    border-radius: 0;
+    background: var(--band);
+  }
+
+  .tool__payment {
+    margin-block-start: var(--s-1);
+  }
+
+  .tool__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+  }
+
+  @media (width < 768px) {
+    .tool__actions > .btn {
+      flex: 1 1 100%;
+    }
+
+    /* Full-width, centred label: no side padding needed, so the long Russian "Запросить юридическую
+       консультацию" keeps one line at 390 px (final pass r2, home-mobile). */
+    .tool__actions > .btn--ink {
+      --btn-pad: 0px;
+    }
+  }
+
+  .tool__refs,
+  .tool__disclaimer {
+    color: var(--ink-3);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+  }
+
+  .tool__refs-label {
+    color: var(--ink-2);
+    font-weight: var(--fw-semibold);
+  }
+
+  /* ------------------------------------------------------------------ rent: gap, band scale, notice */
+  .tool__gap {
+    color: var(--ink-2);
+  }
+
+  .tool__scale {
+    display: grid;
+    gap: var(--s-3);
+    margin: 0;
+    padding-block-start: var(--s-5);
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  .tool__scale-caption {
+    color: var(--ink);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-ui);
+  }
+
+  /*
+   * The band scale follows the width of its card: a list of five rows (narrow), five columns with the
+   * two-line key above them (from 26rem), five columns with the key as their first column (from 34rem).
+   */
+  .tool__steps {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-1);
+    order: 2;
+    list-style: none;
+  }
+
+  .tool__step {
+    display: flex;
+    gap: var(--s-3);
+    align-items: baseline;
+    justify-content: space-between;
+    min-inline-size: 0;
+    padding: var(--s-2) var(--s-3);
+    border-radius: var(--radius-control);
+    background: var(--band);
+  }
+
+  .tool__step-gap {
+    color: var(--ink-2);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+  }
+
+  .tool__step-gap,
+  .tool__step-rate {
+    white-space: nowrap;
+  }
+
+  .tool__step-rate {
+    color: var(--ink);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-ui);
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+
+  .tool__step.is-active {
+    background: var(--ink);
+
+    & .tool__step-gap {
+      color: var(--on-dark-2);
+    }
+
+    & .tool__step-rate {
+      color: var(--on-dark);
+    }
+  }
+
+  /* Phase 2: the active band is marked by its ink fill only (no 104 % scale: nothing grows or lifts, §3.6 rule 7). */
+
+  /* the two figures of every step, explained once (a header row on narrow cards) */
+  .tool__scale-axis {
+    display: flex;
+    gap: var(--s-1) var(--s-3);
+    justify-content: space-between;
+    order: 1;
+    padding-inline: var(--s-3);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+
+    & > :first-child {
+      color: var(--ink-2);
+    }
+
+    & > :last-child {
+      color: var(--ink);
+      font-weight: var(--fw-semibold);
+    }
+  }
+
+  @container (width >= 26rem) {
+    .tool__steps {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+
+    .tool__step {
+      display: grid;
+      gap: var(--s-1);
+      align-content: start;
+      justify-content: stretch;
+      padding: var(--s-2) var(--s-1);
+      text-align: center;
+    }
+
+    .tool__scale-axis {
+      display: grid;
+      justify-content: start;
+      padding-inline: 0;
+    }
+  }
+
+  @container (width >= 34rem) {
+    .tool__scale {
+      grid-template-columns: auto minmax(0, 1fr);
+      column-gap: var(--s-4);
+    }
+
+    .tool__scale-caption {
+      grid-column: 1 / -1;
+    }
+
+    .tool__scale-axis {
+      grid-row: 2;
+      grid-column: 1;
+      padding-block: var(--s-2);
+      text-align: end;
+    }
+
+    .tool__steps {
+      grid-row: 2;
+      grid-column: 2;
+    }
+  }
+
+  .tool__notice {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--s-3);
+    align-items: start;
+    padding: var(--s-4);
+    border: var(--line-w) solid var(--line);
+    border-radius: var(--radius-card);
+    background: var(--band);
+  }
+
+  .tool__notice-icon {
+    display: grid;
+    block-size: var(--lh-body);
+    place-items: center;
+
+    & > .icon {
+      display: none;
+      grid-area: 1 / 1;
+    }
+  }
+
+  .tool__notice[data-tone="neutral"] .tool__notice-wait,
+  .tool__notice[data-tone="success"] .tool__notice-ok,
+  .tool__notice[data-tone="warning"] .tool__notice-warn {
+    display: block;
+  }
+
+  .tool__notice[data-tone="neutral"] .tool__notice-icon {
+    color: var(--ink-3);
+  }
+
+  .tool__notice[data-tone="success"] {
+    border-color: var(--success-line);
+    background: var(--badge-success-bg);
+
+    & .tool__notice-icon {
+      color: var(--success);
+    }
+  }
+
+  .tool__notice[data-tone="warning"] {
+    border-color: var(--warning-line);
+    background: var(--badge-warning-bg);
+
+    & .tool__notice-icon {
+      color: var(--warning);
+    }
+  }
+
+  .tool__notice-body {
+    display: grid;
+    gap: var(--s-1);
+    min-inline-size: 0;
+  }
+
+  .tool__notice-title {
+    color: var(--ink);
+    font-weight: var(--fw-semibold);
+  }
+
+  .tool__notice-text {
+    color: var(--ink-2);
+  }
+
+  /* ------------------------------------------------------------------ dock (phones and tablets) */
+  .tool__dock {
+    position: fixed;
+    inset-inline: var(--pad-x);
+    inset-block-end: calc(var(--tabbar-h) + var(--safe-bottom) + var(--s-3));
+    z-index: var(--z-sticky);
+    display: flex;
+    gap: var(--s-3);
+    align-items: center;
+    justify-content: space-between;
+    min-block-size: var(--control-lg);
+    padding-block: var(--s-2);
+    padding-inline: var(--s-5) var(--s-4);
+    border: var(--line-w) solid var(--line-strong);
+    border-radius: var(--radius-card);
+    color: var(--ink);
+    background: var(--canvas);
+    -webkit-tap-highlight-color: transparent;
+    transition: scale var(--dur-press) var(--ease-out);
+
+    &:hover {
+      border-color: var(--ink);
+    }
+
+    &:active {
+      scale: var(--press-scale);
+    }
+  }
+
+  .js.motion-ok .tool__dock {
+    transition:
+      opacity var(--dur-enter) var(--ease-out),
+      translate var(--dur-enter) var(--ease-out),
+      scale var(--dur-press) var(--ease-out);
+
+    @starting-style {
+      opacity: 0;
+      translate: 0 var(--s-3);
+    }
+  }
+
+  /* home-mobile: the tab bar slid away (scroll down): the dock follows it down (transform only, the tab bar's
+     240 ms), so it never floats over an empty strip; it still keeps 12 px above the safe area. It takes the
+     sticky consultation bar's place while it shows (modules/sticky-cta.js watches [data-dock]). */
+  @media (width < 768px) {
+    .js body:has(> .tabbar.is-hidden) .tool__dock {
+      translate: 0 var(--tabbar-h);
+    }
+
+    /* Phase 2: the shell's floating WhatsApp button (.wa-fab, 48 px, 16 px above the bar at the inline end) keeps
+       its place; the dock shares the row with it (bottoms aligned) and ends 8 px before it. */
+    body:has(> .wa-fab:not(.is-away, .wa-fab--static)) .tool__dock {
+      inset-inline-end: calc(max(var(--s-4), var(--safe-x)) + var(--target-touch) + var(--s-2));
+      inset-block-end: calc(var(--tabbar-h) + var(--safe-bottom) + var(--s-4));
+    }
+  }
+
+  @media (width >= 768px) {
+    .tool__dock {
+      inset-block-end: calc(var(--safe-bottom) + var(--s-4));
+      max-inline-size: 32rem;
+      margin-inline: auto;
+    }
+  }
+
+  @media (width >= 1280px) {
+    .tool__dock {
+      display: none;
+    }
+  }
+
+  .tool__dock-text {
+    display: grid;
+    min-inline-size: 0;
+  }
+
+  .tool__dock-label {
+    color: var(--ink-2);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+  }
+
+  .tool__dock-value {
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-ui);
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+
+  .tool__dock-more {
+    display: inline-flex;
+    flex: none;
+    gap: var(--s-1);
+    align-items: center;
+    color: var(--ink);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+  }
+
+  /* ------------------------------------------------------------------ styleguide specimens */
+  .tool-specimen {
+    display: grid;
+    gap: var(--s-4);
+    min-inline-size: 0;
+    padding-block: var(--s-6) var(--s-2);
+    border-block-start: var(--line-w) dashed var(--line-strong);
+  }
+}

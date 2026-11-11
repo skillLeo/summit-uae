@@ -1,0 +1,112 @@
+/*
+ * Design 2.1 component: callout (<x-d2.ui.callout>; disclaimers, scope notes, form notices). Brief §3.3, §3.5;
+ * docs/d2.1/phase-1/components.md §2. A panel (radius 10) with a functional icon at the inline start (20 px, on the
+ * first line), an optional title (ink, 600) and the text in ink-2:
+ *   info     --band fill, 1px --line edge, icon in ink-2 (neutral: no warm or brand tint)
+ *   success  / warning / danger: the badge pair's background, its decorative line, the icon in the tone colour
+ * Tone is carried by the icon, the title and the words, never by colour alone. sm: Small text (15 / 14).
+ * Dark surfaces: --dark-2, hairline edge, on-dark text, the on-dark status colours for the icons.
+ */
+@layer components {
+  .callout {
+    --callout-accent: var(--ink-2);
+    --callout-lh: var(--lh-body);
+
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--s-3);
+    align-items: start;
+    padding: var(--s-4) var(--s-5);
+    color: var(--ink-2);
+    background: var(--band);
+    border: var(--line-w) solid var(--line);
+    border-radius: var(--radius-card);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+  }
+
+  .callout--sm {
+    --callout-lh: var(--lh-small);
+
+    padding: var(--s-3) var(--s-4);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+  }
+
+  .callout__icon {
+    display: flex;
+    align-items: center;
+    block-size: var(--callout-lh);
+    color: var(--callout-accent);
+  }
+
+  .callout__body {
+    display: grid;
+    gap: var(--s-1);
+    min-inline-size: 0;
+  }
+
+  .callout__title {
+    margin: 0;
+    color: var(--ink);
+    font-size: inherit;
+    font-weight: var(--fw-semibold);
+    line-height: inherit;
+    letter-spacing: 0;
+  }
+
+  .callout__text {
+    display: grid;
+    gap: var(--s-2);
+
+    & > * {
+      margin: 0;
+    }
+  }
+
+  .callout--success {
+    --callout-accent: var(--success);
+
+    background: var(--badge-success-bg);
+    border-color: var(--success-line);
+  }
+
+  .callout--warning {
+    --callout-accent: var(--warning);
+
+    background: var(--badge-warning-bg);
+    border-color: var(--warning-line);
+  }
+
+  .callout--danger {
+    --callout-accent: var(--danger);
+
+    background: var(--badge-danger-bg);
+    border-color: var(--danger-line);
+  }
+
+  /* dark surfaces: the raised dark surface, light text, the on-dark status colours */
+  :is(.on-dark, .on-night) .callout:not(.on-light *) {
+    --callout-accent: var(--on-dark-2);
+
+    color: var(--on-dark-2);
+    background: var(--dark-2);
+    border-color: var(--line-on-dark);
+  }
+
+  :is(.on-dark, .on-night) .callout:not(.on-light *) .callout__title {
+    color: var(--on-dark);
+  }
+
+  :is(.on-dark, .on-night) .callout--success:not(.on-light *) {
+    --callout-accent: var(--success-on-dark);
+  }
+
+  :is(.on-dark, .on-night) .callout--warning:not(.on-light *) {
+    --callout-accent: var(--warning-on-dark);
+  }
+
+  :is(.on-dark, .on-night) .callout--danger:not(.on-light *) {
+    --callout-accent: var(--danger-on-dark);
+  }
+}

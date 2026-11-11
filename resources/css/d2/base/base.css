@@ -1,0 +1,343 @@
+/*
+ * Elements, the type roles, links, focus and accessibility helpers (brief §3.2, §3.5; contract:
+ * docs/d2.1/phase-1/tokens.md §3 and §4).
+ *
+ * Type roles (desktop from 768 px / mobile; Arabic: no tracking, body 1 px larger, taller line heights):
+ *   Display  .t-display  h1       56 / 40   1.05   -0.025em  600
+ *   H2       .t-h2       h2       36 / 28   1.15   -0.02em   600
+ *   H3       .t-h3       h3, h4   22 / 20   1.3    -0.01em   600
+ *   Minor    .t-minor    h5, h6   16        1.4    0         600   (group headings: D29, D47)
+ *   Lead     .t-lead              19 / 17   1.55   0         400
+ *   Body     .t-body     body, p  17 / 16   1.6    0         400
+ *   UI label .t-ui                15        1.4    0         500
+ *   Small    .t-small    small    15 / 14   1.5    0         400
+ *   Caption  .t-caption           13        1.45   0         400   (the smallest text anywhere)
+ * Legacy role classes keep working as aliases: .t-h1 (Display), .t-h4 (H3), .t-body-l (Lead), .t-meta (Small in
+ * ink-3), .t-eyebrow (the UI label: no monospace, no capitals, no tracking; D01 deletes the invented eyebrows).
+ */
+@layer base {
+  html {
+    scroll-padding-block-start: calc(var(--header-h) + var(--s-4));
+    scroll-padding-block-end: calc(var(--tabbar-h) + var(--safe-bottom) + var(--s-4));
+    background: var(--canvas);
+  }
+
+  body {
+    min-block-size: 100dvh;
+    color: var(--ink);
+    background: var(--canvas);
+    font-family: var(--font-sans);
+    font-size: var(--fs-body);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-body);
+    font-synthesis: none;
+    font-kerning: normal;
+    font-optical-sizing: auto;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-wrap: break-word;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html:focus-within {
+      scroll-behavior: smooth;
+    }
+  }
+
+  /* ---------------------------------------------------------------- type roles */
+  h1,
+  .t-display,
+  .t-h1 {
+    font-size: var(--fs-display);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-display);
+    letter-spacing: var(--ls-display);
+    text-wrap: balance;
+  }
+
+  h2,
+  .t-h2 {
+    font-size: var(--fs-h2);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h2);
+    letter-spacing: var(--ls-h2);
+    text-wrap: balance;
+  }
+
+  h3,
+  h4,
+  .t-h3,
+  .t-h4 {
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+    text-wrap: balance;
+  }
+
+  h5,
+  h6,
+  .t-minor {
+    font-size: var(--fs-minor);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-minor);
+    letter-spacing: 0;
+    text-wrap: balance;
+  }
+
+  .t-lead,
+  .t-body-l {
+    font-size: var(--fs-lead);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-lead);
+  }
+
+  .t-body {
+    font-size: var(--fs-body);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-body);
+  }
+
+  .t-ui,
+  .t-eyebrow {
+    font-family: var(--font-sans);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  /* legacy eyebrow: the UI label in secondary ink (approved headings take .t-h3 or .t-minor instead) */
+  .t-eyebrow {
+    color: var(--ink-2);
+  }
+
+  .t-small,
+  .t-meta,
+  small {
+    font-size: var(--fs-small);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-small);
+  }
+
+  .t-meta {
+    color: var(--ink-3);
+  }
+
+  .t-caption {
+    font-size: var(--fs-caption);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-caption);
+  }
+
+  /* figures that line up: calculators, tables, prices, reference numbers (§3.2) */
+  .t-tabular,
+  .t-num {
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+
+  /* legacy: the interface has no monospace (§3.2); inside a sample document it is the typed-field face */
+  .t-mono {
+    font-family: var(--font-mono);
+  }
+
+  /* running text: wraps for even lines and stops at the measure (64ch); headings balance their lines. The
+     sample documents keep their own paper layout. */
+  p {
+    text-wrap: pretty;
+  }
+
+  p:not(.doc p, [data-illustration] p) {
+    max-inline-size: var(--measure);
+  }
+
+  /*
+   * Russian (§3.2): paragraphs hyphenate (the page's lang drives the dictionary), but only long words: a word needs
+   * 10 letters or more, and at least 4 stay on each side of the hyphen. Without the limits most lines of a narrow
+   * Russian column ended in a hyphen (round-1 QA: 7 of 12 lines of a service card). Browsers without
+   * hyphenate-limit-chars keep plain hyphens: auto.
+   */
+  :lang(ru) p {
+    hyphens: auto;
+    hyphenate-limit-chars: 10 4 4;
+  }
+
+  strong,
+  b {
+    font-weight: var(--fw-semibold);
+  }
+
+  /*
+   * Arabic (§3.2): never letter-spacing, never italics. The tokens already set tracking to 0 on Arabic pages;
+   * this also covers the few literal values, outside the sample-document illustrations (exempt).
+   */
+  :lang(ar):not(.doc, .doc *) {
+    letter-spacing: 0 !important;
+  }
+
+  :lang(ar) :is(em, i, cite, dfn, var, address) {
+    font-style: normal;
+  }
+
+  /*
+   * An Arabic island on a Latin or Cyrillic page (a language name, a quoted Arabic line) takes the Arabic
+   * stack at its root: the [lang] font switch (tokens.css) sets --font-sans there, but the island's text would
+   * otherwise inherit the page's already computed family. Only the root of the island matches, so a component
+   * inside it keeps its own family; on Arabic pages it matches <html> alone and changes nothing.
+   */
+  :lang(ar):not(:lang(ar) *) {
+    font-family: var(--font-sans);
+  }
+
+  /*
+   * The other way round: text marked lang="en" or lang="ru" inside an Arabic page takes the Latin family. Latin runs
+   * inside Arabic sentences (digits, codes, e-mail in <bdi dir="ltr">) carry no lang of their own and stay in the
+   * Arabic family's Latin, so a line keeps one design. The sample documents keep their own faces.
+   */
+  :is(:lang(en), :lang(ru)):not(:lang(en) *, :lang(ru) *, .doc *, [data-illustration] *) {
+    font-family: var(--font-sans);
+  }
+
+  /*
+   * The size of a block island. tokens.css gives an island its own script's values (--fs-body, --lh-body and the
+   * other line heights), but font-size and line-height inherit as computed pixels: an English or Russian paragraph
+   * on an Arabic page kept the Arabic body's 18 / 31.5 px (17 / 29.75 px below 768) instead of 17 / 27.2
+   * (16 / 25.6), and an Arabic block on an English or Russian page the Latin body's. The root block of an island
+   * re-applies the body role in its own language. Zero specificity: every type role, heading and component rule
+   * still wins, so only text that would otherwise inherit the page's body changes. Inline islands (a word in a
+   * sentence, a language name in a menu) keep the size of the text around them; the sample documents keep theirs.
+   */
+  :where(:root:lang(ar)) :where(p, li, ul, ol, dl, dt, dd, blockquote, figure, figcaption, div, section, article, aside, header, footer, nav, table, caption, form, fieldset, details, summary):where(:lang(en), :lang(ru)):where(:not(:lang(en) *, :lang(ru) *, .doc, .doc *, [data-doc], [data-doc] *, [data-illustration], [data-illustration] *)),
+  :where(:root:not(:lang(ar))) :where(p, li, ul, ol, dl, dt, dd, blockquote, figure, figcaption, div, section, article, aside, header, footer, nav, table, caption, form, fieldset, details, summary):where(:lang(ar)):where(:not(:lang(ar) *, .doc, .doc *, [data-doc], [data-doc] *, [data-illustration], [data-illustration] *)) {
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+  }
+
+  /* ---------------------------------------------------------------- links (§3.5) */
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /* Body links: ink, underline 1px at a 3px offset, 2px on hover. */
+  .prose a,
+  .t-link,
+  .link {
+    color: var(--ink);
+    text-decoration-line: underline;
+    text-decoration-color: currentColor;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+
+    &:hover {
+      text-decoration-thickness: 2px;
+    }
+  }
+
+  /* Nav links: secondary ink, ink on hover. */
+  .nav-link {
+    color: var(--ink-2);
+    transition: color var(--dur-hover) var(--ease-out);
+
+    &:hover,
+    &[aria-current="page"] {
+      color: var(--ink);
+    }
+  }
+
+  .on-dark :is(.prose a, .t-link, .link),
+  .on-night :is(.prose a, .t-link, .link) {
+    color: var(--on-dark);
+  }
+
+  .on-dark .nav-link,
+  .on-night .nav-link {
+    color: var(--on-dark-2);
+
+    &:hover,
+    &[aria-current="page"] {
+      color: var(--on-dark);
+    }
+  }
+
+  /* ---------------------------------------------------------------- focus: 2px ring, 2px offset (§3.3) */
+  :focus-visible {
+    outline: var(--focus-w) solid var(--focus-color);
+    outline-offset: var(--focus-offset);
+  }
+
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  [tabindex="-1"]:focus {
+    outline: none;
+  }
+
+  ::selection {
+    color: var(--ink);
+    background: var(--selection);
+  }
+
+  /* ---------------------------------------------------------------- dark surfaces */
+  .on-dark,
+  .on-night {
+    color: var(--on-dark);
+    background: var(--dark);
+  }
+
+  /* ---------------------------------------------------------------- accessibility helpers */
+  .sr-only {
+    position: absolute !important;
+    inline-size: 1px !important;
+    block-size: 1px !important;
+    padding: 0 !important;
+    /* stylelint-disable-next-line declaration-property-value-disallowed-list -- the visually-hidden box, not spacing */
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip-path: inset(50%) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+
+  .skip-link {
+    position: fixed;
+    inset-block-start: var(--s-3);
+    inset-inline-start: var(--s-3);
+    z-index: var(--z-skip);
+    padding: var(--s-3) var(--s-4);
+    color: var(--on-dark);
+    background: var(--ink);
+    border-radius: var(--radius-control);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+    transform: translateY(-200%);
+
+    /* The ring sits on the light page (2px offset), so it stays ink like every ring on light. */
+    &:focus-visible {
+      transform: none;
+    }
+  }
+
+  main:focus {
+    outline: none;
+  }
+
+  bdi,
+  .ltr {
+    unicode-bidi: isolate;
+  }
+
+  /* Phone numbers, e-mail, URLs and Latin codes stay left to right inside Arabic text. */
+  .ltr {
+    direction: ltr;
+  }
+
+  /* Directional glyphs (chevrons, the external-link mark) mirror in RTL; phone, WhatsApp and checks never do. */
+  [dir="rtl"] .mirror-rtl {
+    scale: -1 1;
+  }
+}

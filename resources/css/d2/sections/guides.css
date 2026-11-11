@@ -1,0 +1,199 @@
+/*
+ * Design 2 home section 07: legal guides (#guides; brief §5.1 item 8; Design 2.1 D27; owner: services-guides) and
+ * the guide card (<x-d2.guide.card>, also on the Knowledge Centre P03 and in the styleguide).
+ *
+ * Card: a TEXT card (D27): the approved category (a small bronze label, drawn above the title although it follows
+ * the title in the source), the approved title (the card's one link), the approved summary and the approved
+ * "Read the Guide" (the visible call to action; the whole card is the link). No generated cover, no reading time
+ * (brief §3.6 rules 9 and 10). An image area exists only for a real cover (.guide-card--cover, Cover::image()):
+ * a 2:1 image flush with the card's top edge. Hover: the card's own (edge ink, title underlined), nothing moves.
+ *
+ * Home layout: a swipe rail on phones (the <ul> is the track of <x-d2.ui.carousel until="768">,
+ * components/carousel.css: 85 % cards of one height, 16 px gap, the pager for nine cards): one card shows at a
+ * time, so each keeps its own flow, the category reserving two lines so every title starts at the same height and
+ * every label rests on the bottom. Two equal columns from 768 px, three from 1280 px: each card is a subgrid of
+ * the four row tracks its row shares (category, title, summary, label), so they line up across a row (brief §7.1
+ * rule 12). The gap inside a card is its own (row-gap); the gutter stays between rows of cards. Browsers without
+ * subgrid keep the plain stacked card (equal heights, the label at the bottom).
+ */
+@layer sections {
+  /* ------------------------------------------------------------ the home grid */
+  .guides__grid {
+    list-style: none;
+  }
+
+  .guides__item {
+    display: flex;
+    min-inline-size: 0;
+
+    & > .guide-frame {
+      flex: 1 1 auto;
+    }
+  }
+
+  /* Phones: the carousel's rail (its flex track: 85 % cards, 16 px apart, one height). One card shows at a time, so
+     each card keeps its own flow (the summary right under its title); the category reserves two lines and sits on
+     their end, so every title starts at the same height and every label rests on the card's bottom (rule 12). */
+  @media (width < 768px) {
+    .guides__item .guide-card__category {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      min-block-size: calc(2 * var(--lh-small));
+    }
+  }
+
+  @media (width >= 768px) {
+    .guides__grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--gutter);
+    }
+  }
+
+  @media (width >= 1280px) {
+    .guides__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  /* Two and three columns: the cards of one row share their four row tracks, so categories, titles, summaries and
+     labels line up across the row. */
+  @supports (grid-template-rows: subgrid) {
+    @media (width >= 768px) {
+      .guides__item,
+      .guides__item > .guide-frame,
+      .guides__item .guide-card {
+        display: grid;
+        grid-row: span 4;
+        grid-template-rows: subgrid;
+        row-gap: 0;
+      }
+
+      .guides__item .guide-card {
+        row-gap: var(--card-gap);
+
+        /* A one-line category beside a two-line one sits on the track's end: it stays 12 px above its title. */
+        & > .guide-card__category {
+          grid-row: 1;
+          align-self: end;
+        }
+
+        & > .card__title {
+          grid-row: 2;
+        }
+
+        & > .guide-card__summary {
+          grid-row: 3;
+        }
+
+        & > .card__footer {
+          grid-row: 4;
+          align-self: end;
+        }
+      }
+
+      /* With a real cover anywhere in the grid, every card gets a fifth track on top for it (Phase 4 hook). */
+      .guides__grid:has(.guide-card--cover) {
+        & .guides__item,
+        & .guides__item > .guide-frame,
+        & .guides__item .guide-card {
+          grid-row: span 5;
+        }
+
+        & .guides__item .guide-card {
+          & > .card__media {
+            grid-row: 1;
+          }
+
+          & > .guide-card__category {
+            grid-row: 2;
+          }
+
+          & > .card__title {
+            grid-row: 3;
+          }
+
+          & > .guide-card__summary {
+            grid-row: 4;
+          }
+
+          & > .card__footer {
+            grid-row: 5;
+          }
+        }
+      }
+    }
+  }
+
+  /* ------------------------------------------------------------ the guide card */
+  /* The wrapper the Knowledge Centre (pages/resources.css) and the home grid size the card with. */
+  .guide-frame {
+    display: flex;
+    inline-size: 100%;
+    min-inline-size: 0;
+
+    & > .guide-card {
+      flex: 1 1 auto;
+    }
+  }
+
+  .guide-card {
+    --card-gap: var(--s-3);
+  }
+
+  /* Pretty, not balanced: in a card column balancing broke "Non-Muslims" at its hyphen and left short lines. */
+  .guide-card .card__title {
+    text-wrap: pretty;
+  }
+
+  /* The category reads above the title (it follows the title in the source order: the heading comes first). */
+  .guide-card__category {
+    order: -1;
+    margin: 0;
+    color: var(--bronze);
+    font-size: var(--fs-small);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-small);
+  }
+
+  .guide-card__summary {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+  }
+
+  .guide-card > .card__footer {
+    padding-block-start: var(--s-2);
+  }
+
+  /* The approved label: the card's visible call to action (the title is the link), no arrow (the P02 cards'
+     label role: UI label in ink). */
+  .guide-card__read {
+    color: var(--ink);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+  }
+
+  /* ------------------------------------------------------------ a real cover (only when the admin sets one) */
+  .guide-card > .card__media {
+    display: block;
+    order: -2;
+    margin-block: calc(-1 * var(--card-pad)) var(--s-1);
+    margin-inline: calc(-1 * var(--card-pad));
+    overflow: hidden;
+    border-block-end: var(--line-w) solid var(--line);
+    border-start-start-radius: var(--r-lg-inner);
+    border-start-end-radius: var(--r-lg-inner);
+  }
+
+  .guide-cover {
+    display: block;
+    inline-size: 100%;
+    block-size: auto;
+    aspect-ratio: 2 / 1;
+    object-fit: cover;
+  }
+}

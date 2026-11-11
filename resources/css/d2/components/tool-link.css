@@ -1,0 +1,21 @@
+/*
+ * Design 2.1 component: the link to the calculators page (<x-d2.tool.link>; brief §5.1: linked from home section 09,
+ * the Employment Law page and the Property and Tenancy page). A body link (base.css .link: ink, underlined) in the UI
+ * label role, one step of the field rhythm below the block above it (the contact card, the "Before Taking the Next
+ * Step" panels). Global on purpose: the home and the service pages use it, not only the calculators page.
+ * Owner: calculators.
+ */
+@layer components {
+  .tool-link {
+    margin-block-start: var(--s-6);
+    color: var(--ink);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+  }
+
+  /* Inside a block that spaces its children itself (a service page section: 24 px), its gap is the space. */
+  .svc-sec > .tool-link {
+    margin-block-start: 0;
+  }
+}

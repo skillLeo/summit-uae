@@ -1,0 +1,214 @@
+# text-snapshot: design 2, locale en, route s06-labor-law
+# GET /en/practice-areas/labor-law/ -> 200; html lang=en dir=ltr data-design=2
+=== header ===
+Choose language
+English
+Request a Legal Consultation
+Home
+Practice Areas
+Legal Resources
+Case Studies
+FAQs
+About Us
+Contact Us
+=== main ===
+Home
+Practice Areas
+Employment Law
+Employment Law Advice in the UAE
+Before accepting a final settlement or signing a release, you need to know what makes up the amount and what has actually been paid. We review the employment relationship from start to finish and assess wages, end-of-service gratuity, notice, leave and other claims separately, rather than combining them into an unexplained total.
+Request a Legal Consultation
+Contact Us on WhatsApp
+(opens in a new tab)
+On this page
+Who This Service Is For
+Matters Covered by the Review
+Practical Situations We Review with You
+How We Handle Your Matter
+Documents That Help Us Get Started
+Before Taking the Next Step
+Start with Your Situation
+FAQs
+Related Topics and Services
+Official Sources for Reference
+Tell Us About Your Matter
+Scope of Service and Published Information
+Tell Us About Your Matter
+Request a Legal Consultation
+Contact Us on WhatsApp
+(opens in a new tab)
+Who This Service Is For
+Private-sector employees facing salary or employment entitlement issues
+Executives whose employment has been terminated and who want to understand their rights
+Employees asked to sign a release before leaving
+Employers seeking to review their contracts and organise their employment relationships
+Expatriate employees who are not fully familiar with their rights in the UAE
+Matters Covered by the Review
+Delayed and unpaid salaries
+Correct calculation of end-of-service gratuity
+Dismissal, termination and statutory notice
+Probation and related rights
+Employment releases and settlements
+Leave, allowances and compensation
+Review of employment contracts before signing
+Employment complaints before the Ministry of Human Resources
+Practical Situations We Review with You
+Identifying the Rules Governing the Employment Relationship
+The following rules concern full-time foreign employees in the private sector who are subject to the Federal Labour Law. Other rules and systems exist, including those of the Dubai International Financial Centre and Abu Dhabi Global Market, government employment, domestic workers and alternative savings schemes where applicable.
+Salaries and Final Settlement
+We review unpaid wages, notice pay, accrued leave, end-of-service gratuity, commissions and contractual payments according to their terms. We then reconcile the calculation with transfer records and actual payments and deductions.
+Under the Federal Labour Law, wages and other amounts due on termination must be paid within 14 days of the contract ending. Establishing that date requires a review of the termination letter, the notice period and how it was implemented, rather than relying solely on the residence cancellation date.
+End-of-Service Gratuity and Resignation
+Under the traditional scheme for full-time foreign employees, entitlement begins after one year of continuous service. Gratuity is calculated on the basic wage at 21 days for each of the first five years and 30 days for each subsequent year, subject to pro rata calculation for part-years, the statutory cap and periods excluded from the calculation.
+Resignation alone does not reduce this gratuity under the current federal scheme. However, the way employment ends may affect notice pay, compensation or other claims. We therefore assess those items separately rather than combining them with gratuity.
+Releases and Ending Employment
+Do not acknowledge receipt of money that has not been paid. We review whether the wording of a release records receipt, contains a settlement or waiver, and complies with statutory rights. Signing does not mean that all rights are lost in every case, but it may create an evidential dispute that accurate wording and proof of payment can avoid.
+Employment Complaints and Defence
+We identify the claims, the competent authority and the route for a complaint or challenge to a decision according to the amount and nature of the claim. For employers, we review performance, termination and payment records, and compliance with the contract before preparing a response.
+Send the employment contract, termination or resignation letter, payslips and transfer records, leave balance, and any previous settlement or complaint.
+The review also covers probation, termination terms and moving to another job under the applicable rules. Do not assume that the notice period is the same in every case or that residence cancellation alone determines when the employment contract ended. Documents and dates must be considered together before entitlements are calculated.
+How We Handle Your Matter
+Review the employment contract: basic salary, allowances, contract term and termination conditions.
+Review payslips and bank transfers to establish what has and has not been paid.
+Gather relevant correspondence with human resources or the employer.
+Establish all entitlements: end-of-service gratuity, leave days and allowances.
+Choose the appropriate route: negotiation, settlement or a complaint to the competent authority.
+Documents That Help Us Get Started
+The employment contract and its schedules, and any amendments to pay, commission or benefits.
+Payslips, transfer records, a record of payments and deductions, and the leave balance.
+The termination or resignation letter, notice-period correspondence, and any release or calculation of entitlements.
+Any earlier complaint, decision or judgment, proof of service, and any current deadline for a response or challenge.
+Send clear, complete copies initially and retain the originals. Do not send passwords, verification codes or financial account access credentials. An appropriate method for sharing sensitive documents can be agreed.
+Before Taking the Next Step
+Useful First Steps
+Keep the employment contract, all schedules and any amendments
+Regularly save payslips and bank transfer records
+Do not sign a release under pressure without understanding it fully
+Review how resignation and notice affect each element of your entitlements before deciding.
+Mistakes to Avoid
+Resigning under pressure without reviewing notice and your other rights and obligations.
+Signing a general release in exchange for less than the amount due
+Deleting messages from the employer because they are embarrassing, even though they may be evidence
+Waiting too long after termination before taking action
+Estimate your end-of-service gratuity
+Start with Your Situation
+This service may be relevant if:
+Your salary is overdue and you do not know your rights if you decide to pursue the matter.
+Show the starting file
+Your employment ended and you suspect your final entitlements were calculated incorrectly.
+Show the starting file
+You signed a settlement release and are unsure which rights you waived.
+Show the starting file
+You are an employer seeking to organise employment contracts and review your obligations.
+Show the starting file
+FAQs
+How Is End-of-Service Gratuity Calculated?
+For a full-time foreign employee under the traditional federal scheme, entitlement begins after one year of continuous service. It is calculated on the basic wage at 21 days for each of the first five years and 30 days for each subsequent year, subject to part-years, statutory limits and excluded periods. Other systems and alternative savings schemes differ.
+Does Resignation Reduce Gratuity?
+Resignation alone does not reduce gratuity under the current federal scheme referred to above. Other amounts, such as notice pay or compensation, may differ, so each element should be reviewed separately from gratuity.
+What Should I Do If My Salary Is Late?
+Identify the months affected, the wage due and any partial payments, and gather the contract, account statements and correspondence. Then review the appropriate complaint channel and the rules governing the employment relationship, without acknowledging receipt of unpaid amounts.
+Do I Need an Advocate to File an Employment Complaint?
+You can use the competent channels directly where this is permitted. Advice can help with calculations, drafting claims and reviewing a decision or deadline for challenge. Any subsequent representation depends on the authority and procedure involved.
+Should I Sign a Release Before Receiving Payment?
+Do not acknowledge receipt of money you have not received. Ask for the figures and wording to match actual payment. Not every signature extinguishes all rights, but it may create an avoidable evidential dispute.
+Do the Same Rules Apply During Probation?
+Probation has its own rules on termination, notice and changing jobs, and the position may vary with the circumstances and the applicable system. Review the contract, dates and next employment destination before submitting a resignation or deciding to terminate employment.
+Employment and Entitlements
+41. What should I do if my employer has not paid my salary?
+42. How is end-of-service gratuity calculated?
+43. Does resignation reduce end-of-service gratuity?
+44. Should I refuse to sign an inaccurate final settlement acknowledgement?
+45. Is termination without notice permitted?
+46. How does resignation differ from termination by the employer?
+47. Do I need a lawyer to submit an employment complaint?
+48. Can my employer's messages support a claim?
+Related Topics and Services
+Guide to Unpaid Salaries
+Legal Resources
+Contracts and Corporate Matters
+Practice Areas
+FAQs on Rights and Claims
+All FAQs
+Back to Practice Areas
+Official Sources for Reference
+Law Regulating Labour Relations and Its Amendments
+uaelegislation.gov.ae
+(opens in a new tab)
+Ministry of Human Resources and Emiratisation
+mohre.gov.ae
+(opens in a new tab)
+End-of-Service Benefits in the Private Sector
+u.ae
+(opens in a new tab)
+You can also explore specialist resources or services associated with Summit in this area.
+Summit Specialist Resources
+laborlawuae.com
+(opens in a new tab)
+Tell Us About Your Matter
+Send a summary of the matter and the main document, if available, and mention any hearing or current deadline. Before work begins, we will explain the scope of consultation, the fee and the documents required.
+Request a Legal Consultation
+Contact Us on WhatsApp
+(opens in a new tab)
++971 52 466 6191
+info@summitlegaluae.com
+The service is available in Arabic, English and Russian. Sending an enquiry does not mean that the engagement has been accepted or that monitoring of legal deadlines has begun.
+Scope of Service and Published Information
+Summit is a legal consultancy company. The work, deliverables and fees are defined in the agreed engagement. Court advocacy or representation requiring an advocate is carried out by licensed advocates. Where work requires separate professional registration or specialist expertise, it is coordinated with an appropriately qualified professional as needed.
+This is general information and does not replace a review of the facts, documents, applicable law, competent authority and relevant deadlines. Options and outcomes vary from one matter to another. Presenting this service does not guarantee a decision, recovery of funds or approval by an external authority.
+Legal Notice and Scope of Services
+=== footer ===
+Summit Legal Consultancy
+Legal advice for individuals, businesses, investors and residents in the UAE, in Arabic, English and Russian.
++971 52 466 6191
+Contact Us on WhatsApp
+(opens in a new tab)
+info@summitlegaluae.com
+Business hours: Monday to Friday, 9 am to 6 pm.
+Practice Areas
+Debt Recovery and Cheque Cases
+Criminal Cases
+Cryptocurrency and Digital Currency Cases
+Corporate and Commercial Law
+Property and Tenancy Disputes
+Employment Law
+Tax Disputes and Tax Compliance
+Family Law and Wills
+Compliance and Regulatory Matters
+Legal Translation
+Business Services
+Legal Resources
+Legal Resources Centre
+FAQs
+Case Studies
+Useful Links
+About Us
+Contact Us
+Legal Notice
+Privacy Policy
+Terms and Conditions
+The information published is general and does not replace a review of the facts and documents relating to your matter. The scope of service and fees are determined when the engagement is accepted. Court advocacy requiring an advocate is carried out by licensed advocates.
+Specialist Resources and Services Associated with Summit
+Employment Law
+laborlawuae.com
+(opens in a new tab)
+Debt Recovery and Cheques
+debtrecoveryuae.com
+(opens in a new tab)
+Property Disputes
+dubaipropertydispute.com
+(opens in a new tab)
+Digital Currencies
+uaecryptocases.com
+(opens in a new tab)
+Wills
+uaeexpatwills.com
+(opens in a new tab)
+Tax Disputes
+uaetaxdisputes.com
+(opens in a new tab)
+© {{YEAR}} Summit Legal Consultancy. All rights reserved.
+Choose language
+Arabic
+English
+Russian

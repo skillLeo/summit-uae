@@ -1,0 +1,513 @@
+/*
+ * Design 2.1 component: button + icon button (<x-d2.ui.button>, <x-d2.ui.icon-button>). Brief §3.5, D03, D06;
+ * contract docs/d2.1/phase-1/components.md §1.
+ *
+ * Variants (the class follows the prop value, so the Design 2.0 names keep working as aliases):
+ *   ink       .btn--ink, .btn--primary     ink fill, white label: the default everywhere, the header CTA included.
+ *                                          On a dark surface (.on-dark / .on-night) it inverts: white, ink label.
+ *   gold      .btn--gold, .btn--signature  flat --gold, ink label: the hero's primary button ONLY (one per page).
+ *   secondary .btn--secondary              white, 1px --line-strong, ink label (on dark: the night look).
+ *   text      .btn--text, .btn--ghost      no fill, ink label underlined (1px at a 3px offset, 2px on hover).
+ *   night     .btn--night                  ink on dark: --dark-2 fill, 1px --line-on-dark, white label.
+ *   whatsapp  .btn--whatsapp               the white secondary button with an ink label and the official glyph.
+ * Sizes: 44 px (--button-h; the size values 40, 44 and 48), label 15/500, padding-inline 20; hero 52 px
+ * (--button-h-hero; the values 52 and 56), label 16/500, padding-inline 24. Radius 6 (--radius-control).
+ * No gradient, glow, shadow, hover lift or arrow. Hover: the fill 8% lighter or darker (--ink-hover, --gold-hover,
+ * --canvas-hover, --dark-hover), drawn as a wash whose opacity fades (motion is transform and opacity only).
+ * Press: scale(.98) for 120 ms. Focus: the 2px --focus-color ring at a 2px offset. Disabled (aria-disabled):
+ * 40 % opacity, focus stays. Loading (.is-loading): a 16px spinner, same width.
+ * Styleguide-only modifiers .is-hover / .is-active / .is-focus draw exactly the pseudo-class looks.
+ */
+@layer components {
+  .btn {
+    --btn-h: var(--button-h);
+    --btn-pad: var(--s-5);
+    --btn-bg: var(--ink);
+    --btn-fg: var(--canvas);
+    --btn-edge: transparent;
+    --btn-wash: var(--dark-hover-tint);
+    --btn-scale: 1;
+    --hit: var(--target);
+
+    position: relative;
+    isolation: isolate;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--s-2);
+    min-block-size: var(--btn-h);
+    min-inline-size: var(--btn-h);
+    padding-block: var(--s-2);
+    padding-inline: var(--btn-pad);
+    border: var(--line-w) solid var(--btn-edge);
+    border-radius: var(--radius-control);
+    color: var(--btn-fg);
+    background: var(--btn-bg);
+    box-shadow: none;
+    font-family: var(--font-sans);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+    letter-spacing: 0;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    scale: var(--btn-scale);
+    transition: scale var(--dur-press) var(--ease-out);
+
+    /* Hover wash: the fill 8% lighter (on ink) or darker (on white, gold); only its opacity changes. */
+    &::before {
+      content: "";
+      position: absolute;
+      inset: calc(-1 * var(--line-w));
+      z-index: -1;
+      border-radius: inherit;
+      background: var(--btn-wash);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--dur-hover) var(--ease-out);
+    }
+
+    /* Invisible hit area: at least 44px (48px on touch screens), never smaller than the button. */
+    &::after {
+      content: "";
+      position: absolute;
+      inset-block: min(0px, calc(50% - var(--hit) / 2));
+      inset-inline: min(0px, calc(50% - var(--hit) / 2));
+    }
+  }
+
+  @media (pointer: coarse) {
+    .btn {
+      --hit: var(--target-touch);
+    }
+  }
+
+  /* ------------------------------------------------------------------ sizes */
+  /* 40, 44 and 48 are the one 44 px button (§3.5); 52 and 56 the hero button. */
+  :is(.btn--52, .btn--56) {
+    --btn-h: var(--button-h-hero);
+    --btn-pad: var(--s-6);
+
+    font-size: var(--fs-minor);
+    line-height: var(--lh-minor);
+  }
+
+  .btn--full {
+    display: flex;
+    inline-size: 100%;
+  }
+
+  /* ------------------------------------------------------------------ variants */
+  /* ink (default; .btn--primary is its Design 2.0 name): set on .btn above. The WhatsApp mark on it is the dark one. */
+  :is(.btn--ink, .btn--primary) {
+    --wa-light: none;
+    --wa-dark: block;
+    --wa-placeholder: var(--on-dark-3);
+  }
+
+  /* gold: the hero's primary button only (D06). Flat, never a gradient. */
+  :is(.btn--gold, .btn--signature) {
+    --btn-bg: var(--gold);
+    --btn-fg: var(--ink);
+    --btn-wash: var(--hover-tint);
+    --wa-light: block;
+    --wa-dark: none;
+    --wa-placeholder: var(--ink-3);
+  }
+
+  /* secondary and the WhatsApp button: white, 1px --line-strong edge, ink label, the light-surface glyph. */
+  :is(.btn--secondary, .btn--whatsapp) {
+    --btn-bg: var(--canvas);
+    --btn-fg: var(--ink);
+    --btn-edge: var(--line-strong);
+    --btn-wash: var(--hover-tint);
+    --wa-light: block;
+    --wa-dark: none;
+    --wa-placeholder: var(--ink-3);
+  }
+
+  /* text (Design 2.0: ghost): an underlined label, no fill, no edge, no side padding. */
+  :is(.btn--text, .btn--ghost) {
+    --btn-bg: transparent;
+    --btn-fg: var(--ink);
+    --btn-pad: 0;
+    --btn-wash: transparent;
+
+    min-inline-size: 0;
+
+    & .btn__label {
+      text-decoration-line: underline;
+      text-decoration-color: currentColor;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+  }
+
+  /* night: ink on dark (--dark-2 fill, hairline edge, white label, the dark-surface glyph). */
+  .btn--night {
+    --btn-bg: var(--dark-2);
+    --btn-fg: var(--on-dark);
+    --btn-edge: var(--line-on-dark);
+    --btn-wash: var(--dark-hover-tint);
+    --wa-light: none;
+    --wa-dark: block;
+    --wa-placeholder: var(--on-dark-3);
+  }
+
+  /* On a dark surface ink inverts (a white button, ink label), secondary takes the night look and the text button
+     turns white. An .on-light card inside the dark section is light again. */
+  :is(.on-dark, .on-night) :is(.btn--ink, .btn--primary) {
+    --btn-bg: var(--on-dark);
+    --btn-fg: var(--ink);
+    --btn-wash: var(--hover-tint);
+    --wa-light: block;
+    --wa-dark: none;
+    --wa-placeholder: var(--ink-3);
+  }
+
+  :is(.on-dark, .on-night) .btn--secondary {
+    --btn-bg: var(--dark-2);
+    --btn-fg: var(--on-dark);
+    --btn-edge: var(--line-on-dark);
+    --btn-wash: var(--dark-hover-tint);
+    --wa-light: none;
+    --wa-dark: block;
+    --wa-placeholder: var(--on-dark-3);
+  }
+
+  :is(.on-dark, .on-night) :is(.btn--text, .btn--ghost) {
+    --btn-fg: var(--on-dark);
+  }
+
+  :is(.on-dark, .on-night) .on-light :is(.btn--ink, .btn--primary) {
+    --btn-bg: var(--ink);
+    --btn-fg: var(--canvas);
+    --btn-wash: var(--dark-hover-tint);
+    --wa-light: none;
+    --wa-dark: block;
+    --wa-placeholder: var(--on-dark-3);
+  }
+
+  :is(.on-dark, .on-night) .on-light .btn--secondary {
+    --btn-bg: var(--canvas);
+    --btn-fg: var(--ink);
+    --btn-edge: var(--line-strong);
+    --btn-wash: var(--hover-tint);
+    --wa-light: block;
+    --wa-dark: none;
+    --wa-placeholder: var(--ink-3);
+  }
+
+  :is(.on-dark, .on-night) .on-light :is(.btn--text, .btn--ghost) {
+    --btn-fg: var(--ink);
+  }
+
+  /* ------------------------------------------------------------------ parts */
+  .btn__label {
+    min-inline-size: 0;
+    text-wrap: balance;
+  }
+
+  .btn__icon {
+    position: relative;
+    display: inline-grid;
+    flex: none;
+    place-items: center;
+    inline-size: var(--icon-size);
+    block-size: var(--icon-size);
+
+    & > * {
+      grid-area: 1 / 1;
+    }
+  }
+
+  .btn__spinner {
+    inline-size: var(--s-4);
+    block-size: var(--s-4);
+    border: 2px solid currentColor;
+    border-block-start-color: transparent;
+    border-radius: 50%;
+    opacity: 0;
+  }
+
+  /* No icon: the spinner sits over the label (the label keeps its width). */
+  .btn > .btn__spinner {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+  }
+
+  /* ------------------------------------------------------------------ states */
+  .btn:focus-visible,
+  .btn.is-focus {
+    outline: var(--focus-w) solid var(--focus-color);
+    outline-offset: var(--focus-offset);
+  }
+
+  @media (hover: hover) {
+    .btn:hover:not([aria-disabled="true"])::before {
+      opacity: 1;
+    }
+
+    :is(.btn--text, .btn--ghost):hover:not([aria-disabled="true"]) .btn__label {
+      text-decoration-thickness: 2px;
+    }
+  }
+
+  .btn.is-hover::before {
+    opacity: 1;
+  }
+
+  :is(.btn--text, .btn--ghost).is-hover .btn__label {
+    text-decoration-thickness: 2px;
+  }
+
+  .btn:active:not([aria-disabled="true"]),
+  .btn.is-active {
+    --btn-scale: var(--press-scale);
+
+    &::before {
+      opacity: 1;
+    }
+  }
+
+  .btn[aria-disabled="true"] {
+    cursor: not-allowed;
+  }
+
+  .btn[aria-disabled="true"]:not(.is-loading) {
+    opacity: 0.4;
+  }
+
+  .btn.is-loading {
+    cursor: progress;
+
+    /* The spin exists only while loading, so idle buttons carry no animation at all. */
+    & .btn__spinner {
+      opacity: 1;
+      animation: d2-btn-spin 700ms linear infinite;
+    }
+
+    & .btn__icon > :is(.icon, .brand-mark) {
+      opacity: 0;
+    }
+
+    & > .btn__spinner ~ .btn__label {
+      opacity: 0;
+    }
+  }
+
+  @keyframes d2-btn-spin {
+    to {
+      rotate: 360deg;
+    }
+  }
+
+  /* ------------------------------------------------------------------ icon button */
+  /* Square, the icon is its visible label (the accessible name is aria-label). 40, 44 or 48 px; a 40 px button keeps
+     a 44 px hit area (48 on touch). Ghost: transparent, icon in --ink-2, ink on hover. */
+  .icon-btn {
+    --btn-pad: 0;
+    --btn-fg: var(--ink-2);
+
+    inline-size: var(--btn-h);
+    padding: 0;
+  }
+
+  .icon-btn.btn--40 {
+    --btn-h: var(--s-10);
+  }
+
+  .icon-btn.btn--48 {
+    --btn-h: var(--target-touch);
+  }
+
+  .icon-btn.btn--ghost {
+    --btn-bg: transparent;
+    --btn-wash: var(--hover-tint);
+  }
+
+  .icon-btn.btn--secondary {
+    --btn-fg: var(--ink);
+  }
+
+  .icon-btn.btn--night,
+  :is(.on-dark, .on-night) .icon-btn.btn--ghost:not(.on-light *) {
+    --btn-fg: var(--on-dark-2);
+    --btn-wash: var(--dark-hover-tint);
+  }
+
+  @media (hover: hover) {
+    .icon-btn.btn--ghost:hover:not([aria-disabled="true"]) {
+      --btn-fg: var(--ink);
+    }
+
+    .icon-btn.btn--night:hover:not([aria-disabled="true"]),
+    :is(.on-dark, .on-night) .icon-btn.btn--ghost:not(.on-light *):hover:not([aria-disabled="true"]) {
+      --btn-fg: var(--on-dark);
+    }
+  }
+
+  .icon-btn.btn--ghost.is-hover {
+    --btn-fg: var(--ink);
+  }
+
+  /*
+   * The icon button's own tooltip (an overlay, [data-overlay]): ink bubble, caption 13/500, the overlay radius and
+   * shadow, 120 ms delay; it repeats the aria-label and is hidden from assistive technology. Hidden tips are
+   * display: none, so one near the viewport edge never widens the page; it fades in through @starting-style.
+   * tip="top-start|top-end|bottom-start|bottom-end" aligns it with the button's inline start or end.
+   */
+  .icon-btn__tip {
+    --tip-x: -50%;
+    --tip-y: var(--s-1);
+
+    position: absolute;
+    inset-block-end: calc(100% + var(--s-2));
+    inset-inline-start: 50%;
+    z-index: var(--z-raised);
+    display: none;
+    padding: var(--s-1) var(--s-3);
+    border-radius: var(--radius-overlay);
+    color: var(--on-dark);
+    background: var(--ink);
+    box-shadow: var(--shadow-overlay);
+    font-size: var(--fs-caption);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-caption);
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    translate: var(--tip-x) var(--tip-y);
+    transition:
+      opacity var(--dur-press) var(--ease-out),
+      translate var(--dur-press) var(--ease-out),
+      display var(--dur-press) allow-discrete;
+  }
+
+  [dir="rtl"] :is(.icon-btn__tip--top, .icon-btn__tip--bottom) {
+    --tip-x: 50%;
+  }
+
+  :is(.icon-btn__tip--bottom, .icon-btn__tip--bottom-start, .icon-btn__tip--bottom-end) {
+    --tip-y: calc(-1 * var(--s-1));
+
+    inset-block: calc(100% + var(--s-2)) auto;
+  }
+
+  :is(.icon-btn__tip--top-start, .icon-btn__tip--bottom-start) {
+    --tip-x: 0%;
+
+    inset-inline-start: 0;
+  }
+
+  :is(.icon-btn__tip--top-end, .icon-btn__tip--bottom-end) {
+    --tip-x: 0%;
+
+    inset-inline: auto 0;
+  }
+
+  :is(.on-dark, .on-night) .icon-btn__tip:not(.on-light *) {
+    color: var(--ink);
+    background: var(--on-dark);
+  }
+
+  .icon-btn:focus-visible,
+  .icon-btn.is-focus,
+  .icon-btn.is-hover {
+    z-index: var(--z-raised);
+
+    & .icon-btn__tip {
+      --tip-y: 0px;
+
+      display: block;
+      opacity: 1;
+      transition-delay: 120ms;
+
+      @starting-style {
+        --tip-y: var(--s-1);
+
+        opacity: 0;
+      }
+    }
+  }
+
+  @media (hover: hover) {
+    .icon-btn:hover {
+      z-index: var(--z-raised);
+
+      & .icon-btn__tip {
+        --tip-y: 0px;
+
+        display: block;
+        opacity: 1;
+        transition-delay: 120ms;
+
+        @starting-style {
+          --tip-y: var(--s-1);
+
+          opacity: 0;
+        }
+      }
+    }
+  }
+
+  /* Escape dismissed the tip (modules/icon-tips.js, WCAG 1.4.13); it returns after hover and focus leave. */
+  .icon-btn.is-tip-dismissed .icon-btn__tip {
+    display: none;
+    opacity: 0;
+    transition-delay: 0s;
+  }
+
+  /* ------------------------------------------------------------------ styleguide specimens only */
+  /* A strip of one control in each of its states, the state's name under it (styleguide controls area). */
+  .sg-states {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-6) var(--s-8);
+    align-items: flex-start;
+
+    > * {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s-2);
+      align-items: flex-start;
+      min-inline-size: 0;
+    }
+  }
+
+  /* The chip specimens show FAQ category names, a set the FAQ page shows as tabs (a select on phones, D41). On a
+     phone the Russian "Перед обращением за консультацией 6" (320 px) is wider than the card's column (278 px at
+     360 px): there the label wraps inside its pill instead of crossing the card and the page edge, and is never cut
+     (D09). Specimens only; a chip in the product keeps one line (final verifier, Phase 1). */
+  :is([data-sg="chip-filter"], [data-sg="chip-row"]) .chip {
+    flex: 0 1 auto;
+    max-inline-size: 100%;
+    padding-block: var(--s-1);
+    white-space: normal;
+    text-align: start;
+  }
+
+  /* ------------------------------------------------------------------ reduced motion: final state, no press */
+  @media (prefers-reduced-motion: reduce) {
+    .btn:active:not([aria-disabled="true"]),
+    .btn.is-active {
+      --btn-scale: 1;
+    }
+
+    .btn__spinner {
+      border-color: currentColor;
+      animation: none;
+    }
+
+    .btn.is-loading .btn__spinner {
+      opacity: 0.55;
+      animation: none;
+    }
+  }
+}

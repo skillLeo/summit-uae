@@ -1,0 +1,204 @@
+# text-snapshot: design 2, locale en, route s01-debt-recovery-cheque-cases
+# GET /en/practice-areas/debt-recovery-cheque-cases/ -> 200; html lang=en dir=ltr data-design=2
+=== header ===
+Choose language
+English
+Request a Legal Consultation
+Home
+Practice Areas
+Legal Resources
+Case Studies
+FAQs
+About Us
+Contact Us
+=== main ===
+Home
+Practice Areas
+Debt Recovery and Cheque Cases
+Debt Recovery and Cheque Cases in the UAE
+Another promise to pay does not tell you when you will recover what you are owed or how to protect your claim. We review the basis of the debt, the outstanding balance, the documents and any security, then assess whether a settlement or formal claim is worthwhile before you incur further costs.
+Request a Legal Consultation
+Contact Us on WhatsApp
+(opens in a new tab)
+On this page
+Who This Service Is For
+Matters Covered by the Review
+Practical Situations We Review with You
+How We Handle Your Matter
+Documents That Help Us Get Started
+Before Taking the Next Step
+Start with Your Situation
+FAQs
+Related Topics and Services
+Official Sources for Reference
+Tell Us About Your Matter
+Scope of Service and Published Information
+Tell Us About Your Matter
+Request a Legal Consultation
+Contact Us on WhatsApp
+(opens in a new tab)
+Who This Service Is For
+Businesses with overdue invoices or outstanding receivables
+Individuals holding dishonoured cheques or acknowledgements of debt
+Suppliers, contractors and service providers
+Investors facing payment defaults
+Creditors who want to assess the prospects of settlement or a formal claim
+Matters Covered by the Review
+Dishonoured cheques
+Unpaid invoices
+Commercial and civil claims
+Acknowledgements of debt and repayment plans
+Written financial settlements
+The overlap between civil and criminal proceedings in certain matters
+Claim and enforcement procedures appropriate to the documents involved
+Practical Situations We Review with You
+Establishing the Basis of the Debt and the Appropriate Procedure
+We review the contract, invoices, delivery records, previous payments and correspondence. The assessment also covers the debtor’s legal identity, the due date, any objections to the goods or services, and information about assets obtained through lawful means.
+An established right to payment is different from the practical ability to recover it. We therefore assess the claim separately from the prospects of enforcement, particularly where the debtor has left the country or their business is in financial difficulty.
+Dishonoured Cheques and Enforcement
+Under the Commercial Transactions Law, a cheque on which the bank has recorded non-payment because funds are absent or insufficient constitutes an enforceable instrument. It may be possible to apply for enforcement without first bringing a substantive claim to establish the debt, subject to the cheque’s particulars, enforcement requirements and available defences.
+Not every dishonoured cheque involves a crime. We examine the reason for non-payment and the parties’ conduct to determine whether there is a separate criminal aspect, rather than assuming that non-payment alone is sufficient for a criminal complaint.
+How We Assist Creditors and Debtors
+For creditors: checking the amount claimed, preparing a formal demand, negotiating a settlement and preparing the claim or enforcement file.
+For debtors: reviewing the basis of the debt, payments, set-off and objections, and considering a repayment agreement that takes existing obligations into account.
+For both parties: drafting a settlement that specifies the amount, instalments, security, consequences of default and return of documents once payment is complete.
+How We Handle Your Matter
+Identify the basis of the debt: a contract, invoice, cheque, transfer or written acknowledgement.
+Arrange the documents chronologically to establish the relationship, the debt and when payment became due.
+Assess the strengths and weaknesses of the claim, particularly where there is no detailed contract.
+Consider settlement or a formal claim before taking a more costly step.
+Choose the appropriate route: negotiation, a formal demand, a civil claim, enforcement or criminal proceedings where the necessary conditions are met.
+Documents That Help Us Get Started
+The contract or accepted quotation, purchase orders and details of the contracting party.
+Invoices, delivery records or acceptance of completed work, a payment statement and the outstanding balance claimed.
+The original cheque and the bank’s confirmation of the reason for non-payment, with a clear copy sent for the initial review.
+Correspondence, acknowledgements of debt, promises to pay, and any earlier settlements or judgments.
+Send clear, complete copies initially and retain the originals. Do not send passwords, verification codes or financial account access credentials. An appropriate method for sharing sensitive documents can be agreed.
+Before Taking the Next Step
+Useful First Steps
+Keep the original cheque or notice of non-payment, if available.
+Collect invoices, contracts, purchase orders and delivery records.
+Preserve WhatsApp messages and emails containing an acknowledgement of the debt or promises to pay.
+Do not accept an oral repayment plan; request a written, signed schedule.
+Do not delay pursuing payment, as documents may be lost or the debtor may become harder to reach.
+Mistakes to Avoid
+Handing over the original cheque or documents without a written agreement.
+Relying on repeated oral promises.
+Sending threatening messages that could later weaken your position.
+Failing to document the delivery of goods or services.
+Confusing commercial pressure with the appropriate legal procedure.
+Start with Your Situation
+This service may be relevant if:
+You paid for a service or goods but did not receive what you paid for.
+Show the starting file
+You hold a cheque that was presented to the bank and returned unpaid.
+Show the starting file
+You are dealing with a debtor who delays payment or has left the country.
+Show the starting file
+You have outstanding invoices and want to understand your options before escalating the matter.
+Show the starting file
+FAQs
+Is a Dishonoured Cheque Sufficient to Start Enforcement?
+A cheque on which the bank has recorded non-payment because funds are absent or insufficient may constitute an enforceable instrument under Article 667 of the Commercial Transactions Law. Its particulars, the bank’s confirmation and the requirements for enforcement must be reviewed. Documents concerning the underlying relationship remain important when assessing any defence or challenge.
+Can a Debt Be Recovered Without a Written Contract?
+Invoices, correspondence, purchase orders, delivery or transfer records and acknowledgements of debt may help establish the claim. However, an invoice issued by one party alone does not conclusively establish acceptance of the obligation, the amount or the payment due date.
+Should I Start with Settlement or Formal Action?
+We weigh the strength of the evidence, the debtor’s conduct, the amount owed, information about assets and the risks of delay. Where the circumstances allow, negotiation may proceed alongside action to preserve your rights.
+What If the Debtor Has Left the UAE?
+We assess jurisdiction, the location of assets, the debtor’s legal identity and the prospects of enforcement. Leaving the country does not, by itself, make a claim impossible, but it may affect the cost and how the matter is pursued.
+Can the Debt Be Repaid in Instalments?
+A repayment agreement can specify the outstanding balance, instalments, due dates, security, consequences of default and what happens to the cheques and proceedings. Before handing over any original document, check the signatory’s authority and the agreement’s effect on existing rights.
+Debts and Cheques
+7. How do I start recovering a commercial debt?
+8. Is every bounced cheque a criminal matter?
+9. Why should I keep the original cheque and the bank's statement?
+10. Can I pursue a claim if the debtor has left the UAE?
+11. Is an invoice alone enough?
+12. How should I document a repayment plan?
+13. When should I choose formal action over negotiation?
+Related Topics and Services
+Guide to Starting Commercial Debt Recovery
+Legal Resources
+Guide to Dishonoured Cheques
+Legal Resources
+Corporate and Commercial Law
+Practice Areas
+Cheque Case Review Example
+Case Studies
+All FAQs
+Back to Practice Areas
+Official Sources for Reference
+Commercial Transactions Law, Particularly Article 667
+uaelegislation.gov.ae
+(opens in a new tab)
+You can also explore specialist resources or services associated with Summit in this area.
+Summit Specialist Resources
+debtrecoveryuae.com
+(opens in a new tab)
+Tell Us About Your Matter
+Send a summary of the matter and the main document, if available, and mention any hearing or current deadline. Before work begins, we will explain the scope of consultation, the fee and the documents required.
+Request a Legal Consultation
+Contact Us on WhatsApp
+(opens in a new tab)
++971 52 466 6191
+info@summitlegaluae.com
+The service is available in Arabic, English and Russian. Sending an enquiry does not mean that the engagement has been accepted or that monitoring of legal deadlines has begun.
+Scope of Service and Published Information
+Summit is a legal consultancy company. The work, deliverables and fees are defined in the agreed engagement. Court advocacy or representation requiring an advocate is carried out by licensed advocates. Where work requires separate professional registration or specialist expertise, it is coordinated with an appropriately qualified professional as needed.
+This is general information and does not replace a review of the facts, documents, applicable law, competent authority and relevant deadlines. Options and outcomes vary from one matter to another. Presenting this service does not guarantee a decision, recovery of funds or approval by an external authority.
+Legal Notice and Scope of Services
+=== footer ===
+Summit Legal Consultancy
+Legal advice for individuals, businesses, investors and residents in the UAE, in Arabic, English and Russian.
++971 52 466 6191
+Contact Us on WhatsApp
+(opens in a new tab)
+info@summitlegaluae.com
+Business hours: Monday to Friday, 9 am to 6 pm.
+Practice Areas
+Debt Recovery and Cheque Cases
+Criminal Cases
+Cryptocurrency and Digital Currency Cases
+Corporate and Commercial Law
+Property and Tenancy Disputes
+Employment Law
+Tax Disputes and Tax Compliance
+Family Law and Wills
+Compliance and Regulatory Matters
+Legal Translation
+Business Services
+Legal Resources
+Legal Resources Centre
+FAQs
+Case Studies
+Useful Links
+About Us
+Contact Us
+Legal Notice
+Privacy Policy
+Terms and Conditions
+The information published is general and does not replace a review of the facts and documents relating to your matter. The scope of service and fees are determined when the engagement is accepted. Court advocacy requiring an advocate is carried out by licensed advocates.
+Specialist Resources and Services Associated with Summit
+Employment Law
+laborlawuae.com
+(opens in a new tab)
+Debt Recovery and Cheques
+debtrecoveryuae.com
+(opens in a new tab)
+Property Disputes
+dubaipropertydispute.com
+(opens in a new tab)
+Digital Currencies
+uaecryptocases.com
+(opens in a new tab)
+Wills
+uaeexpatwills.com
+(opens in a new tab)
+Tax Disputes
+uaetaxdisputes.com
+(opens in a new tab)
+© {{YEAR}} Summit Legal Consultancy. All rights reserved.
+Choose language
+Arabic
+English
+Russian

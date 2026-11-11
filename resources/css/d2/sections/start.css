@@ -1,0 +1,203 @@
+/*
+ * Design 2 home block "Start your matter" (Design 2.1 brief §5.1: a switchable tool block directly under the hero,
+ * copy pending client approval; D19). View: resources/views/designs/d2/sections/home/start.blade.php; the card is
+ * <x-d2.hero.tool> (components/d2/hero/tool.blade.php, script resources/js/d2/hero/tool.js). Moved out of
+ * sections/hero.css with the card (Phase 2): the hero holds only the approved copy, CTAs and the document stage.
+ * D19: the result half is never an empty box. Before a choice it lists the quick picks (the one chip, stacked, each
+ * holding a complete approved situation); after a choice, the chosen service's documents.
+ */
+@layer sections {
+  .start {
+    background: var(--canvas);
+  }
+
+  /* ---------------------------------------------------------------- tool card "Start your matter" */
+  /* A card (brief §3.5: interactive containers are cards): white, a 1 px --line edge, radius 10, no shadow. It spans
+     its column (the container below 1280 px, all 12 columns from 1280 px); its layout follows its own width
+     (container queries below), so the styleguide specimens lay out like the hero's card. */
+  .hero-tool {
+    container: hero-tool / inline-size;
+    inline-size: 100%;
+    min-inline-size: 0;
+    /* 16 px on phones: the three audience options keep one row at 390 px in every language (Russian
+       "Частное лицо"); the card rhythm (--pad-card) from 768 px. */
+    padding: var(--s-4);
+    border: var(--line-w) solid var(--line);
+    border-radius: var(--radius-card);
+    background: var(--canvas);
+  }
+
+  .hero-tool__body {
+    display: grid;
+    gap: var(--s-4);
+  }
+
+  /* The card's H2 in the H3 role (a card title). */
+  .hero-tool__title {
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+  }
+
+  .hero-tool__row {
+    display: grid;
+    gap: var(--s-3);
+    align-items: end;
+  }
+
+  .hero-tool__continue {
+    justify-self: stretch;
+  }
+
+  .hero-tool__result {
+    display: grid;
+    gap: var(--s-3);
+  }
+
+  .hero-tool__count {
+    color: var(--ink);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+  }
+
+  /*
+   * The quick picks or the chosen service's documents, one at a time. Design 2.1: the documents are never clamped
+   * (D09), so a cell sized for the longest list would leave a tall empty area before a choice; inactive panels
+   * collapse instead. The card only changes height after the visitor chooses (input, so no layout-shift cost).
+   */
+  .hero-tool__docs {
+    display: grid;
+  }
+
+  .hero-tool__docs > .is-off {
+    display: none;
+  }
+
+  /* ---------------------------------------------------------------- quick picks (D19) */
+  /* The one chip (<x-d2.ui.chip>, §3.5), as a column of equal rows at the start edge. A situation is a full
+     approved sentence, so a pick may wrap (never cut, D09): its radius is half the chip's height, which draws the
+     pill on one line and keeps a wrapped pick a softly rounded box instead of a tall stadium whose curve would
+     crowd the text. The gap keeps the 44 px hit areas (48 on touch) of one-line picks apart. */
+  .hero-tool__pick-list {
+    display: grid;
+    gap: var(--s-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .hero-tool__pick {
+    display: grid;
+    min-inline-size: 0;
+  }
+
+  .hero-tool__pick-chip {
+    --radius-pick: calc(var(--chip-h) / 2);
+
+    justify-content: flex-start;
+    min-inline-size: 0;
+    padding-block: var(--s-1);
+    padding-inline: var(--s-4);
+    border-radius: var(--radius-pick);
+    white-space: normal;
+    text-align: start;
+  }
+
+  @media (pointer: coarse) {
+    .hero-tool__pick-list {
+      gap: var(--s-4);
+    }
+  }
+
+  /* Only when the chosen audience lists none of the quick picks: one quiet line, never a box (§3.6 rule 11). */
+  .hero-tool__hint {
+    color: var(--ink-3);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+  }
+
+  .hero-tool__chips {
+    display: grid;
+    gap: var(--s-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* One approved document, complete (never clamped: D09), on the band; no icon (D04). */
+  .hero-tool__chip {
+    min-inline-size: 0;
+    padding: var(--s-2) var(--s-3);
+    border-radius: var(--radius-control);
+    color: var(--ink-2);
+    background: var(--band);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+  }
+
+  /* ---------------------------------------------------------------- a wide card: rows side by side */
+  @container hero-tool (width >= 420px) {
+    .hero-tool__row {
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    /* Beside the select, Continue takes the field's height (48), so the row's top and bottom edges line up. */
+    .hero-tool__continue {
+      --btn-h: var(--field-h);
+    }
+
+    .hero-tool__chips {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .hero-tool__chip {
+      min-block-size: calc(2 * var(--lh-small) + 2 * var(--s-2));
+    }
+  }
+
+  /* A full-width card (the home block from 1024 px): the form in the first half, the quick picks or the documents in
+     the second. The documents are never clamped (D09), so the result can be taller than the form: the situation row
+     is the one flexible track (a spanning item's extra height goes to flexible tracks only), the row itself stays
+     at its top, and the form's title and audience keep their own rhythm. Without JavaScript the card keeps this
+     layout: the server renders the picks (submit buttons) or the documents of a situation sent back. */
+  @container hero-tool (width >= 52rem) {
+    .hero-tool__body {
+      grid-template-rows: auto auto minmax(auto, 1fr);
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      column-gap: var(--s-12);
+    }
+
+    .hero-tool__body > :not(.hero-tool__result) {
+      grid-column: 1;
+    }
+
+    .hero-tool__row {
+      align-self: start;
+    }
+
+    .hero-tool__result {
+      grid-template-rows: auto minmax(0, 1fr);
+      grid-row: 1 / span 3;
+      grid-column: 2;
+    }
+
+    /* the documents' label sits on the title's line (centred in a box as tall as the title's line) */
+    .hero-tool__count {
+      display: flex;
+      align-items: center;
+      min-block-size: var(--lh-h3);
+    }
+
+    .hero-tool__chips {
+      align-content: start;
+    }
+  }
+
+  @media (width >= 768px) {
+    .hero-tool {
+      padding: var(--pad-card);
+    }
+  }
+}

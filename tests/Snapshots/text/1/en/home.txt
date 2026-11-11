@@ -1,0 +1,354 @@
+# text-snapshot: design 1, locale en, route home
+# GET /en/ -> 200; html lang=en dir=ltr data-design=-
+=== header ===
+Summit Legal Consultancy
+Home
+Practice Areas
+Practice Areas
+Legal Resources
+Case Studies
+FAQs
+About Us
+Contact Us
+Choose language
+English
+=== main ===
+Clear Legal Guidance.
+Practical Solutions.
+Clear legal support for individuals, businesses, investors, and residents — built on a precise understanding of the facts, documents, and legal procedures in the United Arab Emirates.
+We provide consultations in Arabic, English and Russian, explaining your options and the next step based on the facts and documents in your matter.
+Request a Legal Consultation
+Contact Us on WhatsApp
+(opens in a new tab)
++971 52 466 6191
+Office Hours: Monday to Friday, 9 am to 6 pm UAE time.
+Understand What Happened
+Review the Documents
+Identify the Options
+Agree on the Next Step
+Our Legal Services in the UAE
+Your matter may begin with an unpaid invoice, a contract that needs reviewing or a summons whose implications are unclear. Choose the area most relevant to your situation to see what the service covers and which documents will help us review it.
+01
+Debt Recovery and Cheque Cases
+We review outstanding debts, unpaid invoices, dishonoured cheques and acknowledgements of debt. Based on the documents and the nature of the relationship, we assess the options for a formal demand, settlement, legal claim or enforcement.
+Explore This Service
+02
+Criminal Cases
+We help you understand criminal complaints, summonses and investigations, and analyse evidence and judgments in matters involving fraud, forgery, financial crime and cybercrime. Where required, we coordinate with a licensed advocate.
+Explore This Service
+03
+Cryptocurrency and Digital Currency Cases
+In USDT disputes, platform fraud and account-freezing matters, we connect trading orders, bank transfers, wallet records and correspondence to assess the claim or defence and each party’s role.
+Explore This Service
+04
+Corporate and Commercial Law
+We draft and review contracts, structure partners’ rights, management powers, contributions and exit arrangements, and review disputes with customers and suppliers, as well as matters concerning the company’s structure and obligations.
+Explore This Service
+05
+Property and Tenancy Disputes
+We examine delayed property handovers, defects and disputes with developers, as well as maintenance, eviction, security deposit, cheque and handover issues, drawing on the contract, notices and evidence of performance.
+Explore This Service
+06
+Employment Law
+We review salaries, final employment entitlements, notice requirements, settlement and release documents, and employment contracts. We help employees and employers prepare claims and responses under the rules governing their employment relationship.
+Explore This Service
+07
+Tax Disputes and Tax Compliance
+We examine tax decisions, assessments and penalties, organise arguments and supporting documents, and identify the appropriate review procedure. Where the matter requires an accountant’s or tax agent’s expertise, we coordinate with the relevant professional.
+Explore This Service
+08
+Family Law and Wills
+We advise on divorce, child custody, maintenance and estates, and assist with preparing wills and choosing the appropriate registration process, taking account of the family’s circumstances, assets and applicable law.
+Explore This Service
+09
+Compliance and Regulatory Matters
+We review business activities, licences, policies, beneficial ownership records, due diligence, governance and data protection. We identify gaps and the steps needed to address them in line with the requirements applicable to the business.
+Explore This Service
+10
+Legal Translation
+We review the legal meaning of multilingual contracts and documents and check that obligations, names and figures are consistent. When certified translation is required, we coordinate it with a registered legal translator.
+Explore This Service
+11
+Business Services
+We assist with choosing a business structure and preparing documents for licences, amendments, renewals, attestations and administrative procedures. We explain which work Summit undertakes and which steps are carried out by the competent authorities.
+Explore This Service
+If your matter spans more than one area, simply describe what happened and what you want to achieve. We will identify the overlapping issues and the appropriate service for reviewing them.
+View All Practice Areas
+Who We Help
+We serve clients in the UAE and abroad whose interests, transactions or disputes are connected with the country.
+Individuals
+In financial claims and matters involving employment, family, cheques, property or criminal complaints, we help you understand your position and what you need before making a decision.
+Businesses
+We support you with contracts, debt recovery, employee matters, partnerships and compliance, and review legal risks that affect your operations and growth.
+Investors
+We review contracts, obligations and claims relating to property, partnerships and transactions, focusing on protecting your interests and identifying risks before you commit.
+Residents and Expatriates
+We explain employment, family, wills, estate and property matters in clear language, taking account of the differing circumstances and rules that may apply to each case.
+Entrepreneurs
+We help you choose a business structure, define the rights of the partners and the business, and review the contracts, powers and obligations needed to launch and sustain your operations.
+What a Review of Your Matter Can Clarify
+Many legal problems begin before a complaint or court claim is filed: when a contract is signed, a settlement accepted, goods delivered without a record or a partnership formed without defining rights. An early review helps you understand the implications of a decision before they become difficult to address.
+We explain what the documents support and what needs further evidence, then compare the available options in terms of viability, cost and risk. Depending on the stage your matter has reached, the appropriate next step may be negotiation, a claim, a defence or a document review.
+Questions We Help You Answer
+What is my legal position based on the available documents?
+What are the strengths and weaknesses of my position, and what evidence is missing?
+Is negotiation or formal action the better approach?
+Which deadlines and risks need attention now?
+What is the appropriate next step, and what scope of work and fees would it involve?
+How We Work on Your Matter
+1
+Understand What Happened
+We listen to the facts, put events in order, and identify the parties, what was agreed and what was carried out.
+2
+Review the Documents
+We examine contracts, messages, transfers, judgments and other material relevant to the matter, and explain any gaps that need addressing.
+3
+Identify the Options
+We assess the claim or defence and the available procedures, explaining the possible implications of each course of action.
+4
+Agree on the Next Step
+We define the scope of service, fees, required documents and authorisations, and how the work will be followed up once the engagement is accepted.
+Where do you stand?
+Choose the situation closest to yours to see the documents that help a first review, useful first steps and mistakes to avoid. Your choices stay in this browser and are not sent anywhere.
+1 Choose your situation
+Filter situations
+01
+Debt Recovery and Cheque Cases
+You paid for a service or goods but did not receive what you paid for.
+You hold a cheque that was presented to the bank and returned unpaid.
+You are dealing with a debtor who delays payment or has left the country.
+You have outstanding invoices and want to understand your options before escalating the matter.
+02
+Criminal Cases
+You received a summons or a criminal complaint was made against you, and you do not know what to do first.
+You have been accused of fraud or forgery that you did not commit.
+Your name appeared in a criminal file although you were not actually involved.
+A judgment has already been issued and you want to understand whether it can be reviewed.
+03
+Cryptocurrency and Digital Currency Cases
+You placed funds on a trading platform and they disappeared or were frozen.
+You sold digital assets and faced an accusation concerning events in which you were not involved.
+You want to trace suspicious digital transfers or establish evidence of them.
+You were defrauded through a crypto investment offer.
+04
+Corporate and Commercial Law
+A dispute with your business partner arose sooner than you expected.
+You signed a commercial contract and later discovered terms whose effect you had not understood at the time.
+You want to establish a company and structure your relationship with partners from the outset.
+You have a commercial dispute with a customer, supplier or business partner.
+05
+Property and Tenancy Disputes
+You bought an off-plan property and handover has been delayed beyond your expectations.
+After purchase, you discovered a property defect that was not mentioned in the contract.
+A landlord or tenant is making a demand you believe is unlawful.
+You want a sale or tenancy agreement reviewed before signing.
+06
+Employment Law
+Your salary is overdue and you do not know your rights if you decide to pursue the matter.
+Your employment ended and you suspect your final entitlements were calculated incorrectly.
+You signed a settlement release and are unsure which rights you waived.
+You are an employer seeking to organise employment contracts and review your obligations.
+07
+Tax Disputes and Tax Compliance
+You received a tax penalty or decision that you believe is incorrect.
+You want to object to a tax assessment.
+Your company has expanded and you want to review its new tax obligations.
+You want to organise your tax records before the filing deadline.
+08
+Family Law and Wills
+You live in the UAE, have assets or children, and have not yet made a will.
+You are facing a family dispute and want to understand your options before taking any step.
+A relative has died and you want to understand how the estate will be distributed.
+You are a non-Muslim resident and want to know how inheritance rules apply in the UAE.
+09
+Compliance and Regulatory Matters
+Your company has expanded or changed its activity without reviewing its regulatory obligations.
+You want to update your company’s anti-money laundering policies.
+You received an enquiry from a regulator and do not know how to respond.
+You want a compliance review before a new investment partner joins.
+10
+Legal Translation
+You have a contract in a foreign language and want it translated before signing.
+A document must be submitted to a government authority or court and requires certified translation.
+You signed a translated document and want to check the translation’s accuracy.
+You need a translation between Arabic and English or Russian for an official transaction.
+11
+Business Services
+You want to establish a company and need guidance on choosing an appropriate structure.
+Your licence needs renewing or its activities need amending.
+You need attestation or official documents for a government transaction.
+You want to organise your company’s documents before an investor or partner joins.
+Show the starting file
+Choose a situation to see its starting file.
+About Summit Legal Consultancy
+Summit was founded on a clear principle: clients should understand their actual legal position, in their own language, before a problem grows. We advise individuals, businesses and investors, grounding our legal advice in what can be proved and acted on in each matter.
+Summit Legal Consultancy is a legal consultancy company in the UAE. We provide services in Arabic, English and Russian and handle information in accordance with professional confidentiality requirements and legal obligations.
+Court advocacy or representation that requires an advocate is carried out by licensed advocates in accordance with the requirements of the relevant authority and procedure. Work requiring a qualified expert, legal translator or tax agent is coordinated according to the needs of the matter and the agreed scope of engagement.
+Meet Summit and the Team
+Case Studies
+These examples show how organising evidence and understanding the relationship between the parties can shape the handling of a matter. Identifying details have been removed. The outcome of any case does not guarantee a similar result in another.
+Matter: cheques, a financial claim and earlier judgments
+A Signed Blank Cheque and Earlier Judgments
+The matter concerned the use of a signed blank cheque in a financial dispute that had resulted in judgments and financial consequences. The review covered the cheque, correspondence, sequence of claims and the courts’ reasoning, to identify the material issues and how to address them at the relevant procedural stage.
+Read the Cheque Case Study
+Matter: a cryptocurrency transaction with civil and criminal proceedings
+A USDT Sale and a Complaint Involving a Third Party
+A cryptocurrency seller faced an allegation arising from the buyer’s dealings with a third party. The matter required linking the trading order to the payment, transfer and correspondence, and distinguishing the seller’s role from the investment promises attributed to the other person.
+Read the Cryptocurrency Case Study
+View All Case Studies
+Legal Guides to Help You Make an Informed Decision
+Choose the topic closest to your matter to find out what to document, which questions need reviewing and where to find the relevant official sources.
+Employment and Financial Claims
+What Should You Do If Your Employer Does Not Pay Your Salary in the UAE?
+Documents that establish your salary and the delay in payment, and the first steps to take before filing a complaint or accepting a settlement.
+Read the Guide
+How Do You Start Recovering a Commercial Debt in the UAE?
+Identifying the party liable to pay, matching invoices with deliveries, payments and correspondence, and assessing the appropriate course of action.
+Read the Guide
+A Dishonoured Cheque in the UAE: What Are Your Options?
+Why the reason for non-payment, the bank’s statement and the original cheque matter, and how to distinguish a claim, enforcement and criminal liability.
+Read the Guide
+Property and Family
+Delayed Property Handover in Dubai: What Should You Review?
+Reviewing the contractual handover date, extension clauses, payment plan, correspondence and project status before making a decision.
+Read the Guide
+Wills for Non-Muslims in the UAE
+Organising assets, beneficiaries and arrangements for minors, and choosing the appropriate registration authority for your circumstances.
+Read the Guide
+Digital Evidence and Business Organisation
+What Should You Do If You Experience Financial or Digital Fraud?
+Preserving payment records and communications, notifying the appropriate authorities, and avoiding suspicious recovery payments or disclosure of access credentials.
+Read the Guide
+When Does Your Business Need a Compliance Review?
+Changes in business activities, customers and ownership that call for a review of licences, policies and records.
+Read the Guide
+Why Do Legal Documents Need Accurate Translation?
+The difference between reviewing legal meaning, certified translation and attestation, and the implications of discrepancies between versions.
+Read the Guide
+How Should You Organise Your Company’s Tax File?
+Separating tax documents, returns, payments and decisions, and preparing the file for a review or objection.
+Read the Guide
+Visit the Legal Resources Centre
+Questions Before Requesting a Consultation
+Do I Need to Have an Existing Case?
+No. You can request advice before signing a contract, accepting a settlement or entering a partnership, as well as to review an existing claim, case or judgment.
+Do You Assist Both Individuals and Businesses?
+Yes. We assist individuals, businesses, investors, entrepreneurs and residents with matters connected to the UAE. The engagement may cover a preventive review or work on an existing dispute.
+Are Consultations Available in Arabic, English and Russian?
+Yes, the service is available in all three languages. Some documents may require certified legal translation for official use, depending on the requirements of the relevant authority.
+Can We Work Remotely and Send Documents Electronically?
+Initial contact and document exchange can take place remotely. We identify the documents needed for the review, then explain whether any step requires attendance in person, a power of attorney or attestation. An appropriate method for sharing sensitive documents can be agreed.
+How Much Does a Consultation Cost?
+The fee depends on the type of matter, the volume of documents and the scope of review. We explain our fees before the service begins. Any government charges or third-party service costs are explained when identified and agreed.
+Does Sending an Enquiry Mean You Have Accepted My Matter?
+Sending a message or document does not, by itself, mean that we have accepted the engagement or begun monitoring legal deadlines. Work begins once the scope of service and fees have been agreed and the engagement accepted.
+Does a Consultation Guarantee a Particular Outcome?
+No. A consultation helps assess rights, evidence and options, but the outcome depends on the facts, documents, competent authority and procedures. The ability to recover money may also depend on the assets available.
+Do Your Services Include Tax, Compliance, Translation and Business Support?
+Yes, within the agreed scope of work. We explain what Summit provides directly and what requires a licensed advocate, registered legal translator, tax agent or other professional, depending on the matter.
+View All FAQs
+Start with Clear Legal Advice
+Tell us what happened and what you want to achieve, and mention any hearing, response deadline or appeal deadline. Before the service begins, we will explain the documents needed, the scope of consultation and the fee.
+Telephone
++971 52 466 6191
+WhatsApp
+Contact Us on WhatsApp
+(opens in a new tab)
+Email
+info@summitlegaluae.com
+Languages: Arabic, English and Russian.
+English
+العربية
+Русский
+Business hours: Monday to Friday, 9 am to 6 pm.
+Write a clear summary and provide at least one way to contact you. You do not need a registered case or a complete file to send an enquiry.
+Your name, matter summary, one contact method and consent to the use of your data are required. All other fields are optional.
+Name
+*
+Enter the name you would like us to use when contacting you.
+Phone Number · Email
+One valid phone number or email address is enough. You may provide both if you wish.
+Phone Number
+Include the country code and a number where you can be reached.
+Email
+Enter an email address you check regularly.
+Preferred Language
+Choose a language
+Arabic
+English
+Russian
+Type of Legal Matter
+Choose a topic if you know it
+Debts and Cheques
+Criminal Cases
+Cryptocurrencies
+Companies and Contracts
+Property and Tenancy
+Employment and Employee Entitlements
+Tax Matters
+Family and Wills
+Compliance and Regulatory Matters
+Legal Translation
+Business Services
+Other matter
+Not sure which category applies
+Matter Summary
+*
+Describe what happened, who the parties are and where you need help. Mention any earlier procedure or decision.
+Nearest Relevant Date or Deadline
+State the nearest hearing date or response or appeal deadline, if any.
+Date or Deadline Details
+Identify the relevant authority and what the date or deadline relates to, and explain if it has already passed.
+Do not send passwords, verification codes, private keys or a cryptocurrency wallet recovery phrase. A suitable way to send sensitive documents can be arranged once the nature of the matter is identified.
+Submitting a request does not mean that an engagement has been accepted, an appointment confirmed or monitoring of legal deadlines begun. If a deadline is approaching, call directly, state it clearly and confirm that the engagement has been accepted.
+I agree to the use of my data to contact me about this request in accordance with the Privacy Policy. *
+Submit Consultation Request
+=== footer ===
+Summit Legal Consultancy
+Summit Legal Consultancy
+Legal advice for individuals, businesses, investors and residents in the UAE, in Arabic, English and Russian.
+Practice Areas
+Debt Recovery and Cheque Cases
+Criminal Cases
+Cryptocurrency and Digital Currency Cases
+Corporate and Commercial Law
+Property and Tenancy Disputes
+Employment Law
+Tax Disputes and Tax Compliance
+Family Law and Wills
+Compliance and Regulatory Matters
+Legal Translation
+Business Services
+Legal Resources
+Legal Resources Centre
+FAQs
+Case Studies
+Useful Links
+About Us
+Contact Us
+Legal Notice
+Privacy Policy
+Terms and Conditions
+Specialist Resources and Services Associated with Summit
+Employment Law
+laborlawuae.com
+(opens in a new tab)
+Debt Recovery and Cheques
+debtrecoveryuae.com
+(opens in a new tab)
+Property Disputes
+dubaipropertydispute.com
+(opens in a new tab)
+Digital Currencies
+uaecryptocases.com
+(opens in a new tab)
+Wills
+uaeexpatwills.com
+(opens in a new tab)
+Tax Disputes
+uaetaxdisputes.com
+(opens in a new tab)
+The information published is general and does not replace a review of the facts and documents relating to your matter. The scope of service and fees are determined when the engagement is accepted. Court advocacy requiring an advocate is carried out by licensed advocates.
+Contact Us on WhatsApp
+(opens in a new tab)
+© {{YEAR}} Summit Legal Consultancy. All rights reserved.

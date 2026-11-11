@@ -1,0 +1,147 @@
+/*
+ * Design 2 home section 02: practice areas (brief §5.1 item 3; Design 2.1 D21, D22, D23; owner: services-guides).
+ *
+ * Grid (D21): equal columns, one on phones, two from 768 px, three from 1280 px (the P02 grid's steps). No bento
+ * widths, no swipe rail: every card is in the page's reading order. From 768 px each card is a subgrid of three
+ * rows (title, summary, label) on the tracks its grid row shares, so titles, summaries and "Explore This
+ * Service" line up across a row (brief §7.1 rule 12); the gap inside a card is its own (row-gap), the gutter
+ * stays between rows of cards. Browsers without subgrid keep the plain stacked card.
+ * Cards are <x-d2.ui.card> (white, 1 px --line edge, radius 10, padding 24 / 32; hover and keyboard focus: the
+ * edge turns ink and the title underlines, no lift). This file only arranges their parts: the H3 title (the
+ * card's one link), the approved summary in full (Body, never clamped: D09) and the approved label, which is not
+ * a second link (the whole card is the link). No icon, no arrow, no documents line (D03, D04, D22).
+ * Closing (D23): the approved multi-area paragraph and "View All Practice Areas" as one compact full-width row
+ * under the grid, a hairline above it: the text on the start side, the button on the end side (stacked on phones).
+ * Filter chips exist only under .js.
+ */
+@layer sections {
+  /* ------------------------------------------------------------ filter chips */
+  .svc__filter {
+    display: none;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+    align-items: center;
+    margin-block-end: var(--s-8);
+  }
+
+  /* Under the section head the chips belong to the intro: 32 px from it instead of the head's 48. */
+  .section__head + .svc__filter {
+    margin-block-start: calc(-1 * var(--s-4));
+  }
+
+  /*
+   * Under .js the row's space is reserved from the first paint (no layout shift), but the chips stay
+   * invisible (out of the tab order and the accessibility tree) until d2Services has started: if the
+   * script never runs, no dead control is ever shown.
+   */
+  .js .svc__filter {
+    display: flex;
+    visibility: hidden;
+  }
+
+  .svc.is-ready .svc__filter {
+    visibility: visible;
+  }
+
+  /* ------------------------------------------------------------ grid */
+  .svc__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--gutter);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (width >= 768px) {
+    .svc__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (width >= 1280px) {
+    .svc__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  /* ------------------------------------------------------------ card parts (inside <x-d2.ui.card>) */
+  .svc-card {
+    --card-gap: var(--s-4);
+  }
+
+  /* The cards of one grid row share their three row tracks: titles, summaries and labels line up. */
+  @supports (grid-template-rows: subgrid) {
+    @media (width >= 768px) {
+      .svc-card {
+        display: grid;
+        grid-row: span 3;
+        grid-template-rows: subgrid;
+        row-gap: var(--card-gap);
+      }
+
+      /* the label row is the same height in every card; it rests on its track's end */
+      .svc-card > .card__footer {
+        align-self: end;
+      }
+    }
+  }
+
+  .svc-card .card__title {
+    text-wrap: pretty;
+  }
+
+  /* The approved homepage summary, complete (the DOCX: "the complete homepage summary"). */
+  .svc-card__summary {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+  }
+
+  /* The approved label: the card's visible call to action (the title is the link), no arrow; the UI label role
+     in ink, as on the P02 cards. */
+  .svc-card__footer {
+    padding-block-start: var(--s-2);
+  }
+
+  .svc-card__cta {
+    color: var(--ink);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+  }
+
+  /* ------------------------------------------------------------ closing row (D23) */
+  .svc__more {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s-5);
+    margin-block-start: var(--s-8);
+    padding-block-start: var(--s-8);
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  @media (width >= 768px) {
+    .svc__more {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--s-8);
+      margin-block-start: var(--s-12);
+    }
+  }
+
+  .svc__more-text {
+    max-inline-size: var(--measure);
+    margin: 0;
+    color: var(--ink-2);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+  }
+
+  .svc__more-action {
+    flex: none;
+  }
+}

@@ -1,0 +1,54 @@
+/*
+ * Design 2.1 component: tooltip (<x-d2.ui.tooltip>, [data-tooltip]). An overlay (brief §3.4; marked data-overlay):
+ * an ink bubble with white caption text (13/500), --radius-overlay and the one --shadow-overlay. Extra information
+ * only, never a control's only label. resources/js/d2/modules/tooltip.js opens it as a manual popover (top layer)
+ * and places it with a physical translate from the trigger's rectangle, so the anchoring here is physical on purpose.
+ */
+@layer components {
+  .tooltip-host {
+    display: inline-flex;
+    vertical-align: middle;
+  }
+
+  .tooltip {
+    position: fixed;
+    inset: 0 auto auto 0;
+    z-index: var(--z-tooltip);
+    display: none;
+    inline-size: max-content;
+    max-inline-size: min(280px, calc(100vw - 2 * var(--s-2)));
+    margin: 0;
+    padding: var(--s-2) var(--s-3);
+    overflow: visible;
+    color: var(--on-dark);
+    background: var(--ink);
+    border: 0;
+    border-radius: var(--radius-overlay);
+    box-shadow: var(--shadow-overlay);
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-caption);
+    letter-spacing: 0;
+    text-align: start;
+    text-transform: none;
+    white-space: normal;
+    pointer-events: auto;
+  }
+
+  .tooltip.is-open {
+    display: block;
+  }
+
+  .tooltip-layer {
+    display: contents;
+  }
+
+  /* styleguide: a bubble drawn in place, above its trigger */
+  .tooltip.is-static {
+    position: relative;
+    inset: auto;
+    z-index: auto;
+    display: block;
+  }
+}

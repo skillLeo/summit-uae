@@ -1,0 +1,178 @@
+<!doctype html>
+<!--
+    design lint self-test, sub-checks (scripts/qa/lint-design.mjs --self-test). The other way each rule can fire:
+    authored capitals (2), a separator element in a flex row and one inside a generated string (3), an arrow drawn
+    by ::after (4), CSS line-clamp truncation and text that a field edge cuts (a placeholder, a closed select's
+    option; not an unpainted placeholder whose wrapped copy shows) (5), a text glow (6), weight 700 and a callout label
+    an illustration holds outside its paper, drawn at scale 0.9 (9, 10: lengths as drawn), an
+    off-scale gap set by the stylesheet and a padding set by the page's own style element (10: the area follows the
+    file, else the location), seven icon cases (13: no data-icon, clock outside the contact block, icon in a chip,
+    icon in a card title, external on an internal link, a banned name in a [data-lint-specimen] gallery, a drawn
+    WhatsApp glyph) and two WhatsApp cases (14). The states phase: a type violation inside a closed <details>, an
+    icon in a chip behind a disclosure button, a separator in a hidden tab panel (the other kinds of state:
+    states.html). Advice (not counted): zero-padded numbering, the same metadata on every item (twice: a list of
+    guides, and service items beside a closing tile of another kind), a dashed box, a coloured word in a heading.
+    Controls: the specimen gallery's out-of-context icons, a WhatsApp link showing one of Meta's files while the other
+    surface's slot is a hidden placeholder (not counted as a placeholder), a short placeholder, a select that wraps its
+    long option, a safe-area inset (device geometry), a label sized ÷ 0.949 in a canvas drawn at 0.949, numbered steps,
+    a heading that is one link, a solid box, a muted run and a step number in headings, the repeated labels of
+    label/value pairs. Expected hits: FIXTURES in the script.
+-->
+<html lang="en" dir="ltr" class="js" data-design="2" data-page="fixture">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lint fixture variants</title>
+    <link rel="stylesheet" href="/fixture.css">
+    <!-- a rule no stylesheet file holds: its rule 10 hit keeps the area of the location (inner) -->
+    <style>.inpage { padding: 10px; }</style>
+</head>
+<body>
+    <svg hidden width="0" height="0" aria-hidden="true">
+        <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5 9-9" stroke="currentColor" fill="none"/></symbol>
+    </svg>
+
+    <header class="site">
+        <div class="container row"><a href="/en/">Fixture home</a></div>
+    </header>
+
+    <main id="main-content">
+        <section>
+            <div class="container stack">
+                <h1>Lint fixture variants</h1>
+                <p class="caps-authored">PRACTICE AREAS</p>                                          <!-- rule 2: authored capitals -->
+                <p class="pill"><a href="#en">EN</a><span aria-hidden="true">·</span><a href="#ru">RU</a></p> <!-- rule 3: separator element -->
+                <p><span class="wm" data-wm="SAMPLE · ILLUSTRATION"></span></p>                   <!-- rule 3: inside a generated string -->
+                <p><a class="go" href="#go">Next page</a></p>                                        <!-- rule 4: arrow in ::after -->
+                <p class="cut">This approved summary is long enough that one line cannot hold it.</p> <!-- rule 5: line-clamp -->
+                <p class="glow">Glowing headline</p>                                                 <!-- rule 6: text-shadow -->
+                <p class="bold">Bold text</p>                                                        <!-- rule 9: weight 700 -->
+                <div class="gapped"><span>One</span><span>Two</span></div>                           <!-- rule 10: gap 10px -->
+
+                <!-- rule 13, five cases -->
+                <p><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg> An icon without data-icon</p>
+                <p><svg class="icon" data-icon="clock" aria-hidden="true"><use href="#i-check"/></svg> Open 9 to 6, outside the contact block</p>
+                <p><span class="chip"><svg class="icon" data-icon="check" aria-hidden="true"><use href="#i-check"/></svg>Chip label</span></p>
+                <article class="card"><h3><svg class="icon" data-icon="info" aria-hidden="true"><use href="#i-check"/></svg> Card title</h3><p>A summary.</p></article>
+                <p><a href="/en/">Home <svg class="icon" data-icon="external" aria-hidden="true"><use href="#i-check"/></svg></a></p>
+                <!-- rule 13 in a styleguide gallery: context is not checked (clock, minus: controls), names are (briefcase) -->
+                <p data-lint-specimen>Gallery
+                    <svg class="icon" data-icon="clock" aria-hidden="true"><use href="#i-check"/></svg>
+                    <svg class="icon" data-icon="minus" aria-hidden="true"><use href="#i-check"/></svg>
+                    <svg class="icon" data-icon="briefcase" aria-hidden="true"><use href="#i-check"/></svg>
+                </p>
+                <p><svg class="icon" data-icon="whatsapp" aria-hidden="true"><use href="#i-check"/></svg> Drawn WhatsApp glyph</p> <!-- rule 13 -->
+
+                <!-- control (rule 12): a CTA tile's 44 px button is not compared with the cards' text links -->
+                <div class="grid3">
+                    <article class="card"><h3>Tile one</h3><p>A summary.</p><a class="card__foot" href="#t1">Explore This Service</a></article>
+                    <article class="card"><h3>Tile two</h3><p>A summary.</p><a class="card__foot" href="#t2">Explore This Service</a></article>
+                    <article class="card card--more"><p>If your matter spans more than one area.</p><a class="btn-tall" href="#t3">View All Practice Areas</a></article>
+                </div>
+                <!-- advice (not a rule): an inline SVG drawing outside illustrations, neither icon nor brand mark;
+                     the logo lockup beside it is not counted (control) -->
+                <p><svg width="120" height="80" viewBox="0 0 120 80" aria-hidden="true"><rect width="120" height="80" fill="#f6f6f7"/></svg></p>
+                <p><a class="site__logo" href="/en/" aria-label="Fixture home"><svg class="site__lockup" width="160" height="80" viewBox="0 0 160 80" aria-hidden="true"><rect width="160" height="80" fill="#0b0b0c"/></svg></a></p>
+
+                <!-- rule 14, two cases: the approved href without a mark; a mark on another address -->
+                <p><a href="https://wa.me/10000000000?text=Fixture%20draft%20for%20the%20lint" target="_blank" rel="noopener noreferrer">WhatsApp without a mark</a></p>
+                <p><a href="https://api.whatsapp.com/send?phone=10000000000&amp;text=Fixture%20draft%20for%20the%20lint" target="_blank" rel="noopener noreferrer"><span data-brand="whatsapp" aria-hidden="true"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='9' fill='%2325D366'/%3E%3C/svg%3E" width="20" height="20" alt=""></span> WhatsApp on another address</a></p>
+                <!-- rule 5: a placeholder and a chosen option the field edge cuts; controls: a short placeholder and a
+                     select that wraps its long option in full -->
+                <p><input class="narrow-field" type="search" aria-label="Search the fixture" placeholder="Enter a word such as cheque, salary or tenancy"></p>
+                <p><select class="narrow-select" aria-label="Situation"><option>You paid for a service but did not receive it</option></select></p>
+                <p><input class="narrow-field" type="text" aria-label="Name" placeholder="Name"></p>
+                <!-- control: the native placeholder is not painted, a wrapped copy shows it in full -->
+                <p class="hinted"><input class="narrow-field" type="search" aria-label="Search, with a wrapped hint" placeholder="Enter a word such as cheque, salary or tenancy"><span class="hinted__copy" aria-hidden="true">Enter a word such as cheque, salary or tenancy</span></p>
+                <p><select class="narrow-select wrap-select" aria-label="Situation, wrapping"><option>You paid for a service but did not receive it</option></select></p>
+
+                <!-- rule 10: set by the page's own style element (no stylesheet file: the area of the location) -->
+                <div class="inpage">Spacing set by the page's own style element</div>
+                <!-- control (rule 10): a simulated home-indicator inset, var(--safe-bottom): device geometry -->
+                <div class="safe-specimen">A simulated home-indicator inset</div>
+
+                <!-- rules 9 and 10 as drawn: a callout label an illustration holds outside its paper counts (the paper's
+                     own text is art). Control: sized ÷ 0.949 in a canvas drawn at 0.949, it shows 15 px with 8/12 px
+                     padding. Violation: its own 15 px and 8/12 px in a canvas drawn at 0.9 show 13.5 px and 7.2/10.8 px. -->
+                <div class="ill" data-illustration>
+                    <div class="ill-paper" data-doc><p class="doc-small">Typed field 00/00/2026</p></div>  <!-- art 9 (11 px) -->
+                    <div class="ill-canvas ill-canvas--949"><div class="ill-callout ill-callout--counter">Counter-scaled label</div></div>
+                    <div class="ill-canvas ill-canvas--90"><div class="ill-callout">Scaled label</div></div> <!-- rules 9, 10 -->
+                </div>
+
+                <!-- the states phase: a closed <details>, a disclosure button and a hidden tab panel -->
+                <details><summary>More about the fixture</summary><p class="tiny">Hidden fine print</p></details>   <!-- rule 9 (state) -->
+                <p><button type="button" aria-expanded="false" aria-controls="fx-more">Show more</button></p>
+                <div id="fx-more" hidden><p><span class="chip"><svg class="icon" data-icon="check" aria-hidden="true"><use href="#i-check"/></svg>Hidden chip</span></p></div> <!-- rule 13 (state) -->
+                <div>
+                    <div class="row" role="tablist" aria-label="Fixture tabs">
+                        <button type="button" role="tab" id="fx-tab-1" aria-selected="true" aria-controls="fx-panel-1">First tab</button>
+                        <button type="button" role="tab" id="fx-tab-2" aria-selected="false" aria-controls="fx-panel-2" tabindex="-1">Second tab</button>
+                    </div>
+                    <div role="tabpanel" id="fx-panel-1" aria-labelledby="fx-tab-1"><p>The first panel</p></div>
+                    <div role="tabpanel" id="fx-panel-2" aria-labelledby="fx-tab-2" hidden><p>Second panel · hidden at first</p></div> <!-- rule 3 (state) -->
+                </div>
+
+                <!-- advice: a coloured word in a heading (12), a dashed box (11), zero-padded numbering (4, three times)
+                     and the same metadata on every item (10, twice); controls: numbered steps, a heading that is one link,
+                     a solid box, a muted (ink-3) run in a heading, a bronze step number in a step heading -->
+                <h2>Legal advice you can <span class="accent">follow</span></h2>
+                <h2>A heading with a <span class="muted">muted aside</span></h2>                       <!-- control: the neutral ink ramp -->
+                <ol class="stack"><li><h3><span class="step-num">1.</span> Gather the documents</h3></li></ol> <!-- control: a step number -->
+                <div class="dashed">Nothing here yet</div>
+                <!-- the repeated "Relevant if:" label and the "Read the guide" action cue are controls (not metadata) -->
+                <ul class="stack">
+                    <li><span>01</span> First guide <span class="meta">3 min read</span> <span class="meta">Relevant if:</span> <span class="meta guide__cue">Read the guide</span></li>
+                    <li><span>02</span> Second guide <span class="meta">3 min read</span> <span class="meta">Relevant if:</span> <span class="meta guide__cue">Read the guide</span></li>
+                    <li><span>03</span> Third guide <span class="meta">3 min read</span> <span class="meta">Relevant if:</span> <span class="meta guide__cue">Read the guide</span></li>
+                </ul>
+                <!-- advice 10 by kind: the same pill on the three service items is reported; the closing tile of another
+                     kind (other classes; a BEM modifier is the same kind) does not hide it -->
+                <ul class="stack">
+                    <li class="svc-item">Cheque cases <span class="meta">4 documents usually needed</span></li>
+                    <li class="svc-item">Rent disputes <span class="meta">4 documents usually needed</span></li>
+                    <li class="svc-item svc-item--wide">Unpaid salary <span class="meta">4 documents usually needed</span></li>
+                    <li class="svc-closing">Not sure which service fits your matter?</li>
+                </ul>
+                <!-- control (advice 10): the labels of label/value pairs repeat by design; the values differ -->
+                <ul class="stack">
+                    <li>Amount <dl><dt>What it can show</dt><dd>How much was sent</dd></dl></li>
+                    <li>Date <dl><dt>What it can show</dt><dd>When it was recorded</dd></dl></li>
+                    <li>Wallet <dl><dt>What it can show</dt><dd>Where the asset went</dd></dl></li>
+                </ul>
+                <ol class="stack"><li><span>01</span> Step one</li><li><span>02</span> Step two</li></ol>
+                <h3><a href="#whole">A heading that is one link</a></h3>
+                <div class="solid">A solid box</div>
+
+                <!-- control: the light-surface file is shown, the dark-surface slot is still a (hidden) placeholder -->
+                <p><a href="https://wa.me/10000000000?text=Fixture%20draft%20for%20the%20lint" target="_blank" rel="noopener noreferrer"><span data-brand="whatsapp" data-icon="whatsapp" aria-hidden="true"><img class="wa-light" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='9' fill='%2325D366'/%3E%3C/svg%3E" width="20" height="20" alt=""><svg class="wa-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" data-placeholder="whatsapp-logo"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-dasharray="2.5 2.5"/></svg></span> WhatsApp with one of the files</a></p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site">
+        <div class="container"><p class="small">Footer of the fixture</p></div>
+    </footer>
+
+    <script>
+        document.addEventListener('click', (event) => {
+            const tab = event.target.closest('[role="tab"]');
+            if (tab) {
+                for (const t of tab.parentElement.querySelectorAll('[role="tab"]')) {
+                    const on = t === tab;
+                    t.setAttribute('aria-selected', String(on));
+                    t.tabIndex = on ? 0 : -1;
+                    document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+                }
+                return;
+            }
+            const toggle = event.target.closest('button[aria-expanded][aria-controls]');
+            if (toggle) {
+                const open = toggle.getAttribute('aria-expanded') !== 'true';
+                toggle.setAttribute('aria-expanded', String(open));
+                document.getElementById(toggle.getAttribute('aria-controls')).hidden = !open;
+            }
+        });
+    </script>
+</body>
+</html>

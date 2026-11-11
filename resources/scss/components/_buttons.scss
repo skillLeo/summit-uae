@@ -1,0 +1,139 @@
+// =============================================================================
+// Buttons: gold fill + black text, or black fill + white text. Never white on gold.
+// =============================================================================
+
+.btn {
+  --btn-bg: var(--black);
+  --btn-fg: var(--white);
+  --btn-border: var(--black);
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-12);
+  min-block-size: var(--control-h);
+  padding-block: var(--s-8);
+  padding-inline: var(--s-24);
+  border: var(--hairline) solid var(--btn-border);
+  border-radius: var(--radius-control);
+  color: var(--btn-fg);
+  background: var(--btn-bg);
+  font-family: var(--font-sans);
+  font-size: var(--fs-ui);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-ui);
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    color var(--dur-1) var(--ease-out),
+    background-color var(--dur-1) var(--ease-out),
+    border-color var(--dur-1) var(--ease-out);
+
+  &:hover {
+    --btn-bg: var(--ink-hover);
+    --btn-border: var(--ink-hover);
+
+    color: var(--btn-fg);
+    text-decoration: none;
+  }
+
+  .icon {
+    flex: none;
+    inline-size: var(--icon);
+    block-size: var(--icon);
+  }
+
+  &[disabled],
+  &[aria-disabled="true"] {
+    --btn-bg: var(--field);
+    --btn-fg: var(--ink-2);
+    --btn-border: var(--rule-strong);
+
+    cursor: not-allowed;
+  }
+
+  &.is-busy,
+  &[aria-busy="true"] {
+    cursor: progress;
+  }
+}
+
+.btn--gold {
+  --btn-bg: var(--gold);
+  --btn-fg: var(--black);
+  --btn-border: var(--gold);
+
+  &:hover {
+    --btn-bg: var(--gold-hover);
+    --btn-border: var(--gold-hover);
+  }
+}
+
+// Outline on black (WhatsApp in the hero).
+.btn--ghost-light {
+  --btn-bg: transparent;
+  --btn-fg: var(--on-dark);
+  --btn-border: var(--rule-dark-strong);
+
+  &:hover {
+    --btn-bg: var(--white);
+    --btn-fg: var(--black);
+    --btn-border: var(--white);
+  }
+}
+
+// Outline on white.
+.btn--ghost {
+  --btn-bg: transparent;
+  --btn-fg: var(--ink);
+  --btn-border: var(--ink);
+
+  &:hover {
+    --btn-bg: var(--ink);
+    --btn-fg: var(--white);
+    --btn-border: var(--ink);
+  }
+}
+
+.btn--lg {
+  min-block-size: var(--cta-h);
+  padding-inline: var(--s-32);
+  font-size: 1rem;
+}
+
+.btn--block {
+  inline-size: 100%;
+}
+
+// Square icon-only control (sheet close, mobile top bar).
+.icon-btn {
+  display: inline-grid;
+  place-items: center;
+  inline-size: var(--target-mobile);
+  block-size: var(--target-mobile);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-control);
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
+
+  .icon {
+    inline-size: var(--icon-lg);
+    block-size: var(--icon-lg);
+  }
+}
+
+// Busy spinner (rotation is a transform).
+.spin {
+  animation: spin 900ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(1turn);
+  }
+}

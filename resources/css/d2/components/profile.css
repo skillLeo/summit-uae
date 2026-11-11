@@ -1,0 +1,235 @@
+/*
+ * Design 2 component: team profile card + portrait (<x-d2.team.profile>, <x-d2.team.portrait>;
+ * spec §5.5, §12 C8). Used by the About page and the home "Our Team" block.
+ *
+ * The card is <x-d2.ui.card padding="none">: the portrait fills the top inside the card's 1 px edge
+ * (radius --r-lg-inner, clipped), the parts below get --profile-pad. Hover is the card's own (the edge turns
+ * ink, the name underlines): no lift, no portrait zoom (Design 2.1, D05).
+ * From 560 px of card width (tablet rows) the card becomes a row: portrait at the inline start, text beside it
+ * (container query on .profile-frame).
+ * Portraits (Design 2.1 D42): every frame is 4:5, in the column and in the row card alike (never stretched to
+ * the card's height), and every photo is placed so that its eyes sit on one shared line (App\Design\D2\Portraits
+ * prints --portrait-* per member: the focal point as the object-position, and the scale and origin that move it
+ * onto the line). Photo pending (D43): a neutral panel of the same size on the band, the initials in the sans
+ * (no serif, no ring), decorative.
+ * Details (D44): at most three focus chips, all in the one static chip style (home), or the approved focus line
+ * verbatim (About, Phase 2: Small, ink-2), then the approved working-languages line as plain text (Small, ink-3;
+ * <x-d2.team.languages>, also printed by the About page after a member's areas).
+ * Styleguide-only: .is-hover (forced hover).
+ */
+@layer components {
+  .profile-frame {
+    container: profile / inline-size;
+    display: flex;
+    inline-size: 100%;
+  }
+
+  .profile {
+    --profile-pad: var(--s-5);
+    --card-gap: var(--s-3);
+
+    flex: 1 1 auto;
+    min-inline-size: 0;
+  }
+
+  @media (width >= 768px) {
+    .profile {
+      --profile-pad: var(--s-6);
+    }
+  }
+
+  /* ------------------------------------------------------------ parts (column layout) */
+  /* Inside the card's 1px edge, so the edge frames the portrait (and the initials panel). */
+  .profile > .card__media {
+    display: block;
+    overflow: hidden;
+    border-start-start-radius: var(--r-lg-inner);
+    border-start-end-radius: var(--r-lg-inner);
+  }
+
+  .profile > :not(.card__media) {
+    padding-inline: var(--profile-pad);
+  }
+
+  .profile > .card__title {
+    margin-block-start: var(--s-2);
+  }
+
+  .profile__role {
+    color: var(--ink-2);
+    font-size: var(--fs-ui);
+    line-height: var(--lh-ui);
+  }
+
+  /* align-content: start, so a row stretched by the team grid (subgrid) never stretches the chips. */
+  .profile__details {
+    display: grid;
+    align-content: start;
+    gap: var(--s-3);
+    margin-block-start: var(--s-1);
+  }
+
+  .profile__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    align-items: flex-start;
+    gap: var(--s-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    & > li {
+      display: flex;
+      max-inline-size: 100%;
+    }
+  }
+
+  /* the approved focus line (About): the DOCX's expertise descriptor under the role, as written; a short line in a
+     narrow card breaks between words only (no «коммерче-ским») */
+  .profile__focus {
+    color: var(--ink-2);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+    text-wrap: pretty;
+    hyphens: manual;
+  }
+
+  /* A long label (Russian) wraps inside its chip instead of overflowing the card. */
+  .profile__chip {
+    max-inline-size: 100%;
+    white-space: normal;
+    text-align: start;
+  }
+
+  /* the approved working-languages line, exactly as written (plain text, D44); the items move to the next line as
+     one block when the line is too long, so no line starts with a middle dot */
+  .profile__languages {
+    color: var(--ink-3);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+  }
+
+  .profile__languages-items {
+    display: inline-block;
+  }
+
+  .profile > .card__footer {
+    padding-block: var(--s-2) var(--profile-pad);
+  }
+
+  /* The request link (a Text button, round 1): it starts on the card's text column and keeps the named label
+     ("Request a consultation with Dr Mohamed") on one line wherever the card allows (329 px of text from a
+     379 px card); on a card too narrow for it the label wraps, balanced. Its box hugs the label (the button's
+     ::after hit area keeps the 44 / 48 px target), so in a row of cards the first lines of a wrapped and an
+     unwrapped label start at the same height. */
+  .profile > .card__footer .btn {
+    justify-content: flex-start;
+    min-block-size: 0;
+    max-inline-size: 100%;
+    text-align: start;
+  }
+
+  .profile > .card__footer .btn__label {
+    text-wrap: balance;
+  }
+
+  /* ------------------------------------------------------------ portrait */
+  .portrait {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: var(--band);
+
+    & picture {
+      display: block;
+      block-size: 100%;
+    }
+  }
+
+  /* The photo files are 4:5 like the frame. The focal point is the object-position (it keeps the face in view if
+     a file is ever another shape); the scale about the origin puts the eyes on the shared line (D42). Static:
+     nothing moves on hover. The origin is physical, like the photo (a portrait never mirrors in RTL). */
+  .portrait__img {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+    object-position: var(--portrait-x, 50%) var(--portrait-y, 0%);
+    transform: scale(var(--portrait-scale, 1));
+    transform-origin: var(--portrait-ox, 50%) var(--portrait-oy, 0%);
+  }
+
+  /* Photo pending (D43): the frame's own size and band, the initials in the interface sans, ink-3. */
+  .portrait__panel {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: var(--band);
+  }
+
+  .portrait__initials {
+    display: flex;
+    gap: var(--s-1);
+    color: var(--ink-3);
+    font-family: var(--font-sans);
+    font-size: var(--fs-display);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-display);
+    letter-spacing: 0;
+  }
+
+  .portrait__initial {
+    display: inline-block;
+  }
+
+  /* ------------------------------------------------------------ row layout (wide card) */
+  @container profile (inline-size >= 560px) {
+    .profile {
+      display: grid;
+      grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
+      grid-template-rows: auto auto 1fr auto;
+      grid-template-areas:
+        "media title"
+        "media role"
+        "media chips"
+        "media foot";
+      column-gap: var(--s-2);
+      row-gap: var(--s-3);
+    }
+
+    /* The portrait keeps its 4:5 frame at the column's width (D42): never stretched to the card's height. */
+    .profile > .card__media {
+      grid-area: media;
+      align-self: start;
+      border-start-end-radius: 0;
+      border-end-start-radius: var(--r-lg-inner);
+    }
+
+    .profile > .card__title {
+      grid-area: title;
+      margin-block-start: 0;
+      padding-block-start: var(--profile-pad);
+    }
+
+    .profile > .profile__role {
+      grid-area: role;
+    }
+
+    .profile > .profile__details {
+      grid-area: chips;
+      align-content: start;
+    }
+
+    .profile > .card__footer {
+      grid-area: foot;
+    }
+  }
+
+  /* Styleguide: a card in the other script (dir + lang on its specimen) takes that script's UI font;
+     body text would otherwise keep the font resolved on <body>. */
+  .sg-cards [dir][lang] {
+    font-family: var(--font-sans);
+  }
+}

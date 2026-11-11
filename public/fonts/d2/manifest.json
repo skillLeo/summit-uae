@@ -1,0 +1,157 @@
+{
+  "generator": "scripts/fonts/fontsource-d2.mjs",
+  "note": "Generated: do not edit. Every file is copied unmodified; sha256 is the source file's and the copy's.",
+  "packages": {
+    "@fontsource-variable/onest": {
+      "version": "5.3.1",
+      "license": "OFL-1.1",
+      "font": "Onest v11",
+      "attribution": "Copyright 2021 The Onest Project Authors (https://github.com/simpals/onest)",
+      "licenceFile": "/fonts/d2/LICENSE-onest.txt"
+    },
+    "@fontsource/ibm-plex-sans-arabic": {
+      "version": "5.3.0",
+      "license": "OFL-1.1",
+      "font": "IBM Plex Sans Arabic v15",
+      "attribution": "Copyright 2019 IBM Corp",
+      "licenceFile": "/fonts/d2/LICENSE-ibm-plex-sans-arabic.txt"
+    }
+  },
+  "files": {
+    "ibm-plex-sans-arabic-arabic-400-normal": {
+      "url": "/fonts/d2/ibm-plex-sans-arabic-arabic-400-normal.6010e7fd.woff2",
+      "family": "D2 Sans Arabic",
+      "weight": "400",
+      "unicodeRange": "U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC4, U+10EFC-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1",
+      "source": "@fontsource/ibm-plex-sans-arabic@5.3.0/files/ibm-plex-sans-arabic-arabic-400-normal.woff2",
+      "sha256": "6010e7fd0dce5d527583951750728cbe3c895efbd16aa0f809ab8c824878c9d8",
+      "bytes": 42848
+    },
+    "ibm-plex-sans-arabic-arabic-500-normal": {
+      "url": "/fonts/d2/ibm-plex-sans-arabic-arabic-500-normal.90aef64f.woff2",
+      "family": "D2 Sans Arabic",
+      "weight": "500",
+      "unicodeRange": "U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC4, U+10EFC-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1",
+      "source": "@fontsource/ibm-plex-sans-arabic@5.3.0/files/ibm-plex-sans-arabic-arabic-500-normal.woff2",
+      "sha256": "90aef64fea9794f232332e907d45810ab268d1a11721340025eba2a2cdb36d5c",
+      "bytes": 45296
+    },
+    "ibm-plex-sans-arabic-arabic-600-normal": {
+      "url": "/fonts/d2/ibm-plex-sans-arabic-arabic-600-normal.16734a5a.woff2",
+      "family": "D2 Sans Arabic",
+      "weight": "600",
+      "unicodeRange": "U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC4, U+10EFC-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1",
+      "source": "@fontsource/ibm-plex-sans-arabic@5.3.0/files/ibm-plex-sans-arabic-arabic-600-normal.woff2",
+      "sha256": "16734a5adb27b0f363e566cbbeacec480da0dc0baa19c8f0053251c2e2bc0eac",
+      "bytes": 45688
+    },
+    "ibm-plex-sans-arabic-latin-400-normal": {
+      "url": "/fonts/d2/ibm-plex-sans-arabic-latin-400-normal.9ed8dcb0.woff2",
+      "family": "D2 Sans Arabic",
+      "weight": "400",
+      "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+      "source": "@fontsource/ibm-plex-sans-arabic@5.3.0/files/ibm-plex-sans-arabic-latin-400-normal.woff2",
+      "sha256": "9ed8dcb02e6c7246de4c120295fafa39a7bb73085f4951a4524a07dc911069f2",
+      "bytes": 19164
+    },
+    "ibm-plex-sans-arabic-latin-500-normal": {
+      "url": "/fonts/d2/ibm-plex-sans-arabic-latin-500-normal.be6a3b2e.woff2",
+      "family": "D2 Sans Arabic",
+      "weight": "500",
+      "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+      "source": "@fontsource/ibm-plex-sans-arabic@5.3.0/files/ibm-plex-sans-arabic-latin-500-normal.woff2",
+      "sha256": "be6a3b2e37f3ad67aa822a55ce356d28c416331c97530a1ec076c2118240ca2d",
+      "bytes": 20088
+    },
+    "ibm-plex-sans-arabic-latin-600-normal": {
+      "url": "/fonts/d2/ibm-plex-sans-arabic-latin-600-normal.63f47572.woff2",
+      "family": "D2 Sans Arabic",
+      "weight": "600",
+      "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+      "source": "@fontsource/ibm-plex-sans-arabic@5.3.0/files/ibm-plex-sans-arabic-latin-600-normal.woff2",
+      "sha256": "63f4757271e403f7baec0862f284ffaa4560ea6096ba9fe8bc6e585ca656e724",
+      "bytes": 20500
+    },
+    "mono-cyrillic": {
+      "url": "/fonts/d2/mono-cyrillic.af3bd336.woff2",
+      "family": "D2 Mono",
+      "weight": "500",
+      "unicodeRange": "U+0400-045F, U+0490-0491, U+2116",
+      "source": "scripts/fonts/build-d2.py (sample documents only)",
+      "sha256": "af3bd336d91a6d422fc20bfd1db87660a82529f784c6f9f5e0d7f15dc077f197",
+      "bytes": 4780
+    },
+    "mono-cyrillic-400": {
+      "url": "/fonts/d2/mono-cyrillic-400.11079370.woff2",
+      "family": "D2 Mono",
+      "weight": "400",
+      "unicodeRange": "U+0400-045F, U+0490-0491, U+2116",
+      "source": "scripts/fonts/build-d2.py (sample documents only)",
+      "sha256": "110793700866e2d6b0baa1b66f62955b597fe1dad0acdff11f210c2b4f44d0f5",
+      "bytes": 4800
+    },
+    "mono-latin": {
+      "url": "/fonts/d2/mono-latin.244cc32d.woff2",
+      "family": "D2 Mono",
+      "weight": "500",
+      "unicodeRange": "U+0000-00FF, U+0100-017F, U+2000-206F, U+2190-2193, U+2212, U+2264-2265",
+      "source": "scripts/fonts/build-d2.py (sample documents only)",
+      "sha256": "244cc32d0fcd71e49dd8f791d03821ccfe0810e3105f7aa8f0402f4f361bc074",
+      "bytes": 10328
+    },
+    "mono-latin-400": {
+      "url": "/fonts/d2/mono-latin-400.43427109.woff2",
+      "family": "D2 Mono",
+      "weight": "400",
+      "unicodeRange": "U+0000-00FF, U+0100-017F, U+2000-206F, U+2190-2193, U+2212, U+2264-2265",
+      "source": "scripts/fonts/build-d2.py (sample documents only)",
+      "sha256": "434271094d647d7a1a4f47ca737b64600d9a29827abfeed4767cdbd91111b178",
+      "bytes": 10168
+    },
+    "naskh-arabic": {
+      "url": "/fonts/d2/naskh-arabic.a9ad6855.woff2",
+      "family": "D2 Naskh",
+      "weight": "400 600",
+      "unicodeRange": "U+0600-06FF, U+0750-077F, U+FE70-FEFF, U+200C-200F",
+      "source": "scripts/fonts/build-d2.py (sample documents only)",
+      "sha256": "a9ad68558e67fb6b1e597558c599d7b64da190a1cf1d4af991b31be3a0748425",
+      "bytes": 45708
+    },
+    "onest-cyrillic-wght-normal": {
+      "url": "/fonts/d2/onest-cyrillic-wght-normal.68e5e01d.woff2",
+      "family": "D2 Sans",
+      "weight": "400 600",
+      "unicodeRange": "U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116",
+      "source": "@fontsource-variable/onest@5.3.1/files/onest-cyrillic-wght-normal.woff2",
+      "sha256": "68e5e01d6265bd68967746d4f5a9d18d0e6cbb5d15583c7082d6384ab1229b27",
+      "bytes": 15860
+    },
+    "onest-latin-wght-normal": {
+      "url": "/fonts/d2/onest-latin-wght-normal.052df745.woff2",
+      "family": "D2 Sans",
+      "weight": "400 600",
+      "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+      "source": "@fontsource-variable/onest@5.3.1/files/onest-latin-wght-normal.woff2",
+      "sha256": "052df74533250c2e0ca0c4bdd32de594e107d99c1648e63820ef9c6142067828",
+      "bytes": 33760
+    },
+    "serif-cyrillic": {
+      "url": "/fonts/d2/serif-cyrillic.73c38977.woff2",
+      "family": "D2 Serif, D2 Naskh",
+      "weight": "400 600",
+      "unicodeRange": "U+0400-045F, U+0490-0491, U+2116",
+      "source": "scripts/fonts/build-d2.py (sample documents only)",
+      "sha256": "73c3897724836e6b0598e6026a5640cf282efb5f81b94de007c559f00d49a681",
+      "bytes": 21652
+    },
+    "serif-latin": {
+      "url": "/fonts/d2/serif-latin.8d83c27f.woff2",
+      "family": "D2 Serif, D2 Naskh",
+      "weight": "400 600",
+      "unicodeRange": "U+0000-00FF, U+0100-017F, U+2000-206F, U+2190-2193, U+2212, U+2264-2265",
+      "source": "scripts/fonts/build-d2.py (sample documents only)",
+      "sha256": "8d83c27f8fe513f678334aade35f692ee4afd1bea76763793ac63e55874f270a",
+      "bytes": 39348
+    }
+  }
+}

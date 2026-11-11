@@ -1,0 +1,140 @@
+{
+  "extends": [
+    "stylelint-config-standard-scss"
+  ],
+  "rules": {
+    "color-no-hex": true,
+    "color-named": "never",
+    "unit-disallowed-list": [
+      [
+        "px"
+      ],
+      {
+        "ignoreMediaFeatureNames": {
+          "px": [
+            "min-width",
+            "max-width",
+            "width"
+          ]
+        },
+        "message": "Use a token from resources/scss/tokens (no raw px outside tokens)."
+      }
+    ],
+    "function-disallowed-list": [
+      [
+        "rgb",
+        "rgba",
+        "hsl",
+        "hsla",
+        "linear-gradient",
+        "radial-gradient",
+        "conic-gradient",
+        "repeating-linear-gradient",
+        "repeating-radial-gradient"
+      ],
+      {
+        "message": "Colours come from tokens; gradients are not part of this design."
+      }
+    ],
+    "property-disallowed-list": [
+      [
+        "backdrop-filter",
+        "filter"
+      ],
+      {
+        "message": "No glass or blur effects."
+      }
+    ],
+    "declaration-property-value-disallowed-list": {
+      "font-family": [
+        "/Inter/",
+        "/Poppins/",
+        "/Montserrat/",
+        "/Playfair/",
+        "/Cormorant/"
+      ],
+      "/^margin-(left|right)$/": [
+        "/.*/"
+      ],
+      "/^padding-(left|right)$/": [
+        "/.*/"
+      ]
+    },
+    "property-no-unknown": [
+      true,
+      {
+        "ignoreProperties": [
+          "view-timeline-name",
+          "view-timeline-axis",
+          "animation-timeline",
+          "animation-range",
+          "text-wrap",
+          "hanging-punctuation"
+        ]
+      }
+    ],
+    "selector-class-pattern": null,
+    "selector-id-pattern": null,
+    "custom-property-pattern": null,
+    "keyframes-name-pattern": null,
+    "scss/dollar-variable-pattern": null,
+    "scss/at-extend-no-missing-placeholder": null,
+    "scss/no-global-function-names": null,
+    "scss/at-mixin-pattern": null,
+    "no-descending-specificity": null,
+    "declaration-empty-line-before": null,
+    "property-no-vendor-prefix": null,
+    "value-no-vendor-prefix": null,
+    "selector-not-notation": null,
+    "media-feature-range-notation": null,
+    "value-keyword-case": [
+      "lower",
+      {
+        "ignoreProperties": [
+          "font-family"
+        ]
+      }
+    ],
+    "font-family-name-quotes": null,
+    "import-notation": null,
+    "selector-pseudo-element-no-unknown": [
+      true,
+      {
+        "ignorePseudoElements": [
+          "view-transition-old",
+          "view-transition-new",
+          "details-content"
+        ]
+      }
+    ],
+    "at-rule-no-unknown": null,
+    "scss/at-rule-no-unknown": [
+      true,
+      {
+        "ignoreAtRules": [
+          "view-transition"
+        ]
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "resources/scss/tokens/**/*.scss"
+      ],
+      "rules": {
+        "color-no-hex": null,
+        "unit-disallowed-list": null,
+        "function-disallowed-list": null,
+        "color-hex-length": null,
+        "scss/dollar-variable-empty-line-before": null,
+        "scss/double-slash-comment-empty-line-before": null,
+        "comment-empty-line-before": null
+      }
+    }
+  ],
+  "ignoreFiles": [
+    "resources/scss/base/_fonts.scss",
+    "node_modules/**"
+  ]
+}

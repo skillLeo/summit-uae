@@ -1,0 +1,157 @@
+/*
+ * Design 2 home hero 01 (owner: hero; spec §4.2, §7.1–7.2, §12 B1/B4; Design 2.1
+ * brief §3, contract docs/d2.1/phase-1/tokens.md).
+ * Views: resources/views/designs/d2/sections/home/hero.blade.php, components/d2/hero/*.blade.php.
+ * The stage, pager, callouts and captions live in components/stage.css.
+ *
+ * White canvas (no light, no gradient: D06, D07), height min(860px, 100svh - header) as a minimum only: the content
+ * decides, so the hero never holds an empty band. The bottom padding is the section rhythm (--section-y), so the
+ * gap to the next white section is the page's one gap.
+ *   < 1280  one column in reading order: copy, then the stage, its legend (phones), the pager and the caption.
+ *   ≥ 1280  12 columns: copy in 1–6 and the stage in 7–12. "Start your matter" is its own block under the hero
+ *           (sections/start.css, brief §5.1). The approved H1 may run 80 px past its column so it keeps its two
+ *           sentences on two lines (Russian: "Практические решения." is wider than six columns at 56 px); the
+ *           stage's start-side labels keep room for it (App\Design\D2\HeroStage::H1_ROOM).
+ * The H1 is the LCP element: it is never hidden or animated. One display size in every language (56 / 40).
+ * Text is readable at the first paint (hero-perf): the H1, paragraphs and CTAs never fade or
+ * slide in; only the sample documents and their callouts move (components/stage.css).
+ * Buttons: the request CTA is the page's one Gold button (variant gold, flat), WhatsApp is the secondary button with
+ * the WhatsApp mark; both the kit's 52 px hero size (24 px sides, a 16/500 label: brief §3.5).
+ * Phones (hero-perf): the paragraphs use the body role (16/25.6) and the lead from 768 px, so the H1 stays the
+ * largest text in the first screen (LCP) in every language.
+ */
+@layer sections {
+  .hero {
+    --dir: 1;
+
+    display: grid;
+    align-content: center;
+    min-block-size: min(860px, 100svh - var(--header-h));
+    padding-block: var(--s-6) var(--section-y);
+    background: var(--canvas);
+    /* the documents are dealt in from beyond the viewport edge: never a horizontal scroll */
+    overflow-x: clip;
+  }
+
+  [dir="rtl"] .hero {
+    --dir: -1;
+  }
+
+  .hero__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--s-8);
+    align-items: start;
+  }
+
+  /* ---------------------------------------------------------------- copy */
+  .hero__copy {
+    display: grid;
+    justify-items: start;
+    min-inline-size: 0;
+  }
+
+  .hero__title {
+    max-inline-size: 100%;
+    margin-block-end: var(--s-5);
+  }
+
+  /* Phones: the body role; from 768 px the lead role (spec B1). */
+  .hero__text {
+    display: grid;
+    gap: var(--s-3);
+    max-inline-size: var(--hero-measure);
+    color: var(--ink-2);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+  }
+
+  /* The hero's two approved paragraphs are its lead text: their lines break between words only, in every language.
+     The Russian paragraph rule (base.css :lang(ru) p, brief §3.2) split the country's name in the first sentence a
+     visitor reads ("в Объеди-/нённых Арабских Эмиратах", 768 to 1440 px). Running text elsewhere keeps it. */
+  .hero__text > p {
+    hyphens: manual;
+  }
+
+  /* The hero's two CTAs: the button kit's 52 px hero size (size="52": 24 px sides, a 16/500 label, brief §3.5).
+     Phones: a grid, so each CTA spans the column (spec §12 B4). From 768 px a wrapping row (below). */
+  .hero__actions {
+    display: grid;
+    gap: var(--s-3);
+    justify-self: stretch;
+    margin-block-start: var(--s-6);
+  }
+
+  /* ---------------------------------------------------------------- phones */
+  @media (width < 768px) {
+    /* Full-width CTAs centre their label anyway: 16 px sides keep the Russian "Запросить юридическую
+       консультацию" on one line at 390 px. */
+    .hero__cta {
+      --btn-pad: var(--s-4);
+    }
+  }
+
+  /* Short phones (375×667): the first screen ends near the paragraphs; the CTA row starts below the tab bar
+     instead of being cut by it. */
+  @media (width < 768px) and (height < 740px) {
+    .hero__actions {
+      margin-block-start: var(--s-8);
+    }
+  }
+
+  /* ---------------------------------------------------------------- tablet */
+  @media (width >= 768px) {
+    .hero {
+      padding-block: var(--s-12) var(--section-y);
+    }
+
+    .hero__grid {
+      row-gap: var(--s-12);
+    }
+
+    .hero__text {
+      font-size: var(--fs-lead);
+      line-height: var(--lh-lead);
+    }
+
+    .hero__actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-self: start;
+      margin-block-start: var(--s-8);
+    }
+
+    /* Each CTA keeps its natural width. When the two do not fit side by side (Russian from 1280 px: 360 + 12 + 249
+       px in the 588 px column) the WhatsApp button wraps under the request button, start-aligned at its own width:
+       never stretched into a full-column slab. Full width is for phones only (above). */
+    .hero__cta {
+      flex: 0 1 auto;
+    }
+  }
+
+  /* ---------------------------------------------------------------- desktop: 6 + 6 columns */
+  @media (width >= 1280px) {
+    .hero__grid {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gutter);
+    }
+
+    .hero__copy {
+      grid-column: 1 / span 6;
+      grid-row: 1;
+    }
+
+    /* Russian "Практические решения." is ~635 px at 56 px: let the H1 use the gutter and part of column 7. */
+    .hero__title {
+      position: relative;
+      z-index: 1;
+      inline-size: calc(100% + var(--gutter) + 80px);
+      max-inline-size: none;
+    }
+
+    .hero__visual {
+      grid-column: 7 / span 6;
+      grid-row: 1;
+    }
+  }
+}

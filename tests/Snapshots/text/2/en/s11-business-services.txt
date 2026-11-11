@@ -1,0 +1,195 @@
+# text-snapshot: design 2, locale en, route s11-business-services
+# GET /en/practice-areas/business-services/ -> 200; html lang=en dir=ltr data-design=2
+=== header ===
+Choose language
+English
+Request a Legal Consultation
+Home
+Practice Areas
+Legal Resources
+Case Studies
+FAQs
+About Us
+Contact Us
+=== main ===
+Home
+Practice Areas
+Business Services
+Business Services and Company Formation in the UAE
+Choosing a low-cost licence is not enough if it does not fit your activities, customers and operating plans. We help identify your project’s requirements and prepare the steps for incorporation or changes to an existing company, explaining the service scope, external costs and approvals required.
+Request a Legal Consultation
+Contact Us on WhatsApp
+(opens in a new tab)
+On this page
+Who This Service Is For
+Matters Covered by the Review
+Practical Situations We Review with You
+How We Handle Your Matter
+Documents That Help Us Get Started
+Before Taking the Next Step
+Start with Your Situation
+FAQs
+Related Topics and Services
+Official Sources for Reference
+Tell Us About Your Matter
+Scope of Service and Published Information
+Tell Us About Your Matter
+Request a Legal Consultation
+Contact Us on WhatsApp
+(opens in a new tab)
+Who This Service Is For
+Entrepreneurs seeking to establish a company who need guidance on choosing a structure
+Existing companies wishing to change their activities or structure
+Investors wishing to organise their documents before a new partner joins
+Licence holders dealing with a renewal or amendment
+Companies requiring document attestation or government services
+Matters Covered by the Review
+Company formation on the mainland and in free zones
+Trade name registration
+Business licences and changes to licensed activities
+Annual renewals and recurring requirements
+Document attestation and government procedures
+Organisation of company documents
+Ownership and residency requirements associated with the activity
+Practical Situations We Review with You
+Choosing a Structure and Licensing Jurisdiction
+We review the activity, ownership, location of customers and the need for premises, employees or sector-specific approvals. We then consider the appropriate legal form and mainland or free zone jurisdiction, together with the associated operational and tax requirements.
+Full foreign ownership is available for many activities and structures, but approvals and activity-specific restrictions still need to be checked. A free zone licence also does not automatically permit every type of transaction in the local market.
+Incorporation and Amendment Procedures
+An engagement may include assistance with trade name reservation, preparation of incorporation and authorisation documents, coordination of application submissions and follow-up, adding an activity, updating details or renewing a licence. We explain which work Summit undertakes and which steps require a licensing authority or specialist provider.
+Timeframes and costs are determined after identifying the activity, authority, documents and approvals required. We do not promise the issue of a licence or residency permit, or the opening of a bank account, before completing an assessment of the requirements; each authority has its own procedures and decision-making powers.
+Organising an Existing Company’s Records
+We help organise the memorandum of association, ownership records, authorisations, key contracts and renewals, and prepare documents required for attestation and government transactions. When an investor joins, we identify what needs to be completed before the file is submitted for legal due diligence.
+After the Licence Is Issued
+We explain the obligations requiring ongoing attention, such as renewals and updates to ownership and beneficial ownership information. Where needed, specialist accounting, tax or regulatory matters are referred for a separate scope of work.
+How We Handle Your Matter
+Identify the nature of the activity, target market and customer locations.
+Select an appropriate incorporation structure: company type and location.
+Establish the requirements: capital, documents, timeframe and fees.
+Prepare the documents and submit them to the competent authorities.
+Follow up on renewals and recurring requirements after incorporation.
+Documents That Help Us Get Started
+A description of the activity, customers, operating location and proposed or existing ownership structure.
+Identity and ownership documents, the licence, memorandum of association and records, where a company already exists.
+Authorisations, resolutions, previous approvals, premises agreements and documents relevant to the competent authority.
+A list of current obligations, contracts, assets and renewal or amendment deadlines, where relevant to the engagement.
+Send clear, complete copies initially and retain the originals. Do not send passwords, verification codes or financial account access credentials. An appropriate method for sharing sensitive documents can be agreed.
+Before Taking the Next Step
+Useful First Steps
+Define your activity precisely before licensing; ambiguity can be costly.
+Keep organised copies of all company documents.
+Check the licence before undertaking any new activity.
+Do not postpone licence renewal; penalties accumulate.
+Mistakes to Avoid
+Choosing an incorporation structure solely on price without considering the activity
+Undertaking an activity not listed on the licence, even if it appears related
+Failing to organise company documents before an investor or partner joins
+Delaying renewals until penalties exceed the fees
+Start with Your Situation
+This service may be relevant if:
+You want to establish a company and need guidance on choosing an appropriate structure.
+Show the starting file
+Your licence needs renewing or its activities need amending.
+Show the starting file
+You need attestation or official documents for a government transaction.
+Show the starting file
+You want to organise your company’s documents before an investor or partner joins.
+Show the starting file
+FAQs
+Should I Choose a Free Zone or the Mainland?
+Compare the options based on your activity, market, customers, premises, employees, approvals and budget. Check the operational and tax rules, and do not assume either option is always better or tax-exempt.
+How Long Does Company Formation Take and What Does It Cost?
+This is determined after identifying the activity, authority, legal form, documents and approvals. We explain service fees, government charges and known external costs, without guaranteeing a licence, bank account or residency permit by an unconfirmed date.
+Can the Activity Be Changed After Licensing?
+An amendment may be requested under the licensing authority’s procedures and subject to the necessary approvals. Check the requirements before starting the new activity and review its effect on the company’s other obligations and contracts.
+What Should I Put in Order Before an Investor Joins?
+The licence, memorandum of association, ownership register, authorisations, contracts, obligations, financial and tax records, and rights to products or brands. Disclose any unregistered promises of shares or rights so that due diligence reflects the actual position.
+Does Company Formation Cover All Other Obligations?
+The issue of a licence marks the start of operations, not the end of ongoing obligations. Depending on the activity and applicable regime, tax registration or filing, information and beneficial ownership updates, renewals and sector-specific approvals may be required.
+How Does This Service Differ from Corporate and Contract Services?
+This service focuses on structure, licensing procedures, documents and operational coordination. Corporate and contract services address partners’ rights, agreements and disputes; an engagement may combine both areas.
+Business Services
+71. What is the first step in setting up a company?
+72. Should I choose a free zone or the mainland?
+73. Can the activity be changed after licensing?
+74. What should I prepare before a partner or investor joins?
+Related Topics and Services
+Companies, Contracts and Partners’ Rights
+Practice Areas
+Compliance After Incorporation
+Practice Areas
+Tax Obligations and Disputes
+Practice Areas
+All FAQs
+Back to Practice Areas
+Official Sources for Reference
+Business Formation Information on the Official UAE Government Portal
+u.ae
+(opens in a new tab)
+Tell Us About Your Matter
+Send a summary of the matter and the main document, if available, and mention any hearing or current deadline. Before work begins, we will explain the scope of consultation, the fee and the documents required.
+Request a Legal Consultation
+Contact Us on WhatsApp
+(opens in a new tab)
++971 52 466 6191
+info@summitlegaluae.com
+The service is available in Arabic, English and Russian. Sending an enquiry does not mean that the engagement has been accepted or that monitoring of legal deadlines has begun.
+Scope of Service and Published Information
+Summit is a legal consultancy company. The work, deliverables and fees are defined in the agreed engagement. Court advocacy or representation requiring an advocate is carried out by licensed advocates. Where work requires separate professional registration or specialist expertise, it is coordinated with an appropriately qualified professional as needed.
+This is general information and does not replace a review of the facts, documents, applicable law, competent authority and relevant deadlines. Options and outcomes vary from one matter to another. Presenting this service does not guarantee a decision, recovery of funds or approval by an external authority.
+Legal Notice and Scope of Services
+=== footer ===
+Summit Legal Consultancy
+Legal advice for individuals, businesses, investors and residents in the UAE, in Arabic, English and Russian.
++971 52 466 6191
+Contact Us on WhatsApp
+(opens in a new tab)
+info@summitlegaluae.com
+Business hours: Monday to Friday, 9 am to 6 pm.
+Practice Areas
+Debt Recovery and Cheque Cases
+Criminal Cases
+Cryptocurrency and Digital Currency Cases
+Corporate and Commercial Law
+Property and Tenancy Disputes
+Employment Law
+Tax Disputes and Tax Compliance
+Family Law and Wills
+Compliance and Regulatory Matters
+Legal Translation
+Business Services
+Legal Resources
+Legal Resources Centre
+FAQs
+Case Studies
+Useful Links
+About Us
+Contact Us
+Legal Notice
+Privacy Policy
+Terms and Conditions
+The information published is general and does not replace a review of the facts and documents relating to your matter. The scope of service and fees are determined when the engagement is accepted. Court advocacy requiring an advocate is carried out by licensed advocates.
+Specialist Resources and Services Associated with Summit
+Employment Law
+laborlawuae.com
+(opens in a new tab)
+Debt Recovery and Cheques
+debtrecoveryuae.com
+(opens in a new tab)
+Property Disputes
+dubaipropertydispute.com
+(opens in a new tab)
+Digital Currencies
+uaecryptocases.com
+(opens in a new tab)
+Wills
+uaeexpatwills.com
+(opens in a new tab)
+Tax Disputes
+uaetaxdisputes.com
+(opens in a new tab)
+© {{YEAR}} Summit Legal Consultancy. All rights reserved.
+Choose language
+Arabic
+English
+Russian

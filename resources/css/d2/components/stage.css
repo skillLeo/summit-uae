@@ -1,0 +1,512 @@
+/*
+ * Design 2 component: the hero's document stage, callouts, legend, pager and caption (owner: hero; Design 2.1 brief
+ * D15–D17, §6 "Hero document switch"). Views: components/d2/hero/{visual,stage,notes,pager}.blade.php. Geometry:
+ * App\Design\D2\HeroStage (two nonce'd <style> blocks: per-document scales and the file's sheets; per-language
+ * callout positions). Script: resources/js/d2/hero/*.js.
+ *
+ * Stage   reserves its box with aspect-ratio (620/540 on phones, 620/440 from 768 px): CLS 0. The canvas is drawn at its design size and scaled to
+ *         the stage width from the inline-start top corner: --k = tan(atan2(100cqi, 620px)), at most 1.
+ * File    (D15) two blank offset sheets (paper, no text) under ONE document shown at rotation 0; the others wait
+ *         hidden in the same place. Each document is centred at its own scale per layout (--s-wide, --s-phone).
+ * Callouts (D16) each document's own SVG (dots at the edges of its key fields, straight leaders through empty paper)
+ *         and its labels in the clear margins beside the file. Two layouts:
+ *           wide  from 768 px: the label text (the Small role on screen at every scale: sizes ÷ --k), its first
+ *                 line on the leader (the upper one of two close callouts: its last line), never over a paper edge;
+ *           phone below 768 px (and .hero-visual--phone): a numbered 24 px marker for each label; the legend under
+ *                 the document lists the text (<x-d2.hero.notes>).
+ * Motion  (§6) transform and opacity only, on the paper and the tilt layer: the entrance (hero/deal.js, armed by
+ *         html.hero-armed), the switch and the callouts' draw-in (hero/stage.js: stroke-dashoffset on the leaders,
+ *         which have pathLength 1), the pointer tilt (hero/tilt.js, at most 2°). Reduced motion: final states at once.
+ * The stage is one illustration (data-illustration): its paper shadows and the dots' white ring stay inside it.
+ * Outside it (legend, pager, caption) nothing glows: type roles, ink and the flat bronze of the markers.
+ */
+@layer components {
+  /* ================================================================== visual column */
+  .hero-visual {
+    --dir: 1;
+
+    display: grid;
+    gap: var(--s-4);
+    justify-items: start;
+    min-inline-size: 0;
+  }
+
+  .hero-visual:dir(rtl) {
+    --dir: -1;
+  }
+
+  /* ================================================================== stage */
+  /* The canvas: 620 × 540 design px on phones, 620 × 440 from 768 px (App\Design\D2\HeroStage::LAYOUT h). */
+  .hero-stage {
+    --cw: 620px;
+    --ch: 540px;
+
+    position: relative;
+    container-type: inline-size;
+    inline-size: 100%;
+    max-inline-size: var(--cw);
+    aspect-ratio: 620 / 540;
+  }
+
+  .hero-canvas {
+    --k: min(1, tan(atan2(100cqi, var(--cw))));
+
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    inline-size: var(--cw);
+    block-size: var(--ch);
+    transform-origin: 0 0;
+    scale: var(--k);
+  }
+
+  .hero-canvas:dir(rtl) {
+    transform-origin: 100% 0;
+  }
+
+  /* The pointer tilt (hero/tilt.js writes `transform`) turns the whole composition around its centre. */
+  .hero-tilt {
+    position: absolute;
+    inset: 0;
+    transform-origin: 50% 50%;
+  }
+
+  /* ================================================================== file and documents (D15) */
+  .hero-file,
+  .hero-doc {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    pointer-events: none;
+  }
+
+  /* The file follows the document shown (HeroStage dx: the cheque sits towards the start, its labels on the end
+     side); hero/stage.js glides it on a switch. */
+  .hero-file {
+    --fdx: var(--fdx-phone, 0px);
+
+    inset-inline: var(--fdx) calc(var(--fdx) * -1);
+  }
+
+  .hero-sheet {
+    --sw: var(--w-phone);
+    --sh: var(--h-phone);
+    --sx: var(--x-phone);
+    --sy: var(--y-phone);
+    --sr: var(--r-phone);
+
+    position: relative;
+    grid-area: 1 / 1;
+    inline-size: var(--sw);
+    block-size: var(--sh);
+    border-radius: var(--r-paper);
+    box-shadow: var(--shadow-paper-rest);
+    translate: calc(var(--sx) * var(--dir)) var(--sy);
+    rotate: calc(var(--sr) * var(--dir));
+  }
+
+  .hero-doc {
+    --s: var(--s-phone);
+    --dx: var(--dx-phone);
+
+    z-index: 1;
+    visibility: hidden;
+  }
+
+  .hero-doc.is-active {
+    z-index: calc(var(--z-raised) + 2);
+    visibility: visible;
+  }
+
+  /* The document going away during a switch stays under the one coming in until that one has settled. */
+  .hero-doc.is-leaving {
+    z-index: calc(var(--z-raised) + 1);
+    visibility: visible;
+  }
+
+  .hero-doc__paper {
+    position: relative;
+    inset-inline-start: var(--dx);
+    grid-area: 1 / 1;
+    scale: var(--s);
+  }
+
+  /* ---------------------------------------------------------------- armed (before the entrance) */
+  .hero-armed :is(.hero-sheet, .hero-doc.is-active .hero-doc__paper) {
+    opacity: 0;
+  }
+
+  /* The callouts wait for the paper: before the entrance, and while a switch brings a document in. */
+  .hero-armed .hero-callouts,
+  .hero-doc.is-pending .hero-callouts {
+    opacity: 0;
+  }
+
+  /* ================================================================== callouts (D16) */
+  .hero-callouts {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .hero-lines {
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    overflow: visible;
+  }
+
+  .hero-lines__set--wide {
+    display: none;
+  }
+
+  /* One screen px at every canvas scale; pathLength 1, so the draw-in is stroke-dashoffset 1 → 0. */
+  .hero-line {
+    fill: none;
+    stroke: var(--bronze-700);
+    stroke-width: calc(1px / var(--k));
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+  }
+
+  /* The dot at the edge of its field: 8 px on screen (6 px on phones), a 2 px paper ring keeps it off the field. */
+  .hero-dot {
+    r: calc(3px / var(--k));
+    fill: var(--bronze-700);
+    stroke: var(--paper);
+    stroke-width: calc(2px / var(--k));
+    paint-order: stroke;
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+  }
+
+  /*
+   * Phone layout (the default): a numbered marker, 24 px on screen with a 13 px figure, centred on its leader,
+   * its facing edge --ci from the canvas edge on its side.
+   */
+  .hero-callout {
+    --ci: var(--i-phone);
+    --cm: var(--m-phone);
+    --cy: var(--y-phone);
+    --lhc: calc(var(--lh-small) / var(--k));
+    --fs-callout-mark: calc(var(--fs-caption) / var(--k));
+    --fs-callout: calc(var(--fs-small) / var(--k));
+
+    position: absolute;
+    inset-block-start: var(--cy);
+    display: grid;
+    place-items: center;
+    inline-size: calc(var(--s-6) / var(--k));
+    block-size: calc(var(--s-6) / var(--k));
+    border-radius: 50%;
+    color: var(--canvas);
+    background: var(--bronze-700);
+    font-family: var(--font-sans);
+    font-size: var(--fs-callout-mark);
+    font-weight: var(--fw-semibold);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    translate: 0 -50%;
+  }
+
+  .hero-callout--start {
+    inset-inline-end: var(--ci);
+  }
+
+  .hero-callout--end {
+    inset-inline-start: var(--ci);
+  }
+
+  .hero-callout__text {
+    display: none;
+  }
+
+  /* ================================================================== legend (phones), screen-reader list (wide) */
+  .hero-notes {
+    inline-size: 100%;
+  }
+
+  .hero-notes__list {
+    display: grid;
+    gap: var(--s-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: hero-note;
+  }
+
+  .hero-notes__item {
+    display: grid;
+    grid-template-columns: var(--s-6) minmax(0, 1fr);
+    column-gap: var(--s-3);
+    align-items: center;
+    color: var(--ink-2);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+    counter-increment: hero-note;
+
+    /* The legend's number: the same flat bronze disc as the marker it names. */
+    &::before {
+      content: counter(hero-note);
+      display: grid;
+      place-items: center;
+      inline-size: var(--s-6);
+      block-size: var(--s-6);
+      border-radius: 50%;
+      color: var(--canvas);
+      background: var(--bronze-700);
+      font-size: var(--fs-caption);
+      font-weight: var(--fw-semibold);
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+  }
+
+  /* ================================================================== wide layout (from 768 px) */
+  @media (width >= 768px) {
+    .hero-visual:not(.hero-visual--phone) {
+      & .hero-stage {
+        --ch: 440px;
+
+        aspect-ratio: 620 / 440;
+      }
+
+      & .hero-doc {
+        --s: var(--s-wide);
+        --dx: var(--dx-wide);
+      }
+
+      & .hero-file {
+        --fdx: var(--fdx-wide, 0px);
+      }
+
+      & .hero-sheet {
+        --sw: var(--w-wide);
+        --sh: var(--h-wide);
+        --sx: var(--x-wide);
+        --sy: var(--y-wide);
+        --sr: var(--r-wide);
+      }
+
+      & .hero-lines__set--wide {
+        display: inline;
+      }
+
+      & .hero-lines__set--phone {
+        display: none;
+      }
+
+      & .hero-dot {
+        r: calc(4px / var(--k));
+      }
+
+      /*
+       * The label: the Small role at 500 in ink, as drawn on screen (sizes ÷ --k), at most --cm wide (the margin
+       * beside the file), aligned towards the document; its first text line sits on the leader (.hero-callout--last:
+       * its last line, so it grows upwards, away from a close callout below it).
+       */
+      & .hero-callout {
+        --ci: var(--i-wide);
+        --cm: var(--m-wide);
+        --cy: var(--y-wide);
+
+        display: block;
+        inset-block-start: calc(var(--cy) - var(--lhc) / 2);
+        inline-size: max-content;
+        block-size: auto;
+        max-inline-size: var(--cm);
+        border-radius: 0;
+        color: var(--ink);
+        background: none;
+        font-size: var(--fs-callout);
+        font-weight: var(--fw-medium);
+        line-height: var(--lhc);
+        font-variant-numeric: normal;
+        text-wrap: pretty;
+        hyphens: manual;
+        translate: none;
+      }
+
+      & .hero-callout--last {
+        inset-block-start: auto;
+        inset-block-end: calc(var(--ch) - var(--cy) - var(--lhc) / 2);
+      }
+
+      & .hero-callout--start {
+        text-align: end;
+      }
+
+      & .hero-callout--end {
+        text-align: start;
+      }
+
+      & .hero-callout__num {
+        display: none;
+      }
+
+      & .hero-callout__text {
+        display: inline;
+      }
+
+      /* The labels draw this text; the list stays for screen readers. */
+      & .hero-notes {
+        position: absolute;
+        inline-size: 1px;
+        block-size: 1px;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+        border: 0;
+      }
+    }
+  }
+
+  /* ================================================================== pager (D17) */
+  .hero-pager {
+    display: grid;
+    gap: var(--s-1);
+    inline-size: 100%;
+    max-inline-size: var(--hero-stage-w);
+  }
+
+  /* Six progress segments across the stage width: thin bars in tall targets, filled up to the document shown. */
+  .hero-pager__track {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    column-gap: var(--s-1);
+  }
+
+  .hero-pager__seg {
+    display: grid;
+    align-items: center;
+    block-size: var(--target-touch);
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-control);
+    color: inherit;
+    background: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .hero-pager__bar {
+    display: block;
+    block-size: 2px;
+    background: var(--field-border);
+    transition: background-color var(--dur-hover) var(--ease-out);
+  }
+
+  .hero-pager__seg:is([aria-current="true"], :has(~ [aria-current="true"])) .hero-pager__bar {
+    background: var(--ink);
+  }
+
+  .hero-pager__seg:hover:not([aria-current="true"]) .hero-pager__bar {
+    background: var(--ink-2);
+  }
+
+  .hero-pager__seg.is-focus {
+    outline: var(--focus-w) solid var(--focus-color);
+    outline-offset: calc(var(--s-1) * -1);
+  }
+
+  .hero-pager__seg:focus-visible {
+    outline-offset: calc(var(--s-1) * -1);
+  }
+
+  .hero-pager__row {
+    display: flex;
+    gap: var(--s-4);
+    align-items: center;
+    justify-content: space-between;
+    min-inline-size: 0;
+  }
+
+  .hero-pager__name {
+    min-inline-size: 0;
+    margin: 0;
+    color: var(--ink);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+  }
+
+  .hero-pager__steps {
+    display: flex;
+    flex: none;
+    gap: var(--s-2);
+  }
+
+  @media (width >= 768px) {
+    .hero-pager__seg {
+      block-size: var(--target);
+    }
+  }
+
+  /* Without JavaScript the pager cannot work: the stage, its callouts and the legend stay. While a slow hero script is
+     still on its way (the boot script's safety timeout fired: html.hero-static) the pager keeps its place, so the
+     hero does not move when it arrives (no layout shift). */
+  .no-js .hero-pager {
+    display: none;
+  }
+
+  .hero-static:not(.hero-live) .hero-pager {
+    visibility: hidden;
+  }
+
+  /* ================================================================== caption */
+  .hero-visual__caption {
+    inline-size: 100%;
+    max-inline-size: var(--hero-stage-w);
+    margin: 0;
+    color: var(--ink-3);
+    font-size: var(--fs-small);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-small);
+  }
+
+  /* ================================================================== styleguide specimens */
+  /* The callout parts on their own (styleguide "Parts"). */
+  .hero-parts {
+    --k: 1;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-6);
+    align-items: center;
+  }
+
+  .hero-parts svg {
+    inline-size: var(--s-16);
+    block-size: var(--s-4);
+    overflow: visible;
+  }
+
+  .hero-parts .hero-callout {
+    position: relative;
+    inset: auto;
+    translate: none;
+  }
+
+  .hero-parts .hero-callout--wide {
+    display: block;
+    inline-size: auto;
+    block-size: auto;
+    max-inline-size: calc(var(--s-32) + var(--s-6));
+    border-radius: 0;
+    color: var(--ink);
+    background: none;
+    font-size: var(--fs-small);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-small);
+  }
+
+  .hero-parts .hero-callout--wide .hero-callout__text {
+    display: inline;
+  }
+}

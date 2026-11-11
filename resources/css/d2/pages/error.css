@@ -1,0 +1,661 @@
+/*
+ * Design 2 page: 404 (owner: inner; d2::errors.404, upgrade spec §7.4 and §12 Phase D).
+ * Design 2.1 (brief §3.3–3.6): the approved "404" as a plain label, the site's 48 px search field whose
+ * magnifier at the start is the submit (no arrow), buttons without glyphs, the kit's link rows for the related
+ * pages (no object tiles, no arrows, no nudge);
+ * the folder illustration is a document illustration ([data-illustration]): its paper shadows stay.
+ *
+ * Layout: below 1280 px the illustration sits above the copy (centred), then the copy, then the approved
+ * "Looking for specific information?" links; from 1280 px copy (6 of 12 columns) and illustration (6 of 12)
+ * share the first row, the links take the full width under them.
+ * Search: .nf-search is a search form with a real field (components/inner-search.js: submitting opens the
+ * command palette with the typed words); without JavaScript (html.no-js) it is replaced by .nf-pages, the
+ * main pages as chips. The approved links are link rows: one column, three across from 1280 px.
+ * Illustration: a 480 × 400 drawing in design units (--nf-u = 1 design px at the current scale --nf-k):
+ * a night folder (back with its tab, two filed sheets, front with the official emblem) and TEAM 1's
+ * sample contract sticking out of it, rotated 8° towards the inline end (mirrored in RTL). The sample keeps
+ * its own API: --doc-scale on its root (doc.css), so its watermark keeps its 9 px minimum on screen.
+ * Motion: none (Design 2.1, brief §3.6 rule 7: the illustration is drawn in its final pose; the hero entrance
+ * is the site's one entrance).
+ */
+@layer pages {
+  .nf {
+    --nf-k: 0.62;
+    --nf-u: calc(var(--nf-k) * 1px);
+    --nf-dir: 1;
+
+    padding-block: var(--s-8) var(--section-y);
+    overflow-x: clip;
+  }
+
+  .nf:dir(rtl) {
+    --nf-dir: -1;
+  }
+
+  /* minmax(0, 1fr): the track never grows to the min-content of the one-line search label (long in Russian). */
+  .nf__grid {
+    display: grid;
+    grid-template-areas:
+      "art"
+      "copy"
+      "more";
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-12);
+  }
+
+  /* ------------------------------------------------------------------ copy */
+  .nf__copy {
+    display: grid;
+    grid-area: copy;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-5);
+    align-content: start;
+    min-inline-size: 0;
+    max-inline-size: 640px;
+  }
+
+  /* the approved "404": a plain label in ink-3 (the UI label role), never an eyebrow */
+  .nf__code,
+  .err__code {
+    color: var(--ink-3);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+
+  .nf__title {
+    margin-block-start: calc(-1 * var(--s-2));
+  }
+
+  .nf__text {
+    max-inline-size: 560px;
+    color: var(--ink-2);
+  }
+
+  .nf__find {
+    margin-block-start: var(--s-2);
+  }
+
+  /* The search field (a real <input type="search"> in a form, d2NotFoundSearch): the site's one search field
+     (P03, P05: <x-d2.ui.input type="search" icon="search">): 48 px with its 1 px --field-border, radius 6, ink edge
+     + 2 px ring while the field has focus, the magnifier at the inline start and the text from 48 px. Here the
+     magnifier is the submit control (the command palette opens with the words): a 44 px ghost icon button 4 px in
+     from the edge, centred in the field's 46 px, so its glyph sits where the other fields draw theirs and the
+     field stays exactly 48 px (the button's hit area is 48 px on touch screens through its ::after). The input
+     fills the field's whole height (a 46 px target inside the edge). The placeholder is a hint; the accessible
+     name is the palette's field label. Colours change at once. */
+  .nf-search {
+    display: flex;
+    align-items: center;
+    inline-size: 100%;
+    max-inline-size: 560px;
+    min-block-size: var(--field-h);
+    padding-inline: var(--s-1) var(--s-4);
+    color: var(--ink-3);
+    background: var(--canvas);
+    border: var(--line-w) solid var(--field-border);
+    border-radius: var(--radius-control);
+    cursor: text;
+
+    &:hover {
+      border-color: var(--ink-3);
+    }
+
+    &:has(.nf-search__input:focus) {
+      border-color: var(--ink);
+    }
+
+    &:has(.nf-search__input:focus-visible) {
+      outline: var(--focus-w) solid var(--focus-color);
+      outline-offset: var(--focus-offset);
+    }
+  }
+
+  /* The form draws the edge and the focus ring; the input itself is bare and as tall as the field inside it. */
+  .nf-search__input {
+    flex: 1 1 auto;
+    min-inline-size: 0;
+    block-size: calc(var(--field-h) - 2 * var(--line-w));
+    margin: 0;
+    padding: 0;
+    color: var(--ink);
+    background: transparent;
+    border: 0;
+    outline: 0;
+    font-family: var(--font-sans);
+    font-size: var(--fs-body);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-body);
+    appearance: none;
+
+    &::placeholder {
+      color: var(--ink-3);
+      opacity: 1;
+    }
+
+    &::-webkit-search-decoration {
+      appearance: none;
+    }
+
+    /* WebKit's clear button in the field's text colour (as <x-d2.ui.input type="search">). */
+    &::-webkit-search-cancel-button {
+      inline-size: 16px;
+      block-size: 16px;
+      margin-inline: var(--s-2) 0;
+      background-color: currentColor;
+      opacity: 0.6;
+      cursor: pointer;
+      appearance: none;
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 4l8 8M12 4l-8 8' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E") center / 16px 16px no-repeat;
+    }
+
+    &::-webkit-search-cancel-button:hover {
+      opacity: 1;
+    }
+  }
+
+  .nf-search__go {
+    flex: none;
+    color: var(--ink-2);
+  }
+
+  /* Without JavaScript the palette cannot open: the main pages replace the field. */
+  .nf-pages {
+    display: none;
+  }
+
+  .no-js .nf-search {
+    display: none;
+  }
+
+  .no-js .nf-pages {
+    display: grid;
+    gap: var(--s-3);
+  }
+
+  .nf-pages__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .nf__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+    margin-block-start: var(--s-2);
+
+    & > .btn {
+      flex: 1 1 auto;
+    }
+  }
+
+  /* ------------------------------------------------------------------ illustration */
+  .nf__art {
+    grid-area: art;
+    justify-self: center;
+  }
+
+  .nf-art__stage {
+    position: relative;
+    isolation: isolate;
+    display: block;
+    inline-size: calc(480 * var(--nf-u));
+    block-size: calc(400 * var(--nf-u));
+  }
+
+  /* Painted in DOM order (back, two filed sheets, front, the misfiled sample): no z-index needed. */
+  .nf-art__back,
+  .nf-art__sheet,
+  .nf-art__front,
+  .nf-art__doc {
+    position: absolute;
+    display: block;
+  }
+
+  /* Folder back with its tab (the tab sits on the back's inline-start top edge). */
+  .nf-art__back {
+    inset-block-start: calc(112 * var(--nf-u));
+    inset-inline-start: calc(40 * var(--nf-u));
+    inline-size: calc(360 * var(--nf-u));
+    block-size: calc(248 * var(--nf-u));
+    background: var(--dark);
+    border-radius: 0 var(--radius-card) var(--radius-card) var(--radius-card);
+
+    &::before {
+      position: absolute;
+      inset-block-end: calc(100% - 1px);
+      inset-inline-start: 0;
+      inline-size: calc(136 * var(--nf-u));
+      block-size: calc(28 * var(--nf-u));
+      content: "";
+      background: var(--dark);
+      border-radius: var(--radius-control) var(--radius-control) 0 0;
+    }
+  }
+
+  .nf-art__back:dir(rtl) {
+    border-radius: var(--radius-card) 0 var(--radius-card) var(--radius-card);
+  }
+
+  /* Two sheets filed correctly: only their top edges show above the front of the folder. */
+  .nf-art__sheet {
+    inline-size: calc(304 * var(--nf-u));
+    block-size: calc(160 * var(--nf-u));
+    background: var(--paper);
+    border-radius: var(--r-paper);
+    /* stylelint-disable-next-line declaration-property-value-allowed-list -- a sheet of the folder illustration ([data-illustration]): paper shadows are allowed inside document illustrations (brief §3.4) */
+    box-shadow: var(--shadow-paper-contact);
+  }
+
+  .nf-art__sheet--1 {
+    inset-block-start: calc(98 * var(--nf-u));
+    inset-inline-start: calc(60 * var(--nf-u));
+  }
+
+  .nf-art__sheet--2 {
+    inset-block-start: calc(118 * var(--nf-u));
+    inset-inline-start: calc(76 * var(--nf-u));
+    background: var(--paper-2);
+  }
+
+  /* Folder front: a little lighter than the back, the official emblem in gold on its inline-start half
+     (the misfiled sample covers the other half). */
+  .nf-art__front {
+    inset-block-start: calc(150 * var(--nf-u));
+    inset-inline-start: calc(40 * var(--nf-u));
+    display: grid;
+    place-items: center start;
+    padding-inline-start: calc(76 * var(--nf-u));
+    inline-size: calc(360 * var(--nf-u));
+    block-size: calc(210 * var(--nf-u));
+    color: var(--gold);
+    background: var(--dark-2);
+    border-radius: var(--radius-control) var(--radius-control) var(--radius-card) var(--radius-card);
+  }
+
+  .nf-art__emblem {
+    inline-size: auto;
+    block-size: calc(64 * var(--nf-u));
+  }
+
+  /* The misfiled sample: in front of the folder, rotated towards the inline end. */
+  .nf-art__doc {
+    inset-block-start: calc(36 * var(--nf-u));
+    inset-inline-start: calc(236 * var(--nf-u));
+    rotate: calc(8deg * var(--nf-dir));
+
+    & .doc {
+      --doc-scale: calc(0.6 * var(--nf-k));
+    }
+  }
+
+  /* ------------------------------------------------------------------ more links */
+  .nf__more {
+    display: grid;
+    grid-area: more;
+    gap: var(--s-6);
+    padding-block-start: var(--s-12);
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  .nf__more-title {
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+  }
+
+  /* The approved links to related pages: the kit's link rows (pages/inner.css .link-row: 12 / 16 padding, the UI
+     label role, white with a 1 px --line, the edge ink and the label underlined on hover), the treatment of the
+     same kind of link on P02, P05, P06, P08 and S01–S11. One column, three across from 1280 px; the rows of one
+     line share its height. */
+  .nf-links {
+    display: grid;
+    gap: var(--s-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    & > li {
+      display: flex;
+      min-inline-size: 0;
+    }
+
+    & .link-row {
+      flex: 1 1 auto;
+    }
+  }
+
+  /* ------------------------------------------------------------------ tablet */
+  @media (width >= 768px) {
+    .nf {
+      --nf-k: 0.8;
+
+      padding-block-start: var(--s-12);
+    }
+
+    .nf__actions > .btn {
+      flex: 0 0 auto;
+    }
+  }
+
+  /* The approved link rows (here and on the status pages below): stacked below 1280 px (two across at 768 px left
+     the third row alone beside a hole), three across from 1280 px, one row of the grid. */
+  @media (width >= 1280px) {
+    .nf-links {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  /* ------------------------------------------------------------------ desktop */
+  @media (width >= 1280px) {
+    .nf {
+      --nf-k: 1;
+
+      padding-block-start: var(--s-16);
+    }
+
+    .nf__grid {
+      grid-template-areas: none;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gutter);
+      row-gap: var(--s-16);
+    }
+
+    .nf__copy {
+      grid-row: 1;
+      grid-column: 1 / span 6;
+      align-self: center;
+    }
+
+    .nf__art {
+      grid-row: 1;
+      grid-column: 7 / span 6;
+      align-self: center;
+    }
+
+    .nf__more {
+      grid-row: 2;
+      grid-column: 1 / -1;
+    }
+  }
+
+}
+
+/*
+ * ====================================================================================================
+ * Design 2 pages 401, 402, 403, 419, 429, 4xx, 500, 503, 5xx (owner: inner; d2::errors.{status} →
+ * d2::errors.status).
+ * ====================================================================================================
+ *
+ * Standalone pages (the error may be the database, so no shell and no app.js): a brand bar (the official
+ * traced lockup in the logo's gold, linking home), the page, the approved copyright line. body.err-page is a
+ * column at least as tall as the viewport and the page is centred in the space left, so a short page never
+ * leaves an empty band under it.
+ * Layout: as the 404 (.nf above): below 1280 px the illustration sits above the copy, then the second row
+ * (500 and 503: the approved contact details, one card per channel; 403, 419, 429: the approved U01
+ * "Looking for specific information?" links as the 404's link rows); from 1280 px copy (6 of 12 columns) and
+ * illustration (6 of 12) share the first row and the second row takes the full width under them.
+ * Illustration (decorative, aria-hidden, [data-illustration]): the 404's dark folder (.nf-art__back, __sheet,
+ * __front with the official emblem, same design units --nf-u) without the misfiled sample, drawn 84 design px
+ * higher in a 480 × 300 stage. Design 2.1 (D06): no metal seal and no status glyph; nothing moves.
+ */
+@layer pages {
+  .err-page {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ------------------------------------------------------------------ brand bar
+     The official traced lockup (shield and wordmark, resources/brand/lockup.svg) in the logo's own gold at the
+     header's lockup height (--lockup-h), in a bar as tall as the header at the top of a page (--header-h-top);
+     its accessible name is the approved logo name on the link. */
+  .err-bar {
+    flex: none;
+    background: var(--canvas);
+    border-block-end: var(--line-w) solid var(--line);
+  }
+
+  .err-bar__inner {
+    display: flex;
+    align-items: center;
+    min-block-size: var(--header-h-top);
+  }
+
+  .err-brand {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: var(--target-touch);
+    color: var(--gold);
+    border-radius: var(--radius-control);
+  }
+
+  .err-brand__lockup {
+    display: block;
+    inline-size: auto;
+    block-size: var(--lockup-h);
+  }
+
+  /* ------------------------------------------------------------------ page */
+  .err {
+    display: grid;
+    flex: 1 0 auto;
+    align-content: center;
+  }
+
+  .err__section {
+    --nf-k: 0.62;
+    --nf-u: calc(var(--nf-k) * 1px);
+    --nf-dir: 1;
+
+    padding-block: var(--s-12) var(--s-16);
+    overflow-x: clip;
+  }
+
+  .err__section:dir(rtl) {
+    --nf-dir: -1;
+  }
+
+  .err__grid {
+    display: grid;
+    grid-template-areas:
+      "art"
+      "copy"
+      "next";
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-12);
+  }
+
+  .err__copy {
+    display: grid;
+    grid-area: copy;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-5);
+    align-content: start;
+    min-inline-size: 0;
+    max-inline-size: 640px;
+  }
+
+  .err__title {
+    margin-block-start: calc(-1 * var(--s-2));
+  }
+
+  .err__text {
+    max-inline-size: 560px;
+    color: var(--ink-2);
+  }
+
+  .err__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+    margin-block-start: var(--s-2);
+
+    & > .btn {
+      flex: 1 1 auto;
+    }
+  }
+
+  /* ------------------------------------------------------------------ illustration */
+  .err__art {
+    grid-area: art;
+    justify-self: center;
+  }
+
+  .err-art__stage {
+    position: relative;
+    display: block;
+    inline-size: calc(480 * var(--nf-u));
+    block-size: calc(300 * var(--nf-u));
+  }
+
+  /* The 404's 480 × 400 folder drawing, moved up by the room its misfiled sample needs. */
+  .err-art__file {
+    position: absolute;
+    inset-block-start: calc(-84 * var(--nf-u));
+    inset-inline-start: 0;
+  }
+
+  /* ------------------------------------------------------------------ second row
+     500 and 503: the contact details (.err-channel); the others: the 404's U01 links (.nf-links). */
+  .err__next {
+    display: grid;
+    grid-area: next;
+    gap: var(--s-6);
+    padding-block-start: var(--s-12);
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  .err__next-title {
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+  }
+
+  .err-channels {
+    display: grid;
+    gap: var(--s-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    & > li {
+      display: grid;
+    }
+  }
+
+  /* one card per channel: the functional phone / e-mail glyph (ink-2), the approved label over the value */
+  .err-channel__row {
+    display: flex;
+    gap: var(--s-4);
+    align-items: center;
+    min-block-size: var(--s-12);
+  }
+
+  .err-channel__icon {
+    flex: none;
+    color: var(--ink-2);
+  }
+
+  .err-channel__text {
+    display: grid;
+    min-inline-size: 0;
+  }
+
+  .err-channel__label {
+    color: var(--ink-3);
+    font-size: var(--fs-small);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-small);
+  }
+
+  /* Left-to-right inside Arabic text too; sized to its content so it sits at the inline start. */
+  .err-channel__value {
+    justify-self: start;
+    max-inline-size: 100%;
+    color: var(--ink);
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h3);
+    font-variant-numeric: tabular-nums;
+    overflow-wrap: anywhere;
+  }
+
+  /* Narrow phones: the domain of the address stays on one line (the break falls after "@", a <wbr>). */
+  @media (width < 360px) {
+    .err-channel__value {
+      font-size: var(--fs-body);
+    }
+  }
+
+  /* ------------------------------------------------------------------ copyright line */
+  .err-foot {
+    flex: none;
+    padding-block: var(--s-6);
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  .err-foot__text {
+    color: var(--ink-3);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+  }
+
+  /* ------------------------------------------------------------------ tablet */
+  @media (width >= 768px) {
+    .err__section {
+      --nf-k: 0.8;
+
+      padding-block: var(--s-12) var(--s-16);
+    }
+
+    .err__actions > .btn {
+      flex: 0 0 auto;
+    }
+  }
+
+
+  /* ------------------------------------------------------------------ desktop */
+  @media (width >= 1280px) {
+    .err__section {
+      --nf-k: 1;
+
+      padding-block: var(--s-16);
+    }
+
+    .err__grid {
+      grid-template-areas: none;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gutter);
+      row-gap: var(--s-16);
+    }
+
+    .err__copy {
+      grid-row: 1;
+      grid-column: 1 / span 6;
+      align-self: center;
+    }
+
+    .err__art {
+      grid-row: 1;
+      grid-column: 7 / span 6;
+      align-self: center;
+    }
+
+    .err__next {
+      grid-row: 2;
+      grid-column: 1 / -1;
+    }
+
+    .err-channels {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--gutter);
+    }
+  }
+}

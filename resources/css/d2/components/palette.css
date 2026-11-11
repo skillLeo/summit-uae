@@ -1,0 +1,325 @@
+/*
+ * Design 2 component: command palette (<x-d2.shell.palette>, behaviour in resources/js/d2/components/palette.js
+ * and resources/js/d2/palette/engine.js; spec §12 C12, §5.5). Built on the modal (640 px, the overlay radius and
+ * shadow, full screen below 768 px): this file only lays out its content.
+ * - Head: the Phase A search input (combobox) beside the modal's close button.
+ * - Body: a fixed height from 768 px, so the dialog never jumps while results change; groups open with a
+ *   plain heading (the approved navigation label, UI-label role, ink-3; round 1: no longer a chip, which read as
+ *   a filter); options are text rows (title, then the summary),
+ *   at least 48 px tall. Active row: band fill, plus the focus ring when the visitor moves with the
+ *   keyboard (focus itself stays in the field); it follows the arrow keys at once (no fade). Matches: a
+ *   neutral wash, never colour alone (they are semibold too).
+ * - Footer: keyboard hints, fine pointers only.
+ * - Design 2.1 (Phase 1, home-b): no icon tiles, no arrows (D03, D04); titles and summaries wrap and are
+ *   never cut with an ellipsis or a line clamp (D09); tokens of docs/d2.1/phase-1/tokens.md.
+ */
+@layer components {
+  /* The close button stays level with the field's first line when the field grows (48 px button, 48 px line). */
+  .palette .modal__head {
+    align-items: flex-start;
+    padding-inline-start: var(--s-4);
+  }
+
+  .palette__field {
+    inline-size: 100%;
+  }
+
+  /*
+   * The search box (round 1; the FAQ search's pattern, sections/faq.css). A native placeholder cannot wrap, and the
+   * proposed hint needs more than a phone's field (Russian 400 px of text, Arabic 330 px at 390 px, English at 360
+   * px): the box draws the field's edge, hover and focus ring around the borderless input, and the hint is drawn
+   * inside it as text that wraps (the field's description, aria-describedby; no placeholder attribute). Its line
+   * height is the field's inner 46 px less its padding, so one line fills the 48 px field on the input's own line
+   * and each further line adds one line height (Latin and Cyrillic 12 + 22 + 12, Arabic 8 + 30 + 8). It goes once a
+   * word is typed (.is-filled, components/palette.js) and the field is 48 px again.
+   */
+  .palette__box {
+    --ctl-edge: var(--ctl-edge-rest);
+
+    position: relative;
+    display: grid;
+    min-inline-size: 0;
+    border: var(--line-w) solid var(--ctl-edge);
+    border-radius: var(--radius-control);
+    background: var(--ctl-bg);
+    cursor: text;
+  }
+
+  @media (hover: hover) {
+    .palette__box:hover:not(:focus-within) {
+      --ctl-edge: var(--ctl-edge-hover);
+    }
+  }
+
+  .palette__box:focus-within {
+    --ctl-edge: var(--ctl-edge-focus);
+
+    outline: var(--focus-w) solid var(--focus-color);
+    outline-offset: var(--focus-offset);
+  }
+
+  .palette__box > .control {
+    grid-area: 1 / 1;
+    align-self: start;
+  }
+
+  /* (also when read-only: the styleguide's static specimen shows the white field of the real palette) */
+  .palette__box .input,
+  .palette__box .input:read-only {
+    min-block-size: calc(var(--field-h) - 2 * var(--line-w));
+    border: 0;
+    background: transparent;
+
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  .palette__box .control__icon {
+    inset-inline-start: calc(var(--s-4) - var(--line-w));
+  }
+
+  .palette__placeholder {
+    --hint-pad: var(--s-3);
+
+    display: block;
+    grid-area: 1 / 1;
+    min-inline-size: 0;
+    padding-block: var(--hint-pad);
+    padding-inline: var(--s-12) var(--s-4);
+    color: var(--ctl-muted);
+    font-size: var(--fs-body);
+    font-weight: var(--fw-regular);
+    line-height: calc(var(--field-h) - 2 * var(--line-w) - 2 * var(--hint-pad));
+    overflow-wrap: break-word;
+    text-wrap: balance;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .palette__placeholder:lang(ar) {
+    --hint-pad: var(--s-2);
+  }
+
+  .palette__box.is-filled .palette__placeholder {
+    display: none;
+  }
+
+  .palette .modal__body {
+    padding-block: var(--s-2) var(--s-4);
+    padding-inline: var(--s-3);
+    scroll-padding-block: var(--s-2);
+  }
+
+  @media (width >= 768px) {
+    .palette .modal__body {
+      block-size: min(30rem, calc(100dvh - 15rem));
+    }
+  }
+
+  /* ---------------------------------------------------------------- groups */
+  .palette__list {
+    display: grid;
+    gap: var(--s-1);
+  }
+
+  .palette__group {
+    display: grid;
+    gap: var(--s-1);
+  }
+
+  .palette__group + .palette__group,
+  .palette__group + .palette-option--describe {
+    margin-block-start: var(--s-3);
+  }
+
+  /* A group's heading: the approved navigation label as plain text in the UI-label role (15/500), muted, starting
+     where the options' titles start (brief 3.5: a chip is a control, and these labels are not filters). */
+  .palette__group-label {
+    padding-block: var(--s-2) var(--s-1);
+    padding-inline: var(--s-3);
+    color: var(--ink-3);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+  }
+
+  /* ---------------------------------------------------------------- option */
+  .palette-option {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    align-items: center;
+    min-block-size: var(--s-12);
+    padding-block: var(--s-2);
+    padding-inline: var(--s-3);
+    color: var(--ink);
+    text-decoration: none;
+    border-radius: var(--radius-control);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+
+    /* hover / active fill as a layer (opacity only) */
+    &::before {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      content: "";
+      background: var(--band);
+      border-radius: inherit;
+      opacity: 0;
+    }
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  @media (hover: hover) {
+    .palette-option:hover::before {
+      opacity: 0.6;
+    }
+  }
+
+  .palette-option.is-active::before {
+    opacity: 1;
+  }
+
+  .palette-option:active::before {
+    background: var(--hover-tint);
+    opacity: 1;
+  }
+
+  .palette[data-nav="keyboard"] .palette-option.is-active,
+  .palette-option.is-focus {
+    outline: var(--focus-w) solid var(--focus-color);
+    outline-offset: calc(-1 * var(--focus-w));
+  }
+
+  /* Approved titles and summaries in full: they wrap, never an ellipsis or a clamp (D09). */
+  .palette-option__text {
+    display: grid;
+    gap: var(--s-1);
+    min-inline-size: 0;
+  }
+
+  .palette-option__title {
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+  }
+
+  .palette-option__summary {
+    color: var(--ink-3);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+  }
+
+  .palette-option--describe .palette-option__title {
+    font-weight: var(--fw-semibold);
+  }
+
+  .palette-option mark {
+    color: inherit;
+    font-weight: var(--fw-semibold);
+    background: var(--line);
+    border-radius: var(--radius-control);
+  }
+
+  /* ---------------------------------------------------------------- notice (no results, error) */
+  .palette__notice {
+    display: grid;
+    gap: var(--s-2);
+    justify-items: start;
+    padding-block: var(--s-4) var(--s-3);
+    padding-inline: var(--s-2);
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  .palette__notice-title {
+    overflow-wrap: anywhere;
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+  }
+
+  .palette__notice-text {
+    max-inline-size: 52ch;
+    color: var(--ink-2);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+  }
+
+  .palette__retry {
+    margin-block-start: var(--s-1);
+  }
+
+  /* ---------------------------------------------------------------- loading */
+  .palette__loading {
+    display: grid;
+    gap: var(--s-4);
+    padding-block: var(--s-4);
+    padding-inline: var(--s-2);
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  .palette__bone-2 {
+    opacity: 0.75;
+  }
+
+  .palette__bone-3 {
+    opacity: 0.5;
+  }
+
+  /* ---------------------------------------------------------------- footer: keyboard hints */
+  .palette .modal__foot {
+    justify-content: flex-start;
+    padding-block: var(--s-3);
+    padding-inline: var(--s-5);
+  }
+
+  .palette__hints {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2) var(--s-6);
+    color: var(--ink-3);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+  }
+
+  .palette__hint {
+    display: inline-flex;
+    gap: var(--s-2);
+    align-items: center;
+  }
+
+  @media not ((hover: hover) and (pointer: fine)) {
+    .palette .modal__foot {
+      display: none;
+    }
+  }
+
+  /* ---------------------------------------------------------------- touch: 48 px rows */
+  @media (pointer: coarse) {
+    .palette-option {
+      min-block-size: calc(var(--s-12) + var(--s-2));
+    }
+  }
+
+  /* styleguide specimens (static modal): natural height */
+  .palette--specimen .modal__body {
+    block-size: auto;
+  }
+
+  /* The modal's close button sits next to the field: WebKit's own clear button would be a second "×". */
+  .palette__field .input::-webkit-search-cancel-button {
+    display: none;
+  }
+}

@@ -1,0 +1,136 @@
+# text-snapshot: design 2, locale en, route l01-privacy-policy
+# GET /en/privacy-policy/ -> 200; html lang=en dir=ltr data-design=2
+=== header ===
+Choose language
+English
+Request a Legal Consultation
+Home
+Practice Areas
+Legal Resources
+Case Studies
+FAQs
+About Us
+Contact Us
+=== main ===
+Home
+Privacy Policy
+Privacy Policy
+Last updated: 23 October 2026
+This policy explains how Summit Legal Consultancy handles data relating to its website and contact requests, including the form, email and WhatsApp, and what you may request in relation to your data. Matters accepted for work are also subject to the requirements of the engagement and the associated professional and legal obligations.
+On this page
+1. Responsible Organisation and Scope of This Policy
+2. Data We Receive
+3. Why We Use Data
+4. Required Data and Your Choice to Provide It
+5. Sensitive Documents and Confidentiality
+6. Who May Receive Data
+7. External Services and Data Transfers
+8. Cookies and Analytics Tools
+9. Data Storage and Retention Periods
+10. Information Security
+11. Your Requests and Rights
+12. Marketing Communications and Minors’ Data
+13. Policy Updates
+14. Contact About Privacy
+1. Responsible Organisation and Scope of This Policy
+Summit Legal Consultancy manages its website and handles the data you provide to it for the purposes described here. Privacy enquiries and requests to exercise your rights may be sent to the email address at the end of this policy.
+This policy covers this website and the communication channels operated by Summit. External platforms you visit, such as WhatsApp or an official body’s website, have their own policies. Another resource’s connection with Summit does not mean that all its services are automatically subject to the same processing arrangements.
+2. Data We Receive
+The data you provide may include your name, telephone or WhatsApp number, email address, preferred language, the type and summary of your matter, any relevant date or deadline and its details, and documents and correspondence you choose to send. Documents may contain data about other parties connected with your matter.
+Systems used to operate and protect the website may record technical data, such as IP address, request time, device and browser type, and technical errors. If optional analytics or advertising tools are enabled, the data they process and the extent of their operation are subject to the privacy choices explained to you before activation.
+3. Why We Use Data
+We use request data to understand and respond to the matter, request the necessary documents, coordinate communication or an appointment, and determine the scope of service and fees. Once an engagement is accepted, the necessary data is used to perform the agreed work and manage the matter, correspondence and related records.
+Certain data may also be needed to comply with a legal or regulatory obligation, protect the website and address misuse, or establish and defend rights in accordance with the law. We rely on consent where it is the applicable basis, and on other grounds permitted by law subject to their conditions. Browsing is not treated as general consent to any use of data.
+4. Required Data and Your Choice to Provide It
+The consultation form requires a name, a matter summary and at least one valid contact method, together with specific consent to handle the request. Language, matter type, date or deadline, its details and an attachment are optional fields. Without a contact method, we may be unable to respond to your request.
+You may make initial contact without sending a complete file. Provide information as accurately as possible and tell us if your contact details change or you discover a material error. Provide data about another person only to the extent necessary and on a basis that entitles you to do so.
+5. Sensitive Documents and Confidentiality
+Some files may contain family, health or financial data, or information about legal proceedings. Send only what is necessary for the purpose. An appropriate method for exchanging sensitive documents can be arranged once the nature of the matter is identified.
+We do not request passwords, verification codes, private keys or a digital wallet recovery phrase through the form. We handle documents according to the limits of necessity, confidentiality and applicable obligations. Sending documents does not in itself mean that an engagement has been accepted, and declining an engagement does not permit their use for an unlawful purpose.
+6. Who May Receive Data
+Internal access is limited to those who need the data to handle the request or engagement. Website operations may require hosting, technical support, communication and security service providers, limited to what they need to perform their services and subject to appropriate controls.
+Necessary information may be shared with a licensed advocate, expert, translator or other relevant specialist where their involvement is needed and appropriate working arrangements have been made, or with a competent authority to fulfil a legal obligation or carry out a permitted procedure. Sending an enquiry does not authorise publication of your file or disclosure to parties unrelated to its purpose.
+We do not sell enquiry data or legal documents to advertisers, or use your account of events or attachments to create an advertising audience. Marketing communications separate from your request require an appropriate basis and a separate choice where required.
+7. External Services and Data Transfers
+The use of hosting, email, communication or technical support services may involve processing some data outside the United Arab Emirates. A local domain or UAE telephone number does not mean that all data remains within the country.
+Transfer requirements, the applicable basis and appropriate safeguards are reviewed according to the relevant rules and service used. Necessary information about transfers and safeguards is provided to you before the relevant processing. You may request further details about recipient categories and the services concerned. When moving to an external platform, review its policy before sending it additional information.
+8. Cookies and Analytics Tools
+Necessary cookies and technologies support functions such as protecting the form, remembering privacy choices and operating the website. If non-essential analytics or advertising tools are offered, their categories, purposes, providers and durations are shown to you before you choose whether to enable them.
+You may accept, reject or customise optional tools in the privacy settings panel and change your choice later. Continuing to browse does not in itself constitute consent to optional tools. Accepting them is not a condition for reading the content or sending a consultation request.
+Permitted analytics tools may collect information about pages, interactions, visit sources and devices. They may distinguish a visit or device even without including your name. We do not send contact details, matter descriptions or documents through general analytics events. Browser settings may also delete or block cookies; blocking necessary cookies may affect some functions.
+9. Data Storage and Retention Periods
+We retain data for as long as necessary to respond to and follow up on a request or perform an engagement, and to the extent required by legal and professional obligations and the management of existing claims. The period depends on the type of record, status of the matter, actual need for it and any retention obligation.
+When there is no longer a lawful need, data is deleted or made no longer attributable to you using an appropriate method. A deletion request may require a distinction between the working copy and backups subject to their own deletion cycle, without reusing them for a new purpose. Withdrawing consent does not mean that a record required on an independent legal basis must be deleted.
+10. Information Security
+We take technical and organisational measures appropriate to the nature and risks of the data, including access management, document handling and the choice of storage and communication methods. No electronic method can be guaranteed entirely free of risk.
+This does not remove our obligations to protect data, address incidents and make any notifications required by law. If you suspect unauthorised access to data you have sent us, report the circumstances and a contact method, without resending passwords or sensitive access credentials.
+11. Your Requests and Rights
+You may contact us to request information about the processing of your data or access to it, to correct it, or to request its erasure, restriction or cessation of processing, or portability where the relevant conditions apply. You may withdraw consent where processing is based on it, without affecting the lawfulness of processing before withdrawal.
+Requests are considered under applicable law, subject to confidentiality, third-party rights and retention obligations. We may request sufficient information to verify your identity and authority, and will explain any lawful reason preventing full fulfilment of a request. You may apply to the competent supervisory authority through the available procedures; an enquiry to us does not replace your right to do so.
+12. Marketing Communications and Minors’ Data
+Consent to respond to a consultation enquiry is separate from subscribing to marketing messages. You may request that marketing communications stop or withdraw the relevant consent, while correspondence necessary for an ongoing request or a legal obligation continues.
+The website is intended for people seeking services, not for collecting children’s data for marketing. A family matter may contain information about a child. Such information should be provided by a person entitled to do so, only to the extent necessary for the purpose, and is handled with due regard to its sensitivity.
+13. Policy Updates
+We may update this policy when the website, processing arrangements or applicable requirements change. We show the date of the published version and provide notice or seek fresh consent where the nature of the change requires it. Publishing an amendment or continued browsing does not replace specific consent where it is required.
+14. Contact About Privacy
+For an enquiry or to exercise a right, state that your message concerns privacy and identify your request, the contact method previously used and the relevant data to the extent necessary. You do not need to send a complete identity document in your first message unless an appropriate verification method is requested.
+info@summitlegaluae.com
++971 52 466 6191
+Contact Summit
+Legal Notice and Scope of Services
+Terms and Conditions
+=== footer ===
+Summit Legal Consultancy
+Legal advice for individuals, businesses, investors and residents in the UAE, in Arabic, English and Russian.
++971 52 466 6191
+Contact Us on WhatsApp
+(opens in a new tab)
+info@summitlegaluae.com
+Business hours: Monday to Friday, 9 am to 6 pm.
+Practice Areas
+Debt Recovery and Cheque Cases
+Criminal Cases
+Cryptocurrency and Digital Currency Cases
+Corporate and Commercial Law
+Property and Tenancy Disputes
+Employment Law
+Tax Disputes and Tax Compliance
+Family Law and Wills
+Compliance and Regulatory Matters
+Legal Translation
+Business Services
+Legal Resources
+Legal Resources Centre
+FAQs
+Case Studies
+Useful Links
+About Us
+Contact Us
+Legal Notice
+Privacy Policy
+Terms and Conditions
+The information published is general and does not replace a review of the facts and documents relating to your matter. The scope of service and fees are determined when the engagement is accepted. Court advocacy requiring an advocate is carried out by licensed advocates.
+Specialist Resources and Services Associated with Summit
+Employment Law
+laborlawuae.com
+(opens in a new tab)
+Debt Recovery and Cheques
+debtrecoveryuae.com
+(opens in a new tab)
+Property Disputes
+dubaipropertydispute.com
+(opens in a new tab)
+Digital Currencies
+uaecryptocases.com
+(opens in a new tab)
+Wills
+uaeexpatwills.com
+(opens in a new tab)
+Tax Disputes
+uaetaxdisputes.com
+(opens in a new tab)
+© {{YEAR}} Summit Legal Consultancy. All rights reserved.
+Choose language
+Arabic
+English
+Russian

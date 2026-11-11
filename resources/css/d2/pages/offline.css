@@ -1,0 +1,116 @@
+/*
+ * Design 2 page: offline (owner: inner; d2::pages.offline, /xx/offline/).
+ * One flat grid in reading order: h1, lead, "Try again", the "What you can still do" heading, the contact
+ * card, the three tips and the closing note. Below 1280 px they stack in that order (the card at full width
+ * uses its own two-column tablet layout); from 1280 px the copy takes 6 of 12 columns and the card the last 5,
+ * from the first row down (explicitly placed, so the copy keeps its auto rows).
+ * Design 2.1 (brief §3.6 rule 5): the tips are text, set apart by hairlines (no glyph tiles).
+ */
+@layer pages {
+  .off {
+    padding-block: var(--s-12) var(--section-y);
+  }
+
+  .off__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-5);
+    align-items: start;
+  }
+
+  .off__lead {
+    max-inline-size: 600px;
+    color: var(--ink-2);
+  }
+
+  .off__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+    margin-block: var(--s-1) var(--s-4);
+
+    & > .btn {
+      flex: 1 1 auto;
+    }
+  }
+
+  /* a group heading under the copy: the H3 role */
+  .off__list-title {
+    padding-block-start: var(--s-8);
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  .off-tips {
+    display: grid;
+    max-inline-size: 600px;
+    margin: 0;
+    margin-block-start: var(--s-2);
+    padding: 0;
+    list-style: none;
+  }
+
+  .off-tip {
+    display: grid;
+    gap: var(--s-1);
+    padding-block: var(--s-4);
+  }
+
+  .off-tip + .off-tip {
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  .off-tip:first-child {
+    padding-block-start: 0;
+  }
+
+  /* a tip's name: the Minor heading role (16 / 600, brief §3.2), its text in the Body role under it */
+  .off-tip__title {
+    color: var(--ink);
+    font-size: var(--fs-minor);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-minor);
+  }
+
+  .off-tip__body {
+    color: var(--ink-2);
+  }
+
+  .off__later {
+    max-inline-size: 600px;
+    color: var(--ink-3);
+  }
+
+  @media (width >= 768px) {
+    .off {
+      padding-block-start: var(--s-12);
+    }
+
+    .off__actions > .btn {
+      flex: 0 0 auto;
+    }
+  }
+
+  @media (width >= 1280px) {
+    .off {
+      padding-block-start: var(--s-16);
+    }
+
+    .off__grid {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gutter);
+    }
+
+    .off__grid > * {
+      grid-column: 1 / span 6;
+    }
+
+    .off__grid > .off__card {
+      grid-row: 1 / span 6;
+      grid-column: 8 / span 5;
+    }
+  }
+}

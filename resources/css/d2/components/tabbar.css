@@ -1,0 +1,598 @@
+/*
+ * Design 2 component: mobile tab bar (<x-d2.shell.tabbar>, behaviour in resources/js/d2/modules/tabbar.js), the
+ * floating WhatsApp button it renders, and the content of the global sheets (<x-d2.shell.sheets>: menu, language,
+ * services; the sheet itself, its panel, radius and overlay shadow, is components/sheet.css).
+ *
+ * Tab bar, below 768 px only (brief 2.1 §3.5, §3.6, §6 "Mobile"): 64 px (--tabbar-h) plus the bottom safe area, solid
+ * white (--canvas) with a 1 px --line top line: no glass, no blur, no shadow. Four text-only cells with the approved
+ * navigation labels (no icon on a navigation item: §3.6 rule 5). Four equal cells; labels in the UI label role
+ * (15/500, Russian 14 below 400 px), centred in their cell; a label longer than 10 characters is set on two lines
+ * between its words (by the component, so the web font never re-wraps it), never cut and never replaced by an
+ * invented short label. The current page: --ink at 600 and a 2 px ink mark 4 px under its label (state
+ * shown by more than colour), the others --ink-2 like every navigation link. The whole cell is its target (64 px
+ * tall). The hidden state slides the bar out with a transform in 240 ms; the body keeps its bottom padding so nothing
+ * is ever covered at the end of the page. Press: scale(.98) of the label in 120 ms.
+ * The service pages' sticky consultation bar never shows where this bar exists (components/sticky-cta.css): one
+ * bottom bar, never two stacked.
+ *
+ * Floating WhatsApp button (.wa-fab): a 48 px secondary icon button (white, 1 px --line-strong, radius 6, no shadow:
+ * §3.4, §3.5) with the official mark at 24 px, 16 px above the bar at the inline end (side safe areas included). It
+ * moves down with the bar when the bar slides away, and fades out (opacity and a 8 px drop, 160 ms) while another
+ * WhatsApp control, the footer or the consultation form is on screen, a field has the on-screen keyboard, or a sheet
+ * or dialog is open (.is-away, set by modules/tabbar.js).
+ */
+@layer components {
+  .tabbar,
+  .wa-fab:not(.wa-fab--static) {
+    display: none;
+  }
+
+  @media (width < 768px) {
+    .tabbar:not(.tabbar--static) {
+      position: fixed;
+      inset-inline: 0;
+      inset-block-end: 0;
+      z-index: var(--z-tabbar);
+      display: block;
+      padding-block-end: var(--safe-bottom);
+      background: var(--canvas);
+      transform: translate3d(0, 0, 0);
+      transition: transform var(--dur-enter) var(--ease-out);
+    }
+
+    /* Out of view (the bar's own height, safe area included). */
+    .tabbar.is-hidden {
+      transform: translate3d(0, 100%, 0);
+    }
+
+    /* Room for the bar at the end of every page. */
+    body:has(> .tabbar:not(.tabbar--static)) {
+      padding-block-end: calc(var(--tabbar-h) + var(--safe-bottom));
+    }
+
+    .wa-fab:not(.wa-fab--static) {
+      position: fixed;
+      inset-inline-end: max(var(--s-4), var(--safe-x));
+      inset-block-end: calc(var(--tabbar-h) + var(--safe-bottom) + var(--s-4));
+      z-index: var(--z-tabbar);
+      display: inline-flex;
+      transition:
+        transform var(--dur-enter) var(--ease-out),
+        opacity var(--dur-fade) var(--ease-out),
+        visibility 0s;
+    }
+
+    /* The bar slid away (scroll down): the button follows it and rests 16 px above the bottom safe area. */
+    body:has(> .tabbar.is-hidden) > .wa-fab:not(.wa-fab--static) {
+      transform: translate3d(0, var(--tabbar-h), 0);
+    }
+
+    /* Stepping aside: faded, 8 px lower, never focusable or announced while away. */
+    .wa-fab.is-away:not(.wa-fab--static) {
+      visibility: hidden;
+      opacity: 0;
+      transform: translate3d(0, var(--s-2), 0);
+      pointer-events: none;
+      transition:
+        transform var(--dur-enter) var(--ease-out),
+        opacity var(--dur-fade) var(--ease-out),
+        visibility 0s linear var(--dur-fade);
+    }
+
+    body:has(> .tabbar.is-hidden) > .wa-fab.is-away:not(.wa-fab--static) {
+      transform: translate3d(0, calc(var(--tabbar-h) + var(--s-2)), 0);
+    }
+
+    /* The markup starts away (modules/tabbar.js decides once it has looked at the page); without JavaScript the
+       button simply shows. */
+    .no-js .wa-fab.is-away:not(.wa-fab--static) {
+      visibility: visible;
+      opacity: 1;
+      transform: none;
+      pointer-events: auto;
+    }
+
+    /* Toasts (components/toast.css) rise above the button while it shows. */
+    body:has(> .wa-fab:not(.is-away, .wa-fab--static)) > .toast-region {
+      inset-block-end: calc(var(--tabbar-h) + var(--safe-bottom) + var(--target-touch) + var(--s-8));
+    }
+  }
+
+  /* The official mark at 24 px in the 48 px button (the icon slot is 20 px elsewhere). */
+  .wa-fab__icon {
+    inline-size: var(--s-6);
+    block-size: var(--s-6);
+  }
+
+  /* The 1 px top line is drawn on a pseudo-element, not the bar's own border, so the bar is exactly 64 px plus the
+     safe area; it is the pseudo's border (not its background) so forced colours keep the bar's edge. */
+  .tabbar::before {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline: 0;
+    pointer-events: none;
+    content: "";
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  /* The bar is a size container: Russian steps down to the Small size where its longest words need it.
+     overflow-x: clip keeps the bar inside the screen whatever happens. */
+  .tabbar__list {
+    container: d2-tabbar / inline-size;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(min-content, 1fr));
+    block-size: var(--tabbar-h);
+    padding-inline: max(var(--s-1), var(--safe-x));
+    overflow-x: clip;
+    list-style: none;
+  }
+
+  /* Four equal columns (a steady rhythm of label centres), set by the list itself: while the page is still
+     arriving, the first cells already sit in their own quarter (with flex, a lone first cell filled the bar and its
+     label jumped to its place when the others arrived: a layout shift). A column never goes below its longest
+     line, so a word is never cut: the other columns give up the width it needs. The cells fill the bar, so all of
+     it stays tappable. */
+  .tabbar__cell {
+    display: flex;
+    min-inline-size: 0;
+  }
+
+  .tabbar__item {
+    position: relative;
+    display: flex;
+    flex: 1 1 auto;
+    align-items: center;
+    justify-content: center;
+    min-inline-size: min-content;
+    padding-inline: var(--s-1);
+    color: var(--ink-2);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+    text-align: center;
+    border-radius: var(--radius-control);
+    transition: color var(--dur-hover) var(--ease-out);
+    -webkit-tap-highlight-color: transparent;
+
+    /* The cells touch the bar's edges and the screen's bottom: the 2 px ring is drawn inside the cell. */
+    &:focus-visible {
+      outline-offset: calc(var(--focus-w) * -1);
+    }
+
+    &[aria-current] {
+      color: var(--ink);
+      font-weight: var(--fw-semibold);
+    }
+  }
+
+  /* One or two lines, decided by <x-d2.shell.tabbar> between the label's words (never by the font: no re-wrap when
+     the web font replaces the fallback, no layout shift); a line never breaks inside itself. */
+  .tabbar__label {
+    position: relative;
+    display: block;
+    max-inline-size: 100%;
+    transition: scale var(--dur-press) var(--ease-out);
+  }
+
+  .tabbar__line {
+    display: block;
+    white-space: nowrap;
+  }
+
+  .tabbar__item:active .tabbar__label {
+    scale: var(--press-scale);
+  }
+
+  /* Russian: «Направления» and «информация» are the longest words of the four labels (97 and 92 px at 15 px); below
+     25rem of bar they take the Small size (14 px on phones, brief §3.2), so the four always fit with room between
+     them. modules/tabbar.js adds .is-tight when the labels still do not fit (a larger text size, another font): the
+     Caption size, the smallest text anywhere, and words may break as a last resort rather than be cut. */
+  @container d2-tabbar (width < 25rem) {
+    .tabbar__item:lang(ru) {
+      font-size: var(--fs-small);
+      line-height: var(--lh-small);
+    }
+  }
+
+  .tabbar.is-tight .tabbar__item {
+    font-size: var(--fs-caption);
+    line-height: var(--lh-caption);
+  }
+
+  .tabbar.is-tight .tabbar__line {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  /* The current page: a 2 px ink mark 4 px under its label, as wide as the label's last line box. A real element
+     (not a pseudo): the page change slides it from the old item to the new one (base/motion.css, d2-tab-mark).
+     Drawn as a border, not a background: forced colours (Windows contrast themes) paint every background as Canvas,
+     which would erase it, while a border takes the theme's text colour. */
+  .tabbar__mark {
+    position: absolute;
+    inset-block-start: calc(100% + var(--s-1));
+    inset-inline: 0;
+    pointer-events: none;
+    border-block-start: calc(2 * var(--line-w)) solid var(--ink);
+  }
+
+  @media (width < 768px) {
+    .tabbar:not(.tabbar--static) .tabbar__mark {
+      view-transition-name: d2-tab-mark;
+    }
+  }
+
+  @media (hover: hover) {
+    .tabbar__item:not([aria-current]):hover {
+      color: var(--ink);
+    }
+  }
+
+  @media print {
+    .tabbar,
+    .wa-fab {
+      display: none !important;
+    }
+  }
+
+  /* ---------------------------------------------------------------- styleguide specimens (phone width) */
+  .tabbar--static {
+    position: relative;
+    display: block;
+    inline-size: 100%;
+    max-inline-size: 430px;
+    margin-inline: auto;
+    background: var(--canvas);
+  }
+
+  /* In a narrow styleguide specimen the phone specimens run to its edges (a phone's full width). */
+  @media (width < 768px) {
+    .sg-specimen > :is(.tabbar--static, .sticky-cta--static) {
+      inline-size: calc(100% + var(--s-5) * 2);
+      max-inline-size: none;
+      margin-inline: calc(var(--s-5) * -1);
+    }
+  }
+
+  /* A simulated home-indicator inset (the specimen sets --safe-bottom itself): 32 px, the spacing scale's step
+     next to the 34 px an iPhone reports. The live bar takes env(safe-area-inset-bottom) as the device gives it. */
+  .tabbar--static.tabbar--safe {
+    --safe-bottom: var(--s-8);
+
+    padding-block-end: var(--safe-bottom);
+  }
+
+  /* The floating button drawn in place: at the inline end, 16 px above the specimen bar (the specimen card is a
+     flex column with a 12 px gap; the button comes first there). */
+  .wa-fab--static {
+    display: flex;
+    order: -1;
+    margin-block-end: var(--s-1);
+    margin-inline-start: auto;
+  }
+
+  .sg-specimen > .wa-fab--static {
+    max-inline-size: 430px;
+  }
+
+  /* Styleguide: the installable-app specimen (icons as a launcher draws them, the manifest facts). */
+  .pwa-demo__icon {
+    border-radius: var(--radius-card);
+  }
+
+  .pwa-demo__icon--mask {
+    border-radius: 50%;
+  }
+
+  .pwa-demo__facts {
+    display: grid;
+    gap: var(--s-2);
+  }
+
+  .pwa-demo__fact {
+    display: grid;
+    grid-template-columns: minmax(0, 9rem) minmax(0, 1fr);
+    gap: var(--s-3);
+    align-items: baseline;
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+
+    dd {
+      color: var(--ink-2);
+      overflow-wrap: anywhere;
+    }
+  }
+
+  /* ================================================================ global sheets: the menu sheet
+     (<x-d2.shell.sheets>, opened by the header's menu button). Text-only rows with hairlines (no icons, arrows or
+     check marks in menu items: brief §3.6 rules 3 and 5); the current page in ink at 600; one row that opens the
+     language sheet (the current language and a chevron, as the header's language trigger); contact rows with their
+     functional icons; the homepage's hours sentence; on phones with the design switcher on, the Design 1 / Design 2
+     switch (the floating one is hidden there so it never covers the bottom bar). */
+  .menu-sheet__group + .menu-sheet__group {
+    margin-block-start: var(--s-8);
+  }
+
+  .menu-sheet__title {
+    margin-block-end: var(--s-2);
+    color: var(--ink-3);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+    letter-spacing: 0;
+  }
+
+  .menu-sheet__nav {
+    display: grid;
+    list-style: none;
+
+    > li + li {
+      border-block-start: var(--line-w) solid var(--line);
+    }
+  }
+
+  .menu-sheet__link {
+    display: flex;
+    align-items: center;
+    min-block-size: var(--target-touch);
+    padding-block: var(--s-1);
+    color: var(--ink-2);
+    font-size: var(--fs-body);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-body);
+    border-radius: var(--radius-control);
+    transition: color var(--dur-hover) var(--ease-out);
+    -webkit-tap-highlight-color: transparent;
+
+    &[aria-current] {
+      color: var(--ink);
+      font-weight: var(--fw-semibold);
+    }
+  }
+
+  /* The language row: "Choose language" on the start side, the current language and a chevron on the end side,
+     between two hairlines (one row of the menu's rhythm). Opens the language sheet. */
+  .menu-sheet__lang {
+    border-block: var(--line-w) solid var(--line);
+  }
+
+  .menu-sheet__langrow {
+    display: flex;
+    gap: var(--s-3);
+    align-items: center;
+    min-block-size: var(--target-touch);
+    padding-block: var(--s-2);
+    color: var(--ink);
+    border-radius: var(--radius-control);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .menu-sheet__langrow-label {
+    flex: 1 1 auto;
+    min-inline-size: 0;
+    color: var(--ink-2);
+    font-size: var(--fs-body);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-body);
+  }
+
+  .menu-sheet__langrow-value {
+    display: inline-flex;
+    flex: none;
+    gap: var(--s-1);
+    align-items: center;
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+  }
+
+  .menu-sheet__langrow-chev {
+    color: var(--ink-2);
+  }
+
+  .menu-sheet__contacts {
+    display: grid;
+    list-style: none;
+
+    > li + li {
+      border-block-start: var(--line-w) solid var(--line);
+    }
+  }
+
+  .menu-sheet__contact {
+    display: flex;
+    gap: var(--s-3);
+    align-items: center;
+    min-block-size: var(--target-touch);
+    padding-block: var(--s-2);
+    color: var(--ink);
+    border-radius: var(--radius-control);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .menu-sheet__contact-icon {
+    flex: none;
+    color: var(--ink-2);
+  }
+
+  .menu-sheet__contact-text {
+    display: grid;
+    flex: 1 1 auto;
+    min-inline-size: 0;
+  }
+
+  .menu-sheet__contact-label {
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+  }
+
+  /* LTR number / address inside the row: sits at the row's start (right in Arabic), reads left to right. */
+  .menu-sheet__contact-value {
+    justify-self: start;
+    max-inline-size: 100%;
+    color: var(--ink-3);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+    overflow-wrap: anywhere;
+  }
+
+  /* Balanced, as in the footer: two even lines, no preposition left at a line end. */
+  .menu-sheet__hours {
+    margin-block-start: var(--s-3);
+    text-wrap: balance;
+    color: var(--ink-3);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+  }
+
+  /* The design switch (internal demo tool, phones only): two equal segments on a band track, the current design on
+     a white thumb with a --line-strong edge (the segmented control's look, §3.5). Links, not radios: each one reloads
+     the same page, language and #anchor in the other design (modules/sheets.js keeps the #hash). */
+  .menu-sheet__design {
+    display: none;
+  }
+
+  @media (width < 768px) {
+    .menu-sheet__design {
+      display: block;
+    }
+  }
+
+  .menu-sheet__designs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--s-1);
+    padding: var(--s-1);
+    list-style: none;
+    background: var(--band);
+    border-radius: var(--radius-pill);
+  }
+
+  .menu-sheet__design-option {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-block-size: var(--target-touch);
+    padding-inline: var(--s-2);
+    color: var(--ink-2);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+    text-align: center;
+    border: var(--line-w) solid transparent;
+    border-radius: var(--radius-pill);
+    -webkit-tap-highlight-color: transparent;
+
+    &[aria-current] {
+      color: var(--ink);
+      background: var(--canvas);
+      border-color: var(--line-strong);
+    }
+  }
+
+  /* ================================================================ global sheets: the language sheet
+     (opened from the menu sheet's language row). The three approved labels in the page language, as text rows with
+     hairlines; the current language in ink at 600 (aria-current; no check mark: no icon in a menu item). */
+  .lang-sheet__list {
+    display: grid;
+    list-style: none;
+
+    > li + li {
+      border-block-start: var(--line-w) solid var(--line);
+    }
+  }
+
+  .lang-sheet__option {
+    display: flex;
+    align-items: center;
+    min-block-size: var(--target-touch);
+    padding-block: var(--s-1);
+    color: var(--ink-2);
+    font-size: var(--fs-body);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-body);
+    border-radius: var(--radius-control);
+    transition: color var(--dur-hover) var(--ease-out);
+    -webkit-tap-highlight-color: transparent;
+
+    &[aria-current] {
+      color: var(--ink);
+      font-weight: var(--fw-semibold);
+    }
+  }
+
+  /* ================================================================ global sheets: the services sheet
+     (opened by the tab bar's Practice Areas). Text rows with hairlines: the approved title (Minor heading role) and
+     the full approved summary (never clamped: D09), no object icons or chevrons (D04, D03). The service of the page
+     carries aria-current: its title is underlined. */
+  .services-sheet__list {
+    display: grid;
+    list-style: none;
+
+    > li + li {
+      border-block-start: var(--line-w) solid var(--line);
+    }
+  }
+
+  .services-sheet__item {
+    display: grid;
+    gap: var(--s-1);
+    padding-block: var(--s-4);
+    color: var(--ink);
+    border-radius: var(--radius-control);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .services-sheet__title {
+    font-size: var(--fs-minor);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-minor);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+
+  .services-sheet__summary {
+    color: var(--ink-2);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+  }
+
+  .services-sheet__item[aria-current] .services-sheet__title {
+    text-decoration-line: underline;
+    text-decoration-thickness: 2px;
+  }
+
+  .services-sheet__all {
+    margin-block-start: var(--s-6);
+  }
+
+  /* Hover only where a pointer can hover (no sticky hover on touch). */
+  @media (hover: hover) {
+    .menu-sheet__link:not([aria-current]):hover,
+    .lang-sheet__option:not([aria-current]):hover,
+    .menu-sheet__design-option:not([aria-current]):hover {
+      color: var(--ink);
+    }
+
+    .menu-sheet__langrow:hover .menu-sheet__langrow-label {
+      color: var(--ink);
+    }
+
+    .menu-sheet__contact:hover .menu-sheet__contact-label,
+    .services-sheet__item:not([aria-current]):hover .services-sheet__title {
+      text-decoration-line: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+  }
+
+  /* The floating "Design 1 | Design 2" switch (resources/views/design-switch, injected when SUMMIT_DESIGN_SWITCHER is
+     on) would sit over the tab bar on phones: Design 2 shows it in the menu sheet there instead. Its stylesheet is
+     unlayered, so this rule needs !important to win from a layer; Design 1 never loads this file. */
+  @media (width < 768px) {
+    body:has(> .tabbar:not(.tabbar--static)) > .sds {
+      display: none !important;
+    }
+  }
+}

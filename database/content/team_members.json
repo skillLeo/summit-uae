@@ -1,0 +1,374 @@
+{
+    "team-ahmed": {
+        "anchor": "team-ahmed",
+        "position": 1,
+        "portrait": "ahmed-mohammadi",
+        "name": {
+            "en": "Ahmed Mohammadi",
+            "ar": "أحمد محمدي",
+            "ru": "Ахмед Мохаммади"
+        },
+        "role": {
+            "en": "Managing Director and Co-Founder",
+            "ar": "المدير التنفيذي والشريك المؤسس",
+            "ru": "Управляющий директор и соучредитель"
+        },
+        "focus": {
+            "en": "Executive Management, Service Development and Client Experience",
+            "ar": "الإدارة التنفيذية وتطوير الخدمات وتجربة العميل",
+            "ru": "Управление компанией, развитие услуг и организация работы с клиентами"
+        },
+        "bio": {
+            "en": [
+                "Ahmed Mohammadi leads Summit's executive management, overseeing service development, operations, professional relationships and the client experience. His role combines understanding the needs of individuals and businesses with coordination across the legal team, ensuring that the service scope is clear and the work organised from the first contact.",
+                "His background in business management and handling matters within the UAE legal environment gives him a practical view of what clients need: which document is required, who takes the next step, and what must be clarified before a decision is made. He works to turn the requirements of each matter into a clear follow-up process, coordinating with the specialists responsible for legal advice.",
+                "Ahmed focuses on helping clients understand what is happening in their matter and why, with a clear account of the work required and its progress. This includes organising communication, monitoring the stages of service and improving processes that help the team provide a consistent, professional experience.",
+                "Through communication in Arabic, English and Russian, he supports clients from varied backgrounds and helps them understand procedural requirements in practical terms. His approach to managing the company centres on professional relationships built on clear obligations, accurate follow-up and an understanding of the client's long-term interests."
+            ],
+            "ar": [
+                "يقود أحمد محمدي الإدارة التنفيذية في سَمِت، ويشرف على تطوير الخدمات وتنظيم العمليات والعلاقات المهنية وتجربة العميل. ويجمع دوره بين فهم احتياجات الأفراد والشركات والتنسيق مع الفريق القانوني، حتى يكون نطاق الخدمة واضحًا والعمل منظمًا منذ التواصل الأول.",
+                "تمنحه خلفيته في إدارة الأعمال ومتابعة الملفات داخل البيئة القانونية الإماراتية منظورًا عمليًا لما يحتاجه العميل: ما المستند المطلوب؟ من يتولى الخطوة التالية؟ وما الذي يجب توضيحه قبل اتخاذ القرار؟ ويعمل على تحويل متطلبات الملف إلى متابعة مفهومة، بالتنسيق مع المختصين المسؤولين عن الرأي القانوني.",
+                "يركز أحمد على أن يعرف العميل ما يحدث في ملفه ولماذا، وأن تُعرض عليه احتياجات العمل وتطوراته بصورة واضحة. ويشمل ذلك تنظيم التواصل، ومتابعة مراحل الخدمة، وتطوير آليات العمل التي تساعد الفريق على تقديم تجربة متسقة ومهنية.",
+                "ومن خلال التواصل بالعربية والإنجليزية والروسية، يدعم عملاء من خلفيات متعددة، ويهتم بتقريب متطلبات الإجراءات إلى فهمهم العملي. ويرتكز توجهه في إدارة الشركة على علاقة مهنية تُبنى على وضوح الالتزامات، ودقة المتابعة، وفهم مصلحة العميل على المدى الطويل."
+            ],
+            "ru": [
+                "Ахмед Мохаммади руководит деятельностью Summit, отвечает за развитие услуг, организацию процессов, профессиональные связи и взаимодействие с клиентами. Его роль объединяет понимание потребностей частных лиц и компаний с координацией юридической команды, чтобы объём услуг был понятен, а работа организована с первого обращения.",
+                "Опыт управления бизнесом и сопровождения дел в правовой среде ОАЭ даёт ему практическое понимание потребностей клиента: какой документ нужен, кто отвечает за следующий шаг и что необходимо уточнить до принятия решения. Он организует понятный порядок работы с требованиями дела во взаимодействии со специалистами, отвечающими за юридическое заключение.",
+                "Для Ахмеда важно, чтобы клиент понимал, что происходит по его делу и почему, и получал ясную информацию о необходимых действиях и ходе работы. Это включает организацию общения, контроль этапов оказания услуг и развитие процессов, помогающих команде поддерживать последовательный профессиональный уровень работы с клиентом.",
+                "Общаясь на арабском, английском и русском языках, он помогает клиентам с разным опытом и делает требования процедур понятными с практической точки зрения. Его подход к управлению компанией основан на профессиональных отношениях, ясных обязательствах, точном сопровождении и понимании долгосрочных интересов клиента."
+            ]
+        },
+        "alt": {
+            "en": "Ahmed Mohammadi, Managing Director and Co-Founder of Summit Legal Consultancy",
+            "ar": "أحمد محمدي، المدير التنفيذي والشريك المؤسس في سَمِت للاستشارات القانونية",
+            "ru": "Ахмед Мохаммади, управляющий директор и соучредитель Summit Legal Consultancy"
+        },
+        "areas": {
+            "en": {
+                "heading": "Areas of Focus",
+                "items": [
+                    "Executive management, strategic direction and organisational growth.",
+                    "Service development, operational quality and coordination within the team.",
+                    "Organising the client experience from first contact to completion of the engagement scope.",
+                    "Explaining work stages and file requirements in coordination with the legal specialist.",
+                    "Monitoring matter progress and organising communication and required information.",
+                    "Building professional relationships and coordinating with relevant organisations and authorities.",
+                    "Supporting clients across languages and backgrounds."
+                ]
+            },
+            "ar": {
+                "heading": "مجالات التركيز",
+                "items": [
+                    "الإدارة التنفيذية والتوجه الاستراتيجي والنمو المؤسسي.",
+                    "تطوير الخدمات وتحسين جودة العمليات والتنسيق داخل الفريق.",
+                    "تنظيم تجربة العميل من التواصل الأول حتى استكمال نطاق التكليف.",
+                    "شرح خطوات العمل ومتطلبات الملف بالتنسيق مع المختص القانوني.",
+                    "متابعة سير الملفات وتنظيم التواصل والمعلومات المطلوبة.",
+                    "بناء العلاقات المهنية والتنسيق المؤسسي مع الجهات ذات الصلة.",
+                    "دعم العملاء متعددي اللغات والخلفيات."
+                ]
+            },
+            "ru": {
+                "heading": "Основные направления работы",
+                "items": [
+                    "Управление компанией, стратегическое развитие и организационный рост.",
+                    "Развитие услуг, повышение качества процессов и координация команды.",
+                    "Организация работы с клиентом от первого обращения до выполнения согласованного поручения.",
+                    "Разъяснение этапов работы и необходимых материалов совместно с юридическим специалистом.",
+                    "Контроль хода дел, организация общения и сбора необходимых сведений.",
+                    "Развитие профессиональных связей и взаимодействие с соответствующими организациями и органами.",
+                    "Поддержка клиентов, говорящих на разных языках и имеющих разный опыт."
+                ]
+            }
+        },
+        "languages": {
+            "en": "Working Languages: Arabic · English · Russian",
+            "ar": "لغات العمل: العربية · الإنجليزية · الروسية",
+            "ru": "Рабочие языки: арабский · английский · русский"
+        },
+        "links": {
+            "en": [
+                {
+                    "label": "Contact Summit About Your Needs",
+                    "target": "P07"
+                }
+            ],
+            "ar": [
+                {
+                    "label": "تواصل مع سَمِت بشأن احتياجاتك",
+                    "target": "P07"
+                }
+            ],
+            "ru": [
+                {
+                    "label": "Обратитесь в Summit по вашему вопросу",
+                    "target": "P07"
+                }
+            ]
+        }
+    },
+    "team-mohamed": {
+        "anchor": "team-mohamed",
+        "position": 2,
+        "portrait": "dr-mohamed-raouf",
+        "name": {
+            "en": "Dr Mohamed Raouf",
+            "ar": "د. محمد رؤوف",
+            "ru": "Д-р Мохамед Рауф"
+        },
+        "role": {
+            "en": "Principal Legal Consultant",
+            "ar": "المستشار القانوني الرئيسي",
+            "ru": "Главный юридический консультант"
+        },
+        "focus": {
+            "en": "Doctorate in Law · Civil, Commercial and Criminal Legal Advice",
+            "ar": "دكتوراه في القانون · استشارات مدنية وتجارية وجزائية",
+            "ru": "Докторская степень в области права · Консультации по гражданским, коммерческим и уголовным вопросам"
+        },
+        "bio": {
+            "en": [
+                "Dr Mohamed Raouf examines legal matters and develops the advice that guides the handling of a file. He holds a doctorate in law. His work combines analysis of facts and documents, review of contracts, judgments and evidence, and identification of claim or defence options according to the nature and stage of the matter.",
+                "His review begins with what the documents actually establish: what is the relationship between the parties, which obligation is disputed, and what can be proved before the competent authority? He pays particular attention to points that may appear settled on the face of a document, but whose effect changes when read alongside correspondence, payments and the sequence of events.",
+                "His practice covers civil, commercial and criminal matters, including cheques, fraud, forgery, financial crime, money laundering, cybercrime and digital assets. This range helps him examine the connected aspects of a matter while distinguishing the requirements for civil and criminal liability and the effects of each set of proceedings.",
+                "He draws on his comparative law experience where relevant, grounding his advice in the legal system applicable to the facts. He focuses on preparing clear opinions and submissions that address the disputed issues, explain what supports the position and identify what needs further proof, within the agreed scope of engagement."
+            ],
+            "ar": [
+                "يتولى د. محمد رؤوف دراسة المسائل القانونية وبناء الرأي الذي يستند إليه التعامل مع الملف. ويحمل دكتوراه في القانون، ويجمع عمله بين تحليل الوقائع والمستندات، ومراجعة العقود والأحكام والأدلة، وتحديد خيارات المطالبة أو الدفاع بحسب طبيعة المسألة ومرحلتها.",
+                "تبدأ مراجعته بما تقوله الأوراق فعلًا: ما العلاقة بين الأطراف؟ ما الالتزام محل الخلاف؟ وما الذي يمكن إثباته أمام الجهة المختصة؟ ويولي اهتمامًا للنقاط التي قد تبدو محسومة في ظاهر المستند، بينما يتغير أثرها عند قراءتها مع المراسلات والدفعات وتسلسل الأحداث.",
+                "تشمل مجالات عمله المسائل المدنية والتجارية والجزائية، بما فيها الشيكات والاحتيال والتزوير والجرائم المالية وغسل الأموال والجرائم الإلكترونية والأصول الرقمية. ويساعد هذا التنوع على فحص أبعاد الملف المتصلة، مع التمييز بين شروط المسؤولية المدنية والجزائية وأثر كل مسار.",
+                "ويستفيد من خبرته في القانون المقارن عند تحليل المسائل ذات الصلة، مع ربط الرأي بالنظام الواجب التطبيق على الوقائع. ويركز على إعداد رأي ومذكرات واضحة تعالج مواضع الخلاف وتبين ما يدعم الموقف وما يحتاج إلى إثبات إضافي، ضمن نطاق التكليف المتفق عليه."
+            ],
+            "ru": [
+                "Д-р Мохамед Рауф изучает правовые вопросы и формирует заключение, на котором строится дальнейшая работа по делу. Он обладает докторской степенью в области права. Его работа объединяет анализ обстоятельств и документов, проверку договоров, судебных решений и доказательств, определение вариантов предъявления требований или защиты с учётом характера дела и его стадии.",
+                "Его анализ начинается с того, что действительно подтверждают документы: каковы отношения сторон, какое обязательство оспаривается и что можно доказать перед компетентным органом? Особое внимание он уделяет вопросам, которые по отдельному документу кажутся решёнными, но приобретают иное значение при сопоставлении с перепиской, платежами и последовательностью событий.",
+                "В сферу его работы входят гражданские, коммерческие и уголовные вопросы, включая чеки, мошенничество, подделку документов, финансовые преступления, отмывание денег, киберпреступления и цифровые активы. Разнообразие направлений помогает исследовать взаимосвязанные стороны дела, разграничивая условия гражданской и уголовной ответственности и последствия каждого производства.",
+                "При анализе соответствующих вопросов он использует опыт в сравнительном правоведении, связывая заключение с правом, применимым к обстоятельствам. Он сосредоточен на подготовке ясных заключений и письменных позиций, которые раскрывают суть разногласий, подтверждающие доводы и вопросы, требующие дополнительных доказательств, в пределах согласованного поручения."
+            ]
+        },
+        "alt": {
+            "en": "Dr Mohamed Raouf, Principal Legal Consultant at Summit Legal Consultancy",
+            "ar": "الدكتور محمد رؤوف، المستشار القانوني الرئيسي في سَمِت للاستشارات القانونية",
+            "ru": "Д-р Мохамед Рауф, главный юридический консультант Summit Legal Consultancy"
+        },
+        "areas": {
+            "en": {
+                "heading": "Areas of Expertise",
+                "items": [
+                    "Commercial and corporate law.",
+                    "Civil matters and dispute resolution.",
+                    "Analysis of criminal case files, complaints and reports of offences.",
+                    "Cheques, fraud and forgery.",
+                    "Financial crime and money laundering.",
+                    "Cybercrime and digital assets.",
+                    "Analysis of judgments, evidence, and claim and defence options.",
+                    "Compliance and regulatory matters.",
+                    "Contract drafting and review.",
+                    "Preparing submissions, legal opinions and strategic legal advice."
+                ]
+            },
+            "ar": {
+                "heading": "مجالات الخبرة",
+                "items": [
+                    "القانون التجاري والشركات.",
+                    "القضايا المدنية وحل النزاعات.",
+                    "دراسة الملفات الجزائية والشكاوى والبلاغات.",
+                    "الشيكات والاحتيال والتزوير.",
+                    "الجرائم المالية وغسل الأموال.",
+                    "الجرائم الإلكترونية والأصول الرقمية.",
+                    "تحليل الأحكام والأدلة وخيارات المطالبة والدفاع.",
+                    "الامتثال والمسائل التنظيمية.",
+                    "صياغة العقود ومراجعتها.",
+                    "إعداد المذكرات والآراء والاستشارات القانونية الاستراتيجية."
+                ]
+            },
+            "ru": {
+                "heading": "Профессиональные направления",
+                "items": [
+                    "Коммерческое и корпоративное право.",
+                    "Гражданские дела и разрешение споров.",
+                    "Анализ материалов уголовных дел, жалоб и заявлений о преступлениях.",
+                    "Чеки, мошенничество и подделка документов.",
+                    "Финансовые преступления и отмывание денег.",
+                    "Киберпреступления и цифровые активы.",
+                    "Анализ судебных решений, доказательств и вариантов предъявления требований и защиты.",
+                    "Комплаенс и регуляторные вопросы.",
+                    "Составление и проверка договоров.",
+                    "Подготовка письменных позиций, правовых заключений и стратегических юридических консультаций."
+                ]
+            }
+        },
+        "languages": {
+            "en": "Working Languages: Arabic · English",
+            "ar": "لغات العمل: العربية · الإنجليزية",
+            "ru": "Рабочие языки: арабский · английский"
+        },
+        "links": {
+            "en": [
+                {
+                    "label": "Criminal Cases",
+                    "target": "S02"
+                },
+                {
+                    "label": "Debts and Cheques",
+                    "target": "S01"
+                },
+                {
+                    "label": "Cryptocurrencies and Digital Assets",
+                    "target": "S03"
+                }
+            ],
+            "ar": [
+                {
+                    "label": "القضايا الجزائية",
+                    "target": "S02"
+                },
+                {
+                    "label": "الديون والشيكات",
+                    "target": "S01"
+                },
+                {
+                    "label": "العملات الرقمية والأصول الرقمية",
+                    "target": "S03"
+                }
+            ],
+            "ru": [
+                {
+                    "label": "Уголовные дела",
+                    "target": "S02"
+                },
+                {
+                    "label": "Долги и чеки",
+                    "target": "S01"
+                },
+                {
+                    "label": "Криптовалюты и цифровые активы",
+                    "target": "S03"
+                }
+            ]
+        }
+    },
+    "team-sarah": {
+        "anchor": "team-sarah",
+        "position": 3,
+        "portrait": null,
+        "name": {
+            "en": "Ms Sarah Zaki",
+            "ar": "الأستاذة سارة زكي",
+            "ru": "Сара Заки"
+        },
+        "role": {
+            "en": "Senior Legal Consultant",
+            "ar": "مستشارة قانونية أولى",
+            "ru": "Старший юридический консультант"
+        },
+        "focus": {
+            "en": "UAE Law, Contracts, and Civil and Commercial Matters",
+            "ar": "القانون الإماراتي والعقود والمسائل المدنية والتجارية",
+            "ru": "Право ОАЭ, договоры, гражданские и коммерческие вопросы"
+        },
+        "bio": {
+            "en": [
+                "Sarah Zaki examines civil and commercial matters, drafts and reviews contracts and agreements, and prepares submissions and written legal advice. Her work includes analysing documents for individuals and businesses against the relevant federal and local legal frameworks in the UAE.",
+                "In reviewing a contract, she gives as much attention to what the text leaves unaddressed as to what it says. Who can approve performance? When does payment fall due? How are changes, termination or disagreements over obligations handled? This approach helps reveal ambiguities that may become the basis of a later dispute.",
+                "The matters she works on include company contracts, commercial agreements, memoranda of understanding and personal contracts, as well as corporate documents, internal policies and compliance records. She connects the review of wording to the agreement's purpose and practical performance, so that the document reflects what the parties actually intend to regulate.",
+                "When a disagreement exists, she starts by examining the facts, obligations and correspondence to identify the issues that need to be addressed. Her approach combines precision in drafting, document assessment and work towards resolving disputes at an early stage, where the facts and appropriate procedure allow."
+            ],
+            "ar": [
+                "تعمل سارة زكي على دراسة المسائل المدنية والتجارية، وصياغة العقود والاتفاقيات ومراجعتها، وإعداد المذكرات والاستشارات المكتوبة. ويشمل عملها تحليل مستندات الأفراد والشركات في ضوء الأطر الاتحادية والمحلية ذات الصلة في دولة الإمارات.",
+                "في مراجعة العقد، تهتم بما قد يتركه النص دون معالجة بقدر اهتمامها بما ينص عليه. من يملك اعتماد التنفيذ؟ متى يستحق المقابل؟ وكيف تُعالج التغييرات أو الإنهاء أو الاختلاف على الالتزامات؟ تساعد هذه القراءة على كشف الغموض الذي قد يصبح أساسًا لنزاع لاحق.",
+                "وتشمل الملفات التي تعمل عليها عقود الشركات والاتفاقيات التجارية ومذكرات التفاهم والعقود الشخصية، إلى جانب المستندات المؤسسية والسياسات الداخلية ومستندات الامتثال. وتربط مراجعة الصياغة بالغرض من الاتفاق وطريقة تنفيذه، حتى تعكس الوثيقة ما يريد الأطراف تنظيمه فعلًا.",
+                "وعند وجود خلاف، تبدأ بدراسة الوقائع والالتزامات والمراسلات لتحديد المسائل التي تحتاج إلى معالجة. ويجمع منهجها بين دقة الصياغة وتقييم المستندات والعمل على معالجة النزاع في مرحلته المبكرة، متى أتاحت الوقائع والمسار المناسب ذلك."
+            ],
+            "ru": [
+                "Сара Заки изучает гражданские и коммерческие вопросы, составляет и проверяет договоры и соглашения, готовит письменные позиции и юридические заключения. В её работу входит анализ документов частных лиц и компаний с учётом соответствующего федерального и местного регулирования в ОАЭ.",
+                "При проверке договора она уделяет не меньше внимания неурегулированным вопросам, чем прямо указанным условиям. Кто вправе принять исполнение? Когда возникает обязанность оплаты? Как оформляются изменения, прекращение договора или разногласия об обязательствах? Такой подход помогает выявить неясности, которые впоследствии могут стать основой спора.",
+                "Она работает с договорами компаний, коммерческими соглашениями, меморандумами о взаимопонимании и договорами частных лиц, а также с корпоративными документами, внутренними политиками и материалами по комплаенсу. Проверку формулировок она связывает с целью соглашения и порядком его исполнения, чтобы документ отражал отношения, которые стороны действительно намерены урегулировать.",
+                "При возникновении разногласий она начинает с изучения обстоятельств, обязательств и переписки, определяя вопросы, требующие разрешения. Её подход сочетает точность формулировок, оценку документов и работу над урегулированием спора на ранней стадии, если это позволяют обстоятельства и подходящая процедура."
+            ]
+        },
+        "alt": {
+            "en": "Ms Sarah Zaki, Senior Legal Consultant at Summit Legal Consultancy",
+            "ar": "الأستاذة سارة زكي، مستشارة قانونية أولى في سَمِت للاستشارات القانونية",
+            "ru": "Сара Заки, старший юридический консультант Summit Legal Consultancy"
+        },
+        "areas": {
+            "en": {
+                "heading": "Areas of Expertise",
+                "items": [
+                    "Drafting and reviewing commercial contracts and agreements.",
+                    "Examining and analysing civil and commercial legal matters.",
+                    "UAE law and relevant federal and local frameworks.",
+                    "Support with company matters and corporate documents.",
+                    "Reviewing legal documents, internal policies and compliance records.",
+                    "Preparing legal submissions and written advice.",
+                    "Assessing ambiguities and obligations in documents.",
+                    "Addressing disputes at an early stage."
+                ]
+            },
+            "ar": {
+                "heading": "مجالات الخبرة",
+                "items": [
+                    "صياغة العقود والاتفاقيات التجارية ومراجعتها.",
+                    "دراسة المسائل القانونية المدنية والتجارية وتحليلها.",
+                    "القانون الإماراتي والأطر الاتحادية والمحلية ذات الصلة.",
+                    "دعم ملفات الشركات والمستندات المؤسسية.",
+                    "مراجعة المستندات القانونية والسياسات الداخلية ومستندات الامتثال.",
+                    "إعداد المذكرات القانونية والاستشارات المكتوبة.",
+                    "تقييم مواضع الغموض والالتزامات في المستندات.",
+                    "معالجة النزاعات في مرحلتها المبكرة."
+                ]
+            },
+            "ru": {
+                "heading": "Профессиональные направления",
+                "items": [
+                    "Составление и проверка коммерческих договоров и соглашений.",
+                    "Изучение и анализ гражданских и коммерческих правовых вопросов.",
+                    "Право ОАЭ и соответствующее федеральное и местное регулирование.",
+                    "Сопровождение вопросов компаний и корпоративных документов.",
+                    "Проверка юридических документов, внутренних политик и материалов по комплаенсу.",
+                    "Подготовка письменных правовых позиций и консультаций.",
+                    "Оценка неясностей и обязательств в документах.",
+                    "Работа над урегулированием споров на ранней стадии."
+                ]
+            }
+        },
+        "languages": {
+            "en": "Working Languages: Arabic · English",
+            "ar": "لغات العمل: العربية · الإنجليزية",
+            "ru": "Рабочие языки: арабский · английский"
+        },
+        "links": {
+            "en": [
+                {
+                    "label": "Companies and Commercial Contracts",
+                    "target": "S04"
+                },
+                {
+                    "label": "Compliance and Regulatory Matters",
+                    "target": "S09"
+                }
+            ],
+            "ar": [
+                {
+                    "label": "الشركات والعقود التجارية",
+                    "target": "S04"
+                },
+                {
+                    "label": "الامتثال والمسائل التنظيمية",
+                    "target": "S09"
+                }
+            ],
+            "ru": [
+                {
+                    "label": "Компании и коммерческие договоры",
+                    "target": "S04"
+                },
+                {
+                    "label": "Комплаенс и регуляторные вопросы",
+                    "target": "S09"
+                }
+            ]
+        }
+    }
+}

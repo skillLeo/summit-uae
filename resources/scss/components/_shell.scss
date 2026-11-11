@@ -1,0 +1,285 @@
+@use "../tokens/tokens" as *;
+
+// =============================================================================
+// Native-app mobile shell: bottom bar (<768) and sheets (all widths).
+// No floating buttons; the bar hides on scroll-down and never covers content.
+// =============================================================================
+
+.bottombar {
+  position: fixed;
+  inset-inline: 0;
+  inset-block-end: 0;
+  z-index: 30;
+  padding-block-end: var(--safe-bottom);
+  color: var(--ink);
+  background: var(--white);
+  box-shadow: 0 calc(-1 * var(--hairline)) 0 var(--rule);
+  transition: transform var(--dur-3) var(--ease-sheet);
+
+  @media (min-width: $bp-md) {
+    display: none;
+  }
+
+  &.is-hidden {
+    transform: translateY(100%);
+  }
+}
+
+.bottombar__list {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bottombar__item {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: var(--s-4);
+  inline-size: 100%;
+  block-size: 100%;
+  min-block-size: var(--bottombar-h);
+  padding: var(--s-12) var(--s-4) var(--s-8);
+  border: 0;
+  color: var(--ink-2);
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-weight: var(--fw-medium);
+  line-height: 1.15;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+
+  .icon {
+    inline-size: var(--icon-lg);
+    block-size: var(--icon-lg);
+  }
+
+  // Active destination: gold index line on top of the item, ink label.
+  &::before {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline: 30%;
+    block-size: var(--focus-w);
+    background: var(--gold);
+    content: "";
+    transform: scaleX(0);
+    transition: transform var(--dur-2) var(--ease-out);
+  }
+
+  &[aria-current="page"],
+  &[aria-expanded="true"] {
+    color: var(--ink);
+
+    &::before {
+      transform: scaleX(1);
+    }
+  }
+
+  &:hover {
+    color: var(--ink);
+  }
+
+  &:focus-visible {
+    outline-offset: calc(-1 * var(--focus-w));
+  }
+}
+
+// Approved navigation labels, never truncated: they wrap at word boundaries only.
+.bottombar__label {
+  display: block;
+  max-inline-size: 100%;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: manual;
+
+  :lang(ru) & {
+    font-size: var(--fs-nano);
+  }
+}
+
+// ---------------------------------------------------------------- sheets
+.sheet-root {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  align-items: end;
+  pointer-events: none;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.sheet-scrim {
+  position: absolute;
+  inset: 0;
+  background: var(--scrim);
+  opacity: 0;
+  pointer-events: auto;
+  transition: opacity var(--dur-3) var(--ease-sheet);
+}
+
+.sheet {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  inline-size: 100%;
+  max-block-size: calc(100dvh - var(--s-48) - var(--safe-top));
+  margin-inline: auto;
+  color: var(--ink);
+  background: var(--white);
+  border-start-start-radius: var(--radius-sheet);
+  border-start-end-radius: var(--radius-sheet);
+  box-shadow: var(--shadow-sheet);
+  transform: translateY(100%);
+  pointer-events: auto;
+  transition: transform var(--dur-3) var(--ease-sheet);
+
+  @media (min-width: $bp-md) {
+    max-inline-size: 36rem;
+  }
+
+  &.is-dragging {
+    transition: none;
+  }
+}
+
+.sheet-root.is-open {
+  .sheet-scrim {
+    opacity: 1;
+  }
+
+  .sheet {
+    transform: translateY(var(--drag, 0%));
+  }
+}
+
+.sheet__header {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--s-16);
+  padding: var(--s-24) var(--s-16) var(--s-12) var(--s-24);
+  border-block-end: var(--hairline) solid var(--rule);
+  touch-action: none;
+}
+
+.sheet__handle {
+  position: absolute;
+  inset-block-start: var(--s-8);
+  inset-inline-start: 50%;
+  inline-size: var(--s-48);
+  block-size: var(--s-4);
+  border-radius: var(--radius-pill);
+  background: var(--rule-strong);
+  transform: translateX(-50%);
+
+  [dir="rtl"] & {
+    transform: translateX(50%);
+  }
+}
+
+.sheet__title {
+  font-family: var(--font-serif);
+  font-size: var(--fs-h4);
+  line-height: var(--lh-h4);
+}
+
+.sheet__meta {
+  color: var(--ink-2);
+  font-size: var(--fs-ui);
+  font-variant-numeric: tabular-nums;
+}
+
+.sheet__body {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--s-8) var(--s-24) var(--s-24);
+}
+
+.sheet__footer {
+  display: grid;
+  gap: var(--s-12);
+  padding: var(--s-16) var(--s-24) calc(var(--s-16) + var(--safe-bottom));
+  border-block-start: var(--hairline) solid var(--rule);
+  background: var(--white);
+}
+
+// List of destinations inside a sheet.
+.sheet-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  a,
+  button {
+    display: flex;
+    align-items: center;
+    gap: var(--s-16);
+    inline-size: 100%;
+    min-block-size: var(--target-mobile);
+    padding-block: var(--s-12);
+    border: 0;
+    border-block-end: var(--hairline) solid var(--rule);
+    color: var(--ink);
+    background: transparent;
+    font-family: var(--font-sans);
+    font-size: var(--fs-body);
+    line-height: 1.35;
+    text-align: start;
+    text-decoration: none;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--bronze-strong);
+    }
+
+    .icon {
+      flex: none;
+      inline-size: var(--icon-lg);
+      block-size: var(--icon-lg);
+      color: var(--bronze);
+    }
+  }
+
+  [aria-current="true"],
+  [aria-current="page"] {
+    font-weight: var(--fw-semibold);
+  }
+}
+
+.sheet-list__index {
+  flex: none;
+  min-inline-size: 1.75rem;
+  color: var(--bronze);
+  font-size: var(--fs-ui);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.sheet-group + .sheet-group {
+  margin-block-start: var(--s-24);
+}
+
+.sheet-group__title {
+  margin-block-end: var(--s-4);
+  color: var(--ink-2);
+  font-family: var(--font-sans);
+  font-size: var(--fs-ui);
+  font-weight: var(--fw-medium);
+}
+
+// Background content while a sheet is open.
+.is-inert {
+  user-select: none;
+}
+
+html.sheet-open {
+  overflow: hidden;
+}

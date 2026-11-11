@@ -1,0 +1,182 @@
+/*
+ * Design 2 inner page: FAQ (P05, resources/views/designs/d2/inner/faq.blade.php; owner: inner).
+ * The FAQ browser itself (search, tabs, accordion, links) is the search area's <x-d2.faq.browser>
+ * (sections/faq.css); this file lays out the page around it:
+ *   .faq-topics   the approved "Choose a topic" menu in the head's aside: twelve whole-row links to
+ *                 #cat-01 … #cat-12 with the label and the question count
+ *   .faq-browse   "Find your question" + the browser + "Back to FAQ categories"
+ *   .pp-scope     "Limits of the Answers and Scope of Services" (a note on the cool band + link rows)
+ * The CTA card and link rows are the shared blocks (pages/about.css, the kit's .link-row).
+ * Design 2.1 (brief §3.3–3.6): no practice-area glyph or chevron on the topic rows, no shadow, no warm wash;
+ * panel titles take the H3 role.
+ */
+@layer pages {
+  /* ================================================================== topic index */
+  .faq-topics {
+    display: grid;
+    gap: var(--s-3);
+    padding: var(--s-5) var(--s-4) var(--s-4);
+    background: var(--canvas);
+    border: var(--line-w) solid var(--line);
+    border-radius: var(--radius-card);
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  /* a panel title: the H3 role (its outline level is h2) */
+  .faq-topics__title {
+    padding-inline: var(--s-2);
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+  }
+
+  .faq-topics__list {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .faq-topics__list > li + li {
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  /* one row: the approved label on the start side, the proposed count on the end side (ink-3, tabular) */
+  .faq-topic {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    gap: var(--s-3);
+    align-items: baseline;
+    justify-content: space-between;
+    min-block-size: var(--target-touch);
+    padding: var(--s-3) var(--s-2);
+    color: var(--ink);
+    border-radius: var(--radius-control);
+    text-decoration: none;
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: var(--hover-tint);
+      border-radius: inherit;
+      opacity: 0;
+    }
+
+    &:hover::before {
+      opacity: 1;
+    }
+
+    &:hover .faq-topic__label {
+      text-decoration: underline;
+      text-decoration-thickness: var(--line-w);
+      text-underline-offset: 3px;
+    }
+  }
+
+  .faq-topic__label {
+    min-inline-size: 0;
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+  }
+
+  .faq-topic__count {
+    flex: none;
+    color: var(--ink-3);
+    font-size: var(--fs-small);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-small);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .faq-topic::before {
+      transition: opacity var(--dur-hover) var(--ease-out);
+    }
+  }
+
+  @media (pointer: fine) {
+    .faq-topic {
+      min-block-size: var(--target);
+    }
+  }
+
+  @media (width >= 1280px) {
+    .faq-topic {
+      padding-block: var(--s-2);
+    }
+  }
+
+  @media (width >= 768px) and (width < 1280px) {
+    .faq-topics__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: var(--s-6);
+    }
+
+    /* two columns: the hairline separates rows within each column */
+    .faq-topics__list > li + li {
+      border-block-start: 0;
+    }
+
+    .faq-topics__list > li:nth-child(n + 3) {
+      border-block-start: var(--line-w) solid var(--line);
+    }
+  }
+
+  /* ================================================================== browser section */
+  .faq-browse__head {
+    margin-block-end: var(--s-8);
+  }
+
+  .faq-browse__back {
+    display: flex;
+    justify-content: flex-start;
+    margin-block-start: var(--s-8);
+  }
+
+  /* ================================================================== scope note (the cool band) */
+  .pp-scope {
+    display: grid;
+    gap: var(--s-6);
+    padding: var(--pad-card);
+    background: var(--band);
+    border-radius: var(--radius-card);
+  }
+
+  .pp-scope__text {
+    display: grid;
+    gap: var(--s-4);
+  }
+
+  .pp-scope__body {
+    display: grid;
+    gap: var(--s-4);
+    min-inline-size: 0;
+    max-inline-size: var(--prose);
+
+    p {
+      color: var(--ink);
+    }
+  }
+
+  .pp-scope__title {
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+  }
+
+  @media (width >= 768px) {
+    .pp-scope {
+      padding: var(--s-12);
+    }
+  }
+}

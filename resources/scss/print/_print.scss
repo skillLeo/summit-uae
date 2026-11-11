@@ -1,0 +1,121 @@
+// =============================================================================
+// Print. Default: the page without its interface chrome.
+// html.print-file: only the Navigator's starting file, with emblem, date and the
+// approved disclaimer (set by JS right before window.print()).
+// =============================================================================
+
+@media print {
+  @page {
+    margin: 18mm 16mm;
+  }
+
+  html,
+  body {
+    color: var(--black);
+    background: var(--white);
+    font-size: 11pt;
+  }
+
+  .site-header,
+  .bottombar,
+  .sheet-root,
+  .lang-suggest,
+  .skip-link,
+  .hero__actions,
+  .file,
+  .navigator__launch,
+  .navigator__sheet-head,
+  .navigator__sheet-foot,
+  .file-card__actions,
+  .file-card__saved,
+  .form,
+  .site-footer__specialist {
+    display: none !important;
+  }
+
+  .hero {
+    color: var(--black);
+    background: var(--white);
+  }
+
+  .hero__title,
+  .hero__text {
+    color: var(--black);
+  }
+
+  a {
+    color: var(--black);
+  }
+
+  .section {
+    padding-block: 12pt;
+    break-inside: avoid-page;
+  }
+
+  // ---- starting file only
+  html.print-file {
+    body > *:not(main),
+    main > *:not(#navigator) {
+      display: none !important;
+    }
+
+    #navigator {
+      padding: 0;
+    }
+
+    .navigator__head,
+    .navigator__pane--pick,
+    .picker {
+      display: none !important;
+    }
+
+    .navigator__app {
+      position: static !important;
+      display: block !important;
+      transform: none !important;
+      visibility: visible !important;
+      box-shadow: none !important;
+    }
+
+    .navigator__pane--file {
+      display: block !important;
+    }
+
+    .file-card {
+      padding: 0;
+      border: 0;
+      box-shadow: none;
+    }
+
+    .file-card__print-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12pt;
+      padding-block-end: 10pt;
+      border-block-end: var(--hairline) solid var(--black);
+
+      svg {
+        inline-size: 48mm;
+        color: var(--black);
+        fill: currentcolor;
+      }
+    }
+
+    .file-card__print-foot {
+      display: block;
+      padding-block-start: 10pt;
+      border-block-start: var(--hairline) solid var(--black);
+      font-size: 9pt;
+    }
+
+    .doc-row,
+    .file-card__section {
+      break-inside: avoid;
+    }
+
+    .check__input {
+      border-color: var(--black);
+    }
+  }
+}

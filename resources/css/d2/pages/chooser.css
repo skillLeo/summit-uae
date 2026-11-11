@@ -1,0 +1,154 @@
+/*
+ * Design 2 page: root language chooser (owner: inner; d2::pages.chooser at "/").
+ * A calm, centred composition on the white page: the official lockup (the H1, named by the brand),
+ * "Choose language" in each language, and one whole-card link per language (<x-d2.ui.card as="a">: the edge
+ * turns ink and the name underlines on hover). Each card is in its own language and direction (lang + dir on
+ * the link): the Arabic card is laid out right to left in the Arabic face.
+ * Phones and portrait tablets (below 1024 px): one card per row (name over the approved home H1); from 768 px a
+ * centred 640 px column whose gaps grow with the window height, so a 768 × 1024 tablet shows no empty band over
+ * 160 px. From 1024 px: three columns.
+ * Design 2.1 (brief §3.3–3.8): no centred light, no black tile, no codes, no arrows, no middle dots.
+ */
+@layer pages {
+  .chooser {
+    display: grid;
+    place-items: center;
+    min-block-size: 100svh;
+    padding: var(--s-16) var(--pad-x);
+    background: var(--canvas);
+  }
+
+  .chooser:focus {
+    outline: none;
+  }
+
+  .chooser__inner {
+    display: grid;
+    gap: var(--s-12);
+    justify-items: center;
+    inline-size: 100%;
+    max-inline-size: 1040px;
+    text-align: center;
+  }
+
+  /* ------------------------------------------------------------------ brand (the H1): the lockup in its gold */
+  .chooser__brand {
+    display: grid;
+    justify-items: center;
+    margin: 0;
+    color: var(--gold);
+    font-size: var(--fs-body);
+    line-height: 1;
+  }
+
+  .chooser__lockup {
+    display: block;
+    inline-size: auto;
+    block-size: var(--s-16);
+  }
+
+  /* ------------------------------------------------------------------ "Choose language" in three languages
+     Mobile: one phrase per line; from 768 px one line, the phrases set apart by space alone (no separators). */
+  .chooser__prompt {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-1);
+    align-items: center;
+    color: var(--ink-2);
+    font-size: var(--fs-lead);
+    line-height: var(--lh-lead);
+  }
+
+  /* ------------------------------------------------------------------ language cards */
+  .chooser__list {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-4);
+    inline-size: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .chooser__item {
+    display: grid;
+  }
+
+  .chooser-card {
+    text-align: start;
+  }
+
+  .chooser-card__body {
+    display: grid;
+    gap: var(--s-1);
+    min-inline-size: 0;
+  }
+
+  /* the approved language name in its own script: the H3 role */
+  .chooser-card__name {
+    color: var(--ink);
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+  }
+
+  .chooser-card:hover .chooser-card__name {
+    text-decoration: underline;
+    text-decoration-thickness: var(--line-w);
+    text-underline-offset: 3px;
+  }
+
+  .chooser-card__line {
+    color: var(--ink-2);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+  }
+
+  @media (width >= 768px) {
+    .chooser {
+      padding-block: var(--s-24);
+    }
+
+    .chooser__lockup {
+      block-size: var(--s-24);
+    }
+
+    .chooser__prompt {
+      flex-flow: row wrap;
+      gap: var(--s-2) var(--s-8);
+      justify-content: center;
+    }
+  }
+
+  /* Portrait tablets: the phone's rows in a centred column, the composition a step more open. */
+  @media (width >= 768px) and (width < 1024px) {
+    .chooser__inner {
+      gap: var(--s-16);
+    }
+
+    .chooser__list {
+      gap: var(--s-5);
+      max-inline-size: 640px;
+    }
+  }
+
+  @media (width >= 1024px) {
+    .chooser__list {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--gutter);
+    }
+
+    /* the approved lines differ in length: each card's text starts at its top */
+    .chooser-card__body {
+      align-content: start;
+      block-size: 100%;
+    }
+  }
+
+  @media (width >= 1280px) {
+    .chooser__inner {
+      gap: var(--s-16);
+    }
+  }
+}

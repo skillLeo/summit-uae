@@ -1,0 +1,353 @@
+@use "sass:math";
+@use "../tokens/tokens" as *;
+
+// =============================================================================
+// Hero "The File": black band, approved H1 as instant text (LCP), and an
+// aria-hidden composition of seven abstract slips settling once onto a gold
+// spine indexed by the four approved method steps.
+// The FINAL frame is pure CSS; JS only animates from a scattered start.
+// =============================================================================
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  color: var(--on-dark);
+  background: var(--black);
+}
+
+.hero__inner {
+  row-gap: var(--s-48);
+  align-content: center;
+  padding-block: var(--s-32) var(--s-48);
+
+  @media (min-width: $bp-sm) {
+    padding-block: var(--s-64);
+  }
+
+  @media (min-width: $bp-lg) {
+    min-block-size: clamp(var(--hero-min), 88vh, var(--hero-max));
+    padding-block: var(--s-96);
+
+    // Russian copy runs ~30% longer: tighter band so CTA 1 stays in the first screen.
+    :lang(ru) & {
+      padding-block: var(--s-64);
+    }
+  }
+}
+
+.hero__copy {
+  display: grid;
+  grid-column: 1 / -1;
+  align-content: center;
+  gap: var(--s-24);
+
+  @media (min-width: $bp-lg) {
+    grid-column: 1 / span 6;
+    gap: var(--s-32);
+  }
+}
+
+.hero__title {
+  color: var(--on-dark);
+
+  // The approved H1 is set on two lines at its sentence boundary; the text is unchanged.
+  .hero__line {
+    display: block;
+  }
+}
+
+.hero__text {
+  display: grid;
+  gap: var(--s-16);
+  max-inline-size: 36rem;
+  color: var(--on-dark-2);
+
+  @media (min-width: $bp-sm) {
+    font-size: var(--fs-lead);
+    line-height: var(--lh-lead);
+  }
+}
+
+.hero__actions {
+  display: grid;
+  gap: var(--s-12);
+
+  @media (min-width: $bp-sm) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-16);
+  }
+
+  .btn {
+    @media (max-width: $bp-sm-max) {
+      inline-size: 100%;
+    }
+  }
+}
+
+.hero__quiet {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-8) var(--s-24);
+  color: var(--on-dark-2);
+  font-size: var(--fs-ui);
+  line-height: var(--lh-ui);
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-8);
+    min-block-size: var(--target);
+    color: var(--on-dark);
+    font-weight: var(--fw-medium);
+    text-decoration-color: var(--rule-dark-strong);
+
+    &:hover {
+      color: var(--gold);
+    }
+
+    .icon {
+      inline-size: var(--icon);
+      block-size: var(--icon);
+      color: var(--gold);
+    }
+  }
+}
+
+// ---------------------------------------------------------------- composition
+// Horizontal band below the copy (<1024: 140px mobile, 220px tablet), vertical file with a
+// labelled spine beside the copy (≥1024). Sizes step up at 1280 and 1440 to stay in columns 8–12.
+.file {
+  --slip-w: 5.25rem;
+  --slip-h: calc(var(--slip-w) * 4 / 3);
+  --slip-step-x: 2.55rem;
+  --slip-step-y: 0rem;
+  --label-zone: 0rem;
+  --tick-zone: 0rem;
+  --tick-half: calc(var(--s-12) / 2);
+
+  position: relative;
+  grid-column: 1 / -1;
+  block-size: var(--band-mobile);
+  pointer-events: none;
+
+  @media (min-width: $bp-sm) {
+    --slip-w: 7rem;
+    --slip-step-x: 4rem;
+    --tick-zone: 2.75rem;
+
+    block-size: var(--band-tablet);
+  }
+
+  @media (min-width: $bp-lg) {
+    --slip-w: 9rem;
+    --slip-step-x: 0.5rem;
+    --slip-step-y: 2.25rem;
+    --label-zone: 8.5rem;
+    --tick-zone: 0rem;
+
+    grid-column: 8 / span 5;
+    align-self: center;
+    block-size: calc(6 * var(--slip-step-y) + var(--slip-h));
+    pointer-events: auto;
+  }
+
+  @media (min-width: $bp-xl) {
+    --slip-w: 11rem;
+    --slip-step-x: 0.75rem;
+    --slip-step-y: 2.75rem;
+    --label-zone: 10rem;
+  }
+
+  @media (min-width: $bp-xxl) {
+    --slip-w: 12rem;
+    --slip-step-y: 3rem;
+    --label-zone: 11rem;
+  }
+}
+
+.file__spine {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: var(--tick-zone);
+  block-size: var(--spine-w);
+  background: var(--gold);
+  transform-origin: var(--origin-start, left) center;
+
+  @media (min-width: $bp-lg) {
+    inset-block: 0;
+    inset-inline: var(--label-zone) auto;
+    inline-size: var(--spine-w);
+    block-size: auto;
+    transform-origin: center top;
+  }
+}
+
+.file__ticks {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.file__tick {
+  position: absolute;
+  inset-block-end: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-8);
+  inline-size: 25%;
+  block-size: calc(var(--tick-zone) + var(--tick-half));
+  color: var(--on-dark-2);
+  font-size: var(--fs-micro);
+  line-height: 1.3;
+  text-align: center;
+
+  &::before {
+    flex: none;
+    inline-size: var(--spine-w);
+    block-size: var(--s-12);
+    background: var(--gold);
+    content: "";
+  }
+
+  @for $i from 1 through 4 {
+    &:nth-child(#{$i}) {
+      inset-inline-start: #{($i - 1) * 25%};
+    }
+  }
+
+  @media (min-width: $bp-lg) {
+    inset-block-end: auto;
+    inset-inline-start: 0;
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+    gap: var(--s-12);
+    inline-size: calc(var(--label-zone) + var(--s-8));
+    block-size: auto;
+    font-size: var(--fs-ui);
+    line-height: var(--lh-ui);
+    text-align: end;
+
+    &::before {
+      inline-size: var(--s-16);
+      block-size: var(--spine-w);
+    }
+
+    @for $i from 1 through 4 {
+      &:nth-child(#{$i}) {
+        inset-inline-start: 0;
+        inset-block-start: calc(#{($i - 1) * 2} * var(--slip-step-y) + var(--s-24));
+      }
+    }
+  }
+}
+
+.file__label {
+  display: none;
+  hyphens: manual;
+
+  @media (min-width: $bp-sm) {
+    display: block;
+    max-inline-size: 10rem;
+  }
+
+  @media (min-width: $bp-lg) {
+    max-inline-size: none;
+  }
+}
+
+.file__slips {
+  position: absolute;
+  inset-block: 0 calc(var(--tick-zone) + var(--s-16));
+  inset-inline: 0;
+
+  @media (min-width: $bp-lg) {
+    inset-block: 0;
+    inset-inline-start: calc(var(--label-zone) + var(--s-32));
+  }
+}
+
+.slip {
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline-start: calc(var(--i) * var(--slip-step-x));
+  display: grid;
+  align-content: start;
+  gap: calc(var(--slip-w) * 0.06);
+  inline-size: var(--slip-w);
+  block-size: var(--slip-h);
+  padding: calc(var(--slip-w) * 0.1);
+  border: var(--hairline) solid var(--slip-edge);
+  background: var(--black);
+  box-shadow: inset 0 0 0 100vmax var(--slip-fill);
+  transition: transform var(--dur-2) var(--ease-out);
+
+  @for $i from 1 through 7 {
+    &:nth-child(#{$i}) {
+      --i: #{$i - 1};
+    }
+  }
+
+  @media (min-width: $bp-lg) {
+    inset-block: calc(var(--i) * var(--slip-step-y)) auto;
+  }
+
+  &.is-near {
+    transform: translateX(var(--nudge));
+  }
+}
+
+[dir="rtl"] .slip {
+  --nudge: var(--nudge-rtl);
+}
+
+.slip__bar {
+  display: block;
+  block-size: max(var(--hairline), calc(var(--slip-w) * 0.035));
+  background: var(--slip-bar);
+
+  &:first-child {
+    inline-size: 46%;
+    block-size: max(var(--focus-w), calc(var(--slip-w) * 0.05));
+    margin-block-end: calc(var(--slip-w) * 0.05);
+  }
+
+  &:nth-child(2) {
+    inline-size: 88%;
+  }
+
+  &:nth-child(3) {
+    inline-size: 72%;
+  }
+
+  &:nth-child(4) {
+    inline-size: 94%;
+  }
+
+  &:nth-child(5) {
+    inline-size: 60%;
+  }
+
+  &:nth-child(6) {
+    inline-size: 80%;
+  }
+}
+
+// Before the one-time intro runs (class set by the inline boot script), everything waits hidden.
+:root.hero-intro {
+  .slip,
+  .file__spine,
+  .file__tick {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slip.is-near {
+    transform: none;
+  }
+}

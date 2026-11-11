@@ -1,0 +1,414 @@
+/*
+ * Design 2 component: footer (<x-d2.shell.footer>), the dark band at the end of every page. Brief §3.3 (text on dark),
+ * §3.4 (one container, the grid, the spacing scale), §3.8 (the full lockup), §5.1 item 11, §5.2; fix D47.
+ * Order of the homepage DOCX: the brand (lockup, description, the contact controls and the homepage's hours
+ * sentence), the three link groups, the disclaimer, the specialist resources group (owner decision: the last group,
+ * directly above the copyright line), the copyright line with the language links. No address, no map, no cards.
+ *
+ * Grid (.container, the page grid: --cols 4 / 8 / 12, --gutter):
+ *   < 640      stacked
+ *   640–767    stacked; Legal Resources and Useful Links side by side (two columns each)
+ *   768–1023   the brand row (lockup and description | contact), then Practice Areas on the start half and the
+ *              two short groups stacked on the end half, under the contact column
+ *   1024–1279  the brand row, then Practice Areas on one half and the two short groups on a quarter each, so the
+ *              contact column and Legal Resources share an edge
+ *   ≥ 1280     one row: brand 4 columns, one free column, Practice Areas 3, Legal Resources 2, Useful Links 2
+ * Columns of one row start at the same top; every edge is the container's (header and sections share it).
+ *
+ * Type and colour (§3.2, §3.3 text on dark): group headings are the Minor heading role (.t-minor, 16/600) in
+ * --on-dark; the contact controls the UI label (15/500) in --on-dark; links 15/400 in --on-dark-2, --on-dark on hover;
+ * the description Body in --on-dark-2; the hours, disclaimer, domains, copyright and the language label Small in
+ * --on-dark-3 (7.68:1). Gold only in the official lockup (--on-dark-gold). Focus: the light-gold ring of .on-dark.
+ * Targets: 48 px rows below 768 px and on every touch screen (pointer: coarse, as the header: a tablet at 768–1023
+ * px too), 44 px from 768 px with a fine pointer; links carry no side padding, so text sits on the grid edges.
+ * Below 768 px the footer runs under the mobile tab bar to the end of the page and keeps its content above it (the
+ * tab bar CSS pads the body by the bar height).
+ */
+@layer components {
+  .d2-footer {
+    padding-block: var(--s-16) var(--s-8);
+    color: var(--on-dark-2);
+    background: var(--dark);
+  }
+
+  .d2-footer__top {
+    display: grid;
+    grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+    gap: var(--s-12) var(--gutter);
+    align-items: start;
+  }
+
+  .d2-footer__col {
+    grid-column: 1 / -1;
+    min-inline-size: 0;
+  }
+
+  /* From 640 px the two short groups stand side by side (two of the four columns each); narrower phones stack
+     every group, so no wrapped label breaks the rhythm of a neighbouring list. */
+  @media (width >= 640px) {
+    .d2-footer__group--resources,
+    .d2-footer__group--useful {
+      grid-column: span 2;
+    }
+  }
+
+  /* ------------------------------------------------------------------ brand: lockup, description, contact */
+  /* align-items: start: from 768 to 1279 px the intro and the contact controls share a row, and neither may stretch
+     to the other's height (a stretched intro pushed the description 29–38 px below the lockup instead of 24, a
+     stretched contact list spread its rows to 46–50 px and the hours line 13–16 px under them instead of 12). */
+  .d2-footer__brand {
+    display: grid;
+    gap: var(--s-8);
+    align-items: start;
+    align-content: start;
+  }
+
+  .d2-footer__intro {
+    display: grid;
+    gap: var(--s-6);
+    justify-items: start;
+  }
+
+  .d2-footer__logo {
+    display: inline-flex;
+    color: var(--on-dark-gold);
+    border-radius: var(--radius-control);
+  }
+
+  /* 72 px tall (286 px wide): the lockup's own wordmark (about 15 % of its height) stays legible. */
+  .d2-footer__lockup {
+    inline-size: auto;
+    block-size: calc(var(--s-16) + var(--s-2));
+  }
+
+  .d2-footer__desc {
+    color: var(--on-dark-2);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+  }
+
+  .d2-footer__contact {
+    display: grid;
+    gap: var(--s-3);
+    justify-items: start;
+  }
+
+  .d2-footer__channels {
+    display: grid;
+    list-style: none;
+  }
+
+  .d2-footer__channel {
+    display: inline-flex;
+    gap: var(--s-3);
+    align-items: center;
+    min-block-size: var(--target-touch);
+    color: var(--on-dark);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+    border-radius: var(--radius-control);
+
+    &:hover .d2-footer__channel-text {
+      text-decoration-line: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+  }
+
+  /* Phone and e-mail glyphs in secondary text on dark; the WhatsApp mark (<x-d2.ui.brand-mark>) shows Meta's
+     dark-background file unchanged, or its marked placeholder, and takes no colour from here. */
+  .d2-footer__channel-icon {
+    flex: none;
+    color: var(--on-dark-2);
+  }
+
+  .d2-footer__channel-text {
+    min-inline-size: 0;
+  }
+
+  .d2-footer__email {
+    overflow-wrap: anywhere;
+  }
+
+  /* Balanced: the sentence breaks into two even lines, never leaving a preposition at a line end («с / 9:00»). */
+  .d2-footer__hours {
+    color: var(--on-dark-3);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+    text-wrap: balance;
+  }
+
+  /* ------------------------------------------------------------------ link groups */
+  .d2-footer__title {
+    margin-block-end: var(--s-3);
+    color: var(--on-dark);
+  }
+
+  .d2-footer__links {
+    display: grid;
+    justify-items: start;
+    list-style: none;
+  }
+
+  /* 12 px above and below every label, so a title that wraps (Russian, and "Cryptocurrency and Digital Currency
+     Cases" in a narrow column) keeps the same 24 px to its neighbours as a one-line row; balanced lines. */
+  .d2-footer__link {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: var(--target-touch);
+    padding-block: var(--s-3);
+    color: var(--on-dark-2);
+    font-size: var(--fs-ui);
+    line-height: var(--lh-ui);
+    text-wrap: balance;
+    border-radius: var(--radius-control);
+    transition: color var(--dur-hover) var(--ease-out);
+
+    &:hover {
+      color: var(--on-dark);
+    }
+  }
+
+  /* ------------------------------------------------------------------ disclaimer */
+  .d2-footer__disclaimer {
+    margin-block-start: var(--s-12);
+    color: var(--on-dark-3);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+  }
+
+  /* ------------------------------------------------------------------ specialist resources (new tab) */
+  .d2-footer__specialist {
+    padding-block-start: var(--s-8);
+    margin-block-start: var(--s-8);
+    border-block-start: var(--line-w) solid var(--line-on-dark);
+  }
+
+  /* A compact list: one column on phones, two (newspaper order: down, then across) from 768 px. */
+  .d2-footer__sites {
+    column-gap: var(--gutter);
+    list-style: none;
+
+    > li {
+      break-inside: avoid;
+    }
+  }
+
+  /* Below 1024 px the name sits above its domain (every item two lines, one rhythm); from 1024 px, where every
+     name and domain fit one line in all three languages on the page, they share it (and wrap on the start edge
+     where they do not, see the 1024 px rule). */
+  .d2-footer__site {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    min-block-size: var(--target-touch);
+    padding-block: var(--s-2);
+    color: var(--on-dark-2);
+    font-size: var(--fs-ui);
+    line-height: var(--lh-ui);
+    border-radius: var(--radius-control);
+    transition: color var(--dur-hover) var(--ease-out);
+
+    &:hover {
+      color: var(--on-dark);
+    }
+  }
+
+  .d2-footer__site-meta {
+    display: inline-flex;
+    gap: var(--s-1);
+    align-items: center;
+    min-inline-size: 0;
+  }
+
+  .d2-footer__site-domain {
+    color: var(--on-dark-3);
+    overflow-wrap: anywhere;
+  }
+
+  .d2-footer__site-icon {
+    flex: none;
+    color: var(--on-dark-3);
+  }
+
+  /* ------------------------------------------------------------------ copyright line and languages */
+  .d2-footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--s-8);
+    align-items: center;
+    justify-content: space-between;
+    padding-block-start: var(--s-4);
+    margin-block-start: var(--s-8);
+    border-block-start: var(--line-w) solid var(--line-on-dark);
+  }
+
+  .d2-footer__copyright {
+    padding-block: var(--s-3);
+    color: var(--on-dark-3);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+  }
+
+  .d2-footer__langs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--s-6);
+    align-items: center;
+  }
+
+  .d2-footer__langs-label {
+    color: var(--on-dark-3);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+  }
+
+  .d2-footer__langs-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--s-6);
+    list-style: none;
+  }
+
+  .d2-footer__lang {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: var(--target-touch);
+    color: var(--on-dark-2);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+    border-radius: var(--radius-control);
+    transition: color var(--dur-hover) var(--ease-out);
+
+    &:hover {
+      color: var(--on-dark);
+    }
+
+    /* The current language: white and underlined (state by more than colour). */
+    &[aria-current] {
+      color: var(--on-dark);
+      text-decoration-line: underline;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 3px;
+    }
+  }
+
+  /* ------------------------------------------------------------------ < 768: room for the tab bar */
+  @media (width < 768px) {
+    body:has(> .tabbar:not(.tabbar--static)) > .d2-footer {
+      padding-block-end: calc(var(--s-8) + var(--tabbar-h) + var(--safe-bottom));
+      margin-block-end: calc(-1 * (var(--tabbar-h) + var(--safe-bottom)));
+    }
+  }
+
+  /* ------------------------------------------------------------------ 768+: the brand row, then three columns */
+  @media (width >= 768px) {
+    .d2-footer {
+      padding-block-start: var(--s-24);
+    }
+
+    .d2-footer__brand {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: var(--gutter);
+    }
+
+    /* 768–1023: Practice Areas on the start half; the two short groups stacked on the end half, under the contact
+       column (a quarter of eight columns is too narrow for the Russian headings). The last row takes what the long
+       list adds, so Useful Links follows Legal Resources at the row gap. */
+    .d2-footer__top {
+      grid-template-rows: auto auto 1fr;
+    }
+
+    .d2-footer__group--practice {
+      grid-row: span 2;
+      grid-column: 1 / span 4;
+    }
+
+    .d2-footer__group--resources,
+    .d2-footer__group--useful {
+      grid-column: 5 / span 4;
+    }
+
+    .d2-footer__sites {
+      columns: 2;
+    }
+
+    .d2-footer__channel,
+    .d2-footer__link,
+    .d2-footer__site,
+    .d2-footer__lang {
+      min-block-size: var(--target);
+    }
+
+    .d2-footer__disclaimer {
+      margin-block-start: var(--s-16);
+    }
+  }
+
+  /* 1024–1279: twelve columns; Practice Areas on one half, the two short groups on a quarter each. */
+  @media (width >= 1024px) {
+    .d2-footer__top {
+      grid-template-rows: none;
+    }
+
+    .d2-footer__group--practice {
+      grid-row: auto;
+      grid-column: 1 / span 6;
+    }
+
+    .d2-footer__group--resources,
+    .d2-footer__group--useful {
+      grid-column: span 3;
+    }
+
+    /* One line: the name, then the domain. A row that does not fit (a narrower container, such as the styleguide
+       specimen, where Russian "Взыскание долгов и вопросы по чекам" wraps) puts the domain under the name on the
+       same start edge, never centred, and keeps 12 px above and below its text, as the link rows do (45 px rows,
+       the rhythm of the groups above), so a wrapped row keeps the list's rhythm. */
+    .d2-footer__site {
+      flex-flow: row wrap;
+      gap: 0 var(--s-2);
+      justify-content: flex-start;
+      align-items: center;
+      padding-block: var(--s-3);
+    }
+  }
+
+  /* ------------------------------------------------------------------ 1280+: one row of four columns */
+  @media (width >= 1280px) {
+    .d2-footer__brand {
+      grid-template-columns: minmax(0, 1fr);
+      grid-column: span 4;
+    }
+
+    .d2-footer__group--practice {
+      grid-column: 6 / span 3;
+    }
+
+    .d2-footer__group--resources,
+    .d2-footer__group--useful {
+      grid-column: span 2;
+    }
+
+    /* The specialist list spans ten of the twelve columns, so each of its two columns is five grid columns wide
+       and the second starts on the grid line of Practice Areas (column 6), not mid-container. Below 1280 px the
+       full width already splits on a group's edge (column 7 of 12 at 1024 px, 5 of 8 at 768 px). */
+    .d2-footer__sites {
+      max-inline-size: calc((100% - 11 * var(--gutter)) / 12 * 10 + 9 * var(--gutter));
+    }
+  }
+
+  /* ------------------------------------------------------------------ touch screens: 48 px at every width */
+  /* After the 768+ rule on purpose (same specificity, later wins): a touch tablet keeps the phone's 48 px rows. */
+  @media (pointer: coarse) {
+    .d2-footer__channel,
+    .d2-footer__link,
+    .d2-footer__site,
+    .d2-footer__lang {
+      min-block-size: var(--target-touch);
+    }
+  }
+}

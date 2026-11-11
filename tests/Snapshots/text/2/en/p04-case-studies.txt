@@ -1,0 +1,244 @@
+# text-snapshot: design 2, locale en, route p04-case-studies
+# GET /en/case-studies/ -> 200; html lang=en dir=ltr data-design=2
+=== header ===
+Choose language
+English
+Request a Legal Consultation
+Home
+Practice Areas
+Legal Resources
+Case Studies
+FAQs
+About Us
+Contact Us
+=== main ===
+Home
+Case Studies
+Legal Case Studies in the UAE
+The facts that changed how a case was understood
+A signature on a cheque, information missing from a car sale, a name appearing in a transaction under investigation. In each of these matters, the facts needed to be considered together: what happened, what the documents established, and where the real dispute lay.
+Here we present examples of matters we have worked on, showing how evidence was organised, material issues examined, and what the work described achieved. Identifying details have been removed or condensed to protect client confidentiality. Outcomes depend on the facts, documents and stage of proceedings. A previous outcome does not guarantee a similar result in another matter.
+Choose the story closest to your situation
+A signed blank cheque did not tell the whole story
+Debts and Cheques
+The signature was genuine, but the circumstances in which the cheque was used and the sequence of claims required a fresh review. The matter came to us after earlier judgments had already had financial consequences. Its course then changed on appeal.
+He paid for the car, then discovered a history he had not known when buying it
+Companies and Contracts
+After the purchase, an earlier insurance classification of the vehicle as a total loss came to light. The dispute centred on what was known at the time of sale, what had been disclosed, and how that information affected the transaction.
+They came to collect payments, then found their names in a forgery case
+Criminal Cases
+A visit to a car dealership and the collection of payments at an employee's request became facts cited in criminal complaints. The defence needed to establish each person's role and what they knew when they acted.
+He sold USDT, then faced an allegation linked to someone else's investment promise
+Cryptocurrencies
+The sale was completed through a trading platform. A dispute then arose from the buyer's dealings with a third party. The platform records, transfer trail and limits of the seller's role became central to the review.
+After six years of employment, the final settlement remained in dispute
+Employment Law
+An administrative employee's service ended, followed by a disagreement with the employer over the basis for calculating his entitlements. The first step was to separate the settlement components and reconcile the figures with the contract and payments.
+The goods were delivered; the promises to pay remained in the messages
+Debts and Cheques
+A company was awaiting payment, with invoices and delivery evidence scattered across files and correspondence. Before negotiations or formal action, these records needed to be brought together into a coherent calculation of the claim.
+A signed blank cheque did not tell the whole story
+Debts and Cheques
+Matter: cheques, a financial claim and earlier judgments
+A businessman left a cheque signed in blank, then found himself facing a financial claim from someone he had trusted. According to the case summary, the cheque was used after leaving his possession, and his signature became central to the dispute.
+By the time the matter reached Summit, earlier judgments had been issued and had financial consequences for the client. The documents before him appeared decisive: a cheque bearing his signature, existing judgments and money that had already left his assets. What needed to be established was the available route for challenging that outcome, and what the file could add to the material already presented.
+How the cheque became a claim
+The review began with the circumstances in which the cheque left its owner's possession, how it was used, and what had been submitted about it at each stage. It included the earlier judgments and their reasoning, the documents supporting the claim, and the defences and responses already presented.
+The signature was a fact that had to be addressed directly. This required an account of the parties' relationship, the sequence of dealings, correspondence and payments, together with an examination of how the criminal proceedings affected the civil claim. Leaving out any of these elements would have left the account incomplete.
+What changed in the presentation of the case
+The facts and documents were reorganised, with each point linked to its supporting evidence. The work focused on the circumstances in which the cheque was used, the consistency of the opposing account, and the material issues requiring clearer presentation at the challenge stage.
+This approach allowed the dispute to be presented in its full context, distinguishing what the documents actually established from what still required proof. Simply repeating an objection to the earlier outcome was insufficient; the basis on which it rested had to be addressed.
+The outcome and its limits
+A judgment was issued in the client's favour on appeal, and the outcome stood following consideration of the cassation challenge in the proceedings described here. This changed his legal position following the earlier judgments.
+Recovery of the funds, however, remained dependent on enforcement proceedings. This distinction is central to the story: obtaining a favourable judgment does not establish that the money has returned to the client's account, nor does it mean that every related procedure has ended.
+What you can learn from this story
+A cheque signed in blank leaves considerable room for a dispute that may be difficult to contain later. If a judgment has already been issued, the review starts by identifying the available challenge procedure, its deadlines, the judgment's reasoning and the material documents, before assessing whether the outcome can be changed.
+Related services and reading
+Debt Recovery and Cheque Cases
+We review unpaid debts and invoices, dishonoured cheques and acknowledgements of debt, assessing options for formal notice, settlement, claims and enforcement in light of the documents and the nature of the relationship.
+Review of a cheque matter or financial claim
+Guide to bounced cheques and enforcement options
+Request a Legal Consultation
+Back to the case study directory
+He paid for the car, then discovered a history he had not known when buying it
+Companies and Contracts
+Matter: a vehicle sale contract and prior insurance history
+The client bought a car and paid the full price. Months later, he discovered information he had not had when entering into the contract: the vehicle had previously been classified by an insurer as a total loss following an accident.
+According to the case summary, this information appeared neither in the sale contract nor in the material provided to the buyer. When he approached the seller, the seller denied responsibility. The buyer now had to explain why the car's history changed the assessment of the transaction he had agreed to.
+The information that reopened the transaction
+The dispute focused on the date of the insurance classification, the extent of disclosure, and its effect on the purchase decision and the vehicle's value. The claim required the information to be linked to the car's condition before the sale and its significance at the time of contracting to be demonstrated.
+It was also necessary to assess the seller's defence about what he knew and whether the information had in fact been communicated to the buyer. The car's acceptable appearance at handover could not, on its own, answer those questions.
+How the claim was built
+The sale documents, insurance history, available technical evidence and correspondence were collected. These materials were then related to the time of contracting to show that the event predated the purchase and was material to the vehicle's valuation and the decision to enter into the transaction.
+Organised in this way, the file explained what information the buyer had lacked and the basis of his request to rescind the sale. The review addressed the relevant documents and responses, rather than relying solely on describing the car as defective.
+What the court ordered
+The court ordered rescission of the sale contract and required the seller to take back the car and return the purchase price to the buyer. This is the judicial outcome described in this case study.
+Enforcement of that obligation and proof that the buyer received the purchase price remain separate matters requiring verification. The judgment is therefore not presented here as evidence that the money was actually collected.
+What you can learn from this story
+Before buying a car, review the available technical and insurance history and related disclosures. If a material fact later comes to light, keep the evidence, record when it was discovered and retain the correspondence about it. Consider safety before repairing or otherwise dealing with the vehicle.
+Related services and reading
+Consultation on a sale contract or claim
+Corporate and Commercial Law
+We draft and review contracts, structure partners’ rights, management powers, contributions and exit arrangements, and review disputes with customers and suppliers alongside matters concerning the company’s structure and obligations.
+Contract and commercial dispute services
+Request a Legal Consultation
+Back to the case study directory
+They came to collect payments, then found their names in a forgery case
+Criminal Cases
+Matter: vehicle transactions and allegations of forgery and misappropriation of funds
+An employee at a car dealership asked people he knew to attend the company's premises and collect payments. According to the summary of facts, they complied out of personal trust, unaware that the transactions would later become the subject of allegations of forgery and misappropriation of funds.
+After the events came to light, the person who had managed the transactions left the country, and several criminal complaints were filed. The clients' names appeared in the documents, the receipt of payments was an established fact, and some clients were in pretrial detention. The defence needed a precise explanation of those facts and each person's connection to them.
+The names were there, but the roles were different
+The transactions could easily appear to form a single chain involving everyone. Yet each client had a different relationship with the person who had asked them to attend, their own sequence of events, and limits to what they knew about the transaction.
+An assertion of good faith alone was therefore insufficient. It was necessary to explain why each person attended and collected the money, and what the correspondence, documents and movement of funds established about the knowledge, agreement and participation attributed to them.
+Distinguishing each person's role
+The transactions, correspondence and movement of funds were compared, and each client's actions were examined individually. The chronology was reconstructed to establish who had requested the action, what the client had been told, and what they could have known at the time.
+The legal work focused on providing an evidence-based explanation for the conduct reflected in the documents and examining the evidence relating to the elements of the allegations. These details allowed each person's role to be presented separately from the role attributed to anyone else.
+The outcome in the matters described
+Acquittals were issued in the matters covered by this case study. Each set of facts and stage of proceedings remains distinct: the outcome of one matter does not automatically extend to another complaint or a different incident involving the same person.
+What you can learn from this story
+A person's name appearing in a transaction, or their receipt of a payment, needs to be explained in the context of the evidence and circumstances. Keeping messages and setting out the chronology and actual role helps build that explanation. Relying only on the words “I acted in good faith” may leave essential questions unanswered.
+Related services and reading
+Criminal Cases
+We help you understand criminal complaints, summonses and investigations, and analyse evidence and judgments in fraud, forgery, financial crime and cybercrime matters, coordinating with a licensed advocate where required.
+Support in criminal matters
+Guide to preserving evidence in financial and digital fraud matters
+Request a Legal Consultation
+Back to the case study directory
+He sold USDT, then faced an allegation linked to someone else's investment promise
+Cryptocurrencies
+Matter: a cryptocurrency transaction with civil and criminal proceedings
+The client sold USDT through a trading platform, and the transaction records showed that the cryptocurrency reached its destination. He later faced an allegation and a financial claim connected with the buyer's dealings with another person.
+That third party had promised the buyer trading activity and profits, and had asked him to buy the cryptocurrency and transfer it to them. When the buyer lost his money and filed a complaint, the seller's name appeared in the case. The client came to Summit after a criminal judgment had been issued against him, while also facing a civil compensation claim.
+How two transactions became part of one dispute
+The review needed to distinguish the client's sale from the investment promises attributed to the third party. Who sold the cryptocurrency? Who received it? Who requested the transfer? And who promised to manage funds or generate profits?
+These questions mattered to the assessment of liability. Delivery of the cryptocurrency was one element of the file, but it could not, on its own, determine the parties' roles or the remaining elements of the allegation and claim.
+The records that needed to be read together
+Trade orders were linked to payment and transfer records. Platform data, transaction times, correspondence and the parties' identities were reviewed. The examination focused on the scope of the client's transaction and whether he had promised to trade or manage the buyer's funds.
+Technical evidence helped explain the transaction trail and the limits of the seller's role more clearly. It was assessed alongside the other documents and facts, including the agreement, source of payment and relationship with the third party, as part of the work on both the civil and criminal proceedings.
+Two outcomes that must be kept separate
+The civil proceedings described here concluded in the client's favour. The technical records were also used in pursuing the options relating to the criminal judgment.
+At the time the approved summary for this case study was prepared, review procedures were still under way in the criminal proceedings, with no final outcome announced. This story therefore makes no claim that the criminal judgment was overturned or that a final acquittal was obtained in those proceedings.
+What you can learn from this story
+In a cryptocurrency dispute, retain complete trade orders, payment and transfer records, and correspondence. Linking those records to identity, the agreement and each party's role is more useful than providing a single transfer screenshot, but does not by itself guarantee any particular outcome.
+Related services and reading
+Cryptocurrency and Digital Currency Cases
+We connect trading orders, bank transfers, wallet records and correspondence in USDT disputes, platform fraud and account freezes to assess the claim or defence and each party’s role.
+Assessment of a cryptocurrency dispute
+Guide to what to do when financial or digital fraud is discovered
+Request a Legal Consultation
+Back to the case study directory
+After six years of employment, the final settlement remained in dispute
+Employment Law
+Matter: review of a final settlement and employment termination entitlements
+After six years in an administrative role, the client's employment was terminated, leaving a disagreement over the basis of his final settlement. He brought his employment contract, payslips, termination notice and assorted correspondence. The documents were available, but they did not provide a single clear answer as to the amount due or how it had been calculated.
+Before deciding how to respond to the proposed settlement, the client needed to understand what belonged in the claim, what had actually been paid, and the basis for each deduction or difference in the calculation.
+From a total figure to components that could be checked
+The review covered the contract, basic salary, length of service, transfers and termination documents. The materials were arranged chronologically, separating the claim components from payments and deductions, and identifying where further documents or explanations were needed.
+This separation made it possible to discuss each point on its own basis and identify the strengths and gaps in the file before negotiations or formal action.
+What the client received
+The engagement produced a statement of claims, the documents needed and options for handling the settlement. The result was a clearer understanding of the position and a plan for negotiation or a claim, rather than a court judgment or an announced recovery of funds.
+What you can learn from this story
+When reviewing an employment settlement, ask for each component and its calculation basis to be set out, and check any acknowledgement of receipt against what you have actually received. Combining all figures into a single total can conceal the point of disagreement and make it harder to discuss.
+Related services and reading
+Employment Law
+We review salaries, final entitlements, notice, settlement releases and employment contracts, helping employees and employers organise claims and responses under the rules applicable to their relationship.
+Review of employment entitlements
+Guide to documenting salaries and unpaid amounts
+Request a Legal Consultation
+Back to the case study directory
+The goods were delivered; the promises to pay remained in the messages
+Debts and Cheques
+Matter: organising a commercial claim between two companies
+A company supplied goods and services and sent its invoices, but repeated promises to pay went unfulfilled. It held messages, delivery evidence and documents supporting the dealings, yet each part was stored separately and no detailed contract covered the entire relationship.
+The company needed to present a claim whose outstanding balance could be checked against what had actually been delivered and paid, while addressing possible objections concerning the invoices or acceptance of the supplies.
+Reconstructing the sequence from scattered documents
+Invoices were reconciled with delivery evidence, payments and correspondence. The outstanding balance, objections and gaps in the evidence were identified. The facts were then arranged to show how the debt arose, when it became due and what supported each part of it.
+This organisation gave the company a clearer basis for discussing payment and assessing a formal claim. It also revealed what still needed to be completed, rather than leaving the other party with a collection of invoices that did not show the final balance.
+The result described in this case study
+The company received an organised claim file that could be used to assess negotiation or formal action. This case study does not describe a judgment in its favour or actual recovery of the debt: preparing a claim, obtaining a judgment and enforcing it are separate stages.
+What you can learn from this story
+Keep the records linking an invoice to delivery or acceptance of a service, and record payments, objections and written promises to pay. Organising these materials early helps define the claim and respond to disputes about it.
+Related services and reading
+Debt Recovery and Cheque Cases
+We review unpaid debts and invoices, dishonoured cheques and acknowledgements of debt, assessing options for formal notice, settlement, claims and enforcement in light of the documents and the nature of the relationship.
+Debt recovery and financial claims service
+Guide to starting commercial debt recovery
+Request a Legal Consultation
+Back to the case study directory
+Questions about the published case studies
+If a story resembles my situation, will the outcome be the same?
+No. The type of dispute may be similar while the evidence, deadlines, obligations or procedural stage differ. A story helps explain how a matter is reviewed. Assessing your own situation requires its specific documents and facts.
+Is every result shown here a court judgment?
+Each story explains its outcome and its limits. Some examples describe a judgment; others concern advisory work or preparing a claim, and another set of proceedings may still be ongoing. An order to repay money also does not mean that it has actually been recovered.
+Can a matter be reviewed after an earlier judgment?
+The review begins with a copy of the judgment and its reasoning, the preceding procedures, service dates and the documents. What can be considered depends on the stage, deadlines and available procedures. A new document alone does not mean that every case can be reopened or a judgment changed.
+Why are clients' names and images of their files not published?
+To protect the confidentiality of their information and prevent identification through the details of the dispute. The website presents what is needed to understand the story, without publishing documents or identifying information merely to increase its marketing impact.
+View all frequently asked questions
+Does your matter need a closer review?
+Send a summary of what happened, the key document, and any judgment, notice or current deadline. We review the material points in your matter and explain the scope of assistance, fees and required documents before work begins. Services are available in Arabic, English and Russian.
+Request a review of your matter
+Contact Us on WhatsApp
+(opens in a new tab)
++971 52 466 6191
+info@summitlegaluae.com
+Sending an enquiry does not mean the engagement has been accepted or monitoring of legal deadlines has begun.
+Scope of the case studies and services
+The published stories are informational summaries. They do not present every document or legal ground in a matter and do not constitute advice on a particular situation or a promise of an outcome. Summit is a legal consultancy. Advocacy or representation requiring an advocate is undertaken by licensed advocates. The agreed engagement defines the scope of work, deliverables and fees.
+Legal Notice and Scope of Services
+=== footer ===
+Summit Legal Consultancy
+Legal advice for individuals, businesses, investors and residents in the UAE, in Arabic, English and Russian.
++971 52 466 6191
+Contact Us on WhatsApp
+(opens in a new tab)
+info@summitlegaluae.com
+Business hours: Monday to Friday, 9 am to 6 pm.
+Practice Areas
+Debt Recovery and Cheque Cases
+Criminal Cases
+Cryptocurrency and Digital Currency Cases
+Corporate and Commercial Law
+Property and Tenancy Disputes
+Employment Law
+Tax Disputes and Tax Compliance
+Family Law and Wills
+Compliance and Regulatory Matters
+Legal Translation
+Business Services
+Legal Resources
+Legal Resources Centre
+FAQs
+Case Studies
+Useful Links
+About Us
+Contact Us
+Legal Notice
+Privacy Policy
+Terms and Conditions
+The information published is general and does not replace a review of the facts and documents relating to your matter. The scope of service and fees are determined when the engagement is accepted. Court advocacy requiring an advocate is carried out by licensed advocates.
+Specialist Resources and Services Associated with Summit
+Employment Law
+laborlawuae.com
+(opens in a new tab)
+Debt Recovery and Cheques
+debtrecoveryuae.com
+(opens in a new tab)
+Property Disputes
+dubaipropertydispute.com
+(opens in a new tab)
+Digital Currencies
+uaecryptocases.com
+(opens in a new tab)
+Wills
+uaeexpatwills.com
+(opens in a new tab)
+Tax Disputes
+uaetaxdisputes.com
+(opens in a new tab)
+© {{YEAR}} Summit Legal Consultancy. All rights reserved.
+Choose language
+Arabic
+English
+Russian

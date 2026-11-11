@@ -1,0 +1,105 @@
+/*
+ * Design 2.1 component: skeleton (<x-d2.ui.skeleton>). Only for real loading (results on their way), never as
+ * decoration or an empty state. Bones are --band (--dark-3 on dark) that breathe with a slow opacity pulse: no
+ * gradient sweep (brief §3.6 rule 6), transform and opacity only. Reduced motion: the bones stay, still.
+ * The card and row bones are text-only (a title and lines): no icon tile, no avatar circle (D04).
+ */
+@layer components {
+  .skeleton {
+    display: grid;
+    gap: var(--s-3);
+    min-inline-size: 0;
+  }
+
+  .skeleton__lines {
+    display: grid;
+    gap: var(--s-3);
+  }
+
+  .skeleton__bone {
+    display: block;
+    background: var(--band);
+    border-radius: var(--radius-control);
+  }
+
+  .skeleton__bone--line {
+    block-size: var(--s-3);
+    margin-block: var(--s-1);
+  }
+
+  .skeleton__lines > .skeleton__bone--line:last-child:not(:first-child) {
+    inline-size: 62%;
+  }
+
+  .skeleton__bone--title {
+    inline-size: 56%;
+    block-size: var(--s-5);
+  }
+
+  .skeleton__bone--block {
+    block-size: var(--s-24);
+    border-radius: var(--radius-card);
+  }
+
+  .skeleton__bone--circle {
+    --sk-size: var(--s-12);
+
+    inline-size: var(--sk-size);
+    block-size: var(--sk-size);
+    border-radius: var(--radius-pill);
+  }
+
+  .skeleton__bone--s32 {
+    --sk-size: var(--s-8);
+  }
+
+  .skeleton__bone--s40 {
+    --sk-size: var(--s-10);
+  }
+
+  .skeleton__bone--s64 {
+    --sk-size: var(--s-16);
+  }
+
+  .skeleton__bone--s96 {
+    --sk-size: var(--s-24);
+  }
+
+  .skeleton--card {
+    gap: var(--s-4);
+    padding: var(--pad-card);
+    background: var(--canvas);
+    border: var(--line-w) solid var(--line);
+    border-radius: var(--radius-card);
+  }
+
+  .skeleton--row {
+    padding-block: var(--s-2);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .skeleton__bone {
+      animation: d2-skeleton-pulse 1400ms var(--ease-in-out) infinite alternate;
+    }
+  }
+
+  @keyframes d2-skeleton-pulse {
+    from {
+      opacity: 1;
+    }
+
+    to {
+      opacity: 0.5;
+    }
+  }
+
+  /* dark surfaces */
+  :is(.on-dark, .on-night) .skeleton__bone {
+    background: var(--dark-3);
+  }
+
+  :is(.on-dark, .on-night) .skeleton--card {
+    background: var(--dark-2);
+    border-color: var(--line-on-dark);
+  }
+}

@@ -1,0 +1,17 @@
+# text-snapshot: design 2, locale root, route chooser
+# GET / -> 200; html lang=en dir=ltr data-design=2
+=== header ===
+(no header element on this page)
+=== main ===
+Summit Legal Consultancy
+اختيار اللغة
+Choose language
+Выбрать язык
+العربية
+توجيه قانوني واضح. حلول عملية.
+English
+Clear Legal Guidance. Practical Solutions.
+Русский
+Чёткие правовые рекомендации. Практические решения.
+=== footer ===
+(no footer element on this page)

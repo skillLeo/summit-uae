@@ -1,0 +1,135 @@
+# text-snapshot: design 2, locale en, route l02-terms-and-conditions
+# GET /en/terms-and-conditions/ -> 200; html lang=en dir=ltr data-design=2
+=== header ===
+Choose language
+English
+Request a Legal Consultation
+Home
+Practice Areas
+Legal Resources
+Case Studies
+FAQs
+About Us
+Contact Us
+=== main ===
+Home
+Terms and Conditions
+Terms and Conditions
+Last updated: 23 October 2026
+These terms govern the use of the Summit Legal Consultancy website, its content and the communication channels available on it. Please read them together with the Legal Notice and Privacy Policy. These website terms do not replace a separate agreement for legal services, fees or representation.
+On this page
+1. Definitions and Scope of the Website
+2. Rules of Use
+3. Nature of Published Information
+4. Enquiries and Acceptance of an Engagement
+5. Information and Documents You Provide
+6. Forms and Electronic Communications
+7. Fees, Appointments and External Services
+8. Intellectual Property and Permitted Use
+9. External Links and Sources
+10. Privacy and Your Choices
+11. Availability and Limits of Liability
+12. Changes and the Separate Service Agreement
+13. Applicable Law, Jurisdiction and Severability
+14. Contact
+1. Definitions and Scope of the Website
+“Website” means the pages of Summit Legal Consultancy on its domain, and “user” means anyone who browses them or makes contact through them. Content includes text, guides, frequently asked questions, case studies, images, design and published materials.
+Other services or platforms linked from the website are subject to their relevant terms. Visiting them does not make these website terms a substitute for the terms of the service you choose to use.
+2. Rules of Use
+Use the website lawfully, respecting the rights of others and the integrity of its systems. It must not be used to send unlawful or misleading content or unsolicited messages, impersonate another person, or attempt unauthorised access to data or systems.
+You must not disrupt the website, upload harmful files, attempt to bypass its technical controls, or republish its content in a way that misleads the public about its source or connection with Summit. Reasonable limits imposed to protect the website’s operation must be respected.
+3. Nature of Published Information
+The content is provided for general information and does not, by itself, constitute legal advice specific to your circumstances. Matters differ according to the facts, documents, deadlines, applicable legal framework and competent authority, and requirements may change after publication.
+Case studies and past outcomes are not a promise of a similar result or a guarantee of recovery or acceptance of a procedural step. Please refer to the Legal Notice for an explanation of the scope of this information and the professional services.
+4. Enquiries and Acceptance of an Engagement
+Sending a request, document or message does not mean that an engagement has been accepted, an appointment confirmed or monitoring of deadlines begun. We may request further information to determine the type and scope of assistance and the fees. Work begins once it is accepted and its requirements have been agreed.
+Summit is a legal consultancy company. Advocacy or representation requiring an advocate is undertaken by licensed advocates, according to the authority and procedure concerned. External work or additional specialist services are defined within the engagement scope where needed.
+5. Information and Documents You Provide
+Provide the information you know accurately and identify anything uncertain or incomplete. You must have appropriate authority or a proper basis to send documents and third-party data, and limit what you send to what is needed to understand the matter or perform the agreed work.
+Do not send passwords, verification codes, private keys or a wallet recovery phrase. Sending a file does not grant general permission to publish it or use it beyond a lawful purpose. Its processing is governed by the Privacy Policy and applicable obligations.
+6. Forms and Electronic Communications
+Communication channels are used for initial enquiries, coordination and follow-up as agreed. Technical issues may delay delivery or a response. An automated acknowledgement is not acceptance of an engagement or a decision on the matter.
+If a legal deadline is approaching, state it and confirm that responsibility for following it up has been accepted. Clicking WhatsApp is not proof that a message has been sent, and opening an email or telephone application does not prove that Summit has received the request.
+7. Fees, Appointments and External Services
+The fees, scope and payment arrangements for a consultation or service are set out in the relevant agreement. The availability of a form or contact link does not mean that legal review is free or that an appointment has been confirmed.
+Authority fees or work by external specialists may be required and are explained according to the service and the agreement. This page does not establish a uniform payment, refund or cancellation policy for all engagements. The terms of the particular service apply, subject to rights provided by law.
+8. Intellectual Property and Permitted Use
+Original published materials, the brand, logos and design are owned by or licensed to Summit unless stated otherwise. Rights in third-party materials and official documents remain with their respective holders under the applicable rules.
+You may view the content, share a link to the page and use a short excerpt for reference, provided you identify the source, preserve the meaning and comply with the law. Republishing, modifying or commercially distributing materials requires appropriate permission, without prejudice to lawful statutory exceptions.
+9. External Links and Sources
+Links to official bodies and external sources are provided for ease of access and do not imply accreditation or an official partnership unless this is stated on a valid basis. Authorities’ pages, terms and requirements may change.
+Review the policy and terms of the organisation whose website you visit. Websites identified as connected with Summit are not independent reviews by other organisations, and each service may have its own engagement or data processing arrangements.
+10. Privacy and Your Choices
+The Privacy Policy explains the purposes and categories of data processing, disclosure, retention, rights and how to contact us about them. Required consents are presented for specific purposes; acceptance of the website terms is not treated as consent to all processing activities.
+Optional analytics or advertising tools are managed through privacy settings where available. Consent to separate marketing communications is not required to receive a response to your enquiry.
+11. Availability and Limits of Liability
+We take appropriate care to provide a useful and secure website, without guaranteeing that it will be free from errors, interruptions or delays, or that every item of information will remain up to date at all times. We may need to carry out maintenance or updates, or reasonably restrict harmful use.
+Liability is determined by the law, the facts and any applicable agreement. These terms must not be interpreted as excluding liability of Summit that cannot lawfully be excluded, removing a mandatory right, or limiting its professional duties or data protection obligations. A warning about the risks of electronic communications must not be used to justify neglect of necessary protection.
+12. Changes and the Separate Service Agreement
+These terms may be updated to reflect changes to the website, services or requirements, with the date of the published version shown. Updates apply to subsequent website use in accordance with the law and do not retrospectively amend an existing service agreement without a proper basis.
+If a particular change requires notice or specific consent, merely publishing it does not replace the required procedure. In the event of a conflict, the specific agreement governs the service it covers, without excluding any mandatory rule or statutory right.
+13. Applicable Law, Jurisdiction and Severability
+These terms are governed by the applicable laws of the United Arab Emirates. The competent authority is determined by the applicable jurisdiction rules. This provision does not create an arbitration clause or confer exclusive jurisdiction on a particular emirate.
+If a provision cannot be enforced, it will be dealt with in accordance with the law, while the remaining provisions continue to apply to the extent possible. This must not be interpreted as extending an invalid provision or waiving a right that cannot lawfully be waived.
+14. Contact
+For questions about website use or to report an issue concerning content or rights, identify the page and topic and provide a suitable way to respond. Personal data requests should be directed in accordance with the Privacy Policy.
+info@summitlegaluae.com
++971 52 466 6191
+Contact Summit
+Legal Notice and Scope of Services
+Privacy Policy
+=== footer ===
+Summit Legal Consultancy
+Legal advice for individuals, businesses, investors and residents in the UAE, in Arabic, English and Russian.
++971 52 466 6191
+Contact Us on WhatsApp
+(opens in a new tab)
+info@summitlegaluae.com
+Business hours: Monday to Friday, 9 am to 6 pm.
+Practice Areas
+Debt Recovery and Cheque Cases
+Criminal Cases
+Cryptocurrency and Digital Currency Cases
+Corporate and Commercial Law
+Property and Tenancy Disputes
+Employment Law
+Tax Disputes and Tax Compliance
+Family Law and Wills
+Compliance and Regulatory Matters
+Legal Translation
+Business Services
+Legal Resources
+Legal Resources Centre
+FAQs
+Case Studies
+Useful Links
+About Us
+Contact Us
+Legal Notice
+Privacy Policy
+Terms and Conditions
+The information published is general and does not replace a review of the facts and documents relating to your matter. The scope of service and fees are determined when the engagement is accepted. Court advocacy requiring an advocate is carried out by licensed advocates.
+Specialist Resources and Services Associated with Summit
+Employment Law
+laborlawuae.com
+(opens in a new tab)
+Debt Recovery and Cheques
+debtrecoveryuae.com
+(opens in a new tab)
+Property Disputes
+dubaipropertydispute.com
+(opens in a new tab)
+Digital Currencies
+uaecryptocases.com
+(opens in a new tab)
+Wills
+uaeexpatwills.com
+(opens in a new tab)
+Tax Disputes
+uaetaxdisputes.com
+(opens in a new tab)
+© {{YEAR}} Summit Legal Consultancy. All rights reserved.
+Choose language
+Arabic
+English
+Russian

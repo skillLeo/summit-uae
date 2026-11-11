@@ -1,0 +1,338 @@
+/*
+ * Design 2.1 component: document upload (<x-d2.upload.dropzone>). The backend's one optional attachment
+ * (docs/enquiries.md §6), inside <x-d2.ui.field> (label, hint, error, "Optional"). Shown only while
+ * summit.features.attachments_enabled is on (brief §5.2: the field exists only with content checks and scanning).
+ * Design 2.1 look: a field-like zone (1px --field-border, radius 10, solid: no dashed box), the functional upload
+ * icon in ink-2 (no tile), the "Choose a file" secondary button without a shadow, the file chip without a dot
+ * separator; no monospace, no tracking.
+ *
+ *   .upload                 root (Alpine d2Upload); .is-enhanced once the script runs
+ *   .upload__zone           the drop zone; enhanced: the native input lies invisible over all of it
+ *   .upload__input          the one real control (keyboard, screen readers, form submission)
+ *   .upload__button         "Choose a file": a second <label> of the input, drawn like a secondary button
+ *   .upload__file           the chip of the accepted file: name, format and size, "Remove Document"
+ *
+ * States: hover (darker edge + veil), focus-visible (2px ring around the zone), .is-over (a file dragged
+ * over it: ink edge + band wash, the icon rises, "Release to attach the document"), .is-invalid (danger edge;
+ * the message is the field's .field__error), .has-file, disabled (sunken, quiet edge, not-allowed).
+ * Without JavaScript (.upload:not(.is-enhanced)) the native input shows as it is, its button styled like
+ * a secondary button. Styleguide-only: .is-hover / .is-focus / .is-over on the zone, .is-disabled on the
+ * root. Motion: transform and opacity only, none under reduced motion.
+ */
+@layer components {
+  .upload {
+    display: grid;
+    gap: var(--s-3);
+    min-inline-size: 0;
+  }
+
+  /* ------------------------------------------------------------------ zone */
+  .upload__zone {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--s-3) var(--s-4);
+    min-block-size: var(--field-h);
+    padding: var(--s-3) var(--s-4);
+    color: var(--ctl-fg-2);
+    background: var(--ctl-bg);
+    border: var(--line-w) solid var(--ctl-edge-rest);
+    border-radius: var(--radius-card);
+  }
+
+  /* Hover / drag veil: a layer whose opacity changes (never the background itself). */
+  .upload__zone::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--ctl-veil);
+    border-radius: inherit;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* the functional upload icon (20 px, ink-2): no tile, no bronze */
+  .upload__icon {
+    display: none;
+    flex: none;
+    place-items: center;
+    color: var(--ctl-fg-2);
+  }
+
+  .upload__prompt,
+  .upload__button {
+    display: none;
+  }
+
+  /* Without JavaScript: the native control, its button drawn like a secondary button. */
+  .upload__input {
+    inline-size: 100%;
+    min-block-size: var(--target);
+    color: var(--ctl-fg-2);
+    font: inherit;
+    font-size: var(--fs-ui);
+    cursor: pointer;
+  }
+
+  .upload__input::file-selector-button {
+    min-block-size: var(--button-h);
+    margin-inline-end: var(--s-3);
+    padding-inline: var(--s-5);
+    color: var(--ink);
+    background: var(--canvas);
+    border: var(--line-w) solid var(--line-strong);
+    border-radius: var(--radius-control);
+    font: inherit;
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    cursor: pointer;
+  }
+
+  .upload__input::file-selector-button:hover {
+    border-color: var(--ink-3);
+  }
+
+  /* ------------------------------------------------------------------ enhanced (JavaScript) */
+  .upload.is-enhanced .upload__zone {
+    min-block-size: var(--s-24);
+    padding: var(--s-4) var(--s-5);
+    cursor: pointer;
+  }
+
+  .upload.is-enhanced .upload__icon {
+    display: grid;
+  }
+
+  .upload.is-enhanced .upload__prompt {
+    display: grid;
+    flex: 1 1 12rem;
+    min-inline-size: 0;
+    color: var(--ctl-fg);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+  }
+
+  .upload__prompt-over {
+    display: none;
+  }
+
+  /* "Choose a file": drawn as the secondary button (44 px, white, 1px --line-strong, radius 6, no shadow). */
+  .upload.is-enhanced .upload__button {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    gap: var(--s-2);
+    min-block-size: var(--button-h);
+    padding-inline: var(--s-5);
+    color: var(--ink);
+    background: var(--canvas);
+    border: var(--line-w) solid var(--line-strong);
+    border-radius: var(--radius-control);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+    white-space: nowrap;
+  }
+
+  /* Its leading "file" icon is decoration (D04): not drawn (the dropzone's owner removes it from the markup). */
+  .upload__button-icon {
+    display: none;
+  }
+
+  /* The input covers the zone: one click, Enter or Space anywhere opens the picker; drops land on it. */
+  .upload.is-enhanced .upload__input {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    inline-size: 100%;
+    block-size: 100%;
+    min-block-size: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  /* hover */
+  .upload.is-enhanced .upload__zone:hover,
+  .upload__zone.is-hover {
+    border-color: var(--ctl-edge-hover);
+  }
+
+  .upload.is-enhanced .upload__zone:hover::before,
+  .upload__zone.is-hover::before {
+    opacity: 1;
+  }
+
+  .upload.is-enhanced .upload__zone:hover .upload__button,
+  .upload__zone.is-hover .upload__button {
+    border-color: var(--ink-3);
+  }
+
+  /* keyboard focus on the invisible input: the ring goes around the whole zone */
+  .upload.is-enhanced .upload__zone:has(.upload__input:focus-visible),
+  .upload__zone.is-focus {
+    border-color: var(--ctl-edge-focus);
+    outline: var(--focus-w) solid var(--focus-color);
+    outline-offset: var(--focus-offset);
+  }
+
+  /* a file dragged over the zone: ink edge, the band wash, the icon rises 4 px */
+  .upload__zone.is-over {
+    color: var(--ink);
+    border-color: var(--ink);
+  }
+
+  .upload__zone.is-over::before {
+    background: var(--band);
+    opacity: 1;
+  }
+
+  .upload__zone.is-over .upload__icon {
+    color: var(--ink);
+    transform: translateY(calc(-1 * var(--s-1)));
+  }
+
+  .upload__zone.is-over .upload__prompt-idle {
+    display: none;
+  }
+
+  .upload__zone.is-over .upload__prompt-over {
+    display: block;
+  }
+
+  /*
+   * error (the message itself is the field's .field__error under the chip). The field's own state counts too:
+   * the consultation wizard shows the server's message (a 422 "attachment") on the field (wizard area).
+   */
+  .upload__zone.is-invalid,
+  .upload-field.is-invalid .upload__zone,
+  .upload.is-enhanced .upload__zone.is-invalid:hover,
+  .upload-field.is-invalid .upload.is-enhanced .upload__zone:hover {
+    border-color: var(--ctl-danger);
+  }
+
+  /* disabled (the wizard makes its steps inert while sending; the styleguide shows it) */
+  .upload.is-disabled .upload__zone,
+  .upload__zone:has(.upload__input:disabled) {
+    color: var(--ctl-muted);
+    background: var(--ctl-off-bg);
+    border-color: var(--ctl-off-edge);
+    cursor: not-allowed;
+  }
+
+  .upload.is-disabled .upload__zone::before,
+  .upload__zone:has(.upload__input:disabled)::before {
+    opacity: 0;
+  }
+
+  .upload.is-disabled .upload__input,
+  .upload__input:disabled {
+    cursor: not-allowed;
+  }
+
+  /* the control fades (WCAG exempts inactive controls); the prompt stays legible in the muted colour */
+  .upload.is-disabled .upload__button,
+  .upload.is-disabled .upload__icon,
+  .upload__zone:has(.upload__input:disabled) :is(.upload__button, .upload__icon) {
+    opacity: 0.4;
+  }
+
+  .upload.is-disabled .upload__prompt,
+  .upload__zone:has(.upload__input:disabled) .upload__prompt {
+    color: var(--ctl-muted);
+  }
+
+  /* touch screens cannot drag a file in: the zone is the file button */
+  @media (hover: none) {
+    .upload.is-enhanced .upload__prompt {
+      display: none;
+    }
+
+    .upload.is-enhanced .upload__zone {
+      min-block-size: var(--s-16);
+    }
+
+    .upload.is-enhanced .upload__button {
+      min-block-size: var(--target-touch);
+    }
+  }
+
+  /* ------------------------------------------------------------------ file chip */
+  .upload__file {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--s-2) var(--s-3);
+    min-block-size: var(--s-16);
+    padding-block: var(--s-2);
+    padding-inline: var(--s-4) var(--s-2);
+    background: var(--canvas);
+    border: var(--line-w) solid var(--line);
+    border-radius: var(--radius-card);
+  }
+
+  /* The file's icon tile is decoration (D04): not drawn. */
+  .upload__file-icon {
+    display: none;
+  }
+
+  .upload__file-text {
+    display: grid;
+    flex: 1 1 10rem;
+    min-inline-size: 0;
+  }
+
+  .upload__file-name {
+    color: var(--ink);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+    overflow-wrap: anywhere;
+  }
+
+  /* format and size side by side (a gap, never a middle dot: D02) */
+  .upload__file-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--s-2);
+    color: var(--ink-3);
+    font-size: var(--fs-small);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-small);
+  }
+
+  .upload__file-dot {
+    display: none;
+  }
+
+  .upload__remove {
+    flex: none;
+    margin-inline-start: auto;
+  }
+
+  /* the chip arrives: a short rise (opacity + transform only) */
+  @media (prefers-reduced-motion: no-preference) {
+    .upload__zone::before {
+      transition: opacity var(--dur-hover) var(--ease-out);
+    }
+
+    .upload__icon {
+      transition: transform var(--spring-snappy-dur) var(--spring-snappy);
+    }
+
+    .upload.is-enhanced .upload__file:not([hidden]) {
+      animation: upload-chip-in var(--dur-enter) var(--ease-out) both;
+    }
+  }
+
+  @keyframes upload-chip-in {
+    from {
+      opacity: 0;
+      transform: translateY(var(--s-1));
+    }
+  }
+}

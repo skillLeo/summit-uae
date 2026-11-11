@@ -1,0 +1,722 @@
+{
+    "form.heading": {
+        "en": "Consultation Request Details",
+        "ar": "بيانات طلب الاستشارة",
+        "ru": "Сведения для запроса на консультацию"
+    },
+    "form.intro": {
+        "en": "Write a clear summary and provide at least one way to contact you. You do not need a registered case or a complete file to send an enquiry.",
+        "ar": "اكتب ملخصًا واضحًا، وأضف وسيلة واحدة على الأقل للتواصل معك. لا يلزم أن تكون لديك قضية مسجلة أو ملف مكتمل حتى ترسل استفسارك.",
+        "ru": "Кратко и ясно опишите ситуацию и укажите хотя бы один способ связи. Для отправки запроса не обязательно иметь зарегистрированное дело или полный комплект материалов."
+    },
+    "form.required_note": {
+        "en": "Your name, matter summary, one contact method and consent to the use of your data are required. All other fields are optional.",
+        "ar": "الاسم وملخص الموضوع ووسيلة تواصل واحدة والموافقة على استخدام البيانات مطلوبة. بقية الحقول اختيارية.",
+        "ru": "Обязательны имя, краткое описание вопроса, один способ связи и согласие на использование данных. Остальные поля необязательны."
+    },
+    "form.name.label": {
+        "en": "Name",
+        "ar": "الاسم",
+        "ru": "Имя"
+    },
+    "form.name.help": {
+        "en": "Enter the name you would like us to use when contacting you.",
+        "ar": "اكتب الاسم الذي تفضل أن نتواصل معك به.",
+        "ru": "Укажите имя, по которому к вам обращаться."
+    },
+    "form.name.error": {
+        "en": "Please enter your name.",
+        "ar": "يرجى كتابة الاسم.",
+        "ru": "Укажите имя."
+    },
+    "form.phone.label": {
+        "en": "Phone Number",
+        "ar": "رقم الهاتف",
+        "ru": "Номер телефона"
+    },
+    "form.phone.help": {
+        "en": "Include the country code and a number where you can be reached.",
+        "ar": "أضف مفتاح الدولة، وأدخل رقمًا يمكن التواصل معك عليه.",
+        "ru": "Укажите код страны и номер, по которому с вами можно связаться."
+    },
+    "form.phone.error": {
+        "en": "Please enter a valid phone number, including the country code.",
+        "ar": "يرجى إدخال رقم هاتف صالح مع مفتاح الدولة.",
+        "ru": "Введите корректный номер телефона с кодом страны."
+    },
+    "form.email.label": {
+        "en": "Email",
+        "ar": "البريد الإلكتروني",
+        "ru": "Электронная почта"
+    },
+    "form.email.help": {
+        "en": "Enter an email address you check regularly.",
+        "ar": "أدخل بريدًا إلكترونيًا تراجعه بانتظام.",
+        "ru": "Укажите адрес электронной почты, которую вы регулярно проверяете."
+    },
+    "form.email.error": {
+        "en": "Please enter a valid email address.",
+        "ar": "يرجى إدخال بريد إلكتروني صالح.",
+        "ru": "Введите корректный адрес электронной почты."
+    },
+    "form.preferred_language.label": {
+        "en": "Preferred Language",
+        "ar": "اللغة المفضلة",
+        "ru": "Предпочтительный язык"
+    },
+    "form.preferred_language.placeholder": {
+        "en": "Choose a language",
+        "ar": "اختر اللغة",
+        "ru": "Выберите язык"
+    },
+    "form.preferred_language.option.ar": {
+        "en": "Arabic",
+        "ar": "العربية",
+        "ru": "Арабский"
+    },
+    "form.preferred_language.option.en": {
+        "en": "English",
+        "ar": "الإنجليزية",
+        "ru": "Английский"
+    },
+    "form.preferred_language.option.ru": {
+        "en": "Russian",
+        "ar": "الروسية",
+        "ru": "Русский"
+    },
+    "form.matter_type.label": {
+        "en": "Type of Legal Matter",
+        "ar": "نوع المسألة القانونية",
+        "ru": "Категория юридического вопроса"
+    },
+    "form.matter_type.placeholder": {
+        "en": "Choose a topic if you know it",
+        "ar": "اختر الموضوع إن كنت تعرفه",
+        "ru": "Выберите тему, если она вам известна"
+    },
+    "form.matter_type.option.S01": {
+        "en": "Debts and Cheques",
+        "ar": "الديون والشيكات",
+        "ru": "Долги и чеки"
+    },
+    "form.matter_type.option.S02": {
+        "en": "Criminal Cases",
+        "ar": "القضايا الجزائية",
+        "ru": "Уголовные дела"
+    },
+    "form.matter_type.option.S03": {
+        "en": "Cryptocurrencies",
+        "ar": "العملات الرقمية",
+        "ru": "Криптовалюты"
+    },
+    "form.matter_type.option.S04": {
+        "en": "Companies and Contracts",
+        "ar": "الشركات والعقود",
+        "ru": "Компании и договоры"
+    },
+    "form.matter_type.option.S05": {
+        "en": "Property and Tenancy",
+        "ar": "العقارات والإيجارات",
+        "ru": "Недвижимость и аренда"
+    },
+    "form.matter_type.option.S06": {
+        "en": "Employment and Employee Entitlements",
+        "ar": "العمل والمستحقات العمالية",
+        "ru": "Трудовые отношения и выплаты работникам"
+    },
+    "form.matter_type.option.S07": {
+        "en": "Tax Matters",
+        "ar": "الضرائب",
+        "ru": "Налоги"
+    },
+    "form.matter_type.option.S08": {
+        "en": "Family and Wills",
+        "ar": "الأسرة والوصايا",
+        "ru": "Семейные вопросы и завещания"
+    },
+    "form.matter_type.option.S09": {
+        "en": "Compliance and Regulatory Matters",
+        "ar": "الامتثال والمسائل التنظيمية",
+        "ru": "Комплаенс и регуляторные вопросы"
+    },
+    "form.matter_type.option.S10": {
+        "en": "Legal Translation",
+        "ar": "الترجمة القانونية",
+        "ru": "Юридический перевод"
+    },
+    "form.matter_type.option.S11": {
+        "en": "Business Services",
+        "ar": "خدمات الأعمال",
+        "ru": "Услуги для бизнеса"
+    },
+    "form.matter_type.option.other": {
+        "en": "Other matter",
+        "ar": "مسألة أخرى",
+        "ru": "Другой вопрос"
+    },
+    "form.matter_type.option.unsure": {
+        "en": "Not sure which category applies",
+        "ar": "لست متأكدًا من التصنيف",
+        "ru": "Не знаю, какую категорию выбрать"
+    },
+    "form.summary.label": {
+        "en": "Matter Summary",
+        "ar": "ملخص الموضوع",
+        "ru": "Краткое описание вопроса"
+    },
+    "form.summary.help": {
+        "en": "Describe what happened, who the parties are and where you need help. Mention any earlier procedure or decision.",
+        "ar": "اكتب ما حدث، ومن هم الأطراف، وما الذي تحتاج إلى مساعدة بشأنه. اذكر أي إجراء أو قرار سابق.",
+        "ru": "Опишите, что произошло, кто участвует в ситуации и в чём нужна помощь. Укажите ранее проведённые процедуры и принятые решения."
+    },
+    "form.summary.error": {
+        "en": "Please provide a summary of the matter.",
+        "ar": "يرجى كتابة ملخص للموضوع.",
+        "ru": "Кратко опишите вопрос."
+    },
+    "form.deadline_date.label": {
+        "en": "Nearest Relevant Date or Deadline",
+        "ar": "أقرب موعد قائم",
+        "ru": "Ближайшая дата по делу"
+    },
+    "form.deadline_date.help": {
+        "en": "State the nearest hearing date or response or appeal deadline, if any.",
+        "ar": "اذكر أقرب موعد للجلسة أو الرد أو الطعن، إن وجد.",
+        "ru": "Укажите ближайшую дату заседания или срок ответа либо обжалования, если они установлены."
+    },
+    "form.deadline_date.error": {
+        "en": "Please enter a valid date.",
+        "ar": "يرجى إدخال تاريخ صحيح للموعد.",
+        "ru": "Введите корректную дату."
+    },
+    "form.deadline_details.label": {
+        "en": "Date or Deadline Details",
+        "ar": "تفاصيل الموعد",
+        "ru": "Сведения о дате или сроке"
+    },
+    "form.deadline_details.help": {
+        "en": "Identify the relevant authority and what the date or deadline relates to, and explain if it has already passed.",
+        "ar": "اذكر الجهة المعنية ونوع الموعد، ووضّح إذا كان قد انقضى بالفعل.",
+        "ru": "Укажите соответствующий орган и поясните, к чему относится дата или срок; сообщите, если они уже прошли."
+    },
+    "form.attachment.label": {
+        "en": "Attach a Document",
+        "ar": "إرفاق مستند",
+        "ru": "Прикрепить документ"
+    },
+    "form.attachment.help": {
+        "en": "You may attach one PDF, JPG or PNG document, up to 10 MB.",
+        "ar": "يمكنك إرفاق مستند واحد بصيغة PDF أو JPG أو PNG، بحجم لا يتجاوز 10 ميغابايت.",
+        "ru": "Можно прикрепить один документ в формате PDF, JPG или PNG размером не более 10 МБ."
+    },
+    "form.attachment.remove": {
+        "en": "Remove Document",
+        "ar": "إزالة المستند",
+        "ru": "Удалить документ"
+    },
+    "form.contact_group.help": {
+        "en": "One valid phone number or email address is enough. You may provide both if you wish.",
+        "ar": "يكفي إدخال رقم هاتف أو بريد إلكتروني صالح، ويمكنك إضافة الاثنين إذا رغبت.",
+        "ru": "Достаточно корректного номера телефона или адреса электронной почты. При желании можно указать оба."
+    },
+    "form.notice.sensitive": {
+        "en": "Do not send passwords, verification codes, private keys or a cryptocurrency wallet recovery phrase. A suitable way to send sensitive documents can be arranged once the nature of the matter is identified.",
+        "ar": "لا ترسل كلمات المرور أو رموز التحقق أو المفاتيح الخاصة أو عبارة استرداد المحفظة الرقمية. ويمكن ترتيب وسيلة مناسبة لإرسال المستندات الحساسة بعد تحديد طبيعة الملف.",
+        "ru": "Не отправляйте пароли, коды подтверждения, закрытые ключи или фразу восстановления криптовалютного кошелька. Подходящий способ передачи конфиденциальных документов можно согласовать после выяснения характера дела."
+    },
+    "form.notice.engagement": {
+        "en": "Submitting a request does not mean that an engagement has been accepted, an appointment confirmed or monitoring of legal deadlines begun. If a deadline is approaching, call directly, state it clearly and confirm that the engagement has been accepted.",
+        "ar": "إرسال الطلب لا يعني قبول التكليف أو تأكيد موعد أو بدء متابعة المواعيد القانونية. إذا كانت لديك مهلة قريبة، اتصل مباشرة واذكرها بوضوح، وتحقق من قبول التكليف.",
+        "ru": "Отправка запроса не означает принятия поручения, подтверждения записи или начала контроля юридически значимых сроков. Если срок приближается, позвоните напрямую, ясно сообщите о нём и убедитесь, что поручение принято."
+    },
+    "form.consent.label": {
+        "en": "I agree to the use of my data to contact me about this request in accordance with the Privacy Policy.",
+        "ar": "أوافق على استخدام بياناتي للتواصل بشأن هذا الطلب وفق سياسة الخصوصية.",
+        "ru": "Даю согласие на использование моих данных для связи со мной по этому запросу в соответствии с Политикой конфиденциальности."
+    },
+    "form.consent.link": {
+        "en": "Privacy Policy",
+        "ar": "سياسة الخصوصية",
+        "ru": "Политикой конфиденциальности"
+    },
+    "form.submit": {
+        "en": "Submit Consultation Request",
+        "ar": "إرسال طلب الاستشارة",
+        "ru": "Отправить запрос на консультацию"
+    },
+    "form.contact_group.error": {
+        "en": "Please enter a valid phone number or email address so we can contact you.",
+        "ar": "يرجى إدخال رقم هاتف أو بريد إلكتروني صالح للتواصل.",
+        "ru": "Укажите корректный номер телефона или адрес электронной почты для связи."
+    },
+    "form.consent.error": {
+        "en": "Please consent to the use of your data to contact you about this request in accordance with the Privacy Policy.",
+        "ar": "يرجى الموافقة على استخدام بياناتك للتواصل بشأن الطلب وفق سياسة الخصوصية.",
+        "ru": "Подтвердите согласие на использование ваших данных для связи по запросу в соответствии с Политикой конфиденциальности."
+    },
+    "form.attachment.error_type": {
+        "en": "This document format is not supported. Please choose a PDF, JPG or PNG file.",
+        "ar": "صيغة المستند غير مدعومة. يرجى اختيار ملف PDF أو JPG أو PNG.",
+        "ru": "Формат документа не поддерживается. Выберите файл PDF, JPG или PNG."
+    },
+    "form.attachment.error_size": {
+        "en": "The document exceeds 10 MB. Please choose a smaller file or contact us to arrange how to send it.",
+        "ar": "حجم المستند يتجاوز 10 ميغابايت. يرجى اختيار ملف أصغر أو التواصل معنا لترتيب إرساله.",
+        "ru": "Размер документа превышает 10 МБ. Выберите файл меньшего размера или свяжитесь с нами, чтобы согласовать способ передачи."
+    },
+    "form.attachment.error_count": {
+        "en": "Only one document can be attached to a request.",
+        "ar": "يمكن إرفاق مستند واحد فقط في الطلب.",
+        "ru": "К запросу можно прикрепить только один документ."
+    },
+    "form.attachment.error_rejected": {
+        "en": "The attached document could not be accepted. Try another copy or submit the request without an attachment.",
+        "ar": "تعذّر قبول المستند المرفق. جرّب نسخة أخرى أو أرسل الطلب دون مرفق.",
+        "ru": "Не удалось принять прикреплённый документ. Попробуйте другую копию или отправьте запрос без вложения."
+    },
+    "form.state.summary": {
+        "en": "Please check the highlighted details before submitting your request.",
+        "ar": "يرجى مراجعة البيانات المشار إليها قبل إرسال الطلب.",
+        "ru": "Проверьте отмеченные данные перед отправкой запроса."
+    },
+    "form.state.busy": {
+        "en": "Sending request…",
+        "ar": "جارٍ إرسال الطلب…",
+        "ru": "Отправка запроса…"
+    },
+    "form.state.success": {
+        "en": "Your request has been received. We will contact you to clarify the matter, scope of service and fees. This message does not mean that an engagement has been accepted, an appointment confirmed or monitoring of legal deadlines begun.",
+        "ar": "تم استلام طلبك. سنتواصل معك لتحديد طبيعة المسألة ونطاق الخدمة وأتعابها. لا تعني هذه الرسالة قبول التكليف أو تأكيد موعد أو بدء متابعة المواعيد القانونية.",
+        "ru": "Ваш запрос получен. Мы свяжемся с вами, чтобы уточнить характер вопроса, объём услуг и стоимость. Это сообщение не означает принятия поручения, подтверждения записи или начала контроля юридически значимых сроков."
+    },
+    "form.state.failure": {
+        "en": "Your request could not be sent. Please try again or contact us directly.",
+        "ar": "تعذّر إرسال الطلب. يرجى المحاولة مرة أخرى أو التواصل معنا مباشرة.",
+        "ru": "Не удалось отправить запрос. Попробуйте ещё раз или свяжитесь с нами напрямую."
+    },
+    "form.state.uncertain": {
+        "en": "We could not confirm receipt of your request. You can contact us directly to check before submitting it again.",
+        "ar": "لم نتمكن من تأكيد استلام الطلب. يمكنك التواصل معنا مباشرة للتحقق قبل إعادة الإرسال.",
+        "ru": "Мы не смогли подтвердить получение запроса. Перед повторной отправкой вы можете связаться с нами напрямую для проверки."
+    },
+    "form.state.rate_limited": {
+        "en": "Another request cannot be sent right now. Please try later or contact us directly.",
+        "ar": "تعذّر إرسال طلب آخر الآن. يرجى المحاولة لاحقًا أو التواصل معنا مباشرة.",
+        "ru": "Сейчас нельзя отправить ещё один запрос. Попробуйте позже или свяжитесь с нами напрямую."
+    },
+    "form.state.new_enquiry": {
+        "en": "Send a New Enquiry",
+        "ar": "إرسال استفسار جديد",
+        "ru": "Отправить новый запрос"
+    },
+    "faq.search_label": {
+        "en": "Search frequently asked questions",
+        "ar": "ابحث في الأسئلة الشائعة",
+        "ru": "Поиск по часто задаваемым вопросам"
+    },
+    "faq.search_placeholder": {
+        "en": "Enter a word such as: cheque, salary, will, tax",
+        "ar": "اكتب كلمة مثل: شيك، راتب، وصية، ضريبة",
+        "ru": "Введите слово, например: чек, зарплата, завещание, налог"
+    },
+    "faq.search_submit": {
+        "en": "Search",
+        "ar": "بحث",
+        "ru": "Найти"
+    },
+    "faq.search_reset": {
+        "en": "Show all questions",
+        "ar": "عرض جميع الأسئلة",
+        "ru": "Показать все вопросы"
+    },
+    "faq.no_results": {
+        "en": "No matching question found. Try another word or choose a category below.",
+        "ar": "لم نجد سؤالًا مطابقًا. جرّب كلمة أخرى أو اختر أحد الأقسام أدناه.",
+        "ru": "Подходящий вопрос не найден. Попробуйте другое слово или выберите раздел ниже."
+    },
+    "faq.expand_all": {
+        "en": "Show all answers",
+        "ar": "إظهار جميع الإجابات",
+        "ru": "Показать все ответы"
+    },
+    "faq.collapse_all": {
+        "en": "Hide all answers",
+        "ar": "إخفاء جميع الإجابات",
+        "ru": "Скрыть все ответы"
+    },
+    "faq.copy_link": {
+        "en": "Copy question link",
+        "ar": "نسخ رابط السؤال",
+        "ru": "Скопировать ссылку на вопрос"
+    },
+    "faq.link_copied": {
+        "en": "Question link copied.",
+        "ar": "تم نسخ رابط السؤال.",
+        "ru": "Ссылка на вопрос скопирована."
+    },
+    "faq.copy_failed": {
+        "en": "Unable to copy the link. You can copy it from the address bar.",
+        "ar": "تعذّر نسخ الرابط. يمكنك نسخه من شريط العنوان.",
+        "ru": "Не удалось скопировать ссылку. Вы можете скопировать её из адресной строки."
+    },
+    "faq.back_to_categories": {
+        "en": "Back to FAQ categories",
+        "ar": "العودة إلى أقسام الأسئلة",
+        "ru": "Вернуться к разделам вопросов"
+    },
+    "brand.name": {
+        "en": "Summit Legal Consultancy",
+        "ar": "سَمِت للاستشارات القانونية",
+        "ru": "Summit Legal Consultancy"
+    },
+    "nav.home": {
+        "en": "Home",
+        "ar": "الرئيسية",
+        "ru": "Главная"
+    },
+    "nav.practice_areas": {
+        "en": "Practice Areas",
+        "ar": "مناطق الممارسة",
+        "ru": "Направления практики"
+    },
+    "nav.resources": {
+        "en": "Legal Resources",
+        "ar": "المعرفة القانونية",
+        "ru": "Правовая информация"
+    },
+    "nav.case_studies": {
+        "en": "Case Studies",
+        "ar": "نماذج من ملفات قانونية",
+        "ru": "Примеры из практики"
+    },
+    "nav.faq": {
+        "en": "FAQs",
+        "ar": "الأسئلة الشائعة",
+        "ru": "Частые вопросы"
+    },
+    "nav.about": {
+        "en": "About Us",
+        "ar": "من نحن",
+        "ru": "О нас"
+    },
+    "nav.contact": {
+        "en": "Contact Us",
+        "ar": "تواصل معنا",
+        "ru": "Связаться с нами"
+    },
+    "lang.ar": {
+        "en": "Arabic",
+        "ar": "العربية",
+        "ru": "Арабский"
+    },
+    "lang.en": {
+        "en": "English",
+        "ar": "الإنجليزية",
+        "ru": "Английский"
+    },
+    "lang.ru": {
+        "en": "Russian",
+        "ar": "الروسية",
+        "ru": "Русский"
+    },
+    "a11y.open_menu": {
+        "en": "Open menu",
+        "ar": "فتح القائمة",
+        "ru": "Открыть меню"
+    },
+    "a11y.close_menu": {
+        "en": "Close menu",
+        "ar": "إغلاق القائمة",
+        "ru": "Закрыть меню"
+    },
+    "a11y.choose_language": {
+        "en": "Choose language",
+        "ar": "اختيار اللغة",
+        "ru": "Выбрать язык"
+    },
+    "a11y.skip_to_content": {
+        "en": "Skip to content",
+        "ar": "انتقل إلى المحتوى",
+        "ru": "Перейти к содержанию"
+    },
+    "brand.logo_alt": {
+        "en": "Summit Legal Consultancy",
+        "ar": "سَمِت للاستشارات القانونية",
+        "ru": "Summit Legal Consultancy"
+    },
+    "cta.request_consultation": {
+        "en": "Request a Legal Consultation",
+        "ar": "اطلب استشارة قانونية",
+        "ru": "Запросить юридическую консультацию"
+    },
+    "cta.whatsapp": {
+        "en": "Contact Us on WhatsApp",
+        "ar": "تواصل عبر واتساب",
+        "ru": "Написать в WhatsApp"
+    },
+    "cta.explore_service": {
+        "en": "Explore This Service",
+        "ar": "تعرّف على الخدمة",
+        "ru": "Подробнее об услуге"
+    },
+    "cta.view_all_practice_areas": {
+        "en": "View All Practice Areas",
+        "ar": "عرض جميع مناطق الممارسة",
+        "ru": "Все направления практики"
+    },
+    "cta.meet_team": {
+        "en": "Meet Summit and the Team",
+        "ar": "تعرّف على سَمِت وفريقها",
+        "ru": "Подробнее о Summit и команде"
+    },
+    "cta.view_all_case_studies": {
+        "en": "View All Case Studies",
+        "ar": "عرض جميع نماذج الملفات",
+        "ru": "Все примеры из практики"
+    },
+    "cta.read_guide": {
+        "en": "Read the Guide",
+        "ar": "اقرأ الدليل",
+        "ru": "Читать материал"
+    },
+    "cta.visit_resources": {
+        "en": "Visit the Legal Resources Centre",
+        "ar": "زيارة مركز المعرفة القانونية",
+        "ru": "Перейти к правовой информации"
+    },
+    "cta.view_all_faqs": {
+        "en": "View All FAQs",
+        "ar": "زيارة جميع الأسئلة الشائعة",
+        "ru": "Все вопросы и ответы"
+    },
+    "footer.brand": {
+        "en": "Summit Legal Consultancy",
+        "ar": "سَمِت للاستشارات القانونية",
+        "ru": "Summit Legal Consultancy"
+    },
+    "footer.description": {
+        "en": "Legal advice for individuals, businesses, investors and residents in the UAE, in Arabic, English and Russian.",
+        "ar": "استشارات قانونية للأفراد والشركات والمستثمرين والمقيمين في دولة الإمارات، باللغة العربية والإنجليزية والروسية.",
+        "ru": "Юридические консультации для частных лиц, компаний, инвесторов и резидентов в ОАЭ на арабском, английском и русском языках."
+    },
+    "footer.practice_areas": {
+        "en": "Practice Areas",
+        "ar": "مناطق الممارسة",
+        "ru": "Направления практики"
+    },
+    "footer.resources": {
+        "en": "Legal Resources",
+        "ar": "المعرفة القانونية",
+        "ru": "Правовая информация"
+    },
+    "footer.resources_centre": {
+        "en": "Legal Resources Centre",
+        "ar": "مركز المعرفة القانونية",
+        "ru": "Центр правовой информации"
+    },
+    "footer.faq": {
+        "en": "FAQs",
+        "ar": "الأسئلة الشائعة",
+        "ru": "Частые вопросы"
+    },
+    "footer.case_studies": {
+        "en": "Case Studies",
+        "ar": "نماذج من ملفات قانونية",
+        "ru": "Примеры из практики"
+    },
+    "footer.useful_links": {
+        "en": "Useful Links",
+        "ar": "روابط مهمة",
+        "ru": "Полезные ссылки"
+    },
+    "footer.about": {
+        "en": "About Us",
+        "ar": "من نحن",
+        "ru": "О нас"
+    },
+    "footer.contact": {
+        "en": "Contact Us",
+        "ar": "تواصل معنا",
+        "ru": "Связаться с нами"
+    },
+    "footer.legal_notice": {
+        "en": "Legal Notice",
+        "ar": "التنبيه القانوني",
+        "ru": "Правовая оговорка"
+    },
+    "footer.privacy": {
+        "en": "Privacy Policy",
+        "ar": "سياسة الخصوصية",
+        "ru": "Политика конфиденциальности"
+    },
+    "footer.terms": {
+        "en": "Terms and Conditions",
+        "ar": "الشروط والأحكام",
+        "ru": "Условия использования"
+    },
+    "footer.disclaimer": {
+        "en": "The information published is general and does not replace a review of the facts and documents relating to your matter. The scope of service and fees are determined when the engagement is accepted. Court advocacy requiring an advocate is carried out by licensed advocates.",
+        "ar": "المعلومات المنشورة عامة، ولا تغني عن مراجعة وقائع المسألة ومستنداتها. يُحدد نطاق الخدمة والأتعاب عند قبول التكليف، ويجري الترافع الذي يتطلب محاميًا بواسطة محامين مرخصين.",
+        "ru": "Опубликованная информация носит общий характер и не заменяет анализа обстоятельств вашего вопроса и относящихся к нему документов. Объём услуг и вознаграждение определяются при принятии поручения. Ведение дела в суде, для которого требуется адвокат, осуществляется адвокатами, имеющими соответствующую лицензию."
+    },
+    "footer.copyright": {
+        "en": "© 2026 Summit Legal Consultancy. All rights reserved.",
+        "ar": "© 2026 سَمِت للاستشارات القانونية. جميع الحقوق محفوظة.",
+        "ru": "© 2026 Summit Legal Consultancy. Все права защищены."
+    },
+    "footer.whatsapp": {
+        "en": "Contact Us on WhatsApp",
+        "ar": "تواصل عبر واتساب",
+        "ru": "Написать в WhatsApp"
+    },
+    "footer.specialist_heading": {
+        "en": "Specialist Resources and Services Associated with Summit",
+        "ar": "موارد وخدمات متخصصة مرتبطة بسَمِت",
+        "ru": "Специализированные ресурсы и услуги, связанные с Summit"
+    },
+    "resources.search.label": {
+        "en": "Search the Guides",
+        "ar": "ابحث في الأدلة",
+        "ru": "Поиск по руководствам"
+    },
+    "resources.search.placeholder": {
+        "en": "Enter a word such as salary, cheque or will",
+        "ar": "اكتب كلمة مثل الراتب أو الشيك أو الوصية",
+        "ru": "Введите слово, например: зарплата, чек или завещание"
+    },
+    "resources.topic.label": {
+        "en": "Topic",
+        "ar": "الموضوع",
+        "ru": "Тема"
+    },
+    "resources.topic.all": {
+        "en": "All Topics",
+        "ar": "جميع الموضوعات",
+        "ru": "Все темы"
+    },
+    "resources.clear": {
+        "en": "Clear Search and Filters",
+        "ar": "مسح البحث والتصفية",
+        "ru": "Сбросить поиск и фильтры"
+    },
+    "resources.no_results": {
+        "en": "We could not find a guide matching your search. Try another word or view all topics.",
+        "ar": "لم نجد دليلًا يطابق بحثك. جرّب كلمة أخرى أو اعرض جميع الموضوعات.",
+        "ru": "Руководство по вашему запросу не найдено. Попробуйте другое слово или откройте все темы."
+    },
+    "cookies.banner_title": {
+        "en": "Privacy Choices",
+        "ar": "اختيارات الخصوصية",
+        "ru": "Настройки конфиденциальности"
+    },
+    "cookies.banner_text": {
+        "en": "We use necessary technologies to operate the website and protect the form. You may choose to enable or reject non-essential analytics or advertising tools without affecting your ability to read the website or contact us.",
+        "ar": "نستخدم تقنيات ضرورية لتشغيل الموقع وحماية النموذج. ويمكنك اختيار تفعيل أدوات التحليل أو الإعلانات غير الضرورية، أو رفضها، دون التأثير في قدرتك على قراءة الموقع أو التواصل معنا.",
+        "ru": "Мы используем необходимые технологии для работы сайта и защиты формы. Вы можете включить необязательные аналитические или рекламные инструменты либо отказаться от них — это не повлияет на возможность читать материалы сайта или обращаться к нам."
+    },
+    "cookies.accept_optional": {
+        "en": "Accept Optional Tools",
+        "ar": "قبول الاختياري",
+        "ru": "Принять необязательные"
+    },
+    "cookies.reject_optional": {
+        "en": "Reject Optional Tools",
+        "ar": "رفض الاختياري",
+        "ru": "Отклонить необязательные"
+    },
+    "cookies.customise": {
+        "en": "Customise Choices",
+        "ar": "تخصيص الاختيارات",
+        "ru": "Настроить выбор"
+    },
+    "cookies.panel_title": {
+        "en": "Privacy Settings",
+        "ar": "إعدادات الخصوصية",
+        "ru": "Настройки конфиденциальности"
+    },
+    "cookies.necessary_title": {
+        "en": "Necessary Cookies",
+        "ar": "الملفات الضرورية",
+        "ru": "Необходимые файлы cookie"
+    },
+    "cookies.necessary_text": {
+        "en": "These operate the website, protect the form and save your privacy choices. They cannot be disabled in this panel.",
+        "ar": "لتشغيل الموقع وحماية النموذج وحفظ اختيارات الخصوصية، ولا يمكن تعطيلها من هذه اللوحة.",
+        "ru": "Обеспечивают работу сайта, защиту формы и сохранение настроек конфиденциальности. Их нельзя отключить в этой панели."
+    },
+    "cookies.analytics_title": {
+        "en": "Analytics Tools",
+        "ar": "أدوات التحليل",
+        "ru": "Аналитические инструменты"
+    },
+    "cookies.analytics_text": {
+        "en": "To understand and improve website use, when you choose to enable them.",
+        "ar": "لفهم استخدام الموقع وتحسينه، عند تفعيلها باختيارك.",
+        "ru": "Помогают анализировать использование сайта и улучшать его, если вы решите их включить."
+    },
+    "cookies.advertising_title": {
+        "en": "Advertising Tools",
+        "ar": "أدوات الإعلانات",
+        "ru": "Рекламные инструменты"
+    },
+    "cookies.advertising_text": {
+        "en": "To measure campaigns or personalise advertising, depending on the tools you choose to enable.",
+        "ar": "لقياس الحملات أو تخصيص الإعلانات بحسب الأدوات التي تختار تفعيلها.",
+        "ru": "Для оценки рекламных кампаний или персонализации рекламы в зависимости от инструментов, которые вы решите включить."
+    },
+    "cookies.column_provider": {
+        "en": "Provider",
+        "ar": "المزوّد",
+        "ru": "Поставщик"
+    },
+    "cookies.column_purpose": {
+        "en": "Purpose",
+        "ar": "الغرض",
+        "ru": "Цель"
+    },
+    "cookies.column_name": {
+        "en": "Cookie or Technology Name",
+        "ar": "اسم الملف أو التقنية",
+        "ru": "Название файла cookie или технологии"
+    },
+    "cookies.column_duration": {
+        "en": "Duration",
+        "ar": "المدة",
+        "ru": "Срок действия"
+    },
+    "cookies.save": {
+        "en": "Save Choices",
+        "ar": "حفظ الاختيارات",
+        "ru": "Сохранить выбор"
+    },
+    "cookies.cancel": {
+        "en": "Cancel and Close",
+        "ar": "إلغاء وإغلاق",
+        "ru": "Отменить и закрыть"
+    },
+    "cookies.saved": {
+        "en": "Your privacy choices have been saved.",
+        "ar": "تم حفظ اختيارات الخصوصية.",
+        "ru": "Настройки конфиденциальности сохранены."
+    },
+    "cookies.save_failed": {
+        "en": "Your choices could not be saved. No new optional tools have been enabled. Please try again.",
+        "ar": "تعذّر حفظ الاختيارات. لم يتم تفعيل أدوات اختيارية جديدة. يرجى المحاولة مرة أخرى.",
+        "ru": "Не удалось сохранить настройки. Новые необязательные инструменты не включены. Повторите попытку."
+    },
+    "cookies.footer_button": {
+        "en": "Privacy Settings",
+        "ar": "إعدادات الخصوصية",
+        "ru": "Настройки конфиденциальности"
+    },
+    "cookies.policy_link": {
+        "en": "Privacy Policy",
+        "ar": "سياسة الخصوصية",
+        "ru": "Политика конфиденциальности"
+    },
+    "service.situations_intro": {
+        "en": "This service may be relevant if:",
+        "ar": "قد تناسبك هذه الخدمة إذا كنت:",
+        "ru": "Эта услуга может быть полезна, если:"
+    }
+}

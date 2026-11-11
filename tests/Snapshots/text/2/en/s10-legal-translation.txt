@@ -1,0 +1,187 @@
+# text-snapshot: design 2, locale en, route s10-legal-translation
+# GET /en/practice-areas/legal-translation/ -> 200; html lang=en dir=ltr data-design=2
+=== header ===
+Choose language
+English
+Request a Legal Consultation
+Home
+Practice Areas
+Legal Resources
+Case Studies
+FAQs
+About Us
+Contact Us
+=== main ===
+Home
+Practice Areas
+Legal Translation
+Legal Translation and Document Review in the UAE
+A translation may read fluently while changing the meaning of a liability or termination clause between two versions of a contract. We help you understand the obligations, compare the texts and identify the requirements for their intended use, distinguishing legal review from certified translation and document attestation.
+Request a Legal Consultation
+Contact Us on WhatsApp
+(opens in a new tab)
+On this page
+Who This Service Is For
+Matters Covered by the Review
+Practical Situations We Review with You
+How We Handle Your Matter
+Documents That Help Us Get Started
+Before Taking the Next Step
+Start with Your Situation
+FAQs
+Related Topics and Services
+Official Sources for Reference
+Tell Us About Your Matter
+Scope of Service and Published Information
+Tell Us About Your Matter
+Request a Legal Consultation
+Contact Us on WhatsApp
+(opens in a new tab)
+Who This Service Is For
+Individuals with official documents requiring certified translation
+Companies working with contracts in different languages
+International investors reviewing legal documents in a language other than their own
+Anyone using documents before government authorities or courts
+Anyone wishing to have an existing translation reviewed before relying on it
+Matters Covered by the Review
+Translation of commercial and investment contracts
+Translation of court documents and judgments
+Translation of company and incorporation documents
+Translation of official personal documents
+Review of legal translations before official use
+Translation between Arabic, English and Russian
+Practical Situations We Review with You
+Legal Review and Certified Translation
+Legal review explains terms and obligations and compares their effect across different versions. Where certified translation is required for official use, we coordinate with a legal translator registered with the competent authority for the required language.
+We establish at the outset whether you need to understand a document, review a bilingual contract, obtain an official translation or have a document issued abroad attested. These are different services, and a matter may require more than one of them.
+Is Attestation of the Translation Enough?
+Attestation of a document or signature is different from certification of a translation and the accuracy of its content. The original document may also require attestation, depending on where it was issued and how it will be used. We explain the steps required for the specific transaction without assuming that one procedure covers them all.
+Documents include commercial and investment contracts, shareholders’ agreements, powers of attorney, judgments and written submissions, as well as incorporation documents, resolutions, authorisations and relevant personal documents. We check names, numbers, amounts, dates, definitions, annexes and the clause specifying which language prevails.
+How We Handle Your Matter
+Establish the document’s purpose, the authority to which it will be submitted and the languages required.
+Read the original and compare the versions, definitions, annexes and key details.
+Identify differences in meaning or legal effect and any certification or attestation requirements.
+Explain the scope of work, timeframe and fees, and coordinate with the appropriate specialist.
+Documents That Help Us Get Started
+A complete, legible copy of the original, including annexes, stamps and relevant pages.
+Any previous translation and, for multilingual contracts, the clause specifying which language prevails in the event of a discrepancy.
+The required language, purpose, receiving authority and deadline for submission or signature.
+Supporting information and reference documents confirming the spelling of names, numbers, capacities and dates, where needed.
+Send clear, complete copies initially and retain the originals. Do not send passwords, verification codes or financial account access credentials. An appropriate method for sharing sensitive documents can be agreed.
+Before Taking the Next Step
+Useful First Steps
+Identify the authority to which the translation will be submitted before work begins; requirements differ.
+Always check names, numbers and dates after translation.
+Check the authority’s requirements and do not rely on machine translation alone in place of the required professional certification.
+Request a legal review of important contracts, as well as a linguistic translation.
+Mistakes to Avoid
+Relying on machine translation for contracts or official documents
+Signing a translated document without understanding what each clause means
+Overlooking differences in legal terminology between legal systems
+Failing to check numbers and dates, where errors most often occur
+Start with Your Situation
+This service may be relevant if:
+You have a contract in a foreign language and want it translated before signing.
+Show the starting file
+A document must be submitted to a government authority or court and requires certified translation.
+Show the starting file
+You signed a translated document and want to check the translation’s accuracy.
+Show the starting file
+You need a translation between Arabic and English or Russian for an official transaction.
+Show the starting file
+FAQs
+Can Machine Translation Be Used for Official Submission?
+Machine translation alone is not treated as certified legal translation. Check the receiving authority’s requirements, the language and the type of document, and use a registered translator where required. Automated tools may help with an initial understanding, subject to appropriate human review.
+What Is the Difference Between Translation Certification and Attestation?
+Translation certification concerns compliance with professional translation requirements and those of the receiving authority. Attestation may concern the original document, stamp or signature. A transaction may require more than one procedure.
+Is a Translation by Someone Fluent in the Language Sufficient?
+It may help you understand the document personally, but it does not replace the certification required for official use or a review of the legal effect of important clauses. The service required depends on the purpose for which the document will be used.
+How Long Does a Translation Take?
+The timeframe is determined after establishing the number of pages, language, complexity, required certification or attestations, and the specialist’s availability. We do not promise a deadline before reviewing these requirements.
+Does Reviewing the Translation Include Reviewing the Contract Itself?
+Both can be included in a clearly defined engagement. Comparing versions identifies differences in meaning; reviewing the contract also addresses rights, obligations, risks and the terms that should be amended or negotiated.
+Legal Translation
+67. What distinguishes a legal review of a translation?
+68. Is machine translation suitable for official submission?
+69. What is the difference between certified and ordinary translation?
+70. Which documents need legal translation?
+Related Topics and Services
+Guide to Accuracy in Legal Translation
+Legal Resources
+Contract Drafting and Review
+Practice Areas
+Business and Incorporation Documents
+Practice Areas
+All FAQs
+Back to Practice Areas
+Official Sources for Reference
+Ministry of Justice Legal Translator Registration
+moj.gov.ae
+(opens in a new tab)
+Tell Us About Your Matter
+Send a summary of the matter and the main document, if available, and mention any hearing or current deadline. Before work begins, we will explain the scope of consultation, the fee and the documents required.
+Request a Legal Consultation
+Contact Us on WhatsApp
+(opens in a new tab)
++971 52 466 6191
+info@summitlegaluae.com
+The service is available in Arabic, English and Russian. Sending an enquiry does not mean that the engagement has been accepted or that monitoring of legal deadlines has begun.
+Scope of Service and Published Information
+Summit is a legal consultancy company. The work, deliverables and fees are defined in the agreed engagement. Court advocacy or representation requiring an advocate is carried out by licensed advocates. Where work requires separate professional registration or specialist expertise, it is coordinated with an appropriately qualified professional as needed.
+This is general information and does not replace a review of the facts, documents, applicable law, competent authority and relevant deadlines. Options and outcomes vary from one matter to another. Presenting this service does not guarantee a decision, recovery of funds or approval by an external authority.
+Legal Notice and Scope of Services
+=== footer ===
+Summit Legal Consultancy
+Legal advice for individuals, businesses, investors and residents in the UAE, in Arabic, English and Russian.
++971 52 466 6191
+Contact Us on WhatsApp
+(opens in a new tab)
+info@summitlegaluae.com
+Business hours: Monday to Friday, 9 am to 6 pm.
+Practice Areas
+Debt Recovery and Cheque Cases
+Criminal Cases
+Cryptocurrency and Digital Currency Cases
+Corporate and Commercial Law
+Property and Tenancy Disputes
+Employment Law
+Tax Disputes and Tax Compliance
+Family Law and Wills
+Compliance and Regulatory Matters
+Legal Translation
+Business Services
+Legal Resources
+Legal Resources Centre
+FAQs
+Case Studies
+Useful Links
+About Us
+Contact Us
+Legal Notice
+Privacy Policy
+Terms and Conditions
+The information published is general and does not replace a review of the facts and documents relating to your matter. The scope of service and fees are determined when the engagement is accepted. Court advocacy requiring an advocate is carried out by licensed advocates.
+Specialist Resources and Services Associated with Summit
+Employment Law
+laborlawuae.com
+(opens in a new tab)
+Debt Recovery and Cheques
+debtrecoveryuae.com
+(opens in a new tab)
+Property Disputes
+dubaipropertydispute.com
+(opens in a new tab)
+Digital Currencies
+uaecryptocases.com
+(opens in a new tab)
+Wills
+uaeexpatwills.com
+(opens in a new tab)
+Tax Disputes
+uaetaxdisputes.com
+(opens in a new tab)
+© {{YEAR}} Summit Legal Consultancy. All rights reserved.
+Choose language
+Arabic
+English
+Russian

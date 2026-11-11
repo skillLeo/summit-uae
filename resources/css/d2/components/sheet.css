@@ -1,0 +1,260 @@
+/*
+ * Design 2.1 component: sheet (<x-d2.ui.sheet>, behaviour in resources/js/d2/lib/sheet.js). Brief §3.4 (overlays:
+ * radius 16, the one overlay shadow), §6 (sheets for the menu and the language on mobile); docs/d2.1/phase-1/
+ * components.md §5. The panel is an overlay ([data-overlay]): white, --radius-overlay on its free corners,
+ * --shadow-overlay, over the --scrim backdrop.
+ * < 768 px: bottom sheet (radius 16 on the top corners, 36×5 handle, max 90svh, --spring-sheet).
+ * ≥ 768 px: side panel on the inline-end edge (full height, --sheet-side-w, radius 16 on the inner corners), sliding
+ *           in from that edge with the same spring; no handle, no drag.
+ * Reduced motion: no slide, the sheet simply appears (and follows a drag, which is direct manipulation).
+ * Drag to dismiss (lib/sheet.js): the handle and head with pointer events, the content with a pull-down while it is
+ * scrolled to its top; the backdrop fades with the distance (--sheet-fade).
+ * Also here: the page scroll lock used by sheets and modals, and two content helpers for any sheet (.sheet-group,
+ * .sheet-checklist). The global menu and services sheets style their own content (components/tabbar.css).
+ */
+@layer components {
+  /* ---------------------------------------------------------------- page scroll lock (lockScroll()) */
+  html.is-scroll-locked {
+    overflow: hidden;
+  }
+
+  /* A classic scrollbar keeps its gutter, so nothing shifts when the page stops scrolling. */
+  html.is-scroll-locked.has-scroll-gutter {
+    scrollbar-gutter: stable;
+  }
+
+  /* ---------------------------------------------------------------- overlay */
+  .sheet {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-sheet);
+  }
+
+  .sheet__backdrop {
+    position: absolute;
+    inset: 0;
+    background: var(--scrim);
+    opacity: 0;
+    transition: opacity var(--dur-panel) var(--ease-out);
+    touch-action: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* While the sheet is dragged down (handle, head or a pull on the content), lib/sheet.js sets --sheet-fade
+     (1 → 0 with the distance) and the backdrop follows the finger directly; on release it eases back. */
+  .sheet.is-open .sheet__backdrop {
+    opacity: var(--sheet-fade, 1);
+  }
+
+  .sheet.is-dragging .sheet__backdrop {
+    transition: none;
+  }
+
+  /* ---------------------------------------------------------------- panel (bottom sheet) */
+  .sheet__panel {
+    --sheet-y: 100%;
+    --sheet-x: 0%;
+
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: 0;
+    display: flex;
+    flex-direction: column;
+    max-block-size: var(--sheet-max-h);
+    overflow: clip;
+    color: var(--ink);
+    background: var(--canvas);
+    border-start-start-radius: var(--radius-overlay);
+    border-start-end-radius: var(--radius-overlay);
+    box-shadow: var(--shadow-overlay);
+    transform: translate3d(var(--sheet-x), calc(var(--sheet-y) + var(--sheet-drag, 0px)), 0);
+    transition: transform var(--spring-sheet-dur) var(--spring-sheet);
+    outline: none;
+  }
+
+  .sheet.is-open .sheet__panel {
+    --sheet-y: 0%;
+
+    will-change: transform;
+  }
+
+  .sheet__panel.is-dragging {
+    transition: none;
+  }
+
+  .sheet__head {
+    position: relative;
+    display: flex;
+    flex: none;
+    gap: var(--s-3);
+    align-items: center;
+    padding-block: var(--s-4) var(--s-1);
+    padding-inline: var(--s-6) var(--s-3);
+    border-block-end: var(--line-w) solid transparent;
+  }
+
+  /* Content scrolled under the head: a hairline separates them (lib/sheet.js sets .is-scrolled). */
+  .sheet__panel.is-scrolled .sheet__head {
+    border-block-end-color: var(--line);
+  }
+
+  .sheet__head[data-sheet-drag] {
+    cursor: grab;
+    touch-action: none;
+    /* stylelint-disable-next-line property-no-vendor-prefix -- iOS Safari needs the prefix to stop text selection while dragging */
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  .sheet__panel.is-dragging .sheet__head {
+    cursor: grabbing;
+  }
+
+  .sheet__handle {
+    position: absolute;
+    inset-block-start: var(--s-2);
+    inset-inline-start: calc(50% - 18px);
+    inline-size: 36px;
+    block-size: 5px;
+    background: var(--line-strong);
+    border-radius: var(--radius-pill);
+  }
+
+  .sheet__title {
+    flex: 1 1 auto;
+    min-inline-size: 0;
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+    outline: none;
+  }
+
+  .sheet__close {
+    flex: none;
+  }
+
+  .sheet__body {
+    flex: 1 1 auto;
+    min-block-size: 0;
+    padding-block: var(--s-2) calc(var(--s-8) + var(--safe-bottom));
+    padding-inline: var(--s-6);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .sheet__panel:has(> .sheet__foot) .sheet__body {
+    padding-block-end: var(--s-6);
+  }
+
+  .sheet__foot {
+    flex: none;
+    padding-block: var(--s-4) calc(var(--s-4) + var(--safe-bottom));
+    padding-inline: var(--s-6);
+    background: var(--canvas);
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  /* ---------------------------------------------------------------- side panel (≥ 768) */
+  @media (width >= 768px) {
+    .sheet:not(.sheet--static) {
+      --sheet-dir: 1;
+    }
+
+    [dir="rtl"] .sheet:not(.sheet--static) {
+      --sheet-dir: -1;
+    }
+
+    .sheet:not(.sheet--static) .sheet__panel {
+      --sheet-y: 0%;
+      --sheet-x: calc(100% * var(--sheet-dir));
+
+      inset-block: 0;
+      inset-inline: auto 0;
+      inline-size: min(var(--sheet-side-w), calc(100vw - var(--s-16)));
+      max-block-size: none;
+      border-start-end-radius: 0;
+      border-end-start-radius: var(--radius-overlay);
+    }
+
+    .sheet.is-open:not(.sheet--static) .sheet__panel {
+      --sheet-x: 0%;
+    }
+
+    .sheet:not(.sheet--static) .sheet__handle {
+      display: none;
+    }
+
+    .sheet:not(.sheet--static) .sheet__head {
+      padding-block-start: calc(var(--s-5) + var(--safe-top));
+      cursor: auto;
+    }
+  }
+
+  /* ---------------------------------------------------------------- styleguide specimen */
+  .sheet--static {
+    position: relative;
+    inset: auto;
+    z-index: auto;
+  }
+
+  .sheet--static .sheet__panel {
+    position: relative;
+    inset: auto;
+    max-block-size: none;
+    transform: none;
+    transition: none;
+  }
+
+  /* ---------------------------------------------------------------- reduced motion: no slide */
+  @media (prefers-reduced-motion: reduce) {
+    .sheet__panel {
+      opacity: 0;
+      transform: translate3d(0, var(--sheet-drag, 0), 0);
+      transition: opacity var(--dur-fade) linear;
+    }
+
+    .sheet.is-open .sheet__panel,
+    .sheet--static .sheet__panel {
+      opacity: 1;
+    }
+  }
+
+  /* ---------------------------------------------------------------- content helpers for any sheet */
+  .sheet-group + .sheet-group {
+    margin-block-start: var(--s-6);
+  }
+
+  /* A group heading inside a sheet: the Minor heading role (16/600). */
+  .sheet-group__title {
+    margin-block-end: var(--s-2);
+    color: var(--ink);
+    font-size: var(--fs-minor);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-minor);
+    letter-spacing: 0;
+  }
+
+  /* A list of items with a check mark (documents usually needed, useful first steps): the check is functional. */
+  .sheet-checklist {
+    display: grid;
+    gap: var(--s-3);
+    list-style: none;
+
+    > li {
+      display: grid;
+      grid-template-columns: var(--icon-size) minmax(0, 1fr);
+      gap: var(--s-3);
+      align-items: start;
+      color: var(--ink-2);
+      font-size: var(--fs-body);
+      line-height: var(--lh-body);
+    }
+
+    /* the 20 px check centred on the first line: the icon box is one line tall */
+    .icon {
+      block-size: var(--lh-body);
+      color: var(--ink-2);
+    }
+  }
+}

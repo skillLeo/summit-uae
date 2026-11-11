@@ -1,0 +1,22 @@
+/* Utilities: the last layer, single-purpose helpers only (contract: docs/d2.1/phase-1/tokens.md §6). */
+@layer utilities {
+  /* centred text; a centred paragraph centres its 64ch box too */
+  .u-center {
+    text-align: center;
+  }
+
+  .u-center p,
+  p.u-center {
+    margin-inline: auto;
+  }
+
+  /* running-text measure on any block */
+  .u-measure {
+    max-inline-size: var(--measure);
+  }
+
+  /* figures that line up (calculators, tables, prices, reference numbers) */
+  .u-tabular {
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+}

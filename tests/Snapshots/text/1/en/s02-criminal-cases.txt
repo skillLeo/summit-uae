@@ -1,0 +1,72 @@
+# text-snapshot: design 1, locale en, route s02-criminal-cases
+# GET /en/practice-areas/criminal-cases/ -> 200; html lang=en dir=ltr data-design=-
+=== header ===
+Summit Legal Consultancy
+Home
+Practice Areas
+Practice Areas
+Legal Resources
+Case Studies
+FAQs
+About Us
+Contact Us
+Choose language
+English
+=== main ===
+Home
+Practice Areas
+Criminal Cases
+Advice and Support in Criminal Cases in the UAE
+When you receive a summons or learn of a criminal complaint, the first priority is to understand which authority is involved, the stage reached, the date set and what is required of you. We review the facts, evidence and chronology, identify urgent issues and define the legal assistance appropriate to the matter.
+Prototype 1 preview. The full approved content and design of this page arrive in Phase 2. Until then you can request a consultation or return to the homepage.
+Request a Legal Consultation
+Home
+=== footer ===
+Summit Legal Consultancy
+Summit Legal Consultancy
+Legal advice for individuals, businesses, investors and residents in the UAE, in Arabic, English and Russian.
+Practice Areas
+Debt Recovery and Cheque Cases
+Criminal Cases
+Cryptocurrency and Digital Currency Cases
+Corporate and Commercial Law
+Property and Tenancy Disputes
+Employment Law
+Tax Disputes and Tax Compliance
+Family Law and Wills
+Compliance and Regulatory Matters
+Legal Translation
+Business Services
+Legal Resources
+Legal Resources Centre
+FAQs
+Case Studies
+Useful Links
+About Us
+Contact Us
+Legal Notice
+Privacy Policy
+Terms and Conditions
+Specialist Resources and Services Associated with Summit
+Employment Law
+laborlawuae.com
+(opens in a new tab)
+Debt Recovery and Cheques
+debtrecoveryuae.com
+(opens in a new tab)
+Property Disputes
+dubaipropertydispute.com
+(opens in a new tab)
+Digital Currencies
+uaecryptocases.com
+(opens in a new tab)
+Wills
+uaeexpatwills.com
+(opens in a new tab)
+Tax Disputes
+uaetaxdisputes.com
+(opens in a new tab)
+The information published is general and does not replace a review of the facts and documents relating to your matter. The scope of service and fees are determined when the engagement is accepted. Court advocacy requiring an advocate is carried out by licensed advocates.
+Contact Us on WhatsApp
+(opens in a new tab)
+© {{YEAR}} Summit Legal Consultancy. All rights reserved.

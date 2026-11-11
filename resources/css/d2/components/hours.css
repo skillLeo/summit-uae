@@ -1,0 +1,104 @@
+/*
+ * Design 2 component: live office-hours status ([data-hours-status], filled by resources/js/d2/modules/hours.js;
+ * Design 2.1 brief §3.7, fixes D02, D11, D40). It sits beside an approved hours sentence and inherits the size and
+ * line height of that line; it never moves or pulses (brief §3.6 rule 7).
+ *
+ * A two-column grid: the status dot, then the status text ("Open now, closes at 6 pm"); for a visitor outside UAE
+ * time the time difference ("UAE time is 1 hour behind yours") is a second line under the text, never after a dot
+ * or a middle-dot separator (D02). The dot is a status mark beside its text, not decoration: --success when open,
+ * --ink-3 when closed (on dark: --success-on-dark / --on-dark-3). It sits on the first line's baseline (an empty box
+ * aligns its bottom edge with the text baseline), so it stays on the first line in any column width and in every
+ * script without a computed offset.
+ *
+ * A slot that reserves the status line from the first paint (the contact card) puts an invisible copy of
+ * App\Design\D2\Hours::sizer() with these same classes in the same grid cell (aria-hidden); the script hides that
+ * copy, through the hidden attribute, beside a slot it leaves empty (a block in another language than the page's).
+ * A container may give the slot its own display (flex or grid): the dot and the text align themselves on the
+ * baseline, or, as in the inner CTA card, the dot's cell is one line tall and centres the dot without a margin.
+ */
+@layer components {
+  [data-hours-status]:empty {
+    display: none;
+  }
+
+  /*
+   * A status line is interface text, not a running paragraph: it never hyphenates (the slot often sits in a <p>,
+   * and Russian paragraphs hyphenate: "в по-недельник"), and when it wraps it wraps in balanced phrases
+   * ("Сейчас закрыто, откроется / в понедельник в 9:00"). The invisible reserve copy has the same classes, so it
+   * wraps the same way.
+   */
+  .hours-status {
+    display: inline-grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: var(--s-2);
+    align-items: baseline;
+    max-inline-size: 100%;
+    color: var(--ink-2);
+    font-weight: var(--fw-medium);
+    hyphens: manual;
+  }
+
+  .hours-status__text,
+  .hours-status__offset {
+    text-wrap: balance;
+  }
+
+  .hours-status__dot {
+    align-self: baseline;
+    inline-size: var(--s-2);
+    block-size: var(--s-2);
+    background: var(--ink-3);
+    border-radius: 50%;
+  }
+
+  .hours-status.is-open .hours-status__dot {
+    background: var(--success);
+  }
+
+  .hours-status__text {
+    align-self: baseline;
+    min-inline-size: 0;
+  }
+
+  /* the time difference: its own line under the text, in the secondary colour */
+  .hours-status__offset {
+    grid-column: 2;
+    min-inline-size: 0;
+    color: var(--ink-3);
+    font-weight: var(--fw-regular);
+  }
+
+  /* ---------------------------------------------------------------- on dark (the footer, dark bands) */
+  :is(.on-dark, .on-night) .hours-status {
+    color: var(--on-dark-2);
+  }
+
+  :is(.on-dark, .on-night) .hours-status__dot {
+    background: var(--on-dark-3);
+  }
+
+  :is(.on-dark, .on-night) .hours-status.is-open .hours-status__dot {
+    background: var(--success-on-dark);
+  }
+
+  :is(.on-dark, .on-night) .hours-status__offset {
+    color: var(--on-dark-3);
+  }
+
+  /* a light card inside a dark section */
+  .on-light .hours-status {
+    color: var(--ink-2);
+  }
+
+  .on-light .hours-status__dot {
+    background: var(--ink-3);
+  }
+
+  .on-light .hours-status.is-open .hours-status__dot {
+    background: var(--success);
+  }
+
+  .on-light .hours-status__offset {
+    color: var(--ink-3);
+  }
+}

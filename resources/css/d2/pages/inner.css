@@ -1,0 +1,1292 @@
+/*
+ * Design 2 inner-page kit (resources/views/components/d2/inner/*; upgrade spec §7.4, §12 Phase D–E;
+ * Design 2.1 contract docs/d2.1/phase-1/tokens.md):
+ *   .inner-head      breadcrumbs, H1 (Display), meta, intro (Lead), actions (+ optional aside column)
+ *   .inner-layout    720 px reading column + 352 px side column (≥ 1280 px, sticky rail)
+ *   .prose           approved DOCX structure: headings, paragraphs, lists, steps, sub-sections, notes, Q&A, link rows
+ *   .toc / .toc-bar  sticky table of contents (≥ 1280 px) / "On this page" bar + sheet (< 1280 px)
+ *   .reading-progress  3 px ink bar under the header (modules/reading-progress.js)
+ *   .cta-card        sticky side CTA card
+ *   .related / .link-row  related links (rows) and related cards
+ * Design 2.1 (brief §3.2–3.6): headings take their type role from their level (h2 = H2, h3 = H3; panel titles
+ * the H3 role), body text is ink, no icon object, no eyebrow, no large-title collapse, no glass, no shadow on
+ * cards or rows, no arrows, no truncated approved copy (breadcrumbs wrap). Mobile first; tokens only; logical
+ * properties; transform / opacity motion only (reduced motion: final state).
+ */
+@layer pages {
+  /* ================================================================== head */
+  .inner-head {
+    padding-block: var(--s-4) var(--s-12);
+  }
+
+  .inner-head--surface {
+    background: var(--canvas);
+    border-block-end: var(--line-w) solid var(--line);
+  }
+
+  .inner-head__inner {
+    display: grid;
+    gap: var(--s-12);
+  }
+
+  .inner-head__main {
+    display: grid;
+    gap: var(--s-4);
+    align-content: start;
+    min-inline-size: 0;
+    max-inline-size: 960px;
+  }
+
+  .inner-head--document .inner-head__main {
+    max-inline-size: var(--prose);
+  }
+
+  /* -------------------------------------------------- breadcrumbs (Small, ink-3; long labels wrap, never cut) */
+  .crumbs {
+    min-inline-size: 0;
+  }
+
+  .crumbs__list {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: var(--s-1);
+    row-gap: var(--s-1);
+    align-items: center;
+    min-inline-size: 0;
+    margin: 0;
+    list-style: none;
+    color: var(--ink-3);
+    font-size: var(--fs-small);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-small);
+  }
+
+  .crumbs__item {
+    display: flex;
+    gap: var(--s-1);
+    align-items: center;
+    min-inline-size: 0;
+  }
+
+  /* The row reads as one Small line; each link keeps a 44 px target (48 px on touch screens) through an
+     invisible hit area above and below its text, so no margin leaves the spacing scale (brief §3.4). */
+  .crumbs__link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    padding-inline: var(--s-1);
+    margin-inline: calc(-1 * var(--s-1));
+    color: var(--ink-2);
+    border-radius: var(--radius-control);
+    transition: color var(--dur-hover) var(--ease-out);
+
+    &::after {
+      position: absolute;
+      inset-block: calc((var(--lh-small) - var(--target)) / 2);
+      inset-inline: 0;
+      content: "";
+    }
+
+    &:hover {
+      color: var(--ink);
+      text-decoration: underline;
+      text-decoration-thickness: var(--line-w);
+      text-underline-offset: 3px;
+    }
+  }
+
+  .crumbs__sep {
+    flex: none;
+    inline-size: 16px;
+    block-size: 16px;
+    color: var(--ink-3);
+  }
+
+  /* the current page: plain text that wraps inside the row (approved copy is never cut, brief §3.6 rule 8) */
+  .crumbs__current {
+    min-inline-size: 0;
+    color: var(--ink-3);
+  }
+
+  @media (pointer: coarse) {
+    .crumbs__link::after {
+      inset-block: calc((var(--lh-small) - var(--target-touch)) / 2);
+    }
+  }
+
+  /* -------------------------------------------------- title (Display), meta, intro (Lead), actions */
+  .inner-head__title {
+    margin-block-start: var(--s-2);
+    color: var(--ink);
+    font-size: var(--fs-display);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-display);
+    letter-spacing: var(--ls-display);
+    text-wrap: balance;
+    /* Display headings never hyphenate a word that fits a line of its own (QA round 1: «завеща-ния»,
+       «направле-ния»). A word that cannot fit a phone's column at all lets the browser hyphenate this one
+       title (.inner-head__title--fit, set by head.blade.php), so the H1 keeps the type scale (brief §3.2);
+       overflow-wrap is only the last safety net. */
+    overflow-wrap: break-word;
+    hyphens: manual;
+  }
+
+  .inner-head__title--fit {
+    hyphens: auto;
+  }
+
+  .inner-head__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2) var(--s-4);
+    align-items: center;
+    color: var(--ink-3);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+
+    > * {
+      margin: 0;
+    }
+  }
+
+  .inner-head__intro {
+    color: var(--ink-2);
+    font-size: var(--fs-lead);
+    line-height: var(--lh-lead);
+  }
+
+  .inner-head__meta + .inner-head__intro {
+    margin-block-start: var(--s-2);
+  }
+
+  .inner-head__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+    margin-block-start: var(--s-4);
+  }
+
+  .inner-head__aside {
+    min-inline-size: 0;
+  }
+
+  /* Phones: the actions stack full width at one shared height. An approved label too long for a 390 px line
+     (RU "Запросить юридическую консультацию", EN "Request a consultation about your situation") wraps into
+     two balanced lines with 12 px above and below, and its neighbour grows with it; never shortened. */
+  @media (width < 768px) {
+    .inner-head__actions {
+      display: grid;
+      grid-auto-rows: 1fr;
+    }
+
+    .inner-head__actions > .btn {
+      padding-block: var(--s-3);
+      text-wrap: balance;
+    }
+  }
+
+  @media (width >= 768px) {
+    .inner-head {
+      padding-block: var(--s-8) var(--s-16);
+    }
+  }
+
+  /* Two columns from 1280 px on the 12-column grid: the text on 7 columns, the aside on the last 5. A head
+     above the reading layout (.inner-head--rail: the service pages, the Knowledge Centre) puts them on that
+     layout's tracks instead (720 px | 352 px, space between), so its aside card and the contents rail below
+     line up on one edge. */
+  @media (width >= 1280px) {
+    .inner-head--aside .inner-head__inner {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gutter);
+      align-items: start;
+    }
+
+    .inner-head--aside .inner-head__main {
+      grid-column: 1 / span 7;
+    }
+
+    .inner-head--aside .inner-head__aside {
+      grid-column: 8 / span 5;
+    }
+
+    .inner-head--aside.inner-head--rail .inner-head__inner {
+      grid-template-columns: minmax(0, var(--prose)) minmax(0, var(--aside-w));
+      justify-content: space-between;
+      column-gap: var(--s-12);
+    }
+
+    .inner-head--aside.inner-head--rail :is(.inner-head__main, .inner-head__aside) {
+      grid-column: auto;
+    }
+  }
+
+  /* ================================================================== reading layout */
+  .inner-layout {
+    padding-block-end: var(--section-y);
+  }
+
+  .inner-layout__grid {
+    display: grid;
+    gap: var(--s-12);
+    align-items: start;
+  }
+
+  .inner-layout__main {
+    min-inline-size: 0;
+    max-inline-size: var(--prose);
+  }
+
+  .inner-layout__side {
+    min-inline-size: 0;
+    max-inline-size: var(--prose);
+  }
+
+  .inner-layout__rail {
+    display: grid;
+    gap: var(--s-6);
+  }
+
+  /* Below 1280 px a side column that holds only the TOC is empty (the bar replaces the list): it takes no
+     grid row, so no 48 px gap is left under the reading column (P03, legal pages). */
+  @media (width < 1280px) {
+    .inner-layout__side:not(:has(.inner-layout__aside)) {
+      display: none;
+    }
+  }
+
+  /* With a TOC the side column comes first in the source (layout.blade.php): below 1280 px an aside it holds
+     still follows the reading column on screen. */
+  @media (width < 1280px) {
+    .inner-layout--toc .inner-layout__side {
+      order: 1;
+    }
+  }
+
+  @media (width >= 1280px) {
+    .inner-layout--side .inner-layout__grid {
+      grid-template-columns: minmax(0, var(--prose)) minmax(0, var(--aside-w));
+      column-gap: var(--s-12);
+      justify-content: space-between;
+    }
+
+    /* explicit cells: the side column may come first in the source */
+    .inner-layout--side .inner-layout__main {
+      grid-area: 1 / 1;
+    }
+
+    .inner-layout--side .inner-layout__side {
+      grid-area: 1 / 2;
+    }
+
+    .inner-layout__side {
+      block-size: 100%;
+    }
+
+    .inner-layout--sticky .inner-layout__rail {
+      position: sticky;
+      inset-block-start: calc(var(--header-h) + var(--rail-y));
+    }
+
+    /* The TOC and an aside (the service pages' CTA card) in one sticky rail: the rail is capped to the window
+       (--rail-y under the header and above the bottom edge) and the TOC list gives way, scrolling inside its
+       frame (fade + "more" cue; toc.js keeps the current link and the one before it in view), so the aside
+       always shows in full. */
+    .inner-layout__rail:has(> .toc--nav + .inner-layout__aside) {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s-4);
+      max-block-size: calc(100dvh - var(--header-h) - var(--rail-y) * 2);
+
+      & > .toc--nav {
+        display: flex;
+        flex: 0 1 auto;
+        flex-direction: column;
+        min-block-size: 0;
+      }
+
+      & > .toc--nav > .toc__frame {
+        flex: 0 1 auto;
+      }
+
+      & > .toc--nav .toc__list {
+        flex: 0 1 auto;
+        min-block-size: 0;
+        max-block-size: none;
+      }
+
+      & > .inner-layout__aside {
+        flex: none;
+      }
+
+      /* Under the contents the CTA is a quiet action group, not a card in a column: a hairline, the label, the two
+         buttons at the rail's full width. The room the longest approved request label needs (RU «Запросить
+         юридическую консультацию», 290 px of text) comes from the card's padding, never from the button: the
+         standard 44 px button with its 20 px padding keeps it on one line in every language (310 px of room). */
+      & .cta-card {
+        gap: var(--s-3);
+        padding: var(--s-4) 0 0;
+        border: 0;
+        border-block-start: var(--line-w) solid var(--line);
+        border-radius: 0;
+      }
+
+      /* should a font fallback still wrap a label, its two lines are balanced */
+      & .cta-card__actions .btn {
+        text-wrap: balance;
+      }
+    }
+
+    .toc--nav .toc__title {
+      margin-block-end: var(--s-2);
+    }
+  }
+
+  /* Short desktop windows (a 1280 × 800 laptop): the rail sits 16 px under the header and above the edge, and
+     its compact CTA card keeps its approved heading for assistive technology only (it still names the aside),
+     so the eleven entries fit in every language. */
+  @media (width >= 1280px) and (height < 900px) {
+    .inner-layout__rail {
+      --rail-y: var(--s-4);
+    }
+
+    .inner-layout__rail:has(> .toc--nav + .inner-layout__aside) {
+      gap: var(--s-3);
+
+      & .cta-card__actions {
+        margin-block-start: 0;
+      }
+    }
+
+    .inner-layout__rail:has(> .toc--nav + .inner-layout__aside) .cta-card__title {
+      position: absolute;
+      inline-size: 1px;
+      block-size: 1px;
+      padding: 0;
+      /* stylelint-disable-next-line declaration-property-value-disallowed-list -- the visually-hidden box, not spacing */
+      margin: -1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+      border: 0;
+    }
+  }
+
+  /* ================================================================== prose
+     Body text in ink (brief §3.3), the headings by their level: h2 the H2 role, h3 the H3 role (base.css),
+     so a section and its sub-sections never share a size. Sections 48 px apart, 64 px from 768 px; H2 to
+     its text 16 px (brief §3.4). */
+  .prose {
+    color: var(--ink);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+
+    > * + *,
+    .prose__section > * + *,
+    .prose__sub > * + *,
+    .prose__step-body > * + * {
+      margin-block-start: var(--s-4);
+    }
+
+    > .prose__section + .prose__section {
+      margin-block-start: var(--s-12);
+    }
+  }
+
+  @media (width >= 768px) {
+    .prose > .prose__section + .prose__section {
+      margin-block-start: var(--s-16);
+    }
+  }
+
+  .prose--lg {
+    font-size: var(--fs-lead);
+    line-height: var(--lh-lead);
+  }
+
+  .prose__section {
+    scroll-margin-block-start: var(--s-4);
+  }
+
+  .prose__heading,
+  .prose__subheading {
+    overflow-wrap: break-word;
+    hyphens: manual;
+    color: var(--ink);
+  }
+
+  .prose .prose__heading + * {
+    margin-block-start: var(--s-4);
+  }
+
+  .prose .prose__sub + .prose__sub,
+  .prose * + .prose__subheading {
+    margin-block-start: var(--s-8);
+  }
+
+  .prose .prose__subheading + * {
+    margin-block-start: var(--s-2);
+  }
+
+  /* H2 straight into an H3: a clear step (24 px) between the 16 px H2 → text and the 32 px H3 → H3 gaps,
+     so the two headings never read as one block. */
+  .prose .prose__heading + .prose__sub,
+  .prose .prose__heading + .prose__subheading {
+    margin-block-start: var(--s-6);
+  }
+
+  .prose__list {
+    display: grid;
+    gap: var(--s-2);
+    padding-inline-start: var(--s-6);
+
+    li {
+      padding-inline-start: var(--s-1);
+    }
+
+    li::marker {
+      color: var(--ink-3);
+    }
+  }
+
+  .prose__list--ol li::marker {
+    font-variant-numeric: tabular-nums;
+    font-weight: var(--fw-semibold);
+  }
+
+  .prose__item-title {
+    display: block;
+    color: var(--ink);
+    font-weight: var(--fw-semibold);
+  }
+
+  .prose__item-text {
+    display: block;
+  }
+
+  /* numbered sequence (a sequence, so numbers are allowed: brief §3.6 rule 4): 1, 2 … in the sans, ink-3,
+     tabular, on the first line of each step */
+  .prose__steps {
+    display: grid;
+    gap: var(--s-5);
+    padding: 0;
+    list-style: none;
+    counter-reset: prose-step;
+  }
+
+  .prose__step {
+    display: grid;
+    grid-template-columns: var(--s-6) minmax(0, 1fr);
+    gap: var(--s-3);
+    align-items: baseline;
+    counter-increment: prose-step;
+  }
+
+  /* the approved items carry their own numbers: no counter column */
+  .prose__steps--self .prose__step {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .prose__steps--self .prose__step-marker {
+    display: none;
+  }
+
+  .prose__list--self {
+    padding-inline-start: 0;
+    list-style: none;
+  }
+
+  .prose__step-marker::before {
+    color: var(--ink-3);
+    font-weight: var(--fw-semibold);
+    font-variant-numeric: tabular-nums lining-nums;
+    content: counter(prose-step);
+  }
+
+  .prose__note,
+  .prose__callout {
+    max-inline-size: var(--prose);
+  }
+
+  /* A panel section: the service pages' "Mistakes to Avoid" (pages/service.css .svc-next__card--avoid): the cool
+     band, radius 10, the card padding, the heading inside it in its level's role, then the marked list
+     (.prose__marks = <x-d2.service.list>: a cross per item). One treatment for the same list on every page. */
+  .prose__section--panel {
+    max-inline-size: var(--prose);
+    padding: var(--pad-card);
+    background: var(--band);
+    border-radius: var(--radius-card);
+  }
+
+  /* a scope note's heading: the H3 role inside its callout */
+  .prose__section--note .callout__title {
+    font-size: var(--fs-h3);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+  }
+
+  /*
+   * The scope note that closes a page ("Scope of Service and Published Information", P02, P03, P04, S01–S11):
+   * ONE layout, <x-d2.inner.prose class="inner-scope">. A band callout as wide as the block it closes (the
+   * reading column on S01–S11, the container under the full-width panels of P02, P03, P04: .inner-scope--wide),
+   * the card padding all round; the info icon beside the H3-role heading (centred on its first line), then the
+   * approved paragraphs at the reading measure and the Legal Notice link row, from the panel's padding (the
+   * icon belongs to the heading, so a phone's text keeps the panel's whole width). From 1024 px a
+   * container-wide note lays out on the page's own grid, the split of P02's approved sections (.pa-split): the
+   * icon and heading on the first 3 of 8 columns (4 of 12 from 1280 px), the paragraphs and the link from the
+   * next column line, the same line as the bodies of those sections (528 px at 1440). No empty band is left at
+   * the end of the panel, and the panel's 1 px edge moves that line by less than 1 px.
+   */
+  .inner-scope .prose__section,
+  .inner-scope .prose__callout {
+    max-inline-size: none;
+  }
+
+  .inner-scope .callout {
+    row-gap: var(--s-4);
+    padding: var(--pad-card);
+  }
+
+  .inner-scope .callout__body {
+    display: contents;
+  }
+
+  .inner-scope .callout__icon {
+    grid-row: 1;
+    grid-column: 1;
+    block-size: var(--lh-h3);
+  }
+
+  .inner-scope .callout__title {
+    grid-row: 1;
+    grid-column: 2;
+  }
+
+  .inner-scope .callout__text {
+    grid-row: 2;
+    grid-column: 1 / -1;
+  }
+
+  .inner-scope .prose__links {
+    max-inline-size: var(--prose);
+  }
+
+  @media (width >= 1024px) {
+    .inner-scope--wide .callout {
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+      column-gap: var(--gutter);
+      padding-inline: 0;
+    }
+
+    .inner-scope--wide :is(.callout__icon, .callout__title) {
+      grid-row: 1;
+      grid-column: 1 / span 3;
+    }
+
+    /* the icon in the panel's padding before the heading */
+    .inner-scope--wide .callout__icon {
+      justify-self: start;
+      padding-inline-start: var(--pad-card);
+    }
+
+    .inner-scope--wide .callout__title {
+      padding-inline-start: calc(var(--pad-card) + var(--icon-size) + var(--s-3));
+      text-wrap: balance;
+    }
+
+    .inner-scope--wide .callout__text {
+      grid-row: 1;
+      grid-column: 4 / -1;
+      padding-inline-end: var(--pad-card);
+    }
+  }
+
+  @media (width >= 1280px) {
+    .inner-scope--wide .callout {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
+
+    .inner-scope--wide :is(.callout__icon, .callout__title) {
+      grid-column: 1 / span 4;
+    }
+
+    .inner-scope--wide .callout__text {
+      grid-column: 5 / -1;
+    }
+  }
+
+  .prose__qa {
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  .prose__links {
+    display: grid;
+    gap: var(--s-2);
+    padding: 0;
+    list-style: none;
+  }
+
+  .prose .prose__links {
+    margin-block-start: var(--s-6);
+  }
+
+  /* telephone and e-mail (the contact channels) under the text, then any page links */
+  .prose .prose__channels {
+    margin-block-start: var(--s-4);
+  }
+
+  .prose .prose__channels + .prose__links {
+    margin-block-start: var(--s-3);
+  }
+
+  /* ================================================================== link rows (prose links, related rows)
+     A clickable listing (brief §3.5 cards): white, 1 px --line, --radius-card, no shadow; hover turns the edge
+     ink and underlines the label. Only the telephone / e-mail glyph (start) and the ↗ of a link to another
+     website (end) are drawn; no object icon, no arrow (§3.6 rules 3 and 5). */
+  .link-row {
+    position: relative;
+    display: flex;
+    gap: var(--s-3);
+    align-items: center;
+    min-block-size: var(--control-lg);
+    padding: var(--s-3) var(--s-4);
+    color: var(--ink);
+    background: var(--canvas);
+    border: var(--line-w) solid var(--line);
+    border-radius: var(--radius-card);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+    text-decoration: none;
+    transition: border-color var(--dur-hover) var(--ease-out);
+
+    &:hover {
+      border-color: var(--ink);
+    }
+
+    &:hover .link-row__label {
+      text-decoration: underline;
+      text-decoration-thickness: var(--line-w);
+      text-underline-offset: 3px;
+    }
+  }
+
+  .link-row__icon {
+    flex: none;
+    color: var(--ink-2);
+  }
+
+  .link-row__body {
+    display: grid;
+    flex: 1 1 auto;
+    gap: var(--s-1);
+    min-inline-size: 0;
+  }
+
+  .link-row__label {
+    flex: 1 1 auto;
+    min-inline-size: 0;
+  }
+
+  .link-row__text {
+    color: var(--ink-3);
+    font-size: var(--fs-small);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-small);
+  }
+
+  .link-row__end {
+    flex: none;
+    color: var(--ink-3);
+    transition: color var(--dur-hover) var(--ease-out);
+  }
+
+  .link-row:hover .link-row__end {
+    color: var(--ink);
+  }
+
+  /* ================================================================== contact channels (<x-d2.inner.channels>)
+     The one channel pattern outside the contact block (the footer's look): the functional glyph, then the
+     page's approved label (a number or an address in a left-to-right <bdi>), the UI label role in the font's
+     normal (proportional) figures, a 44 px row (48 on touch), the label underlined on hover. No box, no
+     border, no arrow. Stacked by default; .channels--inline sets the rows side by side. */
+  .channels {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .channels--inline {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: var(--s-6);
+  }
+
+  .channel {
+    display: inline-flex;
+    gap: var(--s-3);
+    align-items: center;
+    max-inline-size: 100%;
+    min-block-size: var(--target-touch);
+    color: var(--ink);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+    font-variant-numeric: normal;
+    text-decoration: none;
+    border-radius: var(--radius-control);
+
+    &:hover .channel__text {
+      text-decoration-line: underline;
+      text-decoration-thickness: var(--line-w);
+      text-underline-offset: 3px;
+    }
+  }
+
+  .channel__icon {
+    flex: none;
+    color: var(--ink-2);
+  }
+
+  .channel__text {
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
+  }
+
+  @media (pointer: fine) {
+    .channel {
+      min-block-size: var(--target);
+    }
+  }
+
+  :is(.on-dark, .on-night) .channel:not(.on-light *) {
+    color: var(--on-dark);
+  }
+
+  :is(.on-dark, .on-night) .channel__icon:not(.on-light *) {
+    color: var(--on-dark-2);
+  }
+
+  /* ================================================================== table of contents */
+  .toc__title {
+    margin: 0 0 var(--s-3);
+    color: var(--ink);
+    font-size: var(--fs-minor);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-minor);
+    letter-spacing: 0;
+  }
+
+  .toc__list {
+    display: grid;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    border-inline-start: var(--line-w) solid var(--line);
+  }
+
+  .toc__link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-block-size: var(--target);
+    padding-block: var(--s-2);
+    padding-inline: var(--s-4) var(--s-2);
+    color: var(--ink-3);
+    font-size: var(--fs-small);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-small);
+    border-start-end-radius: var(--radius-control);
+    border-end-end-radius: var(--radius-control);
+    transition: color var(--dur-hover) var(--ease-out), background-color var(--dur-hover) var(--ease-out);
+
+    /* the current section: a 2 px ink bar on the list's edge (as the underline tabs' indicator) */
+    &::before {
+      position: absolute;
+      inset-block: var(--s-2);
+      inset-inline-start: calc(-1 * var(--line-w));
+      inline-size: 2px;
+      content: "";
+      background: var(--ink);
+      opacity: 0;
+      transform: scaleY(0.5);
+      transition: opacity var(--dur-hover) var(--ease-out), transform var(--dur-enter) var(--ease-out);
+    }
+
+    &:hover {
+      color: var(--ink);
+      background: var(--hover-tint);
+    }
+
+    &[aria-current="true"] {
+      color: var(--ink);
+      font-weight: var(--fw-semibold);
+    }
+
+    &[aria-current="true"]::before {
+      opacity: 1;
+      transform: none;
+    }
+
+    &:focus-visible {
+      outline-offset: calc(-1 * var(--focus-w));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .toc__link::before {
+      transition: none;
+    }
+  }
+
+  /* ---------------------------------------- desktop: sticky in the side column, scrolls inside itself */
+  .toc--nav {
+    display: none;
+  }
+
+  /* The frame holds the list and its "more" cue. When the rail is shorter than the contents the list scrolls
+     inside the frame: modules/toc.js marks the clipped edges (.is-clip-start / .is-clip-end), the clipped edge
+     fades (an alpha mask) and a round chevron cue sits on the bottom fade; a click on the cue scrolls the list
+     by a page. The cue is a pointer convenience (aria-hidden): the wheel, the trackpad and keyboard focus
+     scroll the list too. */
+  .toc__frame {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-block-size: 0;
+  }
+
+  .toc__more {
+    display: none;
+  }
+
+  @media (width >= 1280px) {
+    .toc--nav {
+      display: block;
+    }
+
+    .toc--nav .toc__list {
+      max-block-size: calc(100dvh - var(--header-h) - var(--rail-y) * 2 - var(--lh-minor) - var(--s-2));
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      scrollbar-width: thin;
+    }
+
+    .toc__frame.is-clip-end .toc__list {
+      mask-image: var(--mask-fade-bottom);
+    }
+
+    .toc__frame.is-clip-start .toc__list {
+      mask-image: var(--mask-fade-top);
+    }
+
+    .toc__frame.is-clip-start.is-clip-end .toc__list {
+      mask-image: var(--mask-fade-y);
+    }
+
+    /* a 44 px hit area around a 32 px round cue, centred on the bottom fade */
+    .toc__frame.is-clip-end .toc__more {
+      position: absolute;
+      inset-block-end: calc(-1 * var(--s-1));
+      inset-inline: 0;
+      isolation: isolate;
+      display: grid;
+      place-items: center;
+      inline-size: var(--target);
+      block-size: var(--target);
+      margin-inline: auto;
+      color: var(--ink-2);
+      cursor: pointer;
+
+      &::before {
+        position: absolute;
+        inset: calc((var(--target) - var(--s-8)) / 2);
+        z-index: -1;
+        content: "";
+        background: var(--canvas);
+        border: var(--line-w) solid var(--line-strong);
+        border-radius: 50%;
+        transition: border-color var(--dur-hover) var(--ease-out);
+      }
+
+      &:hover {
+        color: var(--ink);
+      }
+
+      &:hover::before {
+        border-color: var(--ink);
+      }
+    }
+  }
+
+  /* ---------------------------------------- mobile / tablet: the "On this page" bar + the sheet
+     Without JavaScript the bar is the plain list, in the flow. With JavaScript (html.js, set by the boot
+     script before the first paint) it is the sticky white bar from the first paint: the list is hidden and the
+     button shown before modules/toc.js mounts, so nothing below the bar moves when the script arrives
+     (§4b integration rule). The button reads "On this page" and opens the sheet (Design 2.1: no list glyph,
+     no middle dot and no current heading cut to one line). .is-plain (no TOC sheet on the page) brings the
+     list back. .toc-bar.is-enhanced is the styleguide's static specimen (and what toc.js still adds). */
+  .toc-bar {
+    margin-block-end: var(--s-8);
+  }
+
+  .toc-bar__button {
+    display: none;
+    gap: var(--s-3);
+    align-items: center;
+    justify-content: space-between;
+    inline-size: 100%;
+    min-block-size: var(--toc-bar-h);
+    padding: 0;
+    color: var(--ink);
+    text-align: start;
+    background: none;
+    border: 0;
+    font: inherit;
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+    cursor: pointer;
+
+    &:focus-visible {
+      outline-offset: calc(-1 * var(--focus-w));
+      border-radius: var(--radius-control);
+    }
+  }
+
+  .js .toc-bar[data-toc-bar]:not(.is-plain) .toc-bar__button,
+  .toc-bar.is-enhanced .toc-bar__button {
+    display: flex;
+  }
+
+  .toc-bar__title {
+    min-inline-size: 0;
+  }
+
+  .toc-bar__chevron {
+    flex: none;
+    color: var(--ink-2);
+    transition: transform var(--dur-hover) var(--ease-out);
+  }
+
+  .toc-bar__button[aria-expanded="true"] .toc-bar__chevron {
+    transform: rotate(180deg);
+  }
+
+  .toc-bar__button:hover .toc-bar__chevron {
+    color: var(--ink);
+  }
+
+  /* No JavaScript: the plain list, in the flow. */
+  .toc--inline {
+    padding: var(--s-5);
+    background: var(--canvas);
+    border: var(--line-w) solid var(--line);
+    border-radius: var(--radius-card);
+  }
+
+  .js .toc-bar[data-toc-bar]:not(.is-plain) .toc--inline,
+  .toc-bar.is-enhanced .toc--inline {
+    display: none;
+  }
+
+  /* With JavaScript: a sticky white bar under the header, full bleed (no glass, no blur: brief §3.6 rule 6). */
+  .js .toc-bar[data-toc-bar]:not(.is-plain),
+  .toc-bar.is-enhanced {
+    position: sticky;
+    inset-block-start: var(--header-h);
+    z-index: var(--z-sticky);
+    padding-inline: var(--pad-x);
+    margin-inline: calc(-1 * var(--pad-x));
+    background: var(--canvas);
+    border-block: var(--line-w) solid var(--line);
+  }
+
+  /* Sections land under the header and the bar (the related block too: it is a contents entry, #related).
+     Any other anchor in the reading column (a FAQ answer, a future contents entry) gets the same offset
+     at zero specificity, so a page's own rule still wins. */
+  .inner-layout--toc .prose__section,
+  .inner-layout--toc .related,
+  :where(.inner-layout--toc .inner-layout__main [id]) {
+    scroll-margin-block-start: calc(var(--toc-bar-h) + var(--s-4));
+  }
+
+  @media (width >= 768px) {
+    .js .toc-bar[data-toc-bar]:not(.is-plain),
+    .toc-bar.is-enhanced {
+      padding-inline: var(--s-4);
+      margin-inline: 0;
+      border-inline: var(--line-w) solid var(--line);
+      border-radius: 0 0 var(--radius-card) var(--radius-card);
+    }
+  }
+
+  @media (width >= 1280px) {
+    .toc-bar,
+    .toc-bar.is-enhanced {
+      display: none;
+    }
+
+    .inner-layout--toc .prose__section,
+    .inner-layout--toc .related,
+    :where(.inner-layout--toc .inner-layout__main [id]) {
+      scroll-margin-block-start: var(--s-6);
+    }
+  }
+
+  /* The sheet's list: full-width rows. */
+  .toc--sheet .toc__list {
+    border-inline-start: 0;
+  }
+
+  .toc--sheet .toc__link {
+    min-block-size: var(--target-touch);
+    padding-inline: var(--s-4);
+    font-size: var(--fs-ui);
+    line-height: var(--lh-ui);
+    border-radius: var(--radius-control);
+
+    &::before {
+      inset-inline-start: 0;
+    }
+  }
+
+  /* ================================================================== reading progress */
+  .reading-progress {
+    position: fixed;
+    inset-block-start: var(--header-h);
+    inset-inline: 0;
+    z-index: calc(var(--z-header) + 1);
+    display: none;
+    block-size: var(--progress-h);
+    pointer-events: none;
+  }
+
+  .reading-progress.is-ready {
+    display: block;
+  }
+
+  .reading-progress__bar {
+    display: block;
+    block-size: 100%;
+    background: var(--ink);
+    transform: scaleX(var(--reading, 0));
+    transform-origin: 0 50%;
+  }
+
+  [dir="rtl"] .reading-progress__bar {
+    transform-origin: 100% 50%;
+  }
+
+  /* ================================================================== side CTA card */
+  .cta-card {
+    display: grid;
+    gap: var(--s-4);
+    padding: var(--pad-card);
+    color: var(--ink);
+    background: var(--canvas);
+    border: var(--line-w) solid var(--line);
+    border-radius: var(--radius-card);
+  }
+
+  /* a panel title: the H3 role (whatever its outline level) */
+  .cta-card__title {
+    margin: 0;
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+  }
+
+  .cta-card__text {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+  }
+
+  .cta-card__actions {
+    display: grid;
+    gap: var(--s-3);
+    margin-block-start: var(--s-1);
+  }
+
+  /* the telephone and e-mail: the kit's contact channels (.channels above) under a hairline */
+  .cta-card__channels {
+    padding-block-start: var(--s-2);
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  .cta-card__icon {
+    flex: none;
+    color: var(--ink-2);
+  }
+
+  .cta-card__hours {
+    display: flex;
+    gap: var(--s-3);
+    align-items: flex-start;
+    margin: 0;
+    color: var(--ink-2);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+  }
+
+  .cta-card__hours-text {
+    display: grid;
+    gap: var(--s-1);
+  }
+
+  .cta-card__status:empty {
+    display: none;
+  }
+
+  /* the live status (modules/hours.js): dot beside the first line, the time difference under it. The dot's
+     element is the first line's box (one Small line tall, a grid cell) and draws the 8 px dot centred in it
+     (::before), so no margin leaves the spacing scale (brief §3.4); the colours follow components/hours.css
+     (the card is a light surface: ink-3 closed, --success open). */
+  .cta-card__status.hours-status {
+    display: grid;
+    grid-template-columns: var(--s-2) minmax(0, 1fr);
+    gap: var(--s-1) var(--s-2);
+    align-items: start;
+
+    .hours-status__dot {
+      display: grid;
+      place-items: center;
+      align-self: start;
+      block-size: var(--lh-small);
+      background: none;
+      border-radius: 0;
+
+      &::before {
+        inline-size: var(--s-2);
+        block-size: var(--s-2);
+        content: "";
+        background: var(--ink-3);
+        border-radius: 50%;
+      }
+    }
+
+    &.is-open .hours-status__dot::before {
+      background: var(--success);
+    }
+
+    .hours-status__offset {
+      grid-column: 2;
+    }
+  }
+
+  .cta-card__note {
+    margin: 0;
+    padding-block-start: var(--s-3);
+    color: var(--ink-3);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  /* ================================================================== related */
+  .related {
+    display: grid;
+    gap: var(--s-6);
+    margin-block-start: var(--s-16);
+  }
+
+  /* the block's heading takes its level's role (base.css: h2 = H2) */
+  .related__title {
+    margin: 0;
+    color: var(--ink);
+  }
+
+  .related__list,
+  .related__grid {
+    display: grid;
+    gap: var(--s-3);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .related__grid {
+    gap: var(--gutter);
+  }
+
+  .related__text {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+  }
+
+  .related__meta {
+    margin: 0;
+    color: var(--ink-3);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+  }
+
+  @media (width >= 768px) {
+    .related__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .related__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (width >= 1280px) {
+    .related--cols-3 .related__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  /* ================================================================== styleguide specimens (styleguide/inner.blade.php)
+     Static frames only: they never take part in the live scroll-spy or progress bar. */
+  .toc--static {
+    display: block;
+  }
+
+  .reading-progress--demo {
+    position: relative;
+    inset: auto;
+    z-index: auto;
+    display: block;
+    background: var(--band);
+    border-radius: var(--radius-pill);
+
+    .reading-progress__bar {
+      --reading: 0.4;
+
+      border-radius: var(--radius-pill);
+    }
+  }
+
+  .sg-inner__wide .inner-head {
+    padding-block: 0;
+  }
+
+  .sg-inner__bar {
+    position: relative;
+    inset: auto;
+    margin: 0 0 var(--s-4);
+  }
+
+  .sg-inner__aside,
+  .sg-inner__rail {
+    inline-size: min(100%, var(--aside-w));
+  }
+
+  /* the rail specimen: a fixed cap (the live rail is capped to the window) so the list visibly scrolls */
+  @media (width >= 1280px) {
+    .sg-inner__rail:has(> .toc--nav + .inner-layout__aside) {
+      max-block-size: 28rem;
+    }
+  }
+
+  .sg-inner__sheet {
+    max-inline-size: 390px;
+  }
+}

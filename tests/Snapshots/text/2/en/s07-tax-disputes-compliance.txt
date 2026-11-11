@@ -1,0 +1,207 @@
+# text-snapshot: design 2, locale en, route s07-tax-disputes-compliance
+# GET /en/practice-areas/tax-disputes-compliance/ -> 200; html lang=en dir=ltr data-design=2
+=== header ===
+Choose language
+English
+Request a Legal Consultation
+Home
+Practice Areas
+Legal Resources
+Case Studies
+FAQs
+About Us
+Contact Us
+=== main ===
+Home
+Practice Areas
+Tax Disputes and Tax Compliance
+Tax Disputes and Tax Compliance in the UAE
+When a tax decision arrives, the review starts with the type of decision, when it was notified, its grounds and the amount concerned. We help you understand the issue in dispute, organise arguments and documents, and select the appropriate application, while distinguishing the legal issue from the accounting work required.
+Request a Legal Consultation
+Contact Us on WhatsApp
+(opens in a new tab)
+On this page
+Who This Service Is For
+Matters Covered by the Review
+Practical Situations We Review with You
+How We Handle Your Matter
+Documents That Help Us Get Started
+Before Taking the Next Step
+Start with Your Situation
+FAQs
+Related Topics and Services
+Official Sources for Reference
+Tell Us About Your Matter
+Scope of Service and Published Information
+Tell Us About Your Matter
+Request a Legal Consultation
+Contact Us on WhatsApp
+(opens in a new tab)
+Who This Service Is For
+Companies that have received tax decisions or penalties
+Business owners seeking to submit an objection or challenge
+Companies preparing a tax return or for a review
+Investors and finance directors seeking to understand their obligations
+Companies that have expanded or changed their activities without reviewing their tax position
+Matters Covered by the Review
+Tax objections and challenges
+Tax penalties and their review
+Corporate tax obligations and exclusions
+VAT registration and returns
+Corporate tax compliance
+Review of tax files before a dispute escalates
+Legal support in disputes before the Authority
+Practical Situations We Review with You
+Review of Assessments and Penalties
+We examine the reason for the assessment or penalty, the tax period, the calculation and the information on which the decision was based. We then review returns, invoices, contracts and records to identify whether the disagreement concerns the facts, legal characterisation, calculation or procedure.
+The work includes preparing arguments and legal submissions, organising supporting documents and coordinating with an accountant or registered tax agent where the matter requires it. Legal support alone does not mean that the company is registered as a tax agent.
+Choosing the Correct Review Application
+Different routes are available, including a tax assessment review, a request for reconsideration, an objection before the Tax Disputes Resolution Committee and then a court challenge where available. Each route has its own requirements, deadlines and relationship with earlier applications.
+The Authority’s service states that a request for reconsideration should normally be submitted within 40 business days of notification of the decision, with the possibility of requesting an extension of the filing period under the prescribed rules. An extension must not be assumed. Equally, a blanket statement that deadlines never allow exceptions would be inaccurate. We identify the appropriate route and deadline from your file before submission.
+Corporate Tax and Registration
+Being subject to tax, having to register and the amount of tax payable are separate questions. A zero tax liability does not automatically remove registration or filing obligations, and free zone companies are not all exempt from the system.
+We review the person’s status, activity, period and relevant obligations, and explain which issues require a legal opinion and which require calculations or work by a tax specialist.
+How We Handle Your Matter
+Review the decision or penalty, its grounds and the related documents.
+Check deadlines, the admissibility requirements for each application and any possibility of an extension under the rules, without assuming an exception will be granted.
+Gather and organise records: invoices, returns, contracts and account statements.
+Develop the legal and financial arguments supporting the position.
+Submit the objection or challenge through the appropriate channels.
+Documents That Help Us Get Started
+The complete decision, assessment or penalty, with proof and date of notification.
+Returns, registration details, invoices, contracts, records and payments relating to the period.
+Any earlier review or reconsideration request or objection, the response and the supporting documents submitted.
+An explanation of the accounting or tax treatment in dispute and any relevant report or regulatory correspondence.
+Send clear, complete copies initially and retain the originals. Do not send passwords, verification codes or financial account access credentials. An appropriate method for sharing sensitive documents can be agreed.
+Before Taking the Next Step
+Useful First Steps
+Do not ignore any notice from the Federal Tax Authority; deadlines continue to run
+Keep all invoices, contracts and bank records in order
+Review your tax position when changing or expanding your activities
+Do not respond to the Authority without organising the supporting documents
+Mistakes to Avoid
+Mixing personal and company accounts
+Leaving records disorganised until a tax decision is issued
+Ignoring the Authority’s correspondence or delaying a response
+Assuming tax is purely an accounting matter that needs no legal review
+Start with Your Situation
+This service may be relevant if:
+You received a tax penalty or decision that you believe is incorrect.
+Show the starting file
+You want to object to a tax assessment.
+Show the starting file
+Your company has expanded and you want to review its new tax obligations.
+Show the starting file
+You want to organise your tax records before the filing deadline.
+Show the starting file
+FAQs
+Does Having No Tax to Pay Mean Registration Is Not Required?
+Not necessarily. Tax liability, registration, filing and the amount payable are separate questions. The person’s status, activity, period, exemptions and reliefs must be reviewed; profit or the amount payable alone is not enough.
+How Do I Request Reconsideration of an Authority Decision?
+The decision, notification date and earlier applications must be reviewed first. The Authority’s service states that the request should normally be submitted within 40 business days of notification, with the possibility of requesting an extension of the filing period under the rules. An extension must not be assumed, and an earlier assessment review may affect the sequence of procedures.
+Can a Penalty Be Challenged or a Reduction Requested?
+A review of the lawfulness of a decision differs from a request for a waiver, instalments or a reduction under the rules of each route. The correct application, documents and deadlines must be identified. One application should not be assumed to preserve the deadline for another automatically.
+When Is VAT Registration Required?
+Taxable supplies and imports, registration thresholds, periods and exceptions must be reviewed under the rules in force. A general revenue figure or the fact that the business operates in a free zone does not replace that assessment.
+What Happens If Reconsideration Is Refused?
+An objection before the Tax Disputes Resolution Committee and then a court challenge may be available, subject to the applicable requirements and deadlines. The requirements, earlier procedures and the effect of payment where relevant must be reviewed against the decision and the file.
+Is Summit a Registered Tax Agent?
+The service described here is legal support in reviewing decisions, arguments and legal submissions, and organising the file. Work requiring a registered tax agent or accounting expertise is coordinated with an appropriately qualified specialist. Court advocacy is undertaken by a licensed advocate where required.
+Tax Matters
+49. When do I need a legal tax review?
+50. How do I request a review of a tax decision?
+51. What happens after a reconsideration request is rejected?
+52. What is the difference between corporate tax and VAT?
+53. Can I challenge a penalty or request relief?
+54. What weakens a tax matter?
+55. What support does Summit provide in tax disputes?
+Related Topics and Services
+Guide to Organising Tax Records
+Legal Resources
+Company Compliance Review
+Practice Areas
+Business and Company Formation Services
+Practice Areas
+All FAQs
+Back to Practice Areas
+Official Sources for Reference
+Federal Tax Authority Reconsideration Request
+tax.gov.ae
+(opens in a new tab)
+Tax Procedures Law
+uaelegislation.gov.ae
+(opens in a new tab)
+Federal Tax Authority
+tax.gov.ae
+(opens in a new tab)
+You can also explore specialist resources or services associated with Summit in this area.
+Summit Specialist Resources
+uaetaxdisputes.com
+(opens in a new tab)
+Tell Us About Your Matter
+Send a summary of the matter and the main document, if available, and mention any hearing or current deadline. Before work begins, we will explain the scope of consultation, the fee and the documents required.
+Request a Legal Consultation
+Contact Us on WhatsApp
+(opens in a new tab)
++971 52 466 6191
+info@summitlegaluae.com
+The service is available in Arabic, English and Russian. Sending an enquiry does not mean that the engagement has been accepted or that monitoring of legal deadlines has begun.
+Scope of Service and Published Information
+Summit is a legal consultancy company. The work, deliverables and fees are defined in the agreed engagement. Court advocacy or representation requiring an advocate is carried out by licensed advocates. Where work requires separate professional registration or specialist expertise, it is coordinated with an appropriately qualified professional as needed.
+This is general information and does not replace a review of the facts, documents, applicable law, competent authority and relevant deadlines. Options and outcomes vary from one matter to another. Presenting this service does not guarantee a decision, recovery of funds or approval by an external authority.
+Legal Notice and Scope of Services
+=== footer ===
+Summit Legal Consultancy
+Legal advice for individuals, businesses, investors and residents in the UAE, in Arabic, English and Russian.
++971 52 466 6191
+Contact Us on WhatsApp
+(opens in a new tab)
+info@summitlegaluae.com
+Business hours: Monday to Friday, 9 am to 6 pm.
+Practice Areas
+Debt Recovery and Cheque Cases
+Criminal Cases
+Cryptocurrency and Digital Currency Cases
+Corporate and Commercial Law
+Property and Tenancy Disputes
+Employment Law
+Tax Disputes and Tax Compliance
+Family Law and Wills
+Compliance and Regulatory Matters
+Legal Translation
+Business Services
+Legal Resources
+Legal Resources Centre
+FAQs
+Case Studies
+Useful Links
+About Us
+Contact Us
+Legal Notice
+Privacy Policy
+Terms and Conditions
+The information published is general and does not replace a review of the facts and documents relating to your matter. The scope of service and fees are determined when the engagement is accepted. Court advocacy requiring an advocate is carried out by licensed advocates.
+Specialist Resources and Services Associated with Summit
+Employment Law
+laborlawuae.com
+(opens in a new tab)
+Debt Recovery and Cheques
+debtrecoveryuae.com
+(opens in a new tab)
+Property Disputes
+dubaipropertydispute.com
+(opens in a new tab)
+Digital Currencies
+uaecryptocases.com
+(opens in a new tab)
+Wills
+uaeexpatwills.com
+(opens in a new tab)
+Tax Disputes
+uaetaxdisputes.com
+(opens in a new tab)
+© {{YEAR}} Summit Legal Consultancy. All rights reserved.
+Choose language
+Arabic
+English
+Russian

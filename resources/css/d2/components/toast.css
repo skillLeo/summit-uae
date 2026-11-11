@@ -1,0 +1,86 @@
+/*
+ * Design 2.1 component: toast (resources/js/d2/lib/toast.js). An overlay (brief §3.4; lib/toast.js marks each one
+ * data-overlay): an ink panel with white UI text, --radius-overlay (16) and the one --shadow-overlay, at the bottom
+ * centre of the layout's [data-toast-region]; on phones above the tab bar (tab bar height + safe area + 12 px). The
+ * tone is carried by the words (no coloured dot: nothing decorative). Enter/exit are Web Animations on transform +
+ * opacity (fade only under reduced motion), so this file only holds the resting look.
+ */
+@layer components {
+  .toast-region {
+    position: fixed;
+    inset-block-end: calc(var(--tabbar-h) + var(--safe-bottom) + var(--s-3));
+    inset-inline: 0;
+    z-index: var(--z-toast);
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-2);
+    align-items: center;
+    padding-inline: var(--s-4);
+    pointer-events: none; /* never display:none: a live region must exist before its message arrives */
+  }
+
+  @media (width >= 768px) {
+    .toast-region {
+      inset-block-end: calc(var(--s-6) + var(--safe-bottom));
+    }
+  }
+
+  .toast {
+    --focus-color: var(--focus-on-dark);
+
+    display: flex;
+    gap: var(--s-3);
+    align-items: center;
+    max-inline-size: min(560px, 100%);
+    min-block-size: var(--target);
+    padding-block: var(--s-3);
+    padding-inline: var(--s-5);
+    color: var(--on-dark);
+    background: var(--ink);
+    border-radius: var(--radius-overlay);
+    box-shadow: var(--shadow-overlay);
+    pointer-events: auto;
+  }
+
+  /* Design 2.0's tone dot: no longer drawn (lib/toast.js stopped printing it; old markup stays hidden). */
+  .toast__dot {
+    display: none;
+  }
+
+  .toast__text {
+    margin: 0;
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+    text-wrap: pretty;
+  }
+
+  /* The one optional action: a white text button (underlined), 44 px target. */
+  .toast__action {
+    position: relative;
+    flex: none;
+    min-block-size: var(--target);
+    margin-inline: auto calc(-1 * var(--s-2));
+    padding-inline: var(--s-2);
+    color: var(--on-dark);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-ui);
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    border-radius: var(--radius-control);
+
+    &:hover {
+      text-decoration-thickness: 2px;
+    }
+  }
+
+  /* styleguide: a toast drawn in place (not in the live region) */
+  .toast.is-static {
+    align-self: flex-start;
+    justify-self: start;
+    inline-size: fit-content;
+    max-inline-size: 100%;
+  }
+}

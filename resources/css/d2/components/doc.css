@@ -1,0 +1,1520 @@
+/*
+ * Design 2 component: sample documents (<x-d2.doc.*>; owner: docs). Spec §4.2, §5.4, §12 B2.
+ *
+ * Root .doc (contract shared with the hero, method and anatomy sections):
+ *   - reserves its own box: --doc-w × --doc-h natural px (the "stage" size) × --doc-scale (variant);
+ *   - .doc__shadow--rest / --air: two shadow layers the size of the box (or of the papers, .doc__shape),
+ *     cross-fade their opacity, never animate box-shadow;
+ *   - .doc__body: the paper drawn at its natural size, scaled from the inline-start top corner, so every
+ *     length inside is natural document px (fine print shrinks with the document; it is aria-hidden);
+ *   - [data-field]: key fields (callouts, anatomy hotspots); [data-hot] draws the selected field with a
+ *     2 px bronze outline, radius 4 and the --glow-bronze ring, the same on screen at every scale.
+ * Variants: stage 1 · mobile .56 (cheque, contract and tenancy fit the 342×300 mobile stage) · still .5
+ * (method still-life) · anatomy: fits the anatomy column at every width (ladder below, at most 1.2).
+ * Another scale: set --doc-scale on the root from the section's CSS. A container that scales documents
+ * with its own transform can pass that factor as --doc-outer-scale, so the watermark stays ≥ 9 px.
+ * Paper: --paper, the 512 px texture (a border-image fill on ::before, multiply, never an LCP candidate;
+ * its url is printed by components/d2/doc/frame.blade.php), a 0.5 px inset edge, --r-paper. RTL: documents are laid out right to left; numbers stay LTR in <bdi>.
+ */
+@layer components {
+  /* ================================================================== root, variants */
+  .doc {
+    --doc-w: 360;
+    --doc-h: 470;
+    --doc-scale: 1;
+    --dir: 1;
+    --fs-doc-wm: max(var(--fs-doc-watermark), calc(var(--fs-doc-watermark-min) / (var(--doc-scale) * var(--doc-outer-scale, 1))));
+    --doc-hot-w: calc(var(--focus-w) / var(--doc-scale));
+    --r-doc-hot: calc(var(--r-mark) / var(--doc-scale));
+    --r-doc-box: var(--r-paper);
+
+    position: relative;
+    display: block;
+    flex: none;
+    inline-size: calc(var(--doc-w) * var(--doc-scale) * 1px);
+    block-size: calc(var(--doc-h) * var(--doc-scale) * 1px);
+    color: var(--paper-ink);
+    font-family: var(--font-doc);
+    font-size: var(--fs-doc-md);
+    font-weight: var(--fw-regular);
+    line-height: 1.35;
+    letter-spacing: 0;
+    text-align: start;
+    text-transform: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .doc:dir(rtl) {
+    --dir: -1;
+
+    font-family: var(--font-doc-arabic);
+    line-height: 1.5;
+  }
+
+  .doc--cheque {
+    --doc-w: 520;
+    --doc-h: 314;
+    --wm-end: 12px;
+    --wm-bottom: 3px;
+  }
+
+  .doc--memo {
+    --doc-w: 300;
+    --doc-h: 150;
+    --wm-end: 12px;
+    --wm-bottom: 9px;
+  }
+
+  .doc--contract {
+    --doc-w: 360;
+    --doc-h: 470;
+    --wm-end: 22px;
+    --wm-bottom: 10px;
+  }
+
+  .doc--tenancy {
+    --doc-w: 380;
+    --doc-h: 480;
+    --wm-end: 22px;
+    --wm-bottom: 8px;
+  }
+
+  .doc--transfer {
+    --doc-w: 320;
+    --doc-h: 420;
+    --wm-end: 18px;
+    --wm-bottom: 14px;
+  }
+
+  .doc--messages {
+    --doc-w: 260;
+    --doc-h: 460;
+    --r-doc-box: calc(var(--r-phone) * var(--doc-scale));
+    --wm-end: 24px;
+    --wm-bottom: 62px;
+  }
+
+  .doc--notice {
+    --doc-w: 360;
+    --doc-h: 470;
+    --wm-end: 22px;
+    --wm-bottom: 10px;
+  }
+
+  .doc--mobile {
+    --doc-scale: 0.56;
+  }
+
+  .doc--still {
+    --doc-scale: 0.5;
+  }
+
+  /*
+   * Anatomy: the largest document that fits the column, at most 1.2. --doc-fit is the column width in px
+   * (the smallest viewport of each range): full container width below 768 px (the desk bleeds to the
+   * screen edges), the container minus the desk padding to 1279 px, 7 of 12 columns minus the desk
+   * padding from 1280 px (resources/css/d2/sections/anatomy.css). --doc-fit-h keeps tall pages within
+   * 400 px on phones, so the hotspot chips and the card stay close to the document.
+   */
+  .doc--anatomy {
+    --doc-fit: 272;
+    --doc-fit-h: 400;
+    --doc-max: 1.2;
+    --doc-scale: min(var(--doc-max), calc(var(--doc-fit) / var(--doc-w)), calc(var(--doc-fit-h) / var(--doc-h)));
+  }
+
+
+  @media (width >= 360px) {
+    .doc--anatomy {
+      --doc-fit: 312;
+    }
+  }
+
+  @media (width >= 375px) {
+    .doc--anatomy {
+      --doc-fit: 327;
+    }
+  }
+
+  @media (width >= 390px) {
+    .doc--anatomy {
+      --doc-fit: 342;
+    }
+  }
+
+  @media (width >= 414px) {
+    .doc--anatomy {
+      --doc-fit: 366;
+    }
+  }
+
+  @media (width >= 480px) {
+    .doc--anatomy {
+      --doc-fit: 432;
+    }
+  }
+
+  @media (width >= 600px) {
+    .doc--anatomy {
+      --doc-fit: 552;
+    }
+  }
+
+  @media (width >= 768px) {
+    .doc--anatomy {
+      --doc-fit: 640;
+      --doc-fit-h: 600;
+    }
+  }
+
+  @media (width >= 1280px) {
+    .doc--anatomy {
+      --doc-fit: 563;
+    }
+  }
+
+  @media (width >= 1360px) {
+    .doc--anatomy {
+      --doc-fit: 610;
+    }
+  }
+
+  @media (width >= 1440px) {
+    .doc--anatomy {
+      --doc-fit: 656;
+    }
+  }
+
+  /* ================================================================== shadows */
+  .doc__shadow {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--r-doc-box);
+    pointer-events: none;
+  }
+
+  .doc__shadow--rest {
+    box-shadow: var(--shadow-paper-rest);
+  }
+
+  .doc__shadow--air {
+    box-shadow: var(--shadow-paper-air);
+    opacity: 0;
+  }
+
+  /* Composite silhouettes (the cheque and its memo): the layer itself casts nothing, its shapes do. */
+  .doc__shadow:has(.doc__shape) {
+    box-shadow: none;
+  }
+
+  .doc__shape {
+    position: absolute;
+    border-radius: var(--r-doc-box);
+  }
+
+  .doc__shadow--rest .doc__shape {
+    box-shadow: var(--shadow-paper-rest);
+  }
+
+  .doc__shadow--air .doc__shape {
+    box-shadow: var(--shadow-paper-air);
+  }
+
+  /* ================================================================== body, paper */
+  .doc__body {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    inline-size: calc(var(--doc-w) * 1px);
+    block-size: calc(var(--doc-h) * 1px);
+    transform: scale(var(--doc-scale));
+    transform-origin: 0 0;
+  }
+
+  .doc__body:dir(rtl) {
+    transform-origin: 100% 0;
+  }
+
+  .doc__sheet {
+    position: absolute;
+    inset: 0;
+    isolation: isolate;
+    overflow: hidden;
+    background-color: var(--paper);
+    border-radius: var(--r-paper);
+    box-shadow: var(--shadow-paper-edge);
+
+    /*
+     * The fibre and noise tile, multiplied into any paper tint. Painted as a border-image fill (source:
+     * frame.blade.php) at its natural 512 px, repeated: Chrome counts background and mask images (also on
+     * ::before) as Largest Contentful Paint candidates, and a textured page would outrank the hero H1;
+     * a border image is never a candidate (storage/app/d2/docs/lcp2.mjs).
+     */
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      border: 0 solid transparent;
+      border-image-slice: 0 fill;
+      border-image-width: 0;
+      border-image-outset: 0;
+      border-image-repeat: repeat;
+      mix-blend-mode: multiply;
+      pointer-events: none;
+    }
+  }
+
+  .doc p {
+    margin: 0;
+  }
+
+  .doc__num {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums lining-nums slashed-zero;
+    letter-spacing: 0.02em;
+  }
+
+  .doc__pen {
+    color: var(--paper-pen);
+  }
+
+  .doc__rule {
+    display: block;
+    block-size: 0;
+    border-block-start: 0.75px solid var(--paper-rule);
+  }
+
+  .doc__scribble {
+    display: block;
+    inline-size: 100%;
+    block-size: auto;
+    overflow: visible;
+    fill: none;
+    stroke: var(--paper-pen);
+    stroke-width: 1.3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .doc__scribble:dir(rtl) {
+    transform: scaleX(-1);
+  }
+
+  /* ================================================================== watermark */
+  /*
+   * Bottom inline-end corner, rising towards the end (mirrored in RTL), turned around its bottom-start
+   * corner so no line ever hangs below the paper. Each document keeps that corner quiet (--wm-* offsets).
+   */
+  .doc__wm {
+    position: absolute;
+    inset-block-end: var(--wm-bottom, 12px);
+    inset-inline-end: var(--wm-end, 14px);
+    z-index: 1;
+    display: grid;
+    justify-items: center;
+    color: var(--paper-watermark);
+    font-family: var(--font-mono);
+    font-size: var(--fs-doc-wm);
+    font-weight: var(--fw-medium);
+    line-height: 1.16;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    transform: rotate(calc(-9deg * var(--dir)));
+    transform-origin: 0 100%;
+    pointer-events: none;
+  }
+
+  .doc__wm:dir(rtl) {
+    transform-origin: 100% 100%;
+  }
+
+  /*
+   * The text is generated content: a watermark is faint on purpose (40 % ink, spec §12 B2), decorative
+   * and incidental text inside an aria-hidden illustration (WCAG 1.4.3 exemption), so it is not page text.
+   */
+  .doc__wm-line::before {
+    content: attr(data-wm);
+  }
+
+  /*
+   * Compact variants (the mobile hero, the method still-life): only the page language's line, so the
+   * watermark (never below 9 px on screen) does not cover the document it marks. Stage and anatomy show
+   * all three languages.
+   */
+  :is(.doc--mobile, .doc--still) .doc__wm-line:not(:first-child) {
+    display: none;
+  }
+
+  .doc__wm-line:lang(ar) {
+    font-family: var(--font-arabic);
+    font-weight: var(--fw-semibold);
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  /* ================================================================== selected field (anatomy) */
+  :where(.doc [data-field]) {
+    position: relative;
+  }
+
+  :where(.doc [data-field])::after {
+    content: "";
+    position: absolute;
+    inset: -3px -5px;
+    z-index: 1;
+    border: var(--doc-hot-w) solid var(--bronze);
+    border-radius: var(--r-doc-hot);
+    background: var(--paper-hot);
+    box-shadow: var(--glow-bronze);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--dur-fade) var(--ease-out);
+  }
+
+  :where(.doc [data-field][data-hot])::after {
+    opacity: 1;
+  }
+
+  /* ================================================================== cheque + memo */
+  /*
+   * The cheque box (520×314): the 520×230 cheque at the bottom, the 300×150 memo stapled behind its top
+   * edge (its top 78 px show), a staple through both. The shadow shapes follow the two papers.
+   */
+  .doc--cheque .doc__shape--memo {
+    inset-block-start: 1.91%;
+    inset-inline-start: 6.54%;
+    inline-size: 57.69%;
+    block-size: 47.77%;
+    rotate: calc(-2.5deg * var(--dir));
+  }
+
+  .doc--cheque .doc__shape--cheque {
+    inset-block-end: 0;
+    inset-inline-start: 0;
+    inline-size: 100%;
+    block-size: 73.25%;
+  }
+
+  .doc__memo {
+    inset-block: 6px auto;
+    inset-inline: 34px auto;
+    inline-size: 300px;
+    block-size: 150px;
+    rotate: calc(-2.5deg * var(--dir));
+  }
+
+  .memo {
+    display: flex;
+    flex-direction: column;
+    padding: 9px 16px 12px;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+  }
+
+  .memo:dir(rtl) {
+    clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 12px);
+  }
+
+  .doc__fold {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-end: 0;
+    z-index: 1;
+    inline-size: 12px;
+    block-size: 12px;
+    background: var(--paper-fold);
+    box-shadow: var(--shadow-staple);
+  }
+
+  .doc__fold:dir(rtl) {
+    transform: scaleX(-1);
+  }
+
+  .memo__bank {
+    color: var(--paper-ink-2);
+    font-size: var(--fs-doc-xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .memo__bank:dir(rtl),
+  .memo__label:dir(rtl) {
+    letter-spacing: 0;
+  }
+
+  .memo__ref {
+    color: var(--paper-ink-3);
+    font-size: var(--fs-doc-2xs);
+  }
+
+  .memo__sign {
+    display: grid;
+    gap: 2px;
+    inline-size: 112px;
+
+    .doc__scribble {
+      inline-size: 70px;
+      margin-block-end: -4px;
+    }
+  }
+
+  .memo__title {
+    margin-block-start: 2px;
+    font-size: var(--fs-doc-lg);
+    font-weight: var(--fw-semibold);
+    line-height: 1.2;
+  }
+
+  .memo__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1px 9px;
+    margin-block-start: 4px;
+    font-size: var(--fs-doc-xs);
+    line-height: 1.3;
+  }
+
+  .memo__label {
+    color: var(--paper-ink-3);
+    font-size: var(--fs-doc-2xs);
+    letter-spacing: 0.04em;
+  }
+
+  .memo__reason {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    align-self: flex-start;
+    gap: 2px 6px;
+    margin-block-start: 4px;
+  }
+
+  .memo__check {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .memo__box {
+    inline-size: 9px;
+    block-size: 9px;
+    fill: none;
+    stroke: var(--paper-ink);
+    stroke-width: 1;
+    stroke-linecap: round;
+  }
+
+  .memo__value {
+    font-size: var(--fs-doc-md);
+    font-weight: var(--fw-semibold);
+  }
+
+  .memo__stamp {
+    position: absolute;
+    inset-block-start: 12px;
+    inset-inline-end: 22px;
+    padding: 2px 7px;
+    color: var(--paper-stamp);
+    background: var(--paper-stamp-wash);
+    border: 1.5px solid var(--paper-stamp);
+    border-radius: var(--r-mark);
+    font-family: var(--font-mono);
+    font-size: var(--fs-doc-md);
+    font-weight: var(--fw-semibold);
+    line-height: 1.3;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    rotate: calc(-8deg * var(--dir));
+    mix-blend-mode: multiply;
+    opacity: 0.86;
+  }
+
+  .memo__stamp:dir(rtl) {
+    font-family: var(--font-doc-arabic);
+    letter-spacing: 0;
+  }
+
+  .memo__foot {
+    display: grid;
+    justify-items: start;
+    gap: 3px;
+    margin-block-start: auto;
+    color: var(--paper-ink-3);
+    font-size: var(--fs-doc-2xs);
+  }
+
+  .cheque {
+    inset: auto 0 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    block-size: 230px;
+    padding: 12px 22px 9px;
+    background-color: var(--paper-tint-cheque);
+    box-shadow: var(--shadow-paper-edge), var(--shadow-paper-contact);
+  }
+
+  .cheque__waves {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    inline-size: 100%;
+    block-size: 100%;
+    fill: none;
+    stroke: var(--paper-wave);
+    stroke-width: 0.6;
+  }
+
+  .cheque__top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .cheque__bank {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 7px;
+    align-items: center;
+  }
+
+  .cheque__mark {
+    position: relative;
+    grid-row: span 2;
+    inline-size: 20px;
+    block-size: 20px;
+    border: 1.25px solid var(--paper-ink-2);
+    border-radius: 50%;
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 3px;
+      border: 0.75px solid var(--paper-ink-2);
+      border-radius: 50%;
+    }
+  }
+
+  .cheque__bank-name {
+    font-size: var(--fs-doc-xl);
+    font-weight: var(--fw-semibold);
+    line-height: 1.1;
+    letter-spacing: 0.02em;
+  }
+
+  .cheque__branch {
+    color: var(--paper-ink-2);
+    font-size: var(--fs-doc-xs);
+    line-height: 1.2;
+  }
+
+  .cheque__label {
+    color: var(--paper-ink-2);
+    font-size: var(--fs-doc-sm);
+  }
+
+  .cheque__no {
+    font-size: var(--fs-doc-sm);
+  }
+
+  .cheque__row {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+  }
+
+  .cheque__row--date {
+    align-items: center;
+    justify-content: space-between;
+    min-block-size: 24px;
+  }
+
+  .cheque__crossing {
+    display: inline-flex;
+    align-items: center;
+    padding-block: 2px;
+    color: var(--paper-ink-2);
+    border-block: 0.75px solid var(--paper-ink-2);
+    font-size: var(--fs-doc-2xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    rotate: calc(-8deg * var(--dir));
+  }
+
+  .cheque__crossing:dir(rtl) {
+    letter-spacing: 0;
+  }
+
+  .cheque__date {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .cheque__boxes {
+    padding: 2px 7px;
+    background: var(--paper);
+    border: 0.75px solid var(--paper-rule);
+    border-radius: var(--r-paper);
+    font-size: var(--fs-doc-lg);
+    letter-spacing: 0.12em;
+  }
+
+  .cheque__line {
+    flex: 1;
+    min-inline-size: 0;
+    padding-inline: 4px;
+    border-block-end: 0.75px solid var(--paper-ink-3);
+    white-space: nowrap;
+  }
+
+  .cheque__fill {
+    display: inline-block;
+    font-size: var(--fs-doc-lg);
+    line-height: 1.5;
+  }
+
+  .cheque__label--end {
+    white-space: nowrap;
+  }
+
+  .cheque__figures {
+    display: inline-flex;
+    flex: none;
+    align-items: baseline;
+    gap: 6px;
+    padding: 4px 9px;
+    background: var(--paper);
+    border: 0.75px solid var(--paper-ink-3);
+    border-radius: var(--r-paper);
+    font-size: var(--fs-doc-xl);
+  }
+
+  .cheque__currency {
+    color: var(--paper-ink-2);
+    font-size: var(--fs-doc-sm);
+  }
+
+  .cheque__row--sign {
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+
+  .cheque__account {
+    padding-block-end: 2px;
+    font-size: var(--fs-doc-sm);
+  }
+
+  .cheque__signature {
+    display: grid;
+    justify-items: center;
+    inline-size: 142px;
+    color: var(--paper-ink);
+    font-size: var(--fs-doc-xs);
+    line-height: 1.25;
+
+    .doc__scribble {
+      inline-size: 104px;
+      margin-block-end: -6px;
+    }
+  }
+
+  .cheque__drawer {
+    inline-size: 100%;
+    padding-block-start: 2px;
+    border-block-start: 0.75px solid var(--paper-ink-3);
+    text-align: center;
+  }
+
+  .cheque__micr {
+    align-self: flex-start;
+    margin-block-start: auto;
+    color: var(--paper-ink-2);
+    font-size: var(--fs-doc-md);
+    letter-spacing: 0.2em;
+    direction: ltr;
+    text-align: start;
+  }
+
+  .doc__staple {
+    position: absolute;
+    inset-block-start: 80px;
+    inset-inline-start: 62px;
+    z-index: 1;
+    inline-size: 26px;
+    block-size: 4px;
+    background: var(--staple);
+    border-radius: var(--r-paper);
+    box-shadow: var(--shadow-staple);
+    rotate: calc(-7deg * var(--dir));
+  }
+
+  /* ================================================================== pages (contract, tenancy, notice) */
+  /* The bottom 62 px are the page's margin: the folio sits at its start, the watermark at its end. */
+  .page {
+    display: flex;
+    flex-direction: column;
+    padding: 26px 28px 62px;
+  }
+
+  .page__head {
+    display: grid;
+    gap: 3px;
+    padding-block-end: 9px;
+    border-block-end: 0.75px solid var(--paper-ink-2);
+  }
+
+  .page__head--center {
+    justify-items: center;
+    text-align: center;
+    padding-block: 2px 9px;
+    border-block: 2.5px double var(--paper-ink-2);
+  }
+
+  .page__title {
+    font-size: var(--fs-doc-xl);
+    font-weight: var(--fw-semibold);
+    line-height: 1.15;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .page__sub {
+    color: var(--paper-ink-2);
+    font-size: var(--fs-doc-sm);
+  }
+
+  /* Reference and date, set apart by space alone (no dot separator: brief §3.6 rule 2, D02). */
+  .page__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 12px;
+    color: var(--paper-ink-3);
+    font-size: var(--fs-doc-xs);
+  }
+
+  .page__lead {
+    color: var(--paper-ink-3);
+    font-size: var(--fs-doc-xs);
+  }
+
+  .page__parties {
+    display: grid;
+    gap: 4px;
+    margin-block-start: 11px;
+  }
+
+  .page__parties--grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 16px;
+  }
+
+  .page__party {
+    display: grid;
+    gap: 0;
+  }
+
+  .page__party--wide,
+  .page__parties--grid .page__lead {
+    grid-column: 1 / -1;
+  }
+
+  .page__label {
+    color: var(--paper-ink-3);
+    font-size: var(--fs-doc-2xs);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .page__value {
+    font-size: var(--fs-doc-md);
+    font-weight: var(--fw-semibold);
+  }
+
+  .page__clause {
+    margin-block-start: 9px;
+  }
+
+  .page__h {
+    font-size: var(--fs-doc-sm);
+    font-weight: var(--fw-semibold);
+    line-height: 1.3;
+  }
+
+  .page__p {
+    margin-block-start: 1px;
+    color: var(--paper-ink-2);
+    font-size: var(--fs-doc-xs);
+    line-height: 1.45;
+  }
+
+  .page__table {
+    display: grid;
+    margin-block-start: 4px;
+    border-block: 0.75px solid var(--paper-rule);
+  }
+
+  .page__tr {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: baseline;
+    gap: 8px;
+    padding-block: 3px;
+    font-size: var(--fs-doc-sm);
+  }
+
+  .page__tr + .page__tr {
+    border-block-start: 0.5px solid var(--paper-rule);
+  }
+
+  .page__tr--total {
+    font-weight: var(--fw-semibold);
+  }
+
+  .page__td--num {
+    color: var(--paper-ink);
+    text-align: end;
+  }
+
+  .page__td--unit {
+    min-inline-size: 44px;
+    color: var(--paper-ink-3);
+    font-size: var(--fs-doc-xs);
+  }
+
+  .page__table--terms .page__tr {
+    grid-template-columns: 1fr auto;
+  }
+
+  /* Two signature blocks from the start: the end of the bottom margin stays free for the watermark. */
+  .page__signs {
+    display: grid;
+    grid-template-columns: repeat(2, 112px);
+    align-self: flex-start;
+    column-gap: 24px;
+    margin-block-start: auto;
+    padding-block-start: 12px;
+  }
+
+  .page__sign {
+    display: grid;
+    gap: 1px;
+
+    .doc__scribble {
+      inline-size: 96px;
+      margin-block-end: -5px;
+    }
+  }
+
+  .page__sign-line {
+    display: block;
+    border-block-start: 0.75px solid var(--paper-ink-3);
+  }
+
+  .page__folio {
+    position: absolute;
+    inset-block-end: 22px;
+    inset-inline-start: 28px;
+    color: var(--paper-ink-3);
+    font-size: var(--fs-doc-2xs);
+  }
+
+  /* tenancy */
+  .tenancy .page__schedule {
+    margin-block-start: 12px;
+  }
+
+  .tenancy .page__table--terms .page__tr:nth-child(odd) {
+    background: var(--paper-2);
+  }
+
+  .tenancy .page__table--terms .page__tr {
+    padding-inline: 4px;
+  }
+
+  /* notice */
+  .notice__band {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding-block-end: 7px;
+    border-block-end: 0.75px solid var(--paper-ink-2);
+  }
+
+  .notice__kicker {
+    font-size: var(--fs-doc-sm);
+    font-weight: var(--fw-semibold);
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+  }
+
+  .notice__ref {
+    color: var(--paper-ink-3);
+    font-size: var(--fs-doc-xs);
+  }
+
+  .notice__title {
+    margin-block-start: 12px;
+    font-size: var(--fs-doc-2xl);
+    letter-spacing: 0.02em;
+    text-transform: none;
+  }
+
+  .notice__facts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 16px;
+    margin-block-start: 12px;
+  }
+
+  .notice__fact {
+    display: grid;
+    gap: 1px;
+  }
+
+  .notice__fact--hearing {
+    grid-column: 1 / -1;
+    grid-template-columns: auto 1fr;
+    align-items: baseline;
+    column-gap: 14px;
+    padding: 7px 10px;
+    background: var(--paper-2);
+    border-inline-start: 2px solid var(--paper-ink);
+
+    .page__label {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .notice__value {
+    font-size: var(--fs-doc-md);
+    font-weight: var(--fw-semibold);
+  }
+
+  .notice__value--lg {
+    font-size: var(--fs-doc-2xl);
+    letter-spacing: 0.04em;
+  }
+
+  .notice__time {
+    font-size: var(--fs-doc-md);
+  }
+
+  .notice .page__parties {
+    margin-block-start: 12px;
+  }
+
+  .notice__body {
+    margin-block-start: 12px;
+
+    .page__p {
+      font-size: var(--fs-doc-sm);
+    }
+
+    .page__h {
+      margin-block-start: 8px;
+    }
+  }
+
+  .notice__list {
+    margin: 2px 0 0;
+    padding-inline-start: 14px;
+    color: var(--paper-ink-2);
+    font-size: var(--fs-doc-xs);
+    line-height: 1.5;
+  }
+
+  .notice__foot {
+    display: grid;
+    align-self: flex-start;
+    justify-items: start;
+    gap: 3px;
+    margin-block-start: auto;
+    padding-block-start: 10px;
+    font-size: var(--fs-doc-xs);
+  }
+
+  .notice__sign {
+    display: grid;
+    inline-size: 120px;
+
+    .doc__scribble {
+      inline-size: 92px;
+      margin-block-end: -5px;
+    }
+  }
+
+  /* ================================================================== transfer receipt */
+  .receipt {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 22px 62px;
+    font-family: var(--font-sans);
+  }
+
+  .receipt:dir(rtl) {
+    font-family: var(--font-arabic);
+  }
+
+  .receipt__head {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--paper-ink-2);
+    font-size: var(--fs-doc-sm);
+    font-weight: var(--fw-semibold);
+    letter-spacing: 0.02em;
+  }
+
+  .receipt__mark {
+    inline-size: 14px;
+    block-size: 14px;
+    border: 1.25px solid var(--paper-ink-2);
+    border-radius: var(--r-mark);
+    rotate: 45deg;
+    scale: 0.78;
+  }
+
+  .receipt__title {
+    margin-block-start: 10px;
+    font-size: var(--fs-doc-xl);
+    font-weight: var(--fw-semibold);
+    line-height: 1.2;
+  }
+
+  .receipt__hero {
+    display: grid;
+    justify-items: start;
+    gap: 2px;
+    margin-block-start: 12px;
+    padding: 12px;
+    background: var(--receipt-band);
+    border-radius: var(--r-xs);
+  }
+
+  .receipt__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-block-end: 6px;
+    padding: 2px 7px 2px 5px;
+    color: var(--success);
+    background: var(--success-tint);
+    border-radius: var(--r-pill);
+    font-size: var(--fs-doc-xs);
+    font-weight: var(--fw-semibold);
+
+    svg {
+      inline-size: 11px;
+      block-size: 11px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
+  .receipt__sent {
+    color: var(--paper-ink-2);
+    font-size: var(--fs-doc-xs);
+  }
+
+  .receipt__amount {
+    font-size: var(--fs-doc-3xl);
+    font-weight: var(--fw-semibold);
+    line-height: 1.15;
+  }
+
+  .receipt__asset {
+    color: var(--paper-ink-2);
+    font-size: var(--fs-doc-lg);
+  }
+
+  .receipt__rows {
+    display: grid;
+    margin-block-start: 10px;
+  }
+
+  .receipt__row {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: baseline;
+    gap: 2px 10px;
+    padding-block: 5px;
+    border-block-end: 0.5px dashed var(--paper-rule);
+    font-size: var(--fs-doc-sm);
+  }
+
+  .receipt__row--stack {
+    grid-template-columns: auto 1fr;
+  }
+
+  .receipt__k {
+    color: var(--paper-ink-3);
+    font-size: var(--fs-doc-xs);
+  }
+
+  .receipt__v {
+    color: var(--paper-ink);
+    text-align: end;
+    overflow-wrap: anywhere;
+  }
+
+  .receipt__foot {
+    position: absolute;
+    inset-block-end: 22px;
+    inset-inline-start: 22px;
+    max-inline-size: 132px;
+    color: var(--paper-ink-3);
+    font-size: var(--fs-doc-2xs);
+    line-height: 1.4;
+  }
+
+  /* ================================================================== message thread (phone) */
+  .doc--messages .doc__sheet::before {
+    content: none;
+  }
+
+  .phone {
+    position: absolute;
+    inset: 0;
+    padding: 9px;
+    background: var(--phone-frame);
+    border-radius: var(--r-phone);
+    box-shadow: var(--shadow-phone);
+  }
+
+  .phone__screen {
+    inset: 9px;
+    display: flex;
+    flex-direction: column;
+    background: var(--phone-screen);
+    border-radius: var(--r-xl);
+    box-shadow: none;
+    font-family: var(--font-sans);
+  }
+
+  .phone__screen:dir(rtl) {
+    font-family: var(--font-arabic);
+  }
+
+  .phone__status {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 9px 18px 4px;
+    font-size: var(--fs-doc-xs);
+    font-weight: var(--fw-semibold);
+  }
+
+  .phone__camera {
+    inline-size: 9px;
+    block-size: 9px;
+    background: var(--phone-frame);
+    border-radius: 50%;
+    box-shadow: var(--shadow-staple);
+  }
+
+  .phone__signal {
+    display: inline-flex;
+    align-items: flex-end;
+    justify-self: end;
+    gap: 1.5px;
+
+    i {
+      inline-size: 2.5px;
+      background: var(--paper-ink);
+      border-radius: var(--r-paper);
+    }
+
+    i:nth-child(1) { block-size: 4px; }
+    i:nth-child(2) { block-size: 6px; }
+    i:nth-child(3) { block-size: 8px; }
+  }
+
+  .phone__head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px 8px;
+    border-block-end: 0.5px solid var(--paper-rule);
+  }
+
+  .phone__avatar {
+    display: grid;
+    place-items: center;
+    flex: none;
+    inline-size: 26px;
+    block-size: 26px;
+    color: var(--paper-ink-2);
+    background: var(--bubble-in);
+    border-radius: 50%;
+    font-size: var(--fs-doc-md);
+    font-weight: var(--fw-semibold);
+  }
+
+  .phone__who {
+    display: grid;
+    line-height: 1.25;
+  }
+
+  .phone__name {
+    font-size: var(--fs-doc-md);
+    font-weight: var(--fw-semibold);
+  }
+
+  .phone__seen {
+    color: var(--paper-ink-3);
+    font-size: var(--fs-doc-2xs);
+  }
+
+  .phone__thread {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 7px;
+    padding: 12px 11px;
+  }
+
+  .phone__day {
+    align-self: center;
+    margin-block-end: 2px;
+    padding: 2px 8px;
+    color: var(--paper-ink-2);
+    background: var(--receipt-band);
+    border-radius: var(--r-pill);
+    font-size: var(--fs-doc-2xs);
+  }
+
+  .bubble {
+    max-inline-size: 80%;
+    padding: 6px 9px 5px;
+    border-radius: var(--r-md);
+    font-size: var(--fs-doc-sm);
+    line-height: 1.38;
+  }
+
+  .bubble--in {
+    align-self: flex-start;
+    color: var(--paper-ink);
+    background: var(--bubble-in);
+    border-end-start-radius: var(--r-mark);
+  }
+
+  .bubble--out {
+    align-self: flex-end;
+    color: var(--bubble-mine-ink);
+    background: var(--bubble-mine);
+    border-end-end-radius: var(--r-mark);
+  }
+
+  .bubble__time {
+    display: block;
+    margin-block-start: 1px;
+    color: var(--paper-ink-2);
+    font-size: var(--fs-doc-2xs);
+    text-align: end;
+  }
+
+  .bubble--out .bubble__time {
+    color: var(--bubble-mine-ink);
+    opacity: 0.72;
+  }
+
+  .phone__compose {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 11px 16px;
+  }
+
+  .phone__field {
+    flex: 1;
+    padding: 5px 10px;
+    color: var(--paper-ink-3);
+    border: 0.75px solid var(--paper-rule);
+    border-radius: var(--r-pill);
+    font-size: var(--fs-doc-xs);
+  }
+
+  .phone__send {
+    flex: none;
+    inline-size: 20px;
+    block-size: 20px;
+    background: var(--paper-ink);
+    border-radius: 50%;
+  }
+
+  /* ================================================================== motion */
+  @media (prefers-reduced-motion: reduce) {
+    :where(.doc [data-field])::after {
+      transition: none;
+    }
+  }
+}
+
+/*
+ * Styleguide only (d2::styleguide.documents; Alpine d2DocPins draws the pins): document specimens,
+ * callout anchors, the 342×300 mobile stage frame, the anatomy column and the watermark check.
+ */
+@layer components {
+  .sg-docs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-6);
+    align-items: flex-start;
+  }
+
+  .sg-doc {
+    max-inline-size: 100%;
+    margin: 0;
+  }
+
+  .sg-doc__stage {
+    display: flex;
+    justify-content: center;
+    max-inline-size: 100%;
+    padding: var(--s-6);
+    overflow: hidden;
+    background: var(--surface-sunken);
+    border-radius: var(--r-md);
+  }
+
+  .sg-doc__caption {
+    display: grid;
+    gap: var(--s-2);
+  }
+
+  .sg-doc__callouts {
+    display: grid;
+    gap: var(--s-1);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .sg-doc__num {
+    display: inline-grid;
+    place-items: center;
+    inline-size: var(--s-5);
+    block-size: var(--s-5);
+    color: var(--surface);
+    background: var(--bronze-700);
+    border-radius: 50%;
+    font-family: var(--font-mono);
+    font-size: var(--fs-meta);
+    line-height: 1;
+  }
+
+  .sg-doc__frame {
+    display: grid;
+    place-items: center;
+    inline-size: 342px;
+    max-inline-size: 100%;
+    block-size: 300px;
+    background: var(--surface-sunken);
+    border-radius: var(--r-md);
+    outline: var(--line-w) dashed var(--line-control);
+    outline-offset: calc(var(--line-w) * -1);
+  }
+
+  .sg-doc-column {
+    display: grid;
+    gap: var(--s-8);
+  }
+
+  .sg-doc--column {
+    display: grid;
+    gap: var(--s-3);
+  }
+
+  /* The anatomy desk, as in sections/anatomy.css: the band, a panel (radius 10) from 768 px. */
+  .sg-doc__desk {
+    display: grid;
+    place-items: center;
+    margin-inline: calc(-1 * var(--pad-x));
+    padding: var(--s-6) var(--pad-x);
+    background: var(--band);
+  }
+
+  @media (width >= 768px) {
+    .sg-doc__desk {
+      margin-inline: 0;
+      padding: var(--s-8);
+      border-radius: var(--radius-card);
+    }
+  }
+
+  .sg-wm {
+    inline-size: auto;
+    block-size: auto;
+    padding: var(--s-4);
+    background: var(--paper);
+    border-radius: var(--r-paper);
+    box-shadow: var(--shadow-paper-edge);
+  }
+
+  .sg-wm .sg-wm__block {
+    position: static;
+    transform: none;
+  }
+
+  .sg-wm--min {
+    --fs-doc-wm: var(--fs-doc-watermark-min);
+  }
+
+  .sg-doc-notes {
+    display: grid;
+    gap: var(--s-2);
+    margin: 0 0 var(--s-6);
+    padding-inline-start: var(--s-5);
+  }
+
+  /* The live section under the specimens: a hairline, then the section on the spacing scale (48, brief §3.4). */
+  .sg-doc-live {
+    margin-block-start: var(--s-8);
+    border-block-start: var(--line-w) solid var(--line);
+
+    .section {
+      padding-block: var(--s-12) 0;
+    }
+
+    .container {
+      padding-inline: 0;
+    }
+  }
+
+  .sg-pins {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .sg-pin {
+    position: absolute;
+    inset-block-start: calc(var(--y) * 1%);
+    inset-inline-start: calc(var(--x) * 1%);
+    display: grid;
+    place-items: center;
+    inline-size: var(--s-5);
+    block-size: var(--s-5);
+    margin-block-start: calc(var(--s-5) / -2);
+    margin-inline-start: calc(var(--s-5) / -2);
+    color: var(--surface);
+    background: var(--bronze-700);
+    border-radius: 50%;
+    box-shadow: var(--ring-pin);
+    font-family: var(--font-mono);
+    font-size: var(--fs-meta);
+    line-height: 1;
+  }
+}

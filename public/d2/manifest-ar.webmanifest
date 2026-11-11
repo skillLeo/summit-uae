@@ -1,0 +1,39 @@
+{
+    "id": "/ar/",
+    "name": "سَمِت للاستشارات القانونية",
+    "short_name": "سَمِت القانونية",
+    "description": "استشارات قانونية للأفراد والشركات في الإمارات بالعربية والإنجليزية والروسية. مراجعة العقود والديون والعمل والعقارات والقضايا الجزائية والعملات الرقمية. تواصل مع سَمِت.",
+    "lang": "ar",
+    "dir": "rtl",
+    "start_url": "/ar/",
+    "scope": "/ar/",
+    "display": "standalone",
+    "background_color": "#FFFFFF",
+    "theme_color": "#0B0B0C",
+    "icons": [
+        {
+            "src": "/d2/icons/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/d2/icons/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/d2/icons/maskable-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "/d2/icons/maskable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}

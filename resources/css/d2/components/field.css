@@ -1,0 +1,910 @@
+/*
+ * Design 2.1 component: form controls. <x-d2.ui.field>, input, select, textarea, date, checkbox, radio, stepper.
+ * Brief §3.5 (Fields), D33; contract docs/d2.1/phase-1/components.md §2.
+ *
+ * Fields: 48 px (--field-h), white, 1px --field-border (3.42:1 on white, 3.17:1 on band: WCAG 1.4.11), radius 6,
+ * no shadow. Label above (UI 15/500, ink), help text under the label (Small, ink-3), the error under the field
+ * (danger colour, the error icon and text). Steppers, selects and date pickers fill the same column width as text
+ * inputs (D33). States:
+ *   hover    --ink-3 edge          focus    ink edge + the 2px ring at a 2px offset (light gold inside .on-dark)
+ *   invalid  .is-invalid / [aria-invalid="true"]: danger edge + the message (field__error)
+ *   valid    .is-valid: success edge + a check     disabled  band fill, --line edge, ink-3 text, not-allowed
+ * Paddings and gaps stay on the spacing scale (an icon inside a field: 16 inset, text from 48). Colours come from
+ * context variables (--ctl-*): light by default, dark inside .on-dark / .on-night, light again in an .on-light card.
+ * Styleguide-only: .is-hover / .is-focus on the native control.
+ */
+@layer components {
+  /* ------------------------------------------------------------------ context */
+  :root,
+  .on-light {
+    --ctl-bg: var(--canvas);
+    --ctl-fg: var(--ink);
+    --ctl-fg-2: var(--ink-2);
+    --ctl-muted: var(--ink-3);
+    --ctl-edge-rest: var(--field-border);
+    --ctl-edge-hover: var(--ink-3);
+    --ctl-edge-focus: var(--ink);
+    --ctl-danger: var(--danger);
+    --ctl-success: var(--success);
+    --ctl-req: var(--ink-2);
+    --ctl-off-bg: var(--band);
+    --ctl-off-edge: var(--line);
+    --ctl-on: var(--ink);
+    --ctl-on-mark: var(--canvas);
+    --ctl-wash: var(--hover-tint);
+    --ctl-divider: var(--line);
+  }
+
+  /* A light card inside a dark section: the ink focus ring again (light gold on white is under 3:1). */
+  .on-light {
+    --focus-color: var(--focus);
+  }
+
+  .on-dark,
+  .on-night {
+    --ctl-bg: var(--dark-2);
+    --ctl-fg: var(--on-dark);
+    --ctl-fg-2: var(--on-dark-2);
+    --ctl-muted: var(--on-dark-3);
+    --ctl-edge-rest: var(--field-border-on-dark);
+    --ctl-edge-hover: var(--on-dark-3);
+    --ctl-edge-focus: var(--on-dark);
+    --ctl-danger: var(--danger-on-dark);
+    --ctl-success: var(--success-on-dark);
+    --ctl-req: var(--on-dark-2);
+    --ctl-off-bg: var(--dark);
+    --ctl-off-edge: var(--line-on-dark);
+    --ctl-on: var(--on-dark);
+    --ctl-on-mark: var(--ink);
+    --ctl-wash: var(--dark-hover-tint);
+    --ctl-divider: var(--line-on-dark);
+  }
+
+  :is(.on-dark, .on-night) .on-light {
+    --ctl-bg: var(--canvas);
+    --ctl-fg: var(--ink);
+    --ctl-fg-2: var(--ink-2);
+    --ctl-muted: var(--ink-3);
+    --ctl-edge-rest: var(--field-border);
+    --ctl-edge-hover: var(--ink-3);
+    --ctl-edge-focus: var(--ink);
+    --ctl-danger: var(--danger);
+    --ctl-success: var(--success);
+    --ctl-req: var(--ink-2);
+    --ctl-off-bg: var(--band);
+    --ctl-off-edge: var(--line);
+    --ctl-on: var(--ink);
+    --ctl-on-mark: var(--canvas);
+    --ctl-wash: var(--hover-tint);
+    --ctl-divider: var(--line);
+  }
+
+  /* ------------------------------------------------------------------ field */
+  .field {
+    display: grid;
+    gap: var(--s-2);
+    min-inline-size: 0;
+  }
+
+  fieldset.field {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .field__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    column-gap: var(--s-3);
+  }
+
+  .field__label {
+    color: var(--ctl-fg);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+  }
+
+  legend.field__label {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    column-gap: var(--s-3);
+    inline-size: 100%;
+    margin-block-end: var(--s-2);
+    padding: 0;
+  }
+
+  .field__req {
+    margin-inline-start: var(--s-1);
+    color: var(--ctl-req);
+    font-weight: var(--fw-medium);
+  }
+
+  .field__optional {
+    color: var(--ctl-muted);
+    font-size: var(--fs-small);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-small);
+  }
+
+  /* Help text sits under the label (the field's 8px gap, less 4: it belongs to the label). */
+  .field__hint {
+    margin-block-start: calc(-1 * var(--s-1));
+    color: var(--ctl-muted);
+    font-size: var(--fs-small);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-small);
+  }
+
+  /* The error under the field: the error icon (centred on the first line) and the message, in the danger colour. */
+  .field__error {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--s-2);
+    color: var(--ctl-danger);
+    font-size: var(--fs-small);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-small);
+  }
+
+  .field__error-icon {
+    flex: none;
+    block-size: var(--lh-small);
+  }
+
+  /* ------------------------------------------------------------------ input, select, textarea */
+  .control {
+    position: relative;
+    display: block;
+    min-inline-size: 0;
+  }
+
+  :is(.input, .select, .textarea) {
+    --ctl-edge: var(--ctl-edge-rest);
+
+    display: block;
+    inline-size: 100%;
+    min-inline-size: 0;
+    min-block-size: var(--field-h);
+    margin: 0;
+    padding-block: 0;
+    padding-inline: var(--s-4);
+    border: var(--line-w) solid var(--ctl-edge);
+    border-radius: var(--radius-control);
+    color: var(--ctl-fg);
+    background: var(--ctl-bg);
+    box-shadow: none;
+    font-family: var(--font-sans);
+    font-size: var(--fs-body);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-body);
+    appearance: none;
+
+    &::placeholder {
+      color: var(--ctl-muted);
+      opacity: 1;
+    }
+  }
+
+  /* size 40 (Design 2.0's compact field): the 44 px minimum target. */
+  .control--40 :is(.input, .select) {
+    min-block-size: var(--button-h);
+  }
+
+  label.control--40 {
+    cursor: text;
+  }
+
+  @media (pointer: coarse) {
+    .control--40 :is(.input, .select) {
+      min-block-size: var(--field-h);
+    }
+  }
+
+  @media (hover: hover) {
+    :is(.input, .select, .textarea):hover:not(:disabled, :focus) {
+      --ctl-edge: var(--ctl-edge-hover);
+    }
+  }
+
+  :is(.input, .select, .textarea).is-hover {
+    --ctl-edge: var(--ctl-edge-hover);
+  }
+
+  :is(.input, .select, .textarea):focus,
+  :is(.input, .select, .textarea).is-focus {
+    --ctl-edge: var(--ctl-edge-focus);
+  }
+
+  :is(.input, .select, .textarea):focus-visible,
+  :is(.input, .select, .textarea).is-focus {
+    outline: var(--focus-w) solid var(--focus-color);
+    outline-offset: var(--focus-offset);
+  }
+
+  :is(.input, .select, .textarea):is(.is-invalid, [aria-invalid="true"]) {
+    --ctl-edge: var(--ctl-danger);
+  }
+
+  :is(.input, .select, .textarea).is-valid {
+    --ctl-edge: var(--ctl-success);
+  }
+
+  :is(.input, .select, .textarea):disabled {
+    --ctl-edge: var(--ctl-off-edge);
+
+    color: var(--ctl-muted);
+    background: var(--ctl-off-bg);
+    cursor: not-allowed;
+    opacity: 1;
+  }
+
+  :is(.input, .textarea):read-only:not(:disabled) {
+    background: var(--ctl-off-bg);
+  }
+
+  /* Icons inside the control (functional: search, the select chevron, the calendar; the field label names it). */
+  .control__icon,
+  .control__status {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: var(--s-4);
+    display: grid;
+    place-items: center;
+    color: var(--ctl-fg-2);
+    pointer-events: none;
+  }
+
+  .control__icon--end,
+  .control__status {
+    inset-inline: auto var(--s-4);
+  }
+
+  .control__status {
+    color: var(--ctl-success);
+    opacity: 0;
+  }
+
+  .control:has(> .is-valid) .control__status {
+    opacity: 1;
+  }
+
+  /* 16 inset + the 20 px icon + 12 = the text starts at 48 */
+  .control--icon .input {
+    padding-inline-start: var(--s-12);
+  }
+
+  .control--end .input,
+  .control:has(> .input.is-valid) .input,
+  .control--select .select {
+    padding-inline-end: var(--s-12);
+  }
+
+  /*
+   * The wrapping placeholder (<x-d2.ui.input wrap-placeholder>; D09, brief §3.6 rule 8: approved copy is never cut).
+   * A native placeholder cannot wrap, and no phone field holds a long approved example. So the wrapper draws the
+   * field (the input's edge, radius, fill, hover, focus edge and ring) around the borderless input, and a copy of the
+   * placeholder (.control__placeholder, aria-hidden; the input's placeholder attribute stays the accessible one and
+   * is not painted) wraps inside it from the input's own line. The copy's line height is the field's inner 46 px less
+   * its padding, so one line fills the 48 px field where the input draws its line (the caret starts on it) and each
+   * further line adds one line height: Latin and Cyrillic 12 + 22 + 12, Arabic 8 + 30 + 8 (IBM Plex Sans Arabic needs
+   * the taller line). It shows only while the field is empty (:placeholder-shown, no script); once a character is
+   * typed the field is 48 px again. The icons stay centred on the first line. Without :has() the plain field with its
+   * native placeholder remains. The geometry of the FAQ, Legal Resources and palette search boxes (sections/faq.css,
+   * pages/resources.css, components/palette.css), so they can move to this one component.
+   */
+  .control__placeholder {
+    display: none;
+  }
+
+  @supports selector(:has(*)) {
+    .control--wrap {
+      --ctl-edge: var(--ctl-edge-rest);
+
+      display: grid;
+      border: var(--line-w) solid var(--ctl-edge);
+      border-radius: var(--radius-control);
+      background: var(--ctl-bg);
+      cursor: text;
+    }
+
+    .control--wrap > .input {
+      grid-area: 1 / 1;
+      align-self: start;
+      min-block-size: calc(var(--field-h) - 2 * var(--line-w));
+      border: 0;
+      background: transparent;
+
+      &:focus-visible,
+      &.is-focus {
+        outline: none;
+      }
+
+      &::placeholder {
+        opacity: 0;
+      }
+    }
+
+    /* 16 px from the field's outer edge (the edge is the wrapper's now), centred on the first line */
+    .control--wrap > :is(.control__icon, .control__status) {
+      inset-block: 0 auto;
+      block-size: calc(var(--field-h) - 2 * var(--line-w));
+    }
+
+    .control--wrap > .control__icon:not(.control__icon--end) {
+      inset-inline-start: calc(var(--s-4) - var(--line-w));
+    }
+
+    .control--wrap > :is(.control__icon--end, .control__status) {
+      inset-inline-end: calc(var(--s-4) - var(--line-w));
+    }
+
+    .control--wrap > .control__placeholder {
+      --hint-pad: var(--s-3);
+
+      grid-area: 1 / 1;
+      min-inline-size: 0;
+      padding-block: var(--hint-pad);
+      padding-inline: var(--s-4);
+      color: var(--ctl-muted);
+      font-size: var(--fs-body);
+      font-weight: var(--fw-regular);
+      line-height: calc(var(--field-h) - 2 * var(--line-w) - 2 * var(--hint-pad));
+      overflow-wrap: break-word;
+      text-wrap: balance;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .control--wrap > .control__placeholder:lang(ar) {
+      --hint-pad: var(--s-2);
+    }
+
+    /* the text starts where the input's does: 48 after a leading icon, 48 before an end icon or the valid check */
+    .control--wrap.control--icon > .control__placeholder {
+      padding-inline-start: var(--s-12);
+    }
+
+    .control--wrap:is(.control--end, :has(> .input.is-valid)) > .control__placeholder {
+      padding-inline-end: var(--s-12);
+    }
+
+    /* a left-to-right field (dir="ltr") in Arabic aligns right, like its input */
+    [dir="rtl"] .control--wrap[dir="ltr"] > .control__placeholder {
+      text-align: end;
+    }
+
+    .control--wrap:has(> .input:placeholder-shown) > .control__placeholder {
+      display: block;
+    }
+
+    /* the input's states, drawn by the wrapper (the same order and weight as the input's own rules above) */
+    @media (hover: hover) {
+      .control--wrap:hover:not(:has(> .input:is(:disabled, :focus))) {
+        --ctl-edge: var(--ctl-edge-hover);
+      }
+    }
+
+    .control--wrap:has(> .input.is-hover) {
+      --ctl-edge: var(--ctl-edge-hover);
+    }
+
+    .control--wrap:has(> .input:is(:focus, .is-focus)) {
+      --ctl-edge: var(--ctl-edge-focus);
+    }
+
+    .control--wrap:has(> .input:is(:focus-visible, .is-focus)) {
+      outline: var(--focus-w) solid var(--focus-color);
+      outline-offset: var(--focus-offset);
+    }
+
+    .control--wrap:has(> .input:is(.is-invalid, [aria-invalid="true"])) {
+      --ctl-edge: var(--ctl-danger);
+    }
+
+    .control--wrap:has(> .input.is-valid) {
+      --ctl-edge: var(--ctl-success);
+    }
+
+    .control--wrap:has(> .input:read-only:not(:disabled)) {
+      background: var(--ctl-off-bg);
+    }
+
+    .control--wrap:has(> .input:disabled) {
+      --ctl-edge: var(--ctl-off-edge);
+
+      background: var(--ctl-off-bg);
+      cursor: not-allowed;
+    }
+  }
+
+  /* select: the native picker (the platform's on phones), a chevron at the inline end. An option label (often
+     approved copy) is never cut (D09, §3.6 rule 8): no text-overflow ellipsis, and where the engine allows it
+     (Chromium) a long label wraps and the field grows from its 48 px; a one-line label stays centred in 48 px. */
+  .select {
+    block-size: auto;
+    padding-block: var(--s-2);
+    white-space: normal;
+    overflow-wrap: break-word;
+    cursor: pointer;
+
+    & option,
+    & optgroup {
+      color: var(--ink);
+      background: var(--canvas);
+    }
+  }
+
+  .select:has(> option[value=""]:checked) {
+    color: var(--ctl-muted);
+  }
+
+  /* textarea: grows with its text where supported (field-sizing), at least five lines */
+  .textarea {
+    min-block-size: calc(5 * var(--lh-body) + 2 * var(--s-3) + 2 * var(--line-w));
+    max-block-size: 60vh;
+    padding-block: var(--s-3);
+    resize: vertical;
+    field-sizing: content;
+  }
+
+  /* number: no native spin buttons (the stepper has its own) */
+  .input[type="number"] {
+    appearance: textfield;
+    font-variant-numeric: tabular-nums lining-nums;
+
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      margin: 0;
+      appearance: none;
+    }
+  }
+
+  .input[type="search"]::-webkit-search-decoration {
+    appearance: none;
+  }
+
+  /* WebKit's clear button, drawn in the field's own text colour (so it also works on dark) instead of the default blue. */
+  .input[type="search"]::-webkit-search-cancel-button {
+    inline-size: 16px;
+    block-size: 16px;
+    margin-inline-start: var(--s-2);
+    background-color: currentColor;
+    opacity: 0.6;
+    cursor: pointer;
+    appearance: none;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 4l8 8M12 4l-8 8' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E") center / 16px 16px no-repeat;
+  }
+
+  .input[type="search"]::-webkit-search-cancel-button:hover {
+    opacity: 1;
+  }
+
+  /*
+   * Left-to-right values (dir="ltr": phone, e-mail, URL) in Arabic: aligned to the right like the other
+   * fields (as in Design 1); the wrapper takes the same dir, so the status check sits after the text.
+   */
+  [dir="rtl"] .input[dir="ltr"] {
+    text-align: end;
+  }
+
+  /*
+   * date: a native, always left-to-right input (Chrome forces direction: ltr; we make it explicit). The browser's
+   * picker button lies, invisible, over our calendar icon. In Arabic the icon stays at the inline end of the page
+   * (left) and the date aligns right, so padding and picker button swap sides. Fills its column (D33).
+   */
+  .control--date .input {
+    position: relative;
+    direction: ltr;
+    font-variant-numeric: tabular-nums lining-nums;
+
+    &::-webkit-date-and-time-value {
+      min-block-size: var(--lh-body);
+      text-align: start;
+    }
+
+    &::-webkit-calendar-picker-indicator {
+      position: absolute;
+      inset-block: 0;
+      inset-inline-end: 0;
+      inline-size: var(--s-12);
+      block-size: auto;
+      margin: 0;
+      padding: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+  }
+
+  /*
+   * Focus (WCAG 2.4.7). In Chrome the invisible picker button is its own Tab stop (after day, month and year);
+   * while it holds focus the input matches :focus but no longer :focus-visible, and base.css would drop the ring.
+   * A date field keeps its ring whenever it has focus, and the calendar icon turns ink while the button holds focus.
+   */
+  .control--date .input:focus {
+    outline: var(--focus-w) solid var(--focus-color);
+    outline-offset: var(--focus-offset);
+  }
+
+  .control--date:has(.input:focus:not(:focus-visible)) .control__icon--end {
+    color: var(--ctl-fg);
+  }
+
+  [dir="rtl"] .control--date .input {
+    padding-inline: var(--s-12) var(--s-4);
+    text-align: end;
+
+    &::-webkit-calendar-picker-indicator {
+      inset-inline: 0 auto;
+    }
+  }
+
+  /* ------------------------------------------------------------------ checkbox + radio */
+  /* A row of at least 44 px (48 on touch): the min-height, not off-scale padding, makes the target. */
+  .check,
+  .radio {
+    --hit: var(--target);
+
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: var(--s-3);
+    align-items: start;
+    align-content: center;
+    min-block-size: var(--hit);
+    padding-block: var(--s-2);
+    color: var(--ctl-fg);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+  }
+
+  @media (pointer: coarse) {
+    .check,
+    .radio {
+      --hit: var(--target-touch);
+    }
+  }
+
+  /* The box (a <span>: the text is the control's one <label>) stacks the input and its tick or dot, on the first line. */
+  .check__control,
+  .radio__control {
+    display: grid;
+    place-items: center;
+    block-size: var(--lh-body);
+    -webkit-tap-highlight-color: transparent;
+
+    & > * {
+      grid-area: 1 / 1;
+    }
+  }
+
+  .check__text,
+  .radio__text {
+    display: grid;
+    gap: var(--s-1);
+    min-inline-size: 0;
+  }
+
+  .check__label,
+  .radio__label {
+    color: var(--ctl-fg);
+    cursor: pointer;
+  }
+
+  .check__hint,
+  .radio__hint {
+    color: var(--ctl-muted);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+  }
+
+  .check__text .field__error {
+    margin-block-start: var(--s-1);
+  }
+
+  .check__input,
+  .radio__input {
+    --ctl-edge: var(--ctl-edge-rest);
+
+    position: relative;
+    inline-size: var(--icon-size);
+    block-size: var(--icon-size);
+    margin: 0;
+    border: var(--line-w) solid var(--ctl-edge);
+    border-radius: var(--radius-control);
+    background: var(--ctl-bg);
+    cursor: pointer;
+    appearance: none;
+
+    /* The box is 20px; the hit area around it is 44px (48px on touch screens). It is the input's own
+       pseudo-element, so a press anywhere in it is a press on the input: no second <label> needed. */
+    &::after {
+      content: "";
+      position: absolute;
+      inset: min(0px, calc((100% - var(--hit)) / 2));
+    }
+  }
+
+  .radio__input {
+    border-radius: 50%;
+  }
+
+  @media (hover: hover) {
+    .check:has(.check__control:hover, .check__label:hover) .check__input:not(:disabled, :checked, :indeterminate),
+    .radio:has(.radio__control:hover, .radio__label:hover) .radio__input:not(:disabled, :checked) {
+      --ctl-edge: var(--ctl-edge-hover);
+    }
+  }
+
+  :is(.check__input, .radio__input).is-hover:not(:checked) {
+    --ctl-edge: var(--ctl-edge-hover);
+  }
+
+  :is(.check__input, .radio__input):focus-visible,
+  :is(.check__input, .radio__input).is-focus {
+    outline: var(--focus-w) solid var(--focus-color);
+    outline-offset: var(--focus-offset);
+  }
+
+  .check__input:is(.is-invalid, [aria-invalid="true"]),
+  .radio__input[aria-invalid="true"] {
+    --ctl-edge: var(--ctl-danger);
+  }
+
+  /* checkbox: ink box, white tick drawing in (white box with an ink tick on dark) */
+  /* Positioned so they paint above the (positioned) input; presses go through them to it. */
+  .check__tick {
+    position: relative;
+    inline-size: var(--icon-size);
+    block-size: var(--icon-size);
+    color: var(--ctl-on-mark);
+    pointer-events: none;
+  }
+
+  .check__tick-path,
+  .check__dash {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .check__tick-path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset var(--dur-enter) var(--ease-out);
+  }
+
+  .check__dash {
+    opacity: 0;
+  }
+
+  .check__input:is(:checked, :indeterminate, .is-indeterminate) {
+    --ctl-edge: var(--ctl-on);
+
+    background: var(--ctl-on);
+  }
+
+  .check__input:checked:not(:indeterminate, .is-indeterminate) + .check__tick .check__tick-path {
+    stroke-dashoffset: 0;
+    transition-delay: 40ms;
+  }
+
+  .check__input:is(:indeterminate, .is-indeterminate) + .check__tick .check__dash {
+    opacity: 1;
+  }
+
+  /* radio: ink ring, inner dot scaling in on the snappy spring (white on dark) */
+  .radio__dot {
+    position: relative;
+    inline-size: var(--s-2);
+    block-size: var(--s-2);
+    border-radius: 50%;
+    background: var(--ctl-on);
+    scale: 0;
+    pointer-events: none;
+    transition: scale var(--dur-press) var(--ease-out);
+  }
+
+  .radio__input:checked {
+    --ctl-edge: var(--ctl-on);
+  }
+
+  .radio__input:checked + .radio__dot {
+    scale: 1;
+    transition: scale var(--spring-snappy-dur) var(--spring-snappy);
+  }
+
+  /* disabled rows */
+  :is(.check__input, .radio__input):disabled {
+    --ctl-edge: var(--ctl-off-edge);
+
+    background: var(--ctl-off-bg);
+    cursor: not-allowed;
+  }
+
+  .check__input:disabled:is(:checked, :indeterminate) {
+    --ctl-edge: var(--ctl-muted);
+
+    background: var(--ctl-muted);
+  }
+
+  .radio__input:disabled:checked {
+    --ctl-edge: var(--ctl-muted);
+
+    & + .radio__dot {
+      background: var(--ctl-muted);
+    }
+  }
+
+  .check:has(.check__input:disabled),
+  .radio:has(.radio__input:disabled) {
+    & :is(.check__control, .radio__control, .check__label, .radio__label) {
+      cursor: not-allowed;
+    }
+
+    & :is(.check__label, .radio__label) {
+      color: var(--ctl-muted);
+    }
+  }
+
+  /* ------------------------------------------------------------------ stepper: fills its column (D33) */
+  .stepper {
+    --ctl-edge: var(--ctl-edge-rest);
+    --step-btn: var(--target);
+
+    display: flex;
+    align-items: stretch;
+    inline-size: 100%;
+    min-block-size: var(--field-h);
+    border: var(--line-w) solid var(--ctl-edge);
+    border-radius: var(--radius-control);
+    background: var(--ctl-bg);
+  }
+
+  .stepper--40 {
+    min-block-size: var(--button-h);
+  }
+
+  /* Touch screens: 48 px buttons and a 48 px input inside the 1px frame. */
+  @media (pointer: coarse) {
+    .stepper,
+    .stepper--40 {
+      --step-btn: var(--target-touch);
+
+      min-block-size: calc(var(--target-touch) + 2 * var(--line-w));
+    }
+  }
+
+  .stepper .control {
+    flex: 1 1 auto;
+  }
+
+  .stepper .input {
+    block-size: 100%;
+    min-block-size: 0;
+    padding-inline: var(--s-2);
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    text-align: center;
+
+    &:focus-visible,
+    &.is-focus {
+      outline: none;
+    }
+  }
+
+  .stepper .control__status {
+    display: none;
+  }
+
+  @media (hover: hover) {
+    .stepper:hover:not(:has(.input:disabled, .input:focus)) {
+      --ctl-edge: var(--ctl-edge-hover);
+    }
+  }
+
+  .stepper:has(.input:focus, .input.is-focus) {
+    --ctl-edge: var(--ctl-edge-focus);
+  }
+
+  .stepper:has(.input:focus-visible, .input.is-focus) {
+    outline: var(--focus-w) solid var(--focus-color);
+    outline-offset: var(--focus-offset);
+  }
+
+  .stepper:has(.input.is-invalid, .input[aria-invalid="true"]) {
+    --ctl-edge: var(--ctl-danger);
+  }
+
+  .stepper:has(.input.is-valid) {
+    --ctl-edge: var(--ctl-success);
+  }
+
+  .stepper:has(.input:disabled) {
+    --ctl-edge: var(--ctl-off-edge);
+
+    background: var(--ctl-off-bg);
+  }
+
+  .stepper__btn {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    flex: none;
+    place-items: center;
+    inline-size: var(--step-btn);
+    color: var(--ctl-fg-2);
+    cursor: pointer;
+    user-select: none;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    transition: scale var(--dur-press) var(--ease-out);
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: var(--s-1);
+      z-index: -1;
+      border-radius: var(--radius-control);
+      background: var(--ctl-wash);
+      opacity: 0;
+      transition: opacity var(--dur-hover) var(--ease-out);
+    }
+  }
+
+  .stepper__btn--down {
+    border-inline-end: var(--line-w) solid var(--ctl-divider);
+  }
+
+  .stepper__btn--up {
+    border-inline-start: var(--line-w) solid var(--ctl-divider);
+  }
+
+  @media (hover: hover) {
+    .stepper__btn:not([aria-disabled="true"]):hover {
+      color: var(--ctl-fg);
+
+      &::before {
+        opacity: 1;
+      }
+    }
+  }
+
+  .stepper__btn:not([aria-disabled="true"]):active {
+    scale: var(--press-scale);
+  }
+
+  .stepper__btn[aria-disabled="true"],
+  .stepper:has(.input:disabled) .stepper__btn {
+    color: var(--ctl-muted);
+    cursor: not-allowed;
+
+    & .icon {
+      opacity: 0.4;
+    }
+  }
+
+  /* Without JavaScript the plain number input remains. */
+  .no-js .stepper__btn {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .check__tick-path,
+    .check__input:checked:not(:indeterminate, .is-indeterminate) + .check__tick .check__tick-path,
+    .radio__dot,
+    .radio__input:checked + .radio__dot {
+      transition: none;
+    }
+
+    .stepper__btn:not([aria-disabled="true"]):active {
+      scale: 1;
+    }
+  }
+}

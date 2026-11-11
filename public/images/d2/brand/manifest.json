@@ -1,0 +1,62 @@
+{
+    "source": "package/brand/logo-04-gold-on-light.png",
+    "source_sha256": "40f80da7685053b2fda9f9d97b9a5ee95b1c7e144a73bf5332116fa0ea30d61d",
+    "source_size": [
+        4167,
+        4167
+    ],
+    "trim": {
+        "left": 710,
+        "top": 1728,
+        "width": 2820,
+        "height": 710
+    },
+    "gold": "#C8A96A",
+    "aspect": 3.9718,
+    "css_height": 56,
+    "files": {
+        "lockup@1x.webp": {
+            "width": 222,
+            "height": 56,
+            "density": "1x",
+            "bytes": 4688,
+            "sha256": "3f755e01ffd6675ce20ae696b2606290ec76b633c9e837cce59954aaa6e8fd7e"
+        },
+        "lockup@1x.png": {
+            "width": 222,
+            "height": 56,
+            "density": "1x",
+            "bytes": 7799,
+            "sha256": "7bd1a66130c148d813db11efed305c7d611101c8125b70f702c90bb3a41f1351"
+        },
+        "lockup@2x.webp": {
+            "width": 445,
+            "height": 112,
+            "density": "2x",
+            "bytes": 10540,
+            "sha256": "21b3d9c714e44c0c0d70ad4a5e7da3fe828793eb0a19eaea3ff4878bb54e0d53"
+        },
+        "lockup@2x.png": {
+            "width": 445,
+            "height": 112,
+            "density": "2x",
+            "bytes": 19428,
+            "sha256": "d5cedd27ea58fd01eb157a63b9df209b8f24a50bf51935a54ab182afdf696aa0"
+        },
+        "lockup@3x.webp": {
+            "width": 667,
+            "height": 168,
+            "density": "3x",
+            "bytes": 16026,
+            "sha256": "090342ba468d73cf733cc5bbb471bf36897d632d338c8c76bf5db5ab02900962"
+        },
+        "lockup@3x.png": {
+            "width": 667,
+            "height": 168,
+            "density": "3x",
+            "bytes": 30270,
+            "sha256": "6db97f652c58eaa9178a23c73248f07afce0bc67a93261becf995ea79dffc705"
+        }
+    },
+    "generator": "scripts/d2/brand-lockup.mjs"
+}

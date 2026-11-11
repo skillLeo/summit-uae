@@ -1,0 +1,205 @@
+# text-snapshot: design 2, locale en, route s05-real-estate-rental-disputes
+# GET /en/practice-areas/real-estate-rental-disputes/ -> 200; html lang=en dir=ltr data-design=2
+=== header ===
+Choose language
+English
+Request a Legal Consultation
+Home
+Practice Areas
+Legal Resources
+Case Studies
+FAQs
+About Us
+Contact Us
+=== main ===
+Home
+Practice Areas
+Property and Tenancy Disputes
+Property and Tenancy Disputes in Dubai and the UAE
+A dispute may concern a delayed property handover, an undisclosed defect, a home that cannot be properly used or a deposit that has not been returned after move-out. We identify the obligation in dispute, how it can be proved and the remedy that addresses its consequences, while reviewing both parties’ obligations and the competent authority.
+Request a Legal Consultation
+Contact Us on WhatsApp
+(opens in a new tab)
+On this page
+Who This Service Is For
+Matters Covered by the Review
+Practical Situations We Review with You
+How We Handle Your Matter
+Documents That Help Us Get Started
+Before Taking the Next Step
+Start with Your Situation
+FAQs
+Related Topics and Services
+Official Sources for Reference
+Tell Us About Your Matter
+Scope of Service and Published Information
+Tell Us About Your Matter
+Request a Legal Consultation
+Contact Us on WhatsApp
+(opens in a new tab)
+Who This Service Is For
+Buyers of off-plan properties or units under construction
+Property investors in disputes with developers or sellers
+Landlords and tenants in tenancy disputes
+People who discover a defect in a property after purchase
+Anyone seeking a review of a sale or tenancy agreement before signing
+Matters Covered by the Review
+Delayed handovers and compensation claims
+Hidden property defects
+Termination of sale agreements and refunds
+Disputes with developers
+Tenancy disputes and eviction
+Analysis of sale and purchase agreements
+Recovery of security deposits
+Preparing tenancy dispute files and coordinating representation in accordance with the requirements of the competent authority.
+Practical Situations We Review with You
+Delayed Handover and Disputes with Developers
+We review the sale agreement, completion date, extension clauses, notices, payment plan and project status. We assess how the delay affects a claim for performance, compensation or termination, taking account of the applicable property rules and both parties’ conduct.
+A developer announcing a new date does not automatically give the buyer a right to terminate. Equally, an extension clause does not give the developer an unrestricted exemption from its obligations. The legal consequences of suspending payments require a separate assessment.
+Maintenance, Defects and Loss of Use
+For water leaks, damp and utility problems, documenting the defect, its duration and its effect on use is essential. We review the contract, handover report, notices, responses from the landlord or management and technical reports.
+Where the damage affects health or safety, an independent technical report is useful, together with relevant medical reports if there is an actual health impact. Photographs show the visible condition but may not be enough to establish its cause or who is responsible for repairs.
+Eviction, Deposits and Handover
+We review the grounds for eviction and the form and date of the notice. In Dubai, grounds for eviction during a tenancy differ from those on which a landlord seeks eviction at the end of the term. There is therefore no single notice period that applies to every ground.
+When a property is vacated, we organise evidence of handover, the unit’s condition, utility readings, keys, outstanding amounts, cheques and the deposit. Physically leaving the property does not, by itself, establish that obligations have ended or determine the legally recognised handover date.
+The Competent Authority
+Many tenancy disputes in Dubai are heard by the Rental Disputes Center. Jurisdiction differs for sale and development disputes and for certain areas or special contracts. We identify the competent authority by reference to the property, the relationship and the remedy sought. Any representation requiring a particular professional status is arranged in accordance with that authority’s requirements.
+For defects in a sold property, we review the nature of the defect, when it existed, what was disclosed, the buyer’s knowledge, warranties and relevant time limits. In a tenancy, we distinguish the appearance of a defect from responsibility for repairing it and its effect on use. Establishing the cause may require an independent technical report.
+How We Handle Your Matter
+Read the contract carefully: the handover date, delay clauses, compensation arrangements and termination terms.
+Review both parties’ obligations: have you made all payments, and has the developer failed to meet its obligations?
+Gather formal and informal correspondence with the developer or other party.
+Assess the options: termination, compensation, settlement or proceedings before the competent authority.
+Choose the most suitable course based on the strength of the case and the time available.
+Documents That Help Us Get Started
+The sale or tenancy agreement and its schedules, Ejari if available, the payment plan and receipts.
+Correspondence, notices, acceptance and handover reports, and any previous settlement or complaint.
+Photographs of defects, the dates they appeared, repair requests, and relevant technical or medical reports where there has been an actual impact.
+Judgments or enforcement files, cheques, deposit details and disputed amounts, if any.
+Send clear, complete copies initially and retain the originals. Do not send passwords, verification codes or financial account access credentials. An appropriate method for sharing sensitive documents can be agreed.
+Before Taking the Next Step
+Useful First Steps
+Keep all correspondence with the developer, broker or landlord
+Do not stop paying without understanding how this affects your position under the contract
+Document defects with photographs and independent reports as soon as you discover them
+Do not sign a settlement with the developer without understanding which rights you are giving up
+Mistakes to Avoid
+Relying on oral promises from a salesperson that were not included in the contract
+Abruptly stopping payments without reviewing the effect on your legal position
+Overlooking force majeure or extension clauses in the contract
+Signing a settlement under pressure or out of exhaustion without reviewing it
+Check a Dubai rent increase
+Start with Your Situation
+This service may be relevant if:
+You bought an off-plan property and handover has been delayed beyond your expectations.
+Show the starting file
+After purchase, you discovered a property defect that was not mentioned in the contract.
+Show the starting file
+A landlord or tenant is making a demand you believe is unlawful.
+Show the starting file
+You want a sale or tenancy agreement reviewed before signing.
+Show the starting file
+FAQs
+Does a Developer’s Delay Automatically Entitle Me to Terminate?
+The answer cannot be determined by the length of the delay alone. The sale agreement, extensions, notices, project status and both parties’ obligations must be reviewed. Suspending payments also requires a separate assessment to avoid creating a breach on the buyer’s part.
+What Should I Do If I Discover a Defect After Handover?
+Document the condition, the date and any earlier disclosures, and notify the responsible party in a way that can be proved. A technical report may be needed to establish the cause, how long the defect has existed and its effect, while taking account of safety, necessary repairs and preservation of evidence.
+How Do I Start a Complaint Against a Developer in Dubai?
+Gather the contract, payment records, correspondence and project information, and identify the remedy you seek. The appropriate regulatory or judicial route should be reviewed. Filing a regulatory complaint does not automatically replace a claim for payment or termination.
+Can a Landlord Evict Without Notice?
+The grounds, notices and procedures vary according to the applicable rules and the remedy sought. In Dubai, certain grounds for eviction during the tenancy differ from those connected with its expiry, so no single notice period applies to all grounds.
+Does Moving Out End My Obligations?
+Physically leaving does not, by itself, determine the handover date or end your obligations. Document the keys, the unit’s condition, utilities, amounts, cheques and deposit, and review the contract and any agreement or decision of the competent authority.
+Property and Tenancy
+35. What is the first step when property handover is delayed?
+36. Am I entitled to terminate because of delay?
+37. What should I do if I discover a defect in a property or car?
+38. Is immediate eviction permitted?
+39. Why review a lease or sale contract before signing?
+40. Where are tenancy disputes filed in Dubai?
+Related Topics and Services
+Guide to Delayed Property Handover
+Legal Resources
+Review of Contracts and Obligations
+Practice Areas
+Case Studies
+All FAQs
+Back to Practice Areas
+Official Sources for Reference
+Dubai Land Department Services
+dubailand.gov.ae
+(opens in a new tab)
+Civil Transactions Law
+uaelegislation.gov.ae
+(opens in a new tab)
+You can also explore specialist resources or services associated with Summit in this area.
+Summit Specialist Resources
+dubaipropertydispute.com
+(opens in a new tab)
+Tell Us About Your Matter
+Send a summary of the matter and the main document, if available, and mention any hearing or current deadline. Before work begins, we will explain the scope of consultation, the fee and the documents required.
+Request a Legal Consultation
+Contact Us on WhatsApp
+(opens in a new tab)
++971 52 466 6191
+info@summitlegaluae.com
+The service is available in Arabic, English and Russian. Sending an enquiry does not mean that the engagement has been accepted or that monitoring of legal deadlines has begun.
+Scope of Service and Published Information
+Summit is a legal consultancy company. The work, deliverables and fees are defined in the agreed engagement. Court advocacy or representation requiring an advocate is carried out by licensed advocates. Where work requires separate professional registration or specialist expertise, it is coordinated with an appropriately qualified professional as needed.
+This is general information and does not replace a review of the facts, documents, applicable law, competent authority and relevant deadlines. Options and outcomes vary from one matter to another. Presenting this service does not guarantee a decision, recovery of funds or approval by an external authority.
+Legal Notice and Scope of Services
+=== footer ===
+Summit Legal Consultancy
+Legal advice for individuals, businesses, investors and residents in the UAE, in Arabic, English and Russian.
++971 52 466 6191
+Contact Us on WhatsApp
+(opens in a new tab)
+info@summitlegaluae.com
+Business hours: Monday to Friday, 9 am to 6 pm.
+Practice Areas
+Debt Recovery and Cheque Cases
+Criminal Cases
+Cryptocurrency and Digital Currency Cases
+Corporate and Commercial Law
+Property and Tenancy Disputes
+Employment Law
+Tax Disputes and Tax Compliance
+Family Law and Wills
+Compliance and Regulatory Matters
+Legal Translation
+Business Services
+Legal Resources
+Legal Resources Centre
+FAQs
+Case Studies
+Useful Links
+About Us
+Contact Us
+Legal Notice
+Privacy Policy
+Terms and Conditions
+The information published is general and does not replace a review of the facts and documents relating to your matter. The scope of service and fees are determined when the engagement is accepted. Court advocacy requiring an advocate is carried out by licensed advocates.
+Specialist Resources and Services Associated with Summit
+Employment Law
+laborlawuae.com
+(opens in a new tab)
+Debt Recovery and Cheques
+debtrecoveryuae.com
+(opens in a new tab)
+Property Disputes
+dubaipropertydispute.com
+(opens in a new tab)
+Digital Currencies
+uaecryptocases.com
+(opens in a new tab)
+Wills
+uaeexpatwills.com
+(opens in a new tab)
+Tax Disputes
+uaetaxdisputes.com
+(opens in a new tab)
+© {{YEAR}} Summit Legal Consultancy. All rights reserved.
+Choose language
+Arabic
+English
+Russian

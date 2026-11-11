@@ -1,0 +1,101 @@
+/*
+ * Design 2.1 component: popover surface (the header's language list and "More" list; behaviour in
+ * resources/js/d2/components/langmenu.js). An overlay (brief §3.4; put data-overlay on the .popover element): white,
+ * 1px --line, --radius-overlay (16), the one --shadow-overlay, anchored under its toggle. Enter: opacity + 4 px drop
+ * + .98 scale from the corner it hangs from; the horizontal offset and the origin flip in RTL, so the transition
+ * mirrors. Reduced motion: final state (motion.css). The focus ring inside is ink (white surface).
+ */
+@layer components {
+  .popover {
+    --pop-x: var(--s-2);
+    --focus-color: var(--ink);
+
+    position: absolute;
+    inset-block-start: calc(100% + var(--s-2));
+    inset-inline-end: 0;
+    z-index: 1;
+    min-inline-size: 13rem;
+    padding: var(--s-2);
+    color: var(--ink);
+    text-align: start;
+    background: var(--canvas);
+    border: var(--line-w) solid var(--line);
+    border-radius: var(--radius-overlay);
+    box-shadow: var(--shadow-overlay);
+    transform-origin: 100% 0;
+    transition:
+      opacity var(--dur-enter) var(--ease-out),
+      transform var(--dur-enter) var(--ease-out),
+      display var(--dur-enter) allow-discrete;
+
+    &[hidden] {
+      pointer-events: none;
+      opacity: 0;
+      transform: translate(var(--pop-x), calc(-1 * var(--s-1))) scale(0.98);
+    }
+  }
+
+  [dir="rtl"] .popover {
+    --pop-x: calc(-1 * var(--s-2));
+
+    transform-origin: 0 0;
+  }
+
+  /* A popover that hangs from its toggle's start edge (the nav "More" list). */
+  .popover--start {
+    --pop-x: calc(-1 * var(--s-2));
+
+    inset-inline: 0 auto;
+    transform-origin: 0 0;
+  }
+
+  [dir="rtl"] .popover--start {
+    --pop-x: var(--s-2);
+
+    transform-origin: 100% 0;
+  }
+
+  /* Entrance only when motion is allowed (.motion-ok): reduced motion shows the final state at once. */
+  @starting-style {
+    .js.motion-ok .popover {
+      opacity: 0;
+      transform: translate(var(--pop-x), calc(-1 * var(--s-1))) scale(0.98);
+    }
+  }
+
+  .popover__list {
+    display: grid;
+    gap: 0;
+    list-style: none;
+  }
+
+  .popover__option {
+    display: flex;
+    gap: var(--s-4);
+    align-items: center;
+    justify-content: space-between;
+    min-block-size: var(--target);
+    padding: var(--s-2) var(--s-3);
+    color: var(--ink-2);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+    white-space: nowrap;
+    border-radius: var(--radius-control);
+
+    &:hover {
+      color: var(--ink);
+      background: var(--hover-tint);
+    }
+
+    &[aria-current] {
+      color: var(--ink);
+      font-weight: var(--fw-semibold);
+    }
+  }
+
+  /* the current option's check (functional): ink */
+  .popover__check {
+    color: var(--ink);
+  }
+}

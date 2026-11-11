@@ -1,0 +1,62 @@
+{
+    "X01": {
+        "label": {
+            "en": "Employment Law",
+            "ar": "قانون العمل",
+            "ru": "Трудовое право"
+        },
+        "domain": "laborlawuae.com",
+        "url": "https://laborlawuae.com",
+        "position": 1
+    },
+    "X02": {
+        "label": {
+            "en": "Debt Recovery and Cheques",
+            "ar": "تحصيل الديون والشيكات",
+            "ru": "Взыскание долгов и вопросы по чекам"
+        },
+        "domain": "debtrecoveryuae.com",
+        "url": "https://debtrecoveryuae.com",
+        "position": 2
+    },
+    "X03": {
+        "label": {
+            "en": "Property Disputes",
+            "ar": "المنازعات العقارية",
+            "ru": "Споры по недвижимости"
+        },
+        "domain": "dubaipropertydispute.com",
+        "url": "https://dubaipropertydispute.com",
+        "position": 3
+    },
+    "X04": {
+        "label": {
+            "en": "Digital Currencies",
+            "ar": "العملات الرقمية",
+            "ru": "Цифровые валюты"
+        },
+        "domain": "uaecryptocases.com",
+        "url": "https://uaecryptocases.com",
+        "position": 4
+    },
+    "X05": {
+        "label": {
+            "en": "Wills",
+            "ar": "الوصايا",
+            "ru": "Завещания"
+        },
+        "domain": "uaeexpatwills.com",
+        "url": "https://uaeexpatwills.com",
+        "position": 5
+    },
+    "X06": {
+        "label": {
+            "en": "Tax Disputes",
+            "ar": "القضايا الضريبية",
+            "ru": "Налоговые споры"
+        },
+        "domain": "uaetaxdisputes.com",
+        "url": "https://uaetaxdisputes.com",
+        "position": 6
+    }
+}

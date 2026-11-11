@@ -1,0 +1,401 @@
+/*
+ * Design 2 home section: Anatomy of a Document (#anatomy; spec §5.4, §12 C3; Design 2.1 brief D28 and §6 "Anatomy").
+ *   < 768     document chips · the desk (the band, edge to edge; the document fits the container width) · the parts
+ *             list · the explanation card · the consultation link and the caveat.
+ *   768–1279  the desk is a panel (radius 10) across the container; under it the parts list (5 of 12 columns) beside
+ *             the explanation card, the link and the caveat (7 of 12).
+ *   ≥ 1280    12 columns: the desk spans 7; beside it (5) the parts list, the card, the link and the caveat.
+ * The document's own scale (variant "anatomy") follows the desk's inner width: components/doc.css. The figure is an
+ * illustration ([data-illustration]): the selected field's bronze outline and glow stay inside the document.
+ *
+ * D28: the documents are the one chip (components/chip.css); the parts are a vertical list of rows (UI label in ink-2,
+ * hairlines; the chosen row is ink on the band with a 2px ink edge at the inline start). Over the document, from
+ * 768 px, one transparent hotspot button per part (placed by d2Anatomy from each field's box, in % of the document):
+ * its focus is the 2px ring on the document. The list and the hotspots stay in sync (§6): a hovered or focused row
+ * lights its field ([data-peek]: the outline at 45 %), a hovered or focused hotspot lights its row (.is-peek).
+ * Below 768 px the fields are too small for targets: the hotspots are not drawn and a tap on a field selects it.
+ * The explanation card is a card (white, 1 px --line edge, radius 10, no shadow); the part's name is the H3 role;
+ * "What it can show" / "What we check" are UI labels in ink over body text in ink-2.
+ * Without JavaScript (.no-js) the chips, the list and the hotspots are hidden and every explanation of the first
+ * document is listed.
+ * Motion (a tool interaction): the next document rises in on the ui spring, the card cross-fades, the field outline
+ * fades (opacity only under reduced motion).
+ */
+@layer sections {
+  .anatomy__app {
+    display: grid;
+    gap: var(--s-6);
+  }
+
+  /* ------------------------------------------------------------------ document chips */
+  .anatomy__docs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+  }
+
+  .no-js .anatomy__docs,
+  .no-js .anatomy__parts,
+  .no-js .anatomy__hotspots {
+    display: none;
+  }
+
+  /* ------------------------------------------------------------------ panel */
+  .anatomy__panel {
+    display: grid;
+    gap: var(--s-6);
+  }
+
+  .anatomy__panel[hidden] {
+    display: none;
+  }
+
+  @media (width >= 1280px) {
+    .anatomy__panel {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gutter);
+      align-items: start;
+    }
+  }
+
+  /* ------------------------------------------------------------------ desk */
+  .anatomy__desk {
+    display: grid;
+    place-items: center;
+    margin-inline: calc(-1 * var(--pad-x));
+    padding: var(--s-8) var(--pad-x);
+    background: var(--band);
+  }
+
+  @media (width >= 768px) {
+    .anatomy__desk {
+      margin-inline: 0;
+      padding: var(--s-8);
+      border-radius: var(--radius-card);
+    }
+  }
+
+  /*
+   * The desk keeps the height of its document (it never stretches with the inspector, so the document does not
+   * move when a longer explanation is shown). Without JavaScript the long list of explanations runs beside it, so
+   * the desk stays in view while the visitor reads.
+   */
+  @media (width >= 1280px) {
+    .anatomy__desk {
+      grid-column: 1 / span 7;
+    }
+
+    .no-js .anatomy__desk {
+      position: sticky;
+      inset-block-start: calc(var(--header-h) + var(--s-6));
+    }
+  }
+
+  /* The plate is the document's own box: the figure (role="img") and, over it, the hotspot buttons. */
+  .anatomy__plate {
+    position: relative;
+    display: block;
+    max-inline-size: 100%;
+  }
+
+  .anatomy__figure {
+    display: block;
+    max-inline-size: 100%;
+  }
+
+  /* Below 768 px the fields are the pointer's hotspots (keyboard and screen readers: the parts list). */
+  .js .anatomy .doc [data-field] {
+    cursor: pointer;
+  }
+
+  /* A row or hotspot that is hovered or focused lights its field (the selected field keeps its full outline). */
+  .js .anatomy .doc [data-field][data-peek]:not([data-hot])::after {
+    opacity: 0.45;
+  }
+
+  /* no JavaScript: every explanation is listed, so no single field is marked */
+  .no-js .anatomy .doc [data-hot]::after {
+    opacity: 0;
+  }
+
+  /* ------------------------------------------------------------------ hotspots over the document (≥ 768 px) */
+  .anatomy__hotspots {
+    position: absolute;
+    inset: 0;
+    display: none;
+    pointer-events: none;
+  }
+
+  @media (width >= 768px) {
+    .js .anatomy__hotspots {
+      display: block;
+    }
+  }
+
+  /* Until d2Anatomy has measured the fields the buttons have no place: not shown, not focusable. */
+  .anatomy__hotspots:not(.is-placed) {
+    visibility: hidden;
+  }
+
+  /* One field's box (the outline's box: the field plus 3 × 5 document px), in % of the document. */
+  .anatomy__hotspot {
+    position: absolute;
+    inset-block-start: calc(var(--hs-y, 0) * 1%);
+    inset-inline-start: calc(var(--hs-x, 0) * 1%);
+    inline-size: calc(var(--hs-w, 0) * 1%);
+    block-size: calc(var(--hs-h, 0) * 1%);
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-control);
+    background: none;
+    cursor: pointer;
+    pointer-events: auto;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* The visible focus ring on the document (§6): 2px ink, 2px outside the field's outline. */
+  .anatomy__hotspot:focus-visible {
+    outline: var(--focus-w) solid var(--focus-color);
+    outline-offset: var(--focus-offset);
+  }
+
+  /* ------------------------------------------------------------------ inspector */
+  .anatomy__inspector {
+    display: grid;
+    align-content: start;
+    gap: var(--s-5);
+    min-inline-size: 0;
+  }
+
+  @media (width >= 768px) and (width < 1280px) {
+    .anatomy__inspector {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gutter);
+      align-items: start;
+    }
+
+    .anatomy__parts {
+      grid-row: 1 / span 2;
+      grid-column: 1 / span 5;
+    }
+
+    .anatomy__notes,
+    .anatomy__foot {
+      grid-column: 6 / -1;
+    }
+
+    /* Without JavaScript there is no list: the card takes the width. */
+    .no-js .anatomy__notes,
+    .no-js .anatomy__foot {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (width >= 1280px) {
+    .anatomy__inspector {
+      grid-column: 8 / -1;
+    }
+  }
+
+  /* ------------------------------------------------------------------ the parts list (D28) */
+  .anatomy__parts {
+    display: grid;
+    align-content: start;
+    min-inline-size: 0;
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  .anatomy__part {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-block-size: var(--target);
+    padding-block: var(--s-2);
+    padding-inline: var(--s-4);
+    border: 0;
+    border-block-end: var(--line-w) solid var(--line);
+    color: var(--ink-2);
+    background: none;
+    font-family: var(--font-sans);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+    text-align: start;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition:
+      color var(--dur-hover) var(--ease-out),
+      background-color var(--dur-hover) var(--ease-out);
+
+    /* the chosen row's edge: 2px ink at the inline start */
+    &::before {
+      content: "";
+      position: absolute;
+      inset-block: 0;
+      inset-inline-start: 0;
+      inline-size: var(--focus-w);
+      background: var(--ink);
+      opacity: 0;
+      transition: opacity var(--dur-fade) var(--ease-out);
+    }
+  }
+
+  @media (pointer: coarse) {
+    .anatomy__part {
+      min-block-size: var(--target-touch);
+    }
+  }
+
+  @media (hover: hover) {
+    .anatomy__part:hover {
+      color: var(--ink);
+      background: var(--band);
+    }
+  }
+
+  .anatomy__part.is-peek {
+    color: var(--ink);
+    background: var(--band);
+  }
+
+  .anatomy__part[aria-pressed="true"] {
+    color: var(--ink);
+    background: var(--band);
+
+    &::before {
+      opacity: 1;
+    }
+  }
+
+  .anatomy__part:focus-visible,
+  .anatomy__part.is-focus {
+    outline: var(--focus-w) solid var(--focus-color);
+    outline-offset: calc(-1 * var(--focus-w));
+  }
+
+  /* ------------------------------------------------------------------ the explanation card */
+  .anatomy__notes {
+    margin: 0;
+    padding: var(--pad-card);
+    list-style: none;
+    border: var(--line-w) solid var(--line);
+    border-radius: var(--radius-card);
+    background: var(--canvas);
+  }
+
+  .js .anatomy__note:not(.is-current) {
+    display: none;
+  }
+
+  /* styleguide specimen of the no-JS list (every explanation, one card) */
+  .js .anatomy__notes--all .anatomy__note {
+    display: block;
+  }
+
+  :is(.no-js .anatomy__note, .anatomy__notes--all .anatomy__note) + .anatomy__note {
+    margin-block-start: var(--s-6);
+    padding-block-start: var(--s-6);
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  .anatomy__name {
+    font-size: var(--fs-h3);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+  }
+
+  .anatomy__facts {
+    display: grid;
+    gap: var(--s-5);
+    margin: var(--s-5) 0 0;
+  }
+
+  .anatomy__fact {
+    display: grid;
+    gap: var(--s-1);
+
+    dt {
+      color: var(--ink);
+      font-size: var(--fs-ui);
+      font-weight: var(--fw-medium);
+      line-height: var(--lh-ui);
+    }
+
+    dd {
+      margin: 0;
+      color: var(--ink-2);
+      font-size: var(--fs-body);
+      line-height: var(--lh-body);
+    }
+  }
+
+  .anatomy__foot {
+    display: grid;
+    justify-items: start;
+    gap: var(--s-4);
+  }
+
+  /* Phones (final pass r2, home-mobile): the CTA takes the full width with 12 px sides, so the long Russian label
+     keeps one line and the button matches the page's other full-width buttons. */
+  @media (width < 768px) {
+    .anatomy__foot > .btn {
+      --btn-pad: var(--s-3);
+
+      justify-self: stretch;
+    }
+  }
+
+  /* The caveat: the Small role in ink-3 with the functional info icon (brief §3.5: icons in ink-2). */
+  .anatomy__caveat {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--s-2);
+    max-inline-size: var(--prose);
+    color: var(--ink-3);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+
+    .icon {
+      flex: none;
+      block-size: var(--lh-small);
+      color: var(--ink-2);
+    }
+  }
+
+  /* ------------------------------------------------------------------ motion */
+  .js .anatomy__app.is-ready .anatomy__note {
+    transition: opacity var(--dur-fade) var(--ease-out);
+
+    @starting-style {
+      opacity: 0;
+    }
+  }
+
+  .js .anatomy__app.is-ready .anatomy__figure {
+    transition: opacity var(--dur-fade) var(--ease-out);
+
+    @starting-style {
+      opacity: 0;
+    }
+  }
+
+  .js.motion-ok .anatomy__app.is-ready .anatomy__figure {
+    transition:
+      opacity var(--dur-enter) var(--ease-out),
+      translate var(--spring-ui-dur) var(--spring-ui),
+      scale var(--spring-ui-dur) var(--spring-ui);
+
+    @starting-style {
+      opacity: 0;
+      translate: 0 var(--s-3);
+      scale: 0.98;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .anatomy__part,
+    .anatomy__part::before {
+      transition: none;
+    }
+  }
+}

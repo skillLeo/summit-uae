@@ -1,0 +1,159 @@
+/*
+ * Design 2.1 component: modal (<x-d2.ui.modal>, behaviour in resources/js/d2/components/modal.js). An overlay
+ * ([data-overlay], brief §3.4): native <dialog> in the top layer, 640 px (--modal-w), --radius-overlay (16), the one
+ * --shadow-overlay, the --scrim backdrop. Enters with opacity + an 8 px rise and a 0.98 scale, exits the same way
+ * back (transform/opacity only; opacity only under reduced motion). Below 768 px it fills the screen (safe areas
+ * respected, no radius, no shadow) and rises 40 px. Title: the H3 role.
+ */
+@layer components {
+  .modal {
+    /* Reset the UA dialog box: the panel inside carries every visual. */
+    position: fixed;
+    inset: 0;
+    inline-size: min(var(--modal-w), calc(100% - 2 * var(--s-6)));
+    max-inline-size: none;
+    block-size: fit-content;
+    max-block-size: calc(100dvh - 2 * var(--s-12));
+    padding: 0;
+    margin: auto;
+    overflow: visible;
+    color: var(--ink);
+    background: none;
+    border: 0;
+    opacity: 0;
+    transform: translate3d(0, 8px, 0) scale(0.98);
+    transition:
+      opacity var(--dur-enter) var(--ease-out),
+      transform var(--dur-panel) var(--ease-out);
+  }
+
+  .modal[open] {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .modal.is-open {
+    opacity: 1;
+    transform: none;
+  }
+
+  .modal::backdrop {
+    background: var(--scrim);
+    opacity: 0;
+    transition: opacity var(--dur-panel) var(--ease-out);
+  }
+
+  .modal.is-open::backdrop {
+    opacity: 1;
+  }
+
+  .modal__panel {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-block-size: 0;
+    overflow: clip;
+    background: var(--canvas);
+    border-radius: var(--radius-overlay);
+    box-shadow: var(--shadow-overlay);
+  }
+
+  .modal__head {
+    display: flex;
+    flex: none;
+    gap: var(--s-3);
+    align-items: center;
+    padding-block: var(--s-4) var(--s-2);
+    padding-inline: var(--s-6) var(--s-3);
+  }
+
+  .modal__head--custom {
+    padding-block-end: var(--s-4);
+    border-block-end: var(--line-w) solid var(--line);
+  }
+
+  .modal__title {
+    flex: 1 1 auto;
+    min-inline-size: 0;
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+    outline: none;
+  }
+
+  .modal__head-slot {
+    flex: 1 1 auto;
+    min-inline-size: 0;
+  }
+
+  .modal__close {
+    flex: none;
+  }
+
+  .modal__body {
+    flex: 1 1 auto;
+    min-block-size: 0;
+    padding-block: var(--s-2) var(--s-6);
+    padding-inline: var(--s-6);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .modal__foot {
+    display: flex;
+    flex: none;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+    justify-content: flex-end;
+    padding-block: var(--s-4);
+    padding-inline: var(--s-6);
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  /* ---------------------------------------------------------------- full screen below 768 */
+  @media (width < 768px) {
+    .modal:not(.modal--static) {
+      inline-size: 100%;
+      block-size: 100%;
+      max-block-size: none;
+      transform: translate3d(0, 40px, 0);
+    }
+
+    .modal.is-open:not(.modal--static) {
+      transform: none;
+    }
+
+    .modal:not(.modal--static) .modal__panel {
+      padding-block: var(--safe-top) var(--safe-bottom);
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    .modal__foot > * {
+      flex: 1 1 auto;
+    }
+  }
+
+  /* ---------------------------------------------------------------- styleguide specimen */
+  .modal--static {
+    position: relative;
+    inset: auto;
+    display: flex;
+    inline-size: 100%;
+    max-inline-size: var(--modal-w);
+    max-block-size: none;
+    margin: 0;
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  /* ---------------------------------------------------------------- reduced motion: fade only */
+  @media (prefers-reduced-motion: reduce) {
+    .modal,
+    .modal:not(.modal--static) {
+      transform: none;
+    }
+  }
+}

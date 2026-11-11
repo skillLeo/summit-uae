@@ -1,0 +1,315 @@
+/*
+ * Design 2.1 component: tabs (<x-d2.ui.tabs>, <x-d2.ui.tab-panel>). Brief §3.5 (underline tabs, a 2px ink
+ * indicator, to switch between tools or views), §6 (the indicator slides); docs/d2.1/phase-1/components.md §2.
+ * Labels UI 15/500 in ink-2, the selected one ink over the 2px indicator, on a 1px --line hairline. d2Tabs slides
+ * the indicator in from the previous tab with a FLIP on transform (ui spring, 240 ms). The list scrolls
+ * horizontally with fade edges (alpha masks) and pointer-only scroll buttons where tabs are cut off. Without
+ * JavaScript the tabs are plain anchor links and every panel is visible. Dark surfaces: on-dark colours, a white
+ * indicator (no gold).
+ */
+@layer components {
+  .tabs {
+    display: grid;
+    gap: var(--s-6);
+    min-inline-size: 0;
+  }
+
+  .tabs__bar {
+    position: relative;
+    min-inline-size: 0;
+
+    /* the hairline under the list (outside the scroller, so the fades never cut it) */
+    &::after {
+      position: absolute;
+      inset-block-end: 0;
+      inset-inline: 0;
+      block-size: var(--line-w);
+      content: "";
+      background: var(--line);
+      pointer-events: none;
+    }
+  }
+
+  .tabs__list {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    gap: var(--s-1);
+    overflow: auto hidden;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  /*
+   * Fade edges. On touch there is no scroll button and the fade starts at the edge. On fine pointers (where the
+   * buttons show) the --mask-fade-*-under-button tokens keep the text fully transparent across the button's
+   * width plus a gap, so a label has faded out before the button begins.
+   */
+  .tabs__list[data-overflow] {
+    --tabs-fade-left: var(--mask-fade-left);
+    --tabs-fade-right: var(--mask-fade-right);
+    --tabs-fade-both: var(--mask-fade-both);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .tabs__list[data-overflow] {
+      --tabs-fade-left: var(--mask-fade-left-under-button);
+      --tabs-fade-right: var(--mask-fade-right-under-button);
+      --tabs-fade-both: var(--mask-fade-both-under-button);
+    }
+  }
+
+  .tabs__list[data-overflow="start"] {
+    mask-image: var(--tabs-fade-left);
+  }
+
+  .tabs__list[data-overflow="end"] {
+    mask-image: var(--tabs-fade-right);
+  }
+
+  .tabs__list[data-overflow="start end"] {
+    mask-image: var(--tabs-fade-both);
+  }
+
+  [dir="rtl"] .tabs__list[data-overflow="start"] {
+    mask-image: var(--tabs-fade-right);
+  }
+
+  [dir="rtl"] .tabs__list[data-overflow="end"] {
+    mask-image: var(--tabs-fade-left);
+  }
+
+  /* ------------------------------------------------------------ tab */
+  .tabs__tab {
+    --tab-pad: var(--s-4);
+
+    position: relative;
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    min-block-size: var(--target-touch);
+    padding-inline: var(--tab-pad);
+    color: var(--ink-2);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+    white-space: nowrap;
+    text-decoration: none;
+    border-radius: var(--radius-control) var(--radius-control) 0 0;
+    -webkit-tap-highlight-color: transparent;
+
+    /* hover wash (opacity only) */
+    &::before {
+      position: absolute;
+      inset: var(--s-1) 0;
+      content: "";
+      background: var(--hover-tint);
+      border-radius: var(--radius-control);
+      opacity: 0;
+      transition: opacity var(--dur-hover) var(--ease-out);
+    }
+
+    /* the indicator: 2px ink under the label, over the hairline */
+    &::after {
+      position: absolute;
+      inset-block-end: 0;
+      inset-inline: var(--tab-pad);
+      block-size: 2px;
+      content: "";
+      background: var(--ink);
+      opacity: 0;
+      transform-origin: left center;
+      transition: transform var(--spring-ui-dur) var(--spring-ui);
+    }
+
+    &:focus-visible {
+      outline-offset: calc(-1 * var(--focus-w));
+    }
+  }
+
+  .tabs__label {
+    position: relative;
+    display: block;
+    transition: transform var(--dur-press) var(--ease-out);
+  }
+
+  @media (hover: hover) {
+    .tabs__tab:hover {
+      color: var(--ink);
+
+      &::before {
+        opacity: 1;
+      }
+    }
+  }
+
+  .tabs__tab.is-hover {
+    color: var(--ink);
+
+    &::before {
+      opacity: 1;
+    }
+  }
+
+  .tabs__tab.is-focus {
+    outline: var(--focus-w) solid var(--focus-color);
+    outline-offset: calc(-1 * var(--focus-w));
+  }
+
+  .tabs__tab:active .tabs__label {
+    transform: scale(var(--press-scale));
+  }
+
+  .tabs__tab[aria-selected="true"],
+  .tabs__tab.is-selected {
+    color: var(--ink);
+
+    &::after {
+      opacity: 1;
+    }
+  }
+
+  /* styleguide: a static row of tab states that may wrap */
+  .tabs.is-static .tabs__list {
+    flex-wrap: wrap;
+    overflow: visible;
+  }
+
+  .tabs__tab.is-flipping::after {
+    transform: translateX(var(--flip-x, 0)) scaleX(var(--flip-s, 1));
+    transition: none;
+  }
+
+  /* ------------------------------------------------------------ scroll buttons (fine pointers only) */
+  .tabs__scroll {
+    position: absolute;
+    inset-block: 0 var(--line-w);
+    z-index: calc(var(--z-raised) + 1);
+    display: none;
+    place-items: center;
+    inline-size: var(--s-10);
+    color: var(--ink-2);
+    cursor: pointer;
+
+    &::before {
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      inline-size: var(--s-8);
+      block-size: var(--s-8);
+      content: "";
+      background: var(--canvas);
+      border: var(--line-w) solid var(--line-strong);
+      border-radius: var(--radius-pill);
+    }
+
+    & .icon {
+      position: relative;
+    }
+
+    &:hover {
+      color: var(--ink);
+    }
+
+    &:active .icon {
+      transform: scale(var(--press-scale));
+    }
+  }
+
+  .tabs__scroll--start {
+    inset-inline-start: 0;
+  }
+
+  .tabs__scroll--end {
+    inset-inline-end: 0;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .tabs__scroll:not([hidden]) {
+      display: grid;
+    }
+  }
+
+  /* ------------------------------------------------------------ panels */
+  .tabs__panel {
+    min-inline-size: 0;
+    border-radius: var(--radius-card);
+
+    &:focus-visible {
+      outline: var(--focus-w) solid var(--focus-color);
+      outline-offset: var(--s-2);
+    }
+  }
+
+  /* without JavaScript the panels stack under the jump links */
+  .tabs__panels {
+    display: grid;
+    gap: var(--s-12);
+  }
+
+  /* visible without JavaScript: the H3 role whatever its level */
+  .tabs__panel-title {
+    margin-block-end: var(--s-4);
+    font-size: var(--fs-h3);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+  }
+
+  /* once tabs run, the tab names the panel: its heading stays for screen readers only (base.css .sr-only box) */
+  .tabs.is-enhanced .tabs__panel-title {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    /* stylelint-disable-next-line declaration-property-value-disallowed-list -- the visually-hidden box, not spacing */
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* ------------------------------------------------------------ dark surfaces */
+  :is(.on-dark, .on-night) .tabs__bar::after {
+    background: var(--line-on-dark);
+  }
+
+  :is(.on-dark, .on-night) .tabs__tab {
+    color: var(--on-dark-3);
+
+    &::before {
+      background: var(--dark-hover-tint);
+    }
+
+    &::after {
+      background: var(--on-dark);
+    }
+
+    &:hover,
+    &.is-hover,
+    &[aria-selected="true"],
+    &.is-selected {
+      color: var(--on-dark);
+    }
+  }
+
+  :is(.on-dark, .on-night) .tabs__scroll {
+    color: var(--on-dark-2);
+
+    &::before {
+      background: var(--dark-2);
+      border-color: var(--line-on-dark);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tabs__tab::after,
+    .tabs__label {
+      transition: none;
+    }
+  }
+}

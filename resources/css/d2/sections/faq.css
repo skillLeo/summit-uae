@@ -1,0 +1,559 @@
+/*
+ * Design 2 home section: FAQ (#questions) and the reusable FAQ browser (<x-d2.faq.browser>, also on P05;
+ * behaviour in resources/js/d2/components/faq.js; spec §12 C11).
+ * - Search row (JavaScript only): the approved search field (max 36rem) with the live count / "no match"
+ *   message and "Show all questions" beside it, wrapping under it when the container is narrow.
+ * - Category tabs (D41): Phase A tabs that wrap onto more rows (never cut mid-word, no scroll buttons, no fade);
+ *   on phones with JavaScript a select ("Choose a topic") replaces them and drives the same tabs (d2Faq).
+ * - Category panel: the Phase A accordion card, and an aside (the band panel, --radius-card) with the category's
+ *   approved links and "Was this about your matter? Start here". Below 1280 px the aside sits under the
+ *   questions (two columns from 768 px); from 1280 px it takes columns 9–12 and stays in view (sticky
+ *   inside its own panel, so it never leaves a gap).
+ * - Searching: the tab bar steps aside, category titles show as group headings, asides hide, matches are
+ *   marked with a neutral wash (the band). With no result the tabs come back under the message.
+ * - First paint with JavaScript (html.js, before d2Faq / d2Tabs mount): already the tabbed layout, keyed on
+ *   html.js and not on the mount classes (docs/d2/engineering.md §4b), so the section never changes height
+ *   when the bundle runs. Without JavaScript every category shows under its heading and the tools that need
+ *   the script ("Show all answers", "Copy question link") are not drawn.
+ * - Home section 08: the eight approved questions as a plain accordion (H3 questions) across the container (the
+ *   answers stop at the 64ch measure), then "View All FAQs" centred at its natural width, like the case-studies
+ *   and guides feet.
+ * - Design 2.1 (Phase 1, home-b): the Useful Links are plain text rows (no decorative icon, no chevron, no
+ *   hover nudge: D03, D04, D05); an external link ends with the external mark. Band and radius tokens of
+ *   docs/d2.1/phase-1/tokens.md; "Useful Links" and the "Was this about your matter?" line take the minor heading
+ *   role (16/600).
+ */
+@layer sections {
+  .faq-browser {
+    display: grid;
+    gap: var(--s-6);
+    min-inline-size: 0;
+  }
+
+  .faq-browser__tabs {
+    min-inline-size: 0;
+  }
+
+  /* ---------------------------------------------------------------- category tabs (D41)
+     The tabs wrap onto more rows instead of scrolling under a chevron: every label whole, no scroll buttons and no
+     edge fade. Below 1024 px, with JavaScript, the select chooses the category instead (the tab rows step aside). */
+  .faq-browser__tabs .tabs__list {
+    flex-wrap: wrap;
+    overflow: visible;
+    mask-image: none;
+  }
+
+  .faq-browser__tabs .tabs__scroll {
+    display: none;
+  }
+
+  .faq-browser__picker {
+    display: none;
+  }
+
+  /* below 1024 px (phones and tablets: in Russian the twelve tabs would take five rows at 768 px) */
+  @media (width < 1024px) {
+    .js .faq-browser__picker {
+      display: block;
+    }
+
+    .js .faq-browser__tabs .tabs__bar,
+    .js .faq-browser.is-searching:not(.is-empty) .faq-browser__picker {
+      display: none;
+    }
+  }
+
+  /* ---------------------------------------------------------------- first paint with JavaScript
+     The boot script sets html.js before the first paint; the bundle that mounts d2Tabs arrives later. Until
+     then (.tabs without .is-enhanced) only the initial category shows: [data-faq-initial], or the category a
+     #hash points into (#cat-07, #faq-42: d2Tabs selects that one on mount). Its title is the visually hidden
+     heading it becomes and its tab wears the selected look. Browsers without :has() drop the #hash rules and
+     keep the initial category. While a search runs (d2Faq has mounted) these rules stand aside. */
+  .js .faq-browser:not(.is-searching) .tabs:not(.is-enhanced) .faq-panel:not([data-faq-initial], :target) {
+    display: none;
+  }
+
+  .js .faq-browser:not(.is-searching) .tabs:not(.is-enhanced) .faq-panel:has(:target) {
+    display: block;
+  }
+
+  .js .faq-browser:not(.is-searching) .tabs:not(.is-enhanced):has(.faq-panel:not([data-faq-initial]):target, .faq-panel:not([data-faq-initial]) :target) .faq-panel[data-faq-initial] {
+    display: none;
+  }
+
+  /* a #cat-NN link lands where d2Tabs will put it on mount (the tab row in view: the 48 px bar + the gap) */
+  .js .faq-browser .tabs:not(.is-enhanced) .faq-panel {
+    scroll-margin-block-start: calc(var(--target-touch) + var(--s-6));
+  }
+
+  .js .faq-browser .tabs:not(.is-enhanced) .tabs__panel-title {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .js .faq-browser .tabs:not(.is-enhanced) .tabs__tab[data-tab-initial] {
+    color: var(--ink);
+
+    &::after {
+      opacity: 1;
+    }
+  }
+
+  /* a #hash into another category: no tab is marked until d2Tabs selects that category's tab */
+  .js .faq-browser .tabs:not(.is-enhanced):has(.faq-panel:not([data-faq-initial]):target, .faq-panel:not([data-faq-initial]) :target) .tabs__tab[data-tab-initial] {
+    color: var(--ink-3);
+
+    &::after {
+      opacity: 0;
+    }
+  }
+
+  /* ---------------------------------------------------------------- search row (JavaScript only) */
+  .faq-browser__search {
+    display: none;
+  }
+
+  /* a wrapping row, so the status drops under the field in any narrow container */
+  .js .faq-browser__search {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3) var(--s-6);
+    align-items: flex-end;
+    min-inline-size: 0;
+  }
+
+  /* 36rem: the approved placeholder shows on one line from 768 px in every language (Russian needs 576 px; at
+     30rem it was cut after "завеш"). Narrower, the box below wraps it instead of cutting it (D09). */
+  .faq-browser__field {
+    flex: 1 1 18rem;
+    min-inline-size: 0;
+    max-inline-size: 36rem;
+  }
+
+  /* The approved "Search" button sits on the field's row, aligned with its bottom edge (the row is align-items:
+     flex-end); on a phone it wraps under the field at its own width. */
+  .faq-browser__submit {
+    flex: 0 0 auto;
+  }
+
+  /*
+   * The search box (D09, brief 3.6 rule 8: approved copy is never cut). No field width on a 390 px phone holds the
+   * approved placeholder (English needs 367 px of text, Russian 484), and a native placeholder cannot wrap. So the
+   * box draws the field (its 1px edge, radius, hover, focus edge and ring: the input's own look, components/
+   * field.css) around the borderless input, and the example is drawn inside it as text that wraps
+   * (.faq-browser__hint: the input's description, aria-describedby; no placeholder attribute). Geometry: the
+   * example's line height is the field's inner 46 px less its padding, so one line fills the field exactly (48 px)
+   * and sits where the input draws its own line (the caret starts on its first line); each further line adds one
+   * line height. Latin and Cyrillic: 12 + 22 + 12; Arabic: 8 + 30 + 8 (IBM Plex Sans Arabic needs the taller line).
+   * It shows while the field is empty and goes once a word is typed (.is-filled, set by d2Faq; the search row only
+   * exists with JavaScript), the field 48 px again.
+   */
+  .faq-browser__box {
+    --ctl-edge: var(--ctl-edge-rest);
+
+    position: relative;
+    display: grid;
+    min-inline-size: 0;
+    border: var(--line-w) solid var(--ctl-edge);
+    border-radius: var(--radius-control);
+    background: var(--ctl-bg);
+    cursor: text;
+  }
+
+  @media (hover: hover) {
+    .faq-browser__box:hover:not(:focus-within) {
+      --ctl-edge: var(--ctl-edge-hover);
+    }
+  }
+
+  /* focus: the ink edge and the 2px ring at a 2px offset, on the box (a text field shows its ring for any focus) */
+  .faq-browser__box:focus-within {
+    --ctl-edge: var(--ctl-edge-focus);
+
+    outline: var(--focus-w) solid var(--focus-color);
+    outline-offset: var(--focus-offset);
+  }
+
+  .faq-browser__box > .control {
+    grid-area: 1 / 1;
+    align-self: start;
+  }
+
+  /* the input inside the box's edge: 46 px, so its line is centred in the 48 px field as before */
+  .faq-browser__box .input {
+    min-block-size: calc(var(--field-h) - 2 * var(--line-w));
+    border: 0;
+    background: transparent;
+
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  /* the search glyph keeps its place 16 px from the field's outer edge (the edge is now the box's) */
+  .faq-browser__box .control__icon {
+    inset-inline-start: calc(var(--s-4) - var(--line-w));
+  }
+
+  .faq-browser__hint {
+    --hint-pad: var(--s-3);
+
+    display: block;
+    grid-area: 1 / 1;
+    min-inline-size: 0;
+    padding-block: var(--hint-pad);
+    padding-inline: var(--s-12) var(--s-4);
+    color: var(--ctl-muted);
+    font-size: var(--fs-body);
+    font-weight: var(--fw-regular);
+    line-height: calc(var(--field-h) - 2 * var(--line-w) - 2 * var(--hint-pad));
+    overflow-wrap: break-word;
+    text-wrap: balance;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .faq-browser__hint:lang(ar) {
+    --hint-pad: var(--s-2);
+  }
+
+  .faq-browser__box.is-filled .faq-browser__hint {
+    display: none;
+  }
+
+  /* count / message + "Show all questions": shown as soon as a search starts, so the live region is in
+     the accessibility tree before its text arrives (faq.js writes it after a short pause) */
+  .faq-browser__state {
+    display: none;
+    flex: 1 1 16rem;
+    flex-wrap: wrap;
+    gap: var(--s-2) var(--s-4);
+    align-items: center;
+    min-inline-size: 0;
+    min-block-size: var(--control-md);
+  }
+
+  .faq-browser.is-searching .faq-browser__state {
+    display: flex;
+  }
+
+  .faq-browser__status {
+    color: var(--ink-2);
+    font-size: var(--fs-small);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-small);
+  }
+
+  .faq-browser.is-empty .faq-browser__status {
+    max-inline-size: 46ch;
+    color: var(--ink);
+    font-size: var(--fs-ui);
+    line-height: var(--lh-ui);
+  }
+
+  /* ---------------------------------------------------------------- searching */
+  .faq-browser.is-searching:not(.is-empty) .tabs__bar,
+  .faq-browser.is-searching .faq-panel__aside,
+  .faq-browser.is-searching .faq-panel__tools {
+    display: none;
+  }
+
+  .faq-browser.is-searching .tabs__panels {
+    gap: var(--s-8);
+  }
+
+  /* the category title (visually hidden while tabs run) becomes the group heading */
+  .faq-browser.is-searching .tabs.is-enhanced .tabs__panel-title {
+    position: static;
+    inline-size: auto;
+    block-size: auto;
+    margin: 0 0 var(--s-3);
+    overflow: visible;
+    clip-path: none;
+    color: var(--ink-2);
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h3);
+    white-space: normal;
+  }
+
+  /* hairlines only between the questions still shown */
+  .faq-browser.is-searching .faq-list > .acc__item {
+    border-block-start: 0;
+  }
+
+  .faq-browser.is-searching .faq-list > .acc__item:not([hidden]) ~ .acc__item:not([hidden]) {
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  .faq-browser mark {
+    color: inherit;
+    background: var(--band);
+    border-radius: var(--radius-control);
+    box-shadow: none;
+  }
+
+  /* ---------------------------------------------------------------- category panel */
+  .faq-panel__grid {
+    display: grid;
+    gap: var(--s-6);
+    min-inline-size: 0;
+  }
+
+  .faq-panel__main {
+    display: grid;
+    gap: var(--s-3);
+    min-inline-size: 0;
+  }
+
+  /* "Show all answers" and "Copy question link" (P05) need the script: drawn under html.js only, from the
+     first paint, so their place is kept before d2Faq mounts and a no-JS visitor never meets a dead button */
+  .faq-panel__tools,
+  .faq-item__tools {
+    display: none;
+  }
+
+  .js .faq-panel__tools,
+  .js .faq-item__tools {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .faq-item__tools {
+    margin-block-start: calc(-1 * var(--s-1));
+  }
+
+  @media (width >= 1280px) {
+    .faq-panel__grid--links {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gutter);
+      align-items: start;
+    }
+
+    .faq-panel__grid--links .faq-panel__main {
+      grid-column: 1 / span 8;
+    }
+
+    .faq-panel__grid--links .faq-panel__aside {
+      position: sticky;
+      inset-block-start: calc(var(--header-h) + var(--s-6));
+      grid-column: 9 / -1;
+    }
+  }
+
+  /* ---------------------------------------------------------------- aside: useful links + start here */
+  .faq-panel__aside {
+    display: grid;
+    gap: var(--s-4);
+    align-content: start;
+    min-inline-size: 0;
+    padding: var(--s-6);
+    background: var(--band);
+    border-radius: var(--radius-card);
+  }
+
+  .faq-start {
+    display: grid;
+    gap: var(--s-3);
+    justify-items: start;
+    padding-block-start: var(--s-5);
+    border-block-start: var(--line-w) solid var(--line-strong);
+  }
+
+  /* the question over "Start here" takes the minor heading role (16/600, like .faq-aside__title beside it; §3.2):
+     balanced lines, no tracking, and no Russian hyphenation (the role is a heading's, the element a paragraph) */
+  .faq-start__question {
+    color: var(--ink);
+    font-size: var(--fs-minor);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-minor);
+    letter-spacing: 0;
+    text-wrap: balance;
+    hyphens: manual;
+  }
+
+  @media (width >= 768px) {
+    .faq-panel__aside {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+      column-gap: var(--s-8);
+    }
+
+    .faq-aside__title,
+    .faq-links {
+      grid-column: 1;
+    }
+
+    .faq-start {
+      grid-row: 1 / span 2;
+      grid-column: 2;
+      align-content: start;
+      padding-block-start: 0;
+      padding-inline-start: var(--s-8);
+      border-block-start: 0;
+      border-inline-start: var(--line-w) solid var(--line-strong);
+    }
+  }
+
+  @media (width >= 1280px) {
+    .faq-panel__aside {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .faq-aside__title,
+    .faq-links,
+    .faq-start {
+      grid-row: auto;
+      grid-column: 1;
+    }
+
+    .faq-start {
+      padding-block-start: var(--s-5);
+      padding-inline-start: 0;
+      border-block-start: var(--line-w) solid var(--line-strong);
+      border-inline-start: 0;
+    }
+  }
+
+  .faq-aside__title {
+    color: var(--ink);
+    font-size: var(--fs-minor);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-minor);
+    letter-spacing: 0;
+  }
+
+  .faq-links {
+    display: grid;
+    gap: var(--s-1);
+    min-inline-size: 0;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .faq-link {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    gap: var(--s-3);
+    align-items: center;
+    min-block-size: var(--target);
+    padding-block: var(--s-2);
+    padding-inline: var(--s-3);
+    margin-inline: calc(-1 * var(--s-3));
+    color: var(--ink);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+    text-decoration: none;
+    border-radius: var(--radius-control);
+    -webkit-tap-highlight-color: transparent;
+
+    &::before {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      content: "";
+      background: var(--canvas);
+      border-radius: inherit;
+      opacity: 0;
+      transition: opacity var(--dur-hover) var(--ease-out);
+    }
+
+    &:focus-visible {
+      outline: var(--focus-w) solid var(--focus-color);
+      outline-offset: calc(-1 * var(--focus-w));
+    }
+
+    &:active::before {
+      background: var(--hover-tint);
+      opacity: 1;
+      transition-duration: var(--dur-press);
+    }
+  }
+
+  @media (pointer: coarse) {
+    .faq-link {
+      min-block-size: var(--target-touch);
+    }
+  }
+
+  @media (hover: hover) {
+    .faq-link:hover::before {
+      opacity: 1;
+    }
+  }
+
+  /* the label reads as a body link (§3.5): underline 1px at a 3px offset, 2px on hover */
+  .faq-link__label {
+    flex: 1 1 auto;
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+
+  .faq-link:hover .faq-link__label {
+    text-decoration-thickness: 2px;
+  }
+
+  /* another website: the external mark (an SVG, brief 3.6 rule 3), at the end of the row */
+  .faq-link__external {
+    display: grid;
+    flex: none;
+    place-items: center;
+    color: var(--ink-2);
+  }
+
+  /* ---------------------------------------------------------------- home section */
+  /* the section-foot rule of the home (sections/cases.css: .cases__foot, .guides__foot): centred, natural width */
+  .faq-section__foot {
+    display: flex;
+    justify-content: center;
+    margin-block-start: var(--s-12);
+  }
+
+  @media (width < 768px) {
+    .faq-start .btn {
+      inline-size: 100%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .faq-link::before {
+      transition: none;
+    }
+  }
+
+  /* ---------------------------------------------------------------- styleguide specimens (search area) */
+  .sg-search-faq {
+    min-inline-size: 0;
+  }
+
+  .sg-search-table {
+    inline-size: 100%;
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+
+    & th,
+    & td {
+      padding-block: var(--s-2);
+      padding-inline: var(--s-3);
+      text-align: start;
+      border-block-end: var(--line-w) solid var(--line);
+    }
+
+    & th {
+      color: var(--ink-3);
+      font-weight: var(--fw-semibold);
+    }
+  }
+}

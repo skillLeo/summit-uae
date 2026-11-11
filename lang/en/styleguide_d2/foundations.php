@@ -1,0 +1,146 @@
+<?php
+
+// Internal annotations for the Design 2 styleguide "Foundations" area (noindex utility page). Not public website
+// copy: Arabic and Russian pages fall back to these English labels. Values (hex, px, ms) and each token's role are
+// read from resources/css/d2/tokens.css at render time (its comments); contrast is computed from the values.
+// Contract: docs/d2.1/phase-1/tokens.md.
+return [
+    'title' => 'Foundations',
+    'intro' => 'Design 2.1 (brief §3.3 and §3.4): colour, elevation, radius, space, layout, focus, motion and layers. Every value comes from resources/css/d2/tokens.css.',
+
+    // ------------------------------------------------------------------ colour
+    'colour' => 'Colour',
+    'colour_note' => 'White page, black type, one gold action per page (the hero primary button). The band is a cool neutral, never cream. Contrast is computed from the token values (WCAG 2.2): 4.5:1 for text, 3:1 for control edges and status marks.',
+    'groups' => [
+        'surfaces' => 'Surfaces',
+        'text' => 'Text',
+        'lines' => 'Lines and field borders',
+        'brand' => 'Gold and bronze',
+        'states' => 'States',
+        'interaction' => 'Focus, hover and selection',
+        'badges' => 'Badge pairs (text on its background)',
+        'forbidden' => 'Not allowed (brief §3.3)',
+        'translucent' => 'Washes and scrims',
+        'paper' => 'Sample documents only',
+    ],
+    'roles' => [
+        'canvas' => 'Page background',
+        'band' => 'Alternate section band, cool neutral (never cream)',
+        'dark' => 'Dark band and footer',
+        'dark-2' => 'Raised surface on dark: menus, cards on the dark band',
+        'dark-3' => 'Hover and pressed surface on dark',
+        'ink' => 'Headings, body, ink buttons',
+        'ink-2' => 'Secondary text, nav links',
+        'ink-3' => 'Muted text: the lightest text allowed',
+        'on-dark' => 'Text on dark',
+        'on-dark-2' => 'Secondary text on dark',
+        'on-dark-3' => 'Muted text on dark',
+        'on-dark-gold' => 'Gold text on dark',
+        'line' => 'Hairlines, card borders',
+        'line-strong' => 'Secondary button border, dividers',
+        'field-border' => 'Input borders',
+        'line-on-dark' => 'Hairlines on dark',
+        'field-border-on-dark' => 'Input borders on dark (never text)',
+        'gold' => 'The hero primary button fill, nothing else',
+        'gold-hover' => 'The hero primary button, hovered (8% darker)',
+        'bronze' => 'Small brand labels and links on white or band',
+        'bronze-700' => 'Labels on warm tints',
+        'danger' => 'Errors',
+        'success' => 'Success',
+        'warning' => 'Warnings',
+        'info' => 'Information',
+        'whatsapp' => 'The WhatsApp glyph on light only',
+        'success-on-dark' => 'Status dots and icons on dark',
+        'warning-on-dark' => 'Status dots and icons on dark',
+        'danger-on-dark' => 'Status dots and icons on dark',
+        'focus' => 'Focus ring on light: 2px, 2px offset',
+        'focus-on-dark' => 'Focus ring on dark',
+        'ink-hover' => 'Ink buttons, hovered (8% lighter)',
+        'canvas-hover' => 'Secondary buttons and plain rows, hovered (8% darker)',
+        'dark-hover' => 'Hover on the dark band (8% lighter)',
+        'selection' => 'Selected text background',
+    ],
+    'on' => 'on :surface',
+    'with_text' => ':text on it',
+    'non_text' => 'boundary on :surface',
+    'grade_aaa' => 'AAA',
+    'grade_aa' => 'AA',
+    'grade_large' => 'AA large / UI',
+    'grade_ui' => '3:1 UI',
+    'grade_fail' => 'fail',
+    'grade_never' => 'never text here',
+    'decorative' => 'Decorative: carries no text',
+    'no_bronze_on_brand' => 'Bronze on the brand tint reads 4.47:1: use --badge-brand-fg (bronze-700).',
+    'no_white_on_whatsapp' => 'White text on WhatsApp green: the secondary WhatsApp button is white with an ink label and the green glyph.',
+    'no_grey_on_dark' => 'The field border on dark is a control edge, never text: muted text on dark is --on-dark-3.',
+    'paper_note' => 'Paper, ink and phone colours of the illustrations (components/doc.css, stage.css): never in the interface.',
+
+    // ------------------------------------------------------------------ elevation
+    'elevation' => 'Elevation',
+    'elevation_note' => 'No shadow on cards or buttons: a card is a white panel with a 1px --line edge, and its hover turns the edge ink. One overlay shadow for the mega menu, popovers, dialogs and sheets. Paper shadows only inside the sample documents.',
+    'elev_card' => 'Card: white, 1px --line, radius 10, no shadow',
+    'elev_overlay' => 'Mega menu, popovers, dialogs, sheets',
+    'elev_paper' => 'Sample documents only',
+
+    // ------------------------------------------------------------------ radius
+    'radius' => 'Radius',
+    'radius_note' => 'Four radii in the interface; 2 and 36 belong to the sample documents.',
+    'radius_roles' => [
+        'radius-control' => 'Buttons, inputs, badges',
+        'radius-card' => 'Cards and panels',
+        'radius-overlay' => 'Mega menu, dialogs, sheets',
+        'radius-pill' => 'Chips, segmented controls, avatars only',
+        'r-paper' => 'Sample paper',
+        'r-phone' => 'Sample phone frame',
+    ],
+
+    // ------------------------------------------------------------------ space and layout
+    'space' => 'Spacing',
+    'space_note' => 'Margins, paddings and gaps use these steps only. Stylelint rejects any other length there, including the two legacy sizes of 40 and 80 px.',
+    'layout' => 'Container, grid and section rhythm',
+    'layout_note' => 'One container for the header, every section and the footer: :container of content plus the side padding, so their edges line up within 1px. The live grid below is .grid inside this container: resize the window to see 4, 8 and 12 columns.',
+    'bp_phone' => 'Below 640 px',
+    'bp_large' => '640 to 767 px',
+    'bp_tablet' => '768 to 1023 px',
+    'bp_desktop' => '1024 px and up',
+    'bp_current' => 'this window',
+    'bp_pad' => 'side padding :pad',
+    'bp_cols' => ':cols columns, gap :gutter',
+    'bp_section' => 'section padding :section',
+    'bp_card' => 'card padding :card',
+    'bp_header' => 'header :top at the top, :compact after scrolling',
+    'rhythm_note' => 'H2 to its intro 16 px; intro to the content 48 px. Neighbouring sections on the same background (white, band or dark) share one gap.',
+    'sizes' => 'Control and layout sizes',
+
+    // ------------------------------------------------------------------ focus
+    'focus' => 'Focus ring',
+    'focus_note' => '2 px ring with a 2 px offset on every focusable element: ink on light, light gold on dark (.on-dark).',
+
+    // ------------------------------------------------------------------ motion
+    'motion' => 'Motion',
+    'motion_note' => 'Transform and opacity only. The hero entrance once, tool interactions, menus, accordions and tabs; the button press is scale(.98) for 120 ms; micro-interactions at most 250 ms. No fade-up of sections, no hover lift. Hover a curve to play it; under reduced motion everything jumps to its final state.',
+    'durations' => 'Durations',
+    'easings' => 'Easings',
+    'springs' => 'Springs (CSS linear(), drawn from its points)',
+    'duration' => ':ms ms',
+
+    // ------------------------------------------------------------------ layers
+    'layers' => 'Layers (z-index)',
+    'z' => [
+        'z-raised' => 'Raised within a section',
+        'z-sticky' => 'Sticky bars',
+        'z-header' => 'Header',
+        'z-menu' => 'Mega menu, popovers',
+        'z-tabbar' => 'Mobile tab bar',
+        'z-backdrop' => 'Scrim',
+        'z-sheet' => 'Sheets',
+        'z-modal' => 'Dialogs',
+        'z-toast' => 'Toasts',
+        'z-tooltip' => 'Tooltips (where the top layer is unavailable)',
+        'z-skip' => 'Skip link',
+    ],
+
+    // ------------------------------------------------------------------ legacy
+    'legacy' => 'Design 2.0 names (aliases)',
+    'legacy_note' => 'Kept so the area files keep working while they move to the new names; new code never uses them. The migration table is in docs/d2.1/phase-1/tokens.md.',
+];

@@ -1,0 +1,859 @@
+/*
+ * Design 2 inner pages: the service pages S01–S11 and the P02 practice-areas hub (owner: inner).
+ * Templates resources/views/designs/d2/inner/{service,practice-areas}.blade.php, components/d2/service/*.
+ *
+ * Built on the inner kit (pages/inner.css: .inner-head, .inner-layout, .prose, .toc, .related, .cta-card,
+ * .link-row). This file only adds what the kit does not draw and tunes it for these pages:
+ *   .svc-docs        P02's head card "We Start with the File"; on S01–S11 the document checklist section of the
+ *                    reading column (after "How We Handle Your Matter", the DOCX order): a panel of rows + the note
+ *   .svc-flow        one rhythm for the reading column: kit prose, the page's own sections, the CTA panel
+ *   .svc-next        "Useful first steps" | "Mistakes to avoid" (two panels from 768 px; check / cross marks)
+ *   .svc-sits        the related Matter Navigator situations (whole-card links, two columns from 768 px)
+ *   .svc-faqs        the related FAQ centre category under the service FAQs
+ *   .svc-sources     official sources + the specialist site (kit link rows + the destination host)
+ *   .svc-cta         the final consultation CTA: a dark panel (white request button, dark WhatsApp button, the kit's
+ *                    contact channels)
+ *   .pa-*            P02: audience filter, the 3 / 2 / 1-column card grid, split sections
+ * Design 2.1 (brief §3.3–3.6): white page and cool band, no shadows, radii 6 / 10, no object icons, no
+ * arrows, no hover motion; panel titles take the H3 role, page sections the H2 role. Mobile first, tokens only,
+ * logical properties. No empty band taller than 160 px: sections sit 48 / 64 px apart (the kit's prose rhythm).
+ */
+@layer pages {
+  /* ================================================================== P02 head: "start" card */
+  .svc-docs {
+    --card-gap: var(--s-4);
+  }
+
+  /* a panel title: the H3 role (its outline level is h2) */
+  .svc-docs__title {
+    margin: 0;
+    color: var(--ink);
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+    text-wrap: balance;
+  }
+
+  .pa-start__text {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+  }
+
+  /* The kit stacks the aside under the head below 1280 px: keep the card to the reading measure there. */
+  .pa-head .inner-head__aside {
+    max-inline-size: var(--prose);
+  }
+
+  @media (width >= 1280px) {
+    .pa-head .inner-head__aside {
+      max-inline-size: none;
+    }
+  }
+
+  /* ================================================================== S01–S11: document checklist section
+     (<x-d2.service.documents>, in the reading column after "How We Handle Your Matter"): the approved note keeps
+     16 px under the panel of rows it qualifies (the section's own gap is 24). */
+  .svc-docs__list + .svc-docs__note {
+    margin-block-start: calc(var(--s-4) - var(--s-6));
+  }
+
+  /* ================================================================== reading column rhythm */
+  .svc-flow {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-12);
+  }
+
+  @media (width >= 768px) {
+    .svc-flow {
+      gap: var(--s-16);
+    }
+  }
+
+  /* The kit spaces .related from the block above with a margin; the flow's gap already does. */
+  .svc-flow > .related {
+    margin-block-start: 0;
+  }
+
+  /* Two-column link rows: a row stretches to its neighbour's height, so a two-line label never leaves a
+     shorter row beside it. */
+  .svc-related .related__list > li,
+  .pa-related .related__list > li {
+    display: grid;
+  }
+
+  .svc-sec {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-6);
+    min-inline-size: 0;
+    scroll-margin-block-start: calc(var(--toc-bar-h) + var(--s-4));
+  }
+
+  .svc-sec__title {
+    margin: 0;
+  }
+
+  /* the approved lead-in under a section's H2 ("This service may be relevant if:"): 16 px under it (brief §3.4) */
+  .svc-sec__intro {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: var(--fs-lead);
+    line-height: var(--lh-lead);
+  }
+
+  .svc-sec__title + .svc-sec__intro {
+    margin-block-start: calc(var(--s-4) - var(--s-6));
+  }
+
+  /* The side CTA card repeats the final CTA panel's actions: shown only where it can stick (≥ 1280 px). */
+  .svc-layout .inner-layout__side {
+    display: none;
+  }
+
+  /* The rail card steps aside while the final panel (#request) is on screen (d2ServicePage .is-away): it repeats
+     that panel's approved heading and actions. Opacity first, then visibility (out of the tab order and the
+     accessibility tree); nothing moves. Reduced motion: a switch. */
+  .svc-side {
+    transition: opacity var(--dur-enter) var(--ease-out), visibility 0s linear 0s;
+  }
+
+  .svc-side.is-away {
+    visibility: hidden;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity var(--dur-enter) var(--ease-out), visibility 0s linear var(--dur-enter);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .svc-side,
+    .svc-side.is-away {
+      transition: none;
+    }
+  }
+
+  @media (width >= 1280px) {
+    .svc-layout .inner-layout__side {
+      display: block;
+    }
+
+    .svc-sec {
+      scroll-margin-block-start: var(--s-6);
+    }
+  }
+
+  /* ================================================================== marked lists (first steps, mistakes, P02) */
+  .svc-list {
+    display: grid;
+    gap: var(--s-3);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .svc-list__item {
+    display: grid;
+    grid-template-columns: var(--icon-size) minmax(0, 1fr);
+    gap: var(--s-3);
+    align-items: start;
+    color: var(--ink);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+  }
+
+  /* the marker is one text line tall, so it centres on the first line in every language */
+  .svc-list__mark {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    block-size: var(--lh-body);
+    color: var(--ink-3);
+  }
+
+  .svc-list__dot {
+    display: block;
+    inline-size: 6px;
+    block-size: 6px;
+    background: currentColor;
+    border-radius: 50%;
+  }
+
+  .svc-list--success .svc-list__mark {
+    color: var(--success);
+  }
+
+  .svc-list--danger .svc-list__mark {
+    color: var(--danger);
+  }
+
+  /* rows: one white panel, hairline-separated rows (P02 "Before Requesting a Consultation") */
+  .svc-list--rows {
+    gap: 0;
+    padding-inline: var(--s-5);
+    background: var(--canvas);
+    border: var(--line-w) solid var(--line);
+    border-radius: var(--radius-card);
+
+    & .svc-list__item {
+      padding-block: var(--s-4);
+    }
+
+    & .svc-list__item + .svc-list__item {
+      border-block-start: var(--line-w) solid var(--line);
+    }
+  }
+
+  /* ================================================================== before taking the next step */
+  .svc-next {
+    display: grid;
+    gap: var(--s-4);
+  }
+
+  /* "Useful First Steps" and "Mistakes to Avoid": two static panels of one level, one surface: the band panel of
+     P03's "Common Mistakes to Avoid" (.prose__section--panel: --band, radius 10, the card padding, no edge), never
+     a white bordered card, which reads as a clickable listing (brief §3.5). The check and cross marks tell them
+     apart. */
+  .svc-next__card {
+    display: grid;
+    gap: var(--s-4);
+    align-content: start;
+    padding: var(--pad-card);
+    background: var(--band);
+    border-radius: var(--radius-card);
+  }
+
+  .svc-next__title {
+    margin: 0;
+    color: var(--ink);
+  }
+
+  @media (width >= 768px) {
+    .svc-next {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--gutter);
+    }
+  }
+
+  /* ================================================================== Matter Navigator situations */
+  .svc-sits {
+    display: grid;
+    gap: var(--s-3);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  /* A text card: the approved situation (the one link) in the Body role, ink (card text, brief §3.2), and the
+     proposed "Show the starting file" line under it in the UI label role. */
+  .svc-sit {
+    --card-gap: var(--s-3);
+  }
+
+  .svc-sit .card__title {
+    color: var(--ink);
+    font-size: var(--fs-body);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-body);
+    letter-spacing: 0;
+    text-wrap: pretty;
+  }
+
+  /* The card's action sits where every card of the kit puts it (P02's "Service Details", the guide and case
+     cards): at the inline start under the text, in ink, the UI label role. The card is a flex column, so the
+     footer's own margin-block-start: auto (card.css) keeps it at the bottom; an align-self here would move it
+     across the card (to the inline end), not down. */
+  .svc-sit__foot {
+    justify-content: flex-start;
+    color: var(--ink);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+  }
+
+  @media (width >= 768px) {
+    .svc-sits {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--gutter);
+    }
+  }
+
+  /* ================================================================== FAQs + the related FAQ centre category */
+  .svc-faq-group {
+    display: grid;
+    gap: var(--s-8);
+  }
+
+  .svc-prose--faq .prose__qa {
+    margin-block-start: var(--s-4);
+  }
+
+  .svc-faqs {
+    display: grid;
+    gap: var(--s-2);
+    padding: var(--pad-card);
+    background: var(--band);
+    border-radius: var(--radius-card);
+  }
+
+  .svc-faqs__title {
+    margin: 0;
+  }
+
+  .svc-faqs__cat {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: var(--target);
+    color: var(--ink);
+    border-radius: var(--radius-control);
+    text-decoration-line: underline;
+    text-decoration-thickness: var(--line-w);
+    text-underline-offset: 3px;
+
+    &:hover {
+      text-decoration-thickness: 2px;
+    }
+  }
+
+  .svc-faqs__list {
+    display: grid;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .svc-faqs__link {
+    display: flex;
+    align-items: center;
+    min-block-size: var(--target);
+    padding-block: var(--s-2);
+    color: var(--ink-2);
+    font-size: var(--fs-ui);
+    line-height: var(--lh-ui);
+    border-block-start: var(--line-w) solid var(--line-strong);
+
+    &:hover {
+      color: var(--ink);
+      text-decoration: underline;
+      text-decoration-thickness: var(--line-w);
+      text-underline-offset: 3px;
+    }
+
+    &:focus-visible {
+      outline-offset: calc(-1 * var(--focus-w));
+      border-radius: var(--radius-control);
+    }
+  }
+
+  @media (pointer: coarse) {
+    .svc-faqs__link,
+    .svc-faqs__cat {
+      min-block-size: var(--target-touch);
+    }
+  }
+
+  /* ================================================================== official sources + specialist site */
+  .svc-sources__list {
+    display: grid;
+    gap: var(--s-2);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  /* The host reads left to right, but sits on the line's start edge like its label (right in Arabic). */
+  .svc-source__host,
+  .svc-specialist__domain {
+    justify-self: start;
+    unicode-bidi: isolate;
+  }
+
+  .svc-specialist {
+    display: grid;
+    gap: var(--s-3);
+    padding: var(--pad-card);
+    background: var(--band);
+    border-radius: var(--radius-card);
+  }
+
+  .svc-specialist__intro {
+    margin: 0;
+    color: var(--ink);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+  }
+
+  /* ================================================================== final consultation CTA (dark panel) */
+  .svc-cta {
+    display: grid;
+    gap: var(--s-6);
+    padding: var(--s-8) var(--s-6);
+    color: var(--on-dark);
+    background: var(--dark);
+    border-radius: var(--radius-card);
+    scroll-margin-block-start: calc(var(--toc-bar-h) + var(--s-4));
+  }
+
+  .svc-cta__copy {
+    display: grid;
+    gap: var(--s-4);
+  }
+
+  /* a panel title: the H3 role */
+  .svc-cta__title {
+    margin: 0;
+    color: var(--on-dark);
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+  }
+
+  .svc-cta__text {
+    margin: 0;
+    color: var(--on-dark-2);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+  }
+
+  /* the request and WhatsApp buttons: stacked at one shared height (a long approved label wraps into two balanced
+     lines on a phone, its neighbour grows with it); side by side from 768 px, where a row shares its height */
+  .svc-cta__actions {
+    display: grid;
+    grid-auto-rows: 1fr;
+    gap: var(--s-3);
+
+    & > .btn {
+      text-wrap: balance;
+    }
+  }
+
+  /* the telephone and e-mail: the kit's contact channels (pages/inner.css .channels, on dark), side by side
+     under a hairline */
+  .svc-cta__channels {
+    padding-block-start: var(--s-4);
+    border-block-start: var(--line-w) solid var(--line-on-dark);
+  }
+
+  .svc-cta__note {
+    margin: 0;
+    color: var(--on-dark-3);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+  }
+
+  @media (width >= 768px) {
+    .svc-cta {
+      padding: var(--s-12);
+    }
+
+    .svc-cta__actions {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
+
+  /* P02: the panel spans the container, so the actions sit beside the copy instead of under it (from 1280 px:
+     at 1024 the Russian request label left the copy a 240 px column). */
+  @media (width >= 1280px) {
+    .pa-cta {
+      grid-template-columns: minmax(0, 1fr) auto;
+      column-gap: var(--s-12);
+      align-items: end;
+
+      & > .svc-cta__channels,
+      & > .svc-cta__note {
+        grid-column: 1 / -1;
+      }
+    }
+
+    .svc-cta {
+      scroll-margin-block-start: var(--s-6);
+    }
+  }
+
+  /* ================================================================== P02 hub: the services */
+  .pa-services {
+    padding-block: 0 var(--s-16);
+    scroll-margin-block-start: var(--s-4);
+  }
+
+  .pa-services__head {
+    display: grid;
+    gap: var(--s-5);
+    margin-block-end: var(--s-8);
+  }
+
+  .pa-services__title {
+    margin: 0;
+  }
+
+  .pa-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+    align-items: center;
+  }
+
+  .pa-filter__label {
+    flex: 1 0 100%;
+    color: var(--ink-2);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+  }
+
+  @media (width >= 768px) {
+    .pa-filter__label {
+      flex: none;
+      margin-inline-end: var(--s-2);
+    }
+  }
+
+  @media (width >= 1024px) {
+    .pa-services__head {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      column-gap: var(--s-8);
+    }
+  }
+
+  .pa-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--gutter);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  @media (width >= 768px) {
+    .pa-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (width >= 1280px) {
+    .pa-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .pa-card {
+    --card-gap: var(--s-4);
+  }
+
+  /*
+   * From 768 px the cards of one grid row share their row tracks (subgrid): titles (one or two lines),
+   * summaries, the "may be relevant if" blocks and the links line up across the row. Card gaps become
+   * margins of the shared tracks; browsers without subgrid keep the plain stacked card.
+   */
+  @supports (grid-template-rows: subgrid) {
+    @media (width >= 768px) {
+      .pa-grid {
+        row-gap: 0;
+      }
+
+      .pa-card {
+        display: grid;
+        grid-row: span 4;
+        grid-template-rows: subgrid;
+        row-gap: var(--card-gap);
+        margin-block-end: var(--gutter);
+      }
+
+      .pa-card > .card__footer {
+        align-self: end;
+      }
+    }
+  }
+
+  /* No holes in any filter state (11 cards left one empty slot, Investors 3 + 2, Businesses 3 + 3 + 1): the
+     last visible card takes the rest of its row, the whole row when it is alone (two columns: an odd last card;
+     three columns: a 3n + 1st one) and two columns beside a neighbour (a 3n + 2nd one). A wide card sets its
+     situations beside its text, on its own two columns instead of the row's shared tracks (its height still
+     follows the row's). Works with the server's ?audience= filter and d2ServiceHub's alike. */
+  @media (width >= 768px) and (width < 1280px) {
+    .pa-card:not([hidden]):nth-last-child(1 of :not([hidden])):nth-child(odd of :not([hidden])) {
+      grid-column: 1 / -1;
+      grid-template-rows: auto 1fr auto;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-areas:
+        "title fit"
+        "summary fit"
+        "foot fit";
+      column-gap: var(--s-8);
+    }
+
+    .pa-card:not([hidden]):nth-last-child(1 of :not([hidden])):nth-child(odd of :not([hidden])) > .card__title {
+      grid-area: title;
+    }
+
+    .pa-card:not([hidden]):nth-last-child(1 of :not([hidden])):nth-child(odd of :not([hidden])) > .pa-card__summary {
+      grid-area: summary;
+    }
+
+    .pa-card:not([hidden]):nth-last-child(1 of :not([hidden])):nth-child(odd of :not([hidden])) > .card__footer {
+      grid-area: foot;
+    }
+
+    .pa-card:not([hidden]):nth-last-child(1 of :not([hidden])):nth-child(odd of :not([hidden])) > .pa-card__fit {
+      grid-area: fit;
+      align-self: start;
+      padding-block-start: 0;
+      padding-inline-start: var(--s-8);
+      border-block-start: 0;
+      border-inline-start: var(--line-w) solid var(--line);
+    }
+  }
+
+  @media (width >= 1280px) {
+    .pa-card:not([hidden]):nth-last-child(1 of :not([hidden])):nth-child(3n + 1 of :not([hidden])) {
+      grid-column: 1 / -1;
+      grid-template-rows: auto 1fr auto;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-areas:
+        "title fit"
+        "summary fit"
+        "foot fit";
+      column-gap: var(--s-8);
+    }
+
+    .pa-card:not([hidden]):nth-last-child(1 of :not([hidden])):nth-child(3n + 1 of :not([hidden])) > .card__title {
+      grid-area: title;
+    }
+
+    .pa-card:not([hidden]):nth-last-child(1 of :not([hidden])):nth-child(3n + 1 of :not([hidden])) > .pa-card__summary {
+      grid-area: summary;
+    }
+
+    .pa-card:not([hidden]):nth-last-child(1 of :not([hidden])):nth-child(3n + 1 of :not([hidden])) > .card__footer {
+      grid-area: foot;
+    }
+
+    .pa-card:not([hidden]):nth-last-child(1 of :not([hidden])):nth-child(3n + 1 of :not([hidden])) > .pa-card__fit {
+      grid-area: fit;
+      align-self: start;
+      padding-block-start: 0;
+      padding-inline-start: var(--s-8);
+      border-block-start: 0;
+      border-inline-start: var(--line-w) solid var(--line);
+    }
+
+    /* beside a neighbour the wide card keeps the row's shared tracks (titles, summaries and links stay aligned
+       with it) and sets its situations in two columns */
+    .pa-card:not([hidden]):nth-last-child(1 of :not([hidden])):nth-child(3n + 2 of :not([hidden])) {
+      grid-column: span 2;
+    }
+
+    .pa-card:not([hidden]):nth-last-child(1 of :not([hidden])):nth-child(3n + 2 of :not([hidden])) .pa-card__fit-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: var(--s-8);
+    }
+  }
+
+  /* Narrow card text (a 300 px column from 1280 px): Russian breaks between words only, as the contact card's
+     facts do, so no run of hyphenated lines («заяв-», «дока-», «докумен-», «киберпреступле-») */
+  .pa-card__summary {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    hyphens: manual;
+  }
+
+  .pa-card__fit {
+    display: grid;
+    gap: var(--s-2);
+    align-content: start;
+    padding-block-start: var(--s-4);
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  /* the approved lead-in of the list ("This service may be relevant if:"): a label, the UI label role */
+  .pa-card__fit-intro {
+    margin: 0;
+    color: var(--ink);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+  }
+
+  .pa-card__fit-list {
+    display: grid;
+    gap: var(--s-2);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+
+    & li {
+      position: relative;
+      padding-inline-start: var(--s-4);
+      color: var(--ink-2);
+      font-size: var(--fs-small);
+      line-height: var(--lh-small);
+    }
+
+    & li::before {
+      position: absolute;
+      inset-block-start: calc(var(--lh-small) / 2 - 3px);
+      inset-inline-start: 0;
+      inline-size: 6px;
+      block-size: 6px;
+      content: "";
+      background: var(--ink-3);
+      border-radius: 50%;
+    }
+  }
+
+  /* The situations' phone disclosure (d2ServiceHub): not drawn without JavaScript or from 768 px. */
+  .pa-card__fit-toggle {
+    display: none;
+  }
+
+  @media (width < 768px) {
+    /* html.js from the first paint: the approved intro line becomes the disclosure and the list folds */
+    .js .pa-card__fit:has(> .pa-card__fit-toggle) {
+      gap: 0;
+      padding-block-start: var(--s-1);
+    }
+
+    .js .pa-card__fit > .pa-card__fit-intro {
+      display: none;
+    }
+
+    .js .pa-card__fit-toggle {
+      position: relative;
+      z-index: var(--z-raised);
+      display: flex;
+      gap: var(--s-3);
+      align-items: center;
+      justify-content: space-between;
+      inline-size: 100%;
+      min-block-size: var(--target-touch);
+      padding: 0;
+      color: var(--ink);
+      text-align: start;
+      background: none;
+      border: 0;
+      font: inherit;
+      font-size: var(--fs-ui);
+      font-weight: var(--fw-medium);
+      line-height: var(--lh-ui);
+      cursor: pointer;
+
+      &:focus-visible {
+        outline-offset: var(--focus-offset);
+        border-radius: var(--radius-control);
+      }
+    }
+
+    .pa-card__fit-chevron {
+      flex: none;
+      color: var(--ink-2);
+      transition: transform var(--dur-hover) var(--ease-out);
+    }
+
+    .pa-card__fit-toggle[aria-expanded="true"] .pa-card__fit-chevron {
+      transform: rotate(180deg);
+    }
+
+    .js .pa-card__fit:has(> .pa-card__fit-toggle):not(.is-open) > .pa-card__fit-list {
+      display: none;
+    }
+
+    .js .pa-card__fit.is-open > .pa-card__fit-list {
+      padding-block: var(--s-1) var(--s-2);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pa-card__fit-chevron {
+      transition: none;
+    }
+  }
+
+  .pa-card__foot {
+    padding-block-start: var(--s-2);
+  }
+
+  /* the approved link label: the card's visible call to action (the title is the link), no arrow */
+  .pa-card__cta {
+    color: var(--ink);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+  }
+
+  /* ================================================================== P02 hub: approved sections (split) */
+  .pa-rest {
+    display: grid;
+    gap: var(--s-12);
+    padding-block-end: var(--section-y);
+  }
+
+  .pa-split {
+    display: grid;
+    gap: var(--s-4);
+    align-items: start;
+  }
+
+  /* consecutive approved sections: a hairline halfway between them (48 + 48 px) */
+  .pa-split + .pa-split {
+    padding-block-start: var(--s-12);
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  .pa-split__title {
+    margin: 0;
+  }
+
+  .pa-split__body {
+    display: grid;
+    gap: var(--s-4);
+    min-inline-size: 0;
+    max-inline-size: var(--prose);
+  }
+
+  .pa-split__text {
+    margin: 0;
+    color: var(--ink);
+    font-size: var(--fs-lead);
+    line-height: var(--lh-lead);
+  }
+
+  .pa-related {
+    margin-block-start: 0;
+  }
+
+  @media (width >= 1024px) {
+    .pa-split {
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+      column-gap: var(--gutter);
+    }
+
+    .pa-split__title {
+      grid-column: 1 / span 3;
+    }
+
+    .pa-split__body {
+      grid-column: 4 / -1;
+    }
+  }
+
+  @media (width >= 1280px) {
+    .pa-split {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
+
+    .pa-split__title {
+      grid-column: 1 / span 4;
+    }
+
+    .pa-split__body {
+      grid-column: 5 / -1;
+    }
+  }
+}

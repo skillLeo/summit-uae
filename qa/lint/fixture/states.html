@@ -1,0 +1,302 @@
+<!doctype html>
+<!--
+    design lint self-test, states (scripts/qa/lint-design.mjs --self-test, served at /en/states/). The first render
+    is clean: every planted violation shows only in one kind of state, so each recipe is proven to reach its state and
+    to lint the right scope. Shell (this page runs the overlay states): a mega menu preview (rule 1), the search
+    palette's results (rule 3), a header tooltip (rule 3, drawn in a layer at the end of <body>: the area is its
+    trigger's) and the compact header (rule 4). Main: a pressed group with panels (13) and filter chips without
+    aria-controls whose list sits in another section (3), a pager (4), a radio choice (2), a select (5), a calculator
+    with values (9), the form wizard on an empty step (5) and on step 2 (4), an in-page search with results (4),
+    without (9) and cleared again (3), an in-page sheet (3), a toast (3) and an icon button's tip (3). Expected hits:
+    FIXTURES in the script.
+-->
+<html lang="en" dir="ltr" class="js" data-design="2" data-page="fixture">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lint fixture states</title>
+    <link rel="stylesheet" href="/fixture.css">
+</head>
+<body>
+    <svg hidden width="0" height="0" aria-hidden="true">
+        <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5 9-9" stroke="currentColor" fill="none"/></symbol>
+        <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="currentColor" fill="none"/></symbol>
+    </svg>
+
+    <header class="site fx-sticky" data-fx-header>
+        <div class="container row">
+            <a href="/en/">Fixture home</a>
+            <button type="button" aria-expanded="false" aria-controls="fx-mega">Topics</button>
+            <button type="button" data-d2-search aria-haspopup="dialog" data-tooltip="Search · shortcut">Search</button>
+            <span class="fx-compact-only"><a href="#main-content">Back to top ↑</a></span>                <!-- compact header: rule 4 -->
+        </div>
+        <div id="fx-mega" class="menu-panel fx-mega" data-overlay hidden>
+            <div class="row">
+                <ul class="stack">
+                    <li><a class="is-active" href="#t1" data-mega-item data-preview="fx-pv-1">First topic</a></li>
+                    <li><a href="#t2" data-mega-item data-preview="fx-pv-2">Second topic</a></li>
+                </ul>
+                <div id="fx-pv-1" data-fx-preview><p>First topic preview</p></div>
+                <div id="fx-pv-2" data-fx-preview hidden><p class="mono">Preview code 0002</p></div>       <!-- menu preview: rule 1 -->
+            </div>
+        </div>
+    </header>
+
+    <dialog id="modal-palette" class="fx-palette" data-modal="palette" data-overlay aria-label="Search the fixture">
+        <div class="stack">
+            <input type="search" class="fx-field" aria-label="Search the fixture" placeholder="Search">
+            <ul class="stack" data-fx-results></ul>                                                          <!-- results: rule 3 -->
+        </div>
+    </dialog>
+
+    <main id="main-content">
+        <section>
+            <div class="container stack">
+                <h1>Lint fixture: states</h1>
+                <p>Every planted violation of this page shows in one state only.</p>
+
+                <!-- a pressed group with panels (aria-pressed and aria-controls) -->
+                <div class="row" role="group" aria-label="Documents">
+                    <button type="button" aria-pressed="true" aria-controls="fx-doc-1" data-fx-doc>Panel one</button>
+                    <button type="button" aria-pressed="false" aria-controls="fx-doc-2" data-fx-doc>Panel two</button>
+                </div>
+                <div id="fx-doc-1"><p>The first document panel</p></div>
+                <div id="fx-doc-2" hidden><p><span class="chip"><svg class="icon" data-icon="check" aria-hidden="true"><use href="#i-check"/></svg>Panel chip</span></p></div> <!-- rule 13 -->
+
+                <!-- filter chips (aria-pressed, no aria-controls): the list they filter is in the next section -->
+                <div class="row" role="group" aria-label="Filter">
+                    <button type="button" aria-pressed="true" data-fx-filter="a">Filter A</button>
+                    <button type="button" aria-pressed="false" data-fx-filter="b">Filter B</button>
+                </div>
+
+                <!-- a pager (the current button carries aria-current) -->
+                <div class="row" role="group" aria-label="Slides">
+                    <button type="button" aria-current="true" aria-label="Slide one" data-fx-slide="1">1</button>
+                    <button type="button" aria-label="Slide two" data-fx-slide="2">2</button>
+                </div>
+                <div>
+                    <p data-fx-slide-panel="1">The first slide</p>
+                    <p data-fx-slide-panel="2" hidden>The second slide <a href="#s2">next →</a></p>          <!-- rule 4 -->
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="container stack">
+                <h2>Filtered list</h2>
+                <ul class="stack" data-fx-list>
+                    <li data-group="a">Item of group a</li>
+                    <li data-group="b" hidden>Item b · filtered</li>                                          <!-- rule 3 -->
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <div class="container stack">
+                <h2>Choices, selects and a calculator</h2>
+                <div class="stack" role="radiogroup" aria-label="Who is it for">
+                    <label><input type="radio" name="fx-choice" value="a" checked> Option A</label>
+                    <label><input type="radio" name="fx-choice" value="b"> Option B</label>
+                </div>
+                <div data-fx-choice="a"><p>Panel for option A</p></div>
+                <div data-fx-choice="b" hidden><p class="eyebrow">For businesses</p></div>                  <!-- rule 2 -->
+
+                <p><label for="fx-select">Situation</label></p>
+                <p><select id="fx-select" class="fx-select"><option value="a">First option</option><option value="b">Second option</option></select></p>
+                <div data-fx-select="b" hidden><p>Second option chosen…</p></div>                             <!-- rule 5 -->
+
+                <div class="stack" data-tool="fx-calc">
+                    <label for="fx-amount">Amount</label>
+                    <input id="fx-amount" class="fx-field" type="number" data-input="amount" placeholder="1000">
+                    <p class="tiny" data-fx-result hidden>Estimate shown here</p>                             <!-- rule 9 -->
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="container stack">
+                <h2>A form, a search, a sheet, a toast and a tip</h2>
+                <form class="stack" data-wizard novalidate>
+                    <div class="stack" data-step-panel="1">
+                        <label for="fx-name">Your name</label>
+                        <input id="fx-name" class="fx-field" name="name" type="text" required placeholder="Name">
+                        <p data-fx-error hidden>Please add your name…</p>                                     <!-- rule 5 (empty Next) -->
+                    </div>
+                    <div class="stack" data-step-panel="2" hidden>
+                        <p>Step two of the form <a href="#w2">Continue »</a></p>                              <!-- rule 4 (step 2) -->
+                    </div>
+                    <p><button type="button" data-wizard-next>Next</button></p>
+                </form>
+
+                <p><label for="fx-find">Find a topic</label></p>
+                <p><input id="fx-find" class="fx-field" type="search" placeholder="Search" aria-controls="fx-find-results"></p>
+                <ul id="fx-find-results" class="stack"></ul>                                                  <!-- rule 4 (results) -->
+                <p data-fx-find-empty hidden>No topic matches <strong class="bold">this word</strong></p>    <!-- rule 9 (no match) -->
+                <p data-fx-find-status hidden>All topics · shown again</p>                                    <!-- rule 3 (cleared) -->
+
+                <p><button type="button" data-sheet-open="toc">Contents</button></p>
+                <p><button type="button" data-toast="Link copied · ready">Copy link</button></p>
+                <p><button type="button" class="fx-iconbtn" aria-label="Help"><svg class="icon" data-icon="info" aria-hidden="true"><use href="#i-info"/></svg><span class="fx-tip" data-overlay>Help · more</span></button></p> <!-- rule 3 (tip) -->
+                <div class="fx-tall" aria-hidden="true"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site">
+        <div class="container"><p class="small">Footer of the fixture</p></div>
+    </footer>
+
+    <div data-sheet="toc" class="fx-sheet" data-overlay hidden>
+        <div class="stack" role="dialog" aria-label="Contents"><p>Contents · page</p></div>                     <!-- rule 3 (sheet) -->
+    </div>
+    <div class="toast-region" data-toast-region aria-live="polite"></div>                                    <!-- toast: rule 3 -->
+    <div data-fx-tip-layer></div>
+
+    <script>
+        const $ = (s, r = document) => r.querySelector(s);
+        const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+        const header = $('[data-fx-header]');
+        const mega = $('#fx-mega');
+        const sheet = $('[data-sheet="toc"]');
+        const closeAll = () => {
+            for (const t of $$('header [aria-expanded="true"]')) {
+                t.setAttribute('aria-expanded', 'false');
+                document.getElementById(t.getAttribute('aria-controls')).hidden = true;
+            }
+            sheet.hidden = true;
+            sheet.classList.remove('is-open');
+        };
+        const preview = (item) => {
+            for (const i of $$('[data-mega-item]')) i.classList.toggle('is-active', i === item);
+            for (const p of $$('[data-fx-preview]')) p.hidden = p.id !== item.dataset.preview;
+        };
+        mega.addEventListener('mouseover', (e) => e.target.closest('[data-mega-item]') && preview(e.target.closest('[data-mega-item]')));
+        mega.addEventListener('focusin', (e) => e.target.closest('[data-mega-item]') && preview(e.target.closest('[data-mega-item]')));
+
+        // the header tooltip: a bubble in a layer at the end of <body>, on keyboard focus only (as modules/tooltip.js)
+        const layer = $('[data-fx-tip-layer]');
+        document.addEventListener('focusin', (e) => {
+            const t = e.target.closest('[data-tooltip]');
+            if (!t || !e.target.matches(':focus-visible')) return;
+            let b = $('#fx-tip-1');
+            if (!b) {
+                b = document.createElement('span');
+                b.id = 'fx-tip-1';
+                b.className = 'fx-bubble';
+                b.setAttribute('role', 'tooltip');
+                b.setAttribute('data-overlay', '');
+                layer.append(b);
+            }
+            b.textContent = t.dataset.tooltip;
+            b.hidden = false;
+            t.setAttribute('aria-describedby', b.id);
+        });
+        document.addEventListener('focusout', () => {
+            const b = $('#fx-tip-1');
+            if (b) b.hidden = true;
+        });
+
+        window.addEventListener('scroll', () => header.classList.toggle('is-compact', window.scrollY > 200), { passive: true });
+
+        document.addEventListener('click', (event) => {
+            const t = event.target;
+            const menu = t.closest('header button[aria-controls][aria-expanded]');
+            if (menu) {
+                const open = menu.getAttribute('aria-expanded') !== 'true';
+                menu.setAttribute('aria-expanded', String(open));
+                document.getElementById(menu.getAttribute('aria-controls')).hidden = !open;
+                return;
+            }
+            if (t.closest('[data-d2-search]')) {
+                $('#modal-palette').showModal();
+                return;
+            }
+            const doc = t.closest('[data-fx-doc]');
+            if (doc) {
+                for (const b of $$('[data-fx-doc]')) {
+                    b.setAttribute('aria-pressed', String(b === doc));
+                    document.getElementById(b.getAttribute('aria-controls')).hidden = b !== doc;
+                }
+                return;
+            }
+            const filter = t.closest('[data-fx-filter]');
+            if (filter) {
+                for (const b of $$('[data-fx-filter]')) b.setAttribute('aria-pressed', String(b === filter));
+                for (const li of $$('[data-fx-list] li')) li.hidden = li.dataset.group !== filter.dataset.fxFilter;
+                return;
+            }
+            const slide = t.closest('[data-fx-slide]');
+            if (slide) {
+                for (const b of $$('[data-fx-slide]')) {
+                    if (b === slide) b.setAttribute('aria-current', 'true');
+                    else b.removeAttribute('aria-current');
+                }
+                for (const p of $$('[data-fx-slide-panel]')) p.hidden = p.dataset.fxSlidePanel !== slide.dataset.fxSlide;
+                return;
+            }
+            if (t.closest('[data-wizard-next]')) {
+                const name = $('#fx-name');
+                if (!name.value.trim()) {
+                    name.setAttribute('aria-invalid', 'true');
+                    $('[data-fx-error]').hidden = false;
+                    return;
+                }
+                name.removeAttribute('aria-invalid');
+                $('[data-step-panel="1"]').hidden = true;
+                $('[data-step-panel="2"]').hidden = false;
+                t.closest('[data-wizard-next]').hidden = true;
+                return;
+            }
+            if (t.closest('[data-sheet-open]')) {
+                sheet.hidden = false;
+                sheet.classList.add('is-open');
+                return;
+            }
+            const toast = t.closest('[data-toast]');
+            if (toast) {
+                const el = document.createElement('div');
+                el.className = 'fx-toast';
+                el.setAttribute('data-overlay', '');
+                const p = document.createElement('p');
+                p.textContent = toast.dataset.toast;
+                el.append(p);
+                $('[data-toast-region]').append(el);
+            }
+        });
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') closeAll();
+        });
+        document.addEventListener('change', (event) => {
+            const t = event.target;
+            if (t.name === 'fx-choice') for (const p of $$('[data-fx-choice]')) p.hidden = p.dataset.fxChoice !== t.value;
+            if (t.id === 'fx-select') for (const p of $$('[data-fx-select]')) p.hidden = p.dataset.fxSelect !== t.value;
+        });
+        document.addEventListener('input', (event) => {
+            const t = event.target;
+            if (t.id === 'fx-amount') $('[data-fx-result]').hidden = !t.value;
+            if (t.closest('#modal-palette')) {
+                const list = $('[data-fx-results]');
+                list.replaceChildren();
+                if (/cheque/i.test(t.value)) {
+                    const li = document.createElement('li');
+                    li.innerHTML = '<a href="#r1">Cheque · guide</a>';
+                    list.append(li);
+                }
+            }
+            if (t.id === 'fx-find') {
+                const q = t.value.trim().toLowerCase();
+                const list = $('#fx-find-results');
+                list.replaceChildren();
+                if (q && 'cheque'.startsWith(q)) {
+                    const li = document.createElement('li');
+                    li.innerHTML = '<a href="#c1">Cheque topic ›</a>';
+                    list.append(li);
+                }
+                $('[data-fx-find-empty]').hidden = !q || list.children.length > 0;
+                $('[data-fx-find-status]').hidden = Boolean(q) || !t.dataset.fxTyped;
+                if (q) t.dataset.fxTyped = 'yes';
+            }
+        });
+    </script>
+</body>
+</html>

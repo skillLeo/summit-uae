@@ -1,0 +1,561 @@
+/*
+ * Design 2.1 tokens (docs/briefs/design-2.1-and-admin-cms.md §3.2 to §3.4). The contract every other file builds
+ * on: docs/d2.1/phase-1/tokens.md (every token, its use, the aliases and the migration table).
+ *
+ * The ONLY file where raw colours, shadows, radii, gradients and spring curves may be written (Stylelint:
+ * resources/css/d2/.stylelintrc.json). Not in a cascade layer: the custom properties are declared on :root, on
+ * elements with a lang attribute (the font switch) and on the sample-document roots only, so a component can
+ * still set a local value of its own.
+ *
+ * Direction (§3.1): white page, black type, one gold action per page (the hero's primary button), no decoration.
+ * Contrast in the comments is WCAG 2.2 on the background named (computed from these values).
+ *
+ * Legacy names from Design 2.0 stay as aliases of the new tokens (marked "legacy"), so nothing breaks while the
+ * area files move over; new code uses the new names (migration table in the contract). The illustration-only
+ * tokens (paper, phone, paper shadows, glows, gradients) belong to the sample documents (components/doc.css,
+ * stage.css).
+ */
+:root {
+  /* ================================================================== colour (§3.3) */
+  /* surfaces */
+  --canvas: #FFFFFF;            /* page background */
+  --band: #F6F6F7;              /* alternate section band, cool neutral (never cream) */
+  --dark: #0B0B0C;              /* dark band and footer */
+  --dark-2: #151517;            /* raised surface on dark (menus, cards on the dark band) */
+  --dark-3: #1F1F23;            /* hover and pressed surface on dark */
+  /* text */
+  --ink: #0B0B0C;               /* headings, body, primary (ink) buttons: 19.67:1 on white, 18.22:1 on band */
+  --ink-2: #3F3F46;             /* secondary text, nav links: 10.44:1 on white, 9.67:1 on band */
+  --ink-3: #6B6B73;             /* muted text, the lightest text allowed: 5.28:1 on white, 4.89:1 on band */
+  --on-dark: #FFFFFF;           /* text on dark: 19.67:1 */
+  --on-dark-2: #E4E4E7;         /* secondary text on dark: 15.5:1 (14.37:1 on dark-2) */
+  --on-dark-3: #A1A1AA;         /* muted text on dark: 7.68:1 (7.12:1 on dark-2); never #71717A as text */
+  --on-dark-gold: #C9A96B;      /* gold text on dark: 8.78:1 */
+  /* lines */
+  --line: #E4E4E7;              /* hairlines, card borders (decorative) */
+  --line-strong: #D4D4D8;       /* secondary button border, dividers (decorative) */
+  --field-border: #8A8A93;      /* input borders: 3.42:1 on white, 3.17:1 on band (WCAG 1.4.11) */
+  --line-on-dark: #27272A;      /* hairlines on dark (decorative) */
+  --field-border-on-dark: #71717A; /* input borders on dark: 4.07:1 (never text) */
+  /* brand */
+  --gold: #C9A96B;              /* the fill of the hero primary button ONLY (ink text on it 8.78:1); never text on light */
+  --gold-hover: #B99B62;        /* gold 8% darker: hover of the hero primary (ink text 7.43:1) */
+  --bronze: #8A6A2E;            /* small brand labels and links on white or band: 5.02:1 on white, 4.65:1 on band */
+  --bronze-700: #7A5C24;        /* labels on warm tints: 5.52:1 on #F7F1E6, 6.21:1 on white */
+  /* states */
+  --danger: #B42318;            /* errors: 6.57:1 on white */
+  --success: #1E6B47;           /* success: 6.46:1 on white */
+  --warning: #8A5300;           /* warnings: 6.33:1 on white */
+  --info: #2F5DA0;              /* information: 6.57:1 on white */
+  --whatsapp: #25D366;          /* the WhatsApp glyph on light only; never a fill under white text (1.98:1) */
+  --success-on-dark: #5CC08A;   /* status dots and icons on dark (never text on light): 8.77:1 */
+  --warning-on-dark: #E8B04F;   /* status dots and icons on dark: 10.08:1 */
+  --danger-on-dark: #F0786C;    /* status dots and icons on dark: 7.13:1 */
+  /* badge pairs (text on background, §3.3) */
+  --badge-neutral-fg: #52525B;  /* on --badge-neutral-bg 6.85:1 */
+  --badge-neutral-bg: #F1F1F3;
+  --badge-info-fg: #2F5DA0;     /* on --badge-info-bg 5.78:1 */
+  --badge-info-bg: #EAF1FB;
+  --badge-success-fg: #1E6B47;  /* on --badge-success-bg 5.76:1 */
+  --badge-success-bg: #E8F5EE;
+  --badge-warning-fg: #8A5300;  /* on --badge-warning-bg 5.81:1 */
+  --badge-warning-bg: #FFF4E0;
+  --badge-danger-fg: #B42318;   /* on --badge-danger-bg 5.75:1 */
+  --badge-danger-bg: #FDECEA;
+  --badge-brand-fg: #7A5C24;    /* on --badge-brand-bg 5.52:1 (never --bronze on it: 4.47:1) */
+  --badge-brand-bg: #F7F1E6;
+  /* callout and message borders (decorative) */
+  --info-line: #C9DAF2;
+  --success-line: #BEE2CD;
+  --warning-line: #F2D9A8;
+  --danger-line: #F5C9C4;
+  /* hover and focus */
+  --ink-hover: #1F1F1F;         /* ink 8% lighter: hover of ink buttons (white text 16.48:1) */
+  --canvas-hover: #EBEBEB;      /* white 8% darker: hover of secondary buttons and plain rows */
+  --dark-hover: #1F1F1F;        /* dark 8% lighter: hover on the dark band */
+  --hover-tint: rgb(11 11 12 / 0.08);        /* hover wash on light (8% darker) */
+  --press-tint: rgb(11 11 12 / 0.08);        /* legacy: press is scale(.98), not a colour */
+  --dark-hover-tint: rgb(255 255 255 / 0.08); /* hover wash on dark (8% lighter) */
+  --focus: #0B0B0C;             /* focus ring on light: 2px, 2px offset */
+  --focus-on-dark: #E2CF9F;     /* focus ring on dark: 12.8:1 */
+  --selection: #D4D4D8;         /* selected text background (ink text) */
+  /* scrims */
+  --scrim: rgb(11 11 12 / 0.4);        /* behind dialogs and sheets */
+  --scrim-menu: rgb(11 11 12 / 0.06);  /* behind the open mega menu (D48) */
+  /* edge fades of horizontal and vertical scrollers: alpha masks (mask-image), not colour */
+  --mask-fade-left: linear-gradient(to right, transparent 0, #000 var(--s-12));
+  --mask-fade-right: linear-gradient(to left, transparent 0, #000 var(--s-12));
+  --mask-fade-both: linear-gradient(to right, transparent 0, #000 var(--s-12), #000 calc(100% - var(--s-12)), transparent 100%);
+  --mask-fade-left-under-button: linear-gradient(to right, transparent calc(var(--s-10) + var(--s-2)), #000 calc(var(--s-10) + var(--s-2) + var(--s-12)));
+  --mask-fade-right-under-button: linear-gradient(to left, transparent calc(var(--s-10) + var(--s-2)), #000 calc(var(--s-10) + var(--s-2) + var(--s-12)));
+  --mask-fade-both-under-button: linear-gradient(to right, transparent calc(var(--s-10) + var(--s-2)), #000 calc(var(--s-10) + var(--s-2) + var(--s-12)), #000 calc(100% - var(--s-10) - var(--s-2) - var(--s-12)), transparent calc(100% - var(--s-10) - var(--s-2)));
+  --mask-fade-top: linear-gradient(to bottom, transparent 0, #000 var(--s-12));
+  --mask-fade-bottom: linear-gradient(to top, transparent 0, #000 var(--s-12));
+  --mask-fade-y: linear-gradient(to bottom, transparent 0, #000 var(--s-12), #000 calc(100% - var(--s-12)), transparent 100%);
+  /* system-pages: "the Design 2 stylesheet is here" (the offline page's inline fallback tests it) */
+  --d2-tokens: 1;
+
+  /* legacy colour names (Design 2.0) -> the tokens above */
+  --surface: var(--canvas);             /* legacy: cards, inputs and the header are white */
+  --surface-sunken: var(--band);        /* legacy: wells were warm; now the cool band */
+  --night: #0B0B0C;                     /* legacy = --dark, written as a literal: scripts/d2/pwa-icons.mjs and PwaTest read it */
+  --night-2: var(--dark-2);             /* legacy */
+  --night-3: var(--dark-3);             /* legacy */
+  --night-line: var(--line-on-dark);    /* legacy */
+  --on-night: var(--on-dark);           /* legacy */
+  --on-night-2: var(--on-dark-2);       /* legacy */
+  --on-night-3: var(--on-dark-3);       /* legacy */
+  --line-control: var(--field-border);  /* legacy */
+  --line-control-night: var(--field-border-on-dark); /* legacy */
+  --gold-hi: var(--focus-on-dark);      /* legacy: metal highlight; the focus colour on dark */
+  --gold-lo: var(--bronze);             /* legacy: metal shade */
+  --success-tint: var(--badge-success-bg); /* legacy */
+  --danger-tint: var(--badge-danger-bg);   /* legacy */
+  --warning-tint: var(--badge-warning-bg); /* legacy */
+  --info-tint: var(--band);             /* legacy: the warm information tint is gone */
+  --success-on-night: var(--success-on-dark); /* legacy */
+  --warning-on-night: var(--warning-on-dark); /* legacy */
+  --danger-on-night: var(--danger-on-dark);   /* legacy */
+  --night-hover-tint: var(--dark-hover-tint); /* legacy */
+  --backdrop: var(--scrim);             /* legacy */
+  --bronze-wash: var(--band);           /* legacy: no warm washes; selected and hover states use the band */
+  --gold-wash: var(--dark-3);           /* legacy: active chip on dark */
+  --duotone-fill: transparent;          /* legacy: icons are outline only (§3.5) */
+  --metal: var(--gold);                 /* legacy: no metal gradient (D06); flat gold on the hero primary only */
+  --metal-hover: var(--gold-hover);     /* legacy */
+  --metal-press: var(--gold-hover);     /* legacy */
+  --metal-inset: none;                  /* legacy: no inset highlight */
+  --glass: var(--canvas);               /* legacy: no glass (§3.6 rule 6); the header is solid white */
+  --glass-strong: var(--canvas);        /* legacy */
+  --glass-night: var(--dark);           /* legacy */
+  --glass-blur: none;                   /* legacy: no backdrop blur */
+  --hero-light: none;                   /* legacy: no hero gradient */
+  --hero-light-rtl: none;               /* legacy */
+  --light-center: none;                 /* legacy */
+  --shimmer: none;                      /* legacy: no gradient sweep on skeletons */
+  --shimmer-night: none;                /* legacy */
+
+  /* sample documents only (components/doc.css, stage.css): generic paper, never a real template */
+  --paper: #FFFEFB;
+  --paper-2: #FBF9F4;
+  --paper-edge: rgba(0, 0, 0, 0.06);
+  --paper-ink: #1C1B19;
+  --paper-ink-2: #4B4740;
+  --paper-ink-3: #77726A;
+  --paper-rule: #D9D4C9;
+  --paper-tint-cheque: #EEF2EC;
+  --paper-tint-cheque-2: #DCE5DA;
+  --paper-stamp: #A3262A;
+  --paper-watermark: rgba(28, 27, 25, 0.4);
+  --paper-noise-opacity: 0.015;
+  --paper-pen: #23365A;
+  --paper-wave: rgba(48, 92, 60, 0.13);
+  --paper-fold: linear-gradient(225deg, rgba(255, 255, 255, 0) 50%, #EDE9E0 50%, #F8F6F0 100%);
+  --paper-stamp-wash: rgba(163, 38, 42, 0.05);
+  --paper-hot: rgba(138, 106, 46, 0.06);
+  --staple: linear-gradient(180deg, #F1F1F3 0%, #B9BAC0 45%, #8C8E95 100%);
+  --phone-frame: #0B0B0C;
+  --phone-screen: #FFFFFF;
+  --bubble-in: #EFEDE8;
+  --bubble-out: #DCE8DF;
+  --bubble-mine: #2A2925;
+  --bubble-mine-ink: #F7F6F3;
+  --receipt-band: #F3F1EC;
+
+  /* ================================================================== elevation (§3.4) */
+  /* No shadow on cards or buttons. One overlay shadow: mega menu, popovers, dialogs, sheets. */
+  --shadow-overlay: 0 16px 40px rgb(11 11 12 / 0.12), 0 2px 8px rgb(11 11 12 / 0.06);
+  /* legacy shadows -> none, or the overlay shadow (menus and modals) */
+  --shadow-1: none;                     /* legacy: cards at rest */
+  --shadow-2: none;                     /* legacy: raised controls */
+  --shadow-3: none;                     /* legacy: card hover (no lift, no shadow: D05) */
+  --shadow-4: var(--shadow-overlay);    /* legacy: mega menu, modal, sheet */
+  --shadow-header: none;                /* legacy */
+  --shadow-pill: none;                  /* legacy: the segmented thumb is white on the band, edged by a line */
+  --shadow-inset-input: none;           /* legacy */
+  --shadow-kbd: none;                   /* legacy */
+  --shadow-kbd-night: none;             /* legacy */
+  --shadow-night: none;                 /* legacy */
+  --shadow-night-inset: none;           /* legacy */
+  --shadow-night-3: none;               /* legacy */
+  --ring-success: none;                 /* legacy: the open-now dot has no halo */
+  /* sample documents only: paper shadows, the selected field's glow, the callout pin halo */
+  --shadow-paper-rest: 0 1px 1px rgba(20, 16, 8, 0.08), 0 2px 6px rgba(20, 16, 8, 0.08), 0 10px 20px -8px rgba(20, 16, 8, 0.14);
+  --shadow-paper-air: 0 18px 36px -18px rgba(20, 16, 8, 0.3), 0 40px 80px -20px rgba(20, 16, 8, 0.28);
+  --shadow-paper-lift: 0 2px 4px rgba(20, 16, 8, 0.06), 0 14px 28px -6px rgba(20, 16, 8, 0.16), 0 30px 60px -18px rgba(20, 16, 8, 0.2);
+  --shadow-paper-edge: inset 0 0 0 0.5px rgba(0, 0, 0, 0.06);
+  --shadow-paper-contact: 0 0 0 0.5px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(20, 16, 8, 0.1), 0 2px 6px -2px rgba(20, 16, 8, 0.12);
+  --shadow-staple: 0 0.5px 0.5px rgba(20, 16, 8, 0.35);
+  --shadow-phone: inset 0 0 0 1.5px #2C2C30, inset 0 0 0 3px #0B0B0C;
+  --glow-bronze: 0 0 0 6px rgba(138, 106, 46, 0.12);
+  --ring-pin: 0 0 0 4px rgba(122, 92, 36, 0.18);
+
+  /* ================================================================== radius (§3.4) */
+  --radius-control: 6px;        /* buttons, inputs, badges */
+  --radius-card: 10px;          /* cards and panels */
+  --radius-overlay: 16px;       /* mega menu, dialogs, sheets */
+  --radius-pill: 999px;         /* chips, segmented controls, avatars only */
+  /* legacy radii -> the four above, by what they were used for */
+  --r-xs: var(--radius-control);  /* legacy 6: kbd, tags, tooltips */
+  --r-sm: var(--radius-control);  /* legacy 10: inputs, buttons */
+  --r-md: var(--radius-card);     /* legacy 14: small cards, menus */
+  --r-lg: var(--radius-card);     /* legacy 20: feature cards (modals use --radius-overlay) */
+  --r-xl: var(--radius-overlay);  /* legacy 28: sheets, large panels */
+  --r-pill: var(--radius-pill);   /* legacy */
+  --r-mark: var(--radius-control); /* legacy 4: marks, code */
+  --r-lg-inner: calc(var(--r-lg) - var(--line-w)); /* media inside a card's 1px edge */
+  /* sample documents only */
+  --r-paper: 2px;
+  --r-phone: 36px;
+
+  /* ================================================================== lines and focus */
+  --line-w: 1px;
+  --hairline: 0.5px;            /* sample paper edges only */
+  --focus-w: 2px;
+  --focus-offset: 2px;
+  --focus-color: var(--focus);  /* --focus-on-dark inside .on-dark (and the legacy .on-night) */
+
+  /* ================================================================== space (§3.4): these steps only */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 20px;
+  --s-6: 24px;
+  --s-8: 32px;
+  --s-12: 48px;
+  --s-16: 64px;
+  --s-24: 96px;
+  --s-32: 128px;
+  /* legacy sizes, NOT spacing steps: Stylelint rejects them in margin, padding and gap */
+  --s-10: 40px;                 /* legacy: a 40 px control or icon box only */
+  --s-20: 80px;                 /* legacy */
+
+  /* ================================================================== layout (§3.4), mobile first */
+  --container: 1200px;          /* content width at most; the side padding comes on top */
+  --pad-x: 20px;                /* container side padding: 20, 24 from 640 px, 32 from 1024 px */
+  --cols: 4;                    /* grid columns: 4, 8 from 768 px, 12 from 1024 px */
+  --gutter: 16px;               /* grid gap: 16, 24 from 768 px */
+  --section-y: 64px;            /* section padding-block: 64, 96 from 768 px, 128 from 1024 px */
+  --head-gap: var(--s-4);       /* H2 to its intro */
+  --head-space: var(--s-12);    /* intro to the section's content */
+  --pad-card: 24px;             /* card padding: 24, 32 from 768 px */
+  --measure: 64ch;              /* longest line of running text */
+  --header-h: 56px;             /* the compact header (after scroll): sticky offsets and scroll padding use it; 64 from 768 px */
+  --header-h-top: 56px;         /* the header at the top of the page: 72 from 768 px, 88 from 1024 px (§3.8) */
+  --lockup-h: 40px;             /* header lockup height at the top: 56 from 1024 px (§3.8) */
+  --tabbar-h: 64px;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-x: max(env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));
+  --sticky-cta-h: 56px;
+  --sheet-max-h: 90svh;
+  --sheet-side-w: 440px;
+  --modal-w: 640px;
+  --target: 44px;               /* smallest target */
+  --target-touch: 48px;         /* smallest target on touch layouts */
+  --prose: 720px;               /* reading column (its paragraphs stop at --measure) */
+  /* controls (§3.5) */
+  --button-h: 44px;             /* buttons; the header button too */
+  --button-h-hero: 52px;        /* the two hero buttons */
+  --field-h: 48px;              /* inputs, selects, steppers, date pickers */
+  --chip-h: 32px;               /* chips (pill); the hit area stays 44 px (48 on touch) */
+  --badge-h: 24px;
+  --icon-size: 20px;            /* functional icons, 1.5 px stroke, ink-2 */
+  --control-sm: 40px;           /* legacy control heights (40 / 48 / 56) */
+  --control-md: 48px;
+  --control-lg: 56px;
+  /* area sizes (kept from Design 2.0) */
+  --hero-stage-w: 620px;
+  --hero-stage-h: 560px;
+  --hero-stage-m-w: 342px;
+  --hero-stage-m-h: 300px;
+  --hero-measure: 560px;
+  --hero-cta-h: var(--button-h-hero); /* legacy */
+  --nav-col: 672px;             /* the Navigator's list column from 1280 px: 7 of 12 columns (Phase 2) */
+  --aside-w: 352px;
+  --toc-bar-h: 48px;
+  --progress-h: 3px;
+  --object-lg: 96px;
+  --object-sm: 72px;
+  --rail-y: 24px;
+
+  /* ================================================================== type (§3.2) */
+  /* Families. The faces are in base/fonts.css (scripts/fonts/fontsource-d2.mjs). --font-sans is the one
+     family token of the interface, set per language and per pair in the font switch below. */
+  /* The other script comes from a script-only alias of the same files ("D2 Sans Arabic Script", "D2 Sans Cyrillic"),
+     so no stack holds two families that both cover the page's own text. */
+  --font-b-latin: "D2 Sans", "D2 Sans Fallback", "D2 Sans Arabic Script", "D2 Sans Arabic Script Fallback", system-ui, sans-serif;
+  --font-b-arabic: "D2 Sans Arabic", "D2 Sans Arabic Fallback", "D2 Sans Cyrillic", "D2 Sans Cyrillic Fallback", "Geeza Pro", "Segoe UI", system-ui, sans-serif;
+  --font-a-latin: "D2 Graphik", "D2 Graphik Fallback", "D2 Graphik Arabic Script", "D2 Graphik Arabic Script Fallback", system-ui, sans-serif;
+  --font-a-arabic: "D2 Graphik Arabic", "D2 Graphik Arabic Fallback", "D2 Graphik Cyrillic", "D2 Graphik Cyrillic Fallback", "Geeza Pro", "Segoe UI", system-ui, sans-serif;
+  /* sample documents only (§3.2: monospace imitates typed fields inside the illustrations, nowhere else) */
+  --font-doc-mono: "D2 Mono", "D2 Mono Fallback", ui-monospace, "SF Mono", Menlo, monospace;
+  --font-doc-serif: "D2 Serif", "D2 Serif Fallback", Georgia, serif;
+  --font-doc-naskh: "D2 Naskh", "D2 Naskh Fallback", "Times New Roman", serif;
+  /* legacy: in the interface these are the sans; inside a sample document (see below) its own faces */
+  --font-mono: var(--font-sans);
+  --font-doc: var(--font-sans);
+  --font-doc-arabic: var(--font-sans);
+
+  /* Sizes, stepped (desktop from 768 px / mobile): only these sizes exist (§3.2); the smallest text is 13 px. */
+  --fs-display: 2.5rem;         /* Display (H1): 40, 56 from 768 px */
+  --fs-h2: 1.75rem;             /* H2: 28, 36 */
+  --fs-h3: 1.25rem;             /* H3: 20, 22 */
+  --fs-lead: 1.0625rem;         /* Lead: 17, 19 */
+  --fs-body: 1rem;              /* Body: 16, 17 (Arabic 17, 18) */
+  --fs-ui: 0.9375rem;           /* UI label: 15 */
+  --fs-small: 0.875rem;         /* Small: 14, 15 */
+  --fs-caption: 0.8125rem;      /* Caption: 13, the smallest text anywhere */
+  --fs-minor: 1rem;             /* Minor heading: 16 (footer group headings D47, list group headings D29) */
+  /* Line heights: lengths (the role's size x its ratio), usable in line-height and in calc() */
+  --lh-display: calc(var(--fs-display) * 1.05);
+  --lh-h2: calc(var(--fs-h2) * 1.15);
+  --lh-h3: calc(var(--fs-h3) * 1.3);
+  --lh-lead: calc(var(--fs-lead) * 1.55);
+  --lh-body: calc(var(--fs-body) * 1.6);
+  --lh-ui: calc(var(--fs-ui) * 1.4);
+  --lh-small: calc(var(--fs-small) * 1.5);
+  --lh-caption: calc(var(--fs-caption) * 1.45);
+  --lh-minor: calc(var(--fs-minor) * 1.4);
+  /* weights: 400, 500 and 600 only */
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  /* tracking (Arabic: 0) */
+  --ls-display: -0.025em;
+  --ls-h2: -0.02em;
+  --ls-h3: -0.01em;
+
+  /* legacy type names -> the roles above */
+  --fs-h1: var(--fs-display);           /* legacy */
+  --fs-h4: var(--fs-h3);                /* legacy: card and panel titles take the H3 role */
+  --fs-body-l: var(--fs-lead);          /* legacy */
+  --fs-meta: var(--fs-small);           /* legacy */
+  --fs-eyebrow: var(--fs-ui);           /* legacy: no eyebrows (D01) */
+  --fs-display-num: var(--fs-h2);       /* legacy */
+  --fs-hero-h1-ar: var(--fs-display);   /* legacy: one H1 size */
+  --fs-hero-h1-ru: var(--fs-display);   /* legacy: one H1 size */
+  --fs-h1-doc: var(--fs-display);       /* legacy: one H1 size */
+  --fs-large-title: var(--fs-display);  /* legacy */
+  --fs-bar-title: var(--fs-body);       /* legacy */
+  --fs-large-title-fit: min(var(--fs-display), calc((100vw - 3rem) / 10.6)); /* legacy (inner pages: a single long Russian word) */
+  --fs-monogram: max(var(--fs-small), 17cqi); /* legacy (team portrait placeholder) */
+  --lh-h1: var(--lh-display);           /* legacy */
+  --lh-h4: var(--lh-h3);                /* legacy */
+  --lh-body-l: var(--lh-lead);          /* legacy */
+  --lh-meta: var(--lh-small);           /* legacy */
+  --lh-h1-doc: var(--lh-display);       /* legacy */
+  --lh-large-title: var(--lh-display);  /* legacy */
+  --lh-bar-title: var(--lh-body);       /* legacy */
+  --lh-k: 1;                            /* legacy multiplier of component line heights (Arabic 1.12) */
+  --fw-meta: var(--fw-regular);         /* legacy 450 */
+  --fw-ui: var(--fw-medium);            /* legacy 550 */
+  --fw-h3: var(--fw-semibold);          /* legacy 650 */
+  --fw-bold: var(--fw-semibold);        /* legacy 700: nothing heavier than 600 */
+  --fw-display: var(--fw-semibold);     /* legacy 700 */
+  --ls-h1: var(--ls-display);           /* legacy */
+  --ls-eyebrow: 0;                      /* legacy: no letter-spaced labels (§3.6 rule 1) */
+  --ls-caps: 0;                         /* legacy */
+  --eyebrow-case: none;                 /* legacy: no uppercase labels */
+
+  /* sample documents only: type scale in natural document px (scaled with the document) */
+  --fs-doc-2xs: 6.5px;
+  --fs-doc-xs: 7.5px;
+  --fs-doc-sm: 8.5px;
+  --fs-doc-md: 10px;
+  --fs-doc-lg: 12px;
+  --fs-doc-xl: 15px;
+  --fs-doc-2xl: 19px;
+  --fs-doc-3xl: 24px;
+  --fs-doc-watermark: 11px;
+  --fs-doc-watermark-min: 9px;
+
+  /* ================================================================== motion (§3.5, §3.6 rule 7, §6) */
+  /* Transform and opacity only. Allowed: the hero entrance once, tool interactions, menus, accordions, tabs,
+     the button press. Micro-interactions at most 250 ms. Reduced motion shows the final state. */
+  --dur-press: 120ms;           /* press: scale(var(--press-scale)) */
+  --dur-hover: 180ms;
+  --dur-fade: 160ms;
+  --dur-enter: 240ms;
+  --dur-panel: 360ms;           /* menus, sheets */
+  --dur-hero: 800ms;            /* the hero entrance, once */
+  --dur-hero-rise: 520ms;
+  --dur-page: 220ms;            /* cross-document view transition */
+  --dur-page-lang: 320ms;
+  --page-shift: 40px;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-in: cubic-bezier(0.55, 0, 1, 0.45);
+  /* springs (points generated by scripts/d2/springs.mjs; presets in resources/js/d2/motion/springs.js). The
+     interface springs play in 200 to 250 ms (§6: micro-interactions at most 250 ms). */
+  --spring-snappy: linear(0, 0.0189, 0.0683, 0.1381, 0.2205, 0.3092, 0.3994, 0.4873, 0.5704, 0.647, 0.7161, 0.7771, 0.83, 0.875, 0.9126, 0.9434, 0.9681, 0.9874, 1.0021, 1.0128, 1.0202, 1.0249, 1.0275, 1.0284, 1.028, 1.0267, 1.0248, 1.0225, 1.02, 1.0175, 1.015, 1.0126, 1.0104, 1.0084, 1.0066, 1.0051, 1.0037, 1.0026, 1.0017, 1.001, 1);
+  --spring-snappy-dur: 200ms;
+  --spring-ui: linear(0, 0.0203, 0.0724, 0.145, 0.2294, 0.3188, 0.4083, 0.4945, 0.5751, 0.6485, 0.714, 0.7714, 0.8209, 0.8629, 0.8979, 0.9266, 0.9498, 0.9682, 0.9824, 0.9932, 1.001, 1.0066, 1.0103, 1.0125, 1.0136, 1.0138, 1.0135, 1.0127, 1.0117, 1.0105, 1.0092, 1.008, 1.0068, 1.0057, 1.0047, 1.0038, 1.0031, 1.0024, 1.0018, 1.0013, 1);
+  --spring-ui-dur: 240ms;
+  --spring-bar: linear(0, 0.0125, 0.0451, 0.0918, 0.1478, 0.2093, 0.2733, 0.3378, 0.401, 0.4617, 0.5193, 0.5731, 0.6229, 0.6685, 0.71, 0.7475, 0.7811, 0.811, 0.8376, 0.861, 0.8815, 0.8995, 0.9151, 0.9286, 0.9403, 0.9503, 0.9588, 0.9661, 0.9723, 0.9775, 0.9818, 0.9855, 0.9885, 0.991, 0.9931, 0.9948, 0.9961, 0.9972, 0.9981, 0.9988, 1);
+  --spring-bar-dur: 250ms;
+  --spring-sheet: linear(0, 0.0236, 0.0812, 0.1575, 0.2422, 0.3283, 0.4116, 0.4895, 0.5605, 0.6242, 0.6805, 0.7297, 0.7723, 0.8089, 0.8402, 0.8667, 0.8892, 0.9081, 0.9239, 0.9371, 0.9482, 0.9573, 0.9649, 0.9712, 0.9764, 0.9807, 0.9842, 0.9871, 0.9895, 0.9914, 0.993, 0.9943, 0.9954, 0.9962, 0.997, 0.9975, 0.998, 0.9984, 0.9987, 0.9989, 1);
+  --spring-sheet-dur: 470ms;    /* sheets (a panel, not a micro-interaction) */
+  --spring-paper: linear(0, 0.0273, 0.0965, 0.1912, 0.2987, 0.4096, 0.5171, 0.6167, 0.7058, 0.7828, 0.8476, 0.9005, 0.9424, 0.9744, 0.9981, 1.0146, 1.0253, 1.0315, 1.0341, 1.0342, 1.0325, 1.0297, 1.0261, 1.0223, 1.0186, 1.015, 1.0117, 1.0088, 1.0064, 1.0043, 1.0027, 1.0014, 1.0005, 0.9998, 0.9993, 0.999, 0.9989, 0.9988, 0.9988, 0.9989, 1);
+  --spring-paper-dur: 800ms;    /* the hero document switch (stiffness 170, damping 20) */
+  --press-scale: 0.98;
+  --lift: 0px;                  /* legacy: no hover lift on buttons */
+  --lift-card: 0px;             /* legacy: no hover lift on cards (D05) */
+  --dur-portrait: 600ms;        /* legacy */
+  --portrait-zoom: 1;           /* legacy: no zoom on hover */
+
+  /* ================================================================== layers */
+  --z-raised: 1;
+  --z-sticky: 20;
+  --z-header: 50;
+  --z-menu: 60;
+  --z-tabbar: 70;
+  --z-backdrop: 80;
+  --z-sheet: 90;
+  --z-modal: 100;
+  --z-toast: 110;
+  --z-tooltip: 115;
+  --z-skip: 120;
+
+  color-scheme: light;
+}
+
+/* ------------------------------------------------------------------ breakpoints: 640, 768, 1024 */
+@media (width >= 640px) {
+  :root {
+    --pad-x: 24px;
+  }
+}
+
+@media (width >= 768px) {
+  :root {
+    --cols: 8;
+    --gutter: 24px;
+    --section-y: 96px;
+    --pad-card: 32px;
+    --header-h: 64px;
+    --header-h-top: 72px;
+    --fs-display: 3.5rem;       /* 56 */
+    --fs-h2: 2.25rem;           /* 36 */
+    --fs-h3: 1.375rem;          /* 22 */
+    --fs-lead: 1.1875rem;       /* 19 */
+    --fs-body: 1.0625rem;       /* 17 */
+    --fs-small: 0.9375rem;      /* 15 */
+  }
+}
+
+@media (width >= 1024px) {
+  :root {
+    --pad-x: 32px;
+    --cols: 12;
+    --section-y: 128px;
+    --header-h-top: 88px;
+    --lockup-h: 56px;
+  }
+}
+
+/* ------------------------------------------------------------------ the font switch (§3.2) */
+/*
+ * Pair b: Onest + IBM Plex Sans Arabic (free, in use). Pair a: Graphik + Graphik Arabic (licensed: drop the files
+ * into resources/fonts/graphik/, run node scripts/fonts/fontsource-d2.mjs, then change THE ONE TOKEN below from
+ * var(--font-b) to var(--font-a); App\Design\D2\Fonts reads it for the preloads).
+ * Each pair resolves per language. Arabic pages (and Arabic text inside them) put the Arabic family first, so Latin
+ * runs inside Arabic text (digits, codes, e-mail, the space) are drawn by the Arabic family's own Latin and a line
+ * keeps one design and one set of metrics. English and Russian pages, and text marked lang="en" or "ru" anywhere,
+ * put the Latin family first; an Arabic word on those pages (lang="ar": a language name, a watermark line) takes its
+ * letters from the Arabic script alias further down the same stack and its spaces from the page's own Latin file, so
+ * it never downloads the Arabic family's Latin files. Declared on :root and on elements with a lang attribute only.
+ */
+:root,
+[lang] {
+  --font-b: var(--font-b-latin);
+  --font-a: var(--font-a-latin);
+  --font-sans: var(--font-b);           /* THE font token: var(--font-a) once Graphik is licensed */
+  --font-ui: var(--font-sans);          /* legacy */
+  --font-arabic: var(--font-sans);      /* legacy: the stack Arabic text uses where it stands (lang="ar") */
+}
+
+:root[lang|="ar"],
+:root[lang|="ar"] [lang|="ar"] {
+  --font-b: var(--font-b-arabic);
+  --font-a: var(--font-a-arabic);
+}
+
+/* Arabic type wherever Arabic text stands (§3.2), on Arabic pages and in Arabic islands. */
+[lang|="ar"] {
+  /* Arabic (§3.2): no letter-spacing, body 1px larger with line height 1.75, taller line heights for the
+     script's ascenders and descenders (IBM Plex Sans Arabic: 1.085 em above, 0.415 em below the baseline) */
+  --fs-body: 1.0625rem;         /* 17; 18 from 768 px */
+  --lh-display: calc(var(--fs-display) * 1.3);
+  --lh-h2: calc(var(--fs-h2) * 1.35);
+  --lh-h3: calc(var(--fs-h3) * 1.45);
+  --lh-lead: calc(var(--fs-lead) * 1.75);
+  --lh-body: calc(var(--fs-body) * 1.75);
+  --lh-ui: calc(var(--fs-ui) * 1.5);
+  --lh-small: calc(var(--fs-small) * 1.65);
+  --lh-caption: calc(var(--fs-caption) * 1.6);
+  --lh-minor: calc(var(--fs-minor) * 1.5);
+  --lh-k: 1.12;
+  --ls-display: 0;
+  --ls-h2: 0;
+  --ls-h3: 0;
+}
+
+@media (width >= 768px) {
+  [lang|="ar"] {
+    --fs-body: 1.125rem;        /* 18 */
+  }
+}
+
+/* A Latin or Cyrillic island inside an Arabic page (text marked lang="en" or lang="ru") gets the Latin values
+   back; on English and Russian pages these equal the :root values. */
+[lang]:not([lang|="ar"]) {
+  --fs-body: 1rem;
+  --lh-display: calc(var(--fs-display) * 1.05);
+  --lh-h2: calc(var(--fs-h2) * 1.15);
+  --lh-h3: calc(var(--fs-h3) * 1.3);
+  --lh-lead: calc(var(--fs-lead) * 1.55);
+  --lh-body: calc(var(--fs-body) * 1.6);
+  --lh-ui: calc(var(--fs-ui) * 1.4);
+  --lh-small: calc(var(--fs-small) * 1.5);
+  --lh-caption: calc(var(--fs-caption) * 1.45);
+  --lh-minor: calc(var(--fs-minor) * 1.4);
+  --lh-k: 1;
+  --ls-display: -0.025em;
+  --ls-h2: -0.02em;
+  --ls-h3: -0.01em;
+}
+
+@media (width >= 768px) {
+  [lang]:not([lang|="ar"]) {
+    --fs-body: 1.0625rem;       /* 17 */
+  }
+}
+
+/* ------------------------------------------------------------------ sample documents */
+/* Inside an illustration the legacy family names keep their document faces (typed fields, serif paper, naskh). */
+.doc,
+[data-doc],
+[data-illustration] {
+  --font-mono: var(--font-doc-mono);
+  --font-doc: var(--font-doc-serif);
+  --font-doc-arabic: var(--font-doc-naskh);
+}
+
+/* ------------------------------------------------------------------ dark surfaces */
+/* The dark band, the footer and any dark panel: the focus ring turns light gold. */
+.on-dark,
+.on-night {
+  --focus-color: var(--focus-on-dark);
+}
+
+/* ------------------------------------------------------------------ the admin panel (it imports this file) */
+/* Filament's Tailwind composes shadows as lists (ring, then shadow), where `none` is invalid and would drop the whole
+   declaration, ring borders included: in the admin the legacy shadow names are list-safe and invisible instead. */
+html.fi {
+  --shadow-1: 0 0 #0000;
+  --shadow-2: 0 0 #0000;
+  --shadow-3: 0 0 #0000;
+  --shadow-inset-input: 0 0 #0000;
+}

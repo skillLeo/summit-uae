@@ -1,0 +1,80 @@
+/*
+ * Design 2 home block "Our Team" (#our-team; off by default, D24; spec §12 C8, wireframes §7.2 "Team
+ * (carousel)", carousels §8). The About section 05 is sections/about.css.
+ *
+ * The approved "Our Team" heading (the section head; section 05 above carries "Meet Summit and the Team") and the
+ * three profile cards (components/profile.css):
+ *   < 768   the swipe rail of <x-d2.ui.carousel until="768"> (components/carousel.css: 85 % cards, 16 px
+ *           gap, bleeding to the screen edges, position dots); this later layer keeps every list layout
+ *           rule inside the (width >= 768px) query
+ *   ≥ 768   a column of wide cards (row layout) until the list is 900 px wide, then three columns
+ */
+@layer sections {
+  /* ------------------------------------------------------------ head */
+  .team__people {
+    container: team / inline-size;
+  }
+
+  /* ------------------------------------------------------------ cards: rail (phones) */
+  .team__list {
+    list-style: none;
+  }
+
+  .team__item {
+    display: flex;
+    min-inline-size: 0;
+  }
+
+  /* The rail's cards are as tall as the tallest, their footers at the bottom. The request links (Text buttons) are
+     all as tall as two lines, the longest label's wrap at this width ("…with Dr Mohamed"), their labels from the
+     top: the links' first lines line up across the rail (round 1). */
+  @media (width < 768px) {
+    .team__item .profile > .card__footer .btn {
+      align-items: flex-start;
+      min-block-size: calc(2 * var(--lh-ui) + 2 * var(--s-2) + 2 * var(--line-w));
+    }
+  }
+
+  /* ------------------------------------------------------------ cards: rows, then three columns */
+  @media (width >= 768px) {
+    .team__list {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--gutter);
+    }
+  }
+
+  /* Three columns: the cards share their rows (subgrid), so names, titles, chips and the request
+     links line up across the row; the links (Text buttons, round 1) start on one line, so a label that
+     wraps in a narrow column only adds a line below its first. */
+  @container team (inline-size >= 900px) {
+    .team__list {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      row-gap: 0;
+    }
+
+    .team__item,
+    .team__item > .profile-frame,
+    .team__item .profile {
+      display: grid;
+      grid-row: span 5;
+      grid-template-rows: subgrid;
+      row-gap: 0;
+    }
+
+    /* A size container is layout-contained and could not be a subgrid: the narrow column cards do not
+       need the profile container query anyway. */
+    .team__item > .profile-frame {
+      container-type: normal;
+    }
+
+    .team__item .profile {
+      row-gap: var(--card-gap);
+    }
+
+    .team__item .profile > .card__footer {
+      align-items: flex-start;
+      margin-block-start: 0;
+    }
+  }
+}

@@ -1,0 +1,200 @@
+# text-snapshot: design 2, locale en, route s02-criminal-cases
+# GET /en/practice-areas/criminal-cases/ -> 200; html lang=en dir=ltr data-design=2
+=== header ===
+Choose language
+English
+Request a Legal Consultation
+Home
+Practice Areas
+Legal Resources
+Case Studies
+FAQs
+About Us
+Contact Us
+=== main ===
+Home
+Practice Areas
+Criminal Cases
+Advice and Support in Criminal Cases in the UAE
+When you receive a summons or learn of a criminal complaint, the first priority is to understand which authority is involved, the stage reached, the date set and what is required of you. We review the facts, evidence and chronology, identify urgent issues and define the legal assistance appropriate to the matter.
+Request a Legal Consultation
+Contact Us on WhatsApp
+(opens in a new tab)
+On this page
+Who This Service Is For
+Matters Covered by the Review
+Practical Situations We Review with You
+How We Handle Your Matter
+Documents That Help Us Get Started
+Before Taking the Next Step
+Start with Your Situation
+FAQs
+Related Topics and Services
+Official Sources for Reference
+Tell Us About Your Matter
+Scope of Service and Published Information
+Tell Us About Your Matter
+Request a Legal Consultation
+Contact Us on WhatsApp
+(opens in a new tab)
+Who This Service Is For
+Individuals who have received a summons or are the subject of a criminal complaint
+Businesses facing complaints of fraud, breach of trust or forgery
+People whose names appear in transactions under investigation
+People with an earlier criminal judgment who want to understand their available options
+Clients in matters involving financial crime, cybercrime or digital assets
+Matters Covered by the Review
+Criminal reports and complaints
+Fraud, forgery and misappropriation of another person’s property
+Cheque matters with a criminal aspect
+Money laundering and financial crime
+Cybercrime, defamation and digital communications
+Cases involving virtual assets
+Review of earlier judgments and procedural deadlines
+Practical Situations We Review with You
+The Matters We Review
+Our support covers fraud, breach of trust, forgery, financial crime and cybercrime, incidents involving cheques and virtual assets, and the review of judgments and the procedural options available in relation to them.
+Where a dispute arises from a commercial transaction, we examine why money or goods were handed over, the contractual obligations and how the money or goods were dealt with. The other party’s description does not determine the legal characterisation of events. Equally, the existence of a contract does not, by itself, rule out criminal liability.
+What Can Change the Assessment of a Defence
+A person’s name may appear in a document, or money may reach their account, without the remaining elements of the allegation being established. We examine their actual role, what they knew, their relationship with the other parties and the flow of funds. Each element must be considered in the context of the entire matter.
+Good faith needs an explanation supported by the facts, but this does not shift the burden of proving the charge from the prosecution to the accused. The presumption of innocence and the elements of the offence remain central considerations when preparing the defence.
+Scope of Work on Your Matter
+We analyse the complaint and available documents, organise the facts, review the legal issues and inconsistencies, and prepare the necessary legal materials within the agreed engagement. Where the matter requires advocacy or representation before the police, prosecution or court by an advocate, we coordinate this with a licensed advocate under the applicable rules.
+If There Is an Earlier Judgment
+Send a copy of the judgment and any notice or document showing when you learned of it or were served, and state whether it has already been challenged. We first identify the stage, deadlines and possible review procedure. New evidence does not automatically make it possible to reopen the case or set aside the judgment.
+Do not alter evidence or contact witnesses to coordinate their accounts. Seek help in understanding any statement or document before signing it, while complying with legal deadlines and instructions.
+How We Handle Your Matter
+Understand the nature of the complaint or summons and the authority that issued it.
+Gather documents and evidence before giving any response that has not been properly considered.
+Establish the chronology and distinguish each person’s role from that of the other parties.
+Analyse criminal intent: was there knowledge, participation or benefit?
+Identify the appropriate course: attendance, defence, a challenge to a decision, settlement of certain civil aspects or coordination with an advocate experienced in the relevant area.
+Documents That Help Us Get Started
+The summons or complaint reference number, the relevant authority and any notice of a date for attendance or a response.
+Documents, contracts, transfers and complete conversations relating to the events.
+A chronology showing what each party did and what the client knew at the time of the relevant action.
+Judgments, service notices and earlier challenges when seeking a judgment review, together with any relevant existing power of attorney.
+Send clear, complete copies initially and retain the originals. Do not send passwords, verification codes or financial account access credentials. An appropriate method for sharing sensitive documents can be agreed.
+Before Taking the Next Step
+Useful First Steps
+Do not ignore a summons or postpone attendance without a clear reason.
+Do not delete messages, transfer records or digital documents.
+Write down a chronology immediately, before you forget the details.
+Do not contact the complainant in a way that could be used against you.
+Seek legal review before signing documents or making important statements.
+Mistakes to Avoid
+Assuming that good faith alone is enough without documents to support it.
+Speaking emotionally with the complainant or witnesses.
+Withholding documents that could help if explained in their proper context.
+Treating the matter as minor because it began with a message or a cheque.
+Waiting after a judgment is issued until procedural deadlines are close to expiring.
+Start with Your Situation
+This service may be relevant if:
+You received a summons or a criminal complaint was made against you, and you do not know what to do first.
+Show the starting file
+You have been accused of fraud or forgery that you did not commit.
+Show the starting file
+Your name appeared in a criminal file although you were not actually involved.
+Show the starting file
+A judgment has already been issued and you want to understand whether it can be reviewed.
+Show the starting file
+FAQs
+What Should I Do If I Receive a Summons from the Police or Prosecution?
+Verify its authenticity and the date through official channels, and follow the instructions. Preserve the evidence, prepare a chronology and seek appropriate help without delaying attendance or destroying any document.
+Does My Name Appearing in a Document Prove My Involvement in a Crime?
+That alone does not establish the elements of the allegation. The document’s authenticity and context, each person’s role and knowledge, and the rest of the evidence must be reviewed. At the same time, the document should not be ignored or denied before it has been examined.
+Can an Earlier Criminal Judgment Be Reviewed?
+The available procedure depends on the type and level of judgment, the relevant deadlines, its reasoning and the steps already taken. A new document or a fresh reading of the file does not automatically create a right to appeal or seek a retrial.
+Are All Cheque Cases Criminal?
+No. A claim or enforcement based on a cheque is distinct from liability for conduct criminalised by law. The reason for non-payment and the conduct attributed to the parties must be examined; non-payment alone should not be treated as proof of a crime.
+Can WhatsApp Messages Be Used as Evidence?
+They may be significant, depending on their authenticity, attribution, completeness, context and how they are submitted. Keep the original conversation and attachments. Do not rely solely on excerpts that omit replies or change the meaning.
+Does a Financial Settlement End Criminal Proceedings?
+Not in every case. Its effect depends on the charge, the stage of proceedings and the applicable rules. The approach to communication and settlement must be assessed, without pressure, threats or requests to change statements.
+Criminal Cases
+14. What should I do if summoned by the police or prosecution?
+15. Does my name appearing in a document prove my involvement?
+16. Can an earlier criminal judgment be reviewed?
+17. What is the difference between criminal and civil proceedings?
+18. Can WhatsApp conversations be used as evidence?
+19. How do I demonstrate good faith when accused of fraud or forgery?
+20. Should I contact the complainant to discuss settlement?
+Related Topics and Services
+Debt Recovery and Cheque Cases
+Practice Areas
+Cryptocurrency Disputes
+Practice Areas
+Case Studies
+All FAQs
+Back to Practice Areas
+Official Sources for Reference
+UAE Legislation Portal
+uaelegislation.gov.ae
+(opens in a new tab)
+Tell Us About Your Matter
+Send a summary of the matter and the main document, if available, and mention any hearing or current deadline. Before work begins, we will explain the scope of consultation, the fee and the documents required.
+Request a Legal Consultation
+Contact Us on WhatsApp
+(opens in a new tab)
++971 52 466 6191
+info@summitlegaluae.com
+The service is available in Arabic, English and Russian. Sending an enquiry does not mean that the engagement has been accepted or that monitoring of legal deadlines has begun.
+Scope of Service and Published Information
+Summit is a legal consultancy company. The work, deliverables and fees are defined in the agreed engagement. Court advocacy or representation requiring an advocate is carried out by licensed advocates. Where work requires separate professional registration or specialist expertise, it is coordinated with an appropriately qualified professional as needed.
+This is general information and does not replace a review of the facts, documents, applicable law, competent authority and relevant deadlines. Options and outcomes vary from one matter to another. Presenting this service does not guarantee a decision, recovery of funds or approval by an external authority.
+Legal Notice and Scope of Services
+=== footer ===
+Summit Legal Consultancy
+Legal advice for individuals, businesses, investors and residents in the UAE, in Arabic, English and Russian.
++971 52 466 6191
+Contact Us on WhatsApp
+(opens in a new tab)
+info@summitlegaluae.com
+Business hours: Monday to Friday, 9 am to 6 pm.
+Practice Areas
+Debt Recovery and Cheque Cases
+Criminal Cases
+Cryptocurrency and Digital Currency Cases
+Corporate and Commercial Law
+Property and Tenancy Disputes
+Employment Law
+Tax Disputes and Tax Compliance
+Family Law and Wills
+Compliance and Regulatory Matters
+Legal Translation
+Business Services
+Legal Resources
+Legal Resources Centre
+FAQs
+Case Studies
+Useful Links
+About Us
+Contact Us
+Legal Notice
+Privacy Policy
+Terms and Conditions
+The information published is general and does not replace a review of the facts and documents relating to your matter. The scope of service and fees are determined when the engagement is accepted. Court advocacy requiring an advocate is carried out by licensed advocates.
+Specialist Resources and Services Associated with Summit
+Employment Law
+laborlawuae.com
+(opens in a new tab)
+Debt Recovery and Cheques
+debtrecoveryuae.com
+(opens in a new tab)
+Property Disputes
+dubaipropertydispute.com
+(opens in a new tab)
+Digital Currencies
+uaecryptocases.com
+(opens in a new tab)
+Wills
+uaeexpatwills.com
+(opens in a new tab)
+Tax Disputes
+uaetaxdisputes.com
+(opens in a new tab)
+© {{YEAR}} Summit Legal Consultancy. All rights reserved.
+Choose language
+Arabic
+English
+Russian

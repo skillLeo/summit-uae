@@ -1,0 +1,312 @@
+@use "../tokens/tokens" as *;
+
+// =============================================================================
+// Forms: labels above fields, fields drawn as ruled lines on paper.
+// Every state is designed: default, hover, focus, filled, invalid, disabled.
+// =============================================================================
+
+.field {
+  display: grid;
+  align-content: start;
+  gap: var(--s-8);
+}
+
+.field__label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--s-4) var(--s-8);
+  color: var(--ink);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-small);
+}
+
+// Required marker: an asterisk symbol, hidden from assistive tech (the input has `required`).
+.field__req {
+  color: var(--bronze-strong);
+  font-weight: var(--fw-semibold);
+}
+
+.field__help {
+  color: var(--ink-2);
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+}
+
+.field__error {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-8);
+  color: var(--error);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-small);
+
+  .icon {
+    flex: none;
+    inline-size: var(--icon);
+    block-size: var(--icon);
+    margin-block-start: 0.1em;
+  }
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.input,
+.select,
+.textarea {
+  inline-size: 100%;
+  min-block-size: var(--control-h);
+  padding: var(--s-12) var(--s-16);
+  border: 0;
+  border-block-end: var(--hairline) solid var(--ink-2);
+  border-radius: var(--radius-control) var(--radius-control) 0 0;
+  color: var(--ink);
+  background: var(--field);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.5;
+  transition: border-color var(--dur-1) var(--ease-out), box-shadow var(--dur-1) var(--ease-out);
+  appearance: none;
+
+  &::placeholder {
+    color: var(--ink-2);
+    opacity: 1;
+  }
+
+  &:hover {
+    border-block-end-color: var(--ink);
+  }
+
+  &:focus-visible {
+    border-block-end-color: var(--bronze-strong);
+    outline: var(--focus-w) solid var(--focus-light);
+    outline-offset: var(--focus-offset);
+    box-shadow: inset 0 calc(-1 * var(--hairline)) 0 var(--bronze-strong);
+  }
+
+  &[aria-invalid="true"] {
+    border-block-end-color: var(--error);
+    box-shadow: inset 0 calc(-1 * var(--hairline)) 0 var(--error);
+  }
+
+  &:disabled {
+    color: var(--ink-2);
+    background: var(--white);
+    border-block-end-style: dashed;
+    cursor: not-allowed;
+  }
+}
+
+.input--ltr {
+  direction: ltr;
+  text-align: start;
+
+  [dir="rtl"] & {
+    text-align: end;
+  }
+}
+
+.textarea {
+  min-block-size: 10rem;
+  resize: vertical;
+}
+
+.select-wrap {
+  position: relative;
+
+  .icon {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-end: var(--s-16);
+    inline-size: var(--icon);
+    block-size: var(--icon);
+    color: var(--ink-2);
+    pointer-events: none;
+    transform: translateY(-50%);
+  }
+
+  .select {
+    padding-inline-end: var(--s-48);
+    cursor: pointer;
+  }
+}
+
+// Date input: keep the native picker, align with the other fields.
+.input[type="date"] {
+  min-inline-size: 0;
+
+  &::-webkit-calendar-picker-indicator {
+    opacity: 0.7;
+    cursor: pointer;
+  }
+}
+
+// ---------------------------------------------------------------- checkbox / radio
+.check {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--s-24) minmax(0, 1fr);
+  align-items: start;
+  gap: var(--s-12);
+  min-block-size: var(--target);
+  cursor: pointer;
+}
+
+.check__input {
+  position: relative;
+  inline-size: var(--s-24);
+  block-size: var(--s-24);
+  margin: 0;
+  border: var(--hairline) solid var(--ink-2);
+  border-radius: var(--radius-control);
+  background: var(--white);
+  cursor: pointer;
+  appearance: none;
+  transition: background-color var(--dur-1) var(--ease-out), border-color var(--dur-1) var(--ease-out);
+
+  &::after {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    inline-size: 0.4rem;
+    block-size: 0.75rem;
+    border: solid var(--white);
+    border-width: 0 var(--focus-w) var(--focus-w) 0;
+    content: "";
+    opacity: 0;
+    transform: translateY(-0.08rem) rotate(45deg) scale(0.6);
+    transition: opacity var(--dur-1) var(--ease-out), transform var(--dur-1) var(--ease-out);
+  }
+
+  &:checked {
+    border-color: var(--ink);
+    background: var(--ink);
+
+    &::after {
+      opacity: 1;
+      transform: translateY(-0.08rem) rotate(45deg) scale(1);
+    }
+  }
+
+  &:hover {
+    border-color: var(--ink);
+  }
+
+  &[aria-invalid="true"] {
+    border-color: var(--error);
+    box-shadow: 0 0 0 var(--hairline) var(--error);
+  }
+}
+
+.check__input[type="radio"] {
+  border-radius: var(--radius-pill);
+
+  &::after {
+    inline-size: 0.625rem;
+    block-size: 0.625rem;
+    border: 0;
+    border-radius: var(--radius-pill);
+    background: var(--white);
+    transform: scale(0.4);
+  }
+
+  &:checked::after {
+    transform: scale(1);
+  }
+}
+
+.check__text {
+  padding-block-start: 0.05em;
+  color: var(--ink);
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+}
+
+// ---------------------------------------------------------------- consultation form
+.form {
+  display: grid;
+  gap: var(--s-32);
+}
+
+.form__row {
+  display: grid;
+  gap: var(--s-32) var(--gutter);
+
+  @media (min-width: $bp-sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.form__group {
+  display: grid;
+  gap: var(--s-16);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-inline-size: 0;
+}
+
+.form__intro {
+  display: grid;
+  gap: var(--s-8);
+  color: var(--ink-2);
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+}
+
+// Notices sit beside the submit area, on a ruled sheet, readable before sending.
+.form__notices {
+  display: grid;
+  gap: var(--s-12);
+  padding: var(--s-16) var(--s-24);
+  border-inline-start: var(--spine-w) solid var(--gold);
+  color: var(--ink-2);
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+}
+
+.form__actions {
+  display: grid;
+  gap: var(--s-16);
+  justify-items: start;
+}
+
+// Honeypot: off-screen, not focusable, not announced.
+.form__trap {
+  position: absolute;
+  inline-size: var(--hairline);
+  block-size: var(--hairline);
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.form.is-busy {
+  .input,
+  .select,
+  .textarea {
+    opacity: 0.7;
+  }
+}
+
+// Keep the submit button above the on-screen keyboard (visualViewport sets --kb).
+@media (max-width: $bp-md-max) {
+  .form__actions.is-keyboard {
+    position: sticky;
+    inset-block-end: var(--kb, 0);
+    z-index: 5;
+    margin-inline: calc(-1 * var(--margin));
+    padding: var(--s-12) var(--margin);
+    background: var(--white);
+    box-shadow: 0 calc(-1 * var(--hairline)) 0 var(--rule);
+  }
+}
+
+.consultation {
+  display: grid;
+  gap: var(--s-32);
+}

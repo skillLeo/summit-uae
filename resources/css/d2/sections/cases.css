@@ -1,0 +1,100 @@
+/*
+ * Design 2 case-study cards: the home section 06 (#case-studies) with its two text previews (<x-d2.case.preview>,
+ * Design 2.1 D25) and the Case Studies page's directory card (<x-d2.case.card>, D46; its grid is pages/cases.css).
+ *
+ * Home: the section head, then the two previews, stacked on phones and in two equal columns from 768 px. The cards of
+ * the row share their three tracks (title, paragraph, label: subgrid), so the titles and the labels line up across
+ * the row (lint rule 12). Then the approved "View All Case Studies", centred under the cards (the home's section foot,
+ * shared with the guides).
+ * Both cards are text cards in the pattern of the home's service and guide cards: white, 1 px --line, radius 10, the
+ * title (H3 role) is the card's one link; hover and keyboard focus turn the edge ink and underline the title (the
+ * card's own states: no lift, no shadow, nothing moves). No numeral, chip, icon, timeline or badge (D25, D46).
+ *   preview  title · the approved paragraph (Body, ink-2) · the approved label ("Read the Cheque Case Study", UI
+ *            label in ink, like "Explore This Service" and "Read the Guide")
+ *   card     category (the service, Small 500 in bronze, drawn above the title like the guide cards' category) ·
+ *            title · the approved card summary (Body, ink-2)
+ */
+@layer sections {
+  /* ------------------------------------------------------------ home: the two previews */
+  .cases__grid {
+    display: grid;
+    gap: var(--gutter);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .cases__item {
+    display: flex;
+    min-inline-size: 0;
+
+    & > .case-preview {
+      flex: 1 1 auto;
+    }
+  }
+
+  @media (width >= 768px) {
+    .cases__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .cases__item,
+    .cases__item > .case-preview {
+      display: grid;
+      grid-row: span 3;
+      grid-template-rows: subgrid;
+      row-gap: 0;
+    }
+
+    .cases__item > .case-preview {
+      row-gap: var(--card-gap);
+    }
+  }
+
+  .cases__foot,
+  .guides__foot {
+    display: flex;
+    justify-content: center;
+    margin-block-start: var(--s-12);
+  }
+
+  /* ------------------------------------------------------------ the preview card */
+  .case-preview__summary {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+  }
+
+  .case-preview > .card__footer {
+    padding-block-start: var(--s-2);
+  }
+
+  .case-preview__cta {
+    color: var(--ink);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+  }
+
+  /* ------------------------------------------------------------ the directory card (P04) */
+  .case-card {
+    --card-gap: var(--s-3);
+  }
+
+  .case-card__category {
+    order: -1;
+    margin: 0;
+    color: var(--bronze);
+    font-size: var(--fs-small);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-small);
+  }
+
+  .case-card__summary {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+  }
+}

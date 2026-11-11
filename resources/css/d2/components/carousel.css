@@ -1,0 +1,327 @@
+/*
+ * Design 2 component: carousel (<x-d2.ui.carousel>; behaviour in resources/js/d2/components/carousel.js).
+ * Upgrade spec §8 "Carousels" and §12 E: CSS scroll-snap (x mandatory), cards 85 % wide, 16 px gap, position
+ * dots, RTL aware, no autoplay. Mobile first: the rail is the default at every width; .carousel--until-768 /
+ * .carousel--until-1280 release it from that width (display back to the element's own, no padding, no
+ * scrolling), so the <ul> becomes a plain list the caller lays out with its list-class (sections and pages
+ * are later cascade layers, so the caller's display / grid rules win there).
+ *
+ * Caller knobs (custom properties on the component or an ancestor):
+ *   --carousel-card   slide width, % of the track (default 85 %: the next card peeks in)
+ *   --carousel-gap    space between slides (default --s-4, 16 px)
+ *   --carousel-bleed  how far the rail runs past its box to the screen edges (default --pad-x, the
+ *                     .container padding); 0 inside a box that does not touch the page padding
+ *
+ * Position dots are 48 px squares; a rail with more cards than such dots fit in its row shows a pager instead
+ * (previous · "3/12" · next, final pass, home-mobile). Slides share one height (the tallest card); a slide's
+ * only child stretches to it. Card shadows and the
+ * focus ring get 8 px of room above and below the track (overflow clips them otherwise), given back with a
+ * negative margin so the rail keeps the rhythm of a plain list.
+ *
+ * A slide's own display always wins (home-mobile): the rail only makes a slide a flex column through a
+ * zero-specificity rule while it is a rail, and the plain-list widths never touch the slide's display (a
+ * `display: revert` there rolled every <x-d2.ui.card as="li"> slide back to the browser's list-item).
+ */
+@layer components {
+  .carousel {
+    --carousel-card: 85%;
+    --carousel-gap: var(--s-4);
+    --carousel-bleed: var(--pad-x);
+    --carousel-room: var(--s-2);
+    /* One dot, or one pager button: a 48 px square at every pointer (carousel.js reads it to decide when
+       the dots no longer fit and the pager takes over). */
+    --dot-hit: var(--target-touch);
+
+    position: relative;
+    min-inline-size: 0;
+    /* Nothing on the root animates. Under reduced motion base/motion.css gives every transition 1 ms, and
+       with the initial `transition-property: all` the reserved dots row (below) would linger one frame after
+       the dots appear: long enough for a #fragment scroll to measure both (home-mobile). */
+    transition-property: none;
+  }
+
+  /* ---------------------------------------------------------------- rail */
+  .carousel__track {
+    display: flex;
+    gap: var(--carousel-gap);
+    align-items: stretch;
+    padding-block: var(--carousel-room);
+    padding-inline: var(--carousel-bleed);
+    margin-block: calc(var(--carousel-room) * -1);
+    margin-inline: calc(var(--carousel-bleed) * -1);
+    list-style: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-inline: contain; /* a swipe at either end never turns into a Back gesture */
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--carousel-bleed);
+    scrollbar-width: none;
+    outline: none;
+
+    > * {
+      flex: 0 0 var(--carousel-card);
+      min-inline-size: 0;
+      scroll-snap-align: start;
+    }
+
+    > * > :only-child {
+      flex: 1 1 auto;
+    }
+  }
+
+  /* While it is a rail, a slide without a layout of its own is a flex column, so its only child stretches
+     to the shared height. Zero specificity: a slide's own display (a card, a caller's item) always wins. */
+  :where(.carousel:not(.carousel--until-768, .carousel--until-1280) > .carousel__track > *) {
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media (width < 768px) {
+    :where(.carousel--until-768 > .carousel__track > *) {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  @media (width < 1280px) {
+    :where(.carousel--until-1280 > .carousel__track > *) {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  /* A track that holds no link of its own is focusable (carousel.js): arrows scroll it. */
+  .carousel__track[tabindex]:focus-visible {
+    outline: var(--focus-w) solid var(--focus-color);
+    outline-offset: calc(var(--focus-w) * -1);
+  }
+
+  /* ---------------------------------------------------------------- dots */
+  /* One row of exactly --dot-hit, dots or pager, so the reserved row below always matches it. */
+  .carousel__dots {
+    display: flex;
+    gap: 0;
+    align-items: center;
+    justify-content: center;
+    max-inline-size: 100%;
+    block-size: var(--dot-hit);
+    margin-block-start: var(--s-2);
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  /* The pager of a long rail: previous, the position, next (48 px icon buttons named carousel-prev / -next). */
+  .carousel__dots--pager {
+    gap: var(--s-3);
+  }
+
+  .carousel__count {
+    min-inline-size: var(--s-16);
+    margin: 0;
+    color: var(--ink-2);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+    text-align: center;
+  }
+
+  :is(.on-dark, .on-night) .carousel__count {
+    color: var(--on-dark-2);
+  }
+
+  /*
+   * Under html.js (set before the first paint) the dots' row is reserved while the element is a rail, so
+   * nothing below moves when the script draws the dots (a #fragment landing in a rail further down was
+   * 52 px off per rail above it; home-mobile). The row stays [hidden] until then (the reset's [hidden] rule
+   * is !important), so the reservation is the root's bottom padding (the 48 px row, --dot-hit, and the row's
+   * margin) until carousel.js marks the root .carousel--ready in the same task that shows the dots (a class,
+   * not :has([hidden]): Chrome applied that a frame late, and a fragment scroll measured both).
+   * Without JavaScript there are no dots and no row.
+   */
+  .js .carousel:not(.carousel--until-768, .carousel--until-1280, .carousel--ready):has(> .carousel__dots) {
+    padding-block-end: calc(var(--dot-hit) + var(--s-2));
+  }
+
+  @media (width < 768px) {
+    .js .carousel--until-768:not(.carousel--ready):has(> .carousel__dots) {
+      padding-block-end: calc(var(--dot-hit) + var(--s-2));
+    }
+  }
+
+  @media (width < 1280px) {
+    .js .carousel--until-1280:not(.carousel--ready):has(> .carousel__dots) {
+      padding-block-end: calc(var(--dot-hit) + var(--s-2));
+    }
+  }
+
+  /* The dot is a --dot-hit square (48 px): a rail whose dots would be narrower gets the pager instead. */
+  .carousel__dot {
+    position: relative;
+    display: grid;
+    flex: 0 0 var(--dot-hit);
+    place-items: center;
+    inline-size: var(--dot-hit);
+    block-size: var(--dot-hit);
+    padding: 0;
+    color: inherit;
+    cursor: pointer;
+    background: none;
+    border: 0;
+    border-radius: var(--radius-pill);
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+
+    /* Focus ring: a fixed 32 × 16 pill around the segment (the hit area itself can be narrow or wide). */
+    &::before {
+      position: absolute;
+      inset-block-start: calc(50% - var(--s-4) / 2);
+      inset-inline-start: calc(50% - var(--s-8) / 2);
+      inline-size: var(--s-8);
+      block-size: var(--s-4);
+      pointer-events: none;
+      content: "";
+      border-radius: var(--radius-pill);
+    }
+
+    &:focus-visible::before {
+      outline: var(--focus-w) solid var(--focus-color);
+      outline-offset: 0;
+    }
+  }
+
+  /* Design 2.1: a thin 24 × 2 segment (the language of the hero's progress segments, D17), not a dot. The others
+     are --line-strong; the current card's segment is ink. Only colour and a press scale change. */
+  .carousel__dot-mark {
+    inline-size: var(--s-6);
+    block-size: 2px;
+    pointer-events: none;
+    background: var(--line-strong);
+    border-radius: var(--radius-pill);
+    transition: transform var(--dur-press) var(--ease-out);
+  }
+
+  .carousel__dot[aria-current="true"] .carousel__dot-mark {
+    background: var(--ink);
+  }
+
+  @media (hover: hover) {
+    .carousel__dot:not([aria-current="true"]):hover .carousel__dot-mark {
+      background: var(--ink-3);
+    }
+  }
+
+  .carousel__dot:active .carousel__dot-mark {
+    transform: scaleX(0.9);
+  }
+
+  :is(.on-dark, .on-night) .carousel__dot-mark {
+    background: var(--line-on-dark);
+  }
+
+  :is(.on-dark, .on-night) .carousel__dot[aria-current="true"] .carousel__dot-mark {
+    background: var(--on-dark);
+  }
+
+  /* ---------------------------------------------------------------- plain list from the caller's width */
+  @media (width >= 768px) {
+    .carousel--until-768 > .carousel__track {
+      display: revert;
+      gap: revert;
+      padding: 0;
+      margin: 0;
+      overflow: visible;
+      scroll-snap-type: none;
+
+      > * {
+        flex: initial;
+        scroll-snap-align: none;
+      }
+    }
+
+    .carousel--until-768 > .carousel__dots {
+      display: none;
+    }
+  }
+
+  @media (width >= 1280px) {
+    .carousel--until-1280 > .carousel__track {
+      display: revert;
+      gap: revert;
+      padding: 0;
+      margin: 0;
+      overflow: visible;
+      scroll-snap-type: none;
+
+      > * {
+        flex: initial;
+        scroll-snap-align: none;
+      }
+    }
+
+    .carousel--until-1280 > .carousel__dots {
+      display: none;
+    }
+  }
+
+  /* ---------------------------------------------------------------- print: every card on paper (home-mobile) */
+  @media print {
+    .carousel__track {
+      flex-wrap: wrap;
+      padding-inline: 0;
+      margin-inline: 0;
+      overflow: visible;
+    }
+
+    .carousel__dots {
+      display: none !important;
+    }
+  }
+
+  /* ---------------------------------------------------------------- styleguide specimens */
+  /* A phone-width screen (24 px padding = the default bleed): the rail runs to its edges as on a phone. */
+  .carousel-demo {
+    inline-size: 100%;
+    max-inline-size: 390px;
+    padding: var(--s-6);
+    margin-inline: auto;
+    overflow: clip;
+    background: var(--canvas);
+    border: var(--line-w) solid var(--line);
+    border-radius: var(--radius-card);
+  }
+
+  .carousel-demo__text {
+    margin-block-start: var(--s-2);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+    color: var(--ink-2);
+  }
+
+  /* Inside a styleguide specimen the rail bleeds to the specimen's edges (its padding), not the page's. */
+  .carousel-demo__bleed {
+    --carousel-bleed: var(--s-5);
+  }
+
+  @media (width >= 768px) {
+    .carousel-demo__bleed {
+      --carousel-bleed: var(--s-6);
+    }
+  }
+
+  /* The "until 768" specimen's own plain-list layout from 768 px (a caller's grid, here in the same layer). */
+  @media (width >= 768px) {
+    .carousel--until-768 > .carousel__track.carousel-demo__grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--gutter);
+    }
+  }
+
+  @media (width >= 1280px) {
+    .carousel--until-768 > .carousel__track.carousel-demo__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+}

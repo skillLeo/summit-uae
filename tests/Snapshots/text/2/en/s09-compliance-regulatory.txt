@@ -1,0 +1,202 @@
+# text-snapshot: design 2, locale en, route s09-compliance-regulatory
+# GET /en/practice-areas/compliance-regulatory/ -> 200; html lang=en dir=ltr data-design=2
+=== header ===
+Choose language
+English
+Request a Legal Consultation
+Home
+Practice Areas
+Legal Resources
+Case Studies
+FAQs
+About Us
+Contact Us
+=== main ===
+Home
+Practice Areas
+Compliance and Regulatory Matters
+Corporate Compliance and Regulatory Matters in the UAE
+A licence may remain valid even though the listed activities or policies no longer reflect what the company does today. We review how the business operates, the requirements that apply and the gap between documentation and practice, then prioritise corrective action according to risk and responsibility for implementation.
+Request a Legal Consultation
+Contact Us on WhatsApp
+(opens in a new tab)
+On this page
+Who This Service Is For
+Matters Covered by the Review
+Practical Situations We Review with You
+How We Handle Your Matter
+Documents That Help Us Get Started
+Before Taking the Next Step
+Start with Your Situation
+FAQs
+Related Topics and Services
+Official Sources for Reference
+Tell Us About Your Matter
+Scope of Service and Published Information
+Tell Us About Your Matter
+Request a Legal Consultation
+Contact Us on WhatsApp
+(opens in a new tab)
+Who This Service Is For
+Companies that have expanded or changed their activities without reviewing compliance
+Companies in sectors subject to AML requirements
+Companies that have received a regulatory enquiry
+Start-ups seeking to establish a compliance framework from the outset
+Investors taking a stake in a company and seeking to assess compliance risks
+Matters Covered by the Review
+Anti-money laundering and countering terrorist financing
+Beneficial ownership and related registers
+Customer due diligence
+Data protection and information privacy
+Licensing requirements and permitted activities
+Internal governance and policies
+Requirements of free zones and supervisory authorities
+Practical Situations We Review with You
+Identifying Requirements from the Actual Business Activity
+We start with the legal form, licensing location, activities, customers, products and flow of funds. From those facts, we identify the relevant authorities and rules rather than using the same checklist for every company.
+Being established in a free zone does not necessarily exclude federal legislation. Financial free zones also have different regimes from other free zones, and some obligations depend on the activity or transaction rather than the licence description alone.
+Anti-Money Laundering and Due Diligence
+For businesses within scope, we review risk assessments, customer acceptance policies, beneficial owner identification, verification of information, record retention, training and related procedures. Reporting duties and responsibilities are determined by the applicable rules and supervisory authority.
+The assessment includes whether actual files are consistent with policy: what was collected, who reviewed it and how risk indicators were addressed. A signed form alone does not establish that the requirements have been fully implemented.
+Governance, Data and Licensing
+We help review signing authority, management delegations, the handling of conflicts of interest, beneficial ownership requirements and policies for handling customer and employee data. We prioritise corrective action according to risk and responsibility for implementation.
+If You Receive a Regulatory Enquiry
+Keep the complete request and establish the response deadline. Do not create backdated records or alter information to suggest compliance that did not occur. We help prepare an accurate response explaining the facts, documents and a remediation plan where deficiencies exist.
+Engagement deliverables may include a list of applicable obligations, a gap analysis, updates to specified policies and a remediation plan identifying priorities, responsible persons, deadlines and evidence of completion. Completing the review does not amount to regulatory approval or guarantee that no penalty will be imposed.
+How We Handle Your Matter
+Review the licence and permitted activities and compare them with actual operations.
+Analyse existing internal policies on AML, due diligence and data protection.
+Identify gaps between regulatory requirements and actual practice.
+Develop a remediation plan with clear priorities and a timetable.
+Review documentation, training and internal procedures.
+Documents That Help Us Get Started
+The licence, incorporation documents, ownership and control structure, and authorisations.
+A description of activities, products, customers, countries, the flow of funds and sector-specific approvals.
+Risk, due diligence, beneficial ownership and data retention policies, together with training and implementation records.
+Supervisory requests, earlier reports, remediation plans and evidence that actions have been completed.
+Send clear, complete copies initially and retain the originals. Do not send passwords, verification codes or financial account access credentials. An appropriate method for sharing sensitive documents can be agreed.
+Before Taking the Next Step
+Useful First Steps
+Review the licence and permitted activities whenever a change occurs
+Update beneficial ownership information regularly
+Keep due diligence records organised and available for review
+Train employees on essential policies, including staff outside management
+Mistakes to Avoid
+Carrying on an activity not listed in the licence
+Having compliance policies that exist only on paper and are not implemented
+Failing to update beneficial ownership registers
+Responding late to regulatory correspondence
+Start with Your Situation
+This service may be relevant if:
+Your company has expanded or changed its activity without reviewing its regulatory obligations.
+Show the starting file
+You want to update your company’s anti-money laundering policies.
+Show the starting file
+You received an enquiry from a regulator and do not know how to respond.
+Show the starting file
+You want a compliance review before a new investment partner joins.
+Show the starting file
+FAQs
+Are All Companies Subject to the Same AML Requirements?
+No. Obligations differ according to the activity, the capacity in which the business acts and its supervisory authority. The rules cover financial sectors and specified non-financial businesses and professions within their scope. The actual activities and services must be checked rather than copying another company’s policy.
+Does Being in a Free Zone Exclude Federal Laws?
+Not necessarily. Financial free zones have different regimes from other free zones, and federal obligations may apply according to the activity or transaction. Each applicable framework and authority must be identified from the business’s circumstances.
+Can We Carry On an Activity Similar to the Licensed Activity?
+Do not assume that commercial similarity is enough. Review the activity description, approvals and restrictions. A licence amendment or additional permit may be needed before starting the activity.
+When Should Beneficial Ownership Information Be Reviewed?
+When ownership, control or material information changes, and as part of the regular reviews required by the applicable rules. The procedure, deadline and authority must be identified for the particular circumstances.
+Is a Written Policy Enough?
+Businesses subject to an obligation must implement the requirements and retain evidence. The review covers customer files, risk assessment, verification, training, escalation and records, rather than the existence of a form alone.
+How Should I Handle a Regulatory Enquiry?
+Keep the complete request and identify its scope, deadline and the person responsible for responding. Provide accurate information, valid documents and a remediation plan for any deficiencies, without concealing information or creating records suggesting earlier compliance that did not occur.
+Compliance
+62. When should I review my company's compliance?
+63. Who is the ultimate beneficial owner?
+64. Is a written anti-money laundering policy enough?
+65. Can I carry out an unlisted activity because it is similar to mine?
+66. How should I respond to a regulator's request?
+Related Topics and Services
+Guide to Reviewing Compliance
+Legal Resources
+Corporate and Commercial Law
+Practice Areas
+Tax Disputes
+Practice Areas
+Digital Currency Activities
+Practice Areas
+All FAQs
+Back to Practice Areas
+Official Sources for Reference
+Federal Legislation on Combating Money Laundering, Terrorist Financing and Proliferation Financing
+uaelegislation.gov.ae
+(opens in a new tab)
+Executive Regulations of the Legislation
+uaelegislation.gov.ae
+(opens in a new tab)
+Tell Us About Your Matter
+Send a summary of the matter and the main document, if available, and mention any hearing or current deadline. Before work begins, we will explain the scope of consultation, the fee and the documents required.
+Request a Legal Consultation
+Contact Us on WhatsApp
+(opens in a new tab)
++971 52 466 6191
+info@summitlegaluae.com
+The service is available in Arabic, English and Russian. Sending an enquiry does not mean that the engagement has been accepted or that monitoring of legal deadlines has begun.
+Scope of Service and Published Information
+Summit is a legal consultancy company. The work, deliverables and fees are defined in the agreed engagement. Court advocacy or representation requiring an advocate is carried out by licensed advocates. Where work requires separate professional registration or specialist expertise, it is coordinated with an appropriately qualified professional as needed.
+This is general information and does not replace a review of the facts, documents, applicable law, competent authority and relevant deadlines. Options and outcomes vary from one matter to another. Presenting this service does not guarantee a decision, recovery of funds or approval by an external authority.
+Legal Notice and Scope of Services
+=== footer ===
+Summit Legal Consultancy
+Legal advice for individuals, businesses, investors and residents in the UAE, in Arabic, English and Russian.
++971 52 466 6191
+Contact Us on WhatsApp
+(opens in a new tab)
+info@summitlegaluae.com
+Business hours: Monday to Friday, 9 am to 6 pm.
+Practice Areas
+Debt Recovery and Cheque Cases
+Criminal Cases
+Cryptocurrency and Digital Currency Cases
+Corporate and Commercial Law
+Property and Tenancy Disputes
+Employment Law
+Tax Disputes and Tax Compliance
+Family Law and Wills
+Compliance and Regulatory Matters
+Legal Translation
+Business Services
+Legal Resources
+Legal Resources Centre
+FAQs
+Case Studies
+Useful Links
+About Us
+Contact Us
+Legal Notice
+Privacy Policy
+Terms and Conditions
+The information published is general and does not replace a review of the facts and documents relating to your matter. The scope of service and fees are determined when the engagement is accepted. Court advocacy requiring an advocate is carried out by licensed advocates.
+Specialist Resources and Services Associated with Summit
+Employment Law
+laborlawuae.com
+(opens in a new tab)
+Debt Recovery and Cheques
+debtrecoveryuae.com
+(opens in a new tab)
+Property Disputes
+dubaipropertydispute.com
+(opens in a new tab)
+Digital Currencies
+uaecryptocases.com
+(opens in a new tab)
+Wills
+uaeexpatwills.com
+(opens in a new tab)
+Tax Disputes
+uaetaxdisputes.com
+(opens in a new tab)
+© {{YEAR}} Summit Legal Consultancy. All rights reserved.
+Choose language
+Arabic
+English
+Russian

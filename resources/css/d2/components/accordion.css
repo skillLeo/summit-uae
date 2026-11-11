@@ -1,0 +1,206 @@
+/*
+ * Design 2.1 component: accordion (<x-d2.ui.accordion>, <x-d2.ui.accordion-item>). Brief §3.5, §5.2 (FAQ: visible
+ * H3 questions, complete answers in the HTML), §6 (height spring); docs/d2.1/phase-1/components.md §2.
+ * <details>/<summary>, so it works without JavaScript. The summary is a full-width row of at least 48 px: the
+ * question in the H3 role and a 20px chevron-down in ink-2 that turns 180° on open (ui spring, 240 ms). The height
+ * springs open through interpolate-size + ::details-content where both exist; elsewhere the item opens instantly,
+ * and reduced motion never animates. Hover: an 8% wash on the row (opacity only).
+ *   card   one white surface: 1px --line edge, radius 10, no shadow, hairlines between the items
+ *   flush  hairlines only (inside a card or a column); the text lines up with the column
+ */
+@layer components {
+  .acc {
+    display: grid;
+  }
+
+  /* card: one white grouped surface, rows inset by 8 px so the focus ring has room */
+  .acc--card {
+    padding: var(--s-2);
+    background: var(--canvas);
+    border: var(--line-w) solid var(--line);
+    border-radius: var(--radius-card);
+  }
+
+  .acc__item {
+    position: relative;
+    isolation: isolate;
+    interpolate-size: allow-keywords;
+  }
+
+  .acc__item + .acc__item {
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  /* ------------------------------------------------------------ summary row */
+  .acc__summary {
+    position: relative;
+    display: flex;
+    gap: var(--s-4);
+    align-items: flex-start;
+    min-block-size: var(--target-touch);
+    padding: var(--s-4);
+    color: var(--ink);
+    list-style: none;
+    cursor: pointer;
+    border-radius: var(--radius-control);
+    -webkit-tap-highlight-color: transparent;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &::before {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      content: "";
+      background: var(--hover-tint);
+      border-radius: inherit;
+      opacity: 0;
+      transition: opacity var(--dur-hover) var(--ease-out);
+    }
+
+    &:focus-visible {
+      outline: var(--focus-w) solid var(--focus-color);
+      outline-offset: var(--focus-offset);
+    }
+  }
+
+  /* flush: hairlines between items only; the hover wash bleeds 12 px past the column, the text stays aligned */
+  .acc--flush .acc__summary {
+    margin-inline: calc(-1 * var(--s-3));
+    padding-block: var(--s-4);
+    padding-inline: var(--s-3);
+  }
+
+  @media (hover: hover) {
+    .acc__summary:hover::before {
+      opacity: 1;
+    }
+  }
+
+  .acc__item.is-hover > .acc__summary::before {
+    opacity: 1;
+  }
+
+  .acc__item.is-focus > .acc__summary {
+    outline: var(--focus-w) solid var(--focus-color);
+    outline-offset: var(--focus-offset);
+  }
+
+  .acc__title {
+    flex: 1;
+    min-inline-size: 0;
+    margin: 0;
+    color: inherit;
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+    text-wrap: pretty;
+  }
+
+  /* The chevron sits on the first line of the question, centred on it. */
+  .acc__chevron {
+    display: grid;
+    flex: none;
+    place-items: center;
+    block-size: var(--lh-h3);
+    color: var(--ink-2);
+    transition: transform var(--spring-ui-dur) var(--spring-ui);
+  }
+
+  .acc__item[open] > .acc__summary .acc__chevron {
+    transform: rotate(180deg);
+  }
+
+  /* ------------------------------------------------------------ panel */
+  .acc__panel {
+    display: grid;
+    gap: var(--s-3);
+    padding: 0 var(--s-4) var(--s-5);
+    color: var(--ink-2);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+
+    & > * {
+      max-inline-size: var(--measure);
+      margin: 0;
+    }
+  }
+
+  .acc--flush .acc__panel {
+    padding-inline: 0;
+  }
+
+  /* ------------------------------------------------------------ spring height (progressive) */
+  @supports (interpolate-size: allow-keywords) {
+    .acc__item::details-content {
+      block-size: 0;
+      overflow-y: clip;
+      transition:
+        block-size var(--spring-ui-dur) var(--spring-ui),
+        content-visibility var(--spring-ui-dur) allow-discrete;
+    }
+
+    .acc__item[open]::details-content {
+      block-size: auto;
+    }
+
+    .motion-ok .acc__panel {
+      transition: opacity var(--dur-enter) var(--ease-out);
+    }
+
+    .motion-ok .acc__item:not([open]) > .acc__panel {
+      opacity: 0;
+    }
+
+    @starting-style {
+      .motion-ok .acc__item[open] > .acc__panel {
+        opacity: 0;
+      }
+    }
+  }
+
+  /* ------------------------------------------------------------ dark surfaces */
+  :is(.on-dark, .on-night) .acc--card {
+    background: var(--dark-2);
+    border-color: var(--line-on-dark);
+  }
+
+  :is(.on-dark, .on-night) .acc__item + .acc__item {
+    border-color: var(--line-on-dark);
+  }
+
+  :is(.on-dark, .on-night) .acc__summary {
+    color: var(--on-dark);
+
+    &::before {
+      background: var(--dark-hover-tint);
+    }
+  }
+
+  :is(.on-dark, .on-night) .acc__chevron {
+    color: var(--on-dark-2);
+  }
+
+  :is(.on-dark, .on-night) .acc__panel {
+    color: var(--on-dark-2);
+  }
+
+  /* deep links: exclusive-group siblings closed by a #hash collapse at once (accordion-hash.js) */
+  .acc__item.is-instant::details-content,
+  .acc__item.is-instant > .acc__panel,
+  .acc__item.is-instant > .acc__summary .acc__chevron {
+    transition: none;
+  }
+
+  /* ------------------------------------------------------------ reduced motion: final state, no movement */
+  @media (prefers-reduced-motion: reduce) {
+    .acc__item::details-content,
+    .acc__chevron,
+    .acc__panel {
+      transition: none;
+    }
+  }
+}

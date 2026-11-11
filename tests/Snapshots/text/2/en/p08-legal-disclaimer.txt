@@ -1,0 +1,115 @@
+# text-snapshot: design 2, locale en, route p08-legal-disclaimer
+# GET /en/legal-disclaimer/ -> 200; html lang=en dir=ltr data-design=2
+=== header ===
+Choose language
+English
+Request a Legal Consultation
+Home
+Practice Areas
+Legal Resources
+Case Studies
+FAQs
+About Us
+Contact Us
+=== main ===
+Home
+Legal Notice and Scope of Services
+Legal Notice and Scope of Services
+Last updated: 23 October 2026
+This notice explains the nature of the information published on the Summit Legal Consultancy website, the limits on its use and how a professional engagement begins. It should be read together with the Terms and Conditions and Privacy Policy, and does not replace a service agreement specific to your matter.
+On this page
+1. General Information and Advice on Your Matter
+2. Summit and the Scope of Its Services
+3. When a Professional Engagement Begins
+4. Outcomes and Case Studies
+5. Content Accuracy and Updates
+6. Official Sources and Linked Websites
+7. Electronic Communications and Sensitive Information
+8. Limits on Reliance and Liability
+9. Applicable Law and Contact
+1. General Information and Advice on Your Matter
+The website content, including service pages, articles, guides, frequently asked questions and case studies, is provided for general information. It does not in itself constitute legal advice tailored to particular circumstances or replace a review of the relevant facts, documents, law, jurisdiction and deadlines.
+A matter may have a similar description to yours while differing in material respects. A decision to sign, settle, pursue a claim, respond or appeal requires an assessment suited to your matter. A brief example alone should not be used to determine a deadline, likely outcome or eligibility for a procedure.
+2. Summit and the Scope of Its Services
+Summit Legal Consultancy is a legal consultancy company in the United Arab Emirates. Its work is defined by the agreed engagement and may include advice, document review, preparation of legal opinions or written submissions, and legal support, depending on the service.
+Advocacy or representation requiring an advocate is undertaken by licensed advocates, according to the authority and procedure concerned. Work requiring a technical expert, legal translator, tax agent or another regulated professional is coordinated with a suitably qualified specialist where needed. Listing a practice area on the website does not mean that Summit directly performs every regulated activity within that area.
+3. When a Professional Engagement Begins
+Reading the website or sending an enquiry or document through the form, by email or on WhatsApp does not, by itself, create a professional engagement or mean that responsibility for a matter or its deadlines has been accepted. Work begins once the engagement is accepted and its scope, fees and any necessary documents or authority have been agreed.
+An acknowledgement confirms that the request has reached the system; it does not confirm an appointment or acceptance of the work. If you have an upcoming hearing or deadline, state it clearly and confirm that the engagement has been accepted. A request for contact alone does not suspend legal deadlines.
+4. Outcomes and Case Studies
+Published case studies describe issues and outcomes relating to particular matters. Outcomes vary according to the facts, documents, evidence, deadlines, competent authority and procedural stage. A past outcome does not guarantee a similar result in another matter.
+A distinction must be made between advisory work and a court judgment, between obtaining a judgment, enforcing it and actually recovering funds, and between an ongoing procedure and a final outcome. Case studies may summarise some details or omit identifying information to protect confidentiality; they do not present the complete case file or all the reasons for the judgment.
+5. Content Accuracy and Updates
+We aim to provide accurate, understandable information. Legislation, procedures and authority requirements may change after publication. The continued availability of a page does not mean that every detail was reviewed on the day of your visit.
+Check the rules applicable to your circumstances before taking action in reliance on them, particularly those concerning deadlines, fees and jurisdiction. You may report information that needs correction by identifying the page, passage and relevant source.
+6. Official Sources and Linked Websites
+We provide links to official bodies and external sources to make information or services easier to access. Those websites are operated by their respective administrators and are subject to their own terms and privacy policies. Their pages or requirements may change.
+Specialist websites identified on this website as belonging to Summit or relating to its services are related resources or services, not independent endorsements by a government body. A link alone does not establish an official partnership with, or accreditation by, the body concerned.
+7. Electronic Communications and Sensitive Information
+Communications may be affected by technical or security issues or by delays in delivery and response. In your initial contact, send what is necessary to understand the matter and arrange an appropriate method with us for sensitive documents where needed.
+Do not send passwords, verification codes, private keys or a digital wallet recovery phrase. The use, retention and sharing of information you send are governed by the Privacy Policy and applicable rules, whether or not an engagement is subsequently accepted.
+8. Limits on Reliance and Liability
+General content is not provided as a guarantee that a decision you make without a review of your circumstances is correct. Each party’s liability is determined by the facts, applicable law and any existing service agreement.
+This notice is not intended to exclude any liability of Summit that cannot lawfully be excluded, or to limit any mandatory right, professional duty or data protection obligation. Any limitation of liability must be construed within the narrowest limits permitted by law.
+9. Applicable Law and Contact
+This notice is interpreted in light of the applicable laws of the United Arab Emirates, subject to mandatory rules and the jurisdiction established by law. For questions about the content or scope of service, contact us and identify the relevant page or topic.
+info@summitlegaluae.com
++971 52 466 6191
+Contact Summit
+Privacy Policy
+Terms and Conditions
+=== footer ===
+Summit Legal Consultancy
+Legal advice for individuals, businesses, investors and residents in the UAE, in Arabic, English and Russian.
++971 52 466 6191
+Contact Us on WhatsApp
+(opens in a new tab)
+info@summitlegaluae.com
+Business hours: Monday to Friday, 9 am to 6 pm.
+Practice Areas
+Debt Recovery and Cheque Cases
+Criminal Cases
+Cryptocurrency and Digital Currency Cases
+Corporate and Commercial Law
+Property and Tenancy Disputes
+Employment Law
+Tax Disputes and Tax Compliance
+Family Law and Wills
+Compliance and Regulatory Matters
+Legal Translation
+Business Services
+Legal Resources
+Legal Resources Centre
+FAQs
+Case Studies
+Useful Links
+About Us
+Contact Us
+Legal Notice
+Privacy Policy
+Terms and Conditions
+The information published is general and does not replace a review of the facts and documents relating to your matter. The scope of service and fees are determined when the engagement is accepted. Court advocacy requiring an advocate is carried out by licensed advocates.
+Specialist Resources and Services Associated with Summit
+Employment Law
+laborlawuae.com
+(opens in a new tab)
+Debt Recovery and Cheques
+debtrecoveryuae.com
+(opens in a new tab)
+Property Disputes
+dubaipropertydispute.com
+(opens in a new tab)
+Digital Currencies
+uaecryptocases.com
+(opens in a new tab)
+Wills
+uaeexpatwills.com
+(opens in a new tab)
+Tax Disputes
+uaetaxdisputes.com
+(opens in a new tab)
+© {{YEAR}} Summit Legal Consultancy. All rights reserved.
+Choose language
+Arabic
+English
+Russian

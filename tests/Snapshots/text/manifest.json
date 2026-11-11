@@ -1,0 +1,180 @@
+{
+  "generator": "scripts/qa/text-snapshot.mjs",
+  "format": 1,
+  "layout": "{design}/{locale}/{route}.txt; the language chooser \"/\" has no locale and is stored as {design}/root/chooser.txt",
+  "capture": {
+    "browser": "Google Chrome (Playwright channel \"chrome\"), headless, one fresh context per page",
+    "cookies": "summit_design=<design>, summit_qa=1",
+    "javaScript": false,
+    "reducedMotion": "reduce",
+    "colorScheme": "light",
+    "viewport": "1440x900 at device scale 1",
+    "timezone": "Asia/Dubai",
+    "browserLocale": {
+      "en": "en-GB",
+      "ar": "ar-AE",
+      "ru": "ru-RU",
+      "root": "en-GB"
+    },
+    "notFetched": "images, fonts, media, scripts and any other host",
+    "landmarks": "first <header> and first <footer> outside article/aside/main/nav/section, first <main>",
+    "text": "innerText with CSS text-transform switched off and every <details> opened"
+  },
+  "normalisation": "NFC; CR LF, CR, U+2028, U+2029 -> LF; tabs and \\p{Zs} -> one space; runs of spaces collapsed; lines trimmed; empty lines dropped; quotes, dashes, digits and case kept",
+  "masks": {
+    "{{YEAR}}": "the year after \"©\" (footer copyright line, rendered from the clock)",
+    "{{CSRF}}": "the page CSRF token, if it ever appears in the text",
+    "{{NONCE}}": "the page CSP nonce, if it ever appears in the text",
+    "{{UUID}}": "any UUID (idempotency keys), if one ever appears in the text"
+  },
+  "routes": [
+    {
+      "route": "home",
+      "path": "/{locale}/",
+      "status": 200
+    },
+    {
+      "route": "p02-practice-areas",
+      "path": "/{locale}/practice-areas/",
+      "status": 200
+    },
+    {
+      "route": "p03-resources",
+      "path": "/{locale}/resources/",
+      "status": 200
+    },
+    {
+      "route": "p04-case-studies",
+      "path": "/{locale}/case-studies/",
+      "status": 200
+    },
+    {
+      "route": "p05-faq",
+      "path": "/{locale}/faq/",
+      "status": 200
+    },
+    {
+      "route": "p06-about",
+      "path": "/{locale}/about/",
+      "status": 200
+    },
+    {
+      "route": "p07-contact",
+      "path": "/{locale}/contact/",
+      "status": 200
+    },
+    {
+      "route": "p08-legal-disclaimer",
+      "path": "/{locale}/legal-disclaimer/",
+      "status": 200
+    },
+    {
+      "route": "l01-privacy-policy",
+      "path": "/{locale}/privacy-policy/",
+      "status": 200
+    },
+    {
+      "route": "l02-terms-and-conditions",
+      "path": "/{locale}/terms-and-conditions/",
+      "status": 200
+    },
+    {
+      "route": "s01-debt-recovery-cheque-cases",
+      "path": "/{locale}/practice-areas/debt-recovery-cheque-cases/",
+      "status": 200
+    },
+    {
+      "route": "s02-criminal-cases",
+      "path": "/{locale}/practice-areas/criminal-cases/",
+      "status": 200
+    },
+    {
+      "route": "s03-crypto-digital-currency-cases",
+      "path": "/{locale}/practice-areas/crypto-digital-currency-cases/",
+      "status": 200
+    },
+    {
+      "route": "s04-corporate-commercial-law",
+      "path": "/{locale}/practice-areas/corporate-commercial-law/",
+      "status": 200
+    },
+    {
+      "route": "s05-real-estate-rental-disputes",
+      "path": "/{locale}/practice-areas/real-estate-rental-disputes/",
+      "status": 200
+    },
+    {
+      "route": "s06-labor-law",
+      "path": "/{locale}/practice-areas/labor-law/",
+      "status": 200
+    },
+    {
+      "route": "s07-tax-disputes-compliance",
+      "path": "/{locale}/practice-areas/tax-disputes-compliance/",
+      "status": 200
+    },
+    {
+      "route": "s08-family-law-wills",
+      "path": "/{locale}/practice-areas/family-law-wills/",
+      "status": 200
+    },
+    {
+      "route": "s09-compliance-regulatory",
+      "path": "/{locale}/practice-areas/compliance-regulatory/",
+      "status": 200
+    },
+    {
+      "route": "s10-legal-translation",
+      "path": "/{locale}/practice-areas/legal-translation/",
+      "status": 200
+    },
+    {
+      "route": "s11-business-services",
+      "path": "/{locale}/practice-areas/business-services/",
+      "status": 200
+    },
+    {
+      "route": "calculators",
+      "path": "/{locale}/calculators/",
+      "status": 200
+    },
+    {
+      "route": "styleguide",
+      "path": "/{locale}/styleguide/",
+      "status": 200
+    },
+    {
+      "route": "offline",
+      "path": "/{locale}/offline/",
+      "status": 200
+    },
+    {
+      "route": "404",
+      "path": "/{locale}/no-such-page-qa/",
+      "status": 404
+    },
+    {
+      "route": "chooser",
+      "path": "/",
+      "status": 200
+    }
+  ],
+  "sources": {
+    "database/content/*.json": "sha256:f6f61aa810792194b5c67759bb81bb7503abe56edc787f520d2dedb0410e326d",
+    "lang/**/*.php": "sha256:dc32d09080d70c970c55d0e66f4198ca1b49f0673cd2d887771d45af0f2a6e40"
+  },
+  "files": {
+    "1": {
+      "en": 24,
+      "ar": 24,
+      "ru": 24,
+      "root": 1
+    },
+    "2": {
+      "en": 25,
+      "ar": 25,
+      "ru": 25,
+      "root": 1
+    }
+  }
+}

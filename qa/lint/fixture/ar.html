@@ -1,0 +1,35 @@
+<!doctype html>
+<!--
+    design lint self-test, Arabic fixture (scripts/qa/lint-design.mjs --self-test). Rule 15 fires exactly once (a text
+    node with both 0-9 and ٠-٩); the controls (Western only, Eastern only, a left-to-right phone island next to
+    Eastern digits) must not fire.
+-->
+<html lang="ar" dir="rtl" class="js" data-design="2" data-page="fixture">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lint fixture AR</title>
+    <link rel="stylesheet" href="/fixture.css">
+</head>
+<body>
+    <header class="site">
+        <div class="container row"><a href="/ar/">الصفحة الرئيسية</a></div>
+    </header>
+
+    <main id="main-content">
+        <section>
+            <div class="container stack">
+                <h1>نموذج الفحص</h1>
+                <p>من 9 صباحاً حتى ٦ مساءً</p>                                                       <!-- rule 15 -->
+                <p>من 9 صباحاً حتى 6 مساءً</p>
+                <p>من ٩ صباحاً حتى ٦ مساءً</p>
+                <p>اتصل بنا على <bdi dir="ltr">+971 52 466 6191</bdi> من ٩ صباحاً</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site">
+        <div class="container"><p class="small">تذييل النموذج</p></div>
+    </footer>
+</body>
+</html>

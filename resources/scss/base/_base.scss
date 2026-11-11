@@ -1,0 +1,313 @@
+@use "../tokens/tokens" as *;
+
+// =============================================================================
+// Base: document, typography, links, focus, accessibility helpers.
+// =============================================================================
+
+html {
+  color: var(--ink);
+  background: var(--white);
+  font-family: var(--font-sans);
+  font-size: 100%;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  text-rendering: optimizelegibility;
+  font-kerning: normal;
+  font-synthesis: none;
+  scroll-padding-block-start: calc(var(--header-h) + var(--s-16));
+  hanging-punctuation: first;
+}
+
+// Phones: the sticky top bar and the fixed bottom bar must never cover a focused or targeted
+// element (WCAG 2.2 SC 2.4.11), so scrolling into view keeps clear of both.
+@media (max-width: $bp-md-max) {
+  html {
+    scroll-padding-block: calc(var(--topbar-h) + var(--s-16)) calc(var(--bottombar-h) + var(--safe-bottom) + var(--s-16));
+  }
+}
+
+body {
+  min-block-size: 100vh;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  font-weight: var(--fw-regular);
+  overflow-wrap: break-word;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+:lang(ru) {
+  hyphens: auto;
+}
+
+// Arabic: never letter-space, never uppercase.
+:lang(ar) * {
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+::selection {
+  color: var(--black);
+  background: var(--gold);
+}
+
+// ---------------------------------------------------------------- headings
+h1,
+h2,
+h3,
+h4,
+.h1,
+.h2,
+.h3,
+.h4 {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: var(--fw-regular);
+  color: inherit;
+  text-wrap: balance;
+  font-feature-settings: "kern", "liga", "lnum";
+}
+
+h1,
+.h1 {
+  font-size: var(--fs-h1);
+  line-height: var(--lh-h1);
+  letter-spacing: -0.012em;
+}
+
+h2,
+.h2 {
+  font-size: var(--fs-h2);
+  line-height: var(--lh-h2);
+  letter-spacing: -0.008em;
+}
+
+h3,
+.h3 {
+  font-size: var(--fs-h3);
+  line-height: var(--lh-h3);
+}
+
+h4,
+.h4 {
+  font-size: var(--fs-h4);
+  line-height: var(--lh-h4);
+}
+
+:lang(ar) :is(h1, h2, h3, h4, .h1, .h2, .h3, .h4) {
+  letter-spacing: 0;
+}
+
+p,
+ul,
+ol,
+dl,
+figure,
+blockquote {
+  margin: 0;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+.lead {
+  font-size: var(--fs-lead);
+  line-height: var(--lh-lead);
+}
+
+.small {
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+}
+
+.ui {
+  font-size: var(--fs-ui);
+  line-height: var(--lh-ui);
+  font-weight: var(--fw-medium);
+}
+
+.measure {
+  max-inline-size: var(--measure);
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+// LTR islands inside any language: phone numbers, emails, URLs, Latin codes.
+.ltr {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+bdi {
+  unicode-bidi: isolate;
+}
+
+// ---------------------------------------------------------------- links
+a {
+  color: var(--bronze);
+  text-decoration-line: underline;
+  text-decoration-thickness: var(--hairline);
+  text-underline-offset: 0.22em;
+  text-decoration-color: currentcolor;
+  transition: color var(--dur-1) var(--ease-out), text-decoration-color var(--dur-1) var(--ease-out);
+
+  &:hover {
+    color: var(--bronze-strong);
+    text-decoration-thickness: var(--focus-w);
+  }
+}
+
+.link-quiet {
+  color: inherit;
+  text-decoration-color: var(--rule-strong);
+
+  &:hover {
+    color: inherit;
+    text-decoration-color: currentcolor;
+  }
+}
+
+// Standalone text link (approved CTA labels such as "View All Practice Areas").
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--target);
+  font-size: var(--fs-ui);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-ui);
+  color: var(--ink);
+  text-decoration-color: var(--bronze);
+  text-decoration-thickness: var(--hairline);
+
+  &:hover {
+    color: var(--bronze-strong);
+    text-decoration-thickness: var(--focus-w);
+  }
+}
+
+.on-dark .text-link {
+  color: var(--on-dark);
+  text-decoration-color: var(--gold);
+
+  &:hover {
+    color: var(--gold);
+  }
+}
+
+// ---------------------------------------------------------------- focus
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: var(--focus-w) solid var(--focus-light);
+  outline-offset: var(--focus-offset);
+  border-radius: var(--radius-control);
+}
+
+.on-dark :focus-visible,
+:is(.site-header, .site-footer, .hero) :focus-visible {
+  outline-color: var(--focus-dark);
+}
+
+// Programmatic focus targets (skip link, result headings) show a ring only when reached by keyboard.
+[tabindex="-1"]:focus:not(:focus-visible) {
+  outline: none;
+}
+
+// ---------------------------------------------------------------- a11y helpers
+.skip-link {
+  position: absolute;
+  inset-block-start: var(--s-8);
+  inset-inline-start: var(--s-8);
+  z-index: 100;
+  padding: var(--s-12) var(--s-16);
+  color: var(--black);
+  background: var(--gold);
+  font-size: var(--fs-ui);
+  font-weight: var(--fw-semibold);
+  text-decoration: none;
+  transform: translateY(-200%);
+  transition: transform var(--dur-1) var(--ease-out);
+
+  &:focus-visible,
+  &:focus {
+    color: var(--black);
+    transform: none;
+    outline-color: var(--black);
+  }
+}
+
+.sr-only {
+  position: absolute !important;
+  inline-size: var(--hairline) !important;
+  block-size: var(--hairline) !important;
+  margin: calc(-1 * var(--hairline)) !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+// ---------------------------------------------------------------- media
+img,
+svg,
+video {
+  display: block;
+  max-inline-size: 100%;
+  block-size: auto;
+}
+
+// Icons sit inline (inside text and links) and centre on the cap height. Directional icons
+// mirror in RTL with the separate `scale` property, so open/rotate transforms still compose.
+.icon {
+  display: inline-block;
+  flex: none;
+  vertical-align: calc((1cap - 1em) / 2);
+}
+
+.icon--mirror:dir(rtl) {
+  scale: -1 1;
+}
+
+hr {
+  margin: 0;
+  border: 0;
+  border-block-start: var(--hairline) solid var(--rule);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+[x-cloak] {
+  display: none !important;
+}
+
+// ---------------------------------------------------------------- motion
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: var(--dur-2);
+    animation-timing-function: var(--ease-out);
+  }
+}

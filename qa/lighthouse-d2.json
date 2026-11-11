@@ -1,0 +1,388 @@
+{
+  "generatedAt": "2026-11-11T12:57:22.330Z",
+  "server": "http://127.0.0.1:8043",
+  "env": {
+    "PHP_CLI_SERVER_WORKERS": "4",
+    "APP_ENV": "production",
+    "APP_DEBUG": "false",
+    "SUMMIT_D2_BUILD_DIR": "build-d2-qa",
+    "SUMMIT_D2_HOT_FILE": "hot-d2-qa-disabled",
+    "SUMMIT_DEFAULT_DESIGN": "2",
+    "SUMMIT_DESIGN_SWITCHER": "false",
+    "SUMMIT_NOINDEX": "false"
+  },
+  "build": {
+    "dir": "public/build-d2-qa",
+    "seconds": 0.9,
+    "reused": false,
+    "gzip": [
+      "computing gzip size...",
+      "public/build-d2-qa/manifest.json                         13.42 kB │ gzip:  1.72 kB",
+      "public/build-d2-qa/assets/styleguide-pwYpq13c.css        16.52 kB │ gzip:  3.46 kB",
+      "public/build-d2-qa/assets/app-BkvSUoNz.css              311.39 kB │ gzip: 51.04 kB",
+      "public/build-d2-qa/assets/announce-DY2CrQNU.js            0.15 kB │ gzip:  0.14 kB",
+      "public/build-d2-qa/assets/rolldown-runtime-DK3Fl9T5.js    0.15 kB │ gzip:  0.15 kB",
+      "public/build-d2-qa/assets/inner-Dw4j3nMK.js               0.18 kB │ gzip:  0.15 kB",
+      "public/build-d2-qa/assets/services-layout-CS3IqNIp.js     0.25 kB │ gzip:  0.19 kB",
+      "public/build-d2-qa/assets/storage-BGXY6oCN.js             0.38 kB │ gzip:  0.25 kB",
+      "public/build-d2-qa/assets/team-CDyqOrzV.js                0.42 kB │ gzip:  0.31 kB",
+      "public/build-d2-qa/assets/tool-rent-DowgaOWD.js           0.43 kB │ gzip:  0.29 kB",
+      "public/build-d2-qa/assets/lazy-DqeHUpjy.js                0.45 kB │ gzip:  0.28 kB",
+      "public/build-d2-qa/assets/faq-filter-CMJTv1fQ.js          0.57 kB │ gzip:  0.39 kB",
+      "public/build-d2-qa/assets/inner-search-oe9BhRr3.js        0.61 kB │ gzip:  0.40 kB",
+      "public/build-d2-qa/assets/service-filter-qZ4-kaJn.js      0.66 kB │ gzip:  0.39 kB",
+      "public/build-d2-qa/assets/normalise-BCUVQ-Cv.js           0.67 kB │ gzip:  0.41 kB",
+      "public/build-d2-qa/assets/tools-B_-BPFsA.js               0.82 kB │ gzip:  0.53 kB",
+      "public/build-d2-qa/assets/casefile-hhotlifI.js            0.92 kB │ gzip:  0.49 kB",
+      "public/build-d2-qa/assets/about-D6sltEIw.js               0.94 kB │ gzip:  0.50 kB",
+      "public/build-d2-qa/assets/tool-gratuity-bGOewvZH.js       0.99 kB │ gzip:  0.55 kB",
+      "public/build-d2-qa/assets/stepper-DlieDF4b.js             1.10 kB │ gzip:  0.58 kB",
+      "public/build-d2-qa/assets/service-page-DsrEBtqR.js        1.32 kB │ gzip:  0.72 kB",
+      "public/build-d2-qa/assets/turnstile-DB5Og2rm.js           1.83 kB │ gzip:  0.88 kB",
+      "public/build-d2-qa/assets/segmented-DXBh3CnG.js           1.86 kB │ gzip:  0.86 kB",
+      "public/build-d2-qa/assets/service-hub-DCJx_x1-.js         1.86 kB │ gzip:  0.98 kB",
+      "public/build-d2-qa/assets/upload-checks-Ce_AZk-v.js       1.87 kB │ gzip:  0.96 kB",
+      "public/build-d2-qa/assets/services-0M5TTLM6.js            1.89 kB │ gzip:  0.97 kB",
+      "public/build-d2-qa/assets/terms-qUPEbcUe.js               1.91 kB │ gzip:  0.96 kB",
+      "public/build-d2-qa/assets/navigator-Bft16ShP.js           2.14 kB │ gzip:  1.09 kB",
+      "public/build-d2-qa/assets/tool-CgUr-ena.js                2.44 kB │ gzip:  1.12 kB",
+      "public/build-d2-qa/assets/swipe-C1CT2y6J.js               3.73 kB │ gzip:  1.72 kB",
+      "public/build-d2-qa/assets/resources-kit-CIw-dDuv.js       3.95 kB │ gzip:  1.88 kB",
+      "public/build-d2-qa/assets/wizard-DWPLPUuT.js              4.09 kB │ gzip:  1.86 kB",
+      "public/build-d2-qa/assets/upload-DBiV23WJ.js              4.52 kB │ gzip:  1.61 kB",
+      "public/build-d2-qa/assets/tabs-4rFURR68.js                4.58 kB │ gzip:  1.86 kB",
+      "public/build-d2-qa/assets/rent-view-BVX1ly3B.js           4.60 kB │ gzip:  2.07 kB",
+      "public/build-d2-qa/assets/date-DtQUoQ4S.js                5.34 kB │ gzip:  2.46 kB",
+      "public/build-d2-qa/assets/resources-C1kjpTpO.js           5.88 kB │ gzip:  2.15 kB",
+      "public/build-d2-qa/assets/faq-CV8l8wjy.js                 5.90 kB │ gzip:  2.16 kB",
+      "public/build-d2-qa/assets/carousel-Cug9OxM7.js            6.28 kB │ gzip:  2.64 kB",
+      "public/build-d2-qa/assets/anatomy-BeBIF3jF.js             7.11 kB │ gzip:  2.34 kB",
+      "public/build-d2-qa/assets/view-KQKn9mMN.js                7.37 kB │ gzip:  3.17 kB",
+      "public/build-d2-qa/assets/calendar-DZN_qTmT.js            7.44 kB │ gzip:  2.83 kB",
+      "public/build-d2-qa/assets/gratuity-view-FCynyzlO.js      12.06 kB │ gzip:  4.72 kB",
+      "public/build-d2-qa/assets/stage-OJkys4_M.js              12.08 kB │ gzip:  4.72 kB",
+      "public/build-d2-qa/assets/controller-BDvxpHhz.js         13.44 kB │ gzip:  5.16 kB",
+      "public/build-d2-qa/assets/engine-CGT4d5LU.js             25.97 kB │ gzip:  8.87 kB",
+      "public/build-d2-qa/assets/controller-zH1HqEor.js         35.19 kB │ gzip: 11.01 kB",
+      "public/build-d2-qa/assets/app-CtQ9xgqn.js               141.70 kB │ gzip: 44.83 kB"
+    ]
+  },
+  "proxied": true,
+  "minScore": {
+    "performance": 90,
+    "accessibility": 100,
+    "best-practices": 95,
+    "seo": 100
+  },
+  "budget": {
+    "lcpMs": 2000,
+    "cls": 0.02,
+    "homeJs": 92160,
+    "heroJs": 25600,
+    "fontPreloads": 2
+  },
+  "reports": "shots/2026-11-11/lighthouse",
+  "pass": true,
+  "rows": [
+    {
+      "page": "home-en",
+      "url": "/en/",
+      "scores": {
+        "performance": 100,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "seoAdjusted": null,
+      "noindex": false,
+      "lcpMs": 962.3206,
+      "fcpMs": 962.3206,
+      "cls": 0,
+      "tbtMs": 50,
+      "totalBytes": 336399,
+      "firstPartyJsBytes": 60192,
+      "allJsBytes": 60192,
+      "heroJsBytes": 4955,
+      "fontPreloads": 1,
+      "lcpElement": {
+        "selector": "section.section > div.container > div.hero__copy > h1#hero-title",
+        "label": "Clear Legal Guidance.\nPractical Solutions.",
+        "snippet": "<h1 class=\"hero__title\" id=\"hero-title\">",
+        "isH1": true
+      },
+      "runtimeError": null,
+      "warnings": [],
+      "failingAudits": {
+        "performance": [],
+        "accessibility": [],
+        "best-practices": [],
+        "seo": []
+      },
+      "gateFailures": []
+    },
+    {
+      "page": "home-ar",
+      "url": "/ar/",
+      "scores": {
+        "performance": 99,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "seoAdjusted": null,
+      "noindex": false,
+      "lcpMs": 966.3482,
+      "fcpMs": 966.3482,
+      "cls": 0,
+      "tbtMs": 97.99999999999989,
+      "totalBytes": 500055,
+      "firstPartyJsBytes": 60192,
+      "allJsBytes": 60192,
+      "heroJsBytes": 4955,
+      "fontPreloads": 2,
+      "lcpElement": {
+        "selector": "section.section > div.container > div.hero__copy > h1#hero-title",
+        "label": "توجيه قانوني واضح.\nحلول عملية.",
+        "snippet": "<h1 class=\"hero__title\" id=\"hero-title\">",
+        "isH1": true
+      },
+      "runtimeError": null,
+      "warnings": [],
+      "failingAudits": {
+        "performance": [],
+        "accessibility": [],
+        "best-practices": [],
+        "seo": []
+      },
+      "gateFailures": []
+    },
+    {
+      "page": "service-debt-recovery-cheque-cases-en",
+      "url": "/en/practice-areas/debt-recovery-cheque-cases/",
+      "scores": {
+        "performance": 100,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 66
+      },
+      "seoAdjusted": 100,
+      "noindex": true,
+      "lcpMs": 782.5443,
+      "fcpMs": 782.5443,
+      "cls": 0,
+      "tbtMs": 2.5,
+      "totalBytes": 181202,
+      "firstPartyJsBytes": 46671,
+      "allJsBytes": 46671,
+      "heroJsBytes": 0,
+      "fontPreloads": 1,
+      "lcpElement": {
+        "selector": "header#service-head > div.container > div.inner-head__main > p.inner-head__intro",
+        "label": "Another promise to pay does not tell you when you will recover what you are owe…",
+        "snippet": "<p class=\"inner-head__intro\">",
+        "isH1": false
+      },
+      "runtimeError": null,
+      "warnings": [],
+      "failingAudits": {
+        "performance": [],
+        "accessibility": [],
+        "best-practices": [],
+        "seo": [
+          "is-crawlable"
+        ]
+      },
+      "gateFailures": []
+    },
+    {
+      "page": "service-debt-recovery-cheque-cases-ar",
+      "url": "/ar/practice-areas/debt-recovery-cheque-cases/",
+      "scores": {
+        "performance": 100,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 66
+      },
+      "seoAdjusted": 100,
+      "noindex": true,
+      "lcpMs": 801.03825,
+      "fcpMs": 801.03825,
+      "cls": 0,
+      "tbtMs": 19,
+      "totalBytes": 343398,
+      "firstPartyJsBytes": 46671,
+      "allJsBytes": 46671,
+      "heroJsBytes": 0,
+      "fontPreloads": 2,
+      "lcpElement": {
+        "selector": "header#service-head > div.container > div.inner-head__main > p.inner-head__intro",
+        "label": "وعد جديد بالسداد لا يوضح متى ستسترد مستحقاتك أو كيف تحميها. نراجع أصل الدين وال…",
+        "snippet": "<p class=\"inner-head__intro\">",
+        "isH1": false
+      },
+      "runtimeError": null,
+      "warnings": [],
+      "failingAudits": {
+        "performance": [],
+        "accessibility": [],
+        "best-practices": [],
+        "seo": [
+          "is-crawlable"
+        ]
+      },
+      "gateFailures": []
+    },
+    {
+      "page": "resources-en",
+      "url": "/en/resources/",
+      "scores": {
+        "performance": 100,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 66
+      },
+      "seoAdjusted": 100,
+      "noindex": true,
+      "lcpMs": 952.88095,
+      "fcpMs": 952.88095,
+      "cls": 0,
+      "tbtMs": 0,
+      "totalBytes": 202604,
+      "firstPartyJsBytes": 51807,
+      "allJsBytes": 51807,
+      "heroJsBytes": 0,
+      "fontPreloads": 1,
+      "lcpElement": {
+        "selector": "header.inner-head > div.container > div.inner-head__main > p.inner-head__intro",
+        "label": "It may begin with an unpaid salary, a dishonoured cheque, a changed handover da…",
+        "snippet": "<p class=\"inner-head__intro\">",
+        "isH1": false
+      },
+      "runtimeError": null,
+      "warnings": [],
+      "failingAudits": {
+        "performance": [],
+        "accessibility": [],
+        "best-practices": [],
+        "seo": [
+          "is-crawlable"
+        ]
+      },
+      "gateFailures": []
+    },
+    {
+      "page": "resources-ar",
+      "url": "/ar/resources/",
+      "scores": {
+        "performance": 100,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 66
+      },
+      "seoAdjusted": 100,
+      "noindex": true,
+      "lcpMs": 924.2277,
+      "fcpMs": 924.2277,
+      "cls": 0,
+      "tbtMs": 3,
+      "totalBytes": 366243,
+      "firstPartyJsBytes": 51807,
+      "allJsBytes": 51807,
+      "heroJsBytes": 0,
+      "fontPreloads": 2,
+      "lcpElement": {
+        "selector": "header.inner-head > div.container > div.inner-head__main > p.inner-head__intro",
+        "label": "قد يبدأ الموضوع براتب لم يُدفع، أو شيك ارتجع، أو موعد تسليم تغير، أو تحويل لا تع…",
+        "snippet": "<p class=\"inner-head__intro\">",
+        "isH1": false
+      },
+      "runtimeError": null,
+      "warnings": [],
+      "failingAudits": {
+        "performance": [],
+        "accessibility": [],
+        "best-practices": [],
+        "seo": [
+          "is-crawlable"
+        ]
+      },
+      "gateFailures": []
+    },
+    {
+      "page": "contact-en",
+      "url": "/en/contact/",
+      "scores": {
+        "performance": 100,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 66
+      },
+      "seoAdjusted": 100,
+      "noindex": true,
+      "lcpMs": 794.4168,
+      "fcpMs": 794.4168,
+      "cls": 0,
+      "tbtMs": 1,
+      "totalBytes": 191338,
+      "firstPartyJsBytes": 50361,
+      "allJsBytes": 50361,
+      "heroJsBytes": 0,
+      "fontPreloads": 1,
+      "lcpElement": {
+        "selector": "header.inner-head > div.container > div.inner-head__main > p.inner-head__intro",
+        "label": "You may have an ongoing dispute, a contract to review or a decision whose effec…",
+        "snippet": "<p class=\"inner-head__intro\">",
+        "isH1": false
+      },
+      "runtimeError": null,
+      "warnings": [],
+      "failingAudits": {
+        "performance": [],
+        "accessibility": [],
+        "best-practices": [],
+        "seo": [
+          "is-crawlable"
+        ]
+      },
+      "gateFailures": []
+    },
+    {
+      "page": "contact-ar",
+      "url": "/ar/contact/",
+      "scores": {
+        "performance": 100,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 66
+      },
+      "seoAdjusted": 100,
+      "noindex": true,
+      "lcpMs": 796.64645,
+      "fcpMs": 796.64645,
+      "cls": 0,
+      "tbtMs": 4,
+      "totalBytes": 355015,
+      "firstPartyJsBytes": 50361,
+      "allJsBytes": 50361,
+      "heroJsBytes": 0,
+      "fontPreloads": 2,
+      "lcpElement": {
+        "selector": "header.inner-head > div.container > div.inner-head__main > p.inner-head__intro",
+        "label": "قد يكون لديك نزاع قائم، أو عقد تريد مراجعته، أو قرار تحتاج إلى فهم أثره قبل أن …",
+        "snippet": "<p class=\"inner-head__intro\">",
+        "isH1": false
+      },
+      "runtimeError": null,
+      "warnings": [],
+      "failingAudits": {
+        "performance": [],
+        "accessibility": [],
+        "best-practices": [],
+        "seo": [
+          "is-crawlable"
+        ]
+      },
+      "gateFailures": []
+    }
+  ]
+}

@@ -1,0 +1,201 @@
+# text-snapshot: design 2, locale en, route s04-corporate-commercial-law
+# GET /en/practice-areas/corporate-commercial-law/ -> 200; html lang=en dir=ltr data-design=2
+=== header ===
+Choose language
+English
+Request a Legal Consultation
+Home
+Practice Areas
+Legal Resources
+Case Studies
+FAQs
+About Us
+Contact Us
+=== main ===
+Home
+Practice Areas
+Corporate and Commercial Law
+Corporate and Commercial Law and Contracts in the UAE
+When rights are not clearly defined at the start of a venture, protecting them becomes harder if partners later disagree. We review how the relationship has operated in practice and put contracts, contributions, authority, ownership and exit arrangements in order, taking account of the nature of the business and its risks.
+Request a Legal Consultation
+Contact Us on WhatsApp
+(opens in a new tab)
+On this page
+Who This Service Is For
+Matters Covered by the Review
+Practical Situations We Review with You
+How We Handle Your Matter
+Documents That Help Us Get Started
+Before Taking the Next Step
+Start with Your Situation
+FAQs
+Related Topics and Services
+Official Sources for Reference
+Tell Us About Your Matter
+Scope of Service and Published Information
+Tell Us About Your Matter
+Request a Legal Consultation
+Contact Us on WhatsApp
+(opens in a new tab)
+Who This Service Is For
+Established businesses seeking a review of their contracts or structures
+Entrepreneurs forming partnerships who want to protect their rights from the outset
+Investors entering partnerships or acquisition transactions
+Partners in disputes over rights, authority or profits
+Businesses in commercial disputes with customers or suppliers
+Matters Covered by the Review
+Company formation on the mainland and in free zones
+Partnership and shareholders’ agreements
+Commercial contracts and services agreements
+Disputes between partners or shareholders
+Restructuring and mergers
+Commercial agencies and distribution
+Non-disclosure agreements and memoranda of understanding
+Directors’ powers and board resolutions
+Practical Situations We Review with You
+Contract Drafting and Review
+We review the subject of the agreement, obligations, payment, delivery, acceptance, warranties, limits of liability, termination and dispute resolution. We explain the practical effect of the terms and propose amendments that can be negotiated, proportionate to the transaction’s value and risks.
+Our work covers services, supply and distribution agreements, confidentiality and cooperation agreements, and contracts relating to technology projects and products. The scope of review is determined by the nature of the business and the agreed governing law and jurisdiction.
+Partnerships and Rights in Projects
+A promise to grant a share in a future company is different from the actual registration and transfer of that share. Likewise, allowing someone to use a project or its source code does not, on its own, establish that the rights have been transferred. We review agreements, correspondence, incorporation documents and the limits of the permission to use the project.
+When structuring a new partnership, we address cash and non-cash contributions, intellectual property rights, management, profits, exit arrangements and situations in which the venture runs into difficulty. If a dispute has already arisen, we identify the rights supported by documents and the options available to preserve them.
+Disputes with Partners, Customers and Suppliers
+We compare the contract terms with what was actually performed and review invoices, approvals, amendments and correspondence. We then assess the parties’ respective claims, the risks of terminating the contract or suspending performance, and the merits of negotiation or legal action.
+If the dispute requires accounting or technical expertise, we define the questions the expert needs to examine rather than commissioning a general review that does not address the issue in dispute.
+For commercial agencies, distribution, restructuring or mergers, we identify the nature of the arrangement, any specific legal regime that may govern it, the approvals required and the rights affected. Standard services agreement terms are no substitute for a review of these specialist matters.
+How We Handle Your Matter
+Review the existing structure: incorporation documents, the partnership agreement and documented authority.
+Identify the point of disagreement: a written term, an undocumented obligation or a disputed decision?
+Assess each party’s legal position and identify its strengths and weaknesses.
+Evaluate the options: negotiation, a formal notice, restructuring or legal action.
+Establish a course of action to protect interests before the situation escalates.
+Documents That Help Us Get Started
+The contract and its schedules, quotations, approvals, amendments and material correspondence.
+Incorporation documents, the licence, ownership register, partnership agreement, authorisations and relevant resolutions.
+Invoices, payments, proof of delivery or acceptance of work, and a record of objections.
+Evidence of ownership of the product, brand or project and the limits of permission to use it, together with any promise of shares or investment.
+Send clear, complete copies initially and retain the originals. Do not send passwords, verification codes or financial account access credentials. An appropriate method for sharing sensitive documents can be agreed.
+Before Taking the Next Step
+Useful First Steps
+Do not sign a partnership agreement without clearly defining authority and exit arrangements
+Record every amendment or side agreement in writing, even between friends
+Keep company and personal accounts separate from day one
+Review commercial contracts before a dispute arises
+Mistakes to Avoid
+Relying on personal trust instead of a written agreement
+Using a generic contract template that does not suit the business or partnership
+Overlooking jurisdiction and arbitration clauses until you need to rely on them
+Failing to agree exit arrangements in advance
+Start with Your Situation
+This service may be relevant if:
+A dispute with your business partner arose sooner than you expected.
+Show the starting file
+You signed a commercial contract and later discovered terms whose effect you had not understood at the time.
+Show the starting file
+You want to establish a company and structure your relationship with partners from the outset.
+Show the starting file
+You have a commercial dispute with a customer, supplier or business partner.
+Show the starting file
+FAQs
+Can a Company Be Wholly Foreign-Owned?
+This is possible for many activities and structures, but the activity, licensing authority, legal form, approvals and any specific restrictions must be checked. Permission to own a company does not, by itself, authorise every business activity.
+What Is the Difference Between a Free Zone and the Mainland?
+The licensing authority, operating conditions, market access, approvals and certain obligations differ. The choice should reflect the business activity, customers, place of operation and future plans, rather than fees alone or an assumption of a general tax exemption.
+What Should I Do If I Disagree with My Business Partner?
+Gather the partnership agreement, ownership and authority documents, payment records, resolutions and correspondence. The rights supported by the evidence and the options for settlement, separation or formal action should then be reviewed before taking any step that could affect the company’s assets or operations.
+Is an Oral Agreement Binding?
+It may create an obligation in certain circumstances. However, how it can be proved and whether the law requires a particular form both need to be reviewed. Record obligations, amendments and approvals in a form appropriate to the transaction.
+Does a Promise of a Share in a Future Company Make Me a Registered Partner?
+A contractual promise is distinct from the actual registration and transfer of a share. Correspondence, contributions, incorporation documents and the terms of the promise must be reviewed. Permission to use a project or its source code should not be assumed to transfer ownership automatically.
+Companies and Contracts
+29. What should I arrange before setting up a company with a partner?
+30. Is an oral agreement binding?
+31. Which clauses matter most in a contract review?
+32. How do I begin addressing a dispute with a partner?
+33. What is the difference between a free zone and the mainland?
+34. Can a contract be reviewed after signing?
+Related Topics and Services
+Business and Company Formation Services
+Practice Areas
+Commercial Debt Recovery
+Practice Areas
+Company Compliance Review
+Practice Areas
+Guide to Organising Tax Records
+Legal Resources
+All FAQs
+Back to Practice Areas
+Official Sources for Reference
+Civil Transactions Law Issued by Decree-Law No. 25 of 2025
+uaelegislation.gov.ae
+(opens in a new tab)
+UAE Legislation Portal
+uaelegislation.gov.ae
+(opens in a new tab)
+Tell Us About Your Matter
+Send a summary of the matter and the main document, if available, and mention any hearing or current deadline. Before work begins, we will explain the scope of consultation, the fee and the documents required.
+Request a Legal Consultation
+Contact Us on WhatsApp
+(opens in a new tab)
++971 52 466 6191
+info@summitlegaluae.com
+The service is available in Arabic, English and Russian. Sending an enquiry does not mean that the engagement has been accepted or that monitoring of legal deadlines has begun.
+Scope of Service and Published Information
+Summit is a legal consultancy company. The work, deliverables and fees are defined in the agreed engagement. Court advocacy or representation requiring an advocate is carried out by licensed advocates. Where work requires separate professional registration or specialist expertise, it is coordinated with an appropriately qualified professional as needed.
+This is general information and does not replace a review of the facts, documents, applicable law, competent authority and relevant deadlines. Options and outcomes vary from one matter to another. Presenting this service does not guarantee a decision, recovery of funds or approval by an external authority.
+Legal Notice and Scope of Services
+=== footer ===
+Summit Legal Consultancy
+Legal advice for individuals, businesses, investors and residents in the UAE, in Arabic, English and Russian.
++971 52 466 6191
+Contact Us on WhatsApp
+(opens in a new tab)
+info@summitlegaluae.com
+Business hours: Monday to Friday, 9 am to 6 pm.
+Practice Areas
+Debt Recovery and Cheque Cases
+Criminal Cases
+Cryptocurrency and Digital Currency Cases
+Corporate and Commercial Law
+Property and Tenancy Disputes
+Employment Law
+Tax Disputes and Tax Compliance
+Family Law and Wills
+Compliance and Regulatory Matters
+Legal Translation
+Business Services
+Legal Resources
+Legal Resources Centre
+FAQs
+Case Studies
+Useful Links
+About Us
+Contact Us
+Legal Notice
+Privacy Policy
+Terms and Conditions
+The information published is general and does not replace a review of the facts and documents relating to your matter. The scope of service and fees are determined when the engagement is accepted. Court advocacy requiring an advocate is carried out by licensed advocates.
+Specialist Resources and Services Associated with Summit
+Employment Law
+laborlawuae.com
+(opens in a new tab)
+Debt Recovery and Cheques
+debtrecoveryuae.com
+(opens in a new tab)
+Property Disputes
+dubaipropertydispute.com
+(opens in a new tab)
+Digital Currencies
+uaecryptocases.com
+(opens in a new tab)
+Wills
+uaeexpatwills.com
+(opens in a new tab)
+Tax Disputes
+uaetaxdisputes.com
+(opens in a new tab)
+© {{YEAR}} Summit Legal Consultancy. All rights reserved.
+Choose language
+Arabic
+English
+Russian

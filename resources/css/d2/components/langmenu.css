@@ -1,0 +1,70 @@
+/*
+ * Design 2.1 language menu (<x-d2.shell.langmenu>; brief §3.7, fix D12; behaviour in
+ * resources/js/d2/components/langmenu.js). The panel is the shared overlay surface (.popover, popover.css).
+ * Trigger: the current language's approved label and a chevron, a quiet text button like the nav links (--ink-2,
+ * ink on hover and while open, an 8 % wash); no codes, no dots, no flags, no pill.
+ * List: the three approved labels in the page's language; the current one in ink at 600 (aria-current), no tick.
+ * Place: under its trigger's end edge, 8 px below the header's bottom line (header.css computes --lang-drop for
+ * the top of the page, with or without the navigation row, and for the compact bar). It never lies over the
+ * navigation row: Russian labels reach under the trigger, and a half-covered label would be a target too small
+ * to hit (axe target-size, WCAG 2.5.8).
+ */
+@layer components {
+  .langmenu {
+    position: relative;
+    display: flex;
+    flex: none;
+  }
+
+  .langmenu__trigger {
+    display: inline-flex;
+    gap: var(--s-1);
+    align-items: center;
+    min-block-size: var(--target);
+    padding-inline: var(--s-3) var(--s-2);
+    color: var(--ink-2);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+    white-space: nowrap;
+    border-radius: var(--radius-control);
+    transition:
+      color var(--dur-hover) var(--ease-out),
+      background-color var(--dur-hover) var(--ease-out);
+
+    &:hover,
+    &[aria-expanded="true"] {
+      color: var(--ink);
+      background: var(--hover-tint);
+    }
+  }
+
+  @media (pointer: coarse) {
+    .langmenu__trigger,
+    .langmenu__option {
+      min-block-size: var(--target-touch);
+    }
+  }
+
+  .langmenu__chev {
+    flex: none;
+    transition: rotate var(--dur-hover) var(--ease-out);
+  }
+
+  .langmenu__trigger[aria-expanded="true"] .langmenu__chev {
+    rotate: 180deg;
+  }
+
+  /* Without JavaScript the trigger is a link to the footer's language list: no menu chevron. */
+  .no-js .langmenu__chev {
+    display: none;
+  }
+
+  .langmenu__panel {
+    min-inline-size: 12rem;
+  }
+
+  .d2-header .langmenu__panel {
+    inset-block-start: calc(100% + var(--lang-drop));
+  }
+}

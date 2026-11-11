@@ -1,0 +1,42 @@
+/*
+ * Design 2.1 component: kbd (<x-d2.ui.kbd>). A keycap: the interface sans (no monospace in the UI, §3.2 and D01),
+ * caption 13/500, white, 1px --line-strong edge, radius 6, no shadow. Always left-to-right (the markup sets
+ * dir="ltr"). Combinations nest keys in .kbd-combo. Used inside the command palette (the header shows no key cap:
+ * D14 moves "/" into the search button's tooltip).
+ */
+@layer components {
+  .kbd {
+    display: inline-grid;
+    place-items: center;
+    min-inline-size: var(--s-6);
+    block-size: var(--s-6);
+    padding-inline: var(--s-2);
+    border: var(--line-w) solid var(--line-strong);
+    border-radius: var(--radius-control);
+    color: var(--ink-2);
+    background: var(--canvas);
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    font-weight: var(--fw-medium);
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: 0;
+    text-transform: none;
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+
+  .kbd-combo {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-1);
+    font: inherit;
+    vertical-align: middle;
+  }
+
+  :is(.on-dark, .on-night) .kbd:not(.on-light *) {
+    color: var(--on-dark-2);
+    background: var(--dark-2);
+    border-color: var(--line-on-dark);
+  }
+}

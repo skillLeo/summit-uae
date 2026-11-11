@@ -1,0 +1,141 @@
+@use "../tokens/tokens" as *;
+
+// =============================================================================
+// Layout: container, 4/8/12 grid, sections, stacks.
+// =============================================================================
+
+.container {
+  inline-size: 100%;
+  max-inline-size: calc(var(--grid-max) + 2 * var(--margin));
+  margin-inline: auto;
+  padding-inline: var(--margin);
+}
+
+// Bootstrap's CSS grid (.grid / .g-col-*) with 4 → 8 → 12 columns.
+.grid {
+  --bs-columns: 4;
+  --bs-gap: var(--gutter);
+
+  display: grid;
+  grid-template-columns: repeat(var(--bs-columns), minmax(0, 1fr));
+  gap: var(--s-32) var(--bs-gap);
+
+  @media (min-width: $bp-sm) {
+    --bs-columns: 8;
+  }
+
+  @media (min-width: $bp-lg) {
+    --bs-columns: 12;
+  }
+}
+
+.col-full {
+  grid-column: 1 / -1;
+}
+
+// Reading column: 7 of 12 on desktop, full width below.
+.col-read {
+  grid-column: 1 / -1;
+
+  @media (min-width: $bp-lg) {
+    grid-column: 1 / span 7;
+  }
+}
+
+.col-aside {
+  grid-column: 1 / -1;
+
+  @media (min-width: $bp-lg) {
+    grid-column: 9 / span 4;
+  }
+}
+
+// ---------------------------------------------------------------- sections
+.section {
+  padding-block: var(--section-y);
+}
+
+.section + .section--ruled,
+.section--ruled {
+  border-block-start: var(--hairline) solid var(--rule);
+}
+
+.section--dark {
+  color: var(--on-dark);
+  background: var(--black);
+}
+
+.section-head {
+  display: grid;
+  gap: var(--s-24);
+  margin-block-end: var(--s-48);
+
+  @media (min-width: $bp-lg) {
+    margin-block-end: var(--s-64);
+  }
+
+  > p {
+    max-inline-size: var(--measure);
+    color: var(--ink-2);
+    font-size: var(--fs-lead);
+    line-height: var(--lh-lead);
+  }
+}
+
+.section-foot {
+  display: grid;
+  gap: var(--s-16);
+  justify-items: start;
+  margin-block-start: var(--s-48);
+
+  > p {
+    max-inline-size: var(--measure);
+    color: var(--ink-2);
+  }
+}
+
+// ---------------------------------------------------------------- stacks
+.stack {
+  display: grid;
+  align-content: start;
+  gap: var(--stack-gap, var(--s-16));
+}
+
+.stack-8 {
+  --stack-gap: var(--s-8);
+}
+
+.stack-12 {
+  --stack-gap: var(--s-12);
+}
+
+.stack-24 {
+  --stack-gap: var(--s-24);
+}
+
+.stack-32 {
+  --stack-gap: var(--s-32);
+}
+
+.cluster {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--cluster-gap, var(--s-16));
+}
+
+.list-plain {
+  padding: 0;
+  list-style: none;
+}
+
+// Main content offsets for the mobile shell (top bar + bottom bar).
+.site-main {
+  display: block;
+}
+
+@media (max-width: $bp-md-max) {
+  body.has-bottombar {
+    padding-block-end: calc(var(--bottombar-h) + var(--safe-bottom));
+  }
+}

@@ -1,0 +1,252 @@
+/*
+ * Design 2.1 component: segmented control (<x-d2.ui.segmented>, Alpine d2Segmented). Brief §3.5 and §6;
+ * docs/d2.1/phase-1/components.md §2. Only for 2 to 4 options of the same level (D35).
+ * A native radio group: the radios are visually hidden, the labels are the segments. On a --band track (a pill)
+ * a white thumb with a 1px --line-strong edge (no shadow) sits under the checked segment:
+ *   - no JS: the checked label itself is the white thumb;
+ *   - JS (.is-ready): one thumb element, positioned from --seg-x / --seg-w (measured by d2Segmented), slides on the
+ *     snappy spring (200 ms) once .is-animated is set (never on first paint or on resize).
+ * Labels: UI 15/500, ink-2; the checked one ink. Many options on a narrow screen scroll sideways with faded edges.
+ * Dark surfaces: --dark-2 track, a white thumb with an ink label.
+ * Styleguide-only modifiers on the root: .is-hover (unchecked segments), .is-focus (checked segment).
+ */
+@layer components {
+  .segmented {
+    --seg-pad: var(--s-1);
+    --seg-h: var(--field-h);
+    --seg-track: var(--band);
+    --seg-fg: var(--ink-2);
+    --seg-fg-on: var(--ink);
+    --seg-fg-hover: var(--ink);
+    --seg-thumb: var(--canvas);
+    --seg-thumb-edge: var(--line-strong);
+    --seg-wash: var(--hover-tint);
+    --hit: var(--target);
+
+    min-inline-size: 0;
+    max-inline-size: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  @media (pointer: coarse) {
+    .segmented {
+      --hit: var(--target-touch);
+    }
+  }
+
+  .segmented--40 {
+    --seg-h: var(--s-10);
+  }
+
+  :is(.on-dark, .on-night) .segmented:not(.on-light *) {
+    --seg-track: var(--dark-2);
+    --seg-fg: var(--on-dark-2);
+    --seg-fg-on: var(--ink);
+    --seg-fg-hover: var(--on-dark);
+    --seg-thumb: var(--on-dark);
+    --seg-thumb-edge: var(--on-dark);
+    --seg-wash: var(--dark-hover-tint);
+  }
+
+  .segmented__legend {
+    margin-block-end: var(--s-2);
+    padding: 0;
+    color: var(--ink);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+  }
+
+  :is(.on-dark, .on-night) .segmented__legend:not(.on-light *) {
+    color: var(--on-dark);
+  }
+
+  /*
+   * Too many options for the width: the scroller scrolls sideways (no scrollbar). Its transparent block
+   * padding leaves room for the segments' hit areas, which would otherwise be clipped by the scroll box.
+   */
+  .segmented__scroller {
+    max-inline-size: 100%;
+    margin-block: calc(-1 * var(--s-1));
+    padding-block: var(--s-1);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  /* Overflowing: fade the edge(s) that still hide segments (set by d2Segmented; alpha masks, not colour). */
+  .segmented.is-overflow .segmented__scroller {
+    mask-image: var(--mask-fade-both);
+  }
+
+  .segmented.is-overflow.at-start .segmented__scroller {
+    mask-image: var(--mask-fade-right);
+  }
+
+  .segmented.is-overflow.at-end .segmented__scroller {
+    mask-image: var(--mask-fade-left);
+  }
+
+  [dir="rtl"] .segmented.is-overflow.at-start .segmented__scroller {
+    mask-image: var(--mask-fade-left);
+  }
+
+  [dir="rtl"] .segmented.is-overflow.at-end .segmented__scroller {
+    mask-image: var(--mask-fade-right);
+  }
+
+  .segmented__track {
+    position: relative;
+    isolation: isolate;
+    display: inline-flex;
+    padding: var(--seg-pad);
+    border-radius: var(--radius-pill);
+    background: var(--seg-track);
+    vertical-align: middle;
+  }
+
+  .segmented--full .segmented__track {
+    display: flex;
+    min-inline-size: 100%;
+    inline-size: max-content;
+  }
+
+  /* Visually hidden, still focusable and in the accessibility tree. */
+  .segmented__input {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .segmented__option {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    min-block-size: calc(var(--seg-h) - 2 * var(--seg-pad));
+    padding-inline: var(--s-4);
+    border: var(--line-w) solid transparent;
+    border-radius: var(--radius-pill);
+    color: var(--seg-fg);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+    text-align: center;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+
+    /* Hit area ≥ 44px (48px on touch screens) without overlapping the neighbours. */
+    &::after {
+      content: "";
+      position: absolute;
+      inset-block: min(0px, calc(50% - var(--hit) / 2));
+      inset-inline: 0;
+    }
+  }
+
+  @media (width < 768px) {
+    .segmented__option {
+      padding-inline: var(--s-3);
+    }
+  }
+
+  .segmented--full .segmented__option {
+    flex: 1 1 0;
+    min-inline-size: max-content;
+  }
+
+  /* Checked: without JS the label is the thumb. */
+  .segmented__input:checked + .segmented__option {
+    color: var(--seg-fg-on);
+    background: var(--seg-thumb);
+    border-color: var(--seg-thumb-edge);
+  }
+
+  .segmented.is-ready.has-value .segmented__input:checked + .segmented__option {
+    background: transparent;
+    border-color: transparent;
+  }
+
+  .segmented__pill {
+    position: absolute;
+    inset-block: var(--seg-pad);
+    inset-inline-start: 0;
+    z-index: 0;
+    inline-size: var(--seg-w, 0);
+    border: var(--line-w) solid var(--seg-thumb-edge);
+    border-radius: var(--radius-pill);
+    background: var(--seg-thumb);
+    opacity: 0;
+    translate: var(--seg-x, 0) 0;
+    pointer-events: none;
+  }
+
+  .segmented.is-ready.has-value .segmented__pill {
+    opacity: 1;
+  }
+
+  /* The thumb slides on the snappy spring (~200 ms, §3.5); its width follows on the same curve. */
+  .segmented.is-animated .segmented__pill {
+    transition:
+      translate var(--spring-snappy-dur) var(--spring-snappy),
+      inline-size var(--spring-snappy-dur) var(--spring-snappy);
+  }
+
+  /* ------------------------------------------------------------------ states */
+  @media (hover: hover) {
+    .segmented__input:not(:checked, :disabled) + .segmented__option:hover {
+      color: var(--seg-fg-hover);
+      background: var(--seg-wash);
+    }
+  }
+
+  .segmented.is-hover .segmented__input:not(:checked, :disabled) + .segmented__option {
+    color: var(--seg-fg-hover);
+    background: var(--seg-wash);
+  }
+
+  /* The ring sits inside the segment, so the scroller never clips it. */
+  .segmented__input:focus-visible + .segmented__option,
+  .segmented.is-focus .segmented__input:checked + .segmented__option {
+    outline: var(--focus-w) solid var(--focus-color);
+    outline-offset: calc(-1 * var(--focus-w));
+  }
+
+  .segmented__input:disabled + .segmented__option {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .segmented:disabled .segmented__track {
+    opacity: 0.4;
+
+    & .segmented__option {
+      cursor: not-allowed;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .segmented.is-animated .segmented__pill {
+      transition: none;
+    }
+  }
+}

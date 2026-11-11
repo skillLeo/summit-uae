@@ -1,0 +1,41 @@
+{
+    "gc-01": {
+        "position": 1,
+        "name": {
+            "en": "Employment and Financial Claims",
+            "ar": "العمل والمطالبات المالية",
+            "ru": "Трудовые вопросы и денежные требования"
+        },
+        "guides": [
+            "G01",
+            "G02",
+            "G03"
+        ]
+    },
+    "gc-02": {
+        "position": 2,
+        "name": {
+            "en": "Property and Family",
+            "ar": "العقارات والأسرة",
+            "ru": "Недвижимость и семья"
+        },
+        "guides": [
+            "G04",
+            "G05"
+        ]
+    },
+    "gc-03": {
+        "position": 3,
+        "name": {
+            "en": "Digital Evidence and Business Organisation",
+            "ar": "الأدلة الرقمية وتنظيم الأعمال",
+            "ru": "Цифровые доказательства и организация бизнеса"
+        },
+        "guides": [
+            "G06",
+            "G07",
+            "G08",
+            "G09"
+        ]
+    }
+}

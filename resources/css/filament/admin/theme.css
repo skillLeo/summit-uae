@@ -1,0 +1,750 @@
+/*
+ * Summit Legal Consultancy, internal admin panel (Filament, /admin): theme.
+ * Spec: docs/brief/upgrade-report.md §12 Phase F. Built by vite.admin.config.js (public/build-admin).
+ *
+ * Tailwind CSS v4 on Filament's own theme, dressed in the Design 2 tokens so the panel and the site
+ * match: the token file is imported as is (resources/css/d2/tokens.css, never copied), Filament's
+ * colour scales come from the same tokens (App\Filament\Support\AdminPalette), the fonts are the
+ * self-hosted Design 2 faces (App\Filament\Support\AdminBrand::fonts(), no Inter, no font CDN).
+ *
+ *   primary  bronze #8A6A2E · gray  warm neutral on #F7F6F3 / #E4E1DA / #3A3A3F
+ *   radius   10 (--r-sm: buttons, inputs, menus) · 14 (--r-md: cards, sections, tables)
+ *   shadows  --shadow-1 (cards at rest) · --shadow-2 (raised: menus, sign-in card) · --shadow-4 (modals)
+ *   sidebar  night #0B0B0C, gold active indicator, the brand logo tile
+ *
+ * Overrides live in @layer components, after Filament's own component rules, so Filament's utilities
+ * (hidden, lg:hidden …) still win. Custom-property overrides are unlayered, because Filament prints
+ * its own (font family, colour scales) in an unlayered <style>. Logical properties only (LTR + RTL).
+ */
+
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+@import '../../d2/tokens.css';
+
+@source '../../../../app/Filament/**/*';
+@source '../../../../app/Providers/Filament/**/*';
+
+/* ------------------------------------------------------------------ variables (unlayered) */
+
+html.fi {
+    /* Arabic written by a visitor on the English or Russian site (a name, a summary: no lang attribute) gets
+       the Design 2 Arabic face, not a system fallback; its Arabic subsets are range-limited, so they are
+       fetched only when such text is on the page (the Latin and Cyrillic files are D2 Sans's own) */
+    --font-family: "D2 Sans", "D2 Sans Fallback", "D2 Sans Arabic", "D2 Sans Arabic Fallback";
+    --mono-font-family: "D2 Mono", "D2 Mono Fallback";
+
+    /* Tailwind radius scale → Design 2 radii (rounded-lg = 10, rounded-xl = 14) */
+    --radius-sm: var(--r-mark);
+    --radius-md: var(--r-xs);
+    --radius-lg: var(--r-sm);
+    --radius-xl: var(--r-md);
+    --radius-2xl: var(--r-lg);
+
+    --sidebar-active-bar: var(--gold);
+    --livewire-progress-bar-color: var(--gold);
+}
+
+html.fi:lang(ar) {
+    --font-family: "D2 Sans Arabic", "D2 Sans Arabic Fallback";
+    --mono-font-family: "D2 Sans Arabic", "D2 Sans Arabic Fallback";
+}
+
+/* Focus on night is gold (Design 2: .on-night). Unlayered on purpose: Filament's focus-visible utilities
+   (outline-color: currentColor) sit in the utilities layer, above any component rule. */
+html.fi .fi-sidebar :focus-visible {
+    outline-color: var(--gold);
+}
+
+/* Arabic runs on English / Russian pages (language names, an Arabic visitor's summary) */
+html.fi:not(:lang(ar)) [lang="ar"] {
+    font-family: var(--font-arabic);
+}
+
+@layer components {
+    /* -------------------------------------------------------------- page */
+
+    .fi-body {
+        background-color: var(--canvas);
+        color: var(--ink);
+        font-feature-settings: "kern";
+        text-rendering: optimizeLegibility;
+    }
+
+    html.fi:lang(ar) .fi-body {
+        line-height: 1.6;
+    }
+
+    .fi-header-heading {
+        font-weight: var(--fw-bold);
+        letter-spacing: var(--ls-h2);
+        color: var(--ink);
+    }
+
+    html.fi:lang(ar) .fi-header-heading {
+        letter-spacing: 0;
+    }
+
+    .fi-header-subheading {
+        color: var(--ink-3);
+        max-inline-size: 72ch;
+    }
+
+    .fi-breadcrumbs {
+        color: var(--ink-3);
+    }
+
+    /* -------------------------------------------------------------- surfaces: cards at rest = shadow-1 */
+
+    .fi-section:not(.fi-section-not-contained),
+    .fi-ta-ctn,
+    .fi-wi-stats-overview-stat,
+    .fi-fo-field-wrp .fi-input-wrp.fi-disabled {
+        --tw-shadow: var(--shadow-1);
+        --tw-ring-color: var(--line);
+    }
+
+    .fi-section:not(.fi-section-not-contained),
+    .fi-ta-ctn,
+    .fi-wi-stats-overview-stat {
+        border-radius: var(--r-md);
+    }
+
+    .fi-section-header-heading {
+        font-weight: var(--fw-semibold);
+        color: var(--ink);
+    }
+
+    .fi-section-header-description {
+        color: var(--ink-3);
+    }
+
+    .fi-section-header .fi-icon {
+        color: var(--bronze);
+    }
+
+    /* raised: menus and popovers = shadow-2, modals = shadow-4 */
+    .fi-dropdown-panel {
+        --tw-shadow: var(--shadow-2);
+        --tw-ring-color: var(--line);
+        border-radius: var(--r-sm);
+    }
+
+    .fi-modal-window {
+        --tw-shadow: var(--shadow-4);
+        border-radius: var(--r-lg);
+    }
+
+    /* -------------------------------------------------------------- controls */
+
+    .fi-btn,
+    .fi-input-wrp,
+    .fi-select-input,
+    .fi-dropdown-list-item,
+    .fi-fo-toggle-buttons .fi-btn {
+        border-radius: var(--r-sm);
+    }
+
+    .fi-btn {
+        font-weight: var(--fw-semibold);
+        transition-duration: var(--dur-hover);
+    }
+
+    .fi-btn:active:not([disabled]) {
+        transform: translateY(0.5px);
+    }
+
+    .fi-input-wrp {
+        --tw-ring-color: var(--line-control);
+        box-shadow: var(--shadow-inset-input), 0 0 0 1px var(--line-control);
+    }
+
+    .fi-input-wrp:focus-within {
+        box-shadow: var(--shadow-inset-input), 0 0 0 2px var(--bronze);
+    }
+
+    .fi-badge {
+        border-radius: var(--r-xs);
+        font-weight: var(--fw-semibold);
+    }
+
+    /* nothing below 14px (Design 2 floor): badges and the required-field mark */
+    html.fi .fi-badge,
+    html.fi .fi-badge .fi-badge-label,
+    html.fi .fi-fo-field-label-required-mark {
+        font-size: var(--fs-meta);
+        line-height: var(--lh-meta);
+    }
+
+    .fi-link {
+        font-weight: var(--fw-semibold);
+    }
+
+    /* empty values ("Not given", "—"): ink-3 (5.7:1), not Filament's gray-400 */
+    html.fi .fi-in-placeholder,
+    html.fi .fi-ta-placeholder,
+    html.fi .fi-placeholder {
+        color: var(--ink-3);
+    }
+
+    /* -------------------------------------------------------------- sidebar: night, gold indicator */
+
+    /* the night column runs the full height of the page behind the sticky sidebar (docked from lg) */
+    @media (width >= 64rem) {
+        .fi-body-has-navigation:not(.fi-body-has-top-navigation) .fi-layout {
+            background-image: linear-gradient(var(--night), var(--night));
+            background-repeat: no-repeat;
+            background-size: var(--sidebar-width) 100%;
+            background-position: left top;
+        }
+
+        html.fi[dir="rtl"] .fi-body-has-navigation:not(.fi-body-has-top-navigation) .fi-layout {
+            background-position: right top;
+        }
+    }
+
+    .fi-sidebar {
+        background-color: var(--night);
+        color: var(--on-night);
+        border-inline-end: 1px solid var(--night-line);
+    }
+
+    .fi-sidebar-header,
+    :not(.fi-body-has-topbar) .fi-sidebar-header {
+        background-color: var(--night);
+        border-block-end: 1px solid var(--night-line);
+        block-size: auto;
+        min-block-size: 4.5rem;
+        padding-block: var(--s-4);
+        padding-inline: var(--s-5);
+    }
+
+    .fi-sidebar-header .fi-logo {
+        margin-inline-start: 0;
+    }
+
+    .fi-sidebar-header-controls::after {
+        border-color: var(--night-line);
+    }
+
+    .fi-sidebar-nav {
+        padding-block: var(--s-6);
+        padding-inline: var(--s-4);
+    }
+
+    .fi-sidebar-nav-groups {
+        margin-inline: 0;
+    }
+
+    .fi-sidebar-group-label {
+        color: var(--on-night-3);
+        font-size: var(--fs-meta);
+        letter-spacing: var(--ls-eyebrow);
+        text-transform: uppercase;
+    }
+
+    html.fi:lang(ar) .fi-sidebar-group-label {
+        letter-spacing: 0;
+        text-transform: none;
+    }
+
+    .fi-sidebar-item-btn {
+        position: relative;
+        min-block-size: var(--target);
+        border-radius: var(--r-sm);
+        color: var(--on-night-2);
+        padding-inline: var(--s-3);
+    }
+
+    .fi-sidebar-item-btn > .fi-icon {
+        color: var(--on-night-3);
+    }
+
+    .fi-sidebar-item-label {
+        color: var(--on-night-2);
+        font-weight: var(--fw-medium);
+    }
+
+    .fi-sidebar-item.fi-sidebar-item-has-url > .fi-sidebar-item-btn:hover,
+    .fi-sidebar-item.fi-sidebar-item-has-url > .fi-sidebar-item-btn:focus-visible {
+        background-color: var(--night-3);
+    }
+
+    .fi-sidebar-item.fi-sidebar-item-has-url > .fi-sidebar-item-btn:hover > .fi-sidebar-item-label,
+    .fi-sidebar-item.fi-sidebar-item-has-url > .fi-sidebar-item-btn:hover > .fi-icon {
+        color: var(--on-night);
+    }
+
+    .fi-sidebar-item-btn:focus-visible {
+        outline: var(--focus-w) solid var(--gold);
+        outline-offset: var(--focus-offset);
+    }
+
+    .fi-sidebar-item.fi-active > .fi-sidebar-item-btn {
+        background-color: var(--night-2);
+        box-shadow: var(--shadow-night-inset);
+    }
+
+    .fi-sidebar-item.fi-active > .fi-sidebar-item-btn > .fi-icon {
+        color: var(--gold);
+    }
+
+    .fi-sidebar-item.fi-active > .fi-sidebar-item-btn > .fi-sidebar-item-label {
+        color: var(--on-night);
+        font-weight: var(--fw-semibold);
+    }
+
+    /* the gold active indicator: a bar on the inline-start edge (mirrors in RTL) */
+    .fi-sidebar-item.fi-active > .fi-sidebar-item-btn::before {
+        content: "";
+        position: absolute;
+        inset-block: var(--s-2);
+        inset-inline-start: calc(-1 * var(--s-4));
+        inline-size: 3px;
+        border-start-end-radius: var(--r-pill);
+        border-end-end-radius: var(--r-pill);
+        background: var(--metal);
+    }
+
+    .fi-sidebar-item .fi-badge {
+        background-color: var(--gold-wash);
+        color: var(--gold-hi);
+        --tw-ring-color: transparent;
+    }
+
+    .fi-sidebar-footer {
+        border-block-start: 1px solid var(--night-line);
+        padding: var(--s-3) var(--s-4);
+    }
+
+    .fi-sidebar-footer .fi-user-menu-trigger,
+    .fi-sidebar .fi-user-menu-trigger {
+        color: var(--on-night);
+        border-radius: var(--r-sm);
+    }
+
+    .fi-sidebar .fi-user-menu-trigger:hover,
+    .fi-sidebar .fi-user-menu-trigger:focus-visible {
+        background-color: var(--night-3);
+    }
+
+    .fi-sidebar .fi-user-menu-trigger:focus-visible {
+        outline: var(--focus-w) solid var(--gold);
+        outline-offset: var(--focus-offset);
+    }
+
+    .fi-sidebar .fi-user-menu-trigger .fi-icon,
+    .fi-sidebar .fi-user-menu-trigger-text {
+        color: var(--on-night-2);
+    }
+
+    .fi-sidebar .fi-icon-btn {
+        color: var(--on-night-2);
+    }
+
+    .fi-sidebar .fi-icon-btn:hover,
+    .fi-sidebar .fi-icon-btn:focus-visible {
+        background-color: var(--night-3);
+        color: var(--on-night);
+    }
+
+    .fi-sidebar-close-overlay {
+        background-color: var(--backdrop);
+    }
+
+    /* -------------------------------------------------------------- brand lockup (sidebar, sign-in) */
+
+    .slc-brand {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--s-3);
+        min-inline-size: 0;
+    }
+
+    .slc-brand__tile {
+        flex: none;
+        inline-size: 2.5rem;
+        block-size: 2.5rem;
+        border-radius: var(--r-sm);
+        box-shadow: 0 0 0 1px var(--night-line);
+    }
+
+    .slc-brand__text {
+        display: flex;
+        flex-direction: column;
+        min-inline-size: 0;
+        line-height: 1.25;
+    }
+
+    .slc-brand__name {
+        font-weight: var(--fw-semibold);
+        font-size: var(--fs-meta);
+        letter-spacing: 0.01em;
+        color: var(--ink);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .slc-brand__panel {
+        font-size: var(--fs-meta);
+        color: var(--bronze-700);
+    }
+
+    .fi-sidebar .slc-brand__name {
+        color: var(--on-night);
+    }
+
+    .fi-sidebar .slc-brand__panel {
+        color: var(--gold);
+    }
+
+    .fi-sidebar .fi-logo {
+        block-size: auto !important;
+        min-inline-size: 0;
+    }
+
+    /* -------------------------------------------------------------- sign-in */
+
+    .fi-simple-layout {
+        background-color: var(--canvas);
+        background-image: var(--hero-light);
+    }
+
+    html.fi[dir="rtl"] .fi-simple-layout {
+        background-image: var(--hero-light-rtl);
+    }
+
+    .fi-simple-main {
+        --tw-shadow: var(--shadow-2);
+        --tw-ring-color: var(--line);
+        border-radius: var(--r-lg);
+    }
+
+    .fi-simple-header .fi-logo {
+        block-size: auto !important;
+    }
+
+    .fi-simple-header-heading {
+        font-weight: var(--fw-bold);
+        letter-spacing: var(--ls-h3);
+    }
+
+    .slc-langs {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: var(--s-1);
+        margin-block-start: var(--s-2);
+        padding-block-start: var(--s-4);
+        border-block-start: 1px solid var(--line);
+    }
+
+    .slc-langs__item {
+        display: inline-flex;
+        align-items: center;
+        min-block-size: var(--target);
+        padding-inline: var(--s-3);
+        border-radius: var(--r-sm);
+        font-size: var(--fs-meta);
+        font-weight: var(--fw-medium);
+        color: var(--ink-2);
+        text-decoration: none;
+    }
+
+    a.slc-langs__item:hover {
+        background-color: var(--hover-tint);
+        color: var(--ink);
+    }
+
+    a.slc-langs__item:focus-visible {
+        outline: var(--focus-w) solid var(--focus-color);
+        outline-offset: var(--focus-offset);
+    }
+
+    .slc-langs__item[aria-current="true"] {
+        color: var(--bronze-700);
+        font-weight: var(--fw-semibold);
+        background-color: var(--bronze-wash);
+    }
+
+    /* -------------------------------------------------------------- tables: comfortable, sticky header */
+
+    .fi-ta-header-heading {
+        font-weight: var(--fw-semibold);
+    }
+
+    .fi-ta-header-description {
+        color: var(--ink-3);
+    }
+
+    .fi-ta-table > thead > tr {
+        background-color: var(--canvas);
+    }
+
+    .fi-ta-header-cell {
+        font-size: var(--fs-meta);
+        font-weight: var(--fw-semibold);
+        color: var(--ink-2);
+        white-space: nowrap;
+    }
+
+    .fi-ta-row {
+        transition: background-color var(--dur-hover) var(--ease-out);
+    }
+
+    .fi-ta-text-item,
+    .fi-ta-text {
+        font-variant-numeric: tabular-nums;
+    }
+
+    /* the request list: a sticky column header. From 1280px the table fits its card, so the header sticks
+       to the top of the window while the page scrolls; below that the table scrolls inside its card (both
+       directions) and the header sticks to the top of the card. */
+    .slc-requests-table .fi-ta-table > thead > tr > th {
+        position: sticky;
+        inset-block-start: 0;
+        z-index: 2;
+        background-color: var(--canvas);
+        box-shadow: inset 0 -1px 0 var(--line);
+    }
+
+    @media (width >= 80rem) {
+        .slc-requests-table .fi-ta-content-ctn {
+            overflow: visible;
+        }
+    }
+
+    @media (width < 80rem) {
+        .slc-requests-table .fi-ta-content-ctn {
+            max-block-size: calc(100dvh - 12rem);
+            overflow: auto;
+            overscroll-behavior: contain;
+        }
+    }
+
+    .slc-requests-table .fi-ta-cell .fi-ta-text {
+        padding-block: var(--s-4);
+    }
+
+    .slc-requests-table .fi-ta-cell-matter-type {
+        min-inline-size: 10rem;
+    }
+
+    /* name and contact stay on one line each (never broken inside an e-mail or a number) */
+    .slc-requests-table .fi-ta-cell-name .fi-ta-text-item,
+    .slc-requests-table .fi-ta-cell-name .fi-ta-text-description {
+        max-inline-size: 10rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* …each an inline <bdi> in its own direction that starts under the header (AdminBidi); a long one is
+       cut inside the <bdi>, at its own end ("a.example@example.c…" in the Arabic panel too, never "…mple.com") */
+    .slc-requests-table .fi-ta-cell-name bdi {
+        display: inline-block;
+        max-inline-size: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        vertical-align: top;
+    }
+
+    /* the dashboard's latest requests share a row with "Requests by language" from 1280px, so the table
+       must fit half the content width in every language: the service wraps under the reference (the
+       reference itself never breaks at its hyphens); the date and the time take two short lines */
+    .slc-latest-table .fi-ta-cell-reference .fi-ta-text-description {
+        white-space: normal;
+    }
+
+    .slc-latest-table .fi-ta-cell-reference .fi-ta-text-item {
+        white-space: nowrap;
+    }
+
+    .slc-num {
+        font-variant-numeric: tabular-nums;
+    }
+
+    .slc-code-cell {
+        inline-size: 1%;
+    }
+
+    /* share of requests: <meter>, bronze on the sunken track */
+    .slc-share {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--s-3);
+        min-inline-size: 11rem;
+        padding-inline: var(--s-3);
+    }
+
+    .slc-share__meter {
+        appearance: none;
+        inline-size: 8rem;
+        block-size: 0.5rem;
+        border: 0;
+        border-radius: var(--r-pill);
+        background: var(--surface-sunken);
+        overflow: hidden;
+    }
+
+    .slc-share__meter::-webkit-meter-bar {
+        background: var(--surface-sunken);
+        border: 0;
+        border-radius: var(--r-pill);
+        block-size: 0.5rem;
+    }
+
+    .slc-share__meter::-webkit-meter-optimum-value,
+    .slc-share__meter::-webkit-meter-suboptimum-value,
+    .slc-share__meter::-webkit-meter-even-less-good-value {
+        background: var(--bronze);
+        border-radius: var(--r-pill);
+    }
+
+    .slc-share__meter::-moz-meter-bar {
+        background: var(--bronze);
+        border-radius: var(--r-pill);
+    }
+
+    html.fi[dir="rtl"] .slc-share__meter {
+        transform: scaleX(-1);
+    }
+
+    .slc-share__value {
+        min-inline-size: 3.5ch;
+        font-size: var(--fs-meta);
+        font-variant-numeric: tabular-nums;
+        color: var(--ink-2);
+        text-align: end;
+    }
+
+    /* -------------------------------------------------------------- stats */
+
+    .fi-wi-stats-overview-stat-value {
+        font-weight: var(--fw-bold);
+        letter-spacing: var(--ls-h2);
+        font-variant-numeric: tabular-nums;
+        color: var(--ink);
+    }
+
+    .fi-wi-stats-overview-stat-label {
+        font-weight: var(--fw-medium);
+        color: var(--ink-2);
+    }
+
+    .fi-wi-stats-overview-stat-description {
+        font-size: var(--fs-meta);
+    }
+
+    /* two and four columns: every label takes a fixed two-line block, so a label that wraps (the 30-day and
+       ratio labels at 1280, most Russian and Arabic labels) never pushes its figure below its neighbours'. */
+    @media (width >= 48rem) {
+        .fi-wi-stats-overview-stat-label-ctn {
+            align-items: start;
+        }
+
+        .fi-wi-stats-overview-stat-label {
+            display: block;
+            min-block-size: 2lh;
+        }
+    }
+
+    /* the 7- and 30-day sparklines: inside the card padding at the foot of the card (Filament draws them
+       on the card's bottom edge, where the rounded corners clip them and a flat line reads as an underline).
+       The figures take the free height, so the charts of neighbouring cards share one baseline. */
+    .fi-wi-stats-overview-stat.slc-stat-trend {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .fi-wi-stats-overview-stat.slc-stat-trend > .fi-wi-stats-overview-stat-content {
+        flex-grow: 1;
+        align-content: start;
+    }
+
+    .fi-wi-stats-overview-stat.slc-stat-trend > .fi-wi-stats-overview-stat-content + * {
+        margin-block-start: var(--s-4);
+    }
+
+    .fi-wi-stats-overview-stat.slc-stat-trend .fi-wi-stats-overview-stat-chart {
+        position: relative;
+        inset: auto;
+        overflow: visible;
+        border-radius: 0;
+    }
+
+    .fi-wi-stats-overview-stat.slc-stat-trend .fi-wi-stats-overview-stat-chart > canvas {
+        block-size: var(--s-10);
+    }
+
+    .slc-stat-untracked .fi-wi-stats-overview-stat-value {
+        font-size: var(--fs-h4);
+        letter-spacing: 0;
+        color: var(--ink-2);
+    }
+
+    /* the smaller "Not tracked" value keeps the height of a figure row, so its hint lines up with the others */
+    @media (width >= 48rem) {
+        .slc-stat-untracked .fi-wi-stats-overview-stat-value {
+            display: flex;
+            align-items: center;
+            min-block-size: calc(var(--text-3xl) * var(--text-3xl--line-height));
+        }
+    }
+
+    .slc-stat-untracked .fi-wi-stats-overview-stat-description {
+        color: var(--ink-3);
+        line-height: 1.5;
+    }
+
+    /* -------------------------------------------------------------- reading a request */
+
+    /* Every value starts under its label, in either interface direction. Short values are inline <bdi>
+       runs (App\Filament\Support\AdminBidi). The visitor's own longer text (summary, deadline details, the
+       consent wording) and the internal note are blocks in their own direction (dir="auto", or the
+       visitor's language) that shrink to their text: a one-line English summary in the Arabic panel sits on
+       the right under its label, like the e-mail address; a longer one fills the column and reads in its
+       own direction. Line breaks arrive as <br> (AdminFormat::multiline). Filament puts these classes on
+       the .fi-in-text element itself, hence the compound selectors. */
+    .fi-in-text.slc-prose {
+        inline-size: fit-content;
+        max-inline-size: min(100%, 72ch);
+    }
+
+    html.fi .fi-in-text.fi-in-text-item.slc-prose {
+        line-height: 1.65;
+        color: var(--ink);
+    }
+
+    /* the exact consent wording the visitor saw: a quotation, marked on its own starting side */
+    html.fi .fi-in-text.fi-in-text-item.slc-quote {
+        border-inline-start: 2px solid var(--line-strong);
+        padding-inline-start: var(--s-3);
+        color: var(--ink-2);
+    }
+
+    .fi-in-entry-label,
+    .fi-fo-field-label-content {
+        color: var(--ink-2);
+        font-weight: var(--fw-medium);
+    }
+
+    /* -------------------------------------------------------------- notifications */
+
+    .fi-no-notification {
+        border-radius: var(--r-md);
+        --tw-shadow: var(--shadow-3);
+    }
+
+    /* -------------------------------------------------------------- reduced motion */
+
+    @media (prefers-reduced-motion: reduce) {
+        .fi-btn:active:not([disabled]) {
+            transform: none;
+        }
+
+        .fi-ta-row {
+            transition: none;
+        }
+    }
+}

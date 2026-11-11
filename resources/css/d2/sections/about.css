@@ -1,0 +1,52 @@
+/*
+ * Design 2 home section 05 "About Summit Legal Consultancy" (#about; brief §5.1 item 6, D45). View:
+ * resources/views/designs/d2/sections/home/about.blade.php.
+ * Phones and tablets: the H2, its three paragraphs 16 px under it, then the approved "Meet Summit and the Team" link
+ * 32 px under them. From 1024 px the 12-column grid: the H2 on columns 1-5, the paragraphs and the link on columns
+ * 6-12 (the About page story's heading | text pattern, 5 : 7). D45: one body size and colour for all three paragraphs.
+ */
+@layer sections {
+  .about__grid {
+    display: grid;
+    gap: var(--head-gap);
+  }
+
+  .about__head {
+    min-inline-size: 0;
+  }
+
+  .about__body {
+    display: grid;
+    align-content: start;
+    gap: var(--s-4);
+    min-inline-size: 0;
+    max-inline-size: var(--prose);
+
+    & > p {
+      color: var(--ink-2);
+      font-size: var(--fs-body);
+      line-height: var(--lh-body);
+    }
+  }
+
+  .about__actions {
+    display: flex;
+    margin-block-start: var(--s-4);
+  }
+
+  @media (width >= 1024px) {
+    .about__grid {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gutter);
+      align-items: start;
+    }
+
+    .about__head {
+      grid-column: 1 / span 5;
+    }
+
+    .about__body {
+      grid-column: 6 / span 7;
+    }
+  }
+}

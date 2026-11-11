@@ -1,0 +1,108 @@
+/*
+ * Design 2 component: sticky consultation bar (<x-d2.shell.sticky-cta>; behaviour in
+ * resources/js/d2/modules/sticky-cta.js). Upgrade spec §8 "Sticky CTA" and §12 E; Design 2.1 brief §3.5, §3.6, §6.
+ *
+ * Design 2.1 (brief §6 "Mobile", the owner's pick between hiding and merging): ONE bottom bar on phones. Where the
+ * tab bar exists (every page of the Design 2 layout) the sticky bar is never drawn, so it can never stack on the tab
+ * bar; the service pages keep their own consultation CTAs in the page (the head and the end of the page) and the
+ * floating WhatsApp button above the tab bar. Without a tab bar (a page outside the layout) it is the bar below.
+ *
+ * Below 768 px only, and only with JavaScript (it needs the hero observer). A 56 px solid white bar (--canvas, a 1 px
+ * --line top line; no glass, no blur: brief §3.6 rule 6) holding one full-width Ink button, 48 px on touch (the
+ * default button variant: gold stays the hero primary's, once per page), on the bottom edge with the safe area
+ * under it. Hidden: slid out of view and visibility hidden (never focusable, never announced). Toasts rise above
+ * it. Stacking: below sheets, dialogs and toasts.
+ */
+@layer components {
+  .sticky-cta {
+    display: none;
+  }
+
+  @media (width < 768px) {
+    .js .sticky-cta:not(.sticky-cta--static) {
+      position: fixed;
+      inset-inline: 0;
+      inset-block-end: 0;
+      z-index: calc(var(--z-tabbar) - 1);
+      display: block;
+      padding-block: var(--s-2) calc(var(--s-2) + var(--safe-bottom));
+      padding-inline: max(var(--pad-x), var(--safe-x));
+      visibility: hidden;
+      background: var(--canvas);
+      transform: translate3d(0, 100%, 0);
+      transition:
+        transform var(--dur-enter) var(--ease-out),
+        visibility 0s linear var(--dur-enter);
+    }
+
+    .js .sticky-cta.is-visible:not(.sticky-cta--static) {
+      visibility: visible;
+      transform: translate3d(0, 0, 0);
+      transition:
+        transform var(--dur-enter) var(--ease-out),
+        visibility 0s;
+    }
+
+    /* One bottom bar, never two: where the tab bar exists the sticky bar is not drawn (also without JavaScript). */
+    body:has(> .tabbar:not(.tabbar--static)) > .sticky-cta {
+      display: none;
+    }
+
+    /* Room for the bar at the end of the page, and focus and #anchors never land under it (WCAG 2.4.11). */
+    .js body:not(:has(> .tabbar)):has(> .sticky-cta:not([data-until])) {
+      padding-block-end: calc(var(--sticky-cta-h) + var(--safe-bottom));
+    }
+
+    html.js:has(> body > .sticky-cta):not(:has(> body > .tabbar)) {
+      scroll-padding-block-end: calc(var(--sticky-cta-h) + var(--safe-bottom) + var(--s-4));
+    }
+
+    /* Toasts (components/toast.css) rise above the bar while it shows. */
+    .js body:not(:has(> .tabbar)):has(> .sticky-cta.is-visible) > .toast-region {
+      inset-block-end: calc(var(--sticky-cta-h) + var(--safe-bottom) + var(--s-3));
+    }
+  }
+
+  /* 1 px top line on a pseudo-element, so the bar stays exactly 56 px; its border (not a background) so forced
+     colours keep the bar's edge. */
+  .sticky-cta::before {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline: 0;
+    pointer-events: none;
+    content: "";
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  /* One 48 px row; the approved label is never cut: on a very narrow phone it wraps (balanced) and the row grows
+     upwards rather than hiding words. */
+  .sticky-cta__inner {
+    display: flex;
+    min-block-size: calc(var(--sticky-cta-h) - var(--s-2));
+  }
+
+  /* The Ink button fills the row: 48 px tall on touch whatever the button's own default height. */
+  .sticky-cta__button {
+    flex: 1 1 auto;
+    min-inline-size: 0;
+    min-block-size: var(--target-touch);
+  }
+
+  @media print {
+    .sticky-cta {
+      display: none !important;
+    }
+  }
+
+  /* ---------------------------------------------------------------- styleguide specimen (phone width) */
+  .sticky-cta--static {
+    position: relative;
+    display: block;
+    inline-size: 100%;
+    max-inline-size: 430px;
+    padding-block: var(--s-2) 0;
+    padding-inline: var(--pad-x);
+    margin-inline: auto;
+    background: var(--canvas);
+  }
+}

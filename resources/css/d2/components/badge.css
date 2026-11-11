@@ -1,0 +1,70 @@
+/*
+ * Design 2.1 component: badge (<x-d2.ui.badge tone icon>). Brief §3.3, §3.5; docs/d2.1/phase-1/components.md §2.
+ * A status label, not a control: 24 px tall (--badge-h), radius 6, caption 13/500, the brief's badge pairs
+ * (text on background): neutral 6.85, info 5.78, success 5.76, warning 5.81, danger 5.75, brand 5.52 (:1).
+ * Status tones show an icon and text (the component adds the tone's icon). night: on dark surfaces.
+ */
+@layer components {
+  .badge {
+    --badge-bg: var(--badge-neutral-bg);
+    --badge-fg: var(--badge-neutral-fg);
+    --badge-edge: transparent;
+
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    gap: var(--s-1);
+    min-block-size: var(--badge-h);
+    padding-block: 0;
+    padding-inline: var(--s-2);
+    border: var(--line-w) solid var(--badge-edge);
+    border-radius: var(--radius-control);
+    color: var(--badge-fg);
+    background: var(--badge-bg);
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-caption);
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+
+  .badge:has(> .badge__icon) {
+    padding-inline-start: var(--s-1);
+  }
+
+  .badge__icon {
+    flex: none;
+  }
+
+  .badge--info {
+    --badge-bg: var(--badge-info-bg);
+    --badge-fg: var(--badge-info-fg);
+  }
+
+  .badge--success {
+    --badge-bg: var(--badge-success-bg);
+    --badge-fg: var(--badge-success-fg);
+  }
+
+  .badge--warning {
+    --badge-bg: var(--badge-warning-bg);
+    --badge-fg: var(--badge-warning-fg);
+  }
+
+  .badge--danger {
+    --badge-bg: var(--badge-danger-bg);
+    --badge-fg: var(--badge-danger-fg);
+  }
+
+  .badge--brand {
+    --badge-bg: var(--badge-brand-bg);
+    --badge-fg: var(--badge-brand-fg);
+  }
+
+  .badge--night {
+    --badge-bg: var(--dark-2);
+    --badge-fg: var(--on-dark-2);
+    --badge-edge: var(--line-on-dark);
+  }
+}

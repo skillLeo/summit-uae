@@ -1,0 +1,101 @@
+{
+    "en": {
+        "open": "Open now, closes :time",
+        "closed": "Closed now, opens :day :time",
+        "closedToday": "Closed now, opens today :time",
+        "closedTomorrow": "Closed now, opens tomorrow :time",
+        "days": {
+            "1": "Monday",
+            "2": "Tuesday",
+            "3": "Wednesday",
+            "4": "Thursday",
+            "5": "Friday",
+            "6": "Saturday",
+            "7": "Sunday"
+        },
+        "time": {
+            "am": "at :hour am",
+            "pm": "at :hour pm",
+            "amMinutes": "at :hour::minute am",
+            "pmMinutes": "at :hour::minute pm"
+        },
+        "ahead": {
+            "one": "UAE time is :count hour ahead of yours",
+            "other": "UAE time is :count hours ahead of yours"
+        },
+        "behind": {
+            "one": "UAE time is :count hour behind yours",
+            "other": "UAE time is :count hours behind yours"
+        }
+    },
+    "ar": {
+        "open": "مفتوح الآن، يُغلق :time",
+        "closed": "مغلق الآن، يفتح يوم :day :time",
+        "closedToday": "مغلق الآن، يفتح اليوم :time",
+        "closedTomorrow": "مغلق الآن، يفتح غدًا :time",
+        "days": {
+            "1": "الاثنين",
+            "2": "الثلاثاء",
+            "3": "الأربعاء",
+            "4": "الخميس",
+            "5": "الجمعة",
+            "6": "السبت",
+            "7": "الأحد"
+        },
+        "time": {
+            "am": "الساعة :hour صباحًا",
+            "pm": "الساعة :hour مساءً",
+            "amMinutes": "الساعة :hour::minute صباحًا",
+            "pmMinutes": "الساعة :hour::minute مساءً"
+        },
+        "ahead": {
+            "zero": "توقيت الإمارات مطابق لتوقيتك",
+            "one": "توقيت الإمارات متقدّم على توقيتك بساعة واحدة",
+            "two": "توقيت الإمارات متقدّم على توقيتك بساعتين",
+            "few": "توقيت الإمارات متقدّم على توقيتك بـ :count ساعات",
+            "many": "توقيت الإمارات متقدّم على توقيتك بـ :count ساعة",
+            "other": "توقيت الإمارات متقدّم على توقيتك بـ :count ساعة"
+        },
+        "behind": {
+            "zero": "توقيت الإمارات مطابق لتوقيتك",
+            "one": "توقيت الإمارات متأخر عن توقيتك بساعة واحدة",
+            "two": "توقيت الإمارات متأخر عن توقيتك بساعتين",
+            "few": "توقيت الإمارات متأخر عن توقيتك بـ :count ساعات",
+            "many": "توقيت الإمارات متأخر عن توقيتك بـ :count ساعة",
+            "other": "توقيت الإمارات متأخر عن توقيتك بـ :count ساعة"
+        }
+    },
+    "ru": {
+        "open": "Сейчас открыто, закрывается :time",
+        "closed": "Сейчас закрыто, откроется :day :time",
+        "closedToday": "Сейчас закрыто, откроется сегодня :time",
+        "closedTomorrow": "Сейчас закрыто, откроется завтра :time",
+        "days": {
+            "1": "в понедельник",
+            "2": "во вторник",
+            "3": "в среду",
+            "4": "в четверг",
+            "5": "в пятницу",
+            "6": "в субботу",
+            "7": "в воскресенье"
+        },
+        "time": {
+            "am": "в :hour_of_day::minute",
+            "pm": "в :hour_of_day::minute",
+            "amMinutes": "в :hour_of_day::minute",
+            "pmMinutes": "в :hour_of_day::minute"
+        },
+        "ahead": {
+            "one": "Время в ОАЭ опережает ваше на :count час",
+            "few": "Время в ОАЭ опережает ваше на :count часа",
+            "many": "Время в ОАЭ опережает ваше на :count часов",
+            "other": "Время в ОАЭ опережает ваше на :count часа"
+        },
+        "behind": {
+            "one": "Время в ОАЭ отстаёт от вашего на :count час",
+            "few": "Время в ОАЭ отстаёт от вашего на :count часа",
+            "many": "Время в ОАЭ отстаёт от вашего на :count часов",
+            "other": "Время в ОАЭ отстаёт от вашего на :count часа"
+        }
+    }
+}

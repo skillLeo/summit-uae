@@ -1,0 +1,204 @@
+/*
+ * Design 2 home section 04: What a Review of Your Matter Can Clarify (upgrade spec §12 C4; owner: start-review-who,
+ * Design 2.1 Phase 2, D49). View: sections/home/method.blade.php, steps <x-d2.home.steps>.
+ *
+ * H2, then the two approved paragraphs (Lead, ink-2) on the start side and the questions (H3 + a plain list between
+ * hairlines, no check marks: D04) on the end side: columns 1-6 and 8-12 of the 12-column grid from 1024 px, stacked
+ * below. Then the H3 "How We Work on Your Matter" and the four steps: one row of four from 1024 px, 2 x 2 from
+ * 768 px, stacked below. A step is not a card (nothing is interactive, brief §3.5): its marker 01-04 (the interface
+ * sans, 15/500 tabular, in a small outlined tag: numbers are allowed on the four workflow steps), title (H3 role) and
+ * text (Body, ink-2). A quiet 1 px --line-strong line runs from each marker to the next one in its row (vertically
+ * when stacked). Design 2.1: no mono, no bronze, no glow, no scroll-driven fill (motion is for the hero entrance
+ * and tool interactions only, §3.6 rule 7), no still-life (decoration only, §3.1). Modifier (styleguide specimen):
+ * --stacked keeps the stacked layout at every width.
+ */
+@layer sections {
+  /* ------------------------------------------------------------ head, paragraphs, questions */
+  .method__title {
+    max-inline-size: var(--prose);
+    margin-block-end: var(--head-gap);
+  }
+
+  .method__intro {
+    row-gap: var(--s-12);
+    align-items: start;
+  }
+
+  .method__text {
+    display: grid;
+    grid-column: 1 / -1;
+    gap: var(--s-4);
+
+    & p {
+      color: var(--ink-2);
+      font-size: var(--fs-lead);
+      line-height: var(--lh-lead);
+    }
+  }
+
+  .method__questions {
+    grid-column: 1 / -1;
+  }
+
+  .method__heading {
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+  }
+
+  .method__checklist {
+    display: grid;
+    margin: 0;
+    margin-block-start: var(--s-4);
+    padding: 0;
+    list-style: none;
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  .method__question {
+    padding-block: var(--s-4);
+    color: var(--ink);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    border-block-end: var(--line-w) solid var(--line);
+  }
+
+  @media (width >= 1024px) {
+    .method__text {
+      grid-column: 1 / span 6;
+    }
+
+    .method__questions {
+      grid-column: 8 / span 5;
+    }
+  }
+
+  /* ------------------------------------------------------------ steps */
+  .method__how {
+    margin-block-start: var(--s-16);
+  }
+
+  .method__heading + .method__steps {
+    margin-block-start: var(--s-8);
+  }
+
+  .method__steps {
+    --step-mark-w: 48px;
+    --step-mark-h: 32px;
+    --step-gap: var(--s-8);
+
+    position: relative;
+    display: grid;
+    gap: var(--step-gap);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* stacked: the marker at the inline start, the title and text beside it */
+  .method-step {
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--step-mark-w) minmax(0, 1fr);
+    column-gap: var(--s-4);
+    row-gap: var(--s-2);
+    align-content: start;
+    align-items: start;
+  }
+
+  .method-step > :not(.method-step__num) {
+    grid-column: 2;
+  }
+
+  .method-step__num {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    inline-size: var(--step-mark-w);
+    block-size: var(--step-mark-h);
+    color: var(--ink-2);
+    background: var(--canvas);
+    border: var(--line-w) solid var(--line-strong);
+    border-radius: var(--radius-control);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: 1;
+    font-variant-numeric: tabular-nums lining-nums;
+    grid-row: 1 / span 2;
+  }
+
+  .method-step__title {
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+    text-wrap: balance;
+  }
+
+  .method-step__text {
+    color: var(--ink-2);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+  }
+
+  /* connector to the next marker: one static hairline (stacked: vertical, from marker to marker) */
+  .method-step:not(:last-child)::before {
+    position: absolute;
+    inset-block-start: calc(var(--step-mark-h) + var(--s-2));
+    inset-inline-start: calc(var(--step-mark-w) / 2);
+    inline-size: var(--line-w);
+    block-size: calc(100% + var(--step-gap) - var(--step-mark-h) - 2 * var(--s-2));
+    content: "";
+    background: var(--line-strong);
+  }
+
+  /* side by side (2 x 2 from 768 px, one row of four from 1024 px): the marker on top, then the title and the text.
+     Each step spans three rows of the list (subgrid), so the titles and the texts of a row start on shared lines.
+     The line runs along the markers to the next step of the same row. */
+  @media (width >= 768px) {
+    .method__steps:not(.method__steps--stacked) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--s-12) var(--gutter);
+
+      & > .method-step {
+        grid-template-rows: subgrid;
+        grid-template-columns: minmax(0, 1fr);
+        grid-row: span 3;
+        row-gap: var(--s-2);
+      }
+
+      & > .method-step > * {
+        grid-row: auto;
+        grid-column: 1;
+      }
+
+      & .method-step__num {
+        margin-block-end: var(--s-3);
+      }
+
+      & > .method-step:not(:last-child)::before {
+        inset-block-start: calc(var(--step-mark-h) / 2);
+        inset-inline-start: calc(var(--step-mark-w) + var(--s-2));
+        inline-size: calc(100% + var(--gutter) - var(--step-mark-w) - 2 * var(--s-2));
+        block-size: var(--line-w);
+      }
+
+      /* the end of a row of two has no next step beside it */
+      & > .method-step:nth-child(2n)::before {
+        content: none;
+      }
+    }
+  }
+
+  @media (width >= 1024px) {
+    .method__steps:not(.method__steps--stacked) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+
+      & > .method-step:nth-child(2n):not(:last-child)::before {
+        content: "";
+      }
+    }
+  }
+}

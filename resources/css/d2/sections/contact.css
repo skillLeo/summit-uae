@@ -1,0 +1,285 @@
+/*
+ * Design 2 home section: contact (#consultation-form; spec §7.3 item 14, §12 C14). Owner: wizard.
+ * From 1280px the consultation wizard (components/wizard.css) takes 8 of 12 columns and the contact card
+ * the other 4 (the card stays in view while the steps change: sticky under the header). The spec's 7 / 5
+ * left the wizard 560px at 1280 (its five step chips wrapped and the audience cards were cramped); 8 / 4
+ * keeps every chip label on one line in all three languages and the card still fits its longest value.
+ * Below 1280 they stack, and from 768px the card lays its channels and facts side by side. No address,
+ * no map.
+ * Design 2.1 (Phase 1, home-b): the card is white with a 1px --line edge and --radius-card, no shadow;
+ * functional icons are plain 20 px glyphs in ink-2 (no tiles, no bronze, no decorative globe: D04). Phase 2
+ * (D40): the channels are plain rows on the facts' two columns, so every icon sits in one column; the languages
+ * line comes before the hours (both Word files).
+ */
+@layer sections {
+  .contact-section:focus {
+    outline: none;
+  }
+
+  .contact-section__grid {
+    display: grid;
+    gap: var(--s-8);
+    min-inline-size: 0;
+  }
+
+  .contact-section__main,
+  .contact-section__aside {
+    min-inline-size: 0;
+  }
+
+  @media (width >= 1280px) {
+    .contact-section__grid {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gutter);
+      align-items: start;
+    }
+
+    .contact-section__main {
+      grid-column: 1 / span 8;
+    }
+
+    .contact-section__aside {
+      position: sticky;
+      inset-block-start: calc(var(--header-h) + var(--s-6));
+      grid-column: 9 / span 4;
+    }
+  }
+
+  /* ------------------------------------------------------------------ contact card */
+  .contact-card {
+    display: grid;
+    gap: var(--s-5);
+    align-content: start;
+    min-inline-size: 0;
+    padding: var(--pad-card);
+    border: var(--line-w) solid var(--line);
+    border-radius: var(--radius-card);
+    background: var(--canvas);
+  }
+
+  .contact-card__title {
+    color: var(--ink);
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+  }
+
+  /*
+   * D40: every icon on one column. The channels are plain rows (no boxes) on the same two columns as the facts
+   * below them (the 20 px icon column, a 12 px gap, the text), so the phone, the WhatsApp mark, the e-mail and the
+   * clock line up, and so do the labels, values and lines of text. Each row is one link of at least 48 px; its
+   * hover veil reaches 12 px past the icon column into the card's padding.
+   */
+  .contact-card__channels {
+    display: grid;
+    gap: var(--s-1);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .contact-card__channel {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    grid-template-columns: var(--icon-size) minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: var(--s-3);
+    min-block-size: var(--target-touch);
+    padding-block: var(--s-2);
+    border-radius: var(--radius-control);
+    color: var(--ink);
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+
+    /* hover / press veil: opacity only */
+    &::before {
+      content: "";
+      position: absolute;
+      inset-block: 0;
+      inset-inline: calc(-1 * var(--s-3));
+      z-index: -1;
+      border-radius: var(--radius-control);
+      background: var(--hover-tint);
+      opacity: 0;
+      transition: opacity var(--dur-hover) var(--ease-out);
+    }
+
+    &:active::before {
+      opacity: 1;
+    }
+
+    &:focus-visible {
+      outline: var(--focus-w) solid var(--focus-color);
+      outline-offset: var(--focus-offset);
+    }
+  }
+
+  @media (hover: hover) {
+    .contact-card__channel:hover::before {
+      opacity: 1;
+    }
+
+    .contact-card__channel:hover .contact-card__value {
+      text-decoration: underline;
+      text-decoration-thickness: var(--line-w);
+      text-underline-offset: 3px;
+    }
+  }
+
+  /* Styleguide-only modifiers: the hover and focus states shown statically. */
+  .contact-card__channel.is-hover::before {
+    opacity: 1;
+  }
+
+  .contact-card__channel.is-focus {
+    outline: var(--focus-w) solid var(--focus-color);
+    outline-offset: var(--focus-offset);
+  }
+
+  /* A plain 20 px glyph in ink-2 (brief 3.5); the WhatsApp mark keeps the colours of its own files. */
+  .contact-card__icon {
+    display: grid;
+    place-items: center;
+    inline-size: var(--icon-size);
+    color: var(--ink-2);
+  }
+
+  .contact-card__text {
+    display: grid;
+    gap: var(--s-1);
+    min-inline-size: 0;
+  }
+
+  .contact-card__label {
+    color: var(--ink-3);
+    font-size: var(--fs-small);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-small);
+  }
+
+  .contact-card__value {
+    color: var(--ink);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+  }
+
+  /* The address may break anywhere rather than push the card wider (Design 1 review A11Y-19). */
+  .contact-card__email {
+    overflow-wrap: anywhere;
+  }
+
+  [dir="rtl"] .contact-card__value[dir="ltr"] {
+    text-align: end;
+  }
+
+  .contact-card__external {
+    color: var(--ink-2);
+  }
+
+  .contact-card__facts {
+    display: grid;
+    gap: var(--s-3);
+    padding-block-start: var(--s-5);
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  /* icon column (the clock) + text column; a fact without an icon keeps the text column. A short fact never
+     hyphenates (the Russian paragraph rule, base.css :lang(ru) p, split "пят-/ницу" in the approved hours line;
+     the live status already sets hyphens: manual in hours.css). */
+  .contact-card__fact {
+    display: grid;
+    grid-template-columns: var(--icon-size) minmax(0, 1fr);
+    column-gap: var(--s-3);
+    align-items: start;
+    color: var(--ink-2);
+    font-size: var(--fs-ui);
+    line-height: var(--lh-ui);
+    hyphens: manual;
+  }
+
+  /* the clock takes the first line's height, so it centres on that line (no optical margin) */
+  .contact-card__fact-icon {
+    block-size: var(--lh-ui);
+    color: var(--ink-2);
+  }
+
+  .contact-card__fact--plain > .contact-card__fact-text {
+    grid-column: 2;
+  }
+
+  /* P07's after-hours paragraph: the text column, in the Small size. */
+  .contact-card__fact--note {
+    color: var(--ink-3);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+  }
+
+  .contact-card__fact-text {
+    display: grid;
+    gap: var(--s-1);
+    min-inline-size: 0;
+  }
+
+  .contact-card__status:empty {
+    display: none;
+  }
+
+  /*
+   * The status line is reserved from the first paint (as in the footer): the slot stacks the live status
+   * and an invisible copy of the longest line hours.js can write (same classes, same wrapping) in one grid
+   * cell, so filling the status moves nothing. Without JavaScript nothing fills it, so nothing is reserved.
+   */
+  .contact-card__status-slot {
+    display: grid;
+    min-inline-size: 0;
+  }
+
+  .contact-card__status-slot > * {
+    grid-area: 1 / 1;
+  }
+
+  .contact-card__status-sizer {
+    visibility: hidden;
+  }
+
+  .no-js .contact-card__status-slot {
+    display: none;
+  }
+
+  /* Tablet: the card sits under the wizard, channels and facts side by side. */
+  @media (width >= 768px) {
+    .contact-card {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: var(--s-8);
+    }
+
+    .contact-card__title {
+      grid-column: 1 / -1;
+    }
+
+    .contact-card__facts {
+      align-content: start;
+      padding-block-start: 0;
+      padding-inline-start: var(--s-8);
+      border-block-start: 0;
+      border-inline-start: var(--line-w) solid var(--line);
+    }
+  }
+
+  /* Desktop: one column beside the wizard again. */
+  @media (width >= 1280px) {
+    .contact-card {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .contact-card__facts {
+      padding-block-start: var(--s-5);
+      padding-inline-start: 0;
+      border-block-start: var(--line-w) solid var(--line);
+      border-inline-start: 0;
+    }
+  }
+}

@@ -1,0 +1,70 @@
+// =============================================================================
+// Bootstrap 5.3: reboot, CSS-grid layout and a small utility API only.
+// No Bootstrap components (they are the main source of the "template look").
+// Lives in tokens/ because Bootstrap's variable API needs raw values.
+// =============================================================================
+
+@import "bootstrap/scss/functions";
+
+$enable-cssgrid: true;
+$enable-grid-classes: false;
+$enable-container-classes: false;
+$enable-shadows: false;
+$enable-gradients: false;
+$enable-rounded: false;
+$enable-transitions: false;
+$enable-smooth-scroll: false;
+$enable-negative-margins: false;
+$enable-deprecation-messages: false;
+$enable-dark-mode: false;
+$enable-rfs: false;
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 600px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px,
+  xxl: 1440px,
+);
+$grid-columns: 12;
+$grid-gutter-width: 1.5rem;
+
+$white: #FFFFFF;
+$black: #000000;
+$body-bg: $white;
+$body-color: #111111;
+$link-color: #8A6A2E;
+$link-hover-color: #7A5C24;
+$link-decoration: underline;
+$font-family-base: var(--font-sans);
+$font-size-base: 1.125rem;
+$line-height-base: 1.6;
+$headings-font-family: var(--font-serif);
+$headings-font-weight: 400;
+$headings-margin-bottom: 0;
+$paragraph-margin-bottom: 0;
+$hr-opacity: 1;
+
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/variables-dark";
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/utilities";
+
+// Keep only layout-neutral utilities; directional ones are rewritten with logical properties.
+$utilities: map-get-multiple($utilities, ("display"));
+$utilities: map-merge($utilities, (
+  "text-align": (
+    responsive: true,
+    property: text-align,
+    class: text,
+    values: (start: start, end: end, center: center),
+  ),
+));
+
+@import "bootstrap/scss/root";
+@import "bootstrap/scss/reboot";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/helpers/visually-hidden";
+@import "bootstrap/scss/utilities/api";

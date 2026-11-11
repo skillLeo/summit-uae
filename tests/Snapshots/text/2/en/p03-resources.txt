@@ -1,0 +1,570 @@
+# text-snapshot: design 2, locale en, route p03-resources
+# GET /en/resources/ -> 200; html lang=en dir=ltr data-design=2
+=== header ===
+Choose language
+English
+Request a Legal Consultation
+Home
+Practice Areas
+Legal Resources
+Case Studies
+FAQs
+About Us
+Contact Us
+=== main ===
+Home
+Legal Knowledge Centre
+Legal Knowledge Centre in the UAE
+Practical guides to help you understand your matter and prepare the documents before making a decision.
+It may begin with an unpaid salary, a dishonoured cheque, a changed handover date or a transfer whose destination you cannot establish. These guides help you identify what to review, what to retain and which steps warrant legal assessment before you act. Each topic includes a full explanation, links to related services and official sources for reference.
+How to Use the Knowledge Centre
+Choose the guide closest to your situation and read the explanation, rather than relying on the title alone.
+Review the file preparation steps and common mistakes, then gather the documents available.
+Consult the official source for information or service requirements, and identify what needs to be applied to your particular facts.
+If you have a notice, hearing or deadline for a response or appeal, mention it when contacting us and do not postpone its review until you have finished reading the guides.
+Legal Guides
+Employment and Financial Claims
+3 guides
+Unpaid Salary and How to Document Your Claim
+Identify the months and amounts outstanding, and reconcile them with salary and payment records. This guide explains what to gather before making a complaint and what to check in a settlement or release.
+Read the Guide
+How to Begin Recovering a Commercial Debt
+Organise the evidence of the debt, its due date, delivery and payments. This guide helps you assess the claim, settlement and enforcement options, and identify the party liable to pay.
+Read the Guide
+Dishonoured Cheques and Enforcement Options
+Understand the significance of the reason for dishonour and the distinction between cheque enforcement, disputes over the debt and criminal liability. The guide also covers partial payment and replacement cheques.
+Read the Guide
+Property and Family
+2 guides
+Delayed Property Handover in Dubai
+Review the handover date, extension clauses, payment plan and project status. This guide explains what to consider before seeking termination or compensation, or deciding how to handle payments.
+Read the Guide
+Wills for Non-Muslim Residents
+Start with your assets, family and beneficiaries, then compare suitable registration routes. This guide explains what to review regarding minors, earlier wills and assets outside the UAE.
+Read the Guide
+Digital Evidence and Business Organisation
+4 guides
+What to Do When You Discover Financial or Digital Fraud
+Preserve evidence while notifying the bank or platform and the competent authorities in parallel. This guide explains which transfer details you need and how to avoid suspicious recovery offers.
+Read the Guide
+When Your Company Needs a Compliance Review
+Changes in activities, ownership or customers may change a company’s obligations. This guide explains how to begin reviewing licences, policies, records and their implementation in practice.
+Read the Guide
+How to Check the Accuracy of a Legal Translation
+Compare names, amounts, obligations and the prevailing-language clause. This guide explains the distinction between legal review, certified translation and document attestation.
+Read the Guide
+How to Organise Your Company’s Tax Records
+Keep a separate file for each tax and link returns to their supporting documents. This guide explains what to prepare for review and what to check when an assessment, penalty or decision is issued.
+Read the Guide
+Need a Specific Answer?
+For a quick answer, visit the FAQs. If you need a document, claim or defence reviewed, the service pages explain the scope of assistance and the documents required. Your matter may involve more than one area; you do not need to classify it legally before contacting us.
+Visit Frequently Asked Questions
+Explore Our Legal Services
+On this page
+Unpaid Salary and How to Document Your Claim
+How to Begin Recovering a Commercial Debt
+Dishonoured Cheques and Enforcement Options
+Delayed Property Handover in Dubai
+Wills for Non-Muslim Residents
+What to Do When You Discover Financial or Digital Fraud
+When Your Company Needs a Compliance Review
+How to Check the Accuracy of a Legal Translation
+How to Organise Your Company’s Tax Records
+Employment and Financial Claims
+Unpaid Salary in the UAE and How to Document Your Claim
+Begin by identifying the months of delay and the amount due for each month, then reconcile them with the transfers and payments you received. A concise, accurate schedule helps identify the real dispute, particularly where partial amounts or allowances were paid without the full salary.
+Who This Guide Is For
+Private-sector employees facing late or unpaid salaries, and companies seeking to understand the risks of delayed wage payments.
+Gather Evidence of Your Salary and Non-Payment
+Keep your employment contract and amendments, payslips, bank statements and correspondence. If the dispute includes commission or a bonus, gather the eligibility terms and evidence that they were met. Do not rely on a salary figure in a single message where other documents contain different information.
+Send a Written Demand and Specify What You Seek
+Your request can state the period, amount and missing payments, and ask for an explanation of any deduction. Keep evidence of sending it and any response. If the company offers a settlement, review its amount, payment dates, acknowledgement of receipt and effect on your remaining claims.
+Identify the Appropriate Complaint Channel
+For employment relationships governed by federal labour law, consult the Ministry of Human Resources and Emiratisation’s channels. The procedure may differ in certain free zones and special regimes. A salary complaint differs in scope and effect from a claim covering all entitlements on termination of employment.
+Do not stop working or resign on the basis of general advice; each action has its own conditions and consequences. Equally, do not sign an acknowledgement that you received salary you have not been paid.
+Other Points to Consider
+If your claim includes salary, end-of-service gratuity and payment in lieu of notice, calculate each item separately. Differences in the calculation basis or grounds of entitlement may explain part of the dispute. Mention any decision issued and the deadline for responding; corresponding with the company alone does not necessarily preserve every legal deadline.
+Steps to Prepare Your File
+Review your employment contract and identify the basic salary, allowances and payment date.
+Obtain bank statements or other evidence that the salary was not received.
+Retain correspondence with your employer or HR department.
+Avoid resigning or signing a settlement before understanding its legal effect.
+Seek a legal assessment if delays recur or are linked to termination of employment.
+Documents to Help with the Review
+Your employment contract and amendments, and evidence of any change to salary or commission.
+Bank statements, payslips and a record of the amounts actually paid and their dates.
+Your written demands, the company’s responses and any settlement offer, termination letter or earlier complaint.
+Common Mistakes to Avoid
+Relying solely on verbal discussions.
+Deleting messages or documents that may be important.
+Signing a release without checking your entitlements.
+Waiting too long without documenting the claim.
+Questions About This Guide
+Is a Bank Statement Enough to Prove the Full Salary Due?
+It helps show what reached the account, but does not establish the agreed salary or the reason for each payment on its own. It must be read alongside the contract, payslips, commission terms and any evidence of changes to remuneration.
+Must I Resign to Claim Unpaid Salary?
+This decision should not be based on general advice. An appropriate claim channel can be considered while employment continues, whereas resignation or stopping work requires a separate assessment of the conditions and effects on rights and obligations.
+Official Sources for Reference
+Salary Payments and Complaint Channels on the Official UAE Government Portal
+(opens in a new tab)
+Related Services and Topics
+Employment Law
+We review salaries, final entitlements, notice, settlement releases and employment contracts, helping employees and employers organise claims and responses under the rules applicable to their relationship.
+Learn About the Legal Service Related to This Topic
+Read Also How to Begin Recovering a Commercial Debt
+All FAQs
+Request a Consultation About Your Matter
+Back to the Guide Directory
+Employment and Financial Claims
+How to Begin Recovering a Commercial Debt in the UAE
+Record the amount claimed, its due date and its basis, then check whether each element is supported by a document. Many debt recovery files show an established course of dealing but lack sufficient evidence of acceptance of the work or the final balance.
+Who This Guide Is For
+Companies, suppliers, contractors, service providers and investors with outstanding sums or unpaid invoices in the UAE.
+Check Which Party Is Liable to Pay
+Match the contracting party’s name against the invoices, licence and account used for earlier payments. An employee’s dealings with you or signature on correspondence do not automatically make that employee personally liable for the debt. Identify any guarantor or separate security and what it covers.
+Link Invoices to Performance of the Obligation
+Include purchase orders, evidence of delivery or completion, approval of the work, and a record of payments and objections. Explain whether the amount includes interest, compensation or fees, and the basis for claiming each item.
+Assess Settlement and Formal Proceedings
+A settlement may save time and costs if it is enforceable and backed by suitable security. Waiting may be unhelpful where the debt is denied or recovery risks emerge. The appropriate route also depends on the type of document, jurisdiction and any arbitration clause.
+Obtaining a judgment is not the end of debt recovery; enforcement has its own requirements and depends on the assets available. Review the legal time limits affecting the claim rather than postponing the matter on the strength of repeated promises.
+Other Points to Consider
+Before sending a final demand, check whether the other party disputes quality, quantity or delivery, and whether it has a counterclaim. Provide a calculation showing the original amount, every deduction and payment, and identify whether the security covers all or part of the debt. Do not direct the claim personally against a company director merely because of their position.
+Steps to Prepare Your File
+Gather the contract, quotation or purchase order.
+Arrange invoices by date and amount.
+Add evidence of delivery or performance of the service.
+Retain messages acknowledging the debt or promising payment.
+Determine whether a formal demand, negotiation or legal proceedings offer the best route.
+Documents to Help with the Review
+The contract or accepted quotation, purchase orders and details of the contracting party.
+Invoices, evidence of delivery or approval of the work, and a record of objections.
+A detailed statement of payments and the outstanding balance, and messages acknowledging the debt or requesting instalments.
+Common Mistakes to Avoid
+Delaying a demand until the debtor becomes unavailable.
+Failing to document delivery or acceptance of the service.
+Sending hostile messages that may weaken your negotiating position.
+Accepting a verbal payment plan without a written agreement.
+Questions About This Guide
+Can I Bring a Claim Without a Signed Contract?
+Depending on the transaction and applicable rules, evidence may come from purchase orders, correspondence, invoices, performance and payments. The absence of a contract does not automatically determine the outcome, but requires a review of what can be proved.
+Does a Judgment Mean the Money Will Be Recovered Immediately?
+Judgment and enforcement are separate stages. Recovery depends on the instrument’s enforceability, procedures, reachable assets and any ongoing disputes. The costs and prospects of recovery should therefore be assessed alongside the strength of the claim.
+Official Sources for Reference
+Commercial Transactions Law on the UAE Legislation Portal
+(opens in a new tab)
+Related Services and Topics
+Debt Recovery and Cheque Cases
+We review unpaid debts and invoices, dishonoured cheques and acknowledgements of debt, assessing options for formal notice, settlement, claims and enforcement in light of the documents and the nature of the relationship.
+Learn About the Legal Service Related to This Topic
+Read Also Dishonoured Cheques and Enforcement Options
+All FAQs
+Request a Consultation About Your Matter
+Back to the Guide Directory
+Employment and Financial Claims
+Dishonoured Cheques in the UAE and Your Options
+Obtain the bank’s statement explaining the reason for non-payment and retain the original cheque. The recorded reason helps determine the procedure; a general statement that the cheque was not paid is not enough.
+Who This Guide Is For
+Individuals and companies holding a dishonoured cheque or dealing with a financial dispute based on a cheque.
+When a Cheque Is an Enforcement Instrument
+Under Article 667 of the Commercial Transactions Law, a cheque marked by the bank as unpaid because funds are absent or insufficient is an enforcement instrument. This allows its holder to seek compulsory enforcement for all or part of the amount, subject to the legal conditions and procedures.
+Disputes may arise over payment, signatures, the extent of liability or other issues. Documents relating to the underlying transaction therefore remain important when assessing objections, even where enforcement on the cheque is available.
+When Criminal Liability May Arise
+Insufficient funds alone differ from other conduct that the law may criminalise, such as certain acts obstructing payment or forgery. Classifying the situation requires a review of the reason for dishonour, the conduct attributed to each party and the relevant legal provisions.
+Before Replacing a Cheque or Handing Over the Original
+Establish the remaining balance, payments made, whether the new agreement replaces the obligation or only regulates it, and when the cheque will be returned and what security applies. Do not rely on a verbal promise that the cheque will not be used after partial payment.
+Other Points to Consider
+If you have paid part of the amount, keep evidence linking the payment to the specific debt and cheque; an unclear receipt is not enough. When seeking to challenge enforcement, state the file number, date of service and any current action. A challenge to the underlying entitlement differs from a request for time or instalments, and neither should be assumed to suspend enforcement automatically.
+Steps to Prepare Your File
+Obtain the bank’s dishonour notice or other evidence of non-payment.
+Check the cheque details: amount, date, payee and signature.
+Gather documents explaining why the cheque was issued.
+Do not relinquish or hand over the cheque without a clear written agreement.
+Seek advice on the appropriate route in light of the reason for dishonour and the documents.
+Documents to Help with the Review
+The original cheque, the bank’s statement of the reason for non-payment and any record of partial payment.
+The contract, invoices or correspondence explaining why the cheque was issued.
+Evidence of payment, settlements, enforcement files or judgments, and notices, if any.
+Common Mistakes to Avoid
+Overlooking the underlying transaction documents and payments when assessing the claim or objections.
+Accepting repeated promises of payment without a written schedule.
+Losing the original cheque or bank notice.
+Waiting until correspondence is lost or the debtor becomes difficult to reach.
+Questions About This Guide
+Can Every Dishonoured Cheque Be Enforced Directly?
+The word “dishonoured” alone does not answer this question. The bank’s statement, reason for non-payment, cheque details and enforcement conditions must be reviewed. Article 667 addresses absent or insufficient funds, while the relevant procedures and defences still apply.
+If I Have Paid Part of the Debt, Is the Cheque Dispute Over?
+Payment must be proved, the balance established, and the treatment of the cheque and ongoing proceedings determined. Partial payment alone does not close every claim or file. Document the agreement and payments, and check which step the competent authority requires.
+Official Sources for Reference
+Commercial Transactions Law on the UAE Legislation Portal
+(opens in a new tab)
+Related Services and Topics
+Debt Recovery and Cheque Cases
+We review unpaid debts and invoices, dishonoured cheques and acknowledgements of debt, assessing options for formal notice, settlement, claims and enforcement in light of the documents and the nature of the relationship.
+Learn About the Legal Service Related to This Topic
+Read Also How to Begin Recovering a Commercial Debt
+All FAQs
+Request a Consultation About Your Matter
+Back to the Guide Directory
+Property and Family
+Delayed Property Handover in Dubai and What to Review
+Gather the sale agreement and annexes, developer correspondence and payment plan, and establish the difference between the original date and any later announced date. We need to determine whether the extension rests on a contractual clause, how the buyer was notified and the project’s actual status.
+Who This Guide Is For
+Buyers and investors who purchased off-plan property or a unit under construction and face delayed handover or uncertainty over the developer’s obligations.
+Contractual Dates and Construction Progress
+Review the wording on completion and handover dates, grace periods and force majeure. Compare it with official project information and correspondence explaining the delay. A difference between a marketing date and the contractual date may change the basis of a claim.
+The Buyer’s Obligations Matter Too
+Arrange payments by date and include evidence of any agreement to defer or change them. If you are considering suspending payment, seek an assessment of the consequences before acting; the developer may allege your breach even where it has also delayed performance.
+Identify the Remedy That Serves Your Interests
+Do you want the contract to continue with compensation, a handover date and settlement, or termination and repayment? Each remedy has its own requirements, and the length of delay alone does not determine the outcome. Contacting a regulator must also be distinguished from bringing a claim before the competent judicial authority.
+Retain complete correspondence and review any release or settlement before accepting it. An offer of compensation may include a waiver extending beyond the amount offered.
+Other Points to Consider
+The Dubai Land Department’s enquiry service provides project information and also refers to monitoring status through the Dubai REST app. Keep the date and displayed enquiry results, distinguishing the completion percentage from the binding handover date in your contract. The real estate complaints page provides different channels; a regulatory complaint does not automatically replace a court claim for compensation or termination.
+Steps to Prepare Your File
+Check the original handover date and any extension stated in the contract.
+Compare your payment obligations with the developer’s completion obligations.
+Retain all developer messages and official notices.
+Check the project’s status and information available from the competent authorities.
+Seek a legal review before terminating the contract or stopping payments.
+Documents to Help with the Review
+The sale agreement, annexes, payment schedule and actual payments.
+Extension notices, developer messages and any subsequent agreement or settlement offer.
+Project and unit details, official project-status enquiry results and any previous complaint.
+Common Mistakes to Avoid
+Relying on verbal promises from a sales representative.
+Stopping payments without understanding the effect on the contract.
+Overlooking delay and compensation clauses in the sale agreement.
+Failing to retain official notices and correspondence.
+Questions About This Guide
+Does a Developer’s Announcement of a New Date Make It Binding on Me?
+The contract, right to extend and its conditions, notification method and facts relied on by the developer must be reviewed. The announcement alone does not determine whether the extension must be accepted or may be rejected, nor establish an automatic right to terminate.
+Should I Stop Payments Until the Delay Ends?
+This requires a review of the payment schedule, contract terms, construction progress and the effect of the delay. Suspending payments may create an additional dispute; seek an assessment of your position and alternatives before acting.
+Official Sources for Reference
+Dubai Land Department Project Status Enquiry
+(opens in a new tab)
+Dubai Land Department Real Estate Complaints
+(opens in a new tab)
+Related Services and Topics
+Property and Tenancy Disputes
+We examine delayed property handovers, defects and developer disputes, as well as maintenance, eviction, security deposits, cheques and handover issues, starting with the contract, notices and evidence of performance.
+Learn About the Legal Service Related to This Topic
+Read Also How to Begin Recovering a Commercial Debt
+All FAQs
+Request a Consultation About Your Matter
+Back to the Guide Directory
+Property and Family
+Wills for Non-Muslim Residents in the UAE
+If you want a particular distribution of your assets or arrangements for minors, start with a list of what you own and owe. Identify your intended beneficiaries and executor, and review whether the arrangements are valid under the applicable law.
+Who This Guide Is For
+Non-Muslim residents with assets, family or children in the UAE who wish to organise their estate, appoint guardians or reduce uncertainty on death.
+Choosing a Registration Route
+Routes are available through local authorities and the DIFC Courts Wills Service. Eligibility, documents and procedures vary by authority. Do not choose solely by where you live; review the nature of your assets, family circumstances and any existing will abroad.
+What the Review Should Cover
+Identify assets, beneficiaries, substitutes and the executor, resolve conflicts with earlier documents, and consider available arrangements for minors. Pay particular attention to the effect of any wording revoking earlier wills on assets in other countries.
+No Will Does Not Mean There Are No Inheritance Rules
+Legal rules govern estate distribution and the identification of heirs, including civil regimes for non-Muslims where applicable. A will allows particular wishes to be arranged within the law; it is not the only means by which assets can pass on death.
+Review the document after marriage, divorce, the birth of a child or changes to assets or beneficiaries, and complete the registering authority’s required amendment procedures.
+Other Points to Consider
+The DIFC Courts Wills Service registers non-Muslim wills subject to its conditions. The Abu Dhabi Civil Family Court is a separate authority with its own procedures and requirements. Similar service names are not enough to choose a registration authority, and creating a platform account or preparing a draft does not establish that a will has been registered or is usable for its intended purpose.
+Steps to Prepare Your File
+Identify assets inside and outside the UAE.
+Review your family circumstances: spouse, children and beneficiaries.
+Select a suitable registration route for your circumstances and emirate.
+Ensure the will is clearly worded and capable of being given effect.
+Review the will when family or financial circumstances change.
+Documents to Help with the Review
+Identity, nationality, residency and marital-status details, and children’s details where relevant.
+A list of assets and liabilities, their locations and ownership shares, including company interests.
+Details of beneficiaries, substitutes and the executor, and any earlier will or arrangement inside or outside the UAE.
+Common Mistakes to Avoid
+Assuming a foreign will automatically covers every asset.
+Failing to appoint guardians for children where needed.
+Using a generic template unsuited to assets in the UAE.
+Failing to update a will after buying property or establishing a company.
+Questions About This Guide
+Does My Foreign Will Cover All My Assets in the UAE?
+This should not be assumed. Its wording, governing law, recognition or use, and any required attestations and translation must be reviewed, alongside any local will that may conflict with it.
+Does Registering a Will Transfer Ownership of My Assets Now?
+A will arranges dispositions taking effect after death within the applicable legal framework. It does not itself replace company procedures or lifetime transfers, nor resolve every third-party right or jointly owned asset issue.
+Official Sources for Reference
+These links lead to two different authorities. Review the selected route’s conditions, eligibility and documents before beginning registration.
+DIFC Courts Wills Service
+(opens in a new tab)
+Abu Dhabi Civil Family Court at the Abu Dhabi Judicial Department
+(opens in a new tab)
+Related Services and Topics
+Family Law and Wills
+We advise on divorce, custody, maintenance and estates, and assist with preparing wills and choosing a registration route, taking account of family circumstances, assets and the applicable law.
+Learn About the Legal Service Related to This Topic
+Read Also How to Check the Accuracy of a Legal Translation
+All FAQs
+Request a Consultation About Your Matter
+Back to the Guide Directory
+Digital Evidence and Business Organisation
+What to Do If You Experience Financial or Digital Fraud
+If you suspect fraud, stop new payments and promptly notify the bank, payment provider or platform through its official channels, depending on the transaction. Preserve evidence in parallel and check the official reporting channels appropriate to the incident and its location. Do not wait for a perfect file before reporting a transaction that may still be stopped.
+Who This Guide Is For
+Individuals and investors who lost money through a trading platform, digital transfers, cryptocurrency, fake accounts or online investment offers.
+Preserve the Link Between the Promise and the Payment
+Prepare complete conversations, usernames, contact numbers, website and advertising links, and transfer receipts. For digital assets, include the network, wallet address, TxID and trading order numbers; for bank payments, include the beneficiary’s name and transaction reference.
+Retain digital originals where possible, recording when and from which source the data was obtained. Screenshots are useful and can be strengthened by verifiable bank or platform records where available.
+Avoid Being Exploited Again
+Do not send further money to a suspicious party for alleged tax, withdrawal unlocking or recovery fees. Independently verify any provider promising to recover funds. Never share wallet keys or recovery phrases, or allow remote control of your device.
+Legal Assessment
+We distinguish fraud from contractual disputes and investment losses, and examine the parties’ identities, jurisdiction, evidence and potential assets. Criminal proceedings may run alongside a financial claim, but reporting or tracing does not guarantee recovery.
+Other Points to Consider
+Use contact details obtained from the bank’s or platform’s official website, not a recovery number supplied by the suspicious party. If access to your account or device is at risk, follow the provider’s security instructions while preserving records. Government pages explain reporting channels; the appropriate channel depends on the incident and location, not just the platform’s name.
+Steps to Prepare Your File
+Immediately preserve all digital evidence in an organised format.
+Stop any further payments to the suspicious party.
+Gather account, wallet and platform details.
+Document the timeline from first contact to the final transfer.
+Promptly check the appropriate reporting channel and continue the legal assessment while preserving evidence.
+Documents to Help with the Review
+A timeline from first contact to the last payment, with the available party and account names.
+Bank or payment-provider receipts and beneficiary details, or the network, wallet address and transaction ID.
+Original conversations, platform and advertising links, withdrawal terms, report numbers and correspondence.
+Common Mistakes to Avoid
+Deleting conversations after discovering fraud.
+Sending new payments to recover the money.
+Relying only on screenshots without transfer details.
+Publishing accusations in a way that may create additional legal risks.
+Questions About This Guide
+Should I Delay Reporting Until I Have Gathered Every Document?
+Do not wait for a perfect file if a transaction may still be stopped or the risk continues. Notify the appropriate body promptly, preserve the data available and then complete the documents, retaining the report or assistance-request number.
+Does Tracing a Digital Transfer Guarantee Recovery?
+Tracing may help establish the movement of assets and connect them to parties, but it is not the same as being able to recover them. Jurisdiction, cooperation by relevant bodies, and the ability to identify a responsible party or assets against which action can be taken must be assessed.
+Official Sources for Reference
+Reporting Economic Crimes on the Official UAE Government Portal
+(opens in a new tab)
+Cyber Safety and Digital Security on the Official UAE Government Portal
+(opens in a new tab)
+Law on Combating Rumours and Cybercrimes on the UAE Legislation Portal
+(opens in a new tab)
+Related Services and Topics
+Cryptocurrency and Digital Currency Cases
+We connect trading orders, bank transfers, wallet records and correspondence in USDT disputes, platform fraud and account freezes to assess the claim or defence and each party’s role.
+Learn About the Legal Service Related to This Topic
+Read Also Dishonoured Cheques and Enforcement Options
+All FAQs
+Request a Consultation About Your Matter
+Back to the Guide Directory
+Digital Evidence and Business Organisation
+When Your Company Needs a Compliance Review
+A review becomes practically necessary when the company’s documents and policies no longer reflect how it operates. Adding a product or entering a new market, or the arrival of an investor, may change the risk level, competent authority and information to be retained or updated.
+Who This Guide Is For
+Existing and new companies, service providers, investors and managers seeking to reduce regulatory and compliance risks.
+Signs That Warrant Review
+Actual activities extending beyond those described in the licence, or a need for sector-specific approval.
+Changes in ownership or control without a review of beneficial ownership records.
+New customers or transactions not covered by the risk assessment.
+Due diligence policies without evidence of implementation and training.
+A request for information or inspection by a supervisory authority.
+Define Who Does What
+A remediation plan needs a person responsible for implementation, a deadline and a completion record. Updating a policy alone does not resolve incomplete customer files, expired authorisations or employees who do not know when to escalate a suspicious matter.
+What Helps Start the Review
+The licence, memorandum of association, ownership structure, product and customer descriptions, policies, forms, training records and any regulatory correspondence. Appropriate file samples may be reviewed subject to data protection and access limits.
+The legal framework depends on the activity and location; do not copy another company’s policy assuming it meets your business’s requirements. Ongoing obligations require follow-up after the first review is complete.
+Other Points to Consider
+Anti-money laundering obligations are assessed according to the entity’s status, activity and supervisor. Central Bank references concern its supervision of licensed financial institutions, while Ministry of Economy and Tourism references concern that ministry’s remit; one authority’s requirements should not be applied to every company. Policies must be read with evidence of implementation, and gaps addressed through a clear record without creating documents suggesting past procedures that never occurred.
+Steps to Prepare Your File
+Review the licence and authorised activities.
+Compare the company’s actual activities with its official registration.
+Review anti-money laundering and due diligence policies where applicable.
+Check free zone or regulatory obligations.
+Update internal policies when activities, customers or risks change.
+Documents to Help with the Review
+The licence, memorandum of association, ownership and control structure, and authorisations.
+A description of activities, products, customers, countries and financial transaction channels.
+Policies, risk assessments, due diligence and training records, regulatory correspondence and remediation plans.
+Common Mistakes to Avoid
+Undertaking an activity not listed on the licence.
+Keeping compliance policies on paper without applying them in practice.
+Failing to update beneficial ownership information or records.
+Failing to train staff on due diligence procedures.
+Questions About This Guide
+Is a Ready-Made Policy Enough to Demonstrate Compliance?
+Not on its own. Its suitability for the activities and risks, the powers of responsible personnel, customer files, training and records of implementation must be reviewed. A document may look sound while actual practice differs.
+Must Every Company Follow the Same Procedures?
+Requirements vary by activity, status, location, supervisor and applicable rules. The review starts by defining the obligations and then adopting suitable procedures, rather than copying another company’s file.
+Official Sources for Reference
+Choose references according to the business’s activities and supervisory authority, and read the legislation alongside its implementing regulation and applicable decisions and guidance.
+Federal Legislation on Combating Money Laundering, Terrorist Financing and Proliferation Financing
+(opens in a new tab)
+Implementing Regulation of the Anti-Money Laundering Legislation
+(opens in a new tab)
+Central Bank Anti-Money Laundering Supervision of Licensed Financial Institutions
+(opens in a new tab)
+Combating Money Laundering on the Official UAE Government Portal
+(opens in a new tab)
+Ministry of Economy and Tourism Anti-Money Laundering Information
+(opens in a new tab)
+Related Services and Topics
+Compliance and Regulatory Matters
+We review activities, licences, policies, beneficial ownership records, due diligence, governance and data protection, identifying gaps and remedial steps according to the requirements applicable to the business.
+Learn About the Legal Service Related to This Topic
+Read Also How to Organise Your Company’s Tax Records
+All FAQs
+Request a Consultation About Your Matter
+Back to the Guide Directory
+Digital Evidence and Business Organisation
+How to Check the Accuracy of a Legal Translation
+Review a translation in light of the document’s purpose. Explaining a contract for an internal decision differs from submitting an official translation to a court or government authority. A transaction may require certification or attestation that is unnecessary for personal understanding.
+Who This Guide Is For
+Individuals and companies using contracts, official documents, court papers or corporate documents in different languages in the UAE.
+Points That Deserve Comparison
+Match names, capacities, identity numbers, amounts, currencies and dates. Then review terms concerning obligations, liability, guarantees, termination and compensation. A difference between wording expressing an obligation and wording expressing a choice may change the text’s effect.
+Multilingual Contracts
+Check the clause specifying which language prevails in a discrepancy, and ensure both versions have complete annexes. Resolve any material difference before signing, or document the parties’ agreement to correct it through an appropriate procedure. Amending only one version and leaving the other inconsistent is not enough.
+Certification and Attestation
+Where certified legal translation is required, check the translator’s registration, authorised language and the receiving authority’s requirements. An original issued abroad may need separate attestations; translation certification does not automatically replace them.
+Machine translation may help with an initial understanding, but does not replace a review of obligations or officially required certification. For an important contract, ask for the sensitive clauses to be explained as well as translated.
+Other Points to Consider
+The Ministry of Justice’s translator search page can be used to check translator details to the extent provided by the service, while confirming the required language and scope. Registration does not mean every document will automatically be accepted; the receiving authority may require an original, attestations or a particular format. For multilingual contracts, record material discrepancies and resolve them in every version before relying on the documents.
+Steps to Prepare Your File
+Identify the translation’s purpose: official, judicial, commercial or internal.
+Check the authority’s requirements and use a registered legal translator where certified translation is required.
+Check names, numbers, dates, amounts and legal descriptions.
+Compare the translation with the original before relying on it.
+Seek a legal review where the document is a contract or a significant financial obligation.
+Documents to Help with the Review
+The complete original, including every page, stamp and annex, and any corresponding translation.
+The intended use, receiving authority, required language and deadline.
+References for names, numbers and capacities, and any attestation or certification instructions from the authority.
+Common Mistakes to Avoid
+Using machine translation for a contract or official document.
+Failing to check names, numbers and dates.
+Relying on a general translation of precise legal terminology.
+Signing a translated document without understanding its legal effect.
+Questions About This Guide
+Does Reviewing a Translation Include Amending the Contract?
+Comparing the two versions identifies differences in meaning. Assessing, negotiating or amending clauses is additional work defined in the engagement. A document may require both services.
+Is a Translation Stamp Enough to Use a Document Issued Abroad?
+The original may require attestation or other procedures depending on its origin, type and receiving authority. Translation certification and document attestation are different procedures; neither automatically replaces the other.
+Official Sources for Reference
+Ministry of Justice Translator Search
+(opens in a new tab)
+Related Services and Topics
+Legal Translation
+We review the legal meaning of multilingual contracts and documents, check the consistency of obligations, names and numbers, and coordinate certified translation with a registered legal translator where required.
+Learn About the Legal Service Related to This Topic
+Read Also Wills for Non-Muslim Residents
+All FAQs
+Request a Consultation About Your Matter
+Back to the Guide Directory
+Digital Evidence and Business Organisation
+How to Organise Your Company’s Tax Records
+Begin with a separate record for each tax: registration, period, returns, payments, correspondence and decisions. Do not assume VAT registration covers corporate tax, or that having no tax payable removes other obligations.
+Who This Guide Is For
+Small and medium-sized companies, investors and business owners seeking to organise their tax and accounting obligations in the UAE.
+Registration and Calculation Are Different Questions
+For corporate tax, review the person’s status and the rules on tax liability, registration, exemptions and reliefs. For VAT, review taxable supplies and imports, registration thresholds and relevant periods. Using revenue and profit interchangeably may lead to an incorrect assessment.
+Link Figures to Supporting Documents
+For each material amount, retain the contract, invoice, evidence of performance or supply, payment and accounting entry. Where treatment differs, record the reason and the reference relied on. This makes it easier to answer enquiries and identify gaps early.
+If a Decision Is Issued
+Retain the decision and evidence of notification, and identify whether it is an assessment, penalty or a decision on an earlier application. Then select the correct review route and deadline. Reconsideration, objection and penalty reduction are not identical procedures, and none automatically replaces another.
+We assist with the legal position and organisation of the dispute file, involving the accountant or tax agent where their expertise is required.
+Other Points to Consider
+Create a file for each period, with a list of missing documents and the person responsible for completing them, and separate company funds from the owner’s personal expenses. If a return differs from the records, identify the cause and agree the treatment with the specialist. Do not assume payment or an exemption request preserves the deadline to challenge another decision; assess each procedure and its effect separately.
+Steps to Prepare Your File
+Check the company’s tax registration status and requirements.
+Organise invoices, expenses, contracts and bank records.
+Review corporate tax and VAT obligations, where applicable.
+Keep financial records in a form that can be reviewed.
+Seek review before deadlines, not afterwards.
+Documents to Help with the Review
+Registration details for each tax, returns, periods, payments and correspondence.
+Contracts, invoices, evidence of supply and payment, and bank and accounting records.
+The decision, assessment or penalty, proof of notification, and earlier review applications and responses.
+Common Mistakes to Avoid
+Leaving records disorganised until the filing deadline.
+Mixing personal and company accounts.
+Relying on undocumented estimates.
+Ignoring tax authority messages or updates.
+Questions About This Guide
+If the Company Makes No Profit, Do Its Tax Obligations End?
+Having no tax payable does not by itself resolve registration, filing or record-retention obligations. Requirements vary by tax, the person’s status, period and applicable exemptions or reliefs.
+Is Reconsideration the Same as a Penalty Reduction Request?
+Each route has its own purpose, conditions, documents and deadlines. The decision, grounds of challenge and earlier submissions must be examined before selecting the appropriate application. One request should not be assumed to replace other necessary procedures.
+Official Sources for Reference
+Federal Tax Authority Corporate Tax Guides and References
+(opens in a new tab)
+Federal Tax Authority VAT Guides and Clarifications
+(opens in a new tab)
+Federal Tax Authority Reconsideration Request Service
+(opens in a new tab)
+Related Services and Topics
+Tax Disputes and Tax Compliance
+We examine tax decisions, assessments and penalties, organise arguments and supporting documents, and identify the appropriate review procedure, coordinating with the accountant or tax agent where their expertise is required.
+Learn About the Legal Service Related to This Topic
+Read Also When Your Company Needs a Compliance Review
+All FAQs
+Request a Consultation About Your Matter
+Back to the Guide Directory
+From Reading a Guide to Reviewing Your Situation
+Tell us what happened and the outcome you seek, and send the main document if available, together with any notice or current deadline. Before work begins, we explain the scope of review, fees and documents needed. The service is available in Arabic, English and Russian.
+Request a Legal Consultation
+Contact Us on WhatsApp
+(opens in a new tab)
++971 52 466 6191
+info@summitlegaluae.com
+Sending an enquiry does not mean the engagement has been accepted or monitoring of legal deadlines has begun.
+Scope of Information and Services
+These guides provide general information and do not replace a review of the facts, documents, law, competent authority and deadlines applicable to each case. Legislation and service requirements may change, and options and outcomes vary by matter. Providing information or describing a service does not guarantee recovery, a decision or approval by an external authority.
+Summit is a legal consultancy company. The scope of work, deliverables and fees are defined in the agreed engagement. Court advocacy or representation requiring an advocate is carried out by licensed advocates, and work requiring independent professional expertise is coordinated with an appropriately qualified specialist where needed.
+Legal Notice and Scope of Services
+=== footer ===
+Summit Legal Consultancy
+Legal advice for individuals, businesses, investors and residents in the UAE, in Arabic, English and Russian.
++971 52 466 6191
+Contact Us on WhatsApp
+(opens in a new tab)
+info@summitlegaluae.com
+Business hours: Monday to Friday, 9 am to 6 pm.
+Practice Areas
+Debt Recovery and Cheque Cases
+Criminal Cases
+Cryptocurrency and Digital Currency Cases
+Corporate and Commercial Law
+Property and Tenancy Disputes
+Employment Law
+Tax Disputes and Tax Compliance
+Family Law and Wills
+Compliance and Regulatory Matters
+Legal Translation
+Business Services
+Legal Resources
+Legal Resources Centre
+FAQs
+Case Studies
+Useful Links
+About Us
+Contact Us
+Legal Notice
+Privacy Policy
+Terms and Conditions
+The information published is general and does not replace a review of the facts and documents relating to your matter. The scope of service and fees are determined when the engagement is accepted. Court advocacy requiring an advocate is carried out by licensed advocates.
+Specialist Resources and Services Associated with Summit
+Employment Law
+laborlawuae.com
+(opens in a new tab)
+Debt Recovery and Cheques
+debtrecoveryuae.com
+(opens in a new tab)
+Property Disputes
+dubaipropertydispute.com
+(opens in a new tab)
+Digital Currencies
+uaecryptocases.com
+(opens in a new tab)
+Wills
+uaeexpatwills.com
+(opens in a new tab)
+Tax Disputes
+uaetaxdisputes.com
+(opens in a new tab)
+© {{YEAR}} Summit Legal Consultancy. All rights reserved.
+Choose language
+Arabic
+English
+Russian

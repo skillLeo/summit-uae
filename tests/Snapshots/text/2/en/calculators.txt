@@ -1,0 +1,150 @@
+# text-snapshot: design 2, locale en, route calculators
+# GET /en/calculators/ -> 200; html lang=en dir=ltr data-design=2
+=== header ===
+Choose language
+English
+Request a Legal Consultation
+Home
+Practice Areas
+Legal Resources
+Case Studies
+FAQs
+About Us
+Contact Us
+=== main ===
+Home
+Check the Figures Yourself
+Check the Figures Yourself
+Two quick estimates that run in your browser: the end-of-service gratuity and final settlement under the UAE Labour Law, and the Dubai rent increase check. Nothing you enter leaves this page unless you add it to a consultation request.
+Gratuity estimator
+Rent increase check
+End-of-service gratuity estimator
+Where do you work?
+Mainland private sector
+Non-financial free zone
+DIFC
+ADGM
+Government
+Domestic worker
+Service
+Start date
+Last working day
+Contract type
+Full-time
+Part-time
+Temporary
+Unpaid absence days
+Not counted as service
+Wage
+Last basic monthly wage (AED)
+Without allowances
+Total monthly wage (AED)
+Optional
+Basic wage plus allowances, for the cap and the notice
+Leave, notice and unpaid wages
+Unused leave days
+Days you did not take
+Unpaid wages (AED)
+Earned but not yet paid
+Notice period in the contract (days)
+30 to 90 days
+Notice days worked
+Days of the notice period already worked
+This estimate is calculated in your browser and needs JavaScript. You can still request a consultation, and we will go through the figures with you.
+The employer pays wages and entitlements within 14 days of the end of the contract (Art. 53).
+Request a Legal Consultation
+Legal basis: Federal Decree-Law No. 33 of 2021, Art. 51, 53, 43, 29; Cabinet Resolution No. 1 of 2022, Art. 19, 30.
+Estimate only, based on Federal Decree-Law No. 33 of 2021. It is not legal advice and does not replace a review of your contract and records.
+Dubai rent increase check
+Current annual rent (AED)
+As in your tenancy contract
+Average annual rent in the DLD Rental Index (AED)
+Look up similar properties in the official index, then enter the average rent it shows.
+Open DLD Rental Index
+(opens in a new tab)
+Contract expiry date
+Date you received the increase notice
+Optional
+This estimate is calculated in your browser and needs JavaScript. You can still request a consultation, and we will go through the figures with you.
+Increase bands
+Below the average
+Up to 10%
+Maximum increase
+0%
+Below the average
+10–20%
+Maximum increase
+5%
+Below the average
+20–30%
+Maximum increase
+10%
+Below the average
+30–40%
+Maximum increase
+15%
+Below the average
+Over 40%
+Maximum increase
+20%
+Below the average
+Maximum increase
+Request a Legal Consultation
+Dubai only, for residential properties; other emirates have different rules. The averages come from the Dubai Land Department’s Smart Rental Index, in use since January 2025.
+Legal basis: Increase bands: Decree No. 43 of 2013. Notice: Law No. 26 of 2007, Art. 14, as amended by Law No. 33 of 2008.
+Estimate only. It is not legal advice and does not replace a review of your tenancy contract.
+=== footer ===
+Summit Legal Consultancy
+Legal advice for individuals, businesses, investors and residents in the UAE, in Arabic, English and Russian.
++971 52 466 6191
+Contact Us on WhatsApp
+(opens in a new tab)
+info@summitlegaluae.com
+Business hours: Monday to Friday, 9 am to 6 pm.
+Practice Areas
+Debt Recovery and Cheque Cases
+Criminal Cases
+Cryptocurrency and Digital Currency Cases
+Corporate and Commercial Law
+Property and Tenancy Disputes
+Employment Law
+Tax Disputes and Tax Compliance
+Family Law and Wills
+Compliance and Regulatory Matters
+Legal Translation
+Business Services
+Legal Resources
+Legal Resources Centre
+FAQs
+Case Studies
+Useful Links
+About Us
+Contact Us
+Legal Notice
+Privacy Policy
+Terms and Conditions
+The information published is general and does not replace a review of the facts and documents relating to your matter. The scope of service and fees are determined when the engagement is accepted. Court advocacy requiring an advocate is carried out by licensed advocates.
+Specialist Resources and Services Associated with Summit
+Employment Law
+laborlawuae.com
+(opens in a new tab)
+Debt Recovery and Cheques
+debtrecoveryuae.com
+(opens in a new tab)
+Property Disputes
+dubaipropertydispute.com
+(opens in a new tab)
+Digital Currencies
+uaecryptocases.com
+(opens in a new tab)
+Wills
+uaeexpatwills.com
+(opens in a new tab)
+Tax Disputes
+uaetaxdisputes.com
+(opens in a new tab)
+© {{YEAR}} Summit Legal Consultancy. All rights reserved.
+Choose language
+Arabic
+English
+Russian

@@ -1,0 +1,662 @@
+/*
+ * Design 2 component: consultation wizard (<x-d2.wizard.form>; spec §12 C14, §5.5). Owner: wizard.
+ *
+ * One white card (1px --line edge, --radius-card, no shadow: Design 2.1). Two modes:
+ *   plain    no JavaScript, the styleguide's plain specimen (.is-plain) and the fallback after a failed start
+ *            (.is-plain, wizard/plain.js): one form, the steps are its groups, the wizard-only parts
+ *            ([data-js-only]) are not shown
+ *   stepped  html.js (set before the first paint by the boot script): one step at a time, the one progress
+ *            indicator on top (D37: the step list, "Step 1 of 5: You" in a narrow card), Back / Next, the review
+ *            step, the autosave choice (pending copy, D39). Keyed on html.js,
+ *            never on the controller's mount class (.is-stepped): the controller is a lazy chunk, and the
+ *            server already renders the step it opens on (other steps and buttons carry data-wizard-later
+ *            until it mounts), so nothing moves when it does (docs/d2/engineering.md §4b)
+ * Built from Phase A components (field, input, select, textarea, date, radio, checkbox, button, callout,
+ * steps): this file only lays them out (audience choice cards, documents checklist, review groups,
+ * actions, success panel). Motion: the entering step slides 24px along the reading direction (mirrored
+ * in RTL) and fades in (transform + opacity, 360 ms), the success mark pops in on the snappy spring;
+ * neither runs under reduced motion.
+ * Design 2.1 (Phase 1, home-b): tokens of docs/d2.1/phase-1/tokens.md; no shadows, no decorative icons on the
+ * audience cards (D04), the reference in the sans with tabular figures (no monospace, no tracking: D01), the
+ * submit is Ink with its spinner before the busy label, nothing under the 13 px caption (D08).
+ */
+@layer components {
+  /* ------------------------------------------------------------------ frame */
+  .wizard {
+    --wz-pad: var(--s-5);
+    --wz-dir: 1;
+
+    position: relative;
+    display: grid;
+    gap: var(--s-6);
+    min-inline-size: 0;
+    padding: var(--wz-pad);
+    border: var(--line-w) solid var(--line);
+    border-radius: var(--radius-card);
+    background: var(--canvas);
+
+    /* the script's own UI face, also inside a block whose direction differs from the page (styleguide) */
+    font-family: var(--font-sans);
+  }
+
+  [dir="rtl"] .wizard {
+    --wz-dir: -1;
+  }
+
+  @media (width >= 768px) {
+    .wizard {
+      --wz-pad: var(--s-8);
+    }
+  }
+
+  /* Wizard-only parts exist only while the wizard runs as steps. */
+  :root:not(.js) .wizard [data-js-only],
+  .wizard.is-plain [data-js-only] {
+    display: none;
+  }
+
+  /* Before the controller mounts, only the step the server opened (and its buttons) show. */
+  :root.js .wizard:not(.is-plain, .is-stepped) [data-wizard-later] {
+    display: none;
+  }
+
+  /* ------------------------------------------------------------------ progress (D37: one indicator) */
+  /* The page prints the form's heading (home section 09, P07); the card opens with the step list. */
+  .wizard__steps {
+    padding-block-end: var(--s-6);
+    border-block-end: var(--line-w) solid var(--line);
+    container-type: inline-size;
+  }
+
+  /*
+   * Where the five steps with their names do not fit on one row (Russian needs about 620 px), the wizard shows
+   * the phone line "Step 1 of 5: You" instead, as <x-d2.ui.steps> does below 768 px.
+   */
+  @container (width < 640px) {
+    .wizard__steps .step-list__items {
+      display: none;
+    }
+
+    .wizard__steps .step-list__now {
+      display: block;
+    }
+  }
+
+  /* ------------------------------------------------------------------ notices */
+  .wizard__notices {
+    display: grid;
+    gap: var(--s-3);
+  }
+
+  .wizard__notices:not(:has(> :not([hidden]))) {
+    display: none;
+  }
+
+  .wizard__notice,
+  .wizard__success {
+    border-radius: var(--radius-card);
+    scroll-margin-block: calc(var(--header-h) + var(--s-6)) calc(var(--tabbar-h) + var(--s-6));
+  }
+
+  .wizard__error-list,
+  .wizard__context-list {
+    display: grid;
+    gap: var(--s-1);
+    margin: 0;
+    padding-inline-start: var(--s-5);
+    list-style: disc;
+  }
+
+  .wizard__channels {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+    margin: var(--s-1) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Phones: one full-width row per channel (equal targets instead of ragged widths). */
+  @media (width < 768px) {
+    .wizard__channels {
+      display: grid;
+    }
+
+    .wizard__channels .btn {
+      inline-size: 100%;
+    }
+  }
+
+  .wizard__inline-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+    margin-block-start: var(--s-1);
+  }
+
+  /* Two choices (the restore prompt): on phones they share the row while both fit, else one full row each. */
+  @media (width < 768px) {
+    .wizard__inline-actions--pair > .btn {
+      flex: 1 1 10rem;
+    }
+  }
+
+  /* ------------------------------------------------------------------ success */
+  .wizard__success {
+    display: grid;
+    gap: var(--s-4);
+    padding: var(--s-6);
+    border: var(--line-w) solid var(--success-line);
+    background: var(--badge-success-bg);
+  }
+
+  @media (width >= 768px) {
+    .wizard__success {
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: var(--s-5);
+      padding: var(--s-8);
+    }
+  }
+
+  .wizard__success-mark {
+    display: grid;
+    place-items: center;
+    inline-size: var(--control-md);
+    block-size: var(--control-md);
+    border-radius: 50%;
+    color: var(--canvas);
+    background: var(--success);
+  }
+
+  .wizard__success-body {
+    display: grid;
+    gap: var(--s-4);
+    justify-items: start;
+  }
+
+  .wizard__success-text {
+    color: var(--ink);
+    font-size: var(--fs-lead);
+    line-height: var(--lh-lead);
+  }
+
+  .wizard__reference {
+    color: var(--ink-2);
+  }
+
+  /* A reference number: the sans with tabular figures (no monospace in the interface, brief 3.2). */
+  .wizard__reference-code {
+    color: var(--ink);
+    font-weight: var(--fw-semibold);
+    font-variant-numeric: tabular-nums lining-nums;
+    white-space: nowrap;
+  }
+
+  @keyframes wizard-pop {
+    from {
+      opacity: 0;
+      transform: scale(0.6);
+    }
+  }
+
+  .motion-ok .wizard__success:not([hidden]) .wizard__success-mark {
+    animation: wizard-pop var(--spring-snappy-dur) var(--spring-snappy) both;
+  }
+
+  /* ------------------------------------------------------------------ form + steps */
+  .wizard__form {
+    display: grid;
+    gap: var(--s-8);
+    min-inline-size: 0;
+  }
+
+  .wizard__trap {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .wizard__step {
+    display: grid;
+    gap: var(--s-6);
+    min-inline-size: 0;
+  }
+
+  /* One plain form: the groups are separated by a hairline. */
+  :root:not(.js) .wizard .wizard__step:not([hidden]) ~ .wizard__step:not([hidden], [data-js-only]),
+  .wizard.is-plain .wizard__step:not([hidden]) ~ .wizard__step:not([hidden], [data-js-only]) {
+    padding-block-start: var(--s-8);
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  /* Without JavaScript there is nothing to review: the last group is the notices, consent and submit. */
+  :root:not(.js) .wizard .wizard__step--review > .wizard__step-head,
+  .wizard.is-plain .wizard__step--review > .wizard__step-head {
+    display: none;
+  }
+
+  .wizard__step-head {
+    display: grid;
+    gap: var(--s-2);
+  }
+
+  .wizard__step-title {
+    color: var(--ink);
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h3);
+    scroll-margin-block-start: calc(var(--header-h) + var(--s-6));
+
+    /* A focus target for step changes, not a control: no ring. */
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .wizard__step-intro {
+    color: var(--ink-2);
+  }
+
+  .wizard__fields {
+    display: grid;
+    gap: var(--s-6);
+    min-inline-size: 0;
+  }
+
+  /*
+   * Visitors mix scripts (a Latin name or English lines on the Arabic page, Arabic context lines after an
+   * English summary): every line of free text takes its own direction from its first strong letter.
+   */
+  .wizard .textarea,
+  .wizard__answer-text:not([dir]),
+  .wizard__answer-docs > li,
+  .wizard__context-list > li {
+    unicode-bidi: plaintext;
+  }
+
+  /* Two fields side by side from 768px; subgrid keeps their labels, hints and inputs on one line each. */
+  .wizard__row {
+    display: grid;
+    gap: var(--s-6);
+    min-inline-size: 0;
+  }
+
+  @media (width >= 768px) {
+    .wizard__row {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: repeat(4, auto);
+      row-gap: 0;
+    }
+
+    .wizard__row > .field {
+      grid-row: span 4;
+      grid-template-rows: subgrid;
+      row-gap: var(--s-2);
+      align-content: start;
+    }
+  }
+
+  @keyframes wizard-step-in {
+    from {
+      opacity: 0;
+      transform: translateX(var(--wz-enter-x, 0));
+    }
+  }
+
+  .wizard__step.is-forward {
+    --wz-enter-x: calc(var(--s-6) * var(--wz-dir));
+  }
+
+  .wizard__step.is-backward {
+    --wz-enter-x: calc(var(--s-6) * var(--wz-dir) * -1);
+  }
+
+  .motion-ok .wizard:not(.is-plain) .wizard__step.is-entering {
+    animation: wizard-step-in var(--dur-panel) var(--ease-out) both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wizard .wizard__step.is-entering,
+    .wizard__success .wizard__success-mark {
+      animation: none;
+    }
+  }
+
+  /* ------------------------------------------------------------------ 1 You: audience choice cards */
+  .wizard__choices {
+    display: grid;
+    gap: var(--s-3);
+  }
+
+  @media (width >= 768px) {
+    .wizard__choices {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  /* The cards of a row share one height; their content starts at the top (the radio row centres a single
+     line), so the rings and titles line up whatever the length of each hint. */
+  .wizard__choice.radio {
+    position: relative;
+    isolation: isolate;
+    align-content: start;
+    padding: var(--s-4);
+    border: var(--line-w) solid var(--line-strong);
+    border-radius: var(--radius-card);
+    background: var(--canvas);
+
+    /* hover veil: opacity only */
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      border-radius: inherit;
+      background: var(--hover-tint);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--dur-hover) var(--ease-out);
+    }
+
+    /* The whole card selects the option (the label is stretched over it). */
+    & .radio__label::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+    }
+
+    & .radio__hint {
+      color: var(--ink-3);
+    }
+  }
+
+  @media (hover: hover) {
+    .wizard__choice.radio:hover::before {
+      opacity: 1;
+    }
+  }
+
+  .wizard__choice.radio:has(.radio__input:checked) {
+    border-color: var(--ink);
+    outline: var(--line-w) solid var(--ink);
+    outline-offset: calc(-2 * var(--line-w));
+  }
+
+  .wizard__choice-title {
+    font-weight: var(--fw-semibold);
+  }
+
+  /* ------------------------------------------------------------------ 3 Documents: checklist */
+  .wizard__docs {
+    display: grid;
+    border: var(--line-w) solid var(--line);
+    border-radius: var(--radius-card);
+    background: var(--canvas);
+  }
+
+  .wizard__doc {
+    padding-inline: var(--s-4);
+  }
+
+  .wizard__doc:not([hidden]) ~ .wizard__doc:not([hidden]) {
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  .wizard__doc .check {
+    padding-block: var(--s-3);
+  }
+
+  .wizard__docs-note {
+    margin-block-start: var(--s-3);
+    color: var(--ink-3);
+    font-size: var(--fs-small);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-small);
+  }
+
+  .wizard__docs-note:empty {
+    display: none;
+  }
+
+  /* ------------------------------------------------------------------ 5 Review */
+  .wizard__summary {
+    display: grid;
+    gap: var(--s-3);
+  }
+
+  .wizard__group {
+    display: grid;
+    gap: var(--s-2);
+    padding: var(--s-3) var(--s-4) var(--s-4);
+    border: var(--line-w) solid var(--line);
+    border-radius: var(--radius-card);
+    background: var(--canvas);
+  }
+
+  .wizard__group-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-3);
+  }
+
+  .wizard__group-title {
+    color: var(--ink);
+    font-size: var(--fs-minor);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-minor);
+  }
+
+  /* The ghost Change button's text lines up with the answers' end edge. */
+  .wizard__group-head > .btn--text {
+    margin-inline-end: calc(-1 * var(--s-3));
+  }
+
+  .wizard__answers {
+    display: grid;
+    gap: var(--s-2);
+    margin: 0;
+  }
+
+  .wizard__answer {
+    display: grid;
+    gap: var(--s-1);
+  }
+
+  @media (width >= 768px) {
+    .wizard__answer {
+      grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+      gap: var(--s-4);
+    }
+  }
+
+  .wizard__answer-label {
+    color: var(--ink-3);
+    font-size: var(--fs-small);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-small);
+  }
+
+  /*
+   * Every answer lines up on the page's side of its column, a Latin name or an e-mail address on the Arabic
+   * page too: the <dd> is a row in the page direction and the answer (.wizard__answer-text) keeps its own
+   * reading order inside it (plaintext, or dir="ltr" for the phone and the e-mail address).
+   */
+  .wizard__answer-value {
+    display: flex;
+    min-inline-size: 0;
+    margin: 0;
+  }
+
+  .wizard__answer-text {
+    min-inline-size: 0;
+    color: var(--ink);
+    font-size: var(--fs-ui);
+    line-height: var(--lh-ui);
+    overflow-wrap: anywhere;
+    white-space: pre-line;
+  }
+
+  .wizard__answer-docs {
+    display: grid;
+    gap: var(--s-1);
+    margin: 0;
+    padding-inline-start: var(--s-5);
+    color: var(--ink);
+    font-size: var(--fs-ui);
+    line-height: var(--lh-ui);
+    list-style: disc;
+  }
+
+  :is(.wizard__answer-text, .wizard__answer-docs).is-empty {
+    padding-inline-start: 0;
+    color: var(--ink-3);
+    list-style: none;
+  }
+
+  .wizard__notes {
+    display: grid;
+    gap: var(--s-2);
+    padding: var(--s-4);
+    border-radius: var(--radius-card);
+    color: var(--ink-2);
+    background: var(--band);
+    font-size: var(--fs-small);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-small);
+  }
+
+  .wizard__turnstile:empty {
+    display: none;
+  }
+
+  /*
+   * The security check runs invisibly (Turnstile "interaction-only": a 0px widget). Out of the grid flow it
+   * takes no room, not even the fields gap above it, so the actions never move when it renders; it joins
+   * the flow only when Cloudflare asks the visitor to act (wizard/controller.js sets data-check).
+   */
+  .wizard__turnstile:not([data-check="interactive"]) {
+    position: absolute;
+    block-size: 0;
+    overflow: hidden;
+  }
+
+  /* ------------------------------------------------------------------ actions */
+  /* The autosave choice at the start, Back and Next / Submit together at the end (wrapped lines end-aligned). */
+  .wizard__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--s-3);
+    padding-block-start: var(--s-6);
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  /*
+   * "Keep a draft on this device" (the autosave choice): a quiet checkbox row in the UI size with its hint in
+   * meta size, filling the line before the buttons; the whole row stays the 44px (48px touch) target.
+   */
+  .wizard__draft {
+    flex: 1 1 14rem;
+    min-inline-size: 0;
+  }
+
+  .wizard__autosave.check {
+    --lh-body: var(--lh-ui);
+
+    color: var(--ink-2);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+
+    & .check__label {
+      color: var(--ink-2);
+    }
+
+    & .check__hint {
+      color: var(--ink-3);
+    }
+  }
+
+  /*
+   * Phones: the autosave choice on its own row above the buttons; Back becomes a square arrow (its name stays
+   * "Back") and the main button takes the rest of the row.
+   */
+  @media (width < 768px) {
+    .wizard__actions {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+    }
+
+    .wizard__actions > :is([data-wizard-next], [data-wizard-submit]) {
+      grid-column: 2;
+      grid-row: 2;
+    }
+
+    .wizard__actions > [data-wizard-back][hidden] ~ :is([data-wizard-next], [data-wizard-submit]),
+    :root:not(.js) .wizard .wizard__actions > [data-wizard-submit],
+    .wizard.is-plain .wizard__actions > [data-wizard-submit] {
+      grid-column: 1 / -1;
+    }
+
+    .wizard__actions > [data-wizard-back] {
+      grid-column: 1;
+      grid-row: 2;
+      inline-size: var(--control-md);
+      padding-inline: 0;
+
+      & .btn__label {
+        position: absolute;
+        inline-size: 1px;
+        block-size: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+      }
+    }
+
+    .wizard__draft {
+      grid-column: 1 / -1;
+      grid-row: 1;
+    }
+  }
+
+  /*
+   * The home form's engagement notice follows the submit button (the homepage file's order). With JavaScript it
+   * belongs to the review step only, the step with that button.
+   */
+  .wizard__after {
+    color: var(--ink-2);
+    font-size: var(--fs-small);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-small);
+  }
+
+  :root.js .wizard:not(.is-plain, [data-step="5"]) .wizard__after {
+    display: none;
+  }
+
+  /* Sending: the values are locked (inert) and the cursor says so; the busy label never narrows the button. */
+  .wizard[data-state="sending"] .wizard__form {
+    cursor: progress;
+  }
+
+  .wizard__actions > [data-wizard-submit].is-loading {
+    min-inline-size: var(--wz-busy-w, auto);
+  }
+
+  /* The submit has no icon slot (no decorative icon): while sending, the spinner joins the row before the
+     approved busy label instead of covering it, so "Sending…" stays readable. */
+  .wizard__actions > [data-wizard-submit].is-loading > .btn__spinner {
+    position: static;
+    margin: 0;
+  }
+
+  .wizard__actions > [data-wizard-submit].is-loading > .btn__spinner ~ .btn__label {
+    opacity: 1;
+  }
+}

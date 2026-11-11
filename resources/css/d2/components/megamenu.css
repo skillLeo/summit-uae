@@ -1,0 +1,226 @@
+/*
+ * Design 2.1 Practice Areas mega menu (<x-d2.shell.megamenu>; brief D48, §3.4–3.6; behaviour in
+ * resources/js/d2/components/megamenu.js).
+ * An overlay (data-overlay): white, a 1 px --line edge, --radius-overlay (16), the one --shadow-overlay; it hangs
+ * 8 px under the header's bottom line (under the navigation row, or under the compact bar when the row is docked
+ * there) and spans the container's content box (the .d2-nav container is its containing block), over the 6 % ink
+ * scrim (header.css), so nothing of the page shows beside or through it.
+ * Text only: no icons, no tiles, no arrows, no capitals or tracking. Three equal tracks of a 12-column body
+ * (4 / 4 / 4 in every language): the eleven services; then the preview: the title across the other two tracks,
+ * under it the full summary with the Ink "Explore This Service" directly below, and beside them the documents
+ * heading and four documents. Russian keeps the equal tracks too: two of its eleven titles take two lines (D48:
+ * most names on one line), and its summary gets a 357 px measure from 1280 px instead of 268 (round 2: nine
+ * cramped, hyphenated lines beside a list column with 150 to 200 px to spare). Height: the list sets it (11 rows of
+ * 44 px, then "View All Practice Areas"), 536 px plus 24 px padding (Russian 564: its two 2-line titles), so the
+ * panel ends about 730 px down a window opened at the top of the page (Russian 758): it fits 1024 x 768 (English
+ * and Arabic; Russian shows its menu button there), 1280 x 800 and 1366 x 768 whole, in every language, with no
+ * inner scrolling. Shorter windows (or 48 px touch rows): the body scrolls and fades at its lower edge while more is
+ * below (.is-clipped from megamenu.js; --mask-fade-bottom, an alpha mask, not colour).
+ * Enter: opacity + 8 px drop + .99 scale in 240 ms; reduced motion shows the final state (motion.css).
+ */
+@layer components {
+  .megamenu {
+    --focus-color: var(--ink); /* white panel: the ink ring */
+
+    position: absolute;
+
+    /* 8 px under the band the row sits in: the row itself at the top of the page, the 64 px bar when docked. */
+    inset-block-start: calc(100% + var(--s-2) + (var(--nav-line-h) - var(--navrow-h)) / 2);
+    inset-inline: var(--pad-x);
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+
+    /* Never past the window: 8 px above its lower edge (--mega-top: header.css, per state). */
+    max-block-size: calc(100dvh - var(--mega-top) - var(--s-2));
+    color: var(--ink);
+    text-align: start;
+    white-space: normal;
+    background: var(--canvas);
+    border: var(--line-w) solid var(--line);
+    border-radius: var(--radius-overlay);
+    box-shadow: var(--shadow-overlay);
+    transform-origin: 50% 0;
+    transition:
+      opacity var(--dur-enter) var(--ease-out),
+      transform var(--dur-enter) var(--ease-out),
+      display var(--dur-enter) allow-discrete;
+
+    &[hidden] {
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(calc(-1 * var(--s-2))) scale(0.99);
+    }
+  }
+
+  /* Entrance only when motion is allowed (.motion-ok from the boot script). */
+  @starting-style {
+    .js.motion-ok .megamenu {
+      opacity: 0;
+      transform: translateY(calc(-1 * var(--s-2))) scale(0.99);
+    }
+  }
+
+  /* The panel's body: the grid, and the scroller when a window is too short for it (the panel keeps its shadow). */
+  .megamenu__body {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 4fr) minmax(0, 4fr);
+    gap: var(--s-3) var(--s-8);
+    min-block-size: 0;
+    padding: var(--s-6) var(--s-8);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scroll-padding-block: var(--s-12);
+
+    &.is-clipped {
+      mask-image: var(--mask-fade-bottom);
+    }
+  }
+
+  /* Pointer bridge over the gap under the row (or the bar) while the menu is open (hover intent). */
+  .d2-nav__item--mega:has(> .megamenu:not([hidden])) > .d2-nav__toggle::before {
+    position: absolute;
+    inset-inline: 0;
+    inset-block-start: 100%;
+    block-size: calc((var(--nav-line-h) - var(--nav-link-h)) / 2 + var(--s-3));
+    content: "";
+  }
+
+  .megamenu__col {
+    display: flex;
+    flex-direction: column;
+    min-inline-size: 0;
+  }
+
+  /* One preview (title, card, documents) at a time: its parts are cells of the body's grid. */
+  .megamenu__preview {
+    display: contents;
+  }
+
+  /* ------------------------------------------------------------------ column 1: the eleven services */
+  .megamenu__col--list {
+    grid-row: 1 / span 2;
+    grid-column: 1;
+  }
+
+  .megamenu__list {
+    display: grid;
+    margin-inline: calc(-1 * var(--s-3));
+    list-style: none;
+  }
+
+  .megamenu__item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-block-size: var(--target);
+    padding: var(--s-2) var(--s-3);
+    color: var(--ink-2);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+    text-wrap: pretty;
+    border-radius: var(--radius-control);
+
+    &:hover,
+    &.is-active {
+      color: var(--ink);
+      background: var(--band);
+    }
+
+    /* The page you are on: a 2 px ink bar at the start edge. */
+    &[aria-current]::before {
+      position: absolute;
+      inset-block: var(--s-3);
+      inset-inline-start: 0;
+      inline-size: calc(2 * var(--line-w));
+      content: "";
+      background: var(--ink);
+    }
+  }
+
+  .megamenu__all {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    min-block-size: var(--target);
+    margin-block-start: var(--s-2);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+  }
+
+  /* ------------------------------------------------------------------ the preview */
+  .megamenu__card-title {
+    grid-row: 1;
+    grid-column: 2 / span 2;
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+    text-wrap: balance;
+  }
+
+  .megamenu__col--card {
+    grid-row: 2;
+    grid-column: 2;
+    gap: var(--s-4);
+  }
+
+  .megamenu__summary {
+    color: var(--ink-2);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+    text-wrap: pretty;
+  }
+
+  /* Russian paragraphs hyphenate long words (base.css, :lang(ru) p). Not in the preview: its title is a heading
+     role (headings never hyphenate), and its summary, a few lines in a 357 px track, breaks between whole words
+     (round 2: 16 hyphens across the eleven Russian summaries, three in one; without them a summary is one line
+     longer at most and stays far shorter than the list). */
+  .megamenu__card-title,
+  .megamenu__summary {
+    hyphens: manual;
+  }
+
+  /* Directly under the summary: never pushed out of view by the documents. */
+  .megamenu__explore {
+    align-self: flex-start;
+  }
+
+  .megamenu__col--docs {
+    grid-row: 2;
+    grid-column: 3;
+    gap: var(--s-2);
+  }
+
+  .megamenu__docs-title {
+    color: var(--ink);
+    font-size: var(--fs-small);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-small);
+  }
+
+  .megamenu__docs {
+    display: grid;
+    gap: var(--s-2);
+    padding-inline-start: var(--s-5);
+    color: var(--ink-2);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+    list-style: disc;
+
+    li::marker {
+      color: var(--ink-3);
+    }
+  }
+
+  /* Touch screens (a tablet in landscape): 48 px rows. */
+  @media (pointer: coarse) {
+    .megamenu__item,
+    .megamenu__all {
+      min-block-size: var(--target-touch);
+    }
+  }
+}

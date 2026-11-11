@@ -1,0 +1,213 @@
+# text-snapshot: design 2, locale en, route p02-practice-areas
+# GET /en/practice-areas/ -> 200; html lang=en dir=ltr data-design=2
+=== header ===
+Choose language
+English
+Request a Legal Consultation
+Home
+Practice Areas
+Legal Resources
+Case Studies
+FAQs
+About Us
+Contact Us
+=== main ===
+Home
+Practice Areas
+Our Legal Services and Practice Areas in the UAE
+Whether you have a financial claim, a summons or a contract that needs reviewing, our work begins with understanding what happened and what you want to achieve. This overview of Summit’s practice areas helps you choose the service closest to your situation and learn about its scope and the documents required.
+Request a Legal Consultation
+Choose a Service Area
+We Start with the File
+A description of the problem alone is not enough to determine the next step. We review the facts, documents, sequence of dealings and each party’s role, then explain what can be proved, what requires further support, and the available options, costs and risks.
+Understand the background, the outcome sought and any current deadline.
+Review relevant contracts, messages, transfers and judgments.
+Assess the legal position and any gaps that affect the decision.
+Propose a practical course of action and a clear scope for the consultation or subsequent work.
+Choose a Service Area
+Show services for
+All
+11
+Individuals
+7
+Businesses
+7
+Investors
+5
+Debt Recovery and Cheque Cases
+We review unpaid debts and invoices, dishonoured cheques and acknowledgements of debt, assessing options for formal notice, settlement, claims and enforcement in light of the documents and the nature of the relationship.
+This service may be relevant if:
+You paid for a service or goods but did not receive what you paid for.
+You hold a cheque that was presented to the bank and returned unpaid.
+You are dealing with a debtor who delays payment or has left the country.
+You have outstanding invoices and want to understand your options before escalating the matter.
+Service Details
+Criminal Cases
+We help you understand criminal complaints, summonses and investigations, and analyse evidence and judgments in fraud, forgery, financial crime and cybercrime matters, coordinating with a licensed advocate where required.
+This service may be relevant if:
+You received a summons or a criminal complaint was made against you, and you do not know what to do first.
+You have been accused of fraud or forgery that you did not commit.
+Your name appeared in a criminal file although you were not actually involved.
+A judgment has already been issued and you want to understand whether it can be reviewed.
+Service Details
+Cryptocurrency and Digital Currency Cases
+We connect trading orders, bank transfers, wallet records and correspondence in USDT disputes, platform fraud and account freezes to assess the claim or defence and each party’s role.
+This service may be relevant if:
+You placed funds on a trading platform and they disappeared or were frozen.
+You sold digital assets and faced an accusation concerning events in which you were not involved.
+You want to trace suspicious digital transfers or establish evidence of them.
+You were defrauded through a crypto investment offer.
+Service Details
+Corporate and Commercial Law
+We draft and review contracts, structure partners’ rights, management powers, contributions and exit arrangements, and review disputes with customers and suppliers alongside matters concerning the company’s structure and obligations.
+This service may be relevant if:
+A dispute with your business partner arose sooner than you expected.
+You signed a commercial contract and later discovered terms whose effect you had not understood at the time.
+You want to establish a company and structure your relationship with partners from the outset.
+You have a commercial dispute with a customer, supplier or business partner.
+Service Details
+Property and Tenancy Disputes
+We examine delayed property handovers, defects and developer disputes, as well as maintenance, eviction, security deposits, cheques and handover issues, starting with the contract, notices and evidence of performance.
+This service may be relevant if:
+You bought an off-plan property and handover has been delayed beyond your expectations.
+After purchase, you discovered a property defect that was not mentioned in the contract.
+A landlord or tenant is making a demand you believe is unlawful.
+You want a sale or tenancy agreement reviewed before signing.
+Service Details
+Employment Law
+We review salaries, final entitlements, notice, settlement releases and employment contracts, helping employees and employers organise claims and responses under the rules applicable to their relationship.
+This service may be relevant if:
+Your salary is overdue and you do not know your rights if you decide to pursue the matter.
+Your employment ended and you suspect your final entitlements were calculated incorrectly.
+You signed a settlement release and are unsure which rights you waived.
+You are an employer seeking to organise employment contracts and review your obligations.
+Service Details
+Tax Disputes and Tax Compliance
+We examine tax decisions, assessments and penalties, organise arguments and supporting documents, and identify the appropriate review procedure, coordinating with the accountant or tax agent where their expertise is required.
+This service may be relevant if:
+You received a tax penalty or decision that you believe is incorrect.
+You want to object to a tax assessment.
+Your company has expanded and you want to review its new tax obligations.
+You want to organise your tax records before the filing deadline.
+Service Details
+Family Law and Wills
+We advise on divorce, custody, maintenance and estates, and assist with preparing wills and choosing a registration route, taking account of family circumstances, assets and the applicable law.
+This service may be relevant if:
+You live in the UAE, have assets or children, and have not yet made a will.
+You are facing a family dispute and want to understand your options before taking any step.
+A relative has died and you want to understand how the estate will be distributed.
+You are a non-Muslim resident and want to know how inheritance rules apply in the UAE.
+Service Details
+Compliance and Regulatory Matters
+We review activities, licences, policies, beneficial ownership records, due diligence, governance and data protection, identifying gaps and remedial steps according to the requirements applicable to the business.
+This service may be relevant if:
+Your company has expanded or changed its activity without reviewing its regulatory obligations.
+You want to update your company’s anti-money laundering policies.
+You received an enquiry from a regulator and do not know how to respond.
+You want a compliance review before a new investment partner joins.
+Service Details
+Legal Translation
+We review the legal meaning of multilingual contracts and documents, check the consistency of obligations, names and numbers, and coordinate certified translation with a registered legal translator where required.
+This service may be relevant if:
+You have a contract in a foreign language and want it translated before signing.
+A document must be submitted to a government authority or court and requires certified translation.
+You signed a translated document and want to check the translation’s accuracy.
+You need a translation between Arabic and English or Russian for an official transaction.
+Service Details
+Business Services
+We support the choice of incorporation structure and preparation of documents for licences, amendments, renewals, attestations and transactions, explaining the scope of Summit’s work and the steps undertaken by the competent authorities.
+This service may be relevant if:
+You want to establish a company and need guidance on choosing an appropriate structure.
+Your licence needs renewing or its activities need amending.
+You need attestation or official documents for a government transaction.
+You want to organise your company’s documents before an investor or partner joins.
+Service Details
+When a Matter Involves More Than One Area
+A cheque may be linked to a commercial dispute; a digital asset transaction may involve a criminal complaint and a bank review; or a company matter may combine a contract, a tax issue and compliance requirements. We identify connected issues and set priorities rather than treating each aspect in isolation.
+You do not need to classify the problem legally before contacting us. Tell us the facts, the documents available and the outcome you seek. We will explain the appropriate scope of review and whether an additional specialist may be needed.
+Before Requesting a Consultation
+Prepare a chronological summary of events, identify the parties and state what you are seeking.
+Attach the main document, relevant correspondence and any proof of payment.
+Mention any hearing, decision or notice and any deadline for a response or appeal.
+Retain the originals and do not send access credentials or passwords.
+Questions About Choosing a Service
+Do You Advise Individuals and Companies?
+Yes. We assist individuals, companies, investors, residents and entrepreneurs with matters connected to the UAE, whether for a preventive review or an existing dispute.
+Can More Than One Issue Be Reviewed in the Same Matter?
+We can agree a scope covering related issues, explaining before work begins what requires a separate review or another specialist, together with the associated professional fees and charges.
+Can We Begin Remotely?
+Initial contact and document exchange can take place remotely. We then explain whether the next procedure requires attendance, a power of attorney, translation or attestation.
+Do You Choose a Course of Action Before Reviewing the Documents?
+Initial contact establishes the type of matter and the documents needed. Assessing a claim or defence and recommending a course of action require a review of the material relevant to the decision.
+Resources to Help You Understand Your Matter
+Visit the Legal Knowledge Centre
+Legal Resources
+Visit Frequently Asked Questions
+FAQs
+Tell Us About Your Matter
+Send a summary of the matter and the main document, if available, and mention any hearing or current deadline. Before work begins, we will explain the scope of consultation, the fee and the documents required.
+Request a Legal Consultation
+Contact Us on WhatsApp
+(opens in a new tab)
++971 52 466 6191
+info@summitlegaluae.com
+The service is available in Arabic, English and Russian. Sending an enquiry does not mean that the engagement has been accepted or that monitoring of legal deadlines has begun.
+Scope of Service and Published Information
+Summit is a legal consultancy company. The work, deliverables and fees are defined in the agreed engagement. Court advocacy or representation requiring an advocate is carried out by licensed advocates. Where work requires separate professional registration or specialist expertise, it is coordinated with an appropriately qualified professional as needed.
+This is general information and does not replace a review of the facts, documents, applicable law, competent authority and relevant deadlines. Options and outcomes vary from one matter to another. Presenting this service does not guarantee a decision, recovery of funds or approval by an external authority.
+Legal Notice and Scope of Services
+=== footer ===
+Summit Legal Consultancy
+Legal advice for individuals, businesses, investors and residents in the UAE, in Arabic, English and Russian.
++971 52 466 6191
+Contact Us on WhatsApp
+(opens in a new tab)
+info@summitlegaluae.com
+Business hours: Monday to Friday, 9 am to 6 pm.
+Practice Areas
+Debt Recovery and Cheque Cases
+Criminal Cases
+Cryptocurrency and Digital Currency Cases
+Corporate and Commercial Law
+Property and Tenancy Disputes
+Employment Law
+Tax Disputes and Tax Compliance
+Family Law and Wills
+Compliance and Regulatory Matters
+Legal Translation
+Business Services
+Legal Resources
+Legal Resources Centre
+FAQs
+Case Studies
+Useful Links
+About Us
+Contact Us
+Legal Notice
+Privacy Policy
+Terms and Conditions
+The information published is general and does not replace a review of the facts and documents relating to your matter. The scope of service and fees are determined when the engagement is accepted. Court advocacy requiring an advocate is carried out by licensed advocates.
+Specialist Resources and Services Associated with Summit
+Employment Law
+laborlawuae.com
+(opens in a new tab)
+Debt Recovery and Cheques
+debtrecoveryuae.com
+(opens in a new tab)
+Property Disputes
+dubaipropertydispute.com
+(opens in a new tab)
+Digital Currencies
+uaecryptocases.com
+(opens in a new tab)
+Wills
+uaeexpatwills.com
+(opens in a new tab)
+Tax Disputes
+uaetaxdisputes.com
+(opens in a new tab)
+© {{YEAR}} Summit Legal Consultancy. All rights reserved.
+Choose language
+Arabic
+English
+Russian

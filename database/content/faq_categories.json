@@ -1,0 +1,602 @@
+{
+    "cat-01": {
+        "anchor": "cat-01",
+        "position": 1,
+        "name": {
+            "en": "Before Requesting a Consultation",
+            "ar": "قبل طلب الاستشارة",
+            "ru": "Перед обращением за консультацией"
+        },
+        "links": {
+            "en": [
+                {
+                    "label": "Request a Legal Consultation",
+                    "target": "P07"
+                },
+                {
+                    "label": "Get to Know Summit",
+                    "target": "P06"
+                }
+            ],
+            "ar": [
+                {
+                    "label": "اطلب استشارة قانونية",
+                    "target": "P07"
+                },
+                {
+                    "label": "تعرف إلى سَمِت",
+                    "target": "P06"
+                }
+            ],
+            "ru": [
+                {
+                    "label": "Запросить юридическую консультацию",
+                    "target": "P07"
+                },
+                {
+                    "label": "Познакомьтесь с Summit",
+                    "target": "P06"
+                }
+            ]
+        }
+    },
+    "cat-02": {
+        "anchor": "cat-02",
+        "position": 2,
+        "name": {
+            "en": "Debts and Cheques",
+            "ar": "الديون والشيكات",
+            "ru": "Долги и чеки"
+        },
+        "links": {
+            "en": [
+                {
+                    "label": "Debt and Cheque Services",
+                    "target": "S01"
+                },
+                {
+                    "label": "Guide to Commercial Debt Recovery",
+                    "target": "G02"
+                },
+                {
+                    "label": "Guide to bounced cheques and enforcement options",
+                    "target": "G03"
+                },
+                {
+                    "label": "Commercial Transactions Law on the UAE Legislation Portal",
+                    "target": "https://uaelegislation.gov.ae/ar/legislations/1610"
+                }
+            ],
+            "ar": [
+                {
+                    "label": "خدمات الديون والشيكات",
+                    "target": "S01"
+                },
+                {
+                    "label": "دليل تحصيل الدين التجاري",
+                    "target": "G02"
+                },
+                {
+                    "label": "دليل الشيك المرتجع وخيارات التنفيذ",
+                    "target": "G03"
+                },
+                {
+                    "label": "قانون المعاملات التجارية على بوابة تشريعات الإمارات",
+                    "target": "https://uaelegislation.gov.ae/ar/legislations/1610"
+                }
+            ],
+            "ru": [
+                {
+                    "label": "Услуги по долгам и чекам",
+                    "target": "S01"
+                },
+                {
+                    "label": "Руководство по взысканию коммерческой задолженности",
+                    "target": "G02"
+                },
+                {
+                    "label": "Руководство по неоплаченным чекам и вариантам принудительного исполнения",
+                    "target": "G03"
+                },
+                {
+                    "label": "Закон о коммерческих сделках на портале законодательства ОАЭ",
+                    "target": "https://uaelegislation.gov.ae/ar/legislations/1610"
+                }
+            ]
+        }
+    },
+    "cat-03": {
+        "anchor": "cat-03",
+        "position": 3,
+        "name": {
+            "en": "Criminal Cases",
+            "ar": "القضايا الجزائية",
+            "ru": "Уголовные дела"
+        },
+        "links": {
+            "en": [
+                {
+                    "label": "Support in criminal matters",
+                    "target": "S02"
+                },
+                {
+                    "label": "Guide to Preserving Evidence of Financial and Digital Fraud",
+                    "target": "G06"
+                }
+            ],
+            "ar": [
+                {
+                    "label": "الدعم في القضايا الجزائية",
+                    "target": "S02"
+                },
+                {
+                    "label": "دليل حفظ الأدلة عند الاحتيال المالي والرقمي",
+                    "target": "G06"
+                }
+            ],
+            "ru": [
+                {
+                    "label": "Помощь по уголовным делам",
+                    "target": "S02"
+                },
+                {
+                    "label": "Руководство по сохранению доказательств финансового и цифрового мошенничества",
+                    "target": "G06"
+                }
+            ]
+        }
+    },
+    "cat-04": {
+        "anchor": "cat-04",
+        "position": 4,
+        "name": {
+            "en": "Cryptocurrencies",
+            "ar": "العملات الرقمية",
+            "ru": "Криптовалюты"
+        },
+        "links": {
+            "en": [
+                {
+                    "label": "Cryptocurrency Cases",
+                    "target": "S03"
+                },
+                {
+                    "label": "Guide to Preserving Evidence of Financial and Digital Fraud",
+                    "target": "G06"
+                },
+                {
+                    "label": "Case Study: a USDT Sale and the Limits of the Seller's Role",
+                    "target": "A04"
+                },
+                {
+                    "label": "Scope of the Virtual Assets Regulatory Authority in Dubai",
+                    "target": "https://www.vara.ae/en/about-vara/"
+                }
+            ],
+            "ar": [
+                {
+                    "label": "قضايا العملات الرقمية",
+                    "target": "S03"
+                },
+                {
+                    "label": "دليل حفظ الأدلة عند الاحتيال المالي والرقمي",
+                    "target": "G06"
+                },
+                {
+                    "label": "نموذج ملف: بيع USDT وحدود دور البائع",
+                    "target": "A04"
+                },
+                {
+                    "label": "نطاق عمل سلطة تنظيم الأصول الافتراضية في دبي",
+                    "target": "https://www.vara.ae/en/about-vara/"
+                }
+            ],
+            "ru": [
+                {
+                    "label": "Дела, связанные с криптовалютой",
+                    "target": "S03"
+                },
+                {
+                    "label": "Руководство по сохранению доказательств финансового и цифрового мошенничества",
+                    "target": "G06"
+                },
+                {
+                    "label": "Пример из практики: продажа USDT и пределы участия продавца",
+                    "target": "A04"
+                },
+                {
+                    "label": "Полномочия Управления по регулированию виртуальных активов в Дубае",
+                    "target": "https://www.vara.ae/en/about-vara/"
+                }
+            ]
+        }
+    },
+    "cat-05": {
+        "anchor": "cat-05",
+        "position": 5,
+        "name": {
+            "en": "Companies and Contracts",
+            "ar": "الشركات والعقود",
+            "ru": "Компании и договоры"
+        },
+        "links": {
+            "en": [
+                {
+                    "label": "Companies and Commercial Contracts",
+                    "target": "S04"
+                }
+            ],
+            "ar": [
+                {
+                    "label": "الشركات والعقود التجارية",
+                    "target": "S04"
+                }
+            ],
+            "ru": [
+                {
+                    "label": "Компании и коммерческие договоры",
+                    "target": "S04"
+                }
+            ]
+        }
+    },
+    "cat-06": {
+        "anchor": "cat-06",
+        "position": 6,
+        "name": {
+            "en": "Property and Tenancy",
+            "ar": "العقارات والإيجارات",
+            "ru": "Недвижимость и аренда"
+        },
+        "links": {
+            "en": [
+                {
+                    "label": "Property and Tenancy Disputes",
+                    "target": "S05"
+                },
+                {
+                    "label": "Guide to Delayed Property Handover",
+                    "target": "G04"
+                },
+                {
+                    "label": "Jurisdiction of the Dubai Rental Disputes Center",
+                    "target": "https://rdc.gov.ae/ar/about-rdc/about-rental-disputes-center/"
+                }
+            ],
+            "ar": [
+                {
+                    "label": "المنازعات العقارية والإيجارية",
+                    "target": "S05"
+                },
+                {
+                    "label": "دليل تأخر تسليم العقار",
+                    "target": "G04"
+                },
+                {
+                    "label": "اختصاص مركز فض المنازعات الإيجارية في دبي",
+                    "target": "https://rdc.gov.ae/ar/about-rdc/about-rental-disputes-center/"
+                }
+            ],
+            "ru": [
+                {
+                    "label": "Споры по недвижимости и аренде",
+                    "target": "S05"
+                },
+                {
+                    "label": "Что делать при задержке передачи недвижимости",
+                    "target": "G04"
+                },
+                {
+                    "label": "Компетенция Центра по урегулированию арендных споров в Дубае",
+                    "target": "https://rdc.gov.ae/ar/about-rdc/about-rental-disputes-center/"
+                }
+            ]
+        }
+    },
+    "cat-07": {
+        "anchor": "cat-07",
+        "position": 7,
+        "name": {
+            "en": "Employment and Entitlements",
+            "ar": "العمل والمستحقات",
+            "ru": "Трудовые отношения и причитающиеся выплаты"
+        },
+        "links": {
+            "en": [
+                {
+                    "label": "Employment and Employee Entitlements",
+                    "target": "S06"
+                },
+                {
+                    "label": "Guide to Unpaid Salary and Documenting a Claim",
+                    "target": "G01"
+                },
+                {
+                    "label": "Private Sector End-of-Service Benefits on the UAE Government's Official Portal",
+                    "target": "https://u.ae/en/information-and-services/jobs/Sector-of-employment/employment-in-the-private-sector/end-of-service-benefits-for-employees-in-the-private-sector"
+                }
+            ],
+            "ar": [
+                {
+                    "label": "العمل والمستحقات العمالية",
+                    "target": "S06"
+                },
+                {
+                    "label": "دليل الراتب المتأخر وتوثيق المطالبة",
+                    "target": "G01"
+                },
+                {
+                    "label": "مكافأة نهاية الخدمة في القطاع الخاص على البوابة الرسمية لحكومة الإمارات",
+                    "target": "https://u.ae/en/information-and-services/jobs/Sector-of-employment/employment-in-the-private-sector/end-of-service-benefits-for-employees-in-the-private-sector"
+                }
+            ],
+            "ru": [
+                {
+                    "label": "Трудовые отношения и выплаты работникам",
+                    "target": "S06"
+                },
+                {
+                    "label": "Руководство по задержке зарплаты и документальному обоснованию требования",
+                    "target": "G01"
+                },
+                {
+                    "label": "Выплаты при прекращении трудовых отношений в частном секторе на официальном портале правительства ОАЭ",
+                    "target": "https://u.ae/en/information-and-services/jobs/Sector-of-employment/employment-in-the-private-sector/end-of-service-benefits-for-employees-in-the-private-sector"
+                }
+            ]
+        }
+    },
+    "cat-08": {
+        "anchor": "cat-08",
+        "position": 8,
+        "name": {
+            "en": "Tax Matters",
+            "ar": "الضرائب",
+            "ru": "Налоги"
+        },
+        "links": {
+            "en": [
+                {
+                    "label": "Tax Disputes and Tax Compliance",
+                    "target": "S07"
+                },
+                {
+                    "label": "Guide to Organising Tax Records",
+                    "target": "G09"
+                },
+                {
+                    "label": "Federal Tax Authority Reconsideration Request Service",
+                    "target": "https://tax.gov.ae/ar/services/reconsideration.request.aspx"
+                }
+            ],
+            "ar": [
+                {
+                    "label": "المنازعات الضريبية والامتثال الضريبي",
+                    "target": "S07"
+                },
+                {
+                    "label": "دليل تنظيم السجلات الضريبية",
+                    "target": "G09"
+                },
+                {
+                    "label": "خدمة طلب إعادة النظر لدى الهيئة الاتحادية للضرائب",
+                    "target": "https://tax.gov.ae/ar/services/reconsideration.request.aspx"
+                }
+            ],
+            "ru": [
+                {
+                    "label": "Налоговые споры и соблюдение налоговых требований",
+                    "target": "S07"
+                },
+                {
+                    "label": "Руководство по систематизации налоговых документов",
+                    "target": "G09"
+                },
+                {
+                    "label": "Сервис подачи заявления о пересмотре в Федеральное налоговое управление",
+                    "target": "https://tax.gov.ae/ar/services/reconsideration.request.aspx"
+                }
+            ]
+        }
+    },
+    "cat-09": {
+        "anchor": "cat-09",
+        "position": 9,
+        "name": {
+            "en": "Family and Wills",
+            "ar": "الأسرة والوصايا",
+            "ru": "Семейные вопросы и завещания"
+        },
+        "links": {
+            "en": [
+                {
+                    "label": "Family and Wills",
+                    "target": "S08"
+                },
+                {
+                    "label": "Guide to Wills for Non-Muslims",
+                    "target": "G05"
+                },
+                {
+                    "label": "DIFC Courts Wills Service",
+                    "target": "https://www.difccourts.ae/difc-courts-wills/services"
+                },
+                {
+                    "label": "Abu Dhabi Civil Family Court at the Abu Dhabi Judicial Department",
+                    "target": "https://www.adjd.gov.ae/ar/Pages/CivilFamilyCourt.aspx"
+                }
+            ],
+            "ar": [
+                {
+                    "label": "الأسرة والوصايا",
+                    "target": "S08"
+                },
+                {
+                    "label": "دليل الوصايا لغير المسلمين",
+                    "target": "G05"
+                },
+                {
+                    "label": "خدمة الوصايا لدى محاكم مركز دبي المالي العالمي",
+                    "target": "https://www.difccourts.ae/difc-courts-wills/services"
+                },
+                {
+                    "label": "محكمة أبوظبي للأسرة المدنية لدى دائرة القضاء في أبوظبي",
+                    "target": "https://www.adjd.gov.ae/ar/Pages/CivilFamilyCourt.aspx"
+                }
+            ],
+            "ru": [
+                {
+                    "label": "Семейные вопросы и завещания",
+                    "target": "S08"
+                },
+                {
+                    "label": "Завещания для немусульман",
+                    "target": "G05"
+                },
+                {
+                    "label": "Служба завещаний судов DIFC",
+                    "target": "https://www.difccourts.ae/difc-courts-wills/services"
+                },
+                {
+                    "label": "Гражданский семейный суд Абу-Даби при Судебном департаменте Абу-Даби",
+                    "target": "https://www.adjd.gov.ae/ar/Pages/CivilFamilyCourt.aspx"
+                }
+            ]
+        }
+    },
+    "cat-10": {
+        "anchor": "cat-10",
+        "position": 10,
+        "name": {
+            "en": "Compliance",
+            "ar": "الامتثال",
+            "ru": "Комплаенс"
+        },
+        "links": {
+            "en": [
+                {
+                    "label": "Compliance and Regulatory Matters",
+                    "target": "S09"
+                },
+                {
+                    "label": "Guide to Reviewing Company Compliance",
+                    "target": "G07"
+                },
+                {
+                    "label": "Federal Legislation on Combating Money Laundering, Terrorist Financing and Proliferation Financing",
+                    "target": "https://uaelegislation.gov.ae/ar/legislations/3314"
+                },
+                {
+                    "label": "Implementing Regulation of the Anti-Money Laundering Legislation",
+                    "target": "https://uaelegislation.gov.ae/ar/legislations/3857"
+                }
+            ],
+            "ar": [
+                {
+                    "label": "الامتثال والمسائل التنظيمية",
+                    "target": "S09"
+                },
+                {
+                    "label": "دليل مراجعة امتثال الشركة",
+                    "target": "G07"
+                },
+                {
+                    "label": "التشريع الاتحادي لمواجهة غسل الأموال وتمويل الإرهاب وتمويل انتشار التسلح",
+                    "target": "https://uaelegislation.gov.ae/ar/legislations/3314"
+                },
+                {
+                    "label": "اللائحة التنفيذية لتشريع مواجهة غسل الأموال",
+                    "target": "https://uaelegislation.gov.ae/ar/legislations/3857"
+                }
+            ],
+            "ru": [
+                {
+                    "label": "Комплаенс и регуляторные вопросы",
+                    "target": "S09"
+                },
+                {
+                    "label": "Руководство по проверке соблюдения компанией обязательных требований",
+                    "target": "G07"
+                },
+                {
+                    "label": "Федеральное законодательство о противодействии отмыванию денежных средств, финансированию терроризма и финансированию распространения оружия",
+                    "target": "https://uaelegislation.gov.ae/ar/legislations/3314"
+                },
+                {
+                    "label": "Исполнительный регламент законодательства о противодействии отмыванию денежных средств",
+                    "target": "https://uaelegislation.gov.ae/ar/legislations/3857"
+                }
+            ]
+        }
+    },
+    "cat-11": {
+        "anchor": "cat-11",
+        "position": 11,
+        "name": {
+            "en": "Legal Translation",
+            "ar": "الترجمة القانونية",
+            "ru": "Юридический перевод"
+        },
+        "links": {
+            "en": [
+                {
+                    "label": "Translation and Legal Review",
+                    "target": "S10"
+                },
+                {
+                    "label": "Guide to Preparing Documents for Legal Translation",
+                    "target": "G08"
+                }
+            ],
+            "ar": [
+                {
+                    "label": "الترجمة والمراجعة القانونية",
+                    "target": "S10"
+                },
+                {
+                    "label": "دليل تجهيز المستندات للترجمة القانونية",
+                    "target": "G08"
+                }
+            ],
+            "ru": [
+                {
+                    "label": "Перевод и юридическая проверка",
+                    "target": "S10"
+                },
+                {
+                    "label": "Руководство по подготовке документов к юридическому переводу",
+                    "target": "G08"
+                }
+            ]
+        }
+    },
+    "cat-12": {
+        "anchor": "cat-12",
+        "position": 12,
+        "name": {
+            "en": "Business Services",
+            "ar": "خدمات الأعمال",
+            "ru": "Услуги для бизнеса"
+        },
+        "links": {
+            "en": [
+                {
+                    "label": "Business Services",
+                    "target": "S11"
+                }
+            ],
+            "ar": [
+                {
+                    "label": "خدمات الأعمال",
+                    "target": "S11"
+                }
+            ],
+            "ru": [
+                {
+                    "label": "Услуги для бизнеса",
+                    "target": "S11"
+                }
+            ]
+        }
+    }
+}

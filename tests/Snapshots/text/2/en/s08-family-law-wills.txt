@@ -1,0 +1,205 @@
+# text-snapshot: design 2, locale en, route s08-family-law-wills
+# GET /en/practice-areas/family-law-wills/ -> 200; html lang=en dir=ltr data-design=2
+=== header ===
+Choose language
+English
+Request a Legal Consultation
+Home
+Practice Areas
+Legal Resources
+Case Studies
+FAQs
+About Us
+Contact Us
+=== main ===
+Home
+Practice Areas
+Family Law and Wills
+Family Law, Wills and Estates in the UAE
+Family decisions require clarity about rights and the remedies sought, with care for their effects on children, housing, financial support and assets. We review the circumstances, documents and applicable law, and help you choose practical steps suited to the matter, without assuming that one set of rules governs every family.
+Request a Legal Consultation
+Contact Us on WhatsApp
+(opens in a new tab)
+On this page
+Who This Service Is For
+Matters Covered by the Review
+Practical Situations We Review with You
+How We Handle Your Matter
+Documents That Help Us Get Started
+Before Taking the Next Step
+Start with Your Situation
+FAQs
+Related Topics and Services
+Official Sources for Reference
+Tell Us About Your Matter
+Scope of Service and Published Information
+Tell Us About Your Matter
+Request a Legal Consultation
+Contact Us on WhatsApp
+(opens in a new tab)
+Who This Service Is For
+Non-Muslim residents with assets or children in the UAE
+Individuals going through a family dispute or divorce
+Families dealing with an estate after a relative’s death
+Spouses seeking to understand their rights before making a decision
+Anyone seeking to prepare a legally valid will in the UAE
+Matters Covered by the Review
+Divorce for non-Muslims and identifying the applicable law in each case.
+Custody, maintenance and child contact
+Inheritance and estates for Muslims and non-Muslims
+Wills for non-Muslims in the UAE
+Guardianship of minor children
+Division of assets on divorce or death
+Cross-border family disputes
+Practical Situations We Review with You
+Divorce, Custody and Maintenance
+We review marriage documents, the parties’ nationalities, religions and residence, and any earlier judgments or agreements to identify the legal framework and competent authority. No single rule applies to all families living in the UAE.
+For maintenance, we relate claims to housing, education, medical and other needs, supported by income and expenditure documents. For custody, child contact and travel, we consider the children’s best interests, documents and existing orders, and help draft practical arrangements that can be implemented.
+Preparing a Will and Choosing a Registration Route
+We identify the assets, beneficiaries, executor and any arrangements for minors, then assess the appropriate registration authority and its requirements. Routes available through local authorities and the DIFC Courts differ in eligibility, procedure and the scope of the document.
+A will allows wishes to be recorded within the legal framework governing it. It does not, on its own, replace estate administration procedures or resolve every issue involving jointly owned property, third-party rights or assets in another country.
+Dying Without a Will
+The absence of a will does not mean that Islamic inheritance rules automatically apply to every non-Muslim. Civil legislation and rules for identifying the applicable law exist, and the outcome depends on the circumstances.
+We help gather death and family documents, information about assets and debts, and existing wills, and identify the procedures for establishing the heirs and administering the estate. Any distribution must be based on the applicable rules and decisions of the competent authority, rather than the family’s assumptions alone.
+In cross-border matters, we review residence, nationality, the location of assets, foreign judgments or wills, and the requirements for recognising or using them. A foreign document should not be assumed to take effect in the UAE automatically, nor should a local arrangement be assumed to resolve rights in another country.
+How We Handle Your Matter
+Identify the applicable law: nationality, emirate and types of assets.
+Review documents relating to marriage, divorce, assets, accounts and children.
+Identify the available options in light of the matter and circumstances.
+Develop a course of action that balances the interests of the children and the parties.
+Follow up on procedures before the competent authorities where needed.
+Documents That Help Us Get Started
+Marriage, identity, nationality and residence documents, and children’s birth certificates where relevant.
+Earlier judgments and agreements, custody, child contact or travel orders, and any current notices.
+Documents relating to income, housing, education, medical care, spending and obligations relevant to the claims.
+For estates or wills: details of assets, debts and beneficiaries, a death certificate if available, and existing wills made in the UAE or abroad.
+Send clear, complete copies initially and retain the originals. Do not send passwords, verification codes or financial account access credentials. An appropriate method for sharing sensitive documents can be agreed.
+Before Taking the Next Step
+Useful First Steps
+Do not postpone making a will if you have assets or children in the UAE
+Gather marriage, identity and asset documents before a dispute arises
+Do not sign a family settlement without understanding which rights you are giving up
+Check whether your foreign will can be given effect in the UAE
+Mistakes to Avoid
+Waiting until after a significant change in the family or assets to put a will in place.
+Assuming that a will prepared outside the UAE automatically covers assets here
+Acting emotionally in family disputes in a way that harms your legal position
+Withholding financial documents from your adviser, which undermines the quality of the advice
+Start with Your Situation
+This service may be relevant if:
+You live in the UAE, have assets or children, and have not yet made a will.
+Show the starting file
+You are facing a family dispute and want to understand your options before taking any step.
+Show the starting file
+A relative has died and you want to understand how the estate will be distributed.
+Show the starting file
+You are a non-Muslim resident and want to know how inheritance rules apply in the UAE.
+Show the starting file
+FAQs
+Do Islamic Inheritance Rules Automatically Apply to Every Non-Muslim?
+That generalisation is not correct. Civil frameworks and rules for identifying the applicable law exist. Nationality, religion, residence, assets, wills and any permitted choice of law affect the assessment.
+How Do I Choose Where to Register a Will?
+We review eligibility, assets, beneficiaries, arrangements for minors and earlier wills. Options include the competent local authorities and the DIFC Courts Wills Service, subject to each authority’s requirements. No single route suits everyone.
+How Is the Applicable Law Determined in a Non-Muslim Divorce?
+Nationality, religion, residence, the relationship, claims, permitted choices and the competent authority must be reviewed. Neither the law of nationality nor a particular civil law should be assumed to apply in every case.
+What Happens If Someone Dies Without a Will?
+The heirs, assets, liabilities and applicable law must be established before distribution. The ability to deal with certain assets may be temporarily affected, but the absence of a will does not mean that there is no legal framework for inheritance.
+Is a Will Prepared Outside the UAE Sufficient?
+Its terms, governing law, scope of assets and the method of recognition or use must be reviewed, together with any required authentication and translation. Do not assume that it automatically covers every asset or local arrangement.
+Can a Registered Will Be Amended?
+Amendment or replacement can be considered under the registration authority’s requirements and procedures. Review the effect on other wills, and do not simply amend a personal copy while the registered document remains different.
+Family and Wills
+56. When is a will useful for a non-Muslim resident?
+57. Does Islamic inheritance law automatically apply to non-Muslims?
+58. Where can a non-Muslim's will be registered?
+59. What happens if someone dies without a will?
+60. Can a registered will be amended?
+61. How do I prepare a custody or maintenance matter?
+Related Topics and Services
+Guide to Wills for Non-Muslims
+Legal Resources
+Contracts and Company-Related Assets
+Practice Areas
+All FAQs
+Back to Practice Areas
+Official Sources for Reference
+DIFC Courts Wills Service
+difccourts.ae
+(opens in a new tab)
+Abu Dhabi Civil Family Court
+adjd.gov.ae
+(opens in a new tab)
+UAE Legislation Portal
+uaelegislation.gov.ae
+(opens in a new tab)
+You can also explore specialist resources or services associated with Summit in this area.
+Summit Specialist Wills Service
+uaeexpatwills.com
+(opens in a new tab)
+Tell Us About Your Matter
+Send a summary of the matter and the main document, if available, and mention any hearing or current deadline. Before work begins, we will explain the scope of consultation, the fee and the documents required.
+Request a Legal Consultation
+Contact Us on WhatsApp
+(opens in a new tab)
++971 52 466 6191
+info@summitlegaluae.com
+The service is available in Arabic, English and Russian. Sending an enquiry does not mean that the engagement has been accepted or that monitoring of legal deadlines has begun.
+Scope of Service and Published Information
+Summit is a legal consultancy company. The work, deliverables and fees are defined in the agreed engagement. Court advocacy or representation requiring an advocate is carried out by licensed advocates. Where work requires separate professional registration or specialist expertise, it is coordinated with an appropriately qualified professional as needed.
+This is general information and does not replace a review of the facts, documents, applicable law, competent authority and relevant deadlines. Options and outcomes vary from one matter to another. Presenting this service does not guarantee a decision, recovery of funds or approval by an external authority.
+Legal Notice and Scope of Services
+=== footer ===
+Summit Legal Consultancy
+Legal advice for individuals, businesses, investors and residents in the UAE, in Arabic, English and Russian.
++971 52 466 6191
+Contact Us on WhatsApp
+(opens in a new tab)
+info@summitlegaluae.com
+Business hours: Monday to Friday, 9 am to 6 pm.
+Practice Areas
+Debt Recovery and Cheque Cases
+Criminal Cases
+Cryptocurrency and Digital Currency Cases
+Corporate and Commercial Law
+Property and Tenancy Disputes
+Employment Law
+Tax Disputes and Tax Compliance
+Family Law and Wills
+Compliance and Regulatory Matters
+Legal Translation
+Business Services
+Legal Resources
+Legal Resources Centre
+FAQs
+Case Studies
+Useful Links
+About Us
+Contact Us
+Legal Notice
+Privacy Policy
+Terms and Conditions
+The information published is general and does not replace a review of the facts and documents relating to your matter. The scope of service and fees are determined when the engagement is accepted. Court advocacy requiring an advocate is carried out by licensed advocates.
+Specialist Resources and Services Associated with Summit
+Employment Law
+laborlawuae.com
+(opens in a new tab)
+Debt Recovery and Cheques
+debtrecoveryuae.com
+(opens in a new tab)
+Property Disputes
+dubaipropertydispute.com
+(opens in a new tab)
+Digital Currencies
+uaecryptocases.com
+(opens in a new tab)
+Wills
+uaeexpatwills.com
+(opens in a new tab)
+Tax Disputes
+uaetaxdisputes.com
+(opens in a new tab)
+© {{YEAR}} Summit Legal Consultancy. All rights reserved.
+Choose language
+Arabic
+English
+Russian

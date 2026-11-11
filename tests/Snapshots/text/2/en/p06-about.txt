@@ -1,0 +1,191 @@
+# text-snapshot: design 2, locale en, route p06-about
+# GET /en/about/ -> 200; html lang=en dir=ltr data-design=2
+=== header ===
+Choose language
+English
+Request a Legal Consultation
+Home
+Practice Areas
+Legal Resources
+Case Studies
+FAQs
+About Us
+Contact Us
+=== main ===
+Home
+About Us and Our Team
+About Summit Legal Consultancy and Our Team
+A careful review of your matter. A clear view of the next step.
+Summit Legal Consultancy is a legal consultancy in the United Arab Emirates, supporting individuals, businesses, investors and residents with contracts, claims, disputes and regulatory matters. We combine legal analysis with organised follow-up, explaining what the matter needs and what can be done before agreeing the engagement.
+We provide services in Arabic, English and Russian because understanding an issue begins with being able to explain it and discuss its details clearly. The facts, documents and competent authority remain the basis of our advice and proposed next step.
+Meet Our Team
+Discuss Your Matter with Us
+Why Summit Was Founded
+A problem may begin with a clause that was not read carefully, an agreement left undocumented or a deadline addressed too late. When a disagreement emerges, the question goes beyond knowing the law: what actually happened, what can be proved, and what is the right decision now?
+Summit was founded to help clients understand their legal position clearly, in their own language, while there are still options to consider. We examine each matter in context, grounding our advice in the available documents and the outcome the client seeks.
+You may need to protect a business relationship before signing, organise a financial claim, review a judgment or understand the effect of a proposed settlement. The value of advice lies in helping you make an informed decision, with an understanding of its requirements, risks and limits.
+What Defines Our Approach
+Analysis That Starts with the Facts
+We examine the sequence of events, the parties' relationship, contracts, correspondence and payments. We distinguish the account presented in the file from what the evidence supports, so that our advice rests on a picture that can be examined.
+A Clear Assessment of Your Legal Position
+A claim may be justified in principle but need proof of delivery or entitlement. A position may appear difficult while material documents have not been presented clearly. We explain the strengths, weaknesses and gaps that need to be addressed.
+Decisions That Account for Time, Cost and Risk
+We weigh negotiation, settlement, claims and formal proceedings according to the matter. We consider how a step may affect deadlines, funds and relationships, and what requires early action or further review.
+Preventive Legal Support
+Reviewing contracts, defining authority, documenting obligations and checking compliance requirements help reduce uncertainty. Our support for businesses also covers incorporation, partnerships, policies and commercial relationships.
+Multilingual Communication
+We explain the options in Arabic, English and Russian, taking account of clients' different backgrounds and expectations. Official documents may require certified legal translation, depending on the authority and intended use.
+A Defined Engagement and Organised Follow-Up
+We explain the scope of work, deliverables, fees and documents needed, and follow up on what the engagement covers. Coordination between management and the legal team helps clients understand what has been done and what decision or document is needed from them.
+How We Work on Your Matter
+1. We Understand What Happened and What You Need
+We start with the parties, chronology and earlier procedures, and identify the question or decision you need help with. Any notice, hearing or response or appeal deadline is given priority in the review.
+2. We Review the Material Documents
+We examine the relevant contract, cheque, transfer, judgment, correspondence and reports. We identify what is missing and whether versions, dates or details need to be reconciled.
+3. We Explain the Position and Options
+We explain what supports the claim, potential objections, available options and their requirements. A technical opinion, translation or additional professional expertise may be needed; we explain this where relevant.
+4. We Agree the Work and Follow It Through
+We define the scope of engagement, deliverables, fees and any agreed external charges or services. We then organise the work and follow-up, explaining developments that require a new decision or a change in scope.
+Explore Our Legal Services
+Read Our Legal Case Studies
+Our Team
+Management and legal expertise come together around your matter: management organises communication and follow-up, while consultants examine the facts, obligations and evidence. Each role has its own responsibilities, united by an approach based on clarity, accuracy and attention to the client's interests.
+Ahmed Mohammadi
+Dr Mohamed Raouf
+Ms Sarah Zaki
+Ahmed Mohammadi
+Managing Director and Co-Founder
+Executive Management, Service Development and Client Experience
+Request a consultation with Ahmed
+Ahmed Mohammadi leads Summit's executive management, overseeing service development, operations, professional relationships and the client experience. His role combines understanding the needs of individuals and businesses with coordination across the legal team, ensuring that the service scope is clear and the work organised from the first contact.
+His background in business management and handling matters within the UAE legal environment gives him a practical view of what clients need: which document is required, who takes the next step, and what must be clarified before a decision is made. He works to turn the requirements of each matter into a clear follow-up process, coordinating with the specialists responsible for legal advice.
+Ahmed focuses on helping clients understand what is happening in their matter and why, with a clear account of the work required and its progress. This includes organising communication, monitoring the stages of service and improving processes that help the team provide a consistent, professional experience.
+Through communication in Arabic, English and Russian, he supports clients from varied backgrounds and helps them understand procedural requirements in practical terms. His approach to managing the company centres on professional relationships built on clear obligations, accurate follow-up and an understanding of the client's long-term interests.
+Areas of Focus
+Executive management, strategic direction and organisational growth.
+Service development, operational quality and coordination within the team.
+Organising the client experience from first contact to completion of the engagement scope.
+Explaining work stages and file requirements in coordination with the legal specialist.
+Monitoring matter progress and organising communication and required information.
+Building professional relationships and coordinating with relevant organisations and authorities.
+Supporting clients across languages and backgrounds.
+Working Languages: Arabic · English · Russian
+Contact Summit About Your Needs
+Dr Mohamed Raouf
+Principal Legal Consultant
+Doctorate in Law · Civil, Commercial and Criminal Legal Advice
+Request a consultation with Dr Mohamed
+Dr Mohamed Raouf examines legal matters and develops the advice that guides the handling of a file. He holds a doctorate in law. His work combines analysis of facts and documents, review of contracts, judgments and evidence, and identification of claim or defence options according to the nature and stage of the matter.
+His review begins with what the documents actually establish: what is the relationship between the parties, which obligation is disputed, and what can be proved before the competent authority? He pays particular attention to points that may appear settled on the face of a document, but whose effect changes when read alongside correspondence, payments and the sequence of events.
+His practice covers civil, commercial and criminal matters, including cheques, fraud, forgery, financial crime, money laundering, cybercrime and digital assets. This range helps him examine the connected aspects of a matter while distinguishing the requirements for civil and criminal liability and the effects of each set of proceedings.
+He draws on his comparative law experience where relevant, grounding his advice in the legal system applicable to the facts. He focuses on preparing clear opinions and submissions that address the disputed issues, explain what supports the position and identify what needs further proof, within the agreed scope of engagement.
+Areas of Expertise
+Commercial and corporate law.
+Civil matters and dispute resolution.
+Analysis of criminal case files, complaints and reports of offences.
+Cheques, fraud and forgery.
+Financial crime and money laundering.
+Cybercrime and digital assets.
+Analysis of judgments, evidence, and claim and defence options.
+Compliance and regulatory matters.
+Contract drafting and review.
+Preparing submissions, legal opinions and strategic legal advice.
+Working Languages: Arabic · English
+Criminal Cases
+Debts and Cheques
+Cryptocurrencies and Digital Assets
+S
+Z
+Ms Sarah Zaki
+Senior Legal Consultant
+UAE Law, Contracts, and Civil and Commercial Matters
+Request a consultation with Sarah
+Sarah Zaki examines civil and commercial matters, drafts and reviews contracts and agreements, and prepares submissions and written legal advice. Her work includes analysing documents for individuals and businesses against the relevant federal and local legal frameworks in the UAE.
+In reviewing a contract, she gives as much attention to what the text leaves unaddressed as to what it says. Who can approve performance? When does payment fall due? How are changes, termination or disagreements over obligations handled? This approach helps reveal ambiguities that may become the basis of a later dispute.
+The matters she works on include company contracts, commercial agreements, memoranda of understanding and personal contracts, as well as corporate documents, internal policies and compliance records. She connects the review of wording to the agreement's purpose and practical performance, so that the document reflects what the parties actually intend to regulate.
+When a disagreement exists, she starts by examining the facts, obligations and correspondence to identify the issues that need to be addressed. Her approach combines precision in drafting, document assessment and work towards resolving disputes at an early stage, where the facts and appropriate procedure allow.
+Areas of Expertise
+Drafting and reviewing commercial contracts and agreements.
+Examining and analysing civil and commercial legal matters.
+UAE law and relevant federal and local frameworks.
+Support with company matters and corporate documents.
+Reviewing legal documents, internal policies and compliance records.
+Preparing legal submissions and written advice.
+Assessing ambiguities and obligations in documents.
+Addressing disputes at an early stage.
+Working Languages: Arabic · English
+Companies and Commercial Contracts
+Compliance and Regulatory Matters
+Clear Roles in Legal Work
+Executive management organises operations, the client experience, coordination and follow-up. Consultants examine the issues and prepare legal advice and documents within the engagement scope. This division connects the client's needs with the work their matter requires.
+Summit is a legal consultancy. Advocacy or representation requiring an advocate is undertaken by licensed advocates, according to the authority and procedure. Where a matter requires a technical expert, legal translator or tax agent, that specialist's role and the requirements for their involvement are defined separately and clearly.
+A Clear Engagement and Confidential Information
+Before work begins, we agree the required service, deliverables and fees, and explain any external charges or work when agreed. Costs and requirements vary with the volume of documents, nature of the matter and stage it has reached.
+We handle information and documents in accordance with professional confidentiality and legal obligations, identifying what needs to be disclosed to carry out the engagement. We ask clients to provide all material facts and documents, including those that may not support their position, so that the review rests on an accurate picture.
+A consultation is not a promise of a judgment, recovery of funds or a particular outcome. We explain what can be done and the factors on which the outcome depends, and reassess the position when material new information emerges.
+Legal Notice and Scope of Services
+Understand Your Matter Before Making a Decision
+Whether you are reviewing a contract before signing, facing an existing dispute, or need to structure a partnership or claim, send a clear summary and the key documents available. We identify with you the information needed and the appropriate service before agreeing to start work.
+If you have a current deadline to respond, appeal or attend, state it clearly when contacting us. Sending an enquiry or documents does not mean that an engagement has been accepted or monitoring of legal deadlines has begun.
+Request a Legal Consultation
+Contact Us on WhatsApp
+(opens in a new tab)
++971 52 466 6191
+info@summitlegaluae.com
+Browse Frequently Asked Questions
+Read Our Practical Legal Guides
+=== footer ===
+Summit Legal Consultancy
+Legal advice for individuals, businesses, investors and residents in the UAE, in Arabic, English and Russian.
++971 52 466 6191
+Contact Us on WhatsApp
+(opens in a new tab)
+info@summitlegaluae.com
+Business hours: Monday to Friday, 9 am to 6 pm.
+Practice Areas
+Debt Recovery and Cheque Cases
+Criminal Cases
+Cryptocurrency and Digital Currency Cases
+Corporate and Commercial Law
+Property and Tenancy Disputes
+Employment Law
+Tax Disputes and Tax Compliance
+Family Law and Wills
+Compliance and Regulatory Matters
+Legal Translation
+Business Services
+Legal Resources
+Legal Resources Centre
+FAQs
+Case Studies
+Useful Links
+About Us
+Contact Us
+Legal Notice
+Privacy Policy
+Terms and Conditions
+The information published is general and does not replace a review of the facts and documents relating to your matter. The scope of service and fees are determined when the engagement is accepted. Court advocacy requiring an advocate is carried out by licensed advocates.
+Specialist Resources and Services Associated with Summit
+Employment Law
+laborlawuae.com
+(opens in a new tab)
+Debt Recovery and Cheques
+debtrecoveryuae.com
+(opens in a new tab)
+Property Disputes
+dubaipropertydispute.com
+(opens in a new tab)
+Digital Currencies
+uaecryptocases.com
+(opens in a new tab)
+Wills
+uaeexpatwills.com
+(opens in a new tab)
+Tax Disputes
+uaetaxdisputes.com
+(opens in a new tab)
+© {{YEAR}} Summit Legal Consultancy. All rights reserved.
+Choose language
+Arabic
+English
+Russian

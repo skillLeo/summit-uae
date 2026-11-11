@@ -1,0 +1,367 @@
+/*
+ * Design 2 inner page: Case Studies (P04, d2::inner.case-studies; upgrade spec §7.4 "Case study page",
+ * §5.5 "Case study file timeline", §12 Phase D "Case page: full file timeline + qualification block").
+ * Design 2.1 (brief §3.3–3.6): white files with a 1 px --line and --radius-card, no shadows, no bronze target
+ * mark, the head note without its shield. Phase 2 (D46): no case numerals (neither on the cards nor as the files'
+ * folder tabs), no chips, no corner chevron, and no stage timeline repeated in every file.
+ *
+ * Page order: inner head · directory (six <x-d2.case.card> text cards, sections/cases.css: the swipe rail of
+ * <x-d2.ui.carousel until="768"> on phones, two columns from 768 px, 3 × 2 from 1280 px; the cards of a row share
+ * their tracks so categories, titles and summaries line up) · the six case files · FAQ (inner kit prose) ·
+ * consultation panel (pages/resources.css) · scope note.
+ * A case file: a white file · the service line (Small 500, bronze, above the title) · H2 · matter · the story
+ * (inner kit prose; the outcome is a marked block, the takeaway a note) beside a sticky related column from 1280 px (service card, reading, consultation CTA, back to the
+ * directory).
+ * Calm editorial design (designer note): no success colours, trophies or counters. Tokens only; logical
+ * properties only; one stylesheet for LTR and RTL.
+ */
+@layer pages {
+  /* ================================================================ head: the qualification note (aside) */
+  /* The last introduction paragraph as a quiet note card beside the lead (≥ 1280 px, the inner head's aside
+     column) and under it below (final pass, home-mobile: the head's second column stood empty). */
+  .cs-note {
+    padding: var(--pad-card);
+    background: var(--band);
+    border-radius: var(--radius-card);
+  }
+
+  .cs-note__text {
+    color: var(--ink);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+  }
+
+  @media (width >= 1280px) {
+    .cs-head .inner-head__aside {
+      align-self: center;
+    }
+  }
+
+  /* ================================================================ directory */
+  /* right after the inner head (its own bottom padding): a short step, not a second section gap */
+  .inner-head + .cs-dir {
+    padding-block-start: var(--s-8);
+  }
+
+  .cs-dir__title {
+    margin-block-end: var(--s-8);
+  }
+
+  @media (width >= 768px) {
+    .cs-dir__title {
+      margin-block-end: var(--s-12);
+    }
+  }
+
+  /* Phones: the carousel's rail (components/carousel.css); the list layout below starts at 768 px. */
+  .cs-dir__grid {
+    list-style: none;
+  }
+
+  .cs-dir__item {
+    display: flex;
+    min-inline-size: 0;
+
+    & > .case-card {
+      flex: 1 1 auto;
+    }
+  }
+
+  @media (width >= 768px) {
+    .cs-dir__grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--gutter);
+      margin: 0;
+      padding: 0;
+    }
+
+    /* the cards of a row share their three tracks (category, title, summary) */
+    .cs-dir__item,
+    .cs-dir__item > .case-card {
+      display: grid;
+      grid-row: span 3;
+      grid-template-rows: subgrid;
+      row-gap: 0;
+    }
+
+    .cs-dir__item > .case-card {
+      row-gap: var(--card-gap);
+    }
+  }
+
+  @media (width >= 1280px) {
+    .cs-dir__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  /* ================================================================ the six case files */
+  .cs-files {
+    padding-block-end: var(--section-y);
+  }
+
+  /* The space between one file and the next is the list's gap alone: a step of the spacing scale (brief §3.4),
+     96 px on phones and 128 px from 768 px. */
+  .cs-files,
+  .casefile {
+    --cf-pad: var(--pad-card);
+  }
+
+  @media (width >= 1280px) {
+    .cs-files,
+    .casefile {
+      --cf-pad: var(--s-16);
+    }
+  }
+
+  .cs-files__list {
+    display: grid;
+    gap: var(--s-24);
+  }
+
+  @media (width >= 768px) {
+    .cs-files__list {
+      gap: var(--s-32);
+    }
+  }
+
+  .casefile {
+    position: relative;
+    display: grid;
+    gap: var(--s-6);
+    min-inline-size: 0;
+    padding: var(--cf-pad);
+    background: var(--canvas);
+    border: var(--line-w) solid var(--line);
+    border-radius: var(--radius-card);
+  }
+
+  /* ---------------------------------------------------------------- head */
+  .casefile__head {
+    display: grid;
+    gap: var(--s-3);
+    min-inline-size: 0;
+  }
+
+  /* the shorter approved service name (as the directory card's category), drawn above the title; the title comes
+     first in the source for assistive technology */
+  .casefile__service {
+    order: -1;
+    color: var(--bronze);
+    font-size: var(--fs-small);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-small);
+  }
+
+  /* the story's title keeps the H2 role (base.css); a link to it lands with the file's own top edge in view */
+  .casefile__title {
+    scroll-margin-block-start: calc(var(--cf-pad) + var(--s-12));
+  }
+
+  .casefile__matter {
+    color: var(--ink-2);
+    font-size: var(--fs-lead);
+    line-height: var(--lh-lead);
+  }
+
+  /* ---------------------------------------------------------------- body: story + related column */
+  .casefile__body {
+    display: grid;
+    gap: var(--s-12);
+    min-inline-size: 0;
+    padding-block-start: var(--s-4);
+  }
+
+  @media (width >= 1280px) {
+    .casefile__body {
+      grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
+      align-items: start;
+      gap: var(--s-16);
+    }
+  }
+
+  /* the opening paragraphs and the first section keep the prose's own section rhythm (48 px, 64 px from 768 px) */
+  .casefile__story {
+    display: grid;
+    gap: var(--s-12);
+    min-inline-size: 0;
+    max-inline-size: var(--prose);
+  }
+
+  @media (width >= 768px) {
+    .casefile__story {
+      gap: var(--s-16);
+    }
+  }
+
+  .casefile [id] {
+    scroll-margin-block-start: var(--s-4);
+  }
+
+  /* the outcome with its limits: a marked block in the story, normal visible HTML (designer note) */
+  .casefile__sections [id$="-outcome"] {
+    padding: var(--s-5);
+    background: var(--band);
+    border-radius: var(--radius-card);
+  }
+
+  @media (width >= 768px) {
+    .casefile__sections [id$="-outcome"] {
+      padding: var(--s-6) var(--s-8);
+    }
+  }
+
+  /* ---------------------------------------------------------------- related column */
+  .casefile__aside {
+    display: grid;
+    align-content: start;
+    gap: var(--s-4);
+    min-inline-size: 0;
+    padding-block-start: var(--s-8);
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  @media (width >= 1280px) {
+    .casefile__aside {
+      position: sticky;
+      inset-block-start: calc(var(--header-h) + var(--s-6));
+      padding-block-start: 0;
+      border-block-start: 0;
+    }
+  }
+
+  .casefile__aside-title {
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+  }
+
+  .casefile__related {
+    display: grid;
+    gap: var(--s-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .casefile__actions {
+    display: grid;
+    gap: var(--s-2);
+  }
+
+  /* A consultation label longer than the 335 px related column (≥ 1280 px) wraps into two balanced lines, never
+     shortened (brief §3.6 rule 8). Today every story's CTA is the one-line approved "Request a Legal
+     Consultation" and a story's own consultation label is a related link row (the case file markup). */
+  .casefile__cta {
+    text-wrap: balance;
+  }
+
+  .casefile__back {
+    justify-self: start;
+  }
+
+  /* ---------------------------------------------------------------- phones: each story starts as its file card */
+  /*
+   * final pass (home-mobile; the P03 guide pattern): six complete stories made P04 24 000–34 500 px tall at
+   * 390 px. Below 768 px on screen, with JavaScript (html.js is set before the first paint, so nothing moves
+   * when the script arrives), a story shows its file card: the service line, title, matter, the approved card
+   * summary and the proposed "Read the full story" disclosure
+   * (d2Casefiles). .is-open shows the story under it (the disclosure, a directory card,
+   * a link to the story or into it, the inline script after the files for an address with a #fragment).
+   * Without JavaScript, in print and from 768 px the whole story shows and the summary and the disclosure do
+   * not. The title takes the H3 size on phones in both states (opening a story never moves its title).
+   */
+  .casefile__summary,
+  .casefile__toggle {
+    display: none;
+  }
+
+  @media screen and (width < 768px) {
+    .js .cs-files__list {
+      gap: var(--s-16);
+    }
+
+    .js .casefile {
+      gap: var(--s-5);
+    }
+
+    .js .casefile__title {
+      font-size: var(--fs-h3);
+      line-height: var(--lh-h3);
+      letter-spacing: var(--ls-h3);
+    }
+
+    .js .casefile:not(.is-open) > .casefile__body {
+      display: none;
+    }
+
+    .js .casefile__summary {
+      display: block;
+      color: var(--ink-2);
+      font-size: var(--fs-body);
+      line-height: var(--lh-body);
+    }
+
+    .js .casefile__toggle {
+      display: inline-flex;
+    }
+  }
+
+  /* one label per state; the chevron turns over when the story is open */
+  .casefile__toggle[aria-expanded="true"] .casefile__toggle-open,
+  .casefile__toggle:not([aria-expanded="true"]) .casefile__toggle-close {
+    display: none;
+  }
+
+  .casefile__toggle .btn__icon--end {
+    transition: transform var(--dur-hover) var(--ease-out);
+  }
+
+  .casefile__toggle[aria-expanded="true"] .btn__icon--end {
+    transform: rotate(180deg);
+  }
+
+  /* opened by the disclosure (d2Casefiles adds .is-revealed): the story rises into place once */
+  @media screen and (width < 768px) and (prefers-reduced-motion: no-preference) {
+    .js.motion-ok .casefile.is-revealed > .casefile__body {
+      animation: cs-reveal var(--dur-panel) var(--ease-out);
+    }
+  }
+
+  @keyframes cs-reveal {
+    from {
+      opacity: 0;
+      transform: translateY(var(--s-2));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .casefile__toggle .btn__icon--end {
+      transition: none;
+    }
+  }
+
+  /* ================================================================ FAQ and scope (inner kit prose) */
+  .cs-files + .cs-faq {
+    padding-block-start: 0;
+  }
+
+  .cs-faq__prose {
+    max-inline-size: var(--prose);
+  }
+
+  /* The scope note closes the page under the consultation panel: the kit's scope note (pages/inner.css
+     .inner-scope--wide), the same layout as on P02, P03 and S01–S11. */
+
+  @media print {
+    .casefile__actions {
+      display: none !important;
+    }
+
+    .casefile {
+      break-inside: auto;
+    }
+  }
+}

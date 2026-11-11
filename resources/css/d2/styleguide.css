@@ -1,0 +1,1134 @@
+/*
+ * Design 2 styleguide (second Vite entry, loaded on /xx/styleguide/ only; owner: foundation). Frame classes every
+ * area partial builds on:
+ *
+ *   .sg-section   one area: <section class="sg-section" id="sg-<area>"> with an h2 and a one-line <p>
+ *   .sg-sub       h3 group heading (a .sg-note or .sg-label may follow it); .sg-minor an h4 inside a group
+ *   .sg-grid      auto-fill grid of specimens; --narrow (≥ 180 px), default (≥ 280 px), --wide (≥ 416 px), --full
+ *   .sg-row       wrapping row of demos
+ *   .sg-specimen  white specimen card (1px line, radius 10, no shadow): one demo plus its .sg-label(s) at the bottom
+ *   .sg-label     state label (Small, ink-3); English annotations keep their own direction in RTL pages
+ *   .sg-night     dark panel for on-dark states (add .on-dark, or the legacy .on-night: light gold focus ring)
+ *   .sg-code      a token or class name (the interface sans: no monospace outside the sample documents)
+ *   .sg-note      a longer annotation paragraph under a heading
+ *
+ * The rest are the helpers of the foundations and type areas. Tokens only (resources/css/d2/tokens.css; contract
+ * docs/d2.1/phase-1/tokens.md); transitions animate transform only. The styleguide may show the sample-document
+ * families and paper shadows as specimens (Stylelint override for this file).
+ */
+@layer pages {
+  /* ---------------------------------------------------------------- page */
+  .sg {
+    padding-block: var(--s-8) var(--s-24);
+  }
+
+  .sg-head {
+    display: grid;
+    gap: var(--s-4);
+    justify-items: start;
+    max-inline-size: 56rem;
+    padding-block: var(--s-6) var(--s-12);
+  }
+
+  @media (width >= 768px) {
+    .sg-head {
+      padding-block: var(--s-8) var(--s-12);
+    }
+  }
+
+  .sg-head__title {
+    font-size: var(--fs-h2);
+    line-height: var(--lh-h2);
+    letter-spacing: var(--ls-h2);
+  }
+
+  .sg-head__intro {
+    max-inline-size: var(--prose);
+    color: var(--ink-2);
+    font-size: var(--fs-lead);
+    line-height: var(--lh-lead);
+    unicode-bidi: plaintext;
+  }
+
+  .sg-index {
+    margin-block-start: var(--s-2);
+  }
+
+  .sg-index__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+    list-style: none;
+  }
+
+  .sg-index__link {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: var(--target);
+    padding-inline: var(--s-4);
+    color: var(--ink-2);
+    background: var(--canvas);
+    border: var(--line-w) solid var(--line-strong);
+    border-radius: var(--radius-pill);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+    transition: transform var(--dur-press) var(--ease-out);
+
+    &:hover {
+      color: var(--ink);
+      border-color: var(--ink-3);
+    }
+
+    &:active {
+      transform: scale(var(--press-scale));
+    }
+  }
+
+  @media (pointer: coarse) {
+    .sg-index__link {
+      min-block-size: var(--target-touch);
+    }
+  }
+
+  /* ---------------------------------------------------------------- area frame */
+  .sg-section {
+    padding-block: var(--s-12);
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  @media (width >= 768px) {
+    .sg-section {
+      padding-block: var(--s-16);
+    }
+  }
+
+  .sg-section > h2 + p {
+    margin-block-start: var(--s-3);
+    max-inline-size: var(--prose);
+    color: var(--ink-2);
+    font-size: var(--fs-lead);
+    line-height: var(--lh-lead);
+    unicode-bidi: plaintext;
+  }
+
+  .sg-sub {
+    margin-block: var(--s-12) var(--s-4);
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h3);
+    letter-spacing: 0;
+  }
+
+  .sg-section > h2 + p + .sg-sub {
+    margin-block-start: var(--s-12);
+  }
+
+  .sg-sub:has(+ .sg-note, + .sg-label) {
+    margin-block-end: var(--s-2);
+  }
+
+  .sg-sub + .sg-label {
+    margin-block-end: var(--s-4);
+  }
+
+  .sg-minor {
+    margin-block: var(--s-8) var(--s-3);
+    color: var(--ink-2);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-ui);
+  }
+
+  .sg-note {
+    max-inline-size: var(--prose);
+    margin-block-end: var(--s-5);
+    color: var(--ink-2);
+    unicode-bidi: plaintext;
+  }
+
+  .sg-section > :is(.sg-grid, .sg-row, .sg-night) + :is(.sg-grid, .sg-row, .sg-night, .sg-label),
+  .sg-section > .sg-label + :is(.sg-grid, .sg-row, .sg-night) {
+    margin-block-start: var(--s-4);
+  }
+
+  .sg-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--sg-min, 17.5rem)), 1fr));
+    gap: var(--s-4);
+    align-items: stretch;
+
+    > * {
+      min-inline-size: 0;
+    }
+  }
+
+  .sg-grid--narrow {
+    --sg-min: 11.25rem;
+  }
+
+  .sg-grid--wide {
+    --sg-min: 26rem;
+  }
+
+  .sg-grid--full {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sg-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--s-3);
+  }
+
+  /* A specimen whose art reaches past its frame (the hero stage's offset sheets are dealt in from beyond the
+     stage, as on the home, where .hero clips them): clip it at the frame, so the page never scrolls sideways. */
+  .sg-specimen--clip {
+    overflow-x: clip;
+  }
+
+  .sg-specimen {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-3);
+    min-inline-size: 0;
+    padding: var(--s-5);
+    background: var(--canvas);
+    border: var(--line-w) solid var(--line);
+    border-radius: var(--radius-card);
+
+    /* inline controls keep their own width; blocks (cards, fields, sheets) fill the specimen */
+    > :where(a, button, span, kbd, img, svg, label, output, code, input, select) {
+      align-self: flex-start;
+      max-inline-size: 100%;
+    }
+
+    /* the first label after the demo sits at the bottom, so labels line up across a row */
+    > :not(.sg-label) + .sg-label {
+      margin-block-start: auto;
+      padding-block-start: var(--s-1);
+    }
+  }
+
+  @media (width >= 768px) {
+    .sg-specimen {
+      padding: var(--s-6);
+    }
+  }
+
+  .sg-label {
+    margin: 0;
+    color: var(--ink-3);
+    font-size: var(--fs-small);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-small);
+    unicode-bidi: plaintext;
+    overflow-wrap: anywhere;
+  }
+
+  /*
+   * English annotations on Arabic pages. Annotation elements carry lang="en" on non-English pages; :lang(en) (the
+   * nearest lang attribute wins) keeps Arabic islands on English pages, such as the type area's Arabic sample, out of
+   * these rules. A right-to-left context is read from the page's dir attribute, never with :dir(): the production
+   * build (Lightning CSS, baseline targets) rewrites :dir(rtl) as :is(:lang(ar), :lang(he), …), which an element
+   * that is also :lang(en) can never match, so such a rule worked on the dev server only. Specimens set in the other
+   * direction (an explicit dir="ltr") are left out.
+   *
+   * Short English lines (headings, specimen labels, index links, the rest of an English specimen) take the direction
+   * of their own text line by line, so punctuation, "12 columns" and "×1.12" read correctly, and keep the page's
+   * alignment: the line runs left to right, so its end is the right edge.
+   */
+  .sg :is([lang="en"], [lang="en"] :not(.sg-code, bdi, svg, svg *)):lang(en) {
+    unicode-bidi: plaintext;
+  }
+
+  :root[dir="rtl"] .sg :is([lang="en"], [lang="en"] :not(.sg-code, bdi, svg, svg *)):lang(en):not([dir="ltr"], [dir="ltr"] *) {
+    text-align: end;
+  }
+
+  /*
+   * Specimen labels without lang="en" (class names, "primary = ink") are annotations too: the same right edge.
+   * Only labels: a note or intro without lang="en" is demo copy in the page language (an Arabic note), and "end"
+   * would push an Arabic line to the left (each line's end follows its own direction under unicode-bidi: plaintext;
+   * text-align: match-parent, which would resolve against the parent, is not supported by Chrome).
+   */
+  :root[dir="rtl"] .sg .sg-label:not(:lang(en), [dir="ltr"], [dir="ltr"] *) {
+    text-align: end;
+  }
+
+  /*
+   * English running text on a right-to-left page (the notes, the section intros, the page intro and its locale line)
+   * is a left-to-right block, as dir="ltr" would make it, so its lines start on one edge instead of a ragged one
+   * (round-1 QA). Each block is the reading column (--prose) on the page's start edge (the right), so on a wide
+   * page every English paragraph starts on the same left edge while the headings and labels keep the right one.
+   * Size and line height are the English body's (base.css, block islands). The doubled class keeps this above the
+   * short-line rule (0,7,0).
+   */
+  :root[dir="rtl"] .sg.sg :is(.sg-note, .sg-section > h2 + p, .sg-head__intro, .sg-head > .sg-label):lang(en):not([dir="ltr"] *) {
+    justify-self: stretch;
+    max-inline-size: var(--prose);
+    direction: ltr;
+    text-align: start;
+    unicode-bidi: isolate;
+  }
+
+  /* A list of notes turns with them; sized to its notes, its bullets hang in its start padding, left of that edge. */
+  :root[dir="rtl"] .sg.sg :is(ul, ol):has(> .sg-note):lang(en):not([dir="ltr"] *) {
+    inline-size: fit-content;
+    direction: ltr;
+    unicode-bidi: isolate;
+  }
+
+  .sg-night {
+    padding: var(--s-5);
+    color: var(--on-dark);
+    background: var(--dark);
+    border-radius: var(--radius-overlay);
+    box-shadow: none;
+
+    .sg-specimen:not(.on-light) {
+      background: var(--dark-2);
+      border-color: var(--line-on-dark);
+    }
+
+    /* A white card inside night (.on-light): the default white specimen, ink text. */
+    .sg-specimen.on-light {
+      color: var(--ink);
+    }
+
+    .sg-grid > :not(.sg-specimen) {
+      display: grid;
+      gap: var(--s-3);
+      align-content: start;
+    }
+
+    /* inline controls keep their own width, as in light specimens; blocks (fields, lists) fill the cell */
+    .sg-grid > :not(.sg-specimen) > :where(a, button, span, kbd) {
+      justify-self: start;
+      max-inline-size: 100%;
+    }
+  }
+
+  @media (width >= 768px) {
+    .sg-night {
+      padding: var(--s-8);
+    }
+  }
+
+  /* Inside a night panel, the section's rhythm: a group label, its grid, space, the next group. */
+  .sg-night > .sg-label + :is(.sg-grid, .sg-row) {
+    margin-block-start: var(--s-3);
+  }
+
+  .sg-night > :is(.sg-grid, .sg-row) + :is(.sg-grid, .sg-row, .sg-label, .sg-specimen) {
+    margin-block-start: var(--s-8);
+  }
+
+  /* A forced hover / focus icon button shows its tooltip above itself: keep it off the group label. */
+  .sg-night > .sg-grid:has(.icon-btn:is(.is-hover, .is-focus)) {
+    padding-block-start: var(--s-12);
+  }
+
+  /* home-mobile (final pass r2): the icon-button state specimens leave room above their buttons for a
+     forced tooltip, so it stays inside its frame and off the neighbouring caption (same top on every
+     specimen of the row). */
+  .sg-grid[data-sg^="ib-"] > .sg-specimen {
+    padding-block-start: var(--s-16);
+  }
+
+  .sg-grid[data-sg="night-ib-chips"] {
+    row-gap: var(--s-16);
+  }
+
+  .on-night .sg-label,
+  .on-night .sg-note {
+    color: var(--on-dark-3);
+  }
+
+  .on-night .on-light :is(.sg-label, .sg-note) {
+    color: var(--ink-3);
+  }
+
+  .sg-code {
+    padding-inline: var(--s-1);
+    color: var(--ink-2);
+    background: var(--band);
+    border-radius: var(--radius-control);
+    font-family: var(--font-mono);
+    font-size: var(--fs-small);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-small);
+    letter-spacing: 0;
+    text-transform: none;
+    direction: ltr;
+    unicode-bidi: isolate;
+    overflow-wrap: anywhere;
+  }
+
+  .on-night .sg-code {
+    color: var(--on-dark-2);
+    background: var(--dark-3);
+  }
+
+  /* ---------------------------------------------------------------- foundations: colour */
+  .sg-swatches,
+  .sg-pairs {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+    gap: var(--s-4);
+    list-style: none;
+  }
+
+  .sg-swatch,
+  .sg-pair {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: var(--s-3);
+    padding: var(--s-3);
+    background: var(--canvas);
+    border: var(--line-w) solid var(--line);
+    border-radius: var(--radius-card);
+  }
+
+  .sg-swatch__chip,
+  .sg-pair__chip {
+    inline-size: 100%;
+    block-size: auto;
+    aspect-ratio: 5 / 2;
+    border-radius: var(--radius-control);
+    outline: var(--line-w) solid var(--line);
+    outline-offset: calc(var(--line-w) * -1);
+  }
+
+  .sg-pair__chip {
+    aspect-ratio: 15 / 4;
+    outline: 0;
+  }
+
+  /* phones: a list row (chip beside its facts) instead of a tall card */
+  @media (width < 768px) {
+    .sg-swatches,
+    .sg-pairs {
+      gap: var(--s-3);
+    }
+
+    .sg-swatch {
+      grid-template-columns: 4.5rem minmax(0, 1fr);
+      grid-template-rows: none;
+      align-items: start;
+    }
+
+    .sg-swatch__chip {
+      aspect-ratio: 1;
+    }
+  }
+
+  .sg-swatch__body {
+    display: grid;
+    align-content: start;
+    justify-items: start;
+    gap: var(--s-1);
+    padding-inline: var(--s-1);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+  }
+
+  .sg-swatch__value {
+    color: var(--ink-2);
+    font-size: var(--fs-small);
+    font-variant-numeric: tabular-nums;
+    direction: ltr;
+    unicode-bidi: isolate;
+    overflow-wrap: anywhere;
+  }
+
+  .sg-swatch__role {
+    color: var(--ink-3);
+    unicode-bidi: plaintext;
+  }
+
+  .sg-contrast {
+    display: grid;
+    gap: var(--s-1);
+    margin-block-start: var(--s-1);
+    list-style: none;
+
+    li {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0 var(--s-2);
+      color: var(--ink-2);
+      unicode-bidi: plaintext;
+    }
+  }
+
+  .sg-contrast__ratio {
+    color: var(--ink);
+    font-weight: var(--fw-medium);
+    font-variant-numeric: tabular-nums;
+    direction: ltr;
+    unicode-bidi: isolate;
+  }
+
+  .sg-grade {
+    padding-inline: var(--s-2);
+    border-radius: var(--radius-control);
+    font-size: var(--fs-caption);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-caption);
+  }
+
+  .sg-grade--pass {
+    color: var(--badge-success-fg);
+    background: var(--badge-success-bg);
+  }
+
+  .sg-grade--fail {
+    color: var(--badge-danger-fg);
+    background: var(--badge-danger-bg);
+  }
+
+  .sg-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2) var(--s-4);
+    margin-block-start: var(--s-3);
+    list-style: none;
+  }
+
+  .sg-chip-row {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+  }
+
+  .sg-chip-row__dot {
+    inline-size: var(--s-4);
+    block-size: var(--s-4);
+    flex: none;
+
+    rect {
+      stroke: var(--line-strong);
+      stroke-width: 1;
+    }
+  }
+
+  /* Design 2.0 names: two columns of "old name, new name, note" from 1024 px */
+  .sg-legacy {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 34rem), 1fr));
+    column-gap: var(--s-8);
+    list-style: none;
+  }
+
+  .sg-legacy__row {
+    display: grid;
+    grid-template-columns: minmax(0, 13rem) minmax(0, 1fr);
+    align-items: baseline;
+    gap: var(--s-1) var(--s-3);
+    padding-block: var(--s-2);
+    border-block-end: var(--line-w) solid var(--line);
+
+    > .sg-code {
+      justify-self: start;
+    }
+  }
+
+  .sg-legacy__to {
+    justify-self: start;
+  }
+
+  .sg-legacy__note {
+    grid-column: 2;
+  }
+
+  /* ---------------------------------------------------------------- foundations: elevation */
+  .sg-well {
+    display: grid;
+    place-items: center;
+    inline-size: 100%;
+    min-block-size: 9rem;
+    padding: var(--s-6);
+    background: var(--canvas);
+    border: var(--line-w) solid var(--line);
+    border-radius: var(--radius-card);
+  }
+
+  .sg-well--band {
+    background: var(--band);
+    border-color: var(--band);
+  }
+
+  .sg-well--dark {
+    background: var(--dark);
+    border-color: var(--dark);
+  }
+
+  .sg-elev {
+    inline-size: min(100%, 8rem);
+    aspect-ratio: 4 / 3;
+    background: var(--canvas);
+    border-radius: var(--radius-card);
+  }
+
+  .sg-elev--card {
+    border: var(--line-w) solid var(--line);
+  }
+
+  .sg-elev--shadow-overlay {
+    border-radius: var(--radius-overlay);
+    box-shadow: var(--shadow-overlay);
+  }
+
+  .sg-paper {
+    display: grid;
+    align-content: start;
+    gap: var(--s-2);
+    inline-size: min(100%, 7.5rem);
+    aspect-ratio: 210 / 297;
+    padding: var(--s-4) var(--s-3);
+    background: var(--paper);
+    border: var(--hairline) solid var(--paper-edge);
+    border-radius: var(--r-paper);
+
+    > span {
+      block-size: var(--line-w);
+      background: var(--paper-rule);
+    }
+
+    > span:first-child {
+      inline-size: 55%;
+      block-size: var(--s-1);
+      margin-block-end: var(--s-2);
+      background: var(--paper-ink-3);
+    }
+
+    > span:nth-child(3) {
+      inline-size: 80%;
+    }
+
+    > span:last-child {
+      inline-size: 40%;
+    }
+  }
+
+  .sg-paper--rest {
+    box-shadow: var(--shadow-paper-rest);
+  }
+
+  .sg-paper--air {
+    box-shadow: var(--shadow-paper-air);
+    transform: translateY(calc(var(--s-2) * -1)) rotate(-2deg);
+  }
+
+  .sg-paper--lift {
+    box-shadow: var(--shadow-paper-lift);
+    transform: translateY(calc(var(--s-1) * -1));
+  }
+
+  /* ---------------------------------------------------------------- foundations: radius */
+  .sg-radius {
+    inline-size: var(--s-16);
+    block-size: var(--s-16);
+    background: var(--band);
+    border: var(--line-w) solid var(--line-strong);
+  }
+
+  .sg-radius--radius-control {
+    border-radius: var(--radius-control);
+  }
+
+  .sg-radius--radius-card {
+    border-radius: var(--radius-card);
+  }
+
+  .sg-radius--radius-overlay {
+    inline-size: var(--s-24);
+    border-radius: var(--radius-overlay);
+  }
+
+  .sg-radius--radius-pill {
+    inline-size: var(--s-24);
+    block-size: var(--chip-h);
+    border-radius: var(--radius-pill);
+  }
+
+  .sg-radius--r-paper {
+    border-radius: var(--r-paper);
+  }
+
+  .sg-radius--r-phone {
+    inline-size: var(--s-16);
+    block-size: var(--s-24);
+    border-radius: var(--r-phone);
+  }
+
+  /* ---------------------------------------------------------------- foundations: space, layout */
+  .sg-space,
+  .sg-durations,
+  .sg-layers {
+    display: grid;
+    gap: var(--s-2);
+    list-style: none;
+  }
+
+  .sg-space__row {
+    display: grid;
+    grid-template-columns: 6.5rem 3.5rem minmax(0, 1fr);
+    align-items: center;
+    gap: var(--s-3);
+    min-block-size: var(--s-6);
+
+    > .sg-code {
+      justify-self: start;
+    }
+  }
+
+  .sg-space__value,
+  .sg-durations__value,
+  .sg-layers__value {
+    color: var(--ink-2);
+    font-size: var(--fs-small);
+    font-variant-numeric: tabular-nums;
+    direction: ltr;
+    unicode-bidi: isolate;
+  }
+
+  .sg-space__bar {
+    max-inline-size: 100%;
+    fill: var(--ink-2);
+  }
+
+  .sg-cols {
+    > span {
+      display: grid;
+      place-items: end center;
+      min-block-size: var(--s-16);
+      padding-block-end: var(--s-2);
+      color: var(--ink-2);
+      background: var(--band);
+      border-radius: var(--radius-control);
+      font-size: var(--fs-small);
+      font-variant-numeric: tabular-nums;
+      line-height: var(--lh-small);
+    }
+  }
+
+  @media (width < 768px) {
+    .sg-cols > :nth-child(n + 5) {
+      display: none;
+    }
+  }
+
+  @media (768px <= width < 1024px) {
+    .sg-cols > :nth-child(n + 9) {
+      display: none;
+    }
+  }
+
+  .sg-bps {
+    margin-block: var(--s-4);
+  }
+
+  .sg-bp__name {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--s-2);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-ui);
+  }
+
+  .sg-bp__now {
+    display: none;
+    padding-inline: var(--s-2);
+    color: var(--badge-neutral-fg);
+    background: var(--badge-neutral-bg);
+    border-radius: var(--radius-control);
+    font-size: var(--fs-caption);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-caption);
+  }
+
+  .sg-bp__facts {
+    display: grid;
+    gap: var(--s-1);
+    color: var(--ink-2);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+    list-style: none;
+  }
+
+  @media (width < 640px) {
+    .sg-bp--phone {
+      border-color: var(--ink);
+    }
+
+    .sg-bp--phone .sg-bp__now {
+      display: inline-block;
+    }
+  }
+
+  @media (640px <= width < 768px) {
+    .sg-bp--large {
+      border-color: var(--ink);
+    }
+
+    .sg-bp--large .sg-bp__now {
+      display: inline-block;
+    }
+  }
+
+  @media (768px <= width < 1024px) {
+    .sg-bp--tablet {
+      border-color: var(--ink);
+    }
+
+    .sg-bp--tablet .sg-bp__now {
+      display: inline-block;
+    }
+  }
+
+  @media (width >= 1024px) {
+    .sg-bp--desktop {
+      border-color: var(--ink);
+    }
+
+    .sg-bp--desktop .sg-bp__now {
+      display: inline-block;
+    }
+  }
+
+  /* ---------------------------------------------------------------- foundations: focus */
+  .sg-focus {
+    display: block;
+    inline-size: 9rem;
+    block-size: var(--button-h);
+    background: var(--ink);
+    border-radius: var(--radius-control);
+    outline: var(--focus-w) solid var(--focus-color);
+    outline-offset: var(--focus-offset);
+  }
+
+  .on-dark .sg-focus {
+    background: var(--canvas);
+  }
+
+  /* ---------------------------------------------------------------- foundations: motion, layers */
+  .sg-durations__row {
+    display: grid;
+    grid-template-columns: minmax(0, 8.5rem) 4rem minmax(0, 1fr);
+    grid-template-areas:
+      "name value bar"
+      ". . role";
+    align-items: center;
+    gap: var(--s-1) var(--s-3);
+  }
+
+  .sg-durations__row > .sg-code {
+    grid-area: name;
+    justify-self: start;
+  }
+
+  .sg-durations__value {
+    grid-area: value;
+  }
+
+  .sg-durations__bar {
+    grid-area: bar;
+    inline-size: 100%;
+    max-inline-size: 15rem;
+    block-size: var(--s-3);
+    fill: var(--ink-2);
+  }
+
+  .sg-durations__track {
+    fill: var(--band);
+  }
+
+  .sg-durations__role {
+    grid-area: role;
+    color: var(--ink-3);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+    unicode-bidi: plaintext;
+  }
+
+  @media (width >= 768px) {
+    .sg-durations__row {
+      grid-template-columns: 9rem 4rem 15rem minmax(0, 1fr);
+      grid-template-areas: "name value bar role";
+    }
+  }
+
+  [dir="rtl"] .sg-durations__bar {
+    scale: -1 1;
+  }
+
+  .sg-curve__plot {
+    inline-size: 100%;
+    block-size: auto;
+    background: var(--canvas);
+    border-radius: var(--radius-control);
+  }
+
+  .sg-curve__axis,
+  .sg-curve__target {
+    fill: none;
+    stroke: var(--line-strong);
+    stroke-width: 1;
+  }
+
+  .sg-curve__target {
+    stroke-dasharray: 3 3;
+  }
+
+  .sg-curve__path {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  [dir="rtl"] .sg-curve__plot {
+    scale: -1 1;
+  }
+
+  .sg-ease {
+    position: relative;
+    display: block;
+    align-self: stretch;
+    block-size: var(--s-3);
+    background: var(--band);
+    border-radius: var(--radius-pill);
+    container-type: inline-size;
+  }
+
+  .sg-ease__dot {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    inline-size: var(--s-3);
+    block-size: var(--s-3);
+    background: var(--ink);
+    border-radius: 50%;
+    transition: translate var(--sg-dur, var(--dur-panel)) var(--sg-ease, var(--ease-out));
+  }
+
+  .sg-curve:is(:hover, :active) .sg-ease__dot {
+    translate: calc(100cqi - var(--s-3)) 0;
+  }
+
+  [dir="rtl"] .sg-curve:is(:hover, :active) .sg-ease__dot {
+    translate: calc(var(--s-3) - 100cqi) 0;
+  }
+
+  .sg-ease--ease-out {
+    --sg-ease: var(--ease-out);
+  }
+
+  .sg-ease--ease-in-out {
+    --sg-ease: var(--ease-in-out);
+  }
+
+  .sg-ease--ease-in {
+    --sg-ease: var(--ease-in);
+  }
+
+  .sg-ease--spring-snappy {
+    --sg-ease: var(--spring-snappy);
+    --sg-dur: var(--spring-snappy-dur);
+  }
+
+  .sg-ease--spring-ui {
+    --sg-ease: var(--spring-ui);
+    --sg-dur: var(--spring-ui-dur);
+  }
+
+  .sg-ease--spring-paper {
+    --sg-ease: var(--spring-paper);
+    --sg-dur: var(--spring-paper-dur);
+  }
+
+  .sg-ease--spring-sheet {
+    --sg-ease: var(--spring-sheet);
+    --sg-dur: var(--spring-sheet-dur);
+  }
+
+  .sg-ease--spring-bar {
+    --sg-ease: var(--spring-bar);
+    --sg-dur: var(--spring-bar-dur);
+  }
+
+  .sg-layers__row {
+    display: grid;
+    grid-template-columns: minmax(0, 11rem) minmax(0, 13rem) minmax(0, 1fr);
+    align-items: center;
+    gap: var(--s-3);
+    padding-block: var(--s-2);
+    border-block-end: var(--line-w) solid var(--line);
+
+    > .sg-code {
+      justify-self: start;
+    }
+  }
+
+  .sg-layers__value {
+    overflow-wrap: anywhere;
+  }
+
+  .sg-layers__role {
+    color: var(--ink-2);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+    unicode-bidi: plaintext;
+  }
+
+  @media (width < 768px) {
+    .sg-layers__row {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+
+    .sg-layers__role {
+      grid-column: 1 / -1;
+    }
+  }
+
+  /* ---------------------------------------------------------------- type */
+  .sg-type__row {
+    display: grid;
+    gap: var(--s-4);
+    padding-block: var(--s-6);
+    border-block-end: var(--line-w) solid var(--line);
+  }
+
+  .sg-type__row:first-child {
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  @media (width >= 1024px) {
+    .sg-type__row {
+      grid-template-columns: 18rem minmax(0, 1fr);
+      gap: var(--s-12);
+    }
+  }
+
+  .sg-type__spec {
+    display: grid;
+    align-content: start;
+    gap: var(--s-1);
+  }
+
+  .sg-type__name {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--s-2);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-ui);
+    unicode-bidi: plaintext;
+  }
+
+  .sg-type__tokens {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-1);
+    margin-block-start: var(--s-1);
+  }
+
+  .sg-type__sample {
+    min-inline-size: 0;
+
+    .t-ui {
+      column-gap: var(--s-6);
+    }
+  }
+
+  .sg-family .sg-label {
+    padding-block-end: var(--s-1);
+  }
+
+  .sg-weights {
+    display: grid;
+    gap: var(--s-2);
+    inline-size: 100%;
+    list-style: none;
+  }
+
+  .sg-weight {
+    display: grid;
+    grid-template-columns: 2.75rem minmax(0, 1fr);
+    align-items: baseline;
+    gap: var(--s-3);
+
+    > .sg-code {
+      justify-self: start;
+    }
+  }
+
+  .sg-weight__sample {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--s-5);
+    font-size: var(--fs-h3);
+    line-height: var(--lh-h3);
+  }
+
+  .sg-ff-sans {
+    font-family: var(--font-sans);
+  }
+
+  /* the sample-document faces, shown as specimens (data-illustration): never in the interface */
+  .sg-ff-doc-mono {
+    font-family: var(--font-doc-mono);
+  }
+
+  .sg-ff-doc-serif {
+    font-family: var(--font-doc-serif);
+  }
+
+  .sg-ff-doc-naskh {
+    font-family: var(--font-doc-naskh);
+  }
+
+  .sg-fw-400 {
+    font-weight: var(--fw-regular);
+  }
+
+  .sg-fw-500 {
+    font-weight: var(--fw-medium);
+  }
+
+  .sg-fw-600 {
+    font-weight: var(--fw-semibold);
+  }
+
+  /* three scripts: each sample carries its own lang, and the tokens resolve for it (tokens.css font switch) */
+  .sg-scripts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+    gap: var(--s-4);
+  }
+
+  .sg-script {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-3);
+    padding: var(--pad-card);
+    background: var(--canvas);
+    border: var(--line-w) solid var(--line);
+    border-radius: var(--radius-card);
+    font-family: var(--font-sans);
+
+    > .sg-label {
+      margin-block-start: auto;
+      padding-block-start: var(--s-3);
+      border-block-start: var(--line-w) solid var(--line);
+    }
+  }
+}

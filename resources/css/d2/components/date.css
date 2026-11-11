@@ -1,0 +1,263 @@
+/*
+ * Design 2.1 component: the date field and its calendar (<x-d2.ui.date>; behaviour in resources/js/d2/components/
+ * date.js and resources/js/d2/date/calendar.js). D36: a localised, keyboard-accessible, RTL-aware picker that still
+ * accepts typed dates; never the browser's native "dd/mm/yyyy". Brief §3.5 (fields fill their column, 48 px, radius
+ * 6), §3.4 (an overlay: radius 16 and the one overlay shadow, data-overlay), §3.2 (tabular figures).
+ *
+ *   .datefield            the field: the control (from <x-d2.ui.input>) + the calendar button over its icon
+ *   .datefield.is-ready   enhanced (html.js): a text field in the page's direction; the pattern is its placeholder
+ *   .datepicker           the calendar dialog (top layer through the Popover API; .datepicker--inline otherwise)
+ *
+ * Without JavaScript the field stays the platform's date input (field.css .control--date) and the button hides.
+ * Motion: the calendar fades in with a 4 px drop (transform and opacity), never under reduced motion.
+ */
+@layer components {
+  .datefield {
+    position: relative;
+    display: block;
+    min-inline-size: 0;
+  }
+
+  html:not(.js) .datefield__open {
+    display: none;
+  }
+
+  /* Until d2Date runs, the native field's own "dd/mm/yyyy" is not painted (Chrome, Safari). */
+  .js .datefield:not(.is-ready) .input::-webkit-datetime-edit {
+    opacity: 0;
+  }
+
+  /*
+   * Enhanced: a text field that follows the page direction (field.css forces the native date input left to right):
+   * in Arabic the pattern "يوم/شهر/سنة" reads from the right and a typed date sits at the start (right) as one
+   * left-to-right run of digits; the calendar icon stays at the inline end in every language.
+   */
+  .datefield.is-ready .input {
+    direction: inherit;
+    padding-inline: var(--s-4) var(--s-12);
+    text-align: start;
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+
+  /* The calendar button lies over the control's calendar icon: the field's full height, 44 px wide (48 on touch). */
+  .datefield__open {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-end: 0;
+    z-index: 1;
+    display: block;
+    inline-size: var(--s-12);
+    min-inline-size: var(--target);
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-control);
+    color: inherit;
+    background: transparent;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+
+    &:focus-visible {
+      outline: var(--focus-w) solid var(--focus-color);
+      outline-offset: calc(-1 * var(--s-1));
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+    }
+  }
+
+  /* The icon under the button turns ink on hover, while the button has focus and while the calendar is open. */
+  .datefield .control__icon--end {
+    transition: color var(--dur-hover) var(--ease-out);
+  }
+
+  .datefield:is(:has(.datefield__open:is(:hover, :focus-visible)), .is-open) .control__icon--end {
+    color: var(--ctl-fg);
+  }
+
+  .datefield:has(.input:disabled) .control__icon--end {
+    color: var(--ctl-muted);
+  }
+
+  /* ------------------------------------------------------------------ calendar */
+  .datepicker {
+    --focus-color: var(--ink);
+    --cal-cell: var(--target);
+
+    position: fixed;
+    inset: auto;
+    z-index: var(--z-menu);
+    /* A definite width (a 100 % table inside a shrink-to-fit box would take the whole window): seven days of about
+       50 px and the header's two selects, never wider than the window less 8 px on each side. */
+    inline-size: min(24rem, calc(100vw - 2 * var(--s-2)));
+    margin: 0;
+    padding: var(--s-4);
+    overflow: visible;
+    color: var(--ink);
+    background: var(--canvas);
+    border: var(--line-w) solid var(--line);
+    border-radius: var(--radius-overlay);
+    box-shadow: var(--shadow-overlay);
+    font-size: var(--fs-ui);
+    line-height: var(--lh-ui);
+    transition:
+      opacity var(--dur-enter) var(--ease-out),
+      translate var(--dur-enter) var(--ease-out);
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  .datepicker--inline {
+    position: absolute;
+  }
+
+  @starting-style {
+    .js.motion-ok .datepicker {
+      opacity: 0;
+      translate: 0 calc(-1 * var(--s-1));
+    }
+  }
+
+  /* Touch layouts: 48 px days with a tighter edge, so the grid still fits a 360 px phone (7 x 48 + 2 x 8). */
+  @media (pointer: coarse) {
+    .datepicker {
+      --cal-cell: var(--target-touch);
+
+      padding: var(--s-2);
+    }
+  }
+
+  .datepicker__head {
+    display: flex;
+    gap: var(--s-1);
+    align-items: center;
+    justify-content: space-between;
+    margin-block-end: var(--s-2);
+  }
+
+  .datepicker__selects {
+    display: flex;
+    flex: 1 1 auto;
+    gap: var(--s-2);
+    justify-content: center;
+    min-inline-size: 0;
+  }
+
+  .datepicker__control {
+    flex: 0 1 auto;
+    min-inline-size: 0;
+
+    & > .control__icon--end {
+      inset-inline-end: var(--s-2);
+    }
+  }
+
+  /* Compact selects: 12 px before the label, the chevron 8 px from the end (the header fits a 360 px phone). */
+  .datepicker__select {
+    padding-inline: var(--s-3) var(--s-8);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+
+  .datepicker__nav {
+    display: grid;
+    flex: none;
+    inline-size: var(--cal-cell);
+    block-size: var(--cal-cell);
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-control);
+    color: var(--ink-2);
+    background: transparent;
+    place-items: center;
+    cursor: pointer;
+    transition: background-color var(--dur-hover) var(--ease-out);
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    &:focus-visible {
+      outline: var(--focus-w) solid var(--focus-color);
+      outline-offset: calc(-1 * var(--focus-w));
+    }
+  }
+
+  @media (hover: hover) {
+    .datepicker__nav:hover:not(:disabled) {
+      color: var(--ink);
+      background: var(--canvas-hover);
+    }
+  }
+
+  /* The grid takes the dialog's width (the header can be wider than seven days in some languages). */
+  .datepicker__grid {
+    inline-size: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    table-layout: fixed;
+
+    & th {
+      inline-size: var(--cal-cell);
+      padding: 0 0 var(--s-1);
+      color: var(--ink-3);
+      font-size: var(--fs-caption);
+      font-weight: var(--fw-regular);
+      line-height: var(--lh-caption);
+      text-align: center;
+    }
+  }
+
+  .datepicker__day {
+    inline-size: var(--cal-cell);
+    block-size: var(--cal-cell);
+    padding: 0;
+    border-radius: var(--radius-control);
+    color: var(--ink);
+    font-variant-numeric: tabular-nums lining-nums;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color var(--dur-hover) var(--ease-out);
+
+    &.is-empty {
+      cursor: default;
+    }
+
+    /* today: a hairline ring; the chosen day: ink with white figures */
+    &[aria-current="date"] {
+      outline: var(--line-w) solid var(--line-strong);
+      outline-offset: calc(-1 * var(--line-w));
+    }
+
+    &[aria-selected="true"] {
+      color: var(--on-dark);
+      background: var(--ink);
+      font-weight: var(--fw-semibold);
+    }
+
+    &[aria-disabled="true"] {
+      color: var(--ink-3);
+      cursor: not-allowed;
+    }
+
+    &:focus-visible {
+      outline: var(--focus-w) solid var(--focus-color);
+      outline-offset: calc(-1 * var(--focus-w));
+    }
+
+    &[aria-selected="true"]:focus-visible {
+      outline-offset: var(--focus-w);
+    }
+  }
+
+  @media (hover: hover) {
+    .datepicker__day:not(.is-empty, [aria-selected="true"], [aria-disabled="true"]):hover {
+      background: var(--canvas-hover);
+    }
+  }
+}

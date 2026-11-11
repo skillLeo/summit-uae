@@ -1,0 +1,159 @@
+/*
+ * Design 2.1 component: card (<x-d2.ui.card>). Brief §3.4, §3.5, D05; docs/d2.1/phase-1/components.md §2.
+ * Cards are only for interactive containers (forms, calculators, "Start your matter", result panels) and for
+ * clickable listings (services, guides, case studies). White, 1px --line edge, radius 10 (--radius-card), padding
+ * --pad-card (24, 32 from 768 px), no shadow, no lift. A clickable card is ONE link with one accessible name: the
+ * title's link stretched over the card (.card__link::after), nested controls raised above it.
+ * Hover (and keyboard focus inside): the edge turns ink and the title underlines (1px at a 3px offset). No
+ * transform, no shadow, no zoom: the box never moves (lint rule 8).
+ * Tones: default (white), sunken (the --band panel, no edge), night (--dark-2 on a dark section, hairline edge).
+ */
+@layer components {
+  .card {
+    --card-pad: var(--pad-card);
+    --card-gap: var(--s-4);
+    --card-edge: var(--line);
+    --card-edge-hover: var(--ink);
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--card-gap);
+    min-inline-size: 0;
+    padding: var(--card-pad);
+    color: var(--ink);
+    background: var(--canvas);
+    border: var(--line-w) solid var(--card-edge);
+    border-radius: var(--radius-card);
+    box-shadow: none;
+    text-decoration: none;
+  }
+
+  /* ------------------------------------------------------------ padding */
+  .card--pad-none {
+    --card-pad: 0;
+  }
+
+  .card--pad-sm {
+    --card-pad: var(--s-4);
+    --card-gap: var(--s-3);
+  }
+
+  .card--pad-lg {
+    --card-pad: var(--s-8);
+    --card-gap: var(--s-5);
+  }
+
+  @media (width >= 768px) {
+    .card--pad-sm {
+      --card-pad: var(--s-5);
+    }
+  }
+
+  /* ------------------------------------------------------------ tones */
+  .card--sunken {
+    --card-edge: transparent;
+    --card-edge-hover: var(--ink);
+
+    background: var(--band);
+  }
+
+  .card--night {
+    --card-edge: var(--line-on-dark);
+    --card-edge-hover: var(--on-dark-3);
+
+    color: var(--on-dark);
+    background: var(--dark-2);
+  }
+
+  /* ------------------------------------------------------------ parts */
+  .card__media {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .card__title {
+    margin: 0;
+    color: inherit;
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+    text-wrap: balance;
+    text-decoration-line: none;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+
+  .card__text {
+    color: var(--ink-2);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+  }
+
+  .card--night .card__text {
+    color: var(--on-dark-2);
+  }
+
+  .card__footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+    align-items: center;
+    margin-block-start: auto;
+  }
+
+  /* ------------------------------------------------------------ interactive: ink edge + underlined title */
+  @media (hover: hover) {
+    .card--interactive:hover {
+      border-color: var(--card-edge-hover);
+
+      & .card__title {
+        text-decoration-line: underline;
+      }
+    }
+  }
+
+  .card--interactive.is-hover,
+  .card--interactive:has(.card__link:focus-visible),
+  .card--interactive:is(a):focus-visible,
+  .card--interactive.is-focus {
+    border-color: var(--card-edge-hover);
+
+    & .card__title {
+      text-decoration-line: underline;
+    }
+  }
+
+  /* A press on the card is the link's press: nothing moves (no scale on a listing card). */
+
+  /* ------------------------------------------------------------ whole-card link */
+  /* The title's underline (hover, focus) runs under the link's text: decorations propagate to inline children. */
+  .card__link {
+    color: inherit;
+
+    &::after {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      content: "";
+      border-radius: var(--radius-card);
+    }
+
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  .card:has(.card__link:focus-visible),
+  .card.is-focus {
+    outline: var(--focus-w) solid var(--focus-color);
+    outline-offset: var(--focus-offset);
+  }
+
+  /* Nested controls sit above the stretched link (zero specificity: their own position wins). */
+  :where(.card--link) :where(a:not(.card__link), button, input, select, textarea, summary, label, [tabindex]:not([tabindex="-1"]), [data-card-raise]) {
+    position: relative;
+    z-index: calc(var(--z-raised) + 1);
+  }
+}

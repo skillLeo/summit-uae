@@ -1,0 +1,127 @@
+/*
+ * Design 2 legal pages (resources/views/designs/d2/inner/legal.blade.php): P08 Legal Notice, L01 Privacy
+ * Policy, L02 Terms and Conditions. The kit (pages/inner.css) draws the head, the 720 px column, the TOC and
+ * the reading progress; this file adds the last-updated line, the print button, the closing cross-links and
+ * the print stylesheet (only the article prints: no header, footer, tab bar, TOC or progress bar).
+ */
+@layer pages {
+  /* the approved "Last updated" line: the Small role in ink-3 (Design 2.1: no calendar glyph) */
+  .legal__updated {
+    margin: 0;
+    color: var(--ink-3);
+    font-size: var(--fs-small);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-small);
+  }
+
+  /* Print needs JavaScript. Without it the tool is hidden; with it (html.js, set before the first paint) its row
+     is reserved from the first paint and the button shows once d2InnerPrint has mounted, so the head never
+     grows when the script arrives (§4b integration rule; measured before: +20 px at 768, +48 px at 390). */
+  .legal__tools {
+    display: none;
+  }
+
+  .js .legal__tools {
+    display: flex;
+    visibility: hidden;
+  }
+
+  .js .legal__tools.is-ready {
+    visibility: visible;
+  }
+
+  /* A text button (no fill, no side padding: components/button.css), so its underlined label lines up with the
+     text column by itself. Below 768 px it starts a row of its own at the column's inline start; from 768 px it
+     ends the meta row at the column's end (logical properties mirror it in Arabic). */
+
+  /* The print button sits at the end of the meta row on wide screens. */
+  @media (width >= 768px) {
+    .legal__head .inner-head__meta {
+      justify-content: space-between;
+    }
+  }
+
+  /* The approved numbered H2 headings print their number verbatim (never a counter) in the heading's own
+     proportional figures: tabular figures would open a gap in "1." at the H2 size (brief §3.2 keeps tabular
+     figures for calculators, tables, prices and reference numbers). */
+
+  .legal__related {
+    margin-block-start: var(--s-12);
+    padding-block-start: var(--s-12);
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  @media (width >= 768px) {
+    .legal__related .related__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /* ------------------------------------------------------------------ print */
+  @media print {
+    @page {
+      margin: 18mm 16mm;
+    }
+
+    body:has(.legal) {
+      padding: 0;
+      color: var(--ink);
+      background: var(--canvas);
+    }
+
+    body:has(.legal) :is(.skip-link, .d2-header, .d2-footer, .tabbar, .toast-region, .sheet, .d2-switcher),
+    .legal :is(.toc-bar, .toc, .legal__tools, .crumbs, .legal__related),
+    .reading-progress {
+      display: none !important;
+    }
+
+    .legal .inner-head {
+      padding-block: 0 var(--s-6);
+    }
+
+    .legal .inner-head__title {
+      font-size: var(--fs-h2);
+      line-height: var(--lh-h2);
+      opacity: 1 !important;
+      transform: none !important;
+      animation: none !important;
+    }
+
+    .legal .inner-layout {
+      padding-block-end: 0;
+    }
+
+    .legal .inner-layout__grid {
+      display: block;
+    }
+
+    .legal .inner-layout__main {
+      max-inline-size: none;
+    }
+
+    .legal .prose {
+      color: var(--ink);
+    }
+
+    .legal .prose__heading {
+      break-after: avoid;
+      font-size: var(--fs-h3);
+      line-height: var(--lh-h3);
+    }
+
+    .legal .prose p {
+      orphans: 3;
+      widows: 3;
+    }
+
+    .legal .prose > .prose__section + .prose__section {
+      margin-block-start: var(--s-6);
+    }
+
+    .legal .link-row {
+      min-block-size: 0;
+      padding: 0;
+      border: 0;
+    }
+  }
+}

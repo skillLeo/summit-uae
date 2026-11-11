@@ -1,0 +1,88 @@
+/*
+ * Layout primitives (brief §3.4; contract: docs/d2.1/phase-1/tokens.md §6).
+ *
+ * .container  max 1200px of content plus the side padding (20, 24 from 640px, 32 from 1024px). The header, every
+ *             section and the footer use it, so their inner edges line up within 1px at every width.
+ * .grid       12 columns from 1024px (8 from 768px, 4 below), gap 24px (16px below 768px).
+ * .section    padding-block 128 / 96 / 64 (from 1024 / 768 / below). Backgrounds: white (default), .section--band,
+ *             .section--dark. Neighbouring sections on the same background share one gap.
+ * .section__head  the H2, its intro 16px under it, the content 48px under the intro.
+ */
+@layer layout {
+  .container {
+    inline-size: 100%;
+    max-inline-size: calc(var(--container) + 2 * var(--pad-x));
+    margin-inline: auto;
+    padding-inline: var(--pad-x);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+    gap: var(--gutter);
+  }
+
+  .section {
+    padding-block: var(--section-y);
+  }
+
+  /* legacy: half the section rhythm (32 / 48 / 64) */
+  .section--tight {
+    padding-block: calc(var(--section-y) / 2);
+  }
+
+  .section--band {
+    background: var(--band);
+  }
+
+  .section--dark,
+  .section--night {
+    color: var(--on-dark);
+    background: var(--dark);
+  }
+
+  /*
+   * Neighbouring sections on the same background share one gap (--section-y), so two white sections never stack
+   * 2 x 128px of empty space. A change of background (white, band, dark) keeps the full padding on both sides of
+   * the edge. White sections: no background class (the legacy .section--surface is white too).
+   */
+  .section:not(.section--band, .section--dark, .section--night) + .section:not(.section--band, .section--dark, .section--night),
+  .section--band + .section--band,
+  :is(.section--dark, .section--night) + :is(.section--dark, .section--night) {
+    padding-block-start: 0;
+  }
+
+  .section__head {
+    display: grid;
+    gap: var(--head-gap);
+    max-inline-size: var(--prose);
+    margin-block-end: var(--head-space);
+
+    p {
+      color: var(--ink-2);
+      font-size: var(--fs-lead);
+      line-height: var(--lh-lead);
+    }
+  }
+
+  :is(.section--dark, .section--night, .on-dark, .on-night) .section__head p {
+    color: var(--on-dark-2);
+  }
+
+  .stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--stack-gap, var(--s-4));
+  }
+
+  .cluster {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--cluster-gap, var(--s-3));
+    align-items: center;
+  }
+
+  .span-full {
+    grid-column: 1 / -1;
+  }
+}

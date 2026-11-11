@@ -1,0 +1,410 @@
+{
+  "extends": [
+    "stylelint-config-standard"
+  ],
+  "rules": {
+    "color-no-hex": [
+      true,
+      {
+        "message": "Design 2: colours live in resources/css/d2/tokens.css only (docs/d2.1/phase-1/tokens.md)."
+      }
+    ],
+    "color-named": [
+      "never",
+      {
+        "message": "Design 2: colours live in resources/css/d2/tokens.css only (docs/d2.1/phase-1/tokens.md)."
+      }
+    ],
+    "function-disallowed-list": [
+      [
+        "rgb",
+        "rgba",
+        "hsl",
+        "hsla",
+        "hwb",
+        "lab",
+        "lch",
+        "oklab",
+        "oklch",
+        "color",
+        "linear-gradient",
+        "radial-gradient",
+        "conic-gradient",
+        "repeating-linear-gradient",
+        "repeating-radial-gradient",
+        "repeating-conic-gradient"
+      ],
+      {
+        "message": "Design 2: colours live in tokens.css; gradients only inside the sample documents (components/doc.css, stage.css). Brief 3.6 rule 6."
+      }
+    ],
+    "declaration-property-value-allowed-list": [
+      {
+        "/^border(-(start|end|top|bottom))?(-(start|end|left|right))?-radius$/": [
+          "/^(var\\(--(r|radius)-[a-z0-9-]+\\)|0|50%|inherit)( (var\\(--(r|radius)-[a-z0-9-]+\\)|0|50%))*$/"
+        ],
+        "box-shadow": [
+          "none",
+          "inherit",
+          "var(--shadow-overlay)",
+          "/^var\\(--(shadow-(1|2|3|4|header|pill|inset-input|kbd|kbd-night|night|night-inset|night-3)|ring-success)\\)$/"
+        ],
+        "font-size": [
+          "inherit",
+          "100%",
+          "1em",
+          "/^var\\(--fs-(?!doc-)[a-z0-9-]+\\)$/"
+        ],
+        "font-weight": [
+          "400",
+          "500",
+          "600",
+          "normal",
+          "inherit",
+          "/^var\\(--fw-[a-z0-9]+\\)$/"
+        ],
+        "font-family": [
+          "inherit",
+          "/^var\\(--font-(?!doc-(mono|serif|naskh)\\b)[a-z-]+\\)$/"
+        ],
+        "letter-spacing": [
+          "0",
+          "normal",
+          "inherit",
+          "/^var\\(--ls-[a-z0-9-]+\\)$/"
+        ],
+        "text-transform": [
+          "none",
+          "inherit",
+          "var(--eyebrow-case)"
+        ],
+        "z-index": [
+          "auto",
+          "0",
+          "1",
+          "-1",
+          "/^var\\(--z-[a-z]+\\)$/",
+          "/^calc\\(var\\(--z-[a-z]+\\) [+-] \\d+\\)$/"
+        ],
+        "float": [
+          "none",
+          "inline-start",
+          "inline-end"
+        ],
+        "text-align": [
+          "start",
+          "end",
+          "center",
+          "justify",
+          "inherit",
+          "match-parent"
+        ]
+      },
+      {
+        "message": "Design 2.1 (docs/d2.1/phase-1/tokens.md): radii --radius-*; shadows none or --shadow-overlay (paper shadows inside the sample documents only); font sizes --fs-* (13 px floor); weights 400, 500, 600; families --font-sans; no tracking or capitals outside the sample documents; layers --z-*."
+      }
+    ],
+    "property-disallowed-list": [
+      [
+        "left",
+        "right",
+        "margin-left",
+        "margin-right",
+        "padding-left",
+        "padding-right",
+        "border-left",
+        "border-right",
+        "border-left-width",
+        "border-right-width",
+        "border-left-color",
+        "border-right-color",
+        "border-left-style",
+        "border-right-style",
+        "scroll-margin-left",
+        "scroll-margin-right",
+        "scroll-padding-left",
+        "scroll-padding-right",
+        "clear"
+      ],
+      {
+        "message": "Design 2: use logical properties (inset-inline-start, margin-inline-end …) so one stylesheet serves LTR and RTL."
+      }
+    ],
+    "declaration-property-value-disallowed-list": [
+      {
+        "font-family": [
+          "/Inter/",
+          "/Poppins/",
+          "/Montserrat/",
+          "/Playfair/",
+          "/Cormorant/"
+        ],
+        "/^(margin|padding)(-(block|inline)(-(start|end))?|-(top|bottom))?$|^(row-|column-)?gap$/": [
+          "/var\\(--s-(10|20)\\)/",
+          "/(^|[\\s(,*/+])-?(?!0+(\\.0+)?([a-z]+)?(?![.\\d]))(\\d*\\.\\d+|\\d+)(px|rem|em|ch|ex|vw|vh|vi|vb|vmin|vmax|cqi|cqb|cqw|cqh|svh|dvh|lvh|lh)\\b/"
+        ]
+      },
+      {
+        "message": "Design 2.1 spacing: margins, paddings and gaps use the spacing scale only, 4 8 12 16 20 24 32 48 64 96 128 (--s-1 … --s-32, --pad-x, --gutter, --section-y, --pad-card); no raw lengths, no --s-10 or --s-20 (brief 3.4)."
+      }
+    ],
+    "property-no-unknown": [
+      true,
+      {
+        "ignoreProperties": [
+          "interpolate-size",
+          "field-sizing",
+          "anchor-name",
+          "position-anchor",
+          "position-area",
+          "view-transition-name",
+          "view-transition-class",
+          "view-timeline-name",
+          "view-timeline-axis",
+          "animation-timeline",
+          "animation-range",
+          "text-wrap",
+          "hanging-punctuation",
+          "reading-flow"
+        ]
+      }
+    ],
+    "selector-class-pattern": null,
+    "selector-id-pattern": null,
+    "custom-property-pattern": null,
+    "keyframes-name-pattern": null,
+    "no-descending-specificity": null,
+    "declaration-block-no-redundant-longhand-properties": null,
+    "shorthand-property-no-redundant-values": null,
+    "value-keyword-case": [
+      "lower",
+      {
+        "camelCaseSvgKeywords": true
+      }
+    ],
+    "import-notation": "string",
+    "at-rule-no-unknown": [
+      true,
+      {
+        "ignoreAtRules": [
+          "view-transition",
+          "starting-style",
+          "position-try"
+        ]
+      }
+    ],
+    "selector-pseudo-element-no-unknown": [
+      true,
+      {
+        "ignorePseudoElements": [
+          "view-transition",
+          "view-transition-group",
+          "view-transition-old",
+          "view-transition-new",
+          "view-transition-image-pair",
+          "details-content",
+          "picker",
+          "checkmark",
+          "scroll-marker",
+          "scroll-button"
+        ]
+      }
+    ],
+    "custom-property-empty-line-before": null,
+    "comment-empty-line-before": null,
+    "property-no-vendor-prefix": [
+      true,
+      {
+        "ignoreProperties": [
+          "text-size-adjust",
+          "backdrop-filter",
+          "mask",
+          "mask-image",
+          "user-select"
+        ]
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/tokens.css"
+      ],
+      "rules": {
+        "color-no-hex": null,
+        "color-named": null,
+        "function-disallowed-list": null,
+        "declaration-property-value-allowed-list": null,
+        "declaration-property-value-disallowed-list": null,
+        "color-hex-length": null,
+        "alpha-value-notation": null,
+        "color-function-notation": null,
+        "color-function-alias-notation": null,
+        "number-max-precision": null,
+        "value-keyword-case": null,
+        "font-family-name-quotes": null
+      }
+    },
+    {
+      "files": [
+        "**/components/doc.css",
+        "**/components/stage.css"
+      ],
+      "rules": {
+        "function-disallowed-list": [
+          [
+            "rgb",
+            "rgba",
+            "hsl",
+            "hsla",
+            "hwb",
+            "lab",
+            "lch",
+            "oklab",
+            "oklch",
+            "color"
+          ],
+          {
+            "message": "Design 2: colours live in tokens.css (gradients are allowed in the sample documents)."
+          }
+        ],
+        "declaration-property-value-allowed-list": [
+          {
+            "/^border(-(start|end|top|bottom))?(-(start|end|left|right))?-radius$/": [
+              "/^(var\\(--(r|radius)-[a-z0-9-]+\\)|0|50%|inherit)( (var\\(--(r|radius)-[a-z0-9-]+\\)|0|50%))*$/"
+            ],
+            "box-shadow": [
+              "none",
+              "inherit",
+              "/^var\\(--(shadow|glow|ring)[a-z0-9-]*\\)(, ?var\\(--(shadow|glow|ring)[a-z0-9-]*\\))*$/"
+            ],
+            "font-size": [
+              "inherit",
+              "100%",
+              "1em",
+              "/^var\\(--fs-[a-z0-9-]+\\)$/"
+            ],
+            "font-weight": [
+              "400",
+              "500",
+              "600",
+              "normal",
+              "inherit",
+              "/^var\\(--fw-[a-z0-9]+\\)$/"
+            ],
+            "font-family": [
+              "inherit",
+              "/^var\\(--font-[a-z-]+\\)$/"
+            ],
+            "z-index": [
+              "auto",
+              "0",
+              "1",
+              "-1",
+              "/^var\\(--z-[a-z]+\\)$/",
+              "/^calc\\(var\\(--z-[a-z]+\\) [+-] \\d+\\)$/"
+            ],
+            "float": [
+              "none",
+              "inline-start",
+              "inline-end"
+            ],
+            "text-align": [
+              "start",
+              "end",
+              "center",
+              "justify",
+              "inherit",
+              "match-parent"
+            ]
+          },
+          {
+            "message": "Design 2.1 sample documents (docs/d2.1/phase-1/tokens.md): tokens only."
+          }
+        ],
+        "declaration-property-value-disallowed-list": [
+          {
+            "font-family": [
+              "/Inter/",
+              "/Poppins/",
+              "/Montserrat/",
+              "/Playfair/",
+              "/Cormorant/"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "styleguide.css"
+      ],
+      "rules": {
+        "declaration-property-value-allowed-list": [
+          {
+            "/^border(-(start|end|top|bottom))?(-(start|end|left|right))?-radius$/": [
+              "/^(var\\(--(r|radius)-[a-z0-9-]+\\)|0|50%|inherit)( (var\\(--(r|radius)-[a-z0-9-]+\\)|0|50%))*$/"
+            ],
+            "box-shadow": [
+              "none",
+              "inherit",
+              "/^var\\(--(shadow|glow|ring)[a-z0-9-]*\\)(, ?var\\(--(shadow|glow|ring)[a-z0-9-]*\\))*$/"
+            ],
+            "font-size": [
+              "inherit",
+              "100%",
+              "1em",
+              "/^var\\(--fs-[a-z0-9-]+\\)$/"
+            ],
+            "font-weight": [
+              "400",
+              "500",
+              "600",
+              "normal",
+              "inherit",
+              "/^var\\(--fw-[a-z0-9]+\\)$/"
+            ],
+            "font-family": [
+              "inherit",
+              "/^var\\(--font-[a-z-]+\\)$/"
+            ],
+            "letter-spacing": [
+              "0",
+              "normal",
+              "inherit",
+              "/^var\\(--ls-[a-z0-9-]+\\)$/"
+            ],
+            "text-transform": [
+              "none",
+              "inherit"
+            ],
+            "z-index": [
+              "auto",
+              "0",
+              "1",
+              "-1",
+              "/^var\\(--z-[a-z]+\\)$/",
+              "/^calc\\(var\\(--z-[a-z]+\\) [+-] \\d+\\)$/"
+            ],
+            "float": [
+              "none",
+              "inline-start",
+              "inline-end"
+            ],
+            "text-align": [
+              "start",
+              "end",
+              "center",
+              "justify",
+              "inherit",
+              "match-parent"
+            ]
+          },
+          {
+            "message": "Design 2.1 styleguide: tokens only; it may show the sample-document families and paper shadows as specimens."
+          }
+        ]
+      }
+    }
+  ]
+}

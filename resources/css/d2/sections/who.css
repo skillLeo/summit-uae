@@ -1,0 +1,68 @@
+/*
+ * Design 2 home section 03: Who We Help (upgrade spec §12 C7; owner: start-review-who, Design 2.1 Phase 2;
+ * brief §5.1 item 4). View: sections/home/who.blade.php, blocks <x-d2.home.who-list>.
+ *
+ * The five approved audience blocks, all visible, as rows between hairlines (not cards: nothing is interactive,
+ * brief §3.5). Each row sits on the 12-column grid of the container: the title (H3 role) in columns 1-4 and the text
+ * (Body, ink-2, at most 64ch) in columns 5-11 from 1024 px; 3 + 5 of 8 columns from 768 px, on one baseline;
+ * stacked below.
+ * The rows mirror in RTL (grid, logical properties). Tokens of docs/d2.1/phase-1/tokens.md.
+ */
+@layer sections {
+  .who__list {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  .who__item {
+    display: grid;
+    row-gap: var(--s-2);
+    align-items: start;
+    padding-block: var(--s-6);
+    border-block-end: var(--line-w) solid var(--line);
+  }
+
+  .who__title {
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+  }
+
+  .who__text {
+    max-inline-size: var(--measure);
+    color: var(--ink-2);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+  }
+
+  @media (width >= 768px) {
+    .who__item {
+      grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+      column-gap: var(--gutter);
+      align-items: baseline;
+      padding-block: var(--s-8);
+    }
+
+    .who__title {
+      grid-column: 1 / span 3;
+    }
+
+    .who__text {
+      grid-column: 4 / -1;
+    }
+  }
+
+  @media (width >= 1024px) {
+    .who__title {
+      grid-column: 1 / span 4;
+    }
+
+    .who__text {
+      grid-column: 5 / span 7;
+    }
+  }
+}

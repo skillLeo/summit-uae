@@ -1,0 +1,96 @@
+/*
+ * Motion (brief §3.6 rule 7, §6; contract: docs/d2.1/phase-1/tokens.md §8). Transform and opacity only.
+ * Allowed: the hero entrance once, tool interactions, menus, accordions, tabs, the button press (scale .98 for
+ * 120ms) and the cross-document page change. No fade-up of sections on scroll (the Design 2.0 .reveal is gone),
+ * no hover lift. Under prefers-reduced-motion everything shows its final state at once.
+ */
+@layer base {
+  /*
+   * Reduced motion: the final state at once. Durations and delays are 0s, not 1ms: with a 1ms duration every
+   * style change still starts a transition on every property (transition-property: all), including the style
+   * pass that resolves container queries during the first layout, and while the main thread is busy those
+   * pending transitions hold their START values in the painted frames. With 0s no transition is created and an
+   * animation applies its end keyframe even while its start time is pending. Scripts never wait for
+   * transitionend under reduced motion (lib/sheet.js, components/modal.js finish at once).
+   */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0s !important;
+      animation-delay: 0s !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0s !important;
+      transition-delay: 0s !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* Cross-document view transitions (Chrome 126+, Safari 18.2+): the @view-transition opt-in is inlined in the head
+   by d2::layouts.app, not here. From this external stylesheet the incoming page saw it too late and the outgoing
+   page's transition aborted with an uncaught page error. Transition styles (::view-transition-*) live here. */
+
+/*
+ * Page-to-page transitions (brief 2.1 §6 "Page changes": View Transitions where supported, no full-page fades).
+ * - The page itself never fades or slides: the new page replaces the old one at once (the root group has no
+ *   animation and the old root snapshot is not drawn), exactly as a navigation without view transitions, minus the
+ *   white flash.
+ * - The one thing that moves is the current-page mark: the tab bar's 2 px mark under the current item (phones,
+ *   d2-tab-mark, components/tabbar.css) and the header's 2 px bar under the current navigation label (from 1024 px,
+ *   d2-nav-mark, set here) slide from the old page's item to the new page's on the ui spring (240 ms, within the
+ *   250 ms of §6). A page with no current item lets the old mark go at once; a mark that appears just appears.
+ * - A language switch has no transition at all (resources/js/d2/modules/view-transitions.js skips it: the page
+ *   mirrors between the reading directions, nothing could slide meaningfully).
+ * - Reduced motion: the opt-in is navigation: none (no transition at all); anything that still runs (a same-document
+ *   transition) is not animated.
+ * Transform only (the group's own position and size); the canvas colour behind the snapshots avoids a flash.
+ */
+@layer base {
+  /* The live header's current navigation label (one per page; the styleguide's header specimens have no
+     data-d2-header and stay unnamed, so no name is ever used twice). */
+  [data-d2-header] .d2-nav__link[aria-current]::after {
+    view-transition-name: d2-nav-mark;
+  }
+
+  ::view-transition {
+    background-color: var(--canvas);
+  }
+
+  ::view-transition-group(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+
+  ::view-transition-old(root) {
+    animation: none;
+    opacity: 0;
+  }
+
+  /* The marks: the group slides and resizes; the two images do not crossfade (the new one is drawn, the old one
+     not), so the mark never dims on its way. */
+  ::view-transition-group(d2-tab-mark),
+  ::view-transition-group(d2-nav-mark) {
+    animation-duration: var(--spring-ui-dur);
+    animation-timing-function: var(--spring-ui);
+  }
+
+  ::view-transition-new(d2-tab-mark),
+  ::view-transition-new(d2-nav-mark) {
+    animation: none;
+  }
+
+  ::view-transition-old(d2-tab-mark),
+  ::view-transition-old(d2-nav-mark) {
+    animation: none;
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    ::view-transition-group(*),
+    ::view-transition-old(*),
+    ::view-transition-new(*) {
+      animation: none !important;
+    }
+  }
+}

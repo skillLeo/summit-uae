@@ -1,0 +1,233 @@
+/*
+ * Design 2.1 component: progress (<x-d2.ui.progress>) and the wizard steps (<x-d2.ui.steps>). Brief §3.5;
+ * docs/d2.1/phase-1/components.md §2. (D37: one indicator, Phase 2.)
+ *
+ * Progress is a native <progress>: a 4px ink bar on a --line track, pill ends, filling from the inline start; value
+ * changes grow it on --spring-bar (Chromium/WebKit; Firefox jumps). Dark surfaces: a white bar on the dark hairline.
+ *
+ * The wizard step list (D37, Phase 2): the wizard's only progress indicator (no chips, no bar); see below.
+ */
+@layer components {
+  .progress {
+    display: grid;
+    gap: var(--s-2);
+    min-inline-size: 0;
+  }
+
+  .progress__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    column-gap: var(--s-3);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+  }
+
+  .progress__label {
+    color: var(--ink-2);
+    font-weight: var(--fw-medium);
+  }
+
+  .progress__value {
+    margin-inline-start: auto;
+    color: var(--ink-3);
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+
+  .progress__bar {
+    --bar-track: var(--line);
+    --bar-fill: var(--ink);
+
+    display: block;
+    inline-size: 100%;
+    block-size: var(--s-1);
+    margin: 0;
+    border: 0;
+    border-radius: var(--radius-pill);
+    color: var(--bar-fill);
+    background: var(--bar-track);
+    overflow: hidden;
+    appearance: none;
+
+    &::-webkit-progress-bar {
+      border-radius: var(--radius-pill);
+      background: var(--bar-track);
+    }
+
+    &::-webkit-progress-value {
+      border-radius: var(--radius-pill);
+      background: var(--bar-fill);
+      transition: width var(--spring-bar-dur) var(--spring-bar);
+    }
+
+    &::-moz-progress-bar {
+      border-radius: var(--radius-pill);
+      background: var(--bar-fill);
+    }
+  }
+
+  /* Dark surfaces: a white bar on the dark hairline (an .on-light card inside keeps the light look). */
+  :is(.on-dark, .on-night) .progress__label:not(.on-light *) {
+    color: var(--on-dark-2);
+  }
+
+  :is(.on-dark, .on-night) .progress__value:not(.on-light *) {
+    color: var(--on-dark-3);
+  }
+
+  :is(.on-dark, .on-night) .progress__bar:not(.on-light *) {
+    --bar-track: var(--line-on-dark);
+    --bar-fill: var(--on-dark);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .progress__bar::-webkit-progress-value {
+      transition: none;
+    }
+  }
+
+  /* ------------------------------------------------------------------ wizard step list (D37) */
+  /*
+   * The wizard's one progress indicator (<x-d2.ui.steps>): a row of numbered steps joined by hairlines (a check
+   * once done), the current step in ink with an ink number disc; below 768 px (or a narrow wizard: wizard.css)
+   * the single line "Step 1 of 5: You" instead. Form steps may be numbered (brief §3.6 rule 4).
+   */
+  .step-list {
+    min-inline-size: 0;
+  }
+
+  .step-list__items {
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .step-list__item {
+    display: flex;
+    flex: 1 1 auto;
+    align-items: center;
+    gap: var(--s-3);
+    min-inline-size: 0;
+  }
+
+  .step-list__item:last-child {
+    flex: none;
+  }
+
+  /* the hairline to the next step (ink once this step is done) */
+  .step-list__item:not(:last-child)::after {
+    flex: 1 1 var(--s-4);
+    min-inline-size: var(--s-4);
+    block-size: var(--line-w);
+    content: "";
+    background: var(--line-strong);
+  }
+
+  .step-list__item.is-done:not(:last-child)::after {
+    background: var(--ink);
+  }
+
+  .step-list__step {
+    --num-bg: var(--canvas);
+    --num-fg: var(--ink-3);
+    --num-edge: var(--line-strong);
+
+    position: relative;
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    gap: var(--s-2);
+    min-block-size: var(--target);
+    color: var(--ink-3);
+    font-family: var(--font-sans);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+    white-space: nowrap;
+  }
+
+  .step-list__num {
+    display: grid;
+    flex: none;
+    place-items: center;
+    inline-size: var(--s-6);
+    block-size: var(--s-6);
+    border: var(--line-w) solid var(--num-edge);
+    border-radius: 50%;
+    color: var(--num-fg);
+    background: var(--num-bg);
+    font-size: var(--fs-caption);
+    line-height: var(--lh-caption);
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+
+  .is-done > .step-list__step {
+    --num-bg: var(--ink);
+    --num-fg: var(--on-dark);
+    --num-edge: var(--ink);
+
+    color: var(--ink-2);
+  }
+
+  .is-current > .step-list__step {
+    --num-bg: var(--ink);
+    --num-fg: var(--on-dark);
+    --num-edge: var(--ink);
+
+    color: var(--ink);
+  }
+
+  /* Done steps are buttons (back to that step): the label underlines on hover; 48 px targets on touch. */
+  button.step-list__step {
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+
+    &:focus-visible {
+      outline: var(--focus-w) solid var(--focus-color);
+      outline-offset: var(--focus-offset);
+      border-radius: var(--radius-control);
+    }
+  }
+
+  @media (hover: hover) {
+    button.step-list__step:hover {
+      color: var(--ink);
+
+      & .step-list__label {
+        text-decoration: underline;
+        text-decoration-thickness: var(--line-w);
+        text-underline-offset: 3px;
+      }
+    }
+  }
+
+  @media (pointer: coarse) {
+    .step-list__step {
+      min-block-size: var(--target-touch);
+    }
+  }
+
+  .step-list__now {
+    display: none;
+    color: var(--ink);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+  }
+
+  /* Phones: the one line "Step 1 of 5: You". */
+  @media (width < 768px) {
+    .step-list__items {
+      display: none;
+    }
+
+    .step-list__now {
+      display: block;
+    }
+  }
+}

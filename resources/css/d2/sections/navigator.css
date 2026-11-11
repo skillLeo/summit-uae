@@ -1,0 +1,947 @@
+/*
+ * Design 2 home section: Matter Navigator, the night "workbench" (upgrade spec §12 C5, §7.3 item 7).
+ * Markup: resources/views/designs/d2/sections/home/navigator.blade.php + components/d2/navigator/*.
+ * Behaviour: resources/js/d2/navigator/controller.js (lazy, mounted by Alpine d2Navigator).
+ *
+ *   ≥ 1280   two columns: the list column (--nav-col 672 px: search, practice-area chips, the grouped list, two situations
+ *            to a row) scrolls
+ *            with the page, its group labels stay under the header (D29); the "Your starting file" card in the
+ *            second column is sticky 96 px from the top (navigator/sticky.js keeps a taller file readable to its
+ *            end). The tops line up (grid row start).
+ *   < 1280   the list fills the width; with JavaScript each service is one row that opens its situations
+ *            (final pass, home-mobile: about one screen instead of 44 rows) and the card opens in the Phase A
+ *            sheet (bottom sheet < 768, side panel 768–1279); without it every situation is listed (two
+ *            columns of groups from 52rem), the card follows the list and the submit button shows the
+ *            chosen file (?navigator=S05-2), which is then rendered before the list (.nav-bench--chosen).
+ *   chips    D30: they wrap from 768 px; below, one sideways rail with faded edges and no buttons over a label.
+ *   card     container query: from 34rem "Useful first steps" | "Mistakes to avoid" share rows through
+ *            grid-template-rows: subgrid (data-rows = the longer list), so row n starts at the same y.
+ *   print    html.is-printing-navigator (set by the Print button) prints only the starting file with the
+ *            brand, the date and the approved disclaimer; a normal print shows the section light.
+ * Motion: opacity and transform only (row and chip veils, the card's entrance fade); the radio dot and the
+ * progress bar run on their Phase A springs; all of it is off under reduced motion (base/motion.css). The
+ * section clips its overflow: overflow: clip is not a scroll container, so the sticky column keeps working.
+ * Design 2.1 (Phase 1): the dark band (white, band or dark only); the card is white with radius 10 and no
+ * shadow; group headings are the approved service titles in the minor heading role (16/600, white: no mono,
+ * capitals, gold or numbers, D01); no decorative icons or arrows in the file (D03, D04); the check and cross
+ * marks of the two lists stay; the Request button is Ink (D06). Phase 2: the list without a scroll box and the
+ * sticky card (D29), the chips without a cut label (D30).
+ */
+@layer sections {
+  /* ================================================================ frame */
+  .navigator,
+  .nav-specimen {
+    --nav-gap: var(--s-12);
+    --nav-label-bg: var(--dark);
+    --nav-label-top: var(--header-h);
+  }
+
+  /* Nothing wide leaves the band (the phone chip rail spans the screen); clip keeps sticky working. */
+  .navigator {
+    overflow: clip;
+  }
+
+  /* Styleguide specimens (designs/d2/styleguide/navigator.blade.php): static labels, stacked demos. */
+  .nav-specimen {
+    display: grid;
+    gap: var(--s-6);
+  }
+
+  .nav-specimen .nav-group__label {
+    position: static;
+  }
+
+  .nav-specimen__col {
+    display: grid;
+    gap: var(--s-3);
+    align-content: start;
+    min-inline-size: 0;
+  }
+
+  /* The live tools fill the container below 1280 px and the list column (--nav-col) from 1280 px: so does the
+     specimen (round 2: the specimen field is as wide as the live one). */
+  @media (width >= 1280px) {
+    .nav-specimen__tools {
+      max-inline-size: var(--nav-col);
+    }
+  }
+
+  .nav-specimen__card.nav-file {
+    flex: none;
+  }
+
+  .nav-bench {
+    display: grid;
+    gap: var(--s-12);
+    align-items: start;
+    min-inline-size: 0;
+  }
+
+  .nav-pick {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-4);
+    min-inline-size: 0;
+    margin: 0;
+  }
+
+  /* ================================================================ search + chips (JavaScript only) */
+  .nav-tools {
+    display: grid;
+    gap: var(--s-3);
+    min-inline-size: 0;
+  }
+
+  .no-js .nav-tools {
+    display: none;
+  }
+
+  /*
+   * The practice-area chips (D30: no chip is ever cut under a button). From 768 px they wrap: every label whole,
+   * no scroller and no buttons. Below 768 px they sit in one sideways rail, edge to edge on the phone: it scrolls by
+   * touch and comes to rest with a chip starting where the faded edge ends (mandatory snap, 48 px scroll padding:
+   * what lies before it is under the fade), and the edges where more chips wait fade out
+   * (--mask-fade-*, 48 px) instead of ending in a hard cut or a button over a label. Keyboard: the toolbar's arrow
+   * keys (the controller brings the focused chip into view).
+   */
+  .nav-chips {
+    position: relative;
+    min-inline-size: 0;
+  }
+
+  .nav-chips__rail {
+    min-inline-size: 0;
+  }
+
+  .nav-chips__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+  }
+
+  @media (width < 768px) {
+    /* The rail spans the screen (the band's side padding becomes its own), so chips scroll out at the screen edge.
+       The block padding keeps the chips' 48 px touch area and the focus ring inside the scroller. */
+    .nav-chips__rail {
+      margin-inline: calc(-1 * var(--pad-x));
+      padding-block: var(--s-2);
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scroll-snap-type: x mandatory;
+      scroll-padding-inline: var(--s-12);
+      scrollbar-width: none;
+      mask-image: var(--mask-fade-right);
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    .nav-chips__list {
+      flex-wrap: nowrap;
+      inline-size: max-content;
+      padding-inline: var(--pad-x);
+
+      & > .chip {
+        scroll-snap-align: start;
+      }
+    }
+
+    /* Faded edges where more chips wait (like the Phase A segmented scroller). Until the controller has measured
+       the rail (and in the styleguide's static specimens) it shows the start state (mask-image above): twelve chips
+       always overflow a phone, so the end edge fades; a rail that fits (.at-start, no .is-overflow) is plain. */
+    [dir="rtl"] .nav-chips__rail {
+      mask-image: var(--mask-fade-left);
+    }
+
+    .nav-chips.at-start:not(.is-overflow) .nav-chips__rail {
+      mask-image: none;
+    }
+
+    .nav-chips.is-overflow .nav-chips__rail {
+      mask-image: var(--mask-fade-both);
+    }
+
+    .nav-chips.is-overflow.at-start .nav-chips__rail {
+      mask-image: var(--mask-fade-right);
+    }
+
+    .nav-chips.is-overflow.at-end .nav-chips__rail {
+      mask-image: var(--mask-fade-left);
+    }
+
+    [dir="rtl"] .nav-chips.is-overflow.at-start .nav-chips__rail {
+      mask-image: var(--mask-fade-left);
+    }
+
+    [dir="rtl"] .nav-chips.is-overflow.at-end .nav-chips__rail {
+      mask-image: var(--mask-fade-right);
+    }
+  }
+
+  /* ================================================================ list */
+  .nav-panel {
+    container: nav-panel / inline-size;
+    min-inline-size: 0;
+  }
+
+  .nav-list {
+    min-inline-size: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .nav-group {
+    min-inline-size: 0;
+  }
+
+  .nav-group + .nav-group {
+    margin-block-start: var(--s-4);
+  }
+
+  /* Its own layer (sticky + z-index): a row toggle's veil goes under the text, the toggle over it. The approved
+     service title in the minor heading role (16/600), white on the band's colour. */
+  .nav-group__label {
+    position: sticky;
+    inset-block-start: var(--nav-label-top);
+    z-index: var(--z-raised);
+    display: flex;
+    max-inline-size: none; /* a <p>: not the paragraph measure, the row spans the list (768 px: the rows ended 42 px short) */
+    gap: var(--s-3);
+    align-items: baseline;
+    margin-block-end: var(--s-1);
+    padding-block: var(--s-3) var(--s-2);
+    padding-inline: var(--s-3);
+    color: var(--on-dark);
+    background: var(--nav-label-bg);
+    border-block-end: var(--line-w) solid var(--line-on-dark);
+    font-size: var(--fs-minor);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-minor);
+  }
+
+  .nav-group__title {
+    min-inline-size: 0;
+    text-wrap: balance;
+  }
+
+  .nav-group__items {
+    display: grid;
+    gap: var(--s-1);
+  }
+
+  /* One row: the Phase A radio, the whole row is the target (stretched label), veils fade (opacity). */
+  .nav-item {
+    --ctl-fg: var(--on-dark-2);
+
+    position: relative;
+    isolation: isolate;
+    padding-inline: var(--s-3);
+    border-radius: var(--radius-control);
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      border-radius: inherit;
+      background: var(--dark-3);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--dur-hover) var(--ease-out);
+    }
+
+    & .radio__label::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+    }
+  }
+
+  @media (hover: hover) {
+    .nav-item:hover {
+      --ctl-fg: var(--on-dark);
+
+      &::before {
+        opacity: 0.6;
+      }
+    }
+  }
+
+  .nav-item.is-hover,
+  .nav-item:has(.radio__input:focus-visible),
+  .nav-item.is-focus {
+    --ctl-fg: var(--on-dark);
+
+    &::before {
+      opacity: 0.6;
+    }
+  }
+
+  .nav-item:has(.radio__input:checked) {
+    --ctl-fg: var(--on-dark);
+
+    &::before {
+      opacity: 1;
+    }
+  }
+
+  /* No situation matches the search: visible and announced (role="status" in the form). */
+  .nav-empty {
+    display: grid;
+    justify-items: center;
+    gap: var(--s-4);
+    padding-block: var(--s-12);
+    padding-inline: var(--s-6);
+    color: var(--on-dark-2);
+    text-align: center;
+    grid-column: 1 / -1;
+  }
+
+  .nav-empty__text {
+    max-inline-size: 26rem;
+  }
+
+  /* The no-JavaScript submit; hidden with JavaScript (the file then follows every choice). */
+  .nav-submit {
+    flex: none;
+  }
+
+  /* integration: keyed on html.js, not .is-ready, so the lazy controller's mount never changes the
+     section's height (anchor jumps and smooth scrolls past the Navigator used to land ~490 px off). */
+  .js .navigator .nav-submit {
+    display: none;
+  }
+
+  /* Wide lists (tablet, styleguide): two columns of groups. */
+  @container nav-panel (inline-size >= 52rem) {
+    .nav-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--s-6) var(--s-8);
+    }
+
+    .nav-group + .nav-group {
+      margin-block-start: 0;
+    }
+  }
+
+  /* ================================================================ phones and tablets: one row per service */
+  /*
+   * final pass (home-mobile): the 44 situations inline made the night section 4,000–5,900 px tall below
+   * 1280 px (spec §7.2: a full-screen Navigator). With JavaScript (html.js, set before the first paint, so the
+   * lazy controller never changes the layout) each service is a 56 px row: its disclosure (.nav-group__toggle,
+   * stretched over the row, aria-expanded) opens its four situations (.is-open: d2Navigator). The group of a
+   * chosen situation is open (server side for ?navigator=, the controller for a deep link). A search or a
+   * practice-area chip (.is-filtered) lists every match as before and the rows give way to plain labels.
+   * One column (two columns of rows would leave a hole beside an open group). Without JavaScript, in the
+   * styleguide specimens and from 1280 px the toggles are not drawn and every situation is listed.
+   */
+  .nav-group__toggle {
+    display: none;
+  }
+
+  @media (width < 1280px) {
+    .js .navigator:not(.is-filtered) {
+      & .nav-list {
+        display: block;
+      }
+
+      & .nav-group + .nav-group {
+        margin-block-start: 0;
+      }
+
+      & .nav-group__label {
+        align-items: center;
+        min-block-size: var(--control-lg);
+        margin-block-end: 0;
+        padding-block: var(--s-2);
+        padding-inline-end: var(--s-12);
+        scroll-margin-block-start: var(--header-h);
+      }
+
+      & .nav-group:not(.is-open) > .nav-group__items {
+        display: none;
+      }
+
+      & .nav-group.is-open > .nav-group__items {
+        padding-block: var(--s-2) var(--s-4);
+      }
+
+      & .nav-group__toggle {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        align-items: center;
+        justify-items: end;
+        padding-block: 0;
+        padding-inline: var(--s-3);
+        color: var(--on-dark-3);
+        cursor: pointer;
+        background: none;
+        border: 0;
+        border-radius: var(--radius-control);
+        -webkit-tap-highlight-color: transparent;
+
+        /* hover / press veil (opacity only) */
+        &::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          z-index: -1;
+          border-radius: inherit;
+          background: var(--dark-3);
+          opacity: 0;
+          pointer-events: none;
+          transition: opacity var(--dur-hover) var(--ease-out);
+        }
+
+        &:focus-visible {
+          outline: var(--focus-w) solid var(--focus-color);
+          outline-offset: calc(-1 * var(--focus-w));
+        }
+
+        &:active::before {
+          opacity: 0.8;
+        }
+      }
+    }
+  }
+
+  @media (width < 1280px) and (hover: hover) {
+    .js .navigator:not(.is-filtered) .nav-group__toggle:hover {
+      color: var(--on-dark);
+
+      &::before {
+        opacity: 0.6;
+      }
+    }
+  }
+
+  .nav-group__chevron {
+    transition: transform var(--dur-hover) var(--ease-out);
+  }
+
+  .nav-group.is-open .nav-group__chevron {
+    transform: rotate(180deg);
+  }
+
+  /* ================================================================ the card slot */
+  /* Below 1280 px the starting file opens in the sheet once the controller runs (integration: hidden
+     from the first paint with JavaScript, see .nav-submit). */
+  .js .navigator .nav-slot {
+    display: none;
+  }
+
+  /* ================================================================ desktop workbench */
+  /*
+   * D29: the list scrolls with the page (no scroll box of its own); each group's label (the approved service title,
+   * 16/600, no number) stays under the header while its situations pass. The starting file beside it is sticky,
+   * 96 px from the top (the 64 px header plus 32), so it stays in view all along the list and no empty dark column
+   * opens beside it. A file taller than the screen would hide its end until the list ran out: navigator/sticky.js
+   * then sets --nav-card-top between 96 px and (screen height - file height - 24 px), so scrolling down shows the
+   * file to its end and scrolling up back to its start, and a newly chosen file starts at 96 px again.
+   */
+  @media (width >= 1280px) {
+    .navigator,
+    .nav-specimen {
+      --nav-label-top: var(--header-h);
+    }
+
+    .nav-bench {
+      grid-template-columns: var(--nav-col) minmax(0, 1fr);
+      column-gap: var(--nav-gap);
+    }
+
+    /* Placed, not flowed: without JavaScript a chosen file comes first in the markup (.nav-bench--chosen). */
+    .nav-slot {
+      grid-row: 1;
+      grid-column: 2;
+    }
+
+    .nav-pick {
+      grid-row: 1;
+      grid-column: 1;
+    }
+
+    .nav-group + .nav-group {
+      margin-block-start: var(--s-6);
+    }
+
+    /* Phase 2 final pass: the 44 situations in two columns per practice area, in the 7-column list (--nav-col), so the
+       band is about half as tall (in one 420 px column it ran about 5,000 px at 1440, beside a short sticky card). */
+    .nav-group__items {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: var(--s-4);
+    }
+
+    /* The card is as tall as its content (final pass, home-mobile): stretched to the list column, the empty
+       state left about 350 px of blank white card under its text. */
+    .nav-slot,
+    .js .navigator .nav-slot {
+      position: sticky;
+      inset-block-start: var(--nav-card-top, calc(var(--header-h) + var(--s-8)));
+      display: flex;
+      align-self: start;
+      min-inline-size: 0;
+    }
+  }
+
+  /* ================================================================ "Your starting file" card */
+  .nav-file {
+    container: nav-file / inline-size;
+    position: relative;
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-inline-size: 0;
+    padding: var(--s-6);
+    color: var(--ink);
+    background: var(--canvas);
+    border-radius: var(--radius-card);
+  }
+
+  @media (width >= 768px) {
+    .nav-file {
+      padding: var(--s-8);
+    }
+  }
+
+  .nav-file__service {
+    display: grid;
+    gap: var(--s-8);
+    min-inline-size: 0;
+  }
+
+  .motion-ok .nav-file__service.is-entering {
+    animation: nav-file-in var(--dur-enter) var(--ease-out) both;
+  }
+
+  @keyframes nav-file-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+  /* ---------------------------------------------------------------- head */
+  .nav-file__head {
+    display: grid;
+    gap: var(--s-5);
+    min-inline-size: 0;
+  }
+
+  .nav-file__title {
+    outline: none;
+  }
+
+  .nav-file__situation {
+    display: grid;
+    gap: var(--s-2);
+    padding-block: var(--s-4);
+    padding-inline: var(--s-5);
+    border-radius: var(--radius-card);
+    background: var(--band);
+  }
+
+  .nav-file__intro {
+    color: var(--ink-3);
+    font-size: var(--fs-small);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-small);
+  }
+
+  /* The visitor's situation, quoted in the lead role (the interface sans, upright: no serif or italics outside the
+     sample documents, brief §3.2). */
+  .nav-file__quote {
+    color: var(--ink);
+    font-size: var(--fs-lead);
+    line-height: var(--lh-lead);
+  }
+
+  /* ---------------------------------------------------------------- documents */
+  .nav-file__docs {
+    display: grid;
+    gap: var(--s-4);
+    min-inline-size: 0;
+  }
+
+  .nav-file__docs-head {
+    display: grid;
+    gap: var(--s-3);
+  }
+
+  /* The approved sub-headings of the file (H4 under the H3 service title): the minor heading role, 16/600. */
+  .nav-file__h {
+    font-size: var(--fs-minor);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-minor);
+    text-wrap: balance;
+  }
+
+  .nav-file__checklist {
+    display: grid;
+    list-style: none;
+    border-block: var(--line-w) solid var(--line);
+  }
+
+  .nav-file__doc {
+    padding-block: var(--s-1);
+  }
+
+  .nav-file__doc + .nav-file__doc {
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  .nav-file__note {
+    color: var(--ink-3);
+    font-size: var(--fs-small);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-small);
+  }
+
+  /* The clear button comes and goes inside a fixed-height row (no layout shift). Clear ticks is the kit's text button
+     (no side padding since Design 2.1), so its label ends on the card's content edge like the hairlines above it. */
+  .nav-file__saved {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2) var(--s-4);
+    align-items: center;
+    justify-content: space-between;
+    min-block-size: var(--control-sm);
+    color: var(--ink-3);
+    font-size: var(--fs-small);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-small);
+  }
+
+  .no-js .nav-file__saved {
+    display: none;
+  }
+
+  /* ---------------------------------------------------------------- first steps | mistakes (subgrid) */
+  .nav-file__cols {
+    --nav-rows: 4;
+
+    display: grid;
+    gap: var(--s-8);
+    min-inline-size: 0;
+  }
+
+  .nav-file__cols[data-rows="1"] { --nav-rows: 1; }
+  .nav-file__cols[data-rows="2"] { --nav-rows: 2; }
+  .nav-file__cols[data-rows="3"] { --nav-rows: 3; }
+  .nav-file__cols[data-rows="5"] { --nav-rows: 5; }
+  .nav-file__cols[data-rows="6"] { --nav-rows: 6; }
+  .nav-file__cols[data-rows="7"] { --nav-rows: 7; }
+  .nav-file__cols[data-rows="8"] { --nav-rows: 8; }
+
+  .nav-file__col {
+    display: grid;
+    align-content: start;
+    min-inline-size: 0;
+  }
+
+  .nav-file__col > .nav-file__h {
+    padding-block-end: var(--s-3);
+  }
+
+  .nav-file__items {
+    display: grid;
+    list-style: none;
+  }
+
+  .nav-file__item {
+    display: flex;
+    gap: var(--s-3);
+    align-items: flex-start;
+    padding-block: var(--s-3);
+    color: var(--ink-2);
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  /* The functional marks (brief §3.6 rule 5): a check for each useful step, a cross for each mistake, centred on
+     the first line (the icon's box is one line tall; its 20 px drawing sits in the middle). */
+  .nav-file__mark {
+    block-size: var(--lh-body);
+    color: var(--success);
+  }
+
+  .nav-file__col--avoid .nav-file__mark {
+    color: var(--danger);
+  }
+
+  @container nav-file (inline-size >= 34rem) {
+    .nav-file__cols {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: auto repeat(var(--nav-rows), auto);
+      gap: 0 var(--s-8);
+    }
+
+    .nav-file__col {
+      grid-row: 1 / -1;
+      grid-template-rows: subgrid;
+    }
+
+    .nav-file__items {
+      grid-row: 2 / -1;
+      grid-template-rows: subgrid;
+    }
+  }
+
+  /* ---------------------------------------------------------------- guide and service links (cards) */
+  .nav-file__links {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+    gap: var(--s-3);
+    list-style: none;
+  }
+
+  .nav-file__link {
+    display: flex;
+    min-inline-size: 0;
+  }
+
+  /* Text link cards (no icon, no arrow): the title in the minor heading role, the approved second line in ink-2.
+     Content from the top, so two cards side by side keep their titles on one line even when one title wraps (brief
+     §7.1 rule 12). */
+  .nav-link {
+    --r-card: var(--radius-card);
+
+    display: grid;
+    flex: 1 1 auto;
+    gap: var(--s-1);
+    align-content: start;
+
+    & .card__title {
+      font-size: var(--fs-minor);
+      font-weight: var(--fw-semibold);
+      line-height: var(--lh-minor);
+    }
+  }
+
+  .nav-link__meta {
+    color: var(--ink-2);
+    font-size: var(--fs-small);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-small);
+  }
+
+  /* ---------------------------------------------------------------- actions */
+  .nav-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+    align-items: center;
+  }
+
+  .nav-actions__tools {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+  }
+
+  .no-js .nav-actions__tools {
+    display: none;
+  }
+
+  .nav-file__actions {
+    padding-block-start: var(--s-6);
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  /* ---------------------------------------------------------------- empty state */
+  /* A blank file: the line in the H3 role, then what every file holds (the approved headings, as plain text). */
+  .nav-file__empty {
+    display: grid;
+    flex: 1 1 auto;
+    gap: var(--s-8);
+    align-content: start;
+  }
+
+  .nav-file__empty-text {
+    max-inline-size: 32rem;
+    color: var(--ink);
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+    text-wrap: balance;
+  }
+
+  .nav-file__preview {
+    display: grid;
+    gap: var(--s-3);
+  }
+
+  .nav-file__preview-label {
+    color: var(--ink-3);
+    font-size: var(--fs-small);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-small);
+  }
+
+  .nav-file__preview-list {
+    display: grid;
+    list-style: none;
+    border-block-start: var(--line-w) solid var(--line);
+
+    & > li {
+      padding-block: var(--s-3);
+      color: var(--ink-2);
+      border-block-end: var(--line-w) solid var(--line);
+    }
+  }
+
+  /* Print-only parts of the card. */
+  .nav-file__print-head,
+  .nav-file__print-foot {
+    display: none;
+  }
+
+  /* ================================================================ inside the sheet (< 1280 px) */
+  .nav-sheet .nav-file {
+    padding: 0;
+    background: none;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  /* The sheet title says "Your starting file"; the footer holds the Request button. */
+  .nav-sheet .nav-file__actions .nav-actions__request {
+    display: none;
+  }
+
+  /* Print and Copy link, centred under the file inside the panel. */
+  .nav-sheet .nav-file__actions {
+    justify-content: center;
+  }
+
+  /* ================================================================ print */
+  @media print {
+    .navigator {
+      color: var(--ink);
+      background: none;
+    }
+
+    .navigator .section__head p {
+      color: var(--ink-2);
+    }
+
+    .nav-tools,
+    .nav-submit,
+    .nav-actions,
+    .nav-file__saved {
+      display: none !important;
+    }
+
+    .nav-item {
+      --ctl-fg: var(--ink);
+    }
+
+    .nav-group__label {
+      position: static;
+      color: var(--ink);
+      background: none;
+    }
+
+    .nav-file {
+      padding: 0;
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    .nav-file__doc,
+    .nav-file__item,
+    .nav-file__situation {
+      break-inside: avoid;
+    }
+
+    /* Print button: the starting file only (wherever it is: the section or the open sheet). */
+    html.is-printing-navigator {
+      overflow: visible !important;
+    }
+
+    html.is-printing-navigator body > :not(main, .nav-sheet),
+    html.is-printing-navigator main > :not(#navigator),
+    html.is-printing-navigator #navigator .section__head,
+    html.is-printing-navigator #navigator .nav-pick,
+    html.is-printing-navigator .nav-file__empty,
+    html.is-printing-navigator .nav-file__links,
+    html.is-printing-navigator .nav-sheet .sheet__backdrop,
+    html.is-printing-navigator .nav-sheet .sheet__head,
+    html.is-printing-navigator .nav-sheet .sheet__foot {
+      display: none !important;
+    }
+
+    html.is-printing-navigator #navigator {
+      padding: 0;
+    }
+
+    html.is-printing-navigator .nav-bench {
+      display: block;
+    }
+
+    html.is-printing-navigator .nav-slot {
+      display: block !important;
+    }
+
+    html.is-printing-navigator .nav-sheet,
+    html.is-printing-navigator .nav-sheet .sheet__panel {
+      position: static;
+      max-block-size: none;
+      overflow: visible;
+      background: none;
+      box-shadow: none;
+      transform: none;
+    }
+
+    html.is-printing-navigator .nav-sheet .sheet__body {
+      padding: 0;
+      overflow: visible;
+    }
+
+    html.is-printing-navigator .nav-file__print-head {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--s-3);
+      align-items: baseline;
+      justify-content: space-between;
+      margin-block-end: var(--s-6);
+      padding-block-end: var(--s-3);
+      border-block-end: var(--line-w) solid var(--ink);
+    }
+
+    html.is-printing-navigator .nav-file__brand {
+      font-weight: var(--fw-semibold);
+    }
+
+    html.is-printing-navigator .nav-file__print-foot {
+      display: block;
+      margin-block-start: var(--s-6);
+      padding-block-start: var(--s-3);
+      color: var(--ink-2);
+      border-block-start: var(--line-w) solid var(--ink);
+      font-size: var(--fs-small);
+      line-height: var(--lh-small);
+    }
+  }
+}
+
+/*
+ * Styleguide only (designs/d2/styleguide/navigator.blade.php; Design 2.1 round 2, D09). Below 768 px the Navigator's
+ * night specimen frames are drawn as the live band: edge to edge, with the container's own side padding, so each
+ * specimen (the search field above all) is exactly as wide as in the live section (350 px at 390, 280 at 320)
+ * instead of the padded frame's 310. In the styleguide's own layer (pages): the frame (.sg-night) is drawn there, in
+ * styleguide.css. From 768 px the frames keep the styleguide's look (the fields are wide enough for any placeholder).
+ */
+@layer pages {
+  @media (width < 768px) {
+    .sg-night.nav-specimen {
+      margin-inline: calc(-1 * var(--pad-x));
+      padding-inline: var(--pad-x);
+      border-radius: 0;
+    }
+  }
+}

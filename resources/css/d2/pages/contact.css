@@ -1,0 +1,157 @@
+/*
+ * Design 2 inner page: Contact (P07, resources/views/designs/d2/inner/contact.blade.php; owner: form-contact-faq).
+ * The wizard (components/wizard.css) and the contact card (sections/contact.css) are components; this file lays
+ * out the page around them, in the Contact DOCX order (Design 2.1, Phase 2):
+ *   .contact-head__card the head's aside: "Contact Details" (the contact card, Contact file version)
+ *   .contact-after      "What Happens After You Contact Us": its three approved steps as plain columns under a
+ *                       hairline (.pp-steps--row; three on a line from 1280 px, two from 768 px)
+ *   .contact-form       #consultation-form: the H2 with its intro and required note, then the wizard (8 of 12
+ *                       columns from 1280 px, as on the home page) beside "What Helps Us Understand Your Matter"
+ *                       (a band panel, sticky from 1280 px; below 1280 it follows at full width)
+ *   .contact-questions  "Questions Before Contacting Us" (Phase A accordion) + "Useful Links" (the FAQ browser's
+ *                       band panel with text links)
+ * The closing panel is the shared .pp-cta (pages/about.css).
+ * Design 2.1 (brief §3.3–3.6): white panels with a 1 px --line, the cool band, --radius-card, no shadows;
+ * panel titles take the H3 role (their outline level is h2), the links group heading the Minor role.
+ */
+@layer pages {
+  /* ================================================================== what happens after you contact us */
+  @media (width >= 1280px) {
+    .contact-after .pp-steps--row {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  /* ================================================================== form section */
+  .contact-form:focus {
+    outline: none;
+  }
+
+  .contact-form__required {
+    color: var(--ink-3);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+  }
+
+  .contact-form__grid {
+    display: grid;
+    gap: var(--s-8);
+    min-inline-size: 0;
+  }
+
+  .contact-form__main {
+    display: grid;
+    gap: var(--s-8);
+    align-content: start;
+    min-inline-size: 0;
+  }
+
+  .contact-form__aside {
+    min-inline-size: 0;
+  }
+
+  .contact-helps {
+    display: grid;
+    gap: var(--s-5);
+    align-content: start;
+    padding: var(--pad-card);
+    background: var(--band);
+    border-radius: var(--radius-card);
+  }
+
+  /* a panel title: the H3 role (its outline level is h2, as in the Contact file) */
+  .contact-helps__title {
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+  }
+
+  .contact-helps__note {
+    padding-block-start: var(--s-4);
+    color: var(--ink-2);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+    border-block-start: var(--line-w) solid var(--line-strong);
+  }
+
+  /* full width under the wizard (768 to 1279 px): the five items in two columns */
+  @media (768px <= width < 1280px) {
+    .contact-helps .pp-checklist {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: var(--s-8);
+    }
+  }
+
+  @media (width >= 1280px) {
+    .contact-form__grid {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gutter);
+      align-items: start;
+    }
+
+    .contact-form__main {
+      grid-column: 1 / span 8;
+    }
+
+    /* the checklist stays in view while the steps change */
+    .contact-form__aside {
+      position: sticky;
+      inset-block-start: calc(var(--header-h) + var(--s-6));
+      grid-column: 9 / span 4;
+    }
+  }
+
+  /* ================================================================== questions before contacting us
+     The H2 above both columns, so the questions and the "Useful Links" panel start on one line. The panel is the
+     FAQ browser's (P05, home): the band, the Minor heading and its text links (.faq-aside__title, .faq-links,
+     .faq-link from sections/faq.css), one look for the same role. */
+  .contact-questions__title {
+    margin-block-end: var(--s-8);
+  }
+
+  .contact-questions__grid {
+    display: grid;
+    gap: var(--s-8);
+  }
+
+  .contact-questions__main {
+    display: grid;
+    gap: var(--s-8);
+    min-inline-size: 0;
+  }
+
+  .contact-questions__aside {
+    display: grid;
+    gap: var(--s-4);
+    align-content: start;
+    min-inline-size: 0;
+    padding: var(--s-6);
+    background: var(--band);
+    border-radius: var(--radius-card);
+  }
+
+  @media (width >= 1280px) {
+    .contact-questions__grid {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gutter);
+      align-items: start;
+    }
+
+    .contact-questions__main {
+      grid-column: 1 / span 8;
+    }
+
+    .contact-questions__aside {
+      position: sticky;
+      inset-block-start: calc(var(--header-h) + var(--s-6));
+      grid-column: 9 / span 4;
+    }
+  }
+
+  /* P07 "Contact Us in the Way That Suits You": the approved scope sentence closes the panel after the channels (the
+     DOCX order), across both columns from 1280 px. Its type and hairline come from .pp-cta .pp-cta__scope. */
+  .pp-cta > .pp-cta__scope--end {
+    grid-column: 1 / -1;
+  }
+}

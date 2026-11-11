@@ -1,0 +1,1073 @@
+{
+    "case-01": {
+        "anchor": "case-01",
+        "position": 1,
+        "card_title": {
+            "en": "A signed blank cheque did not tell the whole story",
+            "ar": "شيك موقّع على بياض لم يرو القصة كاملة",
+            "ru": "Чек, подписанный без заполнения реквизитов, не раскрывал всей истории"
+        },
+        "card_summary": {
+            "en": "The signature was genuine, but the circumstances in which the cheque was used and the sequence of claims required a fresh review. The matter came to us after earlier judgments had already had financial consequences. Its course then changed on appeal.",
+            "ar": "كان التوقيع حقيقيًا، لكن ظروف استخدام الشيك وتسلسل المطالبات احتاجا إلى مراجعة أخرى. وصل الملف بعد أحكام سابقة وآثار مالية، ثم تغير مساره في الطعن.",
+            "ru": "Подпись была подлинной, однако обстоятельства использования чека и последовательность предъявленных требований нуждались в повторном изучении. Дело поступило к нам после вынесения судебных решений, уже повлёкших финансовые последствия. Затем его ход изменился при обжаловании."
+        },
+        "title": {
+            "en": "A signed blank cheque did not tell the whole story",
+            "ar": "شيك موقّع على بياض لم يرو القصة كاملة",
+            "ru": "Чек, подписанный без заполнения реквизитов, не раскрывал всей истории"
+        },
+        "matter": {
+            "en": "Matter: cheques, a financial claim and earlier judgments",
+            "ar": "موضوع الملف: شيكات ومطالبة مالية وأحكام سابقة",
+            "ru": "Предмет дела: чеки, денежное требование и ранее вынесенные судебные решения"
+        },
+        "body": {
+            "en": {
+                "narrative": [
+                    "A businessman left a cheque signed in blank, then found himself facing a financial claim from someone he had trusted. According to the case summary, the cheque was used after leaving his possession, and his signature became central to the dispute.",
+                    "By the time the matter reached Summit, earlier judgments had been issued and had financial consequences for the client. The documents before him appeared decisive: a cheque bearing his signature, existing judgments and money that had already left his assets. What needed to be established was the available route for challenging that outcome, and what the file could add to the material already presented."
+                ],
+                "sections": [
+                    {
+                        "heading": "How the cheque became a claim",
+                        "paragraphs": [
+                            "The review began with the circumstances in which the cheque left its owner's possession, how it was used, and what had been submitted about it at each stage. It included the earlier judgments and their reasoning, the documents supporting the claim, and the defences and responses already presented.",
+                            "The signature was a fact that had to be addressed directly. This required an account of the parties' relationship, the sequence of dealings, correspondence and payments, together with an examination of how the criminal proceedings affected the civil claim. Leaving out any of these elements would have left the account incomplete."
+                        ]
+                    },
+                    {
+                        "heading": "What changed in the presentation of the case",
+                        "paragraphs": [
+                            "The facts and documents were reorganised, with each point linked to its supporting evidence. The work focused on the circumstances in which the cheque was used, the consistency of the opposing account, and the material issues requiring clearer presentation at the challenge stage.",
+                            "This approach allowed the dispute to be presented in its full context, distinguishing what the documents actually established from what still required proof. Simply repeating an objection to the earlier outcome was insufficient; the basis on which it rested had to be addressed."
+                        ]
+                    }
+                ],
+                "outcome": {
+                    "heading": "The outcome and its limits",
+                    "paragraphs": [
+                        "A judgment was issued in the client's favour on appeal, and the outcome stood following consideration of the cassation challenge in the proceedings described here. This changed his legal position following the earlier judgments.",
+                        "Recovery of the funds, however, remained dependent on enforcement proceedings. This distinction is central to the story: obtaining a favourable judgment does not establish that the money has returned to the client's account, nor does it mean that every related procedure has ended."
+                    ]
+                },
+                "takeaway": {
+                    "heading": "What you can learn from this story",
+                    "paragraphs": [
+                        "A cheque signed in blank leaves considerable room for a dispute that may be difficult to contain later. If a judgment has already been issued, the review starts by identifying the available challenge procedure, its deadlines, the judgment's reasoning and the material documents, before assessing whether the outcome can be changed."
+                    ]
+                },
+                "related": {
+                    "heading": "Related services and reading",
+                    "links": [
+                        {
+                            "label": "Review of a cheque matter or financial claim",
+                            "target": "S01"
+                        },
+                        {
+                            "label": "Guide to bounced cheques and enforcement options",
+                            "target": "G03"
+                        }
+                    ]
+                },
+                "back_link": {
+                    "label": "Back to the case study directory",
+                    "target": "cases-top"
+                }
+            },
+            "ar": {
+                "narrative": [
+                    "ترك رجل أعمال شيكًا موقّعًا على بياض، ثم وجد نفسه أمام مطالبة مالية من شخص كان يثق به. وفق ملخص الوقائع، استُخدم الشيك بعد خروجه من حيازته، وأصبح توقيعه في صدارة النزاع.",
+                    "حين وصل الملف إلى سَمِت، كانت أحكام سابقة قد صدرت، وترتبت عليها آثار مالية على العميل. كانت أمامه أوراق تبدو حاسمة: شيك يحمل توقيعه، وأحكام قائمة، ومبالغ خرجت بالفعل من أمواله. السؤال الذي احتاج إلى جواب كان عن المسار المتاح لمراجعة هذه النتيجة، وما الذي يمكن أن يضيفه الملف إلى ما سبق عرضه."
+                ],
+                "sections": [
+                    {
+                        "heading": "كيف تحوّل الشيك إلى مطالبة",
+                        "paragraphs": [
+                            "بدأت المراجعة من ظروف خروج الشيك من حيازة صاحبه، وكيف استُخدم، وما قُدم بشأنه في كل مرحلة. وشملت قراءة الأحكام السابقة وأسبابها، والمستندات التي بُنيت عليها المطالبة، وما عُرض من دفاع وردود.",
+                            "كان وجود التوقيع واقعة يجب التعامل معها بوضوح. لذلك احتاج الملف إلى بيان العلاقة بين الأطراف وتسلسل التعامل والمراسلات والدفعات، وفحص أثر المسار الجزائي على المطالبة المدنية. تجاهل أي من هذه العناصر كان سيترك الرواية ناقصة."
+                        ]
+                    },
+                    {
+                        "heading": "ما الذي تغير في عرض الملف",
+                        "paragraphs": [
+                            "أُعيد ترتيب الوقائع والمستندات وربط كل نقطة بما يسندها. وتركز العمل على ظروف استخدام الشيك، واتساق الرواية المقابلة، والمسائل المؤثرة التي احتاجت إلى عرض أوضح في مرحلة الطعن.",
+                            "أتاحت هذه القراءة تقديم النزاع في سياقه الكامل، مع تحديد ما تقوله المستندات فعلًا وما يحتاج إلى إثبات. لم يكن مجرد تكرار الاعتراض على النتيجة السابقة كافيًا؛ كان المطلوب معالجة الأساس الذي قامت عليه."
+                        ]
+                    }
+                ],
+                "outcome": {
+                    "heading": "النتيجة وحدودها",
+                    "paragraphs": [
+                        "صدر حكم لصالح العميل في الاستئناف، واستقرت النتيجة بعد نظر الطعن بالتمييز في المسار المعروض بهذا النموذج. تغيّر بذلك موقفه القضائي بعد الأحكام السابقة.",
+                        "أما استرداد المبالغ فبقي مرتبطًا بإجراءات التنفيذ. هذه نقطة أساسية في القصة: الحصول على حكم لصالح العميل لا يساوي إثبات أن المال عاد إلى حسابه، ولا يعني أن كل إجراء مرتبط بالملف انتهى."
+                    ]
+                },
+                "takeaway": {
+                    "heading": "ما الذي يمكن أن تستفيده من هذه القصة",
+                    "paragraphs": [
+                        "الشيك الموقّع على بياض يترك مساحة واسعة لنزاع يصعب احتواؤه لاحقًا. وإذا صدر حكم بالفعل، تبدأ المراجعة بتحديد طريق الطعن ومواعيده وأسباب الحكم والمستندات المؤثرة، قبل تقدير إمكان تغيير النتيجة."
+                    ]
+                },
+                "related": {
+                    "heading": "خدمات وقراءة مرتبطة",
+                    "links": [
+                        {
+                            "label": "مراجعة ملف شيك أو مطالبة مالية",
+                            "target": "S01"
+                        },
+                        {
+                            "label": "دليل الشيك المرتجع وخيارات التنفيذ",
+                            "target": "G03"
+                        }
+                    ]
+                },
+                "back_link": {
+                    "label": "العودة إلى قائمة النماذج",
+                    "target": "cases-top"
+                }
+            },
+            "ru": {
+                "narrative": [
+                    "Предприниматель оставил чек, подписанный без заполнения реквизитов, а впоследствии столкнулся с денежным требованием со стороны человека, которому доверял. Согласно краткому изложению обстоятельств, чек был использован после того, как выбыл из его владения, и подпись предпринимателя оказалась в центре спора.",
+                    "К моменту обращения в Summit по делу уже были вынесены решения, повлёкшие для клиента финансовые последствия. Документы казались однозначными: чек с его подписью, действующие судебные решения и суммы, которых он уже лишился. Предстояло выяснить, каким процессуальным путём можно добиваться пересмотра результата и какие материалы дела способны дополнить уже представленные доводы."
+                ],
+                "sections": [
+                    {
+                        "heading": "Как чек стал основанием требования",
+                        "paragraphs": [
+                            "Изучение началось с обстоятельств выбытия чека из владения его владельца, способа его использования и материалов, представленных по этому вопросу на каждой стадии. Были проанализированы ранее вынесенные решения и их мотивировка, документы, на которых основывалось требование, а также заявленные возражения и ответы на них.",
+                            "Наличие подписи было фактом, который требовал прямого и ясного объяснения. Поэтому необходимо было установить отношения сторон, последовательность их взаимодействия, переписку и платежи, а также изучить влияние уголовного производства на гражданское требование. Без любого из этих элементов изложение обстоятельств оставалось бы неполным."
+                        ]
+                    },
+                    {
+                        "heading": "Что изменилось в изложении позиции по делу",
+                        "paragraphs": [
+                            "Обстоятельства и документы были систематизированы заново, а каждый довод соотнесён с подтверждающими его материалами. Работа была сосредоточена на обстоятельствах использования чека, последовательности версии другой стороны и существенных вопросах, требовавших более ясного изложения при обжаловании.",
+                            "Такой подход позволил представить спор в полном контексте и разграничить то, что действительно подтверждалось документами, и то, что ещё требовало доказывания. Простого повторения несогласия с прежним результатом было недостаточно: необходимо было рассмотреть основания, на которых он строился."
+                        ]
+                    }
+                ],
+                "outcome": {
+                    "heading": "Результат и его пределы",
+                    "paragraphs": [
+                        "Апелляционный суд вынес решение в пользу клиента; после рассмотрения кассационной жалобы в рамках производства, описанного в этом примере, результат сохранился. Тем самым положение клиента в судебном споре изменилось по сравнению с ранее вынесенными решениями.",
+                        "Возврат денежных средств при этом оставался связан с исполнительным производством. Это принципиальный момент: решение в пользу клиента само по себе не подтверждает поступление денег на его счёт и не означает завершения всех связанных с делом процедур."
+                    ]
+                },
+                "takeaway": {
+                    "heading": "Что можно извлечь из этой истории",
+                    "paragraphs": [
+                        "Чек, подписанный без заполнения реквизитов, создаёт широкие возможности для спора, с которым впоследствии может быть трудно справиться. Если решение уже вынесено, изучение начинается с определения порядка и сроков обжалования, анализа мотивировки решения и существенных документов. Только после этого можно оценивать возможность изменения результата."
+                    ]
+                },
+                "related": {
+                    "heading": "Услуги и материалы по теме",
+                    "links": [
+                        {
+                            "label": "Анализ дела по чеку или денежному требованию",
+                            "target": "S01"
+                        },
+                        {
+                            "label": "Руководство по неоплаченным чекам и вариантам принудительного исполнения",
+                            "target": "G03"
+                        }
+                    ]
+                },
+                "back_link": {
+                    "label": "Вернуться к списку примеров",
+                    "target": "cases-top"
+                }
+            }
+        },
+        "home_title": {
+            "en": "A Signed Blank Cheque and Earlier Judgments",
+            "ar": "شيك موقع على بياض وأحكام سابقة",
+            "ru": "Чек, подписанный незаполненным, и ранее вынесенные судебные решения"
+        },
+        "home_summary": {
+            "en": "The matter concerned the use of a signed blank cheque in a financial dispute that had resulted in judgments and financial consequences. The review covered the cheque, correspondence, sequence of claims and the courts’ reasoning, to identify the material issues and how to address them at the relevant procedural stage.",
+            "ar": "تعلق الملف باستخدام شيك موقع على بياض ضمن نزاع مالي ترتبت عليه أحكام وآثار مالية. شملت المراجعة الشيك والمراسلات وتسلسل المطالبات وأسباب الأحكام، لتحديد المسائل المؤثرة وطريق التعامل معها وفق المرحلة الإجرائية.",
+            "ru": "Дело касалось использования чека, подписанного без заполнения реквизитов, в финансовом споре, по которому уже были вынесены судебные решения и наступили финансовые последствия. В ходе анализа изучались чек, переписка, последовательность предъявленных требований и мотивировка судебных актов, чтобы определить существенные вопросы и способы работы с ними с учётом процессуальной стадии дела."
+        },
+        "home_link_label": {
+            "en": "Read the Cheque Case Study",
+            "ar": "اقرأ نموذج ملف الشيك",
+            "ru": "Подробнее о деле по чеку"
+        }
+    },
+    "case-02": {
+        "anchor": "case-02",
+        "position": 2,
+        "card_title": {
+            "en": "He paid for the car, then discovered a history he had not known when buying it",
+            "ar": "دفع ثمن السيارة ثم اكتشف تاريخًا لم يعرفه عند الشراء",
+            "ru": "Он оплатил автомобиль, а затем узнал о его прошлом то, чего не знал при покупке"
+        },
+        "card_summary": {
+            "en": "After the purchase, an earlier insurance classification of the vehicle as a total loss came to light. The dispute centred on what was known at the time of sale, what had been disclosed, and how that information affected the transaction.",
+            "ar": "بعد شراء المركبة، ظهر تصنيف تأميني سابق باعتبارها خسارة كلية. أصبح النزاع متعلقًا بما كان معروفًا وقت البيع، وما أُفصح عنه، وأثر المعلومة في الصفقة.",
+            "ru": "После покупки выяснилось, что ранее страховая компания признала полную гибель автомобиля. Предметом спора стали сведения, известные на момент продажи, объём их раскрытия и значение этой информации для сделки."
+        },
+        "title": {
+            "en": "He paid for the car, then discovered a history he had not known when buying it",
+            "ar": "دفع ثمن السيارة ثم اكتشف تاريخًا لم يعرفه عند الشراء",
+            "ru": "Он оплатил автомобиль, а затем узнал о его прошлом то, чего не знал при покупке"
+        },
+        "matter": {
+            "en": "Matter: a vehicle sale contract and prior insurance history",
+            "ar": "موضوع الملف: عقد بيع مركبة وتاريخ تأميني سابق",
+            "ru": "Предмет дела: договор купли-продажи автомобиля и его страховая история"
+        },
+        "body": {
+            "en": {
+                "narrative": [
+                    "The client bought a car and paid the full price. Months later, he discovered information he had not had when entering into the contract: the vehicle had previously been classified by an insurer as a total loss following an accident.",
+                    "According to the case summary, this information appeared neither in the sale contract nor in the material provided to the buyer. When he approached the seller, the seller denied responsibility. The buyer now had to explain why the car's history changed the assessment of the transaction he had agreed to."
+                ],
+                "sections": [
+                    {
+                        "heading": "The information that reopened the transaction",
+                        "paragraphs": [
+                            "The dispute focused on the date of the insurance classification, the extent of disclosure, and its effect on the purchase decision and the vehicle's value. The claim required the information to be linked to the car's condition before the sale and its significance at the time of contracting to be demonstrated.",
+                            "It was also necessary to assess the seller's defence about what he knew and whether the information had in fact been communicated to the buyer. The car's acceptable appearance at handover could not, on its own, answer those questions."
+                        ]
+                    },
+                    {
+                        "heading": "How the claim was built",
+                        "paragraphs": [
+                            "The sale documents, insurance history, available technical evidence and correspondence were collected. These materials were then related to the time of contracting to show that the event predated the purchase and was material to the vehicle's valuation and the decision to enter into the transaction.",
+                            "Organised in this way, the file explained what information the buyer had lacked and the basis of his request to rescind the sale. The review addressed the relevant documents and responses, rather than relying solely on describing the car as defective."
+                        ]
+                    }
+                ],
+                "outcome": {
+                    "heading": "What the court ordered",
+                    "paragraphs": [
+                        "The court ordered rescission of the sale contract and required the seller to take back the car and return the purchase price to the buyer. This is the judicial outcome described in this case study.",
+                        "Enforcement of that obligation and proof that the buyer received the purchase price remain separate matters requiring verification. The judgment is therefore not presented here as evidence that the money was actually collected."
+                    ]
+                },
+                "takeaway": {
+                    "heading": "What you can learn from this story",
+                    "paragraphs": [
+                        "Before buying a car, review the available technical and insurance history and related disclosures. If a material fact later comes to light, keep the evidence, record when it was discovered and retain the correspondence about it. Consider safety before repairing or otherwise dealing with the vehicle."
+                    ]
+                },
+                "related": {
+                    "heading": "Related services and reading",
+                    "links": [
+                        {
+                            "label": "Consultation on a sale contract or claim",
+                            "target": "P07"
+                        },
+                        {
+                            "label": "Contract and commercial dispute services",
+                            "target": "S04"
+                        }
+                    ]
+                },
+                "back_link": {
+                    "label": "Back to the case study directory",
+                    "target": "cases-top"
+                }
+            },
+            "ar": {
+                "narrative": [
+                    "اشترى العميل سيارة ودفع ثمنها كاملًا. وبعد أشهر، اكتشف معلومة لم تكن أمامه عند التعاقد: كانت المركبة قد صُنفت تأمينيًا باعتبارها خسارة كلية نتيجة حادث سابق.",
+                    "لم تكن هذه المعلومة مذكورة في عقد البيع أو ضمن ما قُدم للمشتري، بحسب ملخص الملف. وعندما رجع إلى البائع، واجه إنكارًا للمسؤولية. أصبح على المشتري أن يبين لماذا يغيّر تاريخ السيارة السابق تقييم الصفقة التي وافق عليها."
+                ],
+                "sections": [
+                    {
+                        "heading": "المعلومة التي أعادت فتح الصفقة",
+                        "paragraphs": [
+                            "تركز الخلاف على تاريخ التصنيف التأميني، ومدى الإفصاح عنه، وأثره في قرار الشراء وقيمة المركبة. فالمطالبة احتاجت إلى ربط المعلومة بحالة السيارة قبل البيع، وإظهار أهميتها وقت التعاقد.",
+                            "وكان من الضروري أيضًا تقييم دفاع البائع بشأن ما يعلمه، وما إذا كانت المعلومة قد أُبلغت للمشتري فعلًا. المظهر المقبول عند التسليم لم يكن وحده كافيًا للإجابة عن هذه الأسئلة."
+                        ]
+                    },
+                    {
+                        "heading": "كيف بُنيت المطالبة",
+                        "paragraphs": [
+                            "جُمعت مستندات البيع والتاريخ التأميني وما توفر من أدلة فنية ومراسلات. ثم رُبطت هذه المواد بزمن التعاقد، لبيان أن الواقعة سابقة على الشراء وأنها مؤثرة في تقييم المركبة وقبول الصفقة.",
+                            "بهذا التنظيم، أصبح الملف يوضح المعلومة التي لم تكن أمام المشتري وما يستند إليه طلبه بفسخ البيع. وشملت المراجعة المستندات والردود ذات الصلة، بدل الاكتفاء بوصف السيارة بأنها معيبة."
+                        ]
+                    }
+                ],
+                "outcome": {
+                    "heading": "ما الذي قضت به المحكمة",
+                    "paragraphs": [
+                        "صدر حكم بفسخ عقد البيع، وإلزام البائع باسترداد السيارة ورد الثمن إلى المشتري. هذه هي النتيجة القضائية التي يعرضها النموذج.",
+                        "ويظل تنفيذ هذا الإلزام وإثبات استلام الثمن مرحلتين يجب التحقق منهما على حدة. لذلك لا يُقدَّم الحكم هنا بوصفه إيصالًا بتحصيل المبلغ بالفعل."
+                    ]
+                },
+                "takeaway": {
+                    "heading": "ما الذي يمكن أن تستفيده من هذه القصة",
+                    "paragraphs": [
+                        "قبل شراء سيارة، راجع ما يتاح من تاريخها الفني والتأميني والإفصاحات المرتبطة بها. وعند اكتشاف واقعة مؤثرة، احتفظ بما يثبتها وتاريخ ظهورها والمراسلات بشأنها، مع مراعاة السلامة قبل الإصلاح أو التصرف في المركبة."
+                    ]
+                },
+                "related": {
+                    "heading": "خدمات وقراءة مرتبطة",
+                    "links": [
+                        {
+                            "label": "استشارة بشأن عقد بيع أو مطالبة",
+                            "target": "P07"
+                        },
+                        {
+                            "label": "خدمات العقود والنزاعات التجارية",
+                            "target": "S04"
+                        }
+                    ]
+                },
+                "back_link": {
+                    "label": "العودة إلى قائمة النماذج",
+                    "target": "cases-top"
+                }
+            },
+            "ru": {
+                "narrative": [
+                    "Клиент приобрёл автомобиль и полностью оплатил его стоимость. Через несколько месяцев он узнал то, что не было ему известно при заключении договора: после прежнего ДТП страховая компания признала полную гибель автомобиля.",
+                    "Согласно краткому изложению дела, эти сведения не были указаны ни в договоре купли-продажи, ни в материалах, переданных покупателю. Когда он обратился к продавцу, тот отказался признать ответственность. Покупателю предстояло обосновать, почему прошлое автомобиля меняет оценку сделки, на которую он согласился."
+                ],
+                "sections": [
+                    {
+                        "heading": "Сведения, из-за которых сделка вновь оказалась под вопросом",
+                        "paragraphs": [
+                            "Спор сосредоточился на дате страховой классификации, объёме раскрытых сведений и их влиянии на решение о покупке и стоимость автомобиля. Для обоснования требования необходимо было связать эти сведения с состоянием автомобиля до продажи и показать их значение на момент заключения договора.",
+                            "Кроме того, требовалось оценить доводы продавца о том, что ему было известно, и выяснить, сообщалась ли эта информация покупателю в действительности. Приемлемый внешний вид автомобиля при передаче сам по себе не давал ответов на эти вопросы."
+                        ]
+                    },
+                    {
+                        "heading": "Как обосновывалось требование",
+                        "paragraphs": [
+                            "Были собраны документы о продаже, страховая история, доступные технические доказательства и переписка. Затем материалы соотнесли с моментом заключения договора, чтобы показать: обстоятельство возникло до покупки и имело существенное значение для оценки автомобиля и согласия на сделку.",
+                            "В таком виде материалы позволяли ясно показать, какими сведениями покупатель не располагал и на чём основывалось требование о расторжении договора купли-продажи. Анализ охватывал относящиеся к делу документы и возражения, а не ограничивался утверждением о недостатках автомобиля."
+                        ]
+                    }
+                ],
+                "outcome": {
+                    "heading": "Что постановил суд",
+                    "paragraphs": [
+                        "Суд постановил расторгнуть договор купли-продажи и обязал продавца принять автомобиль обратно и вернуть покупателю уплаченную цену. Именно этот судебный результат описан в данном примере.",
+                        "Исполнение этой обязанности и подтверждение получения покупателем денег требуют отдельной проверки. Поэтому судебное решение не представлено здесь как доказательство фактического возврата суммы."
+                    ]
+                },
+                "takeaway": {
+                    "heading": "Что можно извлечь из этой истории",
+                    "paragraphs": [
+                        "Перед покупкой автомобиля изучите доступную техническую и страховую историю, а также раскрытые сведения о нём. Если обнаружится существенное обстоятельство, сохраните подтверждающие его материалы, зафиксируйте дату обнаружения и переписку по этому вопросу. До ремонта или иных действий с автомобилем учитывайте требования безопасности."
+                    ]
+                },
+                "related": {
+                    "heading": "Услуги и материалы по теме",
+                    "links": [
+                        {
+                            "label": "Консультация по договору купли-продажи или требованию",
+                            "target": "P07"
+                        },
+                        {
+                            "label": "Услуги по договорам и коммерческим спорам",
+                            "target": "S04"
+                        }
+                    ]
+                },
+                "back_link": {
+                    "label": "Вернуться к списку примеров",
+                    "target": "cases-top"
+                }
+            }
+        }
+    },
+    "case-03": {
+        "anchor": "case-03",
+        "position": 3,
+        "card_title": {
+            "en": "They came to collect payments, then found their names in a forgery case",
+            "ar": "حضروا لاستلام مبالغ ثم ظهرت أسماؤهم في قضية تزوير",
+            "ru": "Они приехали получить деньги, а затем их имена появились в деле о подделке документов"
+        },
+        "card_summary": {
+            "en": "A visit to a car dealership and the collection of payments at an employee's request became facts cited in criminal complaints. The defence needed to establish each person's role and what they knew when they acted.",
+            "ar": "حضور إلى وكالة سيارات واستلام مبالغ بطلب من موظف تحوّلا إلى وقائع داخل بلاغات جزائية. احتاج الدفاع إلى بيان دور كل شخص وما كان يعلمه وقت التصرف.",
+            "ru": "Посещение автосалона и получение денежных средств по просьбе сотрудника стали обстоятельствами, фигурировавшими в заявлениях о преступлениях. Защите предстояло объяснить роль каждого человека и то, что ему было известно в момент совершения действий."
+        },
+        "title": {
+            "en": "They came to collect payments, then found their names in a forgery case",
+            "ar": "حضروا لاستلام مبالغ ثم ظهرت أسماؤهم في قضية تزوير",
+            "ru": "Они приехали получить деньги, а затем их имена появились в деле о подделке документов"
+        },
+        "matter": {
+            "en": "Matter: vehicle transactions and allegations of forgery and misappropriation of funds",
+            "ar": "موضوع الملف: معاملات سيارات واتهامات بالتزوير والاستيلاء على أموال",
+            "ru": "Предмет дела: сделки с автомобилями, обвинения в подделке документов и завладении денежными средствами"
+        },
+        "body": {
+            "en": {
+                "narrative": [
+                    "An employee at a car dealership asked people he knew to attend the company's premises and collect payments. According to the summary of facts, they complied out of personal trust, unaware that the transactions would later become the subject of allegations of forgery and misappropriation of funds.",
+                    "After the events came to light, the person who had managed the transactions left the country, and several criminal complaints were filed. The clients' names appeared in the documents, the receipt of payments was an established fact, and some clients were in pretrial detention. The defence needed a precise explanation of those facts and each person's connection to them."
+                ],
+                "sections": [
+                    {
+                        "heading": "The names were there, but the roles were different",
+                        "paragraphs": [
+                            "The transactions could easily appear to form a single chain involving everyone. Yet each client had a different relationship with the person who had asked them to attend, their own sequence of events, and limits to what they knew about the transaction.",
+                            "An assertion of good faith alone was therefore insufficient. It was necessary to explain why each person attended and collected the money, and what the correspondence, documents and movement of funds established about the knowledge, agreement and participation attributed to them."
+                        ]
+                    },
+                    {
+                        "heading": "Distinguishing each person's role",
+                        "paragraphs": [
+                            "The transactions, correspondence and movement of funds were compared, and each client's actions were examined individually. The chronology was reconstructed to establish who had requested the action, what the client had been told, and what they could have known at the time.",
+                            "The legal work focused on providing an evidence-based explanation for the conduct reflected in the documents and examining the evidence relating to the elements of the allegations. These details allowed each person's role to be presented separately from the role attributed to anyone else."
+                        ]
+                    }
+                ],
+                "outcome": {
+                    "heading": "The outcome in the matters described",
+                    "paragraphs": [
+                        "Acquittals were issued in the matters covered by this case study. Each set of facts and stage of proceedings remains distinct: the outcome of one matter does not automatically extend to another complaint or a different incident involving the same person."
+                    ]
+                },
+                "takeaway": {
+                    "heading": "What you can learn from this story",
+                    "paragraphs": [
+                        "A person's name appearing in a transaction, or their receipt of a payment, needs to be explained in the context of the evidence and circumstances. Keeping messages and setting out the chronology and actual role helps build that explanation. Relying only on the words “I acted in good faith” may leave essential questions unanswered."
+                    ]
+                },
+                "related": {
+                    "heading": "Related services and reading",
+                    "links": [
+                        {
+                            "label": "Support in criminal matters",
+                            "target": "S02"
+                        },
+                        {
+                            "label": "Guide to preserving evidence in financial and digital fraud matters",
+                            "target": "G06"
+                        }
+                    ]
+                },
+                "back_link": {
+                    "label": "Back to the case study directory",
+                    "target": "cases-top"
+                }
+            },
+            "ar": {
+                "narrative": [
+                    "طلب موظف في وكالة سيارات من أشخاص يعرفهم الحضور إلى مقر الشركة واستلام مبالغ. وبحسب ملخص الوقائع، استجابوا لطلبه في إطار الثقة الشخصية، دون علم منهم بأن المعاملات ستصبح لاحقًا محل اتهامات بالتزوير والاستيلاء على أموال.",
+                    "بعد اكتشاف الوقائع، غادر الشخص الذي أدار المعاملات الدولة، وفُتحت بلاغات متعددة. ظهرت أسماء العملاء في المستندات، وكان استلام المبالغ واقعة قائمة، وبعضهم كان في الحبس الاحتياطي. احتاج الدفاع إلى تفسير دقيق لهذه الوقائع وما يربط كل شخص بها."
+                ],
+                "sections": [
+                    {
+                        "heading": "الأسماء موجودة لكن الأدوار مختلفة",
+                        "paragraphs": [
+                            "كان من السهل أن تبدو المعاملات سلسلة واحدة تجمع جميع الأطراف. لكن كل عميل كانت له علاقة مختلفة بالشخص الذي طلب حضوره، وتسلسل زمني خاص به، وحدود لما يعرفه عن المعاملة.",
+                            "لذلك لم يكن تأكيد حسن النية وحده كافيًا. كان يجب معالجة سبب الحضور والاستلام، وما تثبته المراسلات والمستندات ومسارات الأموال عن العلم والاتفاق والمشاركة المنسوبة إلى كل شخص."
+                        ]
+                    },
+                    {
+                        "heading": "فصل كل دور عن الآخر",
+                        "paragraphs": [
+                            "قورنت المعاملات والمراسلات وحركة الأموال، ودُرس ما قام به كل عميل على حدة. أُعيد بناء التسلسل الزمني لبيان من طلب التصرف، وما الذي قيل للعميل، وما الذي كان متاحًا له معرفته وقتها.",
+                            "ركز العمل القانوني على تقديم تفسير مدعوم للسلوك الظاهر في المستندات، وفحص الأدلة المتعلقة بعناصر الاتهام. هذه التفاصيل أتاحت عرض دور كل شخص بصورة مستقلة عن الدور المنسوب إلى غيره."
+                        ]
+                    }
+                ],
+                "outcome": {
+                    "heading": "النتيجة في الملفات المعروضة",
+                    "paragraphs": [
+                        "صدرت أحكام بالبراءة في الملفات التي يتناولها هذا النموذج. وتبقى كل واقعة ومرحلة قضائية مستقلة؛ فلا تمتد نتيجة أحد الملفات تلقائيًا إلى بلاغ آخر أو واقعة مختلفة مرتبطة بالشخص نفسه."
+                    ]
+                },
+                "takeaway": {
+                    "heading": "ما الذي يمكن أن تستفيده من هذه القصة",
+                    "paragraphs": [
+                        "ظهور اسم شخص في معاملة أو استلامه مبلغًا يستلزمان تفسيرًا ضمن السياق والأدلة. يساعد حفظ الرسائل وبيان التسلسل الزمني والدور الفعلي على بناء هذا التفسير، بينما قد يترك الاكتفاء بعبارة «كنت حسن النية» أسئلة جوهرية بلا جواب."
+                    ]
+                },
+                "related": {
+                    "heading": "خدمات وقراءة مرتبطة",
+                    "links": [
+                        {
+                            "label": "الدعم في القضايا الجزائية",
+                            "target": "S02"
+                        },
+                        {
+                            "label": "دليل حفظ الأدلة في الاحتيال المالي والرقمي",
+                            "target": "G06"
+                        }
+                    ]
+                },
+                "back_link": {
+                    "label": "العودة إلى قائمة النماذج",
+                    "target": "cases-top"
+                }
+            },
+            "ru": {
+                "narrative": [
+                    "Сотрудник автосалона попросил знакомых приехать в офис компании и получить денежные средства. Согласно изложению обстоятельств, они выполнили просьбу, исходя из личного доверия, и не знали, что впоследствии эти операции станут предметом обвинений в подделке документов и завладении деньгами.",
+                    "После выявления произошедшего лицо, организовавшее операции, покинуло страну; было подано несколько заявлений о преступлениях. Имена клиентов фигурировали в документах, факт получения денег имел место, а некоторые клиенты находились под стражей в ходе предварительного расследования. Защите требовалось точно объяснить эти обстоятельства и связь с ними каждого человека."
+                ],
+                "sections": [
+                    {
+                        "heading": "Имена были в документах, но роли различались",
+                        "paragraphs": [
+                            "Операции могли выглядеть как единая цепочка, объединявшая всех участников. Однако у каждого клиента были свои отношения с человеком, попросившим его приехать, своя хронология событий и определённый объём сведений о происходившем.",
+                            "Поэтому одного заявления о добросовестности было недостаточно. Необходимо было объяснить причины приезда и получения денег, а также установить, что переписка, документы и движение денежных средств подтверждали в отношении вменяемых каждому лицу осведомлённости, договорённости и участия."
+                        ]
+                    },
+                    {
+                        "heading": "Разграничение роли каждого участника",
+                        "paragraphs": [
+                            "Были сопоставлены операции, переписка и движение денежных средств, а действия каждого клиента изучены отдельно. Хронологию восстановили, чтобы установить, от кого исходила просьба, что было сказано клиенту и какими сведениями он мог располагать в тот момент.",
+                            "Юридическая работа была направлена на обоснованное доказательствами объяснение действий, отражённых в документах, и анализ доказательств, относящихся к элементам предъявленных обвинений. Эти детали позволили представить роль каждого человека отдельно от действий, вменяемых другим лицам."
+                        ]
+                    }
+                ],
+                "outcome": {
+                    "heading": "Результат по описанным делам",
+                    "paragraphs": [
+                        "По делам, о которых идёт речь в этом примере, были вынесены оправдательные приговоры. При этом каждый эпизод и каждая стадия разбирательства рассматриваются самостоятельно: результат одного дела не распространяется автоматически на другое заявление или иной эпизод с участием того же лица."
+                    ]
+                },
+                "takeaway": {
+                    "heading": "Что можно извлечь из этой истории",
+                    "paragraphs": [
+                        "Упоминание имени человека в сделке или получение им денег требуют объяснения с учётом контекста и доказательств. Сохранённые сообщения, восстановленная хронология и описание фактической роли помогают выстроить такое объяснение. Одна лишь фраза «я действовал добросовестно» может оставить без ответа существенные вопросы."
+                    ]
+                },
+                "related": {
+                    "heading": "Услуги и материалы по теме",
+                    "links": [
+                        {
+                            "label": "Помощь по уголовным делам",
+                            "target": "S02"
+                        },
+                        {
+                            "label": "Руководство по сохранению доказательств финансового и цифрового мошенничества",
+                            "target": "G06"
+                        }
+                    ]
+                },
+                "back_link": {
+                    "label": "Вернуться к списку примеров",
+                    "target": "cases-top"
+                }
+            }
+        }
+    },
+    "case-04": {
+        "anchor": "case-04",
+        "position": 4,
+        "card_title": {
+            "en": "He sold USDT, then faced an allegation linked to someone else's investment promise",
+            "ar": "باع عملات USDT ثم واجه اتهامًا مرتبطًا بوعد استثماري من طرف آخر",
+            "ru": "Он продал USDT, а затем столкнулся с обвинением, связанным с инвестиционными обещаниями другого лица"
+        },
+        "card_summary": {
+            "en": "The sale was completed through a trading platform. A dispute then arose from the buyer's dealings with a third party. The platform records, transfer trail and limits of the seller's role became central to the review.",
+            "ar": "اكتمل بيع العملات عبر منصة تداول، ثم نشأ نزاع بسبب تعامل المشتري مع طرف ثالث. أصبحت سجلات المنصة ومسار التحويل وحدود دور البائع محور المراجعة.",
+            "ru": "Продажа через торговую платформу была завершена, но впоследствии из-за отношений покупателя с третьим лицом возник спор. Основой анализа стали записи платформы, движение перевода и пределы участия продавца."
+        },
+        "title": {
+            "en": "He sold USDT, then faced an allegation linked to someone else's investment promise",
+            "ar": "باع عملات USDT ثم واجه اتهامًا مرتبطًا بوعد استثماري من طرف آخر",
+            "ru": "Он продал USDT, а затем столкнулся с обвинением, связанным с инвестиционными обещаниями другого лица"
+        },
+        "matter": {
+            "en": "Matter: a cryptocurrency transaction with civil and criminal proceedings",
+            "ar": "موضوع الملف: معاملة عملات رقمية ومساران مدني وجزائي",
+            "ru": "Предмет дела: сделка с криптовалютой, гражданское и уголовное производство"
+        },
+        "body": {
+            "en": {
+                "narrative": [
+                    "The client sold USDT through a trading platform, and the transaction records showed that the cryptocurrency reached its destination. He later faced an allegation and a financial claim connected with the buyer's dealings with another person.",
+                    "That third party had promised the buyer trading activity and profits, and had asked him to buy the cryptocurrency and transfer it to them. When the buyer lost his money and filed a complaint, the seller's name appeared in the case. The client came to Summit after a criminal judgment had been issued against him, while also facing a civil compensation claim."
+                ],
+                "sections": [
+                    {
+                        "heading": "How two transactions became part of one dispute",
+                        "paragraphs": [
+                            "The review needed to distinguish the client's sale from the investment promises attributed to the third party. Who sold the cryptocurrency? Who received it? Who requested the transfer? And who promised to manage funds or generate profits?",
+                            "These questions mattered to the assessment of liability. Delivery of the cryptocurrency was one element of the file, but it could not, on its own, determine the parties' roles or the remaining elements of the allegation and claim."
+                        ]
+                    },
+                    {
+                        "heading": "The records that needed to be read together",
+                        "paragraphs": [
+                            "Trade orders were linked to payment and transfer records. Platform data, transaction times, correspondence and the parties' identities were reviewed. The examination focused on the scope of the client's transaction and whether he had promised to trade or manage the buyer's funds.",
+                            "Technical evidence helped explain the transaction trail and the limits of the seller's role more clearly. It was assessed alongside the other documents and facts, including the agreement, source of payment and relationship with the third party, as part of the work on both the civil and criminal proceedings."
+                        ]
+                    }
+                ],
+                "outcome": {
+                    "heading": "Two outcomes that must be kept separate",
+                    "paragraphs": [
+                        "The civil proceedings described here concluded in the client's favour. The technical records were also used in pursuing the options relating to the criminal judgment.",
+                        "At the time the approved summary for this case study was prepared, review procedures were still under way in the criminal proceedings, with no final outcome announced. This story therefore makes no claim that the criminal judgment was overturned or that a final acquittal was obtained in those proceedings."
+                    ]
+                },
+                "takeaway": {
+                    "heading": "What you can learn from this story",
+                    "paragraphs": [
+                        "In a cryptocurrency dispute, retain complete trade orders, payment and transfer records, and correspondence. Linking those records to identity, the agreement and each party's role is more useful than providing a single transfer screenshot, but does not by itself guarantee any particular outcome."
+                    ]
+                },
+                "related": {
+                    "heading": "Related services and reading",
+                    "links": [
+                        {
+                            "label": "Assessment of a cryptocurrency dispute",
+                            "target": "S03"
+                        },
+                        {
+                            "label": "Guide to what to do when financial or digital fraud is discovered",
+                            "target": "G06"
+                        }
+                    ]
+                },
+                "back_link": {
+                    "label": "Back to the case study directory",
+                    "target": "cases-top"
+                }
+            },
+            "ar": {
+                "narrative": [
+                    "نفّذ العميل بيع عملات USDT عبر منصة تداول، ووصلت العملات إلى وجهتها بحسب سجلات المعاملة. ثم واجه اتهامًا ومطالبة مالية ارتبطا بتعامل المشتري مع شخص آخر.",
+                    "كان الطرف الثالث قد قدم للمشتري وعودًا بالتداول وتحقيق أرباح، وطلب منه شراء العملات وتحويلها إليه. وعندما خسر المشتري أمواله وقدم بلاغًا، ظهر اسم بائع العملات في الملف. وصل العميل إلى سَمِت بعد صدور حكم جزائي ضده، مع وجود مطالبة مدنية بالتعويض."
+                ],
+                "sections": [
+                    {
+                        "heading": "كيف اجتمعت صفقتان في نزاع واحد",
+                        "paragraphs": [
+                            "احتاج الملف إلى فصل عملية البيع التي نفذها العميل عن الوعود الاستثمارية المنسوبة إلى الطرف الثالث. من باع العملات؟ من تلقاها؟ من طلب تحويلها؟ ومن قدم وعدًا بإدارة الأموال أو تحقيق الأرباح؟",
+                            "كانت هذه الأسئلة مؤثرة في تقييم المسؤولية. فوصول العملات عنصر في الملف، لكنه لا يكفي وحده لحسم دور الأطراف أو بقية عناصر الاتهام والمطالبة."
+                        ]
+                    },
+                    {
+                        "heading": "السجلات التي احتاجت إلى أن تُقرأ معًا",
+                        "paragraphs": [
+                            "رُبطت أوامر التداول بالدفع والتحويل، ورُوجعت بيانات المنصة وأوقات المعاملات والمراسلات وهوية الأطراف. وركزت المراجعة على نطاق الصفقة التي أجراها العميل وما إذا كان قد وعد بالتداول أو إدارة أموال المشتري.",
+                            "ساعدت الأدلة الفنية على عرض مسار المعاملة وحدود دور البائع بصورة أوضح. وجاء تقييمها مع بقية المستندات والوقائع، بما فيها الاتفاق ومصدر الدفع والعلاقة بالطرف الثالث، ضمن العمل على المسارين المدني والجزائي."
+                        ]
+                    }
+                ],
+                "outcome": {
+                    "heading": "نتيجتان يجب عدم الخلط بينهما",
+                    "paragraphs": [
+                        "انتهى المسار المدني المعروض لصالح العميل. أما المستندات الفنية فاستُخدمت أيضًا في متابعة الخيارات المتعلقة بالحكم الجزائي.",
+                        "وكان المسار الجزائي، وقت إعداد الملخص المعتمد لهذا النموذج، محل إجراءات مراجعة دون نتيجة نهائية معلنة فيه. لذلك لا تتضمن هذه القصة ادعاءً بإلغاء الحكم الجزائي أو البراءة النهائية في ذلك المسار."
+                    ]
+                },
+                "takeaway": {
+                    "heading": "ما الذي يمكن أن تستفيده من هذه القصة",
+                    "paragraphs": [
+                        "في نزاع العملات الرقمية، احتفظ بأوامر التداول وسجلات الدفع والتحويل والمراسلات كاملة. ربط هذه السجلات بالهوية والاتفاق ودور كل طرف أكثر فائدة من تقديم لقطة تحويل منفردة، ولا يضمن وحده نتيجة معينة."
+                    ]
+                },
+                "related": {
+                    "heading": "خدمات وقراءة مرتبطة",
+                    "links": [
+                        {
+                            "label": "تقييم نزاع عملات رقمية",
+                            "target": "S03"
+                        },
+                        {
+                            "label": "دليل التصرف عند اكتشاف احتيال مالي أو رقمي",
+                            "target": "G06"
+                        }
+                    ]
+                },
+                "back_link": {
+                    "label": "العودة إلى قائمة النماذج",
+                    "target": "cases-top"
+                }
+            },
+            "ru": {
+                "narrative": [
+                    "Клиент продал USDT через торговую платформу; согласно записям об операции, криптовалюта поступила по назначению. Впоследствии ему были предъявлены обвинение и денежное требование, связанные с отношениями покупателя с другим лицом.",
+                    "Это третье лицо обещало покупателю вести торговлю и получать прибыль, предложив ему приобрести криптовалюту и перевести её ему. Когда покупатель потерял деньги и подал заявление, в деле появилось имя продавца криптовалюты. Клиент обратился в Summit после вынесения в отношении него обвинительного приговора; одновременно к нему было предъявлено гражданское требование о возмещении ущерба."
+                ],
+                "sections": [
+                    {
+                        "heading": "Как две сделки оказались в одном споре",
+                        "paragraphs": [
+                            "Требовалось отделить продажу, совершённую клиентом, от инвестиционных обещаний, приписываемых третьему лицу. Кто продал криптовалюту? Кто её получил? Кто попросил выполнить перевод? И кто обещал управлять средствами или получать прибыль?",
+                            "Ответы на эти вопросы имели значение для оценки ответственности. Поступление криптовалюты являлось одним из обстоятельств дела, но само по себе не определяло роли сторон и не разрешало остальные вопросы, связанные с обвинением и гражданским требованием."
+                        ]
+                    },
+                    {
+                        "heading": "Записи, которые требовалось сопоставить",
+                        "paragraphs": [
+                            "Торговые ордера были сопоставлены с записями об оплате и переводе. Были изучены данные платформы, время совершения операций, переписка и сведения о личности сторон. Анализ был сосредоточен на содержании сделки клиента и на том, обещал ли он вести торговлю или управлять средствами покупателя.",
+                            "Технические доказательства помогли яснее показать движение средств в рамках операции и пределы участия продавца. В ходе работы по гражданскому и уголовному направлениям они оценивались вместе с другими документами и обстоятельствами, включая договорённости, источник платежа и отношения с третьим лицом."
+                        ]
+                    }
+                ],
+                "outcome": {
+                    "heading": "Два результата, которые необходимо разграничивать",
+                    "paragraphs": [
+                        "Описанное гражданское разбирательство завершилось в пользу клиента. Технические материалы также использовались при проработке дальнейших действий в отношении обвинительного приговора.",
+                        "На момент подготовки утверждённого краткого изложения для этого примера процедуры пересмотра по уголовному делу продолжались, а окончательный результат объявлен не был. Поэтому в этой истории не утверждается, что обвинительный приговор был отменён или что уголовное производство завершилось окончательным оправданием."
+                    ]
+                },
+                "takeaway": {
+                    "heading": "Что можно извлечь из этой истории",
+                    "paragraphs": [
+                        "В споре, связанном с криптовалютой, сохраняйте торговые ордера, полные записи об оплате и переводах, а также переписку. Сопоставление этих данных с личностью участников, договорённостями и ролью каждой стороны полезнее отдельного снимка экрана с переводом, но само по себе не гарантирует определённого результата."
+                    ]
+                },
+                "related": {
+                    "heading": "Услуги и материалы по теме",
+                    "links": [
+                        {
+                            "label": "Оценка спора, связанного с криптовалютой",
+                            "target": "S03"
+                        },
+                        {
+                            "label": "Руководство: что делать при обнаружении финансового или цифрового мошенничества",
+                            "target": "G06"
+                        }
+                    ]
+                },
+                "back_link": {
+                    "label": "Вернуться к списку примеров",
+                    "target": "cases-top"
+                }
+            }
+        },
+        "home_title": {
+            "en": "A USDT Sale and a Complaint Involving a Third Party",
+            "ar": "بيع USDT وبلاغ مرتبط بطرف ثالث",
+            "ru": "Продажа USDT и заявление, связанное с действиями третьего лица"
+        },
+        "home_summary": {
+            "en": "A cryptocurrency seller faced an allegation arising from the buyer’s dealings with a third party. The matter required linking the trading order to the payment, transfer and correspondence, and distinguishing the seller’s role from the investment promises attributed to the other person.",
+            "ar": "واجه بائع عملات رقمية اتهامًا في سياق تعامل المشتري مع طرف ثالث. احتاج الملف إلى ربط أمر التداول بالدفع والتحويل والمراسلات، وفصل دور البائع عن الوعود الاستثمارية المنسوبة إلى الشخص الآخر.",
+            "ru": "Продавец криптовалюты столкнулся с обвинением, связанным с отношениями покупателя с третьим лицом. Для рассмотрения дела потребовалось сопоставить торговый ордер, оплату, перевод и переписку, а также отделить роль продавца от инвестиционных обещаний, приписываемых другому лицу."
+        },
+        "home_link_label": {
+            "en": "Read the Cryptocurrency Case Study",
+            "ar": "اقرأ نموذج ملف العملات الرقمية",
+            "ru": "Подробнее о деле с криптовалютой"
+        }
+    },
+    "case-05": {
+        "anchor": "case-05",
+        "position": 5,
+        "card_title": {
+            "en": "After six years of employment, the final settlement remained in dispute",
+            "ar": "بعد ست سنوات من العمل بقيت التسوية محل خلاف",
+            "ru": "После шести лет работы окончательный расчёт остался предметом спора"
+        },
+        "card_summary": {
+            "en": "An administrative employee's service ended, followed by a disagreement with the employer over the basis for calculating his entitlements. The first step was to separate the settlement components and reconcile the figures with the contract and payments.",
+            "ar": "أنهى موظف إداري خدمته، ثم اختلف مع صاحب العمل على أساس احتساب مستحقاته. كانت البداية فصل عناصر التسوية وإعادة ربط الأرقام بالعقد والسداد.",
+            "ru": "После прекращения трудовых отношений сотрудник, занимавший административную должность, не согласился с работодателем по вопросу расчёта причитающихся ему выплат. Работа началась с разделения составляющих окончательного расчёта и сопоставления сумм с договором и фактическими платежами."
+        },
+        "title": {
+            "en": "After six years of employment, the final settlement remained in dispute",
+            "ar": "بعد ست سنوات من العمل بقيت التسوية محل خلاف",
+            "ru": "После шести лет работы окончательный расчёт остался предметом спора"
+        },
+        "matter": {
+            "en": "Matter: review of a final settlement and employment termination entitlements",
+            "ar": "موضوع الملف: مراجعة تسوية ومستحقات نهاية علاقة عمل",
+            "ru": "Предмет дела: проверка окончательного расчёта и выплат при прекращении трудовых отношений"
+        },
+        "body": {
+            "en": {
+                "narrative": [
+                    "After six years in an administrative role, the client's employment was terminated, leaving a disagreement over the basis of his final settlement. He brought his employment contract, payslips, termination notice and assorted correspondence. The documents were available, but they did not provide a single clear answer as to the amount due or how it had been calculated.",
+                    "Before deciding how to respond to the proposed settlement, the client needed to understand what belonged in the claim, what had actually been paid, and the basis for each deduction or difference in the calculation."
+                ],
+                "sections": [
+                    {
+                        "heading": "From a total figure to components that could be checked",
+                        "paragraphs": [
+                            "The review covered the contract, basic salary, length of service, transfers and termination documents. The materials were arranged chronologically, separating the claim components from payments and deductions, and identifying where further documents or explanations were needed.",
+                            "This separation made it possible to discuss each point on its own basis and identify the strengths and gaps in the file before negotiations or formal action."
+                        ]
+                    }
+                ],
+                "outcome": {
+                    "heading": "What the client received",
+                    "paragraphs": [
+                        "The engagement produced a statement of claims, the documents needed and options for handling the settlement. The result was a clearer understanding of the position and a plan for negotiation or a claim, rather than a court judgment or an announced recovery of funds."
+                    ]
+                },
+                "takeaway": {
+                    "heading": "What you can learn from this story",
+                    "paragraphs": [
+                        "When reviewing an employment settlement, ask for each component and its calculation basis to be set out, and check any acknowledgement of receipt against what you have actually received. Combining all figures into a single total can conceal the point of disagreement and make it harder to discuss."
+                    ]
+                },
+                "related": {
+                    "heading": "Related services and reading",
+                    "links": [
+                        {
+                            "label": "Review of employment entitlements",
+                            "target": "S06"
+                        },
+                        {
+                            "label": "Guide to documenting salaries and unpaid amounts",
+                            "target": "G01"
+                        }
+                    ]
+                },
+                "back_link": {
+                    "label": "Back to the case study directory",
+                    "target": "cases-top"
+                }
+            },
+            "ar": {
+                "narrative": [
+                    "بعد ست سنوات من العمل في منصب إداري، أُنهيت خدمة العميل، وبقي خلاف حول أساس احتساب التسوية النهائية. حمل معه عقد العمل وكشوف الرواتب وإشعار الإنهاء ومراسلات متفرقة؛ كانت المستندات موجودة، لكنها لم تكن تقدم جوابًا واحدًا واضحًا عن المبلغ وأساسه.",
+                    "احتاج العميل إلى فهم ما يدخل في المطالبة، وما دُفع فعلًا، وما يستند إليه كل خصم أو اختلاف في الحساب، قبل أن يقرر كيف يتعامل مع التسوية."
+                ],
+                "sections": [
+                    {
+                        "heading": "من رقم إجمالي إلى عناصر يمكن مراجعتها",
+                        "paragraphs": [
+                            "شملت المراجعة العقد والأجر الأساسي ومدة الخدمة والتحويلات ومستندات الإنهاء. ورُتبت المواد زمنيًا، مع فصل عناصر المطالبة عن الدفعات والخصومات، وتحديد ما يحتاج إلى مستند أو توضيح إضافي.",
+                            "بهذا الفصل، أصبح بالإمكان مناقشة كل نقطة على أساسها، وتحديد جوانب القوة والنواقص في الملف قبل التفاوض أو اتخاذ إجراء رسمي."
+                        ]
+                    }
+                ],
+                "outcome": {
+                    "heading": "ما الذي خرج به العميل",
+                    "paragraphs": [
+                        "أنتج التكليف بيانًا بالمطالبات والمستندات اللازمة وخيارات التعامل مع التسوية. كانت النتيجة صورة أوضح للموقف وخطة للتفاوض أو المطالبة، وليست حكمًا قضائيًا أو مبلغًا أُعلن تحصيله."
+                    ]
+                },
+                "takeaway": {
+                    "heading": "ما الذي يمكن أن تستفيده من هذه القصة",
+                    "paragraphs": [
+                        "عند مراجعة تسوية العمل، اطلب بيان كل عنصر وأساس حسابه، وطابق الإقرار بالاستلام مع ما حصلت عليه فعلًا. جمع الأرقام في مبلغ إجمالي قد يخفي موضع الخلاف ويصعّب مناقشته."
+                    ]
+                },
+                "related": {
+                    "heading": "خدمات وقراءة مرتبطة",
+                    "links": [
+                        {
+                            "label": "مراجعة مستحقات العمل",
+                            "target": "S06"
+                        },
+                        {
+                            "label": "دليل توثيق الرواتب والمبالغ غير المسددة",
+                            "target": "G01"
+                        }
+                    ]
+                },
+                "back_link": {
+                    "label": "العودة إلى قائمة النماذج",
+                    "target": "cases-top"
+                }
+            },
+            "ru": {
+                "narrative": [
+                    "После шести лет работы на административной должности трудовые отношения с клиентом были прекращены, но основания расчёта окончательных выплат остались спорными. Он предоставил трудовой договор, расчётные листки, уведомление об увольнении и разрозненную переписку. Документы имелись, однако не давали единого ясного ответа о размере причитающейся суммы и порядке её определения.",
+                    "Прежде чем решить, как действовать в отношении окончательного расчёта, клиенту требовалось понять, какие суммы входят в требование, что уже выплачено и на чём основано каждое удержание или расхождение в расчётах."
+                ],
+                "sections": [
+                    {
+                        "heading": "От общей суммы к составляющим, которые можно проверить",
+                        "paragraphs": [
+                            "Анализ охватывал договор, базовый оклад, стаж работы, переводы и документы о прекращении трудовых отношений. Материалы были расположены в хронологическом порядке; составляющие требования отделены от выплат и удержаний, а вопросы, требовавшие дополнительных документов или пояснений, выделены отдельно.",
+                            "Такое разграничение позволило обсуждать каждый вопрос на соответствующем основании и определить сильные стороны и пробелы в материалах до переговоров или обращения к официальной процедуре."
+                        ]
+                    }
+                ],
+                "outcome": {
+                    "heading": "Что получил клиент по итогам работы",
+                    "paragraphs": [
+                        "По итогам поручения были подготовлены перечень требований, список необходимых документов и варианты действий по окончательному расчёту. Результатом стали более ясное понимание положения клиента и план переговоров или предъявления требований. Судебное решение либо получение определённой суммы в качестве результата этой работы не заявляются."
+                    ]
+                },
+                "takeaway": {
+                    "heading": "Что можно извлечь из этой истории",
+                    "paragraphs": [
+                        "Проверяя окончательный расчёт по трудовым отношениям, запросите расшифровку каждой составляющей и оснований её исчисления. Сопоставьте подтверждение получения денег с фактически поступившими суммами. Объединение всех выплат в одну общую сумму может скрыть предмет разногласий и затруднить его обсуждение."
+                    ]
+                },
+                "related": {
+                    "heading": "Услуги и материалы по теме",
+                    "links": [
+                        {
+                            "label": "Проверка причитающихся работнику выплат",
+                            "target": "S06"
+                        },
+                        {
+                            "label": "Руководство по документированию заработной платы и невыплаченных сумм",
+                            "target": "G01"
+                        }
+                    ]
+                },
+                "back_link": {
+                    "label": "Вернуться к списку примеров",
+                    "target": "cases-top"
+                }
+            }
+        }
+    },
+    "case-06": {
+        "anchor": "case-06",
+        "position": 6,
+        "card_title": {
+            "en": "The goods were delivered; the promises to pay remained in the messages",
+            "ar": "البضاعة سُلّمت ووعود السداد بقيت في الرسائل",
+            "ru": "Товар был поставлен, но обещания оплатить его так и остались в переписке"
+        },
+        "card_summary": {
+            "en": "A company was awaiting payment, with invoices and delivery evidence scattered across files and correspondence. Before negotiations or formal action, these records needed to be brought together into a coherent calculation of the claim.",
+            "ar": "شركة تنتظر مستحقاتها، وفواتير وإثباتات توريد موزعة بين ملفات ومراسلات. تطلبت المراجعة تحويل هذه المواد إلى حساب مطالبة مترابط قبل التفاوض أو الإجراء الرسمي.",
+            "ru": "Компания ожидала оплаты, а счета и подтверждения поставок были разбросаны по разным папкам и переписке. До переговоров или обращения к официальной процедуре требовалось свести эти материалы в последовательный расчёт требований."
+        },
+        "title": {
+            "en": "The goods were delivered; the promises to pay remained in the messages",
+            "ar": "البضاعة سُلّمت ووعود السداد بقيت في الرسائل",
+            "ru": "Товар был поставлен, но обещания оплатить его так и остались в переписке"
+        },
+        "matter": {
+            "en": "Matter: organising a commercial claim between two companies",
+            "ar": "موضوع الملف: تنظيم مطالبة تجارية بين شركتين",
+            "ru": "Предмет дела: подготовка коммерческого требования между двумя компаниями"
+        },
+        "body": {
+            "en": {
+                "narrative": [
+                    "A company supplied goods and services and sent its invoices, but repeated promises to pay went unfulfilled. It held messages, delivery evidence and documents supporting the dealings, yet each part was stored separately and no detailed contract covered the entire relationship.",
+                    "The company needed to present a claim whose outstanding balance could be checked against what had actually been delivered and paid, while addressing possible objections concerning the invoices or acceptance of the supplies."
+                ],
+                "sections": [
+                    {
+                        "heading": "Reconstructing the sequence from scattered documents",
+                        "paragraphs": [
+                            "Invoices were reconciled with delivery evidence, payments and correspondence. The outstanding balance, objections and gaps in the evidence were identified. The facts were then arranged to show how the debt arose, when it became due and what supported each part of it.",
+                            "This organisation gave the company a clearer basis for discussing payment and assessing a formal claim. It also revealed what still needed to be completed, rather than leaving the other party with a collection of invoices that did not show the final balance."
+                        ]
+                    }
+                ],
+                "outcome": {
+                    "heading": "The result described in this case study",
+                    "paragraphs": [
+                        "The company received an organised claim file that could be used to assess negotiation or formal action. This case study does not describe a judgment in its favour or actual recovery of the debt: preparing a claim, obtaining a judgment and enforcing it are separate stages."
+                    ]
+                },
+                "takeaway": {
+                    "heading": "What you can learn from this story",
+                    "paragraphs": [
+                        "Keep the records linking an invoice to delivery or acceptance of a service, and record payments, objections and written promises to pay. Organising these materials early helps define the claim and respond to disputes about it."
+                    ]
+                },
+                "related": {
+                    "heading": "Related services and reading",
+                    "links": [
+                        {
+                            "label": "Debt recovery and financial claims service",
+                            "target": "S01"
+                        },
+                        {
+                            "label": "Guide to starting commercial debt recovery",
+                            "target": "G02"
+                        }
+                    ]
+                },
+                "back_link": {
+                    "label": "Back to the case study directory",
+                    "target": "cases-top"
+                }
+            },
+            "ar": {
+                "narrative": [
+                    "قدمت شركة بضائع وخدمات، وأرسلت فواتيرها، ثم توالت وعود السداد دون أن تُنفذ. كانت لديها رسائل وإثباتات توريد ومستندات تدعم التعامل، لكن كل جزء كان في مكان مختلف، ولم يوجد عقد تفصيلي يغطي العلاقة كلها.",
+                    "احتاجت الشركة إلى تقديم مطالبة يمكن مراجعة رصيدها وربطه بما تم تسليمه ودفعه فعلًا، مع معالجة ما قد يُثار بشأن الفواتير أو قبول التوريد."
+                ],
+                "sections": [
+                    {
+                        "heading": "بناء التسلسل من المستندات المتفرقة",
+                        "paragraphs": [
+                            "جرى مطابقة الفواتير بإثباتات التسليم والدفعات والمراسلات، وتحديد الرصيد وأوجه الاعتراض والنواقص الإثباتية. ثم رُتبت الوقائع بما يوضح كيف نشأ الدين ومتى استحق وما يدعم كل جزء منه.",
+                            "أعطى هذا التنظيم الشركة أساسًا أوضح لمناقشة السداد وتقييم المطالبة الرسمية. كما كشف ما يلزم استكماله، بدل ترك الطرف الآخر أمام مجموعة فواتير لا يظهر منها الحساب النهائي."
+                        ]
+                    }
+                ],
+                "outcome": {
+                    "heading": "النتيجة التي يعرضها هذا النموذج",
+                    "paragraphs": [
+                        "خرجت الشركة بملف مطالبة منظم يمكن استخدامه لتقييم التفاوض أو الإجراء الرسمي. لا يعرض النموذج حكمًا لصالحها أو تحصيلًا فعليًا للدين؛ فتجهيز المطالبة وصدور الحكم والتنفيذ مراحل مختلفة."
+                    ]
+                },
+                "takeaway": {
+                    "heading": "ما الذي يمكن أن تستفيده من هذه القصة",
+                    "paragraphs": [
+                        "احتفظ بما يربط الفاتورة بالتسليم أو اعتماد الخدمة، وسجل الدفعات والاعتراضات ووعود السداد المكتوبة. تنظيم هذه المواد مبكرًا يساعد على تحديد المطالبة والرد على الخلاف بشأنها."
+                    ]
+                },
+                "related": {
+                    "heading": "خدمات وقراءة مرتبطة",
+                    "links": [
+                        {
+                            "label": "خدمة تحصيل الديون والمطالبات المالية",
+                            "target": "S01"
+                        },
+                        {
+                            "label": "دليل بدء تحصيل دين تجاري",
+                            "target": "G02"
+                        }
+                    ]
+                },
+                "back_link": {
+                    "label": "العودة إلى قائمة النماذج",
+                    "target": "cases-top"
+                }
+            },
+            "ru": {
+                "narrative": [
+                    "Компания поставила товары, оказала услуги и направила счета, однако следовавшие одно за другим обещания оплаты так и не были выполнены. У неё были сообщения, подтверждения поставок и документы, свидетельствовавшие о деловых отношениях. Но материалы хранились разрозненно, а подробного договора, охватывавшего все отношения сторон, не существовало.",
+                    "Компании требовалось подготовить требование, по которому можно проверить остаток задолженности и соотнести его с фактически исполненными поставками и полученными платежами, а также учесть возможные возражения по счетам или принятию поставленного."
+                ],
+                "sections": [
+                    {
+                        "heading": "Восстановление последовательности событий по разрозненным документам",
+                        "paragraphs": [
+                            "Счета были сопоставлены с подтверждениями передачи, платежами и перепиской. Были определены остаток задолженности, возражения и пробелы в доказательствах. Затем обстоятельства выстроили так, чтобы показать, как возник долг, когда наступил срок его погашения и чем подтверждается каждая его составляющая.",
+                            "Систематизация дала компании более ясную основу для обсуждения оплаты и оценки возможности предъявления требования в установленном порядке. Она также выявила недостающие материалы: другой стороне можно было представить понятный итоговый расчёт, а не набор счетов, из которого не видна окончательная сумма задолженности."
+                        ]
+                    }
+                ],
+                "outcome": {
+                    "heading": "Результат, описанный в этом примере",
+                    "paragraphs": [
+                        "Компания получила систематизированный комплект материалов по требованию, пригодный для оценки переговорного пути или обращения к официальной процедуре. В этом примере не заявлены ни решение суда в её пользу, ни фактическое взыскание долга: подготовка требования, вынесение решения и его исполнение являются разными этапами."
+                    ]
+                },
+                "takeaway": {
+                    "heading": "Что можно извлечь из этой истории",
+                    "paragraphs": [
+                        "Сохраняйте документы, связывающие счёт с передачей товара или принятием услуги, фиксируйте платежи, возражения и письменные обещания оплатить задолженность. Заблаговременная систематизация помогает определить объём требований и отвечать на связанные с ними разногласия."
+                    ]
+                },
+                "related": {
+                    "heading": "Услуги и материалы по теме",
+                    "links": [
+                        {
+                            "label": "Услуги по взысканию долгов и денежным требованиям",
+                            "target": "S01"
+                        },
+                        {
+                            "label": "Руководство: с чего начать взыскание коммерческой задолженности",
+                            "target": "G02"
+                        }
+                    ]
+                },
+                "back_link": {
+                    "label": "Вернуться к списку примеров",
+                    "target": "cases-top"
+                }
+            }
+        }
+    }
+}

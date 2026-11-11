@@ -1,0 +1,192 @@
+@use "../tokens/tokens" as *;
+
+// =============================================================================
+// Footer: black. Description, three link groups, specialist resources,
+// disclaimer, dynamic year, WhatsApp.
+// =============================================================================
+
+.site-footer {
+  padding-block: var(--s-96) var(--s-48);
+  color: var(--on-dark-2);
+  background: var(--black);
+
+  a {
+    color: var(--on-dark);
+    text-decoration-color: var(--rule-dark-strong);
+
+    &:hover {
+      color: var(--gold);
+      text-decoration-color: var(--gold);
+    }
+  }
+}
+
+.site-footer__top {
+  display: grid;
+  gap: var(--s-48);
+  padding-block-end: var(--s-64);
+  border-block-end: var(--hairline) solid var(--rule-dark);
+
+  @media (min-width: $bp-lg) {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    gap: var(--gutter);
+  }
+}
+
+.site-footer__brand {
+  display: grid;
+  align-content: start;
+  gap: var(--s-24);
+  max-inline-size: 26rem;
+
+  .brand__lockup {
+    inline-size: min(100%, 19rem);
+    color: var(--gold);
+  }
+
+  p {
+    color: var(--on-dark-2);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+  }
+}
+
+.site-footer__groups {
+  display: grid;
+  gap: var(--s-48) var(--gutter);
+
+  @media (min-width: $bp-sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (min-width: $bp-lg) {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 3fr) minmax(0, 3fr);
+  }
+}
+
+.footer-group__title {
+  margin-block-end: var(--s-16);
+  color: var(--on-dark);
+  font-family: var(--font-sans);
+  font-size: var(--fs-ui);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-ui);
+}
+
+.footer-links {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-8);
+    min-block-size: var(--target);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+    text-decoration-line: none;
+
+    &:hover {
+      text-decoration-line: underline;
+    }
+  }
+}
+
+.footer-links--services {
+  @media (min-width: $bp-sm) {
+    column-gap: var(--gutter);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (min-width: $bp-lg) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.site-footer__specialist {
+  display: grid;
+  gap: var(--s-16);
+  padding-block: var(--s-48);
+  border-block-end: var(--hairline) solid var(--rule-dark);
+}
+
+.specialist-list {
+  display: grid;
+  gap: 0 var(--gutter);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @media (min-width: $bp-sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (min-width: $bp-lg) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  a {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--s-12);
+    min-block-size: var(--target);
+    padding-block: var(--s-12);
+    border-block-end: var(--hairline) solid var(--rule-dark);
+    text-decoration: none;
+
+    &:hover .specialist-list__domain {
+      color: var(--gold);
+    }
+  }
+
+  .icon {
+    flex: none;
+    align-self: center;
+    inline-size: var(--s-16);
+    block-size: var(--s-16);
+    color: var(--on-dark-2);
+  }
+}
+
+.specialist-list__label {
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+}
+
+.specialist-list__domain {
+  margin-inline-start: auto;
+  color: var(--on-dark-2);
+  font-size: var(--fs-ui);
+  transition: color var(--dur-1) var(--ease-out);
+}
+
+.site-footer__bottom {
+  display: grid;
+  gap: var(--s-24);
+  padding-block-start: var(--s-32);
+  font-size: var(--fs-ui);
+  line-height: var(--lh-ui);
+
+  @media (min-width: $bp-lg) {
+    grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
+    align-items: start;
+  }
+
+  p {
+    max-inline-size: var(--measure);
+  }
+}
+
+.site-footer__meta {
+  display: grid;
+  gap: var(--s-12);
+  justify-items: start;
+
+  @media (min-width: $bp-lg) {
+    justify-items: end;
+    text-align: end;
+  }
+}

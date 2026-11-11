@@ -1,0 +1,39 @@
+{
+    "id": "/en/",
+    "name": "Summit Legal Consultancy",
+    "short_name": "Summit Legal",
+    "description": "Legal advice for individuals and businesses in the UAE in Arabic, English and Russian. Review of contracts, debts, employment, property, criminal and cryptocurrency matters. Contact Summit.",
+    "lang": "en",
+    "dir": "ltr",
+    "start_url": "/en/",
+    "scope": "/en/",
+    "display": "standalone",
+    "background_color": "#FFFFFF",
+    "theme_color": "#0B0B0C",
+    "icons": [
+        {
+            "src": "/d2/icons/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/d2/icons/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/d2/icons/maskable-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "/d2/icons/maskable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}

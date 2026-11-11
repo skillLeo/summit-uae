@@ -1,0 +1,144 @@
+/*
+ * Design 2.1 component: icon (<x-d2.ui.icon>) and the brand mark (<x-d2.ui.brand-mark>, the official WhatsApp
+ * logo). Brief §3.5, §3.6 rule 5, §3.8; contract docs/d2.1/phase-1/components.md §3 and §4.
+ *
+ * ICONS: one outline set, 20 px (--icon-size), 1.5 px pen at every size, functional only (App\Design\D2\Icons::
+ *   ALLOWED). An icon draws in currentColor, so it follows the text of the control it sits in (a button's label,
+ *   a link); a standalone functional icon takes --ink-2 from its context (.icon--muted sets it). The duotone of
+ *   Design 2.0 is retired: no bronze pen, no wash.
+ *   Every shape has vector-effect: non-scaling-stroke (baked into the sprite symbols), so stroke-width is measured
+ *   on the screen: a 16, 20 or 48 px icon keeps the same 1.5 px line. Dots (class "dot") use the --icon-dot pen.
+ *   Sprite: <svg class="icon"><use href="#d2i-{glyph}"/></svg>; the <symbol>s carry their own pen, caps, joins
+ *   and fill="none", and what is set here reaches them by inheritance only (color, stroke-width).
+ *   RTL: directional icons (Icons::MIRRORED) carry .mirror-rtl and flip with scale: -1 1.
+ *
+ * BRAND MARK: Meta's WhatsApp files shown unchanged in <img> (never recoloured: no filter, no fill, no mask).
+ *   The light-surface and the dark-surface variant are both in the markup; the surface decides which one shows,
+ *   through two inherited custom properties, so the innermost surface wins:
+ *     light (default, .on-light, the white buttons, the inverted ink button on dark)  --wa-light shown
+ *     dark (.on-dark, .on-night, the night button, the ink button on light)           --wa-dark shown
+ *   Until Meta's files are in resources/brand/whatsapp/ a grey dashed ring stands in for them
+ *   ([data-placeholder="whatsapp-logo"]; ink-3 on light, on-dark-3 on dark): temporary, never green or gold.
+ */
+@layer components {
+  .icon {
+    --icon-stroke: 1.5px;
+    --icon-dot: 2.25px;
+
+    display: block;
+    flex-shrink: 0;
+    max-inline-size: none;
+    vertical-align: middle;
+    stroke-width: var(--icon-stroke);
+    pointer-events: none;
+
+    & * {
+      vector-effect: non-scaling-stroke;
+    }
+
+    & .dot {
+      stroke-width: var(--icon-dot);
+    }
+  }
+
+  /* A standalone functional icon in secondary ink (§3.5); on dark, the secondary text colour. */
+  .icon--muted {
+    color: var(--ink-2);
+  }
+
+  :is(.on-dark, .on-night) .icon--muted:not(.on-light *) {
+    color: var(--on-dark-2);
+  }
+
+  /* Mirroring follows the icon's own direction, so an LTR island (dir="ltr") inside an Arabic page
+     keeps the LTR form. base.css flips on any RTL ancestor; :dir() refines it where supported. */
+  .icon.mirror-rtl:dir(rtl) {
+    scale: -1 1;
+  }
+
+  .icon.mirror-rtl:dir(ltr) {
+    scale: none;
+  }
+
+  /* An icon inside running text: sits on the text, centred on the x-height. */
+  .icon--inline {
+    display: inline-block;
+    vertical-align: -0.2em;
+  }
+
+  /* <x-d2.ui.link external>: the ↗ mark (an SVG, never a character) after the link text, on the text's line. An
+     inline-block wrapper: the underline never runs under it, and the whitespace after the SVG ends inside it. */
+  .link__external {
+    display: inline-block;
+    margin-inline-start: var(--s-1);
+    vertical-align: -0.125em;
+    line-height: 0;
+  }
+
+  /* The glyph sprite (Icons::sprite()): never rendered itself, only through <use>. */
+  .icon-sprite {
+    display: none;
+  }
+
+  /* ------------------------------------------------------------------ brand mark (WhatsApp) */
+  :root,
+  .on-light {
+    --wa-light: block;
+    --wa-dark: none;
+    --wa-placeholder: var(--ink-3);
+  }
+
+  .on-dark,
+  .on-night {
+    --wa-light: none;
+    --wa-dark: block;
+    --wa-placeholder: var(--on-dark-3);
+  }
+
+  /* A light card inside a dark section is light again (after the dark rule, same specificity). */
+  :is(.on-dark, .on-night) .on-light {
+    --wa-light: block;
+    --wa-dark: none;
+    --wa-placeholder: var(--ink-3);
+  }
+
+  .brand-mark {
+    position: relative;
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
+    vertical-align: middle;
+    pointer-events: none;
+  }
+
+  .brand-mark__img {
+    display: block;
+    max-inline-size: none;
+    block-size: auto;
+    object-fit: contain;
+    user-select: none;
+  }
+
+  .brand-mark__light {
+    display: var(--wa-light, block);
+  }
+
+  .brand-mark__dark {
+    display: var(--wa-dark, none);
+  }
+
+  .brand-mark__placeholder {
+    display: block;
+    color: var(--wa-placeholder, var(--ink-3));
+  }
+
+  .brand-mark__placeholder.brand-mark__light {
+    display: var(--wa-light, block);
+  }
+
+  .brand-mark__placeholder.brand-mark__dark {
+    display: var(--wa-dark, none);
+  }
+}

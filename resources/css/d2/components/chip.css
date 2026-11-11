@@ -1,0 +1,150 @@
+/*
+ * Design 2.1 component: chip (<x-d2.ui.chip>). Brief §3.5, D04; contract docs/d2.1/phase-1/components.md §2.
+ * ONE chip: 32 px tall (--chip-h), a pill (--radius-pill), with a 44 px hit area (48 px on touch screens).
+ *   unselected  white, 1px --line-strong, ink-2 label (hover: ink label, --ink-3 edge)
+ *   selected    [aria-pressed="true"], [aria-current="true"], .is-pressed: ink fill, white label
+ *   count       optional, --ink-3 (on the ink fill: --on-dark-3), proportional lining figures: a count beside a
+ *               label is not a column of figures (Onest's tabular "1" is as wide as a "0", so "11" read "1 1").
+ *               IBM Plex Sans Arabic has tabular Western digits only (no pnum): Arabic pages keep its figures.
+ *   night       on dark surfaces: --dark-2 fill, hairline edge, --on-dark-2 label; selected = white, ink label
+ * No dots, no icons (the component prints neither). The Design 2.0 choice and hotspot variants draw this one chip.
+ * Press: scale(.98) for 120 ms. Focus: the 2px ring. aria-disabled: 40 %. Static (span): no states.
+ * Styleguide-only: .is-hover / .is-active / .is-focus.
+ */
+@layer components {
+  .chip {
+    --chip-bg: var(--canvas);
+    --chip-fg: var(--ink-2);
+    --chip-edge: var(--line-strong);
+    --chip-fg-hover: var(--ink);
+    --chip-edge-hover: var(--ink-3);
+    --chip-count: var(--ink-3);
+    --chip-scale: 1;
+    --hit: var(--target);
+
+    position: relative;
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    gap: var(--s-2);
+    min-block-size: var(--chip-h);
+    padding-block: 0;
+    padding-inline: var(--s-3);
+    border: var(--line-w) solid var(--chip-edge);
+    border-radius: var(--radius-pill);
+    color: var(--chip-fg);
+    background: var(--chip-bg);
+    font-family: var(--font-sans);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+    white-space: nowrap;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    scale: var(--chip-scale);
+    transition: scale var(--dur-press) var(--ease-out);
+
+    /* Hit area ≥ 44px (48px on touch screens). */
+    &::after {
+      content: "";
+      position: absolute;
+      inset-block: min(0px, calc(50% - var(--hit) / 2));
+      inset-inline: min(0px, calc(50% - var(--hit) / 2));
+    }
+  }
+
+  @media (pointer: coarse) {
+    .chip {
+      --hit: var(--target-touch);
+    }
+  }
+
+  .chip__label {
+    min-inline-size: 0;
+  }
+
+  .chip__count {
+    color: var(--chip-count);
+    font-weight: var(--fw-regular);
+    font-variant-numeric: lining-nums proportional-nums;
+  }
+
+  /* ------------------------------------------------------------------ dark surfaces */
+  .chip--night {
+    --chip-bg: var(--dark-2);
+    --chip-fg: var(--on-dark-2);
+    --chip-edge: var(--line-on-dark);
+    --chip-fg-hover: var(--on-dark);
+    --chip-edge-hover: var(--on-dark-3);
+    --chip-count: var(--on-dark-3);
+  }
+
+  /* Static label chips (as="span"): no states. */
+  .chip--static {
+    cursor: default;
+    user-select: auto;
+
+    &::after {
+      content: none;
+    }
+  }
+
+  /* ------------------------------------------------------------------ selected */
+  .chip:is([aria-pressed="true"], [aria-current="true"], .is-pressed) {
+    --chip-bg: var(--ink);
+    --chip-fg: var(--on-dark);
+    --chip-edge: var(--ink);
+    --chip-fg-hover: var(--on-dark);
+    --chip-edge-hover: var(--ink);
+    --chip-count: var(--on-dark-3);
+  }
+
+  .chip--night:is([aria-pressed="true"], [aria-current="true"], .is-pressed) {
+    --chip-bg: var(--on-dark);
+    --chip-fg: var(--ink);
+    --chip-edge: var(--on-dark);
+    --chip-fg-hover: var(--ink);
+    --chip-edge-hover: var(--on-dark);
+    --chip-count: var(--ink-3);
+  }
+
+  /* ------------------------------------------------------------------ states */
+  .chip:focus-visible,
+  .chip.is-focus {
+    outline: var(--focus-w) solid var(--focus-color);
+    outline-offset: var(--focus-offset);
+  }
+
+  @media (hover: hover) {
+    .chip:not(.chip--static, [aria-disabled="true"]):hover {
+      --chip-fg: var(--chip-fg-hover);
+      --chip-edge: var(--chip-edge-hover);
+    }
+  }
+
+  .chip.is-hover {
+    --chip-fg: var(--chip-fg-hover);
+    --chip-edge: var(--chip-edge-hover);
+  }
+
+  .chip:not(.chip--static, [aria-disabled="true"]):active,
+  .chip.is-active {
+    --chip-scale: var(--press-scale);
+  }
+
+  .chip[aria-disabled="true"] {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .chip:not(.chip--static, [aria-disabled="true"]):active,
+    .chip.is-active {
+      --chip-scale: 1;
+    }
+  }
+}

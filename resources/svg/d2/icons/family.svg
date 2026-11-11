@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <circle class="duo" cx="7" cy="6.75" r="2.5"/>
+  <circle class="duo" cx="17" cy="6.75" r="2.5"/>
+  <path d="M2.75 20.25L2.75 16.75A4.25 4.25 0 0 1 7.87 12.59M16.13 12.59A4.25 4.25 0 0 1 21.25 16.75L21.25 20.25"/>
+  <circle class="duo" cx="12" cy="13" r="1.9"/>
+  <path class="duo" d="M9 20.25V18.25A3 3 0 0 1 15 18.25V20.25"/>
+</svg>

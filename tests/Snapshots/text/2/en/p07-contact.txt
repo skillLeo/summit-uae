@@ -1,0 +1,172 @@
+# text-snapshot: design 2, locale en, route p07-contact
+# GET /en/contact/ -> 200; html lang=en dir=ltr data-design=2
+=== header ===
+Choose language
+English
+Request a Legal Consultation
+Home
+Practice Areas
+Legal Resources
+Case Studies
+FAQs
+About Us
+Contact Us
+=== main ===
+Home
+Contact Us
+Contact Summit Legal Consultancy
+Start with your question. We help you identify the next step.
+You may have an ongoing dispute, a contract to review or a decision whose effect you need to understand before acting. Tell us what happened and where you need help, so that we can identify with you the information needed and the appropriate scope of service.
+Contact us in Arabic, English or Russian. If you have a hearing or a response or appeal deadline, state the date and relevant authority at the outset.
+Send a Consultation Request
+Contact Us on WhatsApp
+(opens in a new tab)
+Contact Details
+Telephone
++971 52 466 6191
+WhatsApp
+Message Us on WhatsApp
+(opens in a new tab)
+Email
+info@summitlegaluae.com
+Communication Languages: Arabic · English · Russian
+Office Hours: Monday to Friday, 9 am to 6 pm UAE time.
+You can send a WhatsApp message outside office hours. Replies are subject to availability. Sending a message does not confirm an appointment or acceptance of an urgent matter.
+What Happens After You Contact Us
+1. We Understand Your Enquiry
+We review your summary to identify the type of matter and any current deadline, and request what is needed for a clearer understanding. Identifying the parties, key document and previous procedure helps direct the enquiry to the appropriate specialist.
+2. We Explain the Service and Documents Needed
+We identify with you the documents required, scope of advice or work, and fees. Requirements may differ if the matter needs translation, technical expertise or representation by a licensed advocate.
+3. We Agree the Appointment or Engagement
+We coordinate the means of communication and an available appointment where needed, and begin work once the engagement is accepted and its scope agreed. Initial contact and document exchange can take place remotely, with any later attendance, power of attorney or authentication requirements explained.
+Consultation Request Details
+Write a clear summary and provide at least one way to contact you. You do not need a registered case or a complete file to send an enquiry.
+Your name, matter summary, one contact method and consent to the use of your data are required. All other fields are optional.
+You
+Your name and at least one way to reach you.
+Name*
+Enter the name you would like us to use when contacting you.
+Phone Number, Email
+One valid phone number or email address is enough. You may provide both if you wish.
+Phone Number
+Include the country code and a number where you can be reached.
+Email
+Enter an email address you check regularly.
+Preferred Language
+Choose a language
+Arabic
+English
+Russian
+Your matter
+Choose the type of matter if you know it, and describe what happened.
+Type of Legal Matter
+Choose a topic if you know it
+Debts and Cheques
+Criminal Cases
+Cryptocurrencies
+Companies and Contracts
+Property and Tenancy
+Employment and Employee Entitlements
+Tax Matters
+Family and Wills
+Compliance and Regulatory Matters
+Legal Translation
+Business Services
+Other matter
+Not sure which category applies
+Matter Summary*
+Describe what happened, who the parties are and where you need help. Mention any earlier procedure or decision.
+Deadline
+If a hearing or a response or appeal deadline applies, give its date and the authority. Both fields are optional.
+Nearest Relevant Date or Deadline
+State the nearest hearing date or response or appeal deadline, if any.
+Date or Deadline Details
+Identify the relevant authority and what the date or deadline relates to, and explain if it has already passed.
+Do not send passwords, verification codes, private keys or a cryptocurrency wallet recovery phrase. A suitable way to send sensitive documents can be arranged once the nature of the matter is identified.
+Submitting a request does not mean that an engagement has been accepted, an appointment confirmed or monitoring of legal deadlines begun. If a deadline is approaching, call directly, state it clearly and confirm that the engagement has been accepted.
+I agree to the use of my data to contact me about this request in accordance with the Privacy Policy.*
+Submit Consultation Request
+What Helps Us Understand Your Matter
+A clear account of what happened, with key dates, parties and the request you wish to discuss.
+The document underlying the matter, such as a contract, cheque, decision or judgment, if available.
+Details of the disputed amounts, payments or obligations, where relevant.
+Any court notice, notification, hearing, response deadline or appeal deadline, identifying the authority concerned.
+Any earlier complaints, claims, settlements or advice concerning the matter.
+Start with what you have and explain what is missing. Do not wait for every document if a deadline needs review, and do not rely on a cropped extract where the full document is available.
+Questions Before Contacting Us
+Do I need to have an ongoing case?
+No. You can contact us to review a contract before signing, structure a partnership, discuss a claim, or address a family or regulatory matter, as well as matters where procedures have already begun.
+How are consultation fees determined?
+They depend on the nature of the matter, volume of documents and type of review required. We explain the service scope and fees before agreeing to start work. External charges or services may be defined separately where needed.
+Can I make initial contact from outside the UAE?
+Initial contact and document exchange can take place remotely. Any later requirements concerning attendance, a power of attorney, authentication or translation are explained according to the matter, authority and procedure.
+Does an acknowledgement of receipt confirm my appointment?
+An acknowledgement confirms that the request has reached the system. The consultation appointment, acceptance of the engagement and scope of work are determined through communication and agreement. Monitoring of legal deadlines does not begin merely because the form was submitted.
+Can I send an urgent matter outside office hours?
+You can send a WhatsApp message identifying the relevant event or deadline and its date. Replies are subject to availability. Do not rely on sending alone as confirmation that follow-up has been accepted or a deadline protected.
+Useful Links
+All Frequently Asked Questions
+Meet the Summit Team
+Explore Our Legal Services
+Contact Us in the Way That Suits You
+Send a summary of your matter, your preferred contact method and any current deadline. We identify with you what the matter requires and the next step that can be agreed.
+Contact Us on WhatsApp
+(opens in a new tab)
+Call Us
+Email Us
+Summit is a legal consultancy. Advocacy or representation requiring an advocate is undertaken by licensed advocates, according to the authority, procedure and agreed scope of engagement. Legal Notice and Scope of Services
+=== footer ===
+Summit Legal Consultancy
+Legal advice for individuals, businesses, investors and residents in the UAE, in Arabic, English and Russian.
++971 52 466 6191
+Contact Us on WhatsApp
+(opens in a new tab)
+info@summitlegaluae.com
+Business hours: Monday to Friday, 9 am to 6 pm.
+Practice Areas
+Debt Recovery and Cheque Cases
+Criminal Cases
+Cryptocurrency and Digital Currency Cases
+Corporate and Commercial Law
+Property and Tenancy Disputes
+Employment Law
+Tax Disputes and Tax Compliance
+Family Law and Wills
+Compliance and Regulatory Matters
+Legal Translation
+Business Services
+Legal Resources
+Legal Resources Centre
+FAQs
+Case Studies
+Useful Links
+About Us
+Contact Us
+Legal Notice
+Privacy Policy
+Terms and Conditions
+The information published is general and does not replace a review of the facts and documents relating to your matter. The scope of service and fees are determined when the engagement is accepted. Court advocacy requiring an advocate is carried out by licensed advocates.
+Specialist Resources and Services Associated with Summit
+Employment Law
+laborlawuae.com
+(opens in a new tab)
+Debt Recovery and Cheques
+debtrecoveryuae.com
+(opens in a new tab)
+Property Disputes
+dubaipropertydispute.com
+(opens in a new tab)
+Digital Currencies
+uaecryptocases.com
+(opens in a new tab)
+Wills
+uaeexpatwills.com
+(opens in a new tab)
+Tax Disputes
+uaetaxdisputes.com
+(opens in a new tab)
+© {{YEAR}} Summit Legal Consultancy. All rights reserved.
+Choose language
+Arabic
+English
+Russian

@@ -1,0 +1,659 @@
+/*
+ * Design 2 inner pages: About (P06), plus the blocks the three people pages share (owner: inner).
+ * The page head is the inner-page kit's .inner-head (pages/inner.css); link rows are the kit's .link-row.
+ *
+ * Shared (FAQ P05, About P06, Contact P07):
+ *   .pp-lead        the approved one-line lead under the H1 (in the head's meta slot): the Lead role in ink
+ *   .pp-cta         closing CTA panel: heading + approved paragraphs | request, WhatsApp (one height), then telephone
+ *                   and e-mail as the kit's contact channels (<x-d2.inner.channels>)
+ *   .pp-links       a list of .link-row (1 column, --grid: 2 from 768, 3 from 1280)
+ *   .pp-steps       an approved numbered sequence: --row (plain columns under a hairline, four on a line from
+ *                   1280 px) or --column; the approved number ("1.", Arabic in Western digits) starts the step's
+ *                   own title, in the title's role and colour
+ *   .pp-checklist   approved items with a plain bullet
+ *   .pp-panel       a band note panel with an H2 (the H3 role), approved paragraphs and a link row
+ * About:
+ *   .about-people   the approved team menu under "Our Team": three link rows to the profiles (the DOCX's place)
+ *   .about-split    heading column + text column (#story)
+ *   .about-principles, .about-members, .about-terms
+ * Design 2.1 (brief §3.3–3.6): white panels with a 1 px --line and --radius-card, no shadows, no timeline dots,
+ * no decorative glyphs, no hover lift or zoom, no stagger; type from the roles. Mobile first; tokens only;
+ * logical properties; motion = transform / opacity, none under reduced motion.
+ * Phase 2 (D45): the story's text column and the biographies use one body size and colour (Body, ink-2); the
+ * sections keep the standard rhythm (layout.css: 128 / 96 / 64 between white sections, so "Our Team" opens at the
+ * same distance as every other section).
+ */
+@layer pages {
+  /* ================================================================== shared: lead */
+  .pp-lead {
+    color: var(--ink);
+    font-size: var(--fs-lead);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-lead);
+    text-wrap: balance;
+  }
+
+  .pp-head .inner-head__meta {
+    margin-block-start: var(--s-1);
+  }
+
+  /* The head already ends with its own bottom padding: the first section after it starts closer, so no
+     empty band above its heading grows past 160 px. */
+  .pp-head + .section {
+    padding-block-start: var(--s-8);
+  }
+
+  /* ================================================================== shared: closing CTA panel */
+  .pp-cta {
+    display: grid;
+    gap: var(--s-8);
+    padding: var(--pad-card);
+    color: var(--ink);
+    background: var(--canvas);
+    border: var(--line-w) solid var(--line);
+    border-radius: var(--radius-card);
+  }
+
+  .pp-cta__text {
+    display: grid;
+    gap: var(--s-4);
+    align-content: start;
+    min-inline-size: 0;
+
+    p {
+      color: var(--ink-2);
+      font-size: var(--fs-lead);
+      line-height: var(--lh-lead);
+    }
+  }
+
+  .pp-cta .pp-cta__scope {
+    padding-block-start: var(--s-4);
+    color: var(--ink-3);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  .pp-cta__actions {
+    display: grid;
+    gap: var(--s-3);
+    align-content: start;
+    min-inline-size: 0;
+  }
+
+  /* the request and WhatsApp buttons: full width, one shared height when a long approved label wraps */
+  .pp-cta__buttons {
+    display: grid;
+    grid-auto-rows: 1fr;
+    gap: var(--s-3);
+
+    & > .btn {
+      text-wrap: balance;
+    }
+  }
+
+  /* the telephone and e-mail: the kit's contact channels (pages/inner.css .channels) under a hairline, the same
+     rows as the other CTA panels and the footer (P07: its approved "Call Us" / "Email Us") */
+  .pp-cta__channels {
+    margin-block-start: var(--s-2);
+    padding-block-start: var(--s-2);
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  @media (width >= 768px) {
+    .pp-cta {
+      padding: var(--s-12);
+    }
+  }
+
+  @media (width >= 1280px) {
+    .pp-cta {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+      column-gap: var(--s-16);
+    }
+
+    .pp-cta__actions {
+      padding-block-start: var(--s-2);
+    }
+  }
+
+  /* ================================================================== shared: link lists (.link-row from the kit) */
+  .pp-links {
+    display: grid;
+    gap: var(--s-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* The links under the closing CTA panel keep 24 px from it. */
+  .pp-band__links {
+    margin-block-start: var(--s-6);
+  }
+
+  /* A row of link rows shares one height: each link fills its stretched cell. */
+  .pp-links--grid > li,
+  .about-member__links > li {
+    display: flex;
+    min-inline-size: 0;
+
+    & > .link-row {
+      flex: 1 1 auto;
+    }
+  }
+
+  @media (width >= 768px) {
+    .pp-links--grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (width >= 1280px) {
+    .pp-links--grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  /* ================================================================== shared: numbered steps
+     A sequence (numbers allowed, brief §3.6 rule 4): the approved title with its approved number, one heading;
+     no timeline dots or lines. Under a section's H2 (About) the titles take the H3 role; in a panel whose own
+     title is already the H3 role (the Contact head's aside) the Minor heading role (pages/contact.css). */
+  .pp-steps {
+    display: grid;
+    gap: var(--s-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .pp-step {
+    display: grid;
+    min-inline-size: 0;
+  }
+
+  /* align-content: start: in a stretched panel (a row of steps) the spare height stays at the bottom, so the
+     title-to-text gap is the same 8 px in every panel. */
+  .pp-step__card {
+    display: grid;
+    align-content: start;
+    gap: var(--s-2);
+    min-inline-size: 0;
+    padding: var(--pad-card);
+    background: var(--canvas);
+    border: var(--line-w) solid var(--line);
+    border-radius: var(--radius-card);
+  }
+
+  .pp-step__title {
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+  }
+
+  /* The approved number is part of the approved step title ("1. Initial Review"): printed as written, in the
+     heading's own role and colour (brief §3.6 rule 12: no word of another colour inside a heading). */
+  .pp-step__num {
+    font-variant-numeric: lining-nums;
+  }
+
+  .pp-step__text {
+    color: var(--ink-2);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+  }
+
+  /* in a panel column (the Contact head): a quiet list of steps separated by hairlines, no panel per step */
+  .pp-steps--column {
+    gap: 0;
+  }
+
+  .pp-steps--column .pp-step + .pp-step {
+    padding-block-start: var(--s-4);
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  .pp-steps--column .pp-step__card {
+    padding: 0 0 var(--s-4);
+    background: none;
+    border: 0;
+  }
+
+  .pp-steps--column .pp-step__text {
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+  }
+
+  /* About's row of steps: static text, so plain columns under a hairline, never a card (brief §3.5: cards are for
+     interactive containers and clickable listings); two columns from 768 px, four from 1280 px */
+  .pp-steps--row {
+    row-gap: var(--s-8);
+  }
+
+  .pp-steps--row .pp-step__card {
+    padding: var(--s-5) 0 0;
+    background: none;
+    border: 0;
+    border-block-start: var(--line-w) solid var(--line-strong);
+    border-radius: 0;
+  }
+
+  @media (width >= 768px) {
+    .pp-steps--row {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: var(--gutter);
+    }
+
+    .pp-steps--row .pp-step__card {
+      block-size: 100%;
+    }
+  }
+
+  @media (width >= 1280px) {
+    .pp-steps--row {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  /* Steps side by side: every panel's text starts on the same line, whatever its title wraps to (2-3 lines in
+     EN / RU at 1280-1440). Each step spans two rows of the list (title, text) and its panel shares them through
+     subgrid; without subgrid the panels keep their own rows (above). */
+  @supports (grid-template-rows: subgrid) {
+    @media (width >= 768px) {
+      .pp-steps--row {
+        row-gap: 0;
+      }
+
+      .pp-steps--row .pp-step {
+        grid-row: span 2;
+        grid-template-rows: subgrid;
+        row-gap: 0;
+      }
+
+      .pp-steps--row .pp-step__card {
+        grid-row: span 2;
+        grid-template-rows: subgrid;
+        row-gap: var(--s-2);
+        block-size: auto;
+      }
+    }
+  }
+
+  /* ================================================================== shared: checklist (plain bullets) */
+  .pp-checklist {
+    display: grid;
+    gap: var(--s-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .pp-checklist__item {
+    display: flex;
+    gap: var(--s-3);
+    align-items: flex-start;
+    color: var(--ink);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+  }
+
+  /* a 6 px bullet, centred on the first line (the mark is one text line tall) */
+  .pp-checklist__mark {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    inline-size: var(--s-4);
+    block-size: var(--lh-body);
+
+    &::before {
+      inline-size: 6px;
+      block-size: 6px;
+      content: "";
+      background: var(--ink-3);
+      border-radius: 50%;
+    }
+  }
+
+  /* ================================================================== shared: panel
+     A note panel of static text (About: "Clear Roles in Legal Work", "A Clear Engagement …"): the cool band, no
+     edge, so it never reads as a clickable card (brief §3.5); its link is a white link row. */
+  .pp-panel {
+    display: grid;
+    gap: var(--s-4);
+    align-content: start;
+    min-inline-size: 0;
+    padding: var(--pad-card);
+    background: var(--band);
+    border-radius: var(--radius-card);
+
+    p {
+      color: var(--ink);
+    }
+  }
+
+  /* a panel title: the H3 role (its outline level is h2) */
+  .pp-panel__title {
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+  }
+
+  .pp-panel .pp-panel__links {
+    margin-block-start: var(--s-2);
+  }
+
+  /* ================================================================== About: team menu (link rows)
+     The approved jump menu between the team intro and the profiles (Phase 2, brief §5.3: it used to be the head's
+     portrait tiles, read before the story). The kit's link rows, one column on phones, the three names on one row
+     from 768 px (never two and one). */
+  .about-people {
+    margin-block-end: var(--s-12);
+  }
+
+  @media (width >= 768px) {
+    .about-people {
+      margin-block-end: var(--s-16);
+    }
+
+    .about-people__list {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  /* ================================================================== About: story (heading | text) */
+  .about-split {
+    display: grid;
+    gap: var(--s-6);
+  }
+
+  /* D45: one body size and colour for every paragraph of the text column (the first is no longer set larger). */
+  .about-split__body {
+    display: grid;
+    gap: var(--s-4);
+    max-inline-size: var(--prose);
+
+    p {
+      color: var(--ink-2);
+      font-size: var(--fs-body);
+      line-height: var(--lh-body);
+    }
+  }
+
+  @media (width >= 1280px) {
+    .about-split {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      column-gap: var(--gutter);
+      align-items: start;
+    }
+
+    .about-split__title {
+      position: sticky;
+      inset-block-start: calc(var(--header-h) + var(--s-8));
+      padding-inline-end: var(--s-12);
+    }
+  }
+
+  /* ================================================================== About: principles (plain columns)
+     Static text, not a listing: each principle under a hairline (no card edge, no radius, no fill), title in the
+     H3 role and its text in ink-2. Side by side, the items of a row share their title and text tracks (subgrid),
+     so every text starts on one line whatever its title wraps to. */
+  .about-principles {
+    display: grid;
+    gap: var(--s-8) var(--gutter);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .about-principle {
+    display: grid;
+    gap: var(--s-2);
+    align-content: start;
+    min-inline-size: 0;
+    padding-block-start: var(--s-5);
+    border-block-start: var(--line-w) solid var(--line-strong);
+  }
+
+  .about-principle__title {
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+  }
+
+  .about-principle__text {
+    color: var(--ink-2);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+  }
+
+  @media (width >= 768px) {
+    .about-principles {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (width >= 1280px) {
+    .about-principles {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @supports (grid-template-rows: subgrid) {
+    @media (width >= 768px) {
+      .about-principles {
+        row-gap: 0;
+      }
+
+      .about-principle {
+        grid-row: span 2;
+        grid-template-rows: subgrid;
+        row-gap: var(--s-2);
+      }
+    }
+
+    /* the rows of items keep 32 px between them (the list's own row gap is 0 for the shared tracks) */
+    @media (width >= 768px) and (width < 1280px) {
+      .about-principle:nth-child(n + 3),
+      .pp-steps--row .pp-step:nth-child(n + 3) {
+        margin-block-start: var(--s-8);
+      }
+    }
+
+    @media (width >= 1280px) {
+      .about-principle:nth-child(n + 4) {
+        margin-block-start: var(--s-8);
+      }
+    }
+  }
+
+  /* ================================================================== About: process links (link rows) */
+  .about-process__links {
+    margin-block-start: var(--s-8);
+  }
+
+  /* ================================================================== About: team members */
+  .about-team:focus,
+  .about-member:focus {
+    outline: none;
+  }
+
+  .about-members {
+    display: grid;
+    gap: var(--s-16);
+  }
+
+  .about-member {
+    display: grid;
+    gap: var(--s-8);
+    align-items: start;
+    min-inline-size: 0;
+  }
+
+  .about-member + .about-member {
+    padding-block-start: var(--s-16);
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  .about-member__card {
+    max-inline-size: 400px;
+    min-inline-size: 0;
+  }
+
+  .about-member__body {
+    display: grid;
+    gap: var(--s-8);
+    min-inline-size: 0;
+    max-inline-size: var(--prose);
+  }
+
+  /* D45: the biography in one body size and colour, the same as the story's text column */
+  .about-member__bio {
+    display: grid;
+    gap: var(--s-4);
+
+    p {
+      color: var(--ink-2);
+      font-size: var(--fs-body);
+      line-height: var(--lh-body);
+    }
+  }
+
+  /*
+   * Phones: three long approved biographies made P06 17 000–22 400 px tall at 390 px. Below 768 px on screen,
+   * with JavaScript (html.js is set before the first paint), a member shows the profile card and the first
+   * biography paragraph; the proposed "Read the full profile" disclosure (d2AboutTeam) opens the rest of the
+   * biography and the areas (.is-open; a link to the member opens it too). .about-member__more is
+   * display: contents elsewhere, so its paragraphs and the areas keep the biography's rhythm exactly. Without
+   * JavaScript, in print and from 768 px everything shows.
+   */
+  .about-member__toggle {
+    display: none;
+  }
+
+  .about-member__more {
+    display: contents;
+  }
+
+  .about-member__more > .about-member__areas {
+    margin-block-start: calc(var(--s-8) - var(--s-4));
+  }
+
+  @media screen and (width < 768px) {
+    .js .about-member:not(.is-open) .about-member__more {
+      display: none;
+    }
+
+    .js .about-member__toggle {
+      display: inline-flex;
+    }
+  }
+
+  .about-member__toggle[aria-expanded="true"] .about-member__toggle-open,
+  .about-member__toggle:not([aria-expanded="true"]) .about-member__toggle-close {
+    display: none;
+  }
+
+  .about-member__toggle .btn__icon--end {
+    transition: transform var(--dur-hover) var(--ease-out);
+  }
+
+  .about-member__toggle[aria-expanded="true"] .btn__icon--end {
+    transform: rotate(180deg);
+  }
+
+  /* the disclosure opens like an accordion (the motion the brief allows): transform and opacity only */
+  @media screen and (width < 768px) and (prefers-reduced-motion: no-preference) {
+    .js.motion-ok .about-member.is-revealed .about-member__more > * {
+      animation: about-reveal var(--dur-panel) var(--ease-out);
+    }
+  }
+
+  @keyframes about-reveal {
+    from {
+      opacity: 0;
+      transform: translateY(var(--s-2));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .about-member__toggle .btn__icon--end {
+      transition: none;
+    }
+  }
+
+  /* the approved working-languages line (<x-d2.team.languages>) follows the areas (the DOCX order), 16 px under
+     them as part of the profile; the links keep the body's 32 px */
+  .about-member__languages {
+    margin-block-start: calc(var(--s-4) - var(--s-8));
+  }
+
+  .about-member__areas {
+    display: grid;
+    gap: var(--s-4);
+    padding: var(--pad-card);
+    background: var(--band);
+    border-radius: var(--radius-card);
+  }
+
+  /* a group heading: the Minor heading role (16 / 600) */
+  .about-member__heading {
+    font-size: var(--fs-minor);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-minor);
+    letter-spacing: 0;
+  }
+
+  @media (width >= 768px) {
+    .about-member {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      column-gap: var(--s-12);
+    }
+
+    .about-member__card {
+      max-inline-size: none;
+    }
+
+    .about-member__areas .pp-checklist {
+      column-gap: var(--s-8);
+    }
+  }
+
+  @media (width >= 1280px) {
+    .about-member {
+      grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+      column-gap: var(--s-16);
+    }
+
+    .about-member__areas .pp-checklist {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .about-member__links {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /* the card stays in view while the biography scrolls, where the viewport is tall enough for it */
+  @media (width >= 768px) and (height >= 860px) {
+    .about-member__card {
+      position: sticky;
+      inset-block-start: calc(var(--header-h) + var(--s-6));
+    }
+  }
+
+  /* ================================================================== About: scope + confidentiality */
+  .about-terms__grid {
+    display: grid;
+    gap: var(--gutter);
+  }
+
+  @media (width >= 1280px) {
+    .about-terms__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+}

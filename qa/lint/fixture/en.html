@@ -1,0 +1,158 @@
+<!doctype html>
+<!--
+    design lint self-test, main fixture (scripts/qa/lint-design.mjs --self-test, served from a temporary folder).
+    Every rule of brief §7.1 except 15 (Arabic pages only: ar.html) fires exactly once here; rule 13 fires inside the
+    header's overlay, so the overlay-state pass is proven too. Everything marked "control" must NOT fire: the
+    exemptions (illustration, overlay, authored ellipsis, approved separator) and the allowed icons and contexts.
+-->
+<html lang="en" dir="ltr" class="js" data-design="2" data-page="fixture">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lint fixture</title>
+    <link rel="stylesheet" href="/fixture.css">
+</head>
+<body>
+    <svg hidden width="0" height="0" aria-hidden="true">
+        <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5 9-9" stroke="currentColor" fill="none"/></symbol>
+        <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6" stroke="currentColor" fill="none"/></symbol>
+        <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" stroke="currentColor" fill="none"/></symbol>
+    </svg>
+
+    <header class="site">
+        <div class="container row">
+            <a href="/en/">Fixture home</a>
+            <nav aria-label="Main"><ul class="row"><li><a href="/en/#about">About</a></li><li><a href="/en/#contact">Contact</a></li></ul></nav>
+            <!-- control: a functional search icon; a disclosure chevron. The button opens the overlay below. -->
+            <button type="button" aria-label="Search"><svg class="icon" data-icon="search" aria-hidden="true"><use href="#i-search"/></svg></button>
+            <button type="button" aria-expanded="false" aria-controls="fx-menu">Menu <svg class="icon" data-icon="chevron-down" aria-hidden="true"><use href="#i-chevron-down"/></svg></button>
+        </div>
+        <!-- control: the overlay shadow on [data-overlay]. Rule 13 fires once here (an icon inside a menu item). -->
+        <div id="fx-menu" class="menu-panel" data-overlay hidden>
+            <ul role="menu" class="stack">
+                <li role="none"><a role="menuitem" href="#m1"><svg class="icon" data-icon="check" aria-hidden="true"><use href="#i-check"/></svg> First item</a></li>
+                <li role="none"><a role="menuitem" href="#m2">Second item</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main id="main-content">
+        <section>
+            <div class="container stack">
+                <h1>Lint fixture</h1>
+                <p class="mono">Reference 0001</p>                                   <!-- rule 1 -->
+                <p class="eyebrow">Practice areas</p>                                <!-- rule 2 -->
+                <p>Open now · closes at 6 pm</p>                                     <!-- rule 3 -->
+                <p><a href="#more">Read more →</a></p>                               <!-- rule 4 -->
+                <p>This summary of the service has been cut…</p>                     <!-- rule 5 -->
+                <div class="shadowed">Raised panel</div>                             <!-- rule 6 -->
+                <div class="promo">Promotional band</div>                            <!-- rule 7 -->
+                <p class="tiny">Fine print</p>                                       <!-- rule 9 -->
+                <div class="odd">Odd padding</div>                                   <!-- rule 10 -->
+                <p class="faint">Low contrast note</p>                               <!-- rule 16 -->
+                <p>
+                    <a href="https://wa.me/10000000000?text=Hello" target="_blank" rel="noopener noreferrer">Chat on WhatsApp</a> <!-- rule 14 -->
+                </p>
+            </div>
+        </section>
+
+        <section>
+            <div class="container stack">
+                <h2>Controls</h2>
+                <p class="upper-flat">Capitals without tracking</p>
+                <p class="tracked">tracked lowercase words</p>
+                <p>Catalan col·lecció is one word</p>
+                <ul class="stack"><li>• First point of a list</li><li>• Second point of a list</li></ul>
+                <p>Working Languages: Arabic · English</p>
+                <p><a href="#q">«Подробнее»</a></p>
+                <p><button type="button" data-carousel-step="1" aria-label="Next">›</button></p>
+                <p>Sending request…</p>
+                <p class="clamp">A short paragraph the clamp does not cut.</p>
+                <div class="pop" data-overlay>Popover with the overlay shadow</div>
+                <div class="clear-shadow">Transparent shadow</div>
+                <div class="fade">An edge fade drawn with a mask</div>
+                <div class="pct">Percentage padding</div>
+                <div class="bleed">Bleeding by the container padding</div>
+                <p class="small">Small text</p>
+                <p class="caption">Caption text</p>
+                <p class="minor">Minor heading</p>
+                <h3>Third level heading</h3>
+                <p><span class="sr-only">Visually hidden text</span></p>
+                <p><a href="https://example.org/" target="_blank" rel="noopener noreferrer">Example website <svg class="icon" data-icon="external" aria-hidden="true"><use href="#i-check"/></svg></a></p>
+                <div class="contact-card"><svg class="icon" data-icon="clock" aria-hidden="true"><use href="#i-check"/></svg> Office hours</div>
+                <div><button type="button" data-carousel-step="-1" aria-label="Previous"><svg class="icon" data-icon="carousel-prev" aria-hidden="true"><use href="#i-chevron-down"/></svg></button></div>
+                <div class="stepper">
+                    <button type="button" data-step="-1" aria-label="Decrease"><svg class="icon" data-icon="minus" aria-hidden="true"><use href="#i-check"/></svg></button>
+                    <input type="number" value="1" aria-label="Days">
+                    <button type="button" data-step="1" aria-label="Increase"><svg class="icon" data-icon="plus" aria-hidden="true"><use href="#i-check"/></svg></button>
+                </div>
+                <label class="date-field"><input type="date" aria-label="Start date"><span><svg class="icon" data-icon="calendar" aria-hidden="true"><use href="#i-check"/></svg></span></label>
+                <p>
+                    <a href="https://wa.me/10000000000?text=Fixture%20draft%20for%20the%20lint" target="_blank" rel="noopener noreferrer"><span data-brand="whatsapp" data-icon="whatsapp" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" data-placeholder="whatsapp-logo"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-dasharray="2.5 2.5"/></svg></span> Contact Us on WhatsApp</a>
+                </p>
+                <!-- control: [data-illustration] (sample-document art). Rules 1, 2, 6 and 7 are not measured inside it
+                     (the brief's exemption); on its paper ([data-doc] / .doc) rules 3, 5, 9, 10, 13 and 16 are recorded
+                     as art and not counted (FIXTURES art: 3, 5, 9 twice, 10, 13, 16), and count under
+                     --illustrations=strict. (Interface text outside the paper counts: variants.html.) -->
+                <div data-illustration>
+                    <div class="paper" data-doc>                                             <!-- art 10 (padding 7px); 6, 7 not measured -->
+                        <p class="mono eyebrow">Sample document</p>                          <!-- 1, 2 not measured -->
+                        <p>SAMPLE · ILLUSTRATION</p>                                         <!-- art 3; art 9 (9 px) -->
+                        <p class="faint tiny">Account number …</p>                           <!-- art 5; art 9 (12 px); contrast on a gradient: axe incomplete -->
+                        <svg class="icon" data-icon="stamp" aria-hidden="true"><use href="#i-check"/></svg> <!-- art 13 -->
+                    </div>
+                    <div class="paper-plain" data-doc><p class="faint small">Caption on plain paper</p></div> <!-- art 16 -->
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <h2>Cards that lift</h2>
+                <div class="grid3">
+                    <article class="card"><h3>First card</h3><p>A summary.</p><a class="card__foot" href="#c1">Explore This Service</a></article>
+                    <article class="card card--lift"><h3>Second card</h3><p>A longer summary that takes two lines in this column.</p><a class="card__foot" href="#c2">Explore This Service</a></article>  <!-- rule 8 -->
+                    <article class="card"><h3>Third card</h3><p>A summary.</p><a class="card__foot" href="#c3">Explore This Service</a></article>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <h2>Cards out of line</h2>
+                <div class="grid3">                                                  <!-- rule 12: title tops differ -->
+                    <article class="card"><p class="caption">Category</p><h3>Guide one</h3><p>A summary.</p><a class="card__foot" href="#g1">Read the Guide</a></article>
+                    <article class="card"><h3>Guide two</h3><p>A summary.</p><a class="card__foot" href="#g2">Read the Guide</a></article>
+                    <article class="card"><h3>Guide three</h3><p>A summary.</p><a class="card__foot" href="#g3">Read the Guide</a></article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section--off">                                               <!-- rule 11 -->
+            <div class="container"><p>A band whose container is 16 px narrower on each side.</p></div>
+        </section>
+    </main>
+
+    <footer class="site">
+        <div class="container"><p class="small">Footer of the fixture</p></div>
+    </footer>
+
+    <script>
+        document.addEventListener('click', (event) => {
+            const trigger = event.target.closest('[aria-controls]');
+            if (!trigger) return;
+            const panel = document.getElementById(trigger.getAttribute('aria-controls'));
+            const open = trigger.getAttribute('aria-expanded') !== 'true';
+            trigger.setAttribute('aria-expanded', String(open));
+            panel.hidden = !open;
+        });
+        document.addEventListener('keydown', (event) => {
+            if (event.key !== 'Escape') return;
+            for (const trigger of document.querySelectorAll('[aria-expanded="true"]')) {
+                trigger.setAttribute('aria-expanded', 'false');
+                document.getElementById(trigger.getAttribute('aria-controls')).hidden = true;
+            }
+        });
+    </script>
+</body>
+</html>

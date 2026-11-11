@@ -1,0 +1,957 @@
+/*
+ * Design 2 inner page: the Legal Knowledge Centre (P03, d2::inner.resources; upgrade spec §7.4 "Guide page",
+ * §5.5 guides, §12 Phase D) and the resources components it shares with the Case Studies page:
+ * <x-d2.resources.service-card>, the related link rows (.kc-link), <x-d2.resources.contact-panel>.
+ *
+ * Page order: inner head (+ "How to use" aside ≥ 1280) · finder (JavaScript only, shown under html.js before
+ * first paint, so a deep link never moves) · directory (category label + guide cards: a swipe rail on phones,
+ * two columns from 768 px, a sticky category column + three columns from 1280 px; a card alone on its row
+ * spans the row) · "Need a Specific Answer?" band · the nine guides in the inner kit's reading layout (TOC,
+ * progress bar) · consultation panel · scope note.
+ * Design 2.1 (brief §3.3–3.6): white panels with a 1 px --line and --radius-card, no shadows, no cover banner,
+ * no reading time, no object icons or arrows on links, no bronze marks; panel titles take the H3 role. A guide's
+ * questions (h4) keep the accordion's own H3 role (22 / 600) like every FAQ question of the site, and a related
+ * service card's title the H3 role of every listing card (§3.2: one role per kind of text, on every page).
+ * Every value is a token; logical properties only; one stylesheet for LTR and RTL.
+ */
+@layer pages {
+  /* ================================================================ head: "How to Use the Knowledge Centre" */
+  .kc-howto {
+    display: grid;
+    gap: var(--s-4);
+    padding: var(--pad-card);
+    background: var(--canvas);
+    border: var(--line-w) solid var(--line);
+    border-radius: var(--radius-card);
+  }
+
+  /* a panel title: the H3 role (its outline level is h2) */
+  .kc-howto__title {
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+  }
+
+  .kc-howto__list {
+    display: grid;
+    gap: var(--s-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* the 352 px rail panel: the items in the Small role, so the panel stays compact */
+  .kc-howto__item {
+    position: relative;
+    padding-inline-start: var(--s-5);
+    color: var(--ink);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+
+    /* a plain bullet on the first line (a list, not a sequence: no numbers) */
+    &::before {
+      position: absolute;
+      inset-block-start: calc(var(--lh-small) / 2 - 3px);
+      inset-inline-start: var(--s-1);
+      inline-size: 6px;
+      block-size: 6px;
+      content: "";
+      background: var(--ink-3);
+      border-radius: 50%;
+    }
+  }
+
+  /* ================================================================ finder (search + topic) */
+  .kc-find {
+    display: none;
+  }
+
+  .js .kc-find {
+    display: block;
+    padding-block-end: var(--s-4);
+  }
+
+  .kc-find__panel {
+    display: grid;
+    gap: var(--s-6);
+    padding: var(--pad-card);
+    background: var(--canvas);
+    border: var(--line-w) solid var(--line);
+    border-radius: var(--radius-card);
+  }
+
+  .kc-find__title {
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+  }
+
+  /* The search field takes the panel's full width until the two halves are wide enough for the approved
+     placeholder in every language (the Russian one is the longest), so the hint shows in full (brief §3.6
+     rule 8); search and topics side by side, one half each, from 1280 px. */
+  .kc-find__form {
+    display: grid;
+    gap: var(--s-6);
+  }
+
+  /* From 1280 px the search takes 7 of 12 parts: the approved Russian placeholder needs 486 px of text, one line */
+  @media (width >= 1280px) {
+    .kc-find__form {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      align-items: start;
+      gap: var(--s-8);
+    }
+  }
+
+  /*
+   * The search box (D09, brief §3.6 rule 8: approved copy is never cut), the FAQ search's solution (sections/faq.css
+   * .faq-browser__box): no phone field holds the approved placeholder ("Enter a word such as salary, cheque or
+   * will"; Russian needs 395 px of text at 16 px) and a native placeholder cannot wrap. So the box draws the field
+   * (its 1 px edge, radius, hover, focus edge and ring: components/field.css) around the borderless input and a copy
+   * of the placeholder that wraps (.kc-find__hint, aria-hidden; the input's own placeholder stays the accessible
+   * one and turns invisible while the copy shows). The copy's line height is the field's inner 46 px less its
+   * padding, so one line fills the 48 px field and sits on the input's own line; each further line adds one line
+   * height (Arabic: 8 + 30 + 8 for IBM Plex Sans Arabic). It shows only while the field is empty; once a word is
+   * typed the field is 48 px again. Without :has() the native placeholder stays.
+   */
+  .kc-find__box {
+    --ctl-edge: var(--ctl-edge-rest);
+
+    position: relative;
+    display: grid;
+    min-inline-size: 0;
+    border: var(--line-w) solid var(--ctl-edge);
+    border-radius: var(--radius-control);
+    background: var(--ctl-bg);
+    cursor: text;
+  }
+
+  @media (hover: hover) {
+    .kc-find__box:hover:not(:focus-within) {
+      --ctl-edge: var(--ctl-edge-hover);
+    }
+  }
+
+  .kc-find__box:focus-within {
+    --ctl-edge: var(--ctl-edge-focus);
+
+    outline: var(--focus-w) solid var(--focus-color);
+    outline-offset: var(--focus-offset);
+  }
+
+  .kc-find__box > .control {
+    grid-area: 1 / 1;
+    align-self: start;
+  }
+
+  .kc-find__box .input {
+    min-block-size: calc(var(--field-h) - 2 * var(--line-w));
+    border: 0;
+    background: transparent;
+
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  .kc-find__box .control__icon {
+    inset-inline-start: calc(var(--s-4) - var(--line-w));
+  }
+
+  .kc-find__hint {
+    --hint-pad: var(--s-3);
+
+    display: none;
+    grid-area: 1 / 1;
+    min-inline-size: 0;
+    padding-block: var(--hint-pad);
+    padding-inline: var(--s-12) var(--s-4);
+    color: var(--ctl-muted);
+    font-size: var(--fs-body);
+    font-weight: var(--fw-regular);
+    line-height: calc(var(--field-h) - 2 * var(--line-w) - 2 * var(--hint-pad));
+    overflow-wrap: break-word;
+    text-wrap: balance;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .kc-find__hint:lang(ar) {
+    --hint-pad: var(--s-2);
+  }
+
+  @supports selector(:has(*)) {
+    .kc-find__box:has(.input:placeholder-shown) .kc-find__hint {
+      display: block;
+    }
+
+    .kc-find__box .input::placeholder {
+      opacity: 0;
+    }
+  }
+
+  .kc-find__topics {
+    display: grid;
+    gap: var(--s-2);
+    min-inline-size: 0;
+  }
+
+  /* the same look as the field label above the search input (the UI label role) */
+  .kc-find__label {
+    color: var(--ink);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+  }
+
+  /* One chip component (brief §3.5: 32 px pills): an approved category name stays whole on one line, and the
+     chips wrap as a row. Shown from 768 px, where every name fits a line of the panel (the longest, RU
+     «Цифровые доказательства и организация бизнеса», is ~400 px; the panel holds 654 px at 768). */
+  .kc-find__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+
+    & .chip {
+      flex: none;
+      white-space: nowrap;
+    }
+  }
+
+  /*
+   * Phones: the topic picker (the D30 / D41 rule: no half-cut label). Below 768 px no row holds every approved
+   * name on one line (that Russian name is wider than a 390 px phone's 300 px panel), so a sideways chip row
+   * always cut one under its edge fade. The picker is a field (48 px, 1 px --field-border, radius 6, the chevron
+   * at the inline end) whose box shows the chosen name in full: the copy (.kc-find__pick-value, aria-hidden)
+   * wraps into balanced lines and the box grows by one line height per line, the search hint's measure (one line
+   * fills the 48 px; Arabic 8 + 30 + 8 for IBM Plex Sans Arabic). The control is the native <select>, transparent
+   * and stretched over the whole box, so a tap anywhere opens the platform's own picker; the box draws its edge,
+   * hover, focus edge and 2 px ring.
+   */
+  .kc-find__pick {
+    display: none;
+  }
+
+  @media (width < 768px) {
+    .kc-find__chips {
+      display: none;
+    }
+
+    .kc-find__pick {
+      --ctl-edge: var(--ctl-edge-rest);
+      --pick-pad: var(--s-3);
+
+      position: relative;
+      display: grid;
+      min-inline-size: 0;
+      color: var(--ctl-fg);
+      background: var(--ctl-bg);
+      border: var(--line-w) solid var(--ctl-edge);
+      border-radius: var(--radius-control);
+    }
+
+    .kc-find__pick:lang(ar) {
+      --pick-pad: var(--s-2);
+    }
+
+    .kc-find__pick:has(.kc-find__select:focus) {
+      --ctl-edge: var(--ctl-edge-focus);
+    }
+
+    .kc-find__pick:has(.kc-find__select:focus-visible) {
+      outline: var(--focus-w) solid var(--focus-color);
+      outline-offset: var(--focus-offset);
+    }
+  }
+
+  @media (width < 768px) and (hover: hover) {
+    .kc-find__pick:hover:not(:has(.kc-find__select:focus)) {
+      --ctl-edge: var(--ctl-edge-hover);
+    }
+  }
+
+  /* the control: the whole box, invisible (16 px text, so iOS never zooms on it) */
+  .kc-find__select {
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    margin: 0;
+    padding: 0;
+    color: var(--ctl-fg);
+    background: transparent;
+    border: 0;
+    border-radius: var(--radius-control);
+    font-family: var(--font-sans);
+    font-size: var(--fs-body);
+    opacity: 0;
+    cursor: pointer;
+    appearance: none;
+
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  /* the chosen name, whole: one line fills the 48 px field, each further line adds one line height */
+  .kc-find__pick-value {
+    grid-area: 1 / 1;
+    min-inline-size: 0;
+    padding-block: var(--pick-pad);
+    padding-inline: var(--s-4) var(--s-12);
+    font-size: var(--fs-body);
+    font-weight: var(--fw-regular);
+    line-height: calc(var(--field-h) - 2 * var(--line-w) - 2 * var(--pick-pad));
+    overflow-wrap: break-word;
+    text-wrap: balance;
+    pointer-events: none;
+  }
+
+  .kc-find__pick-icon {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-end: calc(var(--s-4) - var(--line-w));
+    margin-block: auto;
+    color: var(--ctl-fg-2);
+    pointer-events: none;
+  }
+
+  .kc-find__foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-2) var(--s-4);
+    min-block-size: var(--control-sm);
+    padding-block-start: var(--s-4);
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  .kc-find__status {
+    flex: 1 1 16rem;
+    min-inline-size: 0;
+    color: var(--ink-2);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+
+    &.is-empty {
+      color: var(--ink);
+      font-weight: var(--fw-regular);
+    }
+  }
+
+  .kc-find__clear {
+    margin-inline-start: auto;
+  }
+
+  /* ================================================================ directory */
+  .kc-find + .kc-dir,
+  .kc-find + .kc-dir[hidden] + .kc-help {
+    padding-block-start: calc(var(--section-y) / 2);
+  }
+
+  .kc-dir__title {
+    margin-block-end: var(--s-8);
+  }
+
+  @media (width >= 768px) {
+    .kc-dir__title {
+      margin-block-end: var(--s-12);
+    }
+  }
+
+  .kc-dir__group + .kc-dir__group {
+    margin-block-start: var(--s-12);
+  }
+
+  /* Phones: the guide count always under the category name, whatever the name's length; one row from
+     768 px, the sticky column from 1280 px. */
+  .kc-dir__label {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s-1);
+    margin-block-end: var(--s-5);
+    padding-block-end: var(--s-3);
+    border-block-end: var(--line-w) solid var(--line);
+  }
+
+  @media (width >= 768px) {
+    .kc-dir__label {
+      flex-flow: row wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: var(--s-1) var(--s-4);
+    }
+  }
+
+  .kc-dir__name {
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+  }
+
+  .kc-dir__count {
+    color: var(--ink-3);
+    font-size: var(--fs-small);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-small);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Phones: one swipe rail per category (spec §8 carousels: 85 % cards, 16 px gap, dots), bleeding to the
+     screen edges; the cards of a rail share one height. */
+  .kc-dir__grid {
+    display: flex;
+    gap: var(--s-4);
+    margin-block: 0;
+    margin-inline: calc(-1 * var(--pad-x));
+    padding-block: var(--s-2) var(--s-4);
+    padding-inline: var(--pad-x);
+    list-style: none;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--pad-x);
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .kc-dir__item {
+    display: flex;
+    flex: 0 0 85%;
+    min-inline-size: 0;
+    scroll-snap-align: start;
+
+    & > .guide-frame {
+      flex: 1 1 auto;
+    }
+  }
+
+  /* a rail of one card needs no swipe */
+  .kc-dir__item:only-child,
+  .kc-dir__item:not([hidden]):nth-child(1 of :not([hidden])):nth-last-child(1 of :not([hidden])) {
+    flex-basis: 100%;
+  }
+
+  .kc-dir__dots {
+    display: none;
+  }
+
+  @media (width < 768px) {
+    .js .kc-dir__dots:not(:empty) {
+      display: flex;
+      justify-content: center;
+      gap: var(--s-2);
+      margin-block-start: var(--s-1);
+    }
+  }
+
+  /* Design 2.1: the carousel component's position marker (components/carousel.css), a thin 24 × 2 segment,
+     --line-strong, the visible card's in ink; not a dot. */
+  .kc-dir__dot {
+    inline-size: var(--s-6);
+    block-size: 2px;
+    background: var(--line-strong);
+    border-radius: var(--radius-pill);
+
+    &.is-active {
+      background: var(--ink);
+    }
+  }
+
+  /* Two columns from 768 px; the last visible card alone on its row spans it. */
+  @media (width >= 768px) {
+    .kc-dir__grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--gutter);
+      margin-inline: 0;
+      padding: 0;
+      overflow: visible;
+      scroll-snap-type: none;
+    }
+
+    .kc-dir__item {
+      flex: none;
+    }
+
+    .kc-dir__item:not([hidden]):nth-last-child(1 of :not([hidden])):nth-child(odd of :not([hidden])) {
+      grid-column: 1 / -1;
+    }
+  }
+
+  /* ≥ 1280: the category name in a sticky column (3 of 12), its cards three across in the other nine. */
+  @media (width >= 1280px) {
+    .kc-dir__group {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gutter);
+      align-items: start;
+    }
+
+    .kc-dir__group + .kc-dir__group {
+      margin-block-start: var(--s-16);
+    }
+
+    .kc-dir__label {
+      position: sticky;
+      inset-block-start: calc(var(--header-h) + var(--s-6));
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      grid-column: 1 / span 3;
+      gap: var(--s-2);
+      margin: 0;
+      padding-block: var(--s-4) 0;
+      padding-inline-end: var(--s-4);
+      border-block: 0;
+      border-block-start: var(--line-w) solid var(--line-strong);
+    }
+
+    .kc-dir__rail {
+      grid-column: 4 / -1;
+    }
+
+    /* Three cards a row on six tracks, so no row ever shows a hole ("Property and Family", two guides, left
+       its third column empty): a card alone on the last row spans it, two cards on the last row take half of
+       it each. */
+    .kc-dir__grid {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+
+    .kc-dir__item,
+    .kc-dir__item:not([hidden]):nth-last-child(1 of :not([hidden])):nth-child(odd of :not([hidden])) {
+      grid-column: span 2;
+    }
+
+    .kc-dir__item:not([hidden]):nth-last-child(1 of :not([hidden])):nth-child(3n + 1 of :not([hidden])) {
+      grid-column: 1 / -1;
+    }
+
+    .kc-dir__item:not([hidden]):nth-last-child(1 of :not([hidden])):nth-child(3n + 2 of :not([hidden])),
+    .kc-dir__item:not([hidden]):nth-last-child(2 of :not([hidden])):nth-child(3n + 1 of :not([hidden])) {
+      grid-column: span 3;
+    }
+  }
+
+  /* ================================================================ "Need a Specific Answer?" (the cool band) */
+  .kc-help__panel {
+    display: grid;
+    gap: var(--s-6);
+    padding: var(--pad-card);
+    background: var(--band);
+    border-radius: var(--radius-card);
+  }
+
+  @media (width >= 1024px) {
+    .kc-help__panel {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: var(--s-12);
+      padding: var(--s-12);
+    }
+  }
+
+  .kc-help__title {
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+  }
+
+  .kc-help__lead {
+    margin-block-start: var(--s-4);
+    color: var(--ink-2);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+  }
+
+  /* The two approved links stack at the panel's full width below 1024 px (side by side at 768 px each had half the
+     panel, and both Russian labels, «Перейти к часто задаваемым вопросам» and «Ознакомиться с юридическими
+     услугами», wrapped into 60 px buttons), and form one column beside the text from 1024 px: each stays one
+     44 px line wherever it fits. On a phone a label too long for the line wraps into two balanced lines and its
+     neighbour keeps the same height. */
+  .kc-help__links {
+    display: grid;
+    grid-auto-rows: 1fr;
+    gap: var(--s-3);
+
+    & .btn {
+      text-wrap: balance;
+    }
+  }
+
+
+  /* ================================================================ the guides (inner kit reading layout) */
+  /* A guide = its card part (category, title; + the disclosure on phones) and its body (introduction,
+     sections, related links): the same 24 px rhythm runs through all three grids. */
+  .kc-guide,
+  .kc-guide__card,
+  .kc-guide__body {
+    display: grid;
+    gap: var(--s-6);
+    min-inline-size: 0;
+  }
+
+  .kc-guide + .kc-guide {
+    margin-block-start: var(--s-16);
+  }
+
+  /* from 768 px a chapter break: a hairline 64 px under the previous guide and 64 px above the next one */
+  @media (width >= 768px) {
+    .kc-guide + .kc-guide {
+      padding-block-start: var(--s-16);
+      border-block-start: var(--line-w) solid var(--line);
+    }
+  }
+
+  .kc-guide__head {
+    display: grid;
+    gap: var(--s-3);
+  }
+
+  /* the guide's category: a small brand label in bronze (brief §3.3); a label, not running text, so a long
+     Russian name wraps between words and never hyphenates («органи-зация») */
+  .kc-guide__cat {
+    color: var(--bronze);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+    hyphens: manual;
+  }
+
+  /* The guide's title keeps the H2 role (base.css). It is the anchor of every link to the guide (#unpaid-salary),
+     but the guide starts above it: its category label, and on phones the card's own edge and padding. So the title
+     lands with that whole top clear of the header and, below 1280 px, of the contents bar (--toc-bar-h): --kc-lead
+     is the distance from the card's top edge to the title, measured per guide by d2Resources (a category name
+     that wraps on a phone makes it taller); the fallback is one label line and the head's gap, plus the card's
+     padding on phones. Every other anchor inside a guide lands under the bar as in the inner kit. */
+  .kc-guide {
+    --kc-lead: calc(var(--lh-ui) + var(--s-3));
+  }
+
+  .kc-guide .kc-guide__title {
+    scroll-margin-block-start: calc(var(--s-6) + var(--kc-lead));
+  }
+
+  @media (width < 1280px) {
+    .kc-guide [id] {
+      scroll-margin-block-start: calc(var(--toc-bar-h) + var(--s-4));
+    }
+
+    .kc-guide .kc-guide__title {
+      scroll-margin-block-start: calc(var(--toc-bar-h) + var(--s-4) + var(--kc-lead));
+    }
+  }
+
+  /* ---------------------------------------------------------------- phones: each guide starts as a compact card
+     Nine complete guides made the page 45 000–59 000 px tall at 390 px. Below 768 px on screen, with
+     JavaScript (html.js is set before the first paint, so nothing moves when the script arrives), a guide
+     shows a compact card: category, title and the proposed "Read the full guide" disclosure (d2Resources).
+     The directory's swipe rails above already show every approved summary, so the phone page shows it once.
+     .is-open shows the body under the card (the disclosure, a link to the guide or to any anchor inside it,
+     the inline script after the guides for an address with a #fragment). Without JavaScript, in print and
+     from 768 px the full guide shows and the disclosure does not. */
+  .kc-guide__toggle {
+    display: none;
+  }
+
+  @media screen and (width < 768px) {
+    .js .kc-guide + .kc-guide {
+      margin-block-start: var(--s-5);
+    }
+
+    /* the end of an open guide: a chapter break before the next card */
+    .js .kc-guide.is-open + .kc-guide {
+      margin-block-start: var(--s-16);
+    }
+
+    .js .kc-guide:not(.is-open) > .kc-guide__body {
+      display: none;
+    }
+
+    .js .kc-guide__card {
+      gap: var(--s-4);
+      padding: var(--pad-card);
+      background: var(--canvas);
+      border: var(--line-w) solid var(--line);
+      border-radius: var(--radius-card);
+    }
+
+    .js .kc-guide__head {
+      gap: var(--s-2);
+    }
+
+    /* the card's edge and padding, one label line and the head's gap above the title (d2Resources measures it) */
+    .js .kc-guide {
+      --kc-lead: calc(var(--line-w) + var(--pad-card) + var(--lh-ui) + var(--s-2));
+    }
+
+    /* in its compact card the title takes the H3 role (opening the guide never moves it) */
+    .js .kc-guide__title {
+      font-size: var(--fs-h3);
+      line-height: var(--lh-h3);
+      letter-spacing: var(--ls-h3);
+    }
+
+    .js .kc-guide__toggle {
+      display: inline-flex;
+    }
+  }
+
+  /* one label per state; the chevron turns over when the guide is open */
+  .kc-guide__toggle[aria-expanded="true"] .kc-guide__toggle-open,
+  .kc-guide__toggle:not([aria-expanded="true"]) .kc-guide__toggle-close {
+    display: none;
+  }
+
+  .kc-guide__toggle .btn__icon--end {
+    transition: transform var(--dur-hover) var(--ease-out);
+  }
+
+  .kc-guide__toggle[aria-expanded="true"] .btn__icon--end {
+    transform: rotate(180deg);
+  }
+
+  /* opened by the disclosure (d2Resources adds .is-revealed): the body rises into place once (a disclosure,
+     the accordion motion the brief allows; transform and opacity only) */
+  @media screen and (width < 768px) and (prefers-reduced-motion: no-preference) {
+    .js.motion-ok .kc-guide.is-revealed > .kc-guide__body {
+      animation: kc-reveal var(--dur-panel) var(--ease-out);
+    }
+  }
+
+  @keyframes kc-reveal {
+    from {
+      opacity: 0;
+      transform: translateY(var(--s-2));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kc-guide__toggle .btn__icon--end {
+      transition: none;
+    }
+  }
+
+  /* ---------------------------------------------------------------- related services and topics */
+  .kc-related {
+    display: grid;
+    gap: var(--s-4);
+    margin-block-start: var(--s-4);
+    padding-block-start: var(--s-8);
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  .kc-related__list {
+    display: grid;
+    gap: var(--s-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .kc-related__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--s-3);
+    margin-block-start: var(--s-2);
+  }
+
+  @media (width < 768px) {
+    .kc-related__cta {
+      flex: 1 1 100%;
+    }
+  }
+
+  /* ================================================================ shared: related link rows
+     The kit's link-row look (pages/inner.css): white, 1 px --line, --radius-card; hover turns the edge ink and
+     underlines the label. No object icon and no arrow (brief §3.6 rules 3 and 5). */
+  .kc-link {
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+    min-block-size: var(--control-lg);
+    padding-block: var(--s-3);
+    padding-inline: var(--s-4);
+    color: var(--ink);
+    background: var(--canvas);
+    border: var(--line-w) solid var(--line);
+    border-radius: var(--radius-card);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+    text-decoration: none;
+    transition: border-color var(--dur-hover) var(--ease-out);
+
+    &:hover {
+      border-color: var(--ink);
+    }
+
+    &:hover .kc-link__label {
+      text-decoration: underline;
+      text-decoration-thickness: var(--line-w);
+      text-underline-offset: 3px;
+    }
+  }
+
+  .kc-link__label {
+    flex: 1 1 auto;
+    min-inline-size: 0;
+  }
+
+  /* ================================================================ shared: related service card (text card) */
+  .kc-related__item--service,
+  .casefile__related-item {
+    container: kc-service / inline-size;
+  }
+
+  .kc-service {
+    display: grid;
+    padding: var(--pad-card);
+  }
+
+  /* the empty whole-card link (named by the approved label) covers the card instead of taking a cell */
+  .kc-service > .card__link--bare {
+    position: absolute;
+    inset: 0;
+  }
+
+  .kc-service__text {
+    display: grid;
+    gap: var(--s-2);
+    min-inline-size: 0;
+  }
+
+  /* the title of a clickable listing card: the H3 role, as the same service's card on P02 and every kit card */
+  .kc-service__title {
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+  }
+
+  /* narrow card text (the case file's 335 px related column): Russian breaks between words only, as on P02's cards */
+  .kc-service__summary {
+    color: var(--ink-2);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    hyphens: manual;
+  }
+
+  .kc-service__cue {
+    margin-block-start: var(--s-2);
+    color: var(--ink);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-ui);
+  }
+
+  .kc-service.card--interactive:hover .kc-service__cue {
+    text-decoration: underline;
+    text-decoration-thickness: var(--line-w);
+    text-underline-offset: 3px;
+  }
+
+  /* ================================================================ shared: final consultation panel */
+  /* after the reading layout (its own bottom padding) or the case files: one section gap, not two */
+  .inner-layout + .kc-contact,
+  .cs-files + .kc-contact {
+    padding-block-start: 0;
+  }
+
+  .kc-contact__panel {
+    display: grid;
+    gap: var(--s-8);
+    padding: var(--pad-card);
+    background: var(--canvas);
+    border: var(--line-w) solid var(--line);
+    border-radius: var(--radius-card);
+  }
+
+  @media (width >= 768px) {
+    .kc-contact__panel {
+      padding: var(--s-12);
+    }
+  }
+
+  @media (width >= 1024px) {
+    .kc-contact__panel {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      align-items: start;
+      gap: var(--s-12) var(--s-16);
+    }
+  }
+
+  @media (width >= 1280px) {
+    .kc-contact__panel {
+      padding: var(--s-16);
+    }
+  }
+
+  .kc-contact__text {
+    display: grid;
+    gap: var(--s-4);
+    min-inline-size: 0;
+  }
+
+  .kc-contact__lead {
+    color: var(--ink-2);
+    font-size: var(--fs-lead);
+    line-height: var(--lh-lead);
+  }
+
+  /* the approved notice closes the panel under both columns (DOCX order: after the e-mail) */
+  @media (width >= 1024px) {
+    .kc-contact__notice {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .kc-contact__actions {
+    display: grid;
+    gap: var(--s-3);
+    min-inline-size: 0;
+  }
+
+  /* the request and WhatsApp buttons: one height when a long approved label wraps (RU on a phone), in two
+     balanced lines */
+  .kc-contact__buttons {
+    display: grid;
+    grid-auto-rows: 1fr;
+    gap: var(--s-3);
+
+    & > .btn {
+      text-wrap: balance;
+    }
+  }
+
+  /* the telephone and e-mail: the kit's contact channels (pages/inner.css .channels) under a hairline */
+  .kc-contact__channels {
+    margin-block-start: var(--s-2);
+    padding-block-start: var(--s-2);
+    border-block-start: var(--line-w) solid var(--line);
+  }
+
+  /* ================================================================ scope note
+     "Scope of Information and Services" closes the page under the consultation panel: the kit's scope note
+     (pages/inner.css .inner-scope--wide), the same layout as on P02, P04 and S01–S11. */
+
+  /* ================================================================ print: the guides only, no controls */
+  @media print {
+    .kc-find,
+    .kc-dir__dots,
+    .kc-related__actions {
+      display: none !important;
+    }
+  }
+}

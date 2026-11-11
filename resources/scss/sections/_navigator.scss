@@ -1,0 +1,492 @@
+@use "../tokens/tokens" as *;
+
+// =============================================================================
+// Matter Navigator: choose an approved situation → a printable "starting file".
+// Desktop: picker and file side by side. Mobile (JS): a bottom-sheet flow.
+// No JS: a GET form; the server renders the file.
+// =============================================================================
+
+.navigator__grid {
+  row-gap: var(--s-48);
+}
+
+.navigator__head {
+  display: grid;
+  grid-column: 1 / -1;
+  gap: var(--s-24);
+
+  @media (min-width: $bp-lg) {
+    grid-column: 1 / span 7;
+  }
+
+  p {
+    color: var(--ink-2);
+    font-size: var(--fs-lead);
+    line-height: var(--lh-lead);
+  }
+}
+
+.navigator__app {
+  display: grid;
+  grid-column: 1 / -1;
+  gap: var(--s-48) var(--gutter);
+
+  @media (min-width: $bp-lg) {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    align-items: start;
+  }
+}
+
+.navigator__launch {
+  display: none;
+}
+
+// ---------------------------------------------------------------- picker
+.picker {
+  display: grid;
+  gap: var(--s-16);
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.picker__legend {
+  margin-block-end: var(--s-8);
+  font-family: var(--font-sans);
+  font-size: var(--fs-ui);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-ui);
+}
+
+.picker__step {
+  color: var(--bronze);
+  font-variant-numeric: tabular-nums;
+}
+
+.picker__filter {
+  position: relative;
+
+  .icon {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: var(--s-16);
+    inline-size: var(--icon);
+    block-size: var(--icon);
+    color: var(--ink-2);
+    pointer-events: none;
+    transform: translateY(-50%);
+  }
+
+  .input {
+    padding-inline-start: var(--s-48);
+  }
+}
+
+.picker__list {
+  max-block-size: 34rem;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border-block: var(--hairline) solid var(--ink);
+  scrollbar-gutter: stable;
+}
+
+.picker-group {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-inline-size: 0;
+
+  + .picker-group {
+    border-block-start: var(--hairline) solid var(--rule);
+  }
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.picker-group__name {
+  display: flex;
+  gap: var(--s-12);
+  align-items: baseline;
+  inline-size: 100%;
+  padding: var(--s-16) var(--s-16) var(--s-4);
+  font-family: var(--font-serif);
+  font-size: var(--fs-h4);
+  line-height: var(--lh-h4);
+}
+
+.picker-option {
+  display: grid;
+  grid-template-columns: var(--s-24) minmax(0, 1fr);
+  gap: var(--s-12);
+  align-items: start;
+  min-block-size: var(--target-mobile);
+  padding: var(--s-12) var(--s-16);
+  cursor: pointer;
+  transition: background-color var(--dur-1) var(--ease-out);
+
+  &:hover {
+    background: var(--field);
+  }
+
+  &:has(:checked) {
+    background: var(--field);
+    box-shadow: inset var(--focus-w) 0 0 var(--gold);
+  }
+
+  [dir="rtl"] &:has(:checked) {
+    box-shadow: inset calc(-1 * var(--focus-w)) 0 0 var(--gold);
+  }
+
+  &[hidden] {
+    display: none;
+  }
+
+  .check__text {
+    font-size: var(--fs-small);
+  }
+}
+
+.picker__empty {
+  padding: var(--s-24) var(--s-16);
+  color: var(--ink-2);
+  font-size: var(--fs-small);
+}
+
+.picker__submit {
+  justify-self: start;
+}
+
+.js .picker__submit {
+  display: none;
+}
+
+// ---------------------------------------------------------------- the starting file
+.file-card {
+  position: relative;
+  display: grid;
+  gap: var(--s-32);
+  padding: var(--s-32) var(--s-24);
+  border-inline-start: var(--spine-w) solid var(--gold);
+  background: var(--white);
+  box-shadow: inset 0 0 0 var(--hairline) var(--rule);
+
+  @media (min-width: $bp-sm) {
+    padding: var(--s-48);
+  }
+}
+
+.file-card__empty {
+  display: grid;
+  gap: var(--s-24);
+  justify-items: start;
+  color: var(--ink-2);
+
+  // An empty slip drawn in code.
+  &::before {
+    inline-size: 4.5rem;
+    block-size: 6rem;
+    border: var(--hairline) dashed var(--rule-strong);
+    content: "";
+  }
+}
+
+.file-card__head {
+  display: grid;
+  gap: var(--s-12);
+}
+
+.file-card__kicker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-8);
+  align-items: baseline;
+  color: var(--ink-2);
+  font-size: var(--fs-ui);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-ui);
+}
+
+.file-card__title {
+  font-size: var(--fs-h3);
+  line-height: var(--lh-h3);
+
+  &:focus-visible {
+    outline-offset: var(--s-8);
+  }
+}
+
+.file-card__situation {
+  padding-inline-start: var(--s-16);
+  border-inline-start: var(--hairline) solid var(--rule-strong);
+  color: var(--ink);
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+}
+
+.file-card__section {
+  display: grid;
+  gap: var(--s-16);
+
+  h4 {
+    font-family: var(--font-sans);
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-ui);
+  }
+}
+
+.file-card__cols {
+  display: grid;
+  gap: var(--s-32) var(--gutter);
+
+  @media (min-width: $bp-sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.doc-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-block-start: var(--hairline) solid var(--ink);
+}
+
+.doc-row {
+  border-block-end: var(--hairline) solid var(--rule);
+
+  .check {
+    padding-block: var(--s-12);
+  }
+}
+
+.file-card__note {
+  color: var(--ink-2);
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+}
+
+.bullet-list {
+  display: grid;
+  gap: var(--s-8);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+
+  li {
+    position: relative;
+    padding-inline-start: var(--s-24);
+
+    &::before {
+      position: absolute;
+      inset-block-start: 0.75em;
+      inset-inline-start: 0;
+      inline-size: var(--s-12);
+      block-size: var(--hairline);
+      background: var(--ink-2);
+      content: "";
+    }
+  }
+}
+
+.bullet-list--mistakes li::before {
+  background: var(--error);
+}
+
+.file-card__links {
+  display: grid;
+  gap: var(--s-4);
+  justify-items: start;
+}
+
+.file-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-12);
+  padding-block-start: var(--s-24);
+  border-block-start: var(--hairline) solid var(--rule);
+}
+
+.file-card__saved {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-8) var(--s-16);
+  align-items: center;
+  color: var(--ink-2);
+  font-size: var(--fs-ui);
+  line-height: var(--lh-ui);
+
+  button {
+    min-block-size: var(--target);
+    padding: 0;
+    border: 0;
+    color: var(--ink);
+    background: none;
+    font: inherit;
+    text-decoration: underline;
+    text-decoration-color: var(--bronze);
+    text-underline-offset: 0.22em;
+    cursor: pointer;
+  }
+}
+
+.file-card__print-head,
+.file-card__print-foot {
+  display: none;
+}
+
+// Motion: rows assemble on the spine; the panel cross-fades (transform/opacity only).
+@media (prefers-reduced-motion: no-preference) {
+  .file-card.is-entering {
+    animation: file-in var(--dur-2) var(--ease-out) both;
+
+    .doc-row {
+      animation: row-in var(--dur-3) var(--ease-out) both;
+    }
+
+    @for $i from 1 through 6 {
+      .doc-row:nth-child(#{$i}) {
+        animation-delay: #{($i - 1) * 60ms};
+      }
+    }
+  }
+}
+
+@keyframes file-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes row-in {
+  from {
+    opacity: 0;
+    transform: translateX(var(--row-from, -0.5rem));
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+[dir="rtl"] .file-card {
+  --row-from: 0.5rem;
+}
+
+// ---------------------------------------------------------------- mobile sheet flow (JS)
+@media (max-width: $bp-md-max) {
+  .js {
+    .navigator__launch {
+      display: grid;
+      grid-column: 1 / -1;
+      gap: var(--s-16);
+      justify-items: start;
+    }
+
+    .navigator__app {
+      position: fixed;
+      inset: auto 0 0;
+      z-index: 61;
+      display: grid;
+      grid-template-columns: none;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      gap: 0;
+      max-block-size: calc(100dvh - var(--s-32));
+      color: var(--ink);
+      background: var(--white);
+      border-start-start-radius: var(--radius-sheet);
+      border-start-end-radius: var(--radius-sheet);
+      box-shadow: var(--shadow-sheet);
+      transform: translateY(100%);
+      visibility: hidden;
+      transition: transform var(--dur-3) var(--ease-sheet), visibility 0s linear var(--dur-3);
+
+      &.is-open {
+        transform: translateY(var(--drag, 0%));
+        visibility: visible;
+        transition: transform var(--dur-3) var(--ease-sheet), visibility 0s;
+      }
+    }
+
+    .navigator__sheet-head {
+      display: grid;
+    }
+
+    .navigator__pane {
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      padding: var(--s-16) var(--s-24) var(--s-24);
+    }
+
+    .navigator__app[data-step="pick"] .navigator__pane--file,
+    .navigator__app[data-step="file"] .navigator__pane--pick {
+      display: none;
+    }
+
+    .picker__list {
+      max-block-size: none;
+      overflow: visible;
+    }
+
+    .file-card {
+      padding: 0;
+      border: 0;
+      box-shadow: none;
+    }
+
+    // The sheet title already says "Your starting file"; keep only the index here.
+    .navigator__app.is-open .file-card__kicker span:not(.index-num) {
+      display: none;
+    }
+
+    .navigator__sheet-foot {
+      display: flex;
+    }
+  }
+}
+
+.navigator__sheet-head,
+.navigator__sheet-foot {
+  display: none;
+}
+
+.navigator__sheet-foot {
+  flex-wrap: wrap;
+  gap: var(--s-12);
+  padding: var(--s-12) var(--s-24) calc(var(--s-12) + var(--safe-bottom));
+  border-block-start: var(--hairline) solid var(--rule);
+
+  .btn {
+    flex: 1 1 auto;
+  }
+}
+
+.navigator__scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: var(--scrim);
+  opacity: 0;
+  transition: opacity var(--dur-3) var(--ease-sheet);
+  pointer-events: none;
+
+  &.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  @media (min-width: $bp-md) {
+    display: none;
+  }
+}
