@@ -1,23 +1,23 @@
 import { describe, expect, it } from 'vitest';
-import { edges, keyTarget } from './pager.js';
+import { keyTarget, toggleState } from './pager.js';
 
-// Hero pager (Design 2.1 D17): ← / → step without wrap-around (mirrored in RTL), Home / End jump to the ends; the
-// step that leads nowhere is disabled on the first and the last document.
+// Hero pager (Design 2.1 D17, amended by the owner's autoplay): ← / → step through the pile and wrap around (mirrored
+// in RTL), Home / End jump to the ends; previous / next are always enabled.
 describe('hero pager keys', () => {
     const desktop = ['cheque', 'contract', 'tenancy', 'transfer', 'messages', 'notice'];
     const phone = ['cheque', 'contract', 'tenancy'];
 
-    it('steps with the arrows in reading direction, never wrapping', () => {
+    it('steps with the arrows in reading direction and wraps around at both ends', () => {
         expect(keyTarget('ArrowRight', 'cheque', desktop, 1)).toBe('contract');
         expect(keyTarget('ArrowLeft', 'contract', desktop, 1)).toBe('cheque');
-        expect(keyTarget('ArrowLeft', 'cheque', desktop, 1)).toBe('cheque');
-        expect(keyTarget('ArrowRight', 'notice', desktop, 1)).toBe('notice');
+        expect(keyTarget('ArrowLeft', 'cheque', desktop, 1)).toBe('notice');
+        expect(keyTarget('ArrowRight', 'notice', desktop, 1)).toBe('cheque');
     });
 
     it('mirrors the arrows in RTL (← is next)', () => {
         expect(keyTarget('ArrowLeft', 'cheque', desktop, -1)).toBe('contract');
         expect(keyTarget('ArrowRight', 'contract', desktop, -1)).toBe('cheque');
-        expect(keyTarget('ArrowRight', 'cheque', desktop, -1)).toBe('cheque');
+        expect(keyTarget('ArrowRight', 'cheque', desktop, -1)).toBe('notice');
     });
 
     it('jumps to the ends with Home and End, on the list of the current stage', () => {
@@ -32,11 +32,13 @@ describe('hero pager keys', () => {
         expect(keyTarget('ArrowRight', 'notice', phone)).toBe('contract');
         expect(keyTarget('End', 'cheque', [])).toBeNull();
     });
+});
 
-    it('disables previous on the first document and next on the last one', () => {
-        expect(edges(0, 6)).toEqual({ prev: true, next: false });
-        expect(edges(2, 6)).toEqual({ prev: false, next: false });
-        expect(edges(5, 6)).toEqual({ prev: false, next: true });
-        expect(edges(-1, 6)).toEqual({ prev: true, next: true });
+describe('hero pager toggle', () => {
+    const labels = { pause: 'Pause the samples', play: 'Play the samples' };
+
+    it('names what a press does: pause while playing, play while stopped', () => {
+        expect(toggleState(true, labels)).toEqual({ state: 'playing', label: 'Pause the samples' });
+        expect(toggleState(false, labels)).toEqual({ state: 'stopped', label: 'Play the samples' });
     });
 });

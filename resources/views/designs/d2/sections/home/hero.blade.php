@@ -7,11 +7,12 @@
     one Gold button, flat (D06); WhatsApp with the approved per-language draft, opened in a new tab, never sent; both
     52 px). Nothing else: no eyebrow (D01), no office hours and no live status (D18: they stay in the contact block
     and the footer). "Start your matter" is its own block under the hero (sections/home/start.blade.php, §5.1).
-    Right (columns 7-12): the document stage, pager and caption (<x-d2.hero.visual>).
+    Right (columns 7-12): the document stage (the pile of sample documents), pager and caption (<x-d2.hero.visual>,
+    with the owner's autoplay: the home hero only).
     Below 1280 px everything stacks: copy, then stage, pager and captions.
 
-    Motion (hero/deal.js) is armed by the boot script (shell/boot.blade.php: html.hero-armed, removed by a
-    2.5 s safety timeout); without JavaScript or with reduced motion the composed final state shows at once.
+    Motion (hero/deal.js: the pile dealt in once) is armed by the boot script (shell/boot.blade.php: html.hero-armed,
+    removed by a 2.5 s safety timeout); without JavaScript or with reduced motion the composed pile shows at once.
 --}}
 @php
     use App\Support\SiteUrl;
@@ -38,9 +39,10 @@
 @if (is_file(public_path('images/d2/paper-512.avif')))
     @push('head')
         {{-- hero-perf: the sample documents' paper texture (a border-image fill, found only once the stylesheet is
-             applied) loads with the head where the stage is in the first screen, so the documents are complete at the
-             first paint (reduced motion: nothing changes afterwards) and fly in finished. --}}
-        <link rel="preload" href="/images/d2/paper-512.avif" as="image" type="image/avif" media="(width >= 768px)">
+             applied; 11 KB) loads with the head, so the pile is complete at the first paint (reduced motion: nothing
+             changes afterwards) and its sheets fly in finished. Phones too: the pile's top already shows above the
+             fold there (hero-wow), and the texture would otherwise pop in a moment after the first paint. --}}
+        <link rel="preload" href="/images/d2/paper-512.avif" as="image" type="image/avif">
     @endpush
 @endif
 <section class="section hero" aria-labelledby="hero-title" data-hero>
@@ -64,6 +66,6 @@
             </div>
         </div>
 
-        <x-d2.hero.visual class="hero__visual" />
+        <x-d2.hero.visual class="hero__visual" :autoplay="true" />
     </div>
 </section>

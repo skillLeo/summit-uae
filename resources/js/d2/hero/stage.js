@@ -1,51 +1,67 @@
 /**
  * Hero stage controller (lazy chunk, imported by Alpine d2HeroStage in components/hero.js, so no other page pays for
- * it). Design 2.1 brief D15–D17 and §6 "Hero document switch".
+ * it). Design 2.1 brief D15–D17 and §6 "Hero document switch"; the owner's option 3 (the Phase 1 pile with the
+ * brief's rules) and autoplay.
  *
  * mount(root) on <x-d2.hero.visual>:
  *   1. Entrance, once (html.hero-armed from the boot script: home page, motion allowed, opened at its top): after the
- *      hero's fonts (600 ms after the first paint at the latest) the file's two sheets and the document come in on
- *      the paper spring (deal.js), then the document's callouts are drawn (callouts.js). Not armed (reduced motion,
- *      a #section link, the boot script's 2.5 s safety timeout already fired, opened scrolled past the hero): the
- *      final state is already on the page and nothing changes. A phone whose stage is below the fold waits until
- *      it scrolls into view.
- *   2. The switch (pager.js: segments, previous / next, ← / → inside the pager): the old document's callouts fade
- *      out (120 ms) and the next paper slides in from the inline-end side (from the inline-start side when going
- *      back) with a small rotation, both settling to 0 on the spring {stiffness 170, damping 20}; its shadow layers
- *      move with it (the lifted shadow fades into the resting one); the file glides along when the new document sits
- *      elsewhere (the cheque sits towards the start). The old paper fades out beneath it. Once the
- *      paper has settled its callouts draw in (stroke-dashoffset, 400 ms). Transform and opacity only, a fixed
- *      stage: no layout shift. Reduced motion: the switch is instant.
- *   3. The pointer tilt (tilt.js, at most 2°, fine pointer, from 768 px, motion allowed), from the end of the
- *      entrance.
+ *      hero's fonts (600 ms after the first paint at the latest) the six sheets are dealt onto the pile from the
+ *      bottom up (deal.js, about 1.2 s), the document on top lands last and its callouts are drawn (callouts.js).
+ *      Not armed (reduced motion, a #section link, the boot script's 2.5 s safety timeout already fired, opened
+ *      scrolled past the hero): the composed pile is already on the page and nothing changes. A phone whose stage is
+ *      below the fold waits until it scrolls into view.
+ *   2. The switch (the pager: segments, previous / next, ← / →; a click on a back sheet; the autoplay):
+ *        - the old top's callouts fade out (120 ms) and its ink fades out (160 ms) as it goes back to its own place
+ *          in the pile on the spring {stiffness 170, damping 20} (its lifted shadow settles);
+ *        - the chosen sheet lifts out of its place (240 ms: pulled towards the inline-end side, a little up and
+ *          straighter, scale 1.035, its shadow grows), then (now the top of the pile) travels onto the top on the same
+ *          spring, rotates to 0 and settles, its ink fading in as it arrives; the other sheets take their new depths;
+ *        - once the paper has settled its callouts draw in (stroke-dashoffset, 400 ms), then the labels.
+ *      Transform and opacity only, a fixed stage: no layout shift. Reduced motion: the switch is instant.
+ *   3. The pointer (hover.js: fine pointer, from 768 px, motion allowed), from the end of the entrance: depth
+ *      parallax and the 2° tilt, the pile breathing open, the preview of a hovered or focused segment's sheet.
+ *   4. The autoplay (autoplay.js; the home hero only, never under reduced motion): a dwell of data-autoplay ms after
+ *      each settle (the pager fills the segment shown), then the next document (wrapping); held while the pointer is
+ *      over the stage or the pager, while keyboard focus is in the hero, while the hero is off screen and while the
+ *      tab is hidden; stopped for good by any manual choice; the toggle plays or pauses it.
  * Any error leaves the final, static composition (the armed class is always removed).
  */
 import { finePointer, reducedMotion } from '../lib/prefs.js';
+import { createAutoplay, DWELL_MS } from './autoplay.js';
 import { drawIn, fadeOut } from './callouts.js';
 import { deal } from './deal.js';
+import { createHover } from './hover.js';
 import { pagerControls } from './pager.js';
+import { moveToFront, nextOf, pullPose, stepOf } from './pile.js';
 import { EASE_OUT, timing } from './spring.js';
-import { createTilt } from './tilt.js';
 
 /** The switch's spring (brief §6). */
 export const SWITCH_SPRING = { stiffness: 170, damping: 20, mass: 1 };
-/** How far (canvas px) the next paper comes from, and its starting rotation (degrees). */
-export const SWITCH_TRAVEL = 220;
-export const SWITCH_TURN = 4;
-const FADE_OUT_MS = 120;
-const PAPER_IN_MS = 140;
-const PAPER_OUT_MS = 220;
-const AIR_MOVING = 0.7;
+/** The chosen sheet's lift out of the pile (ms), the old top's ink and callouts fading out, the new ink fading in. */
+export const PULL_MS = 240;
+export const INK_OUT_MS = 160;
+export const INK_IN = { delay: 150, duration: 260 };
+const CALLOUTS_OUT_MS = 120;
+/** Opacity of the lifted ("air") shadow: pulled out of the pile, and on top of it (stage.css .is-active). */
+const AIR_PULLED = 0.85;
+const AIR_TOP = 0.3;
 
 const wait = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
 
 /**
- * Where the next paper starts (pure; Vitest: stage.test.js): from the inline-end side for a later document (step 1),
- * from the inline-start side for an earlier one (step -1); dir mirrors the inline axis in RTL.
+ * The switch's schedule (pure; Vitest: stage.test.js): the lift, then the travel onto the top for `distance` canvas
+ * px on the brief's spring, the ink fading in during the travel, settled at `settled` ms.
  */
-export function slideFrom(step, dir = 1, travel = SWITCH_TRAVEL, turn = SWITCH_TURN) {
-    const s = step < 0 ? -1 : 1;
-    return { translate: `${s * dir * travel}px -6px`, rotate: `${s * dir * turn}deg` };
+export function switchPlan(distance) {
+    const spring = timing(SWITCH_SPRING, distance, 0.5);
+    return {
+        pull: PULL_MS,
+        travel: spring.duration,
+        easing: spring.easing,
+        inkOut: INK_OUT_MS,
+        inkIn: { delay: INK_IN.delay, duration: INK_IN.duration },
+        settled: PULL_MS + spring.duration,
+    };
 }
 
 /** The hero's faces (the H1 and the lead as computed, and the sample documents' faces the boot script started). */
@@ -78,6 +94,15 @@ function firstPaint() {
     return null;
 }
 
+const fine = (event) => event.pointerType === 'mouse' || event.pointerType === 'pen';
+const safely = (anim) => {
+    try {
+        anim?.cancel();
+    } catch {
+        /* gone */
+    }
+};
+
 export function mount(root) {
     const html = document.documentElement;
     // Claim the hero: the boot script's safety timeout then leaves it alone.
@@ -95,28 +120,79 @@ export function mount(root) {
     const motionPref = window.matchMedia('(prefers-reduced-motion: reduce)');
     const forcedPhone = root.hasAttribute('data-phone');
     const isPhone = () => forcedPhone || phone.matches;
-    const docs = new Map(Array.from(stage.querySelectorAll('[data-hero-doc]'), (el) => [el.dataset.heroDoc, el]));
-    const sheets = Array.from(stage.querySelectorAll('[data-sheet]'));
+    const docs = new Map(
+        Array.from(stage.querySelectorAll('[data-hero-doc]'), (el) => {
+            const type = el.dataset.heroDoc;
+            return [type, {
+                type,
+                el,
+                sheet: el.querySelector('[data-sheet]'),
+                paper: el.querySelector('[data-doc-paper]'),
+                callouts: el.querySelector('[data-hero-callouts]'),
+                air: el.querySelector('.doc__shadow--air'),
+                rest: el.querySelector('.doc__shadow--rest'),
+                // The ink: every child of its papers but the cheque's waves and the memo's fold, and the watermark.
+                ink: Array.from(el.querySelectorAll('.doc__sheet > :not(.cheque__waves):not(.doc__fold), .doc__wm')),
+            }];
+        }),
+    );
     const notes = Array.from(root.querySelectorAll('[data-notes]'));
     const tiltEl = stage.querySelector('[data-tilt]');
-    const fileEl = stage.querySelector('.hero-file');
-    const paperOf = (el) => el?.querySelector('[data-doc-paper]') ?? null;
-    let active = [...docs.keys()].find((t) => docs.get(t).classList.contains('is-active')) || stage.dataset.active || [...docs.keys()][0];
+    let order = [...docs.values()].sort((a, b) => Number(a.el.dataset.depth) - Number(b.el.dataset.depth)).map((d) => d.type);
+    let active = order[0];
 
     let entrance = null;     // the running entrance (deal.js)
     let drawing = null;      // the running callout draw-in
     let moves = [];          // the running switch's animations
-    let settle = null;       // ends the running switch at once (classes in their final state)
+    let pending = null;      // a switch whose chosen sheet is still being lifted out (the pile not yet re-ordered)
     let generation = 0;
     let timers = [];
     let watcher = null;
+    let visible = null;
 
-    /* ------------------------------------------------------------------ tilt */
-    const tilt = tiltEl ? createTilt({ area, el: tiltEl, dir }) : null;
-    const tiltAllowed = () => !isPhone() && finePointer() && !reducedMotion();
-    const enableTilt = () => {
-        if (tilt && tiltAllowed()) tilt.enable();
+    /* ------------------------------------------------------------------ poses */
+    let poses = new Map();
+    /** A document's pose as CSS draws it (physical canvas px and degrees): its place in the pile, or the top. */
+    function poseOf(d, top) {
+        const key = `${d.type}|${top ? 1 : 0}`;
+        if (!poses.has(key)) {
+            const cs = getComputedStyle(d.el);
+            const n = (name) => parseFloat(cs.getPropertyValue(name)) || 0;
+            poses.set(key, top ? { x: n('--tx') * dir, y: n('--ty'), rot: 0 } : { x: n('--px') * dir, y: n('--py'), rot: n('--pr') * dir });
+        }
+        return poses.get(key);
+    }
+    /** The sheet's width on the canvas (px). */
+    const widthOf = (d) => (d.paper?.offsetWidth || 360) * (parseFloat(getComputedStyle(d.el).getPropertyValue('--s')) || 1);
+
+    function applyOrder() {
+        order.forEach((type, depth) => {
+            const d = docs.get(type);
+            d.el.dataset.depth = String(depth);
+            d.el.classList.toggle('is-active', depth === 0);
+        });
+        stage.dataset.active = order[0];
+    }
+
+    /* ------------------------------------------------------------------ pointer */
+    const hover = createHover({
+        area: stage,
+        tiltEl,
+        dir,
+        docs: () => order.map((type, depth) => {
+            const d = docs.get(type);
+            const pile = poseOf(d, false);
+            const top = poseOf(d, true);
+            return { ...d, depth, pose: { x: pile.x - top.x, y: pile.y - top.y, rot: pile.rot } };
+        }),
+    });
+    const hoverAllowed = () => !isPhone() && finePointer() && !reducedMotion();
+    const enableHover = () => {
+        if (hoverAllowed()) hover.enable();
     };
+    let segPeek = null;
+    let sheetPeek = null;
+    const peekNow = () => hover.preview(segPeek ?? sheetPeek);
 
     /* ------------------------------------------------------------------ finishing */
     function finishAll() {
@@ -126,106 +202,222 @@ export function mount(root) {
             entrance.finish();
             entrance = null;
         }
-        if (settle) settle();
-        for (const anim of moves) anim.cancel();
+        if (pending) {
+            order = pending.order;
+            applyOrder();
+            pending = null;
+        }
+        for (const anim of moves) safely(anim);
         moves = [];
         if (drawing) {
-            drawing.finish();
+            const d = drawing;
             drawing = null;
+            d.finish();
         }
-        for (const el of docs.values()) el.classList.remove('is-pending');
+        for (const d of docs.values()) d.el.classList.remove('is-pending', 'is-leaving');
         html.classList.remove('hero-armed');
+        // The composition is final: the autoplay may count again (a switch that follows unsettles it at once).
+        auto.settle();
     }
 
     function showNotes(type) {
         for (const list of notes) list.hidden = list.dataset.notes !== type;
     }
 
-    function draw(docEl, delay = 0) {
-        docEl.classList.remove('is-pending');
-        if (reducedMotion()) return;
-        drawing = drawIn(docEl, { dir, delay });
-        const mine = drawing;
+    /** Draw the callouts of the document on top after `delay` ms; the autoplay counts from their end. */
+    function draw(d, delay = 0) {
+        d.el.classList.remove('is-pending');
+        if (reducedMotion()) {
+            auto.settle();
+            return;
+        }
+        const mine = drawIn(d.el, { dir, delay });
+        drawing = mine;
         mine.finished.then(() => {
-            if (drawing === mine) drawing = null;
+            if (drawing !== mine) return;
+            drawing = null;
+            auto.settle();
         });
     }
 
     /* ------------------------------------------------------------------ the switch */
-    function select(type, step = 1) {
-        if (!docs.has(type) || type === active) {
+    function select(type, step = 1, { manual = false } = {}) {
+        if (!docs.has(type)) return;
+        if (manual) auto.stop();
+        finishAll();
+        if (type === active) {
             pager?.update(active);
             return;
         }
-        finishAll();
+        auto.unsettle();
         const gen = ++generation;
-        const oldEl = docs.get(active);
-        const newEl = docs.get(type);
-        // The file follows the document shown (HeroStage dx): measured before and after, so it can glide.
-        const fileFrom = fileEl?.offsetLeft ?? 0;
+        const from = docs.get(active);
+        const to = docs.get(type);
+        const next = moveToFront(order, type);
         active = type;
-        stage.dataset.active = type;
-        const fileShift = fileEl ? fileFrom - fileEl.offsetLeft : 0;
         pager?.update(type);
         showNotes(type);
 
         if (reducedMotion()) {
-            oldEl.classList.remove('is-active');
-            newEl.classList.add('is-active');
+            order = next;
+            applyOrder();
+            hover.refresh();
+            draw(to);
             return;
         }
 
-        // The old callouts go first; the old paper fades out beneath the new one.
-        const out = fadeOut(oldEl, FADE_OUT_MS);
-        const oldPaper = paperOf(oldEl);
-        const sink = oldPaper?.animate({ opacity: [1, 0] }, { duration: PAPER_OUT_MS, delay: 60, easing: EASE_OUT, fill: 'forwards' });
-        oldEl.classList.remove('is-active');
-        oldEl.classList.add('is-leaving');
-        newEl.classList.add('is-active', 'is-pending');
+        // The old top: its callouts and ink fade out as it goes back to its own place in the pile.
+        const fromTop = poseOf(from, true);
+        const fromPile = poseOf(from, false);
+        from.el.classList.remove('is-active');
+        from.el.classList.add('is-leaving');
+        const back = timing(SWITCH_SPRING, Math.hypot(fromPile.x - fromTop.x, fromPile.y - fromTop.y), 0.5);
+        const backOpts = { duration: back.duration, easing: back.easing };
+        moves.push(
+            fadeOut(from.el, CALLOUTS_OUT_MS),
+            ...from.ink.map((e) => e.animate([{ opacity: 1, offset: 0 }], { duration: INK_OUT_MS, easing: EASE_OUT })),
+            from.sheet.animate([{ translate: `${fromTop.x}px ${fromTop.y}px`, rotate: '0deg', offset: 0 }], backOpts),
+            from.air?.animate([{ opacity: AIR_TOP, offset: 0 }], backOpts),
+        );
 
-        const paper = paperOf(newEl);
-        const spring = timing(SWITCH_SPRING, SWITCH_TRAVEL, 0.5);
-        const slide = paper?.animate([slideFrom(step, dir), { translate: '0px 0px', rotate: '0deg' }], { duration: spring.duration, easing: spring.easing });
-        const show = paper?.animate({ opacity: [0, 1] }, { duration: PAPER_IN_MS, easing: 'linear' });
-        const air = newEl.querySelector('.doc__shadow--air');
-        const lift = air?.animate({ opacity: [AIR_MOVING, 0] }, { duration: spring.duration, easing: spring.easing });
-        const glide = Math.abs(fileShift) > 0.5
-            ? fileEl.animate([{ translate: `${fileShift}px 0` }, { translate: '0px 0px' }], { duration: spring.duration, easing: spring.easing })
-            : null;
-        moves = [out, sink, slide, show, lift, glide].filter(Boolean);
+        // The chosen sheet lifts out of its place (still under the sheets above it).
+        const pose = poseOf(to, false);
+        const out = pullPose(pose, widthOf(to), dir);
+        const pullOpts = { duration: PULL_MS, easing: EASE_OUT, fill: 'forwards' };
+        const outFrame = { translate: `${out.x}px ${out.y}px`, rotate: `${out.rot}deg`, scale: String(out.scale) };
+        const pull = to.sheet.animate([{ translate: `${pose.x}px ${pose.y}px`, rotate: `${pose.rot}deg`, scale: '1' }, outFrame], pullOpts);
+        const pullAir = to.air?.animate({ opacity: [0, AIR_PULLED] }, pullOpts);
+        moves.push(pull, pullAir);
+        moves = moves.filter(Boolean);
+        pending = { order: next };
 
-        settle = () => {
-            settle = null;
-            oldEl.classList.remove('is-leaving');
-            out?.cancel();
-            sink?.cancel();
-        };
-        const done = slide ? slide.finished : Promise.resolve();
-        done.then(() => {
-            if (gen !== generation) return;
-            moves = [];
-            if (settle) settle();
-            // The leaders draw in once the paper has settled.
-            draw(newEl);
+        pull.finished.then(() => {
+            if (gen !== generation || !pending) return;
+            // Now it is the top of the pile: it travels onto the top, its ink fading in as it arrives.
+            pending = null;
+            order = next;
+            applyOrder();
+            from.el.classList.remove('is-leaving');
+            to.el.classList.add('is-pending');
+            const plan = switchPlan(out.distance);
+            const travelOpts = { duration: plan.travel, easing: plan.easing };
+            const travel = to.sheet.animate([{ ...outFrame, offset: 0 }], travelOpts);
+            moves.push(
+                travel,
+                to.air?.animate([{ opacity: AIR_PULLED, offset: 0 }], travelOpts),
+                ...to.ink.map((e) => e.animate({ opacity: [0, 1] }, { duration: plan.inkIn.duration, delay: plan.inkIn.delay, easing: EASE_OUT, fill: 'backwards' })),
+            );
+            moves = moves.filter(Boolean);
+            safely(pull);
+            safely(pullAir);
+            hover.refresh();
+            travel.finished.then(() => {
+                if (gen !== generation) return;
+                moves = [];
+                // The leaders draw in once the paper has settled.
+                draw(to);
+            }).catch(() => {});
         }).catch(() => {});
     }
 
-    /* ------------------------------------------------------------------ wiring */
+    /* ------------------------------------------------------------------ autoplay */
     const pagerEl = root.querySelector('[data-hero-pager]');
-    const pager = pagerEl ? pagerControls(pagerEl, { dir, onSelect: select }) : null;
+    const dwell = Number(root.dataset.autoplay) || 0;
+    const auto = createAutoplay({
+        dwell: dwell || DWELL_MS,
+        playing: dwell > 0 && !reducedMotion(),
+        startTimer: (ms) => pager?.fill(ms) ?? null,
+        onAdvance: () => select(nextOf(pager?.types ?? order, active, 1), 1),
+        onChange: ({ playing }) => pager?.setPlaying(playing),
+    });
+    const pager = pagerEl
+        ? pagerControls(pagerEl, {
+            dir,
+            onSelect: (type, step) => select(type, step, { manual: true }),
+            onToggle: () => auto.toggle(),
+            onPreview: (type) => {
+                segPeek = type && type !== active ? type : null;
+                peekNow();
+            },
+        })
+        : null;
+    pager?.setPlaying(auto.playing);
+    const toggle = pagerEl?.querySelector('[data-pager-toggle]') ?? null;
 
+    // Holds: the pointer over the stage or the pager (not over the toggle itself), keyboard focus in the hero (not on
+    // the toggle), the hero off screen, the tab hidden.
+    const zones = { stage: false, pager: false, toggle: false };
+    const syncHover = () => (zones.stage || (zones.pager && !zones.toggle) ? auto.hold('hover') : auto.release('hover'));
+    const zone = (name, on) => (event) => {
+        if (!fine(event)) return;
+        zones[name] = on;
+        syncHover();
+    };
+    const listeners = [];
+    const listen = (el, type, fn, opts) => {
+        if (!el) return;
+        el.addEventListener(type, fn, opts);
+        listeners.push(() => el.removeEventListener(type, fn, opts));
+    };
+    listen(stage, 'pointerenter', zone('stage', true));
+    listen(stage, 'pointerleave', zone('stage', false));
+    listen(pagerEl, 'pointerenter', zone('pager', true));
+    listen(pagerEl, 'pointerleave', zone('pager', false));
+    listen(toggle, 'pointerenter', zone('toggle', true));
+    listen(toggle, 'pointerleave', zone('toggle', false));
+    listen(area, 'focusin', (event) => {
+        const t = event.target;
+        if (t !== toggle && t.matches?.(':focus-visible')) auto.hold('focus');
+        else auto.release('focus');
+    });
+    listen(area, 'focusout', (event) => {
+        if (!area.contains(event.relatedTarget)) auto.release('focus');
+    });
+    const onVisibility = () => (document.visibilityState === 'hidden' ? auto.hold('hidden') : auto.release('hidden'));
+    listen(document, 'visibilitychange', onVisibility);
+    onVisibility();
+    if (typeof IntersectionObserver === 'function') {
+        visible = new IntersectionObserver((entries) => {
+            const e = entries[entries.length - 1];
+            if (e.isIntersecting && e.intersectionRatio >= 0.25) auto.release('offscreen');
+            else auto.hold('offscreen');
+        }, { threshold: [0, 0.25, 0.5] });
+        visible.observe(stage);
+    }
+
+    // A back sheet under the pointer peeks up; a click on it brings it to the top (a pointer shortcut: the pager is
+    // the accessible control).
+    listen(stage, 'pointerover', (event) => {
+        if (!fine(event)) return;
+        const doc = event.target.closest?.('[data-hero-doc]');
+        sheetPeek = doc && !doc.classList.contains('is-active') && event.target.closest('.doc__sheet, .phone') ? doc.dataset.heroDoc : null;
+        peekNow();
+    });
+    listen(stage, 'pointerleave', () => {
+        sheetPeek = null;
+        peekNow();
+    });
+    listen(stage, 'click', (event) => {
+        const doc = event.target.closest?.('[data-hero-doc]');
+        if (!doc || doc.dataset.heroDoc === active || !event.target.closest('.doc__sheet, .phone')) return;
+        select(doc.dataset.heroDoc, stepOf(pager?.types ?? order, active, doc.dataset.heroDoc), { manual: true });
+    });
+
+    /* ------------------------------------------------------------------ wiring */
     function onPhone() {
         finishAll();
-        if (tiltAllowed()) enableTilt();
-        else tilt?.disable({ now: true });
+        poses = new Map();
+        if (hoverAllowed()) enableHover();
+        else hover.disable({ now: true });
     }
 
     function onMotionPref() {
         if (reducedMotion()) {
+            auto.stop();
             finishAll();
-            tilt?.disable({ now: true });
+            hover.disable({ now: true });
         } else {
-            enableTilt();
+            enableHover();
         }
     }
 
@@ -260,25 +452,32 @@ export function mount(root) {
 
     function finalNow() {
         html.classList.remove('hero-armed');
-        enableTilt();
+        enableHover();
+        auto.settle();
     }
 
     /** fromPaint: on the storyboard's clock (the first sheet 350 ms after the first paint); else now. */
     function startEntrance(fromPaint) {
-        const docEl = docs.get(active);
+        const top = docs.get(active);
         const t0 = firstPaint() ?? performance.now();
         const now = performance.now();
         const k = canvas.getBoundingClientRect().width / (canvas.offsetWidth || 1);
         const start = fromPaint ? Math.max(0, t0 + 350 - now) : 0;
-        docEl.classList.add('is-pending');
-        entrance = deal({ els: [...sheets, paperOf(docEl)].filter(Boolean), dir, mobile: isPhone(), k, start });
+        top.el.classList.add('is-pending');
+        // From the bottom of the pile up; the document on top lands last.
+        const sheets = [...order].reverse().map((type) => {
+            const d = docs.get(type);
+            const p = poseOf(d, type === active);
+            return { el: d.sheet, x: p.x, y: p.y, rot: p.rot, air: d.air, rest: d.rest };
+        });
+        entrance = deal({ sheets, dir, mobile: isPhone(), k, start });
         html.classList.remove('hero-armed');
         // The callouts once the document rests (and not before 1.5 s after the first paint).
         const at = fromPaint ? Math.max(entrance.restAt, t0 + 1500 - now) : entrance.restAt;
-        draw(docEl, at);
+        draw(top, at);
         timers.push(window.setTimeout(() => {
             entrance = null;
-            enableTilt();
+            enableHover();
         }, at + 900));
     }
 
@@ -331,9 +530,12 @@ export function mount(root) {
 
     return () => {
         watcher?.disconnect();
+        visible?.disconnect();
         finishAll();
-        tilt?.destroy();
+        auto.destroy();
+        hover.destroy();
         pager?.destroy();
+        listeners.forEach((off) => off());
         phone.removeEventListener('change', onPhone);
         motionPref.removeEventListener('change', onMotionPref);
         window.removeEventListener('pageshow', onPageShow);

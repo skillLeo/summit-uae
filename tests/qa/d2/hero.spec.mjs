@@ -13,10 +13,14 @@
  * firstPaintGap, a warning above the 2.0 s LCP budget.
  *
  * Checks (soft assertions): no console errors · the H1 is visible from the first frame and never animated ·
- * LCP is the H1 · CLS <= 0.02 · motion: every document rests and is visible by 2000 ms, three callouts show
- * by 3000 ms, documents enter from the inline-start side mirrored in RTL (from the right in LTR, from the left
- * in RTL) · reduced motion: the first frame already shows the final composition and the stage is
- * pixel-identical in the first painted frame and at 3000 ms.
+ * LCP is the H1 · CLS <= 0.02 · D15: every sheet of the pile behind the top one shows no ink at rest · motion:
+ * every document of the pile rests and is visible by 2000 ms, three callouts show by 3000 ms, documents are dealt
+ * in from the inline-end side mirrored in RTL (from the right in LTR, from the left in RTL) · reduced motion: the
+ * first frame already shows the final composition and the stage is pixel-identical in the first painted frame and
+ * at 3000 ms (no autoplay under reduced motion).
+ * The owner's autoplay: the first automatic switch comes a dwell (HeroStage::DWELL, 2.8 s) after the top document's
+ * callouts are drawn (about 2.3 s after the clock's origin), so every sample up to 3000 ms still shows the composed
+ * pile with the first document on top; the harness's pointer stays off the stage (no pointer depth).
  */
 import { test } from '@playwright/test';
 import sharp from 'sharp';
@@ -40,10 +44,17 @@ async function uniform(buffer) {
 /**
  * Index of the first frame that shows the page: from navigation, the first non-blank frame (the image
  * itself decides, so DevTools and page clocks never need to agree); from a scroll, the first frame after it.
+ * A frame at another size than the last one (the screencast sometimes sends its first frames of an emulated
+ * phone at a transient size, e.g. 350×757 for 390×844) is skipped: its crops would never line up.
  */
 async function firstShown(frames, { origin, series }) {
+    const last = frames.length ? await sharp(frames[frames.length - 1].buffer).metadata() : null;
     for (const [i, f] of frames.entries()) {
         if (f.t < (series === 'nav' ? 0 : origin)) continue;
+        if (last) {
+            const m = await sharp(f.buffer).metadata();
+            if (m.width !== last.width || m.height !== last.height) continue;
+        }
         if (series !== 'nav' || !(await uniform(f.buffer))) return i;
     }
     return -1;
@@ -141,7 +152,11 @@ for (const width of HERO_WIDTHS) {
                     await untilPageTime(page, origin + 700);
                     const share = await page.evaluate(script(stageShare));
                     record.stageShareAtLoad = share === null ? null : Math.round(share * 100) / 100;
-                    if (share !== null && share < 0.35) {
+                    // The stage script still holds the pile off-stage (html.hero-armed) once it waits for the stage to
+                    // scroll into view (phones: less than a fifth of it above the tab bar), whatever share shows.
+                    const waiting = motion === 'motion' && (await page.evaluate(() => document.documentElement.classList.contains('hero-armed')));
+                    record.waitingForScroll = waiting;
+                    if (share !== null && (share < 0.35 || waiting)) {
                         await page.waitForTimeout(150);
                         origin = await page.evaluate(() => {
                             document.querySelector('[data-hero-stage]').scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'instant' });
@@ -205,6 +220,13 @@ for (const width of HERO_WIDTHS) {
                         cls: { value: Math.round(cls * 10000) / 10000, max: CLS_MAX, ok: cls <= CLS_MAX },
                         // The gap before the storyboard's clock starts (recorded, not failing: the server response).
                         firstPaintGap: { firstPaint: record.firstPaintAfterNavigation, ttfb: record.ttfb, budget: 2000, ok: record.firstPaintAfterNavigation <= 2000, warn: true },
+                        // D15: at rest, the sheets behind the top one show only their paper.
+                        backSheetsBlank: (() => {
+                            const back = (sEnd?.stage?.docs ?? []).filter((d) => !d.top);
+                            const inked = back.filter((d) => d.ink > 0.01).map((d) => `${d.type} ink=${d.ink}`);
+                            const top = (sEnd?.stage?.docs ?? []).find((d) => d.top);
+                            return { back: back.length, inked, topInk: top?.ink ?? null, ok: back.length === 5 && inked.length === 0 && (top?.ink ?? 0) >= 0.99 };
+                        })(),
                     };
                     if (motion === 'motion') {
                         const rest = restingDocs(s2000, sEnd);

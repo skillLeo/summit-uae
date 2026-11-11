@@ -481,6 +481,8 @@ export function iconVerdict(name, ctx) {
     if (c.cardTitle) return `icon "${n}" inside a card title`;
     if (c.menuItem && !(n === 'external' && c.externalLink) && !(/^chevron/.test(n) && c.disclosure)) return `icon "${n}" inside a menu item`;
     if (['search', 'menu', 'close', 'cross', 'phone', 'mail', 'email', 'check', 'upload', 'info', 'warning', 'error', 'chevron-down', 'chevron-up', 'carousel-prev', 'carousel-next', 'form-back', 'form-next'].includes(n)) return null;
+    // The home hero's autoplay toggle (the owner's autoplay, WCAG 2.2.2): its glyph is its only visible label.
+    if ((n === 'pause' || n === 'play') && (c.step || c.specimen)) return null;
     if (c.specimen && ['chevron', 'chevron-start', 'clock', 'external', 'minus', 'plus', 'calendar'].includes(n)) return null;
     if (/^chevron(?:-(?:start|end|left|right))?$/.test(n)) return !c.disclosure && !c.step && (c.inLink || c.inCard) ? `"go" chevron "${n}" on a link or card (an arrow, §3.6 rule 3)` : null;
     if (n === 'clock') return c.contact ? null : 'icon "clock" outside the contact block';
@@ -1166,7 +1168,7 @@ export function pageLint(o) {
         }
     };
     const linkish = 'a[href], button, [role="button"], [role="link"], [role="tab"], [role^="menuitem"], summary, input[type="submit"], input[type="button"]';
-    const stepControls = '[data-carousel-step], [data-pager-step], [data-wizard-back], [data-wizard-next], [data-lint-allow~="arrow"]';
+    const stepControls = '[data-carousel-step], [data-pager-step], [data-pager-toggle], [data-wizard-back], [data-wizard-next], [data-lint-allow~="arrow"]';
     const isIcon = (el) => {
         if (el.hasAttribute('data-brand')) return false;
         if (el.hasAttribute('data-icon')) return true;

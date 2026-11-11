@@ -84,27 +84,61 @@ final class HeroTest extends TestCase
         }
     }
 
-    /** D15: one document at a time on a file of two blank sheets; every document is in the stage, the cheque shown. */
-    public function test_stage_holds_the_six_sample_documents_with_watermarks_and_a_label(): void
+    /**
+     * D15 (the owner's option 3): all six sample documents lie in one pile, each in its own pose and depth, the cheque
+     * on top; the sheets behind it show only their paper (the stage hides their ink), so nothing readable is cut off.
+     */
+    public function test_stage_holds_the_six_sample_documents_in_a_pile_with_watermarks_and_a_label(): void
     {
         $hero = $this->hero($this->home());
 
         $this->assertMatchesRegularExpression('/class="hero-stage" role="img" aria-label="'.preg_quote(e(d2p('hero.stage_label')), '/').'"/', $hero);
         $this->assertSame(1, substr_count($hero, 'data-canvas'), 'one canvas for every width (CSS picks the layout)');
-        preg_match_all('/class="hero-doc hero-doc--([a-z]+)( is-active)?" data-hero-doc="\1"/', $hero, $d);
+        preg_match_all('/class="hero-doc hero-doc--([a-z]+)( is-active)?" data-hero-doc="\1" data-depth="(\d)"/', $hero, $d);
         $this->assertSame(['cheque', 'contract', 'tenancy', 'transfer', 'messages', 'notice'], $d[1], 'the six documents, in pager order');
-        $this->assertSame([' is-active', '', '', '', '', ''], $d[2], 'one document shown: the cheque');
+        $this->assertSame([' is-active', '', '', '', '', ''], $d[2], 'one document on top: the cheque');
+        $this->assertSame(['0', '1', '2', '3', '4', '5'], $d[3], 'the pile from the top down, in pager order');
+        $this->assertSame(6, substr_count($hero, '<div class="hero-sheet" data-sheet>'), 'each document on its own sheet (its pose)');
         foreach (Docs::TYPES as $type) {
             $this->assertStringContainsString('data-doc="'.$type.'" data-variant="stage"', $hero, "<x-d2.doc.{$type}> on the stage");
         }
-        // The file under the document: two blank sheets (paper only, no text that could be cut off).
-        $this->assertSame(1, preg_match('/<div class="hero-file" aria-hidden="true">(.*?)<\/div>/s', $hero, $file));
-        $this->assertSame(2, substr_count($file[1], 'class="hero-sheet hero-sheet--'));
-        $this->assertSame('', trim(strip_tags($file[1])), 'the sheets carry no text');
+        $this->assertStringNotContainsString('hero-file', $hero, 'the blank file of Phase 2 is gone: the pile is made of the documents themselves');
+        // D15: the stage hides the ink of every sheet behind the top one (the paper, the cheque's waves and the memo's
+        // folded corner stay), so no text, digit or glyph shows on a back sheet.
+        $css = (string) file_get_contents(resource_path('css/d2/components/stage.css'));
+        $this->assertMatchesRegularExpression('/\.hero-doc:not\(\.is-active\) :is\(\.doc__sheet > :not\(\.cheque__waves, \.doc__fold\), \.doc__wm\) \{\s*opacity: 0;\s*\}/', $css);
         // Every document carries the trilingual watermark (the cheque also carries its stapled memo's).
         $this->assertGreaterThanOrEqual(6, substr_count($hero, 'class="doc__wm"'));
         $this->assertSame(6, substr_count($hero, 'class="hero-callouts" data-hero-callouts aria-hidden="true"'), 'each document carries its own callouts');
         $this->assertSame(18, substr_count($hero, '<span class="hero-callout hero-callout--'), 'three callouts per document');
+    }
+
+    /** The pile's geometry: inside the canvas, clear of the H1 side, a label margin on the inline-end side, real proportions. */
+    public function test_the_pile_fits_the_canvas_and_leaves_the_label_margin(): void
+    {
+        foreach (HeroStage::LAYOUTS as $layout) {
+            $l = HeroStage::LAYOUT[$layout];
+            [$x0, $x1, $y0, $y1] = HeroStage::extents($layout);
+            [$cx, $cy] = HeroStage::centre($layout);
+            $this->assertEqualsWithDelta($l['start'], $cx + $x0, 0.05, "{$layout}: the pile starts its margin away from the H1 side");
+            $this->assertGreaterThanOrEqual(0, $cy + $y0, "{$layout}: the pile stays inside the canvas (top)");
+            $this->assertLessThanOrEqual($l['h'], $cy + $y1, "{$layout}: the pile stays inside the canvas (bottom)");
+            [$edge, $room] = HeroStage::margin($layout);
+            $this->assertGreaterThanOrEqual($cx + $x1 + $l['gap'] - 0.1, $edge);
+            $this->assertGreaterThan($layout === 'wide' ? 130 : 48, $room, "{$layout}: room for the labels (or the phone markers)");
+            foreach (Docs::TYPES as $type) {
+                [, , $rot] = HeroStage::pose($type, $layout);
+                $this->assertLessThanOrEqual(8, abs($rot), "{$type}: a few degrees, as put down by hand");
+                [, , $w, $h] = HeroStage::box($type, $layout);
+                [$nw, $nh] = Docs::SIZE[$type];
+                $this->assertEqualsWithDelta($nw / $nh, $w / $h, 0.001, "{$type}: its real proportions");
+            }
+        }
+        // The pages share one scale (so the back sheets keep their real sizes); the cheque is drawn about as wide as them.
+        $this->assertSame(HeroStage::scale('contract', 'wide'), HeroStage::scale('notice', 'wide'));
+        [, , $chequeW] = HeroStage::box('cheque', 'wide');
+        [, , $pageW] = HeroStage::box('contract', 'wide');
+        $this->assertEqualsWithDelta(1.2, $chequeW / $pageW, 0.15);
     }
 
     /** D17: six progress segments, the document's name, previous / next; no counter, no dots, no autoplay. */
@@ -118,13 +152,19 @@ final class HeroTest extends TestCase
         $this->assertStringContainsString('role="group" aria-label="'.e(d2p('hero.segments_label')).'"', $pager);
         $this->assertMatchesRegularExpression('/aria-label="'.preg_quote(e(Docs::name('cheque')), '/').'"\s+aria-current="true"/', $pager);
         $this->assertMatchesRegularExpression('/<p class="hero-pager__name" aria-live="polite" data-pager-name[^>]*>'.preg_quote(e(Docs::name('cheque')), '/').'<\/p>/', $pager, 'the document name, a polite live region');
-        $this->assertMatchesRegularExpression('/aria-label="'.preg_quote(e(d2p('hero.prev')), '/').'"[^>]*aria-disabled="true"/', $pager, 'no wrap-around: previous is disabled on the first document');
-        $this->assertDoesNotMatchRegularExpression('/aria-label="'.preg_quote(e(d2p('hero.next')), '/').'"[^>]*aria-disabled/', $pager);
-        $this->assertMatchesRegularExpression('/class="btn btn--secondary btn--40 icon-btn hero-pager__step"/', $pager, 'the 40 px previous / next buttons');
-        // No counter ("1/6"), no dots, no autoplay.
+        // The pile wraps around (the owner's autoplay amends D17): previous and next are always enabled.
+        $this->assertStringNotContainsString('aria-disabled', $pager, 'previous and next always lead somewhere');
+        $this->assertSame(2, preg_match_all('/class="btn btn--secondary btn--40 icon-btn hero-pager__step"/', $pager), 'the 40 px previous / next buttons');
+        // The owner's autoplay (WCAG 2.2.2): a visible 40 px pause / play toggle beside previous / next, named after what
+        // a press does, both glyphs printed (CSS shows one), the segments' fills for its timer.
+        $this->assertMatchesRegularExpression('/<button type="button" class="btn btn--secondary btn--40 icon-btn hero-pager__toggle"\s+aria-label="'.preg_quote(e(d2p('hero.pause')), '/').'" data-pager-toggle data-state="auto"\s+data-label-pause="'.preg_quote(e(d2p('hero.pause')), '/').'" data-label-play="'.preg_quote(e(d2p('hero.play')), '/').'"\s+data-copy-status="proposed"\s*>/', $pager);
+        $this->assertSame(1, preg_match_all('/data-icon="pause"/', $pager));
+        $this->assertSame(1, preg_match_all('/data-icon="play"/', $pager));
+        $this->assertSame(6, substr_count($pager, '<span class="hero-pager__fill" data-pager-fill></span>'), 'one fill per segment (a transform)');
+        $this->assertMatchesRegularExpression('/data-hero-pager data-types="cheque contract tenancy transfer messages notice"\s+data-autoplay/', $pager, 'the home pager plays');
+        // No counter ("1/6"), no dots.
         $this->assertDoesNotMatchRegularExpression('/\d\s*\/\s*\d/', strip_tags($pager));
         $this->assertStringNotContainsString('pager__dot', $pager);
-        $this->assertStringNotContainsString('autoplay', $pager);
         foreach (['en', 'ar', 'ru'] as $locale) {
             $this->assertArrayNotHasKey('pager_position', require lang_path("{$locale}/proposed-d2/hero.php"), "{$locale}: the counter's key is gone");
         }
@@ -246,7 +286,7 @@ final class HeroTest extends TestCase
             }
             $this->assertStringContainsString('data-copy-status="proposed"', $hero);
             // The stage's geometry and callout positions: nonce'd style blocks in the head, never inline styles.
-            $this->assertMatchesRegularExpression('/<style nonce="[^"]*">@layer components\{\.hero-doc--[a-z]+\{--s-wide:[\d.]+;--s-phone:[\d.]+;--dx-wide:-?[\d.]+px;--dx-phone:-?[\d.]+px\}/', $html);
+            $this->assertMatchesRegularExpression('/<style nonce="[^"]*">@layer components\{\.hero-doc--[a-z]+\{--s-wide:[\d.]+;--px-wide:-?[\d.]+px;--py-wide:-?[\d.]+px;--pr-wide:-?[\d.]+deg;--tx-wide:-?[\d.]+px;--ty-wide:-?[\d.]+px;--s-phone:[\d.]+;--px-phone:/', $html);
             $this->assertMatchesRegularExpression('/<style nonce="[^"]*">@layer components\{\.hero-stage\[data-loc="'.$locale.'"\] \.hero-doc--[a-z]+ \.hero-callout\[data-callout="[a-z]+"\]\{--i-wide:/', $html);
         }
     }
@@ -323,7 +363,7 @@ final class HeroTest extends TestCase
         }
     }
 
-    /** D16 geometry: dots beside their fields, labels in the margins beside the file, never over the paper, mirrored in RTL. */
+    /** D16 geometry: dots beside their fields, labels in the margin beside the pile (its inline-end side), never over the paper, mirrored in RTL. */
     public function test_callouts_sit_in_the_margins_beside_the_file(): void
     {
         foreach (['en', 'ar', 'ru'] as $locale) {
@@ -331,7 +371,7 @@ final class HeroTest extends TestCase
                 $fields = HeroStage::fields($locale)[$type];
                 foreach (HeroStage::LAYOUTS as $layout) {
                     [$bx, , $bw] = HeroStage::box($type, $layout);
-                    [$ps, $pe] = HeroStage::pile($type, $layout);
+                    [$ps, $pe] = HeroStage::pile($layout);
                     $s = HeroStage::scale($type, $layout);
                     $bySide = ['start' => [], 'end' => []];
                     foreach (HeroStage::callouts($type, $locale) as $c) {
@@ -348,13 +388,15 @@ final class HeroTest extends TestCase
                             ? $this->assertLessThanOrEqual($ps - 10 + 0.1, $edge, "{$locale} {$type} {$c['id']} {$layout}: label beside the file")
                             : $this->assertGreaterThanOrEqual($pe + 10 - 0.1, $edge, "{$locale} {$type} {$c['id']} {$layout}: label beside the file");
                         $this->assertGreaterThan($layout === 'wide' ? 90 : 40, $g['room'], "{$locale} {$type} {$c['id']} {$layout}: room for the label");
+                        $this->assertSame('end', $c['side'], "{$locale} {$type} {$c['id']}: every label on the inline-end side, away from the H1");
                         $bySide[$c['side']][] = $g['y'];
                     }
                     if ($layout === 'phone') {
+                        $spacing = (HeroStage::LAYOUT['phone']['marker'] + HeroStage::LAYOUT['phone']['air']) / HeroStage::LAYOUT['phone']['minK'];
                         foreach ($bySide as $ys) {
                             sort($ys);
                             for ($i = 1; $i < count($ys); $i++) {
-                                $this->assertGreaterThanOrEqual(HeroStage::PHONE_SPACING - 0.2, $ys[$i] - $ys[$i - 1], "{$locale} {$type}: markers 12 px apart");
+                                $this->assertGreaterThanOrEqual($spacing - 0.2, $ys[$i] - $ys[$i - 1], "{$locale} {$type}: markers 12 px apart");
                             }
                         }
                     }
@@ -414,7 +456,27 @@ final class HeroTest extends TestCase
         }
     }
 
-    /** One Tab stop for the pager: a roving tabindex on the segments; previous / next out of the tab order. */
+    /**
+     * The owner's autoplay is the home hero's only: never on the styleguide's specimens; the dwell comes from
+     * HeroStage::DWELL. (Reduced motion and no JavaScript never play: hero/stage.js and the hidden pager.)
+     */
+    public function test_autoplay_is_on_the_home_hero_only(): void
+    {
+        $hero = $this->hero($this->home());
+        $this->assertMatchesRegularExpression('/data-hero-visual\s+data-autoplay="'.HeroStage::DWELL.'"\s+x-data="d2HeroStage"/', $hero);
+        $this->assertGreaterThanOrEqual(2500, HeroStage::DWELL);
+        $this->assertLessThanOrEqual(3000, HeroStage::DWELL);
+        $sg = $this->withUnencryptedCookies(['summit_design' => '2'])->get('/en/styleguide/')->assertOk()->getContent();
+        $this->assertGreaterThan(0, substr_count($sg, 'data-hero-visual'));
+        $this->assertStringNotContainsString('data-autoplay', $sg, 'no specimen plays by itself');
+        $this->assertStringContainsString('data-pager-toggle data-state="stopped"', $sg, 'a specimen\'s toggle reads "Play"');
+        foreach (['en', 'ar', 'ru'] as $locale) {
+            $keys = require lang_path("{$locale}/proposed-d2/hero.php");
+            $this->assertNotSame($keys['pause'], $keys['play'], "{$locale}: the toggle's two names");
+        }
+    }
+
+    /** One Tab stop for the segments (a roving tabindex) and one for the toggle; previous / next out of the tab order. */
     public function test_pager_is_one_tab_stop(): void
     {
         $pager = $this->between($this->hero($this->home()), 'data-hero-pager', 'hero-visual__caption');
@@ -422,6 +484,7 @@ final class HeroTest extends TestCase
         $this->assertSame(['cheque', 'contract', 'tenancy', 'transfer', 'messages', 'notice'], $segs[1]);
         $this->assertSame(['0', '-1', '-1', '-1', '-1', '-1'], $segs[2], 'only the document shown is in the tab order');
         $this->assertSame(2, preg_match_all('/data-pager-step="-?1" tabindex="-1"/', $pager), 'previous and next are not Tab stops (the arrow keys do the same)');
+        $this->assertDoesNotMatchRegularExpression('/hero-pager__toggle"[^>]*tabindex/', $pager, 'the toggle is a Tab stop (WCAG 2.2.2)');
     }
 
     /**

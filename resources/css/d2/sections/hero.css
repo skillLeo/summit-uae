@@ -11,7 +11,8 @@
  *   ≥ 1280  12 columns: copy in 1–6 and the stage in 7–12. "Start your matter" is its own block under the hero
  *           (sections/start.css, brief §5.1). The approved H1 may run 80 px past its column so it keeps its two
  *           sentences on two lines (Russian: "Практические решения." is wider than six columns at 56 px); the
- *           stage's start-side labels keep room for it (App\Design\D2\HeroStage::H1_ROOM).
+ *           stage keeps its pile 36 design px from its inline-start edge and its labels on the far side of the pile
+ *           (App\Design\D2\HeroStage::LAYOUT).
  * The H1 is the LCP element: it is never hidden or animated. One display size in every language (56 / 40).
  * Text is readable at the first paint (hero-perf): the H1, paragraphs and CTAs never fade or
  * slide in; only the sample documents and their callouts move (components/stage.css).

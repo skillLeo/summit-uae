@@ -425,9 +425,11 @@ export function heroProbe(times) {
         const stage = document.querySelector('[data-hero-stage]');
         if (stage) {
             const sr = stage.getBoundingClientRect();
-            // Design 2.1 Phase 2 (D15-D17): one canvas; the document shown is [data-hero-doc].is-active (the other five
-            // wait in place with visibility: hidden), its paper is [data-doc-paper], its callouts .hero-callout (labels
-            // from 768 px, numbered markers on phones) and its dots .hero-dot. "mobile" = the phone layout (< 768 px).
+            // Design 2.1 Phase 2 (D15-D17, the owner's option 3): one canvas holding the pile of all six documents; the
+            // one on top is [data-hero-doc].is-active (data-depth 0), each paper is [data-doc-paper], and every sheet
+            // behind the top one shows only its paper (ink: the largest opacity of its printed parts, 0 on a back
+            // sheet). The top document's callouts are .hero-callout (labels from 768 px, numbered markers on phones)
+            // and its dots .hero-dot. "mobile" = the phone layout (< 768 px).
             const canvas = [...stage.querySelectorAll('[data-canvas]')].find((c) => c.getClientRects().length > 0 && getComputedStyle(c).display !== 'none');
             const s = {
                 canvas: canvas ? (window.innerWidth < 768 ? 'mobile' : 'desktop') : null,
@@ -445,9 +447,13 @@ export function heroProbe(times) {
                     if (d !== active && getComputedStyle(d).visibility === 'hidden') continue;
                     const b = d.querySelector('[data-doc-paper]') || d;
                     const r = b.getBoundingClientRect();
+                    let ink = 0;
+                    for (const part of d.querySelectorAll('.doc__sheet > :not(.cheque__waves):not(.doc__fold), .doc__wm')) ink = Math.max(ink, opacity(part));
                     s.docs.push({
                         type: d.dataset.heroDoc,
                         top: d === active,
+                        depth: d.dataset.depth === undefined ? null : Number(d.dataset.depth),
+                        ink,
                         cx: Math.round((r.x + r.width / 2) * 10) / 10,
                         cy: Math.round((r.y + r.height / 2) * 10) / 10,
                         w: Math.round(r.width),

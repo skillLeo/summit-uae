@@ -1,23 +1,36 @@
 /*
  * Design 2 component: the hero's document stage, callouts, legend, pager and caption (owner: hero; Design 2.1 brief
- * D15–D17, §6 "Hero document switch"). Views: components/d2/hero/{visual,stage,notes,pager}.blade.php. Geometry:
- * App\Design\D2\HeroStage (two nonce'd <style> blocks: per-document scales and the file's sheets; per-language
- * callout positions). Script: resources/js/d2/hero/*.js.
+ * D15–D17, §6 "Hero document switch"; the owner's option 3: the Phase 1 pile with the brief's rules, and the owner's
+ * autoplay). Views: components/d2/hero/{visual,stage,notes,pager}.blade.php. Geometry: App\Design\D2\HeroStage (two
+ * nonce'd <style> blocks: per document its scale, pile pose and top pose; per language the callout positions).
+ * Script: resources/js/d2/hero/*.js.
  *
- * Stage   reserves its box with aspect-ratio (620/540 on phones, 620/440 from 768 px): CLS 0. The canvas is drawn at its design size and scaled to
- *         the stage width from the inline-start top corner: --k = tan(atan2(100cqi, 620px)), at most 1.
- * File    (D15) two blank offset sheets (paper, no text) under ONE document shown at rotation 0; the others wait
- *         hidden in the same place. Each document is centred at its own scale per layout (--s-wide, --s-phone).
- * Callouts (D16) each document's own SVG (dots at the edges of its key fields, straight leaders through empty paper)
- *         and its labels in the clear margins beside the file. Two layouts:
- *           wide  from 768 px: the label text (the Small role on screen at every scale: sizes ÷ --k), its first
- *                 line on the leader (the upper one of two close callouts: its last line), never over a paper edge;
+ * Stage   reserves its box with aspect-ratio (620/650 on phones, 620/510 from 768 px): CLS 0. The canvas is drawn at
+ *         its design size and scaled to the stage width from the inline-start top corner: --k = tan(atan2(100cqi,
+ *         620px)), at most 1.
+ * Pile    all six documents, each centred on the canvas and moved to its pose (--px, --py, --pr: a hand-placed offset
+ *         and rotation, mirrored through --dir) on .hero-sheet; the one on top (.is-active) sits at the pile's centre
+ *         (--tx, --ty), rotation 0, a little lifted (part of its "air" shadow). Stacking follows data-depth (0 = top).
+ *         Layers, outside in: .hero-doc (z-index; the pointer depth writes its `transform`, hero/hover.js) >
+ *         .hero-sheet (the pose; the deal and the switch animate its translate / rotate / scale) > .hero-doc__paper
+ *         (the document's scale, --s).
+ * D15     a sheet behind the top one shows only its paper: its ink (every child of its .doc__sheet papers but the
+ *         cheque's security waves and the memo's folded corner, and its watermark) is transparent, so no text, digit
+ *         or glyph is ever cut off at a sheet's edge. Paper tint, texture, edges, the staple and the phone's frame stay:
+ *         every back sheet is still known by its shape and colour.
+ * Callouts (D16) each document's own SVG (dots at the edges of its key fields, leaders through empty paper) and
+ *         its labels in the clear margin on the inline-end side of the pile, shown only for the document on top. Two
+ *         layouts:
+ *           wide  from 768 px: the label text (the Small role on screen at every scale: sizes ÷ --k), its first, middle
+ *                 or last line on the leader, never over a paper edge;
  *           phone below 768 px (and .hero-visual--phone): a numbered 24 px marker for each label; the legend under
  *                 the document lists the text (<x-d2.hero.notes>).
- * Motion  (§6) transform and opacity only, on the paper and the tilt layer: the entrance (hero/deal.js, armed by
- *         html.hero-armed), the switch and the callouts' draw-in (hero/stage.js: stroke-dashoffset on the leaders,
- *         which have pathLength 1), the pointer tilt (hero/tilt.js, at most 2°). Reduced motion: final states at once.
- * The stage is one illustration (data-illustration): its paper shadows and the dots' white ring stay inside it.
+ * Motion  (§6) transform and opacity only: the entrance (hero/deal.js, armed by html.hero-armed), the switch (the
+ *         chosen sheet lifts out of the pile, comes to the top on the spring {170, 20} and its ink fades in; the old
+ *         top goes back to its place as its ink fades out), the callouts' draw-in (stroke-dashoffset), the pointer
+ *         depth, the "breathing" pile and the segment preview (hero/hover.js), the pager's timer (a scaleX). Reduced
+ *         motion: final states at once.
+ * The stage is one illustration (data-illustration): its paper shadows and the dots' paper ring stay inside it.
  * Outside it (legend, pager, caption) nothing glows: type roles, ink and the flat bronze of the markers.
  */
 @layer components {
@@ -36,16 +49,16 @@
   }
 
   /* ================================================================== stage */
-  /* The canvas: 620 × 540 design px on phones, 620 × 440 from 768 px (App\Design\D2\HeroStage::LAYOUT h). */
+  /* The canvas: 620 × 650 design px on phones, 620 × 510 from 768 px (App\Design\D2\HeroStage::LAYOUT h). */
   .hero-stage {
     --cw: 620px;
-    --ch: 540px;
+    --ch: 650px;
 
     position: relative;
     container-type: inline-size;
     inline-size: 100%;
     max-inline-size: var(--cw);
-    aspect-ratio: 620 / 540;
+    aspect-ratio: 620 / 650;
   }
 
   .hero-canvas {
@@ -64,76 +77,88 @@
     transform-origin: 100% 0;
   }
 
-  /* The pointer tilt (hero/tilt.js writes `transform`) turns the whole composition around its centre. */
+  /* The pointer tilt (hero/hover.js writes `transform`, at most 2°) turns the whole pile around its centre. */
   .hero-tilt {
     position: absolute;
     inset: 0;
     transform-origin: 50% 50%;
   }
 
-  /* ================================================================== file and documents (D15) */
-  .hero-file,
+  /* ================================================================== the pile (D15) */
   .hero-doc {
+    --s: var(--s-phone);
+    --px: var(--px-phone);
+    --py: var(--py-phone);
+    --pr: var(--pr-phone);
+    --tx: var(--tx-phone);
+    --ty: var(--ty-phone);
+
     position: absolute;
     inset: 0;
+    z-index: var(--z-raised);
     display: grid;
     place-items: center;
     pointer-events: none;
   }
 
-  /* The file follows the document shown (HeroStage dx: the cheque sits towards the start, its labels on the end
-     side); hero/stage.js glides it on a switch. */
-  .hero-file {
-    --fdx: var(--fdx-phone, 0px);
+  /* Depth 0 is the top of the pile. */
+  .hero-doc[data-depth="0"] { z-index: calc(var(--z-raised) + 6); }
+  .hero-doc[data-depth="1"] { z-index: calc(var(--z-raised) + 5); }
+  .hero-doc[data-depth="2"] { z-index: calc(var(--z-raised) + 4); }
+  .hero-doc[data-depth="3"] { z-index: calc(var(--z-raised) + 3); }
+  .hero-doc[data-depth="4"] { z-index: calc(var(--z-raised) + 2); }
+  .hero-doc[data-depth="5"] { z-index: calc(var(--z-raised) + 1); }
 
-    inset-inline: var(--fdx) calc(var(--fdx) * -1);
-  }
-
+  /* The pose: the document's own place in the pile, or the top of the pile when it is the one shown. */
   .hero-sheet {
-    --sw: var(--w-phone);
-    --sh: var(--h-phone);
-    --sx: var(--x-phone);
-    --sy: var(--y-phone);
-    --sr: var(--r-phone);
-
     position: relative;
     grid-area: 1 / 1;
-    inline-size: var(--sw);
-    block-size: var(--sh);
-    border-radius: var(--r-paper);
-    box-shadow: var(--shadow-paper-rest);
-    translate: calc(var(--sx) * var(--dir)) var(--sy);
-    rotate: calc(var(--sr) * var(--dir));
+    translate: calc(var(--px) * var(--dir)) var(--py);
+    rotate: calc(var(--pr) * var(--dir));
+    transform-origin: 50% 50%;
   }
 
-  .hero-doc {
-    --s: var(--s-phone);
-    --dx: var(--dx-phone);
-
-    z-index: 1;
-    visibility: hidden;
-  }
-
-  .hero-doc.is-active {
-    z-index: calc(var(--z-raised) + 2);
-    visibility: visible;
-  }
-
-  /* The document going away during a switch stays under the one coming in until that one has settled. */
-  .hero-doc.is-leaving {
-    z-index: calc(var(--z-raised) + 1);
-    visibility: visible;
+  .hero-doc.is-active .hero-sheet {
+    translate: calc(var(--tx) * var(--dir)) var(--ty);
+    rotate: 0deg;
   }
 
   .hero-doc__paper {
     position: relative;
-    inset-inline-start: var(--dx);
-    grid-area: 1 / 1;
     scale: var(--s);
   }
 
+  /* D15: the ink of every sheet behind the top one is transparent (the paper stays). */
+  .hero-doc:not(.is-active) :is(.doc__sheet > :not(.cheque__waves, .doc__fold), .doc__wm) {
+    opacity: 0;
+  }
+
+  /* The document on top floats a little above the pile: part of its lifted shadow. */
+  .hero-doc.is-active .doc__shadow--air {
+    opacity: 0.3;
+  }
+
+  /* With the hero script: a back sheet's paper is a pointer shortcut to the pager (it is not focusable; the pager is
+     the accessible control). The papers on top take the pointer too, so nothing under them can be hit. */
+  .hero-live .hero-visual[x-data] .hero-doc :is(.doc__sheet, .phone) {
+    pointer-events: auto;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .hero-live .hero-visual[x-data] .hero-doc:not(.is-active) :is(.doc__sheet, .phone) {
+      cursor: pointer;
+    }
+  }
+
+  /* Desktop with a mouse: each sheet keeps its own layer for the pointer depth (hero/hover.js). */
+  @media (hover: hover) and (pointer: fine) and (width >= 768px) and (prefers-reduced-motion: no-preference) {
+    .hero-live .hero-visual[x-data] :is(.hero-doc, .hero-doc .doc__shadow--air) {
+      will-change: transform, opacity;
+    }
+  }
+
   /* ---------------------------------------------------------------- armed (before the entrance) */
-  .hero-armed :is(.hero-sheet, .hero-doc.is-active .hero-doc__paper) {
+  .hero-armed .hero-sheet {
     opacity: 0;
   }
 
@@ -149,6 +174,11 @@
     inset: 0;
     z-index: 1;
     pointer-events: none;
+  }
+
+  /* Only the document on top shows its callouts (the one leaving keeps them while they fade out). */
+  .hero-doc:not(.is-active, .is-leaving) .hero-callouts {
+    visibility: hidden;
   }
 
   .hero-lines {
@@ -185,7 +215,7 @@
 
   /*
    * Phone layout (the default): a numbered marker, 24 px on screen with a 13 px figure, centred on its leader,
-   * its facing edge --ci from the canvas edge on its side.
+   * its facing edge --ci from the canvas's inline-start edge.
    */
   .hero-callout {
     --ci: var(--i-phone);
@@ -212,6 +242,7 @@
     translate: 0 -50%;
   }
 
+  /* (Every hero label sits on the inline-end side of the pile; --start keeps the shared callout contract.) */
   .hero-callout--start {
     inset-inline-end: var(--ci);
   }
@@ -269,26 +300,18 @@
   @media (width >= 768px) {
     .hero-visual:not(.hero-visual--phone) {
       & .hero-stage {
-        --ch: 440px;
+        --ch: 510px;
 
-        aspect-ratio: 620 / 440;
+        aspect-ratio: 620 / 510;
       }
 
       & .hero-doc {
         --s: var(--s-wide);
-        --dx: var(--dx-wide);
-      }
-
-      & .hero-file {
-        --fdx: var(--fdx-wide, 0px);
-      }
-
-      & .hero-sheet {
-        --sw: var(--w-wide);
-        --sh: var(--h-wide);
-        --sx: var(--x-wide);
-        --sy: var(--y-wide);
-        --sr: var(--r-wide);
+        --px: var(--px-wide);
+        --py: var(--py-wide);
+        --pr: var(--pr-wide);
+        --tx: var(--tx-wide);
+        --ty: var(--ty-wide);
       }
 
       & .hero-lines__set--wide {
@@ -305,8 +328,8 @@
 
       /*
        * The label: the Small role at 500 in ink, as drawn on screen (sizes ÷ --k), at most --cm wide (the margin
-       * beside the file), aligned towards the document; its first text line sits on the leader (.hero-callout--last:
-       * its last line, so it grows upwards, away from a close callout below it).
+       * beside the pile), aligned towards the document; its first text line sits on the leader (--last: its last
+       * line, so it grows upwards, away from a close callout below it; --middle: its centre).
        */
       & .hero-callout {
         --ci: var(--i-wide);
@@ -333,6 +356,11 @@
       & .hero-callout--last {
         inset-block-start: auto;
         inset-block-end: calc(var(--ch) - var(--cy) - var(--lhc) / 2);
+      }
+
+      & .hero-callout--middle {
+        inset-block-start: var(--cy);
+        translate: 0 -50%;
       }
 
       & .hero-callout--start {
@@ -366,7 +394,7 @@
     }
   }
 
-  /* ================================================================== pager (D17) */
+  /* ================================================================== pager (D17, with the owner's autoplay) */
   .hero-pager {
     display: grid;
     gap: var(--s-1);
@@ -396,14 +424,34 @@
   }
 
   .hero-pager__bar {
+    position: relative;
     display: block;
     block-size: 2px;
+    overflow: hidden;
     background: var(--field-border);
     transition: background-color var(--dur-hover) var(--ease-out);
   }
 
-  .hero-pager__seg:is([aria-current="true"], :has(~ [aria-current="true"])) .hero-pager__bar {
+  /* The fill: ink, grown from the inline-start edge (a transform: the timer never moves the layout). */
+  .hero-pager__fill {
+    position: absolute;
+    inset: 0;
     background: var(--ink);
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+  }
+
+  .hero-pager__fill:dir(rtl) {
+    transform-origin: 100% 50%;
+  }
+
+  .hero-pager__seg:is([aria-current="true"], :has(~ [aria-current="true"])) .hero-pager__fill {
+    transform: scaleX(1);
+  }
+
+  /* While the samples play, the segment shown fills over its dwell (hero/pager.js animates it from 0). */
+  .hero-pager[data-playing] .hero-pager__seg[aria-current="true"] .hero-pager__fill {
+    transform: scaleX(0);
   }
 
   .hero-pager__seg:hover:not([aria-current="true"]) .hero-pager__bar {
@@ -440,6 +488,27 @@
     display: flex;
     flex: none;
     gap: var(--s-2);
+  }
+
+  /* The toggle shows what a press does: pause while the samples play, play while they are stopped. Until the script
+     decides ("auto"), the home hero plays, unless the visitor prefers reduced motion. */
+  .hero-pager__glyph--play,
+  .hero-pager__toggle[data-state="stopped"] .hero-pager__glyph--pause {
+    display: none;
+  }
+
+  .hero-pager__toggle[data-state="stopped"] .hero-pager__glyph--play {
+    display: inline-grid;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-pager__toggle[data-state="auto"] .hero-pager__glyph--pause {
+      display: none;
+    }
+
+    .hero-pager__toggle[data-state="auto"] .hero-pager__glyph--play {
+      display: inline-grid;
+    }
   }
 
   @media (width >= 768px) {

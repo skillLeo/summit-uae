@@ -44,7 +44,9 @@ final class Icons
      *   upload, info, warning, error: the brief's list;
      * - carousel-prev / carousel-next, form-back / form-next: the arrows rule 3 allows;
      * - minus / plus (the stepper's own buttons) and calendar (the date field): control glyphs that are the
-     *   control's only visible label.
+     *   control's only visible label;
+     * - pause / play: the home hero's autoplay toggle (the owner's autoplay; WCAG 2.2.2 needs a visible pause),
+     *   the control's only visible label.
      *
      * @var list<string>
      */
@@ -55,6 +57,7 @@ final class Icons
         'check', 'upload', 'info', 'warning', 'error',
         'carousel-prev', 'carousel-next', 'form-back', 'form-next',
         'minus', 'plus', 'calendar',
+        'pause', 'play',
     ];
 
     /**

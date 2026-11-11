@@ -4,24 +4,30 @@
  * the callouts as the page draws them.
  *
  * The hero lays its callouts out on the server (App\Design\D2\HeroStage): a dot at the edge of each key field, one
- * straight leader through the empty paper beside it, the label in the clear margin beside the file. That needs the
- * key fields' boxes, which only a browser can measure (fonts, Arabic line heights): this script opens the home page
- * in every language and stores every [data-field] box of every sample document in natural document px, x from the
- * document's inline-start edge, with a hash of the documents' copy in that language (HeroStage::copyHash()).
+ * leader through the empty paper beside it, the label in the clear margin on the inline-end side of the pile. That
+ * needs the key fields' boxes and the labels' heights, which only a browser can measure (fonts, Arabic line heights):
+ * this script opens the home page in every language, brings every sample document to the top of the pile in turn
+ * (rotation 0) and stores every [data-field] box in natural document px, x from the document's inline-start edge, and
+ * every label's height (canvas px at 1440 px, the smallest wide canvas scale), with a hash of the documents' copy in
+ * that language (HeroStage::copyHash()) and the label margin it was measured in (HeroStage::margin('wide')).
  * HeroStage ignores a language whose copy changed (its callouts then sit at the rough Docs::CALLOUTS anchors) and
  * tests/Feature/Design/D2/HeroTest.php fails until this script runs again.
  *
- * Run after any change to the sample documents (components/d2/doc/*, components/doc.css) or their copy
- * (lang/*\/proposed-d2/docs.php), with the Design 2 dev server (npm run dev:d2, public/hot-d2) and a PHP server for
- * this working tree:
+ * Run after any change to the sample documents (components/d2/doc/*, components/doc.css), their copy
+ * (lang/*\/proposed-d2/docs.php) or the pile's geometry (HeroStage), with the Design 2 dev server (npm run dev:d2,
+ * public/hot-d2) and a PHP server for this working tree:
  *   node scripts/d2/callout-layout.mjs [--base=http://127.0.0.1:8042]      measure, write, then check
  *   node scripts/d2/callout-layout.mjs --check                             check only
+ * (Label heights feed the layout of the labels: after a geometry change run it twice, the second run measures the
+ * labels in their new margin.)
  *
- * The check (every language, every document, 1440, 1280 and 768 px, and the phone layout at 390 px) fails when:
+ * The check (every language, every document on top of the pile, 1440, 1280 and 768 px, and the phone layout at
+ * 390 px) fails when:
  *   - a dot covers text on its document (its box against the document's text boxes);
  *   - a leader crosses text on its document;
- *   - a label (or a phone marker) leaves the stage, covers any paper (the document or a sheet of the file), comes
- *     within 12 px of another label, or (from 1280 px) of the H1's text.
+ *   - a label (or a phone marker) leaves the stage, covers any paper (any sheet of the pile, at its box), comes
+ *     within 12 px of another label, or (from 1280 px) of the H1's text;
+ *   - a sheet behind the top one shows ink (D15: its text must be transparent).
  */
 import { execFileSync } from 'node:child_process';
 import { readFileSync, writeFileSync } from 'node:fs';
@@ -47,28 +53,57 @@ async function open(width, locale) {
     return { context, page };
 }
 
-/** Every [data-field] box of every hero document, natural px, x from the inline-start edge. */
+/** Every [data-field] box of every hero document (on top of the pile), natural px, x from the inline-start edge, and the labels' heights (canvas px). */
 function measure() {
-    const out = {};
-    for (const wrap of document.querySelectorAll('.hero__visual [data-hero-doc]')) {
+    // Bring a document to the top of the pile (as the switch leaves it, without motion).
+    const topOf = (stage, type) => {
+        const all = [...stage.querySelectorAll('[data-hero-doc]')];
+        const order = [type, ...all.map((d) => d.dataset.heroDoc).filter((t) => t !== type)];
+        for (const d of all) {
+            d.dataset.depth = String(order.indexOf(d.dataset.heroDoc));
+            d.classList.toggle('is-active', d.dataset.heroDoc === type);
+        }
+        stage.dataset.active = type;
+    };
+    const stage = document.querySelector('.hero__visual [data-hero-stage]');
+    const was = stage.dataset.active;
+    const fields = {};
+    const labels = {};
+    for (const wrap of stage.querySelectorAll('[data-hero-doc]')) {
+        const type = wrap.dataset.heroDoc;
+        topOf(stage, type);
         const doc = wrap.querySelector('.doc');
         const b = doc.getBoundingClientRect();
         const k = b.width / doc.offsetWidth;
         const rtl = getComputedStyle(doc).direction === 'rtl';
         const r1 = (v) => Math.round(v * 10) / 10;
-        const fields = {};
+        const out = {};
         for (const f of doc.querySelectorAll('[data-field]')) {
             const r = f.getBoundingClientRect();
             const x = rtl ? b.right - r.right : r.left - b.left;
-            fields[f.dataset.field] = [r1(x / k), r1((r.top - b.top) / k), r1(r.width / k), r1(r.height / k)];
+            out[f.dataset.field] = [r1(x / k), r1((r.top - b.top) / k), r1(r.width / k), r1(r.height / k)];
         }
-        out[wrap.dataset.heroDoc] = fields;
+        fields[type] = out;
+        const canvas = stage.querySelector('[data-canvas]');
+        const kc = canvas.getBoundingClientRect().width / canvas.offsetWidth;
+        labels[type] = Object.fromEntries([...wrap.querySelectorAll('.hero-callout')].map((el) => [el.dataset.callout, r1(el.getBoundingClientRect().height / kc)]));
     }
-    return out;
+    topOf(stage, was);
+    return { fields, labels };
 }
 
 /** The callouts of every document as drawn (all of them made visible in turn), with the problems found. */
 function inspect({ h1 }) {
+    // Bring a document to the top of the pile (as the switch leaves it, without motion).
+    const topOf = (stage, type) => {
+        const all = [...stage.querySelectorAll('[data-hero-doc]')];
+        const order = [type, ...all.map((d) => d.dataset.heroDoc).filter((t) => t !== type)];
+        for (const d of all) {
+            d.dataset.depth = String(order.indexOf(d.dataset.heroDoc));
+            d.classList.toggle('is-active', d.dataset.heroDoc === type);
+        }
+        stage.dataset.active = type;
+    };
     const problems = [];
     const stage = document.querySelector('.hero__visual [data-hero-stage]');
     const s = stage.getBoundingClientRect();
@@ -81,13 +116,16 @@ function inspect({ h1 }) {
     const h1Rects = h1 ? [...range.getClientRects()] : [];
     for (const wrap of stage.querySelectorAll('[data-hero-doc]')) {
         const type = wrap.dataset.heroDoc;
-        const was = wrap.className;
-        stage.querySelectorAll('[data-hero-doc]').forEach((d) => d.classList.toggle('is-active', d === wrap));
-        // The file follows the document shown (HeroStage dx).
-        stage.dataset.active = type;
-        const sheets = [...stage.querySelectorAll('[data-sheet]')].map((el) => el.getBoundingClientRect());
+        topOf(stage, type);
+        // Every sheet of the pile (its document box, rotation included), the one on top among them.
+        const sheets = [...stage.querySelectorAll('[data-hero-doc] .doc')].map((el) => el.getBoundingClientRect());
         const doc = wrap.querySelector('.doc');
         const paper = [...doc.querySelectorAll('.doc__sheet')].map((el) => el.getBoundingClientRect());
+        // D15: no ink on the sheets behind the top one.
+        for (const other of stage.querySelectorAll('[data-hero-doc]:not(.is-active)')) {
+            const inked = [...other.querySelectorAll('.doc__sheet > :not(.cheque__waves):not(.doc__fold), .doc__wm')].filter((el) => parseFloat(getComputedStyle(el).opacity) > 0.01);
+            if (inked.length) problems.push(`${type} on top: ${other.dataset.heroDoc} behind it shows ink (${inked.length} parts)`);
+        }
         const texts = [];
         const walker = document.createTreeWalker(doc.querySelector('.doc__body'), NodeFilter.SHOW_TEXT);
         for (let n = walker.nextNode(); n; n = walker.nextNode()) {
@@ -102,9 +140,26 @@ function inspect({ h1 }) {
             if (texts.some((t) => inter(r, t))) problems.push(`${type} ${dot.dataset.callout}: the dot covers text`);
         }
         for (const line of [...wrap.querySelectorAll('.hero-line')].filter(shown)) {
-            const r = line.getBoundingClientRect();
-            const thin = { left: r.left, right: r.right, top: r.top + r.height / 2 - 0.5, bottom: r.top + r.height / 2 + 0.5 };
-            if (texts.some((t) => inter(thin, t))) problems.push(`${type} ${line.dataset.callout}: the leader crosses text`);
+            // Each straight segment of the leader (M x y H x1, then V y2 H x3 for a moved label), on screen.
+            const ctm = line.getScreenCTM();
+            const pt = (x, y) => ({ x: ctm.a * x + ctm.c * y + ctm.e, y: ctm.b * x + ctm.d * y + ctm.f });
+            const tokens = (line.getAttribute('d') || '').match(/[MHV]|-?[\d.]+/g) || [];
+            let x = 0;
+            let y = 0;
+            const segs = [];
+            for (let i = 0; i < tokens.length; i++) {
+                const c = tokens[i];
+                if (c === 'M') { x = Number(tokens[++i]); y = Number(tokens[++i]); }
+                else if (c === 'H') { const x1 = Number(tokens[++i]); segs.push([pt(x, y), pt(x1, y)]); x = x1; }
+                else if (c === 'V') { const y1 = Number(tokens[++i]); segs.push([pt(x, y), pt(x, y1)]); y = y1; }
+            }
+            for (const [a, b] of segs) {
+                const thin = { left: Math.min(a.x, b.x) - 0.5, right: Math.max(a.x, b.x) + 0.5, top: Math.min(a.y, b.y) - 0.5, bottom: Math.max(a.y, b.y) + 0.5 };
+                if (texts.some((t) => inter(thin, t))) {
+                    problems.push(`${type} ${line.dataset.callout}: the leader crosses text`);
+                    break;
+                }
+            }
         }
         labels.forEach(({ id, r }, i) => {
             if (r.left < s.left - 0.5 || r.right > s.right + 0.5 || r.top < s.top - 0.5 || r.bottom > s.bottom + 0.5) problems.push(`${type} ${id}: the label leaves the stage`);
@@ -112,26 +167,30 @@ function inspect({ h1 }) {
             for (const o of labels.slice(i + 1)) if (inter(r, o.r, 12 - 0.5)) problems.push(`${type} ${id}/${o.id}: labels closer than 12 px`);
             if (h1Rects.some((t) => inter(r, t, 12))) problems.push(`${type} ${id}: the label comes within 12 px of the H1`);
         });
-        wrap.className = was;
     }
-    stage.dataset.active = shown0;
-    stage.querySelectorAll('[data-hero-doc]').forEach((d) => d.classList.toggle('is-active', d.dataset.heroDoc === shown0));
+    topOf(stage, shown0);
     return problems;
 }
 
 if (!args.check) {
     const hashes = JSON.parse(execFileSync('php', ['artisan', 'tinker', '--execute', "echo json_encode(array_combine(['en','ar','ru'], array_map(fn ($l) => App\\Design\\D2\\HeroStage::copyHash($l), ['en','ar','ru'])));"], { cwd: ROOT, encoding: 'utf8' }).trim().split('\n').pop());
+    const room = Number(execFileSync('php', ['artisan', 'tinker', '--execute', 'echo App\\Design\\D2\\HeroStage::margin("wide")[1];'], { cwd: ROOT, encoding: 'utf8' }).trim().split('\n').pop());
     const fields = {};
+    const labels = {};
     for (const locale of LOCALES) {
         const { context, page } = await open(1440, locale);
-        fields[locale] = await page.evaluate(measure);
+        const m = await page.evaluate(measure);
+        fields[locale] = m.fields;
+        labels[locale] = m.labels;
         await context.close();
     }
     const table = {
         generator: 'scripts/d2/callout-layout.mjs',
-        note: 'Key field boxes of the hero sample documents (natural px; x from the inline-start edge), per language, with a hash of the documents\' copy (App\\Design\\D2\\HeroStage::copyHash). Generated: do not edit.',
+        note: 'Key field boxes of the hero sample documents (natural px; x from the inline-start edge) and their callout labels\' heights (canvas px at 1440 px, in the label margin `room`), per language, with a hash of the documents\' copy (App\\Design\\D2\\HeroStage::copyHash). Generated: do not edit.',
         hash: hashes,
+        room,
         fields,
+        labels,
     };
     writeFileSync(OUT, `${JSON.stringify(table, null, 1)}\n`);
     console.log(`wrote ${OUT.replace(ROOT, '')}`);

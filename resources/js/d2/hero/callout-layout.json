@@ -1,11 +1,12 @@
 {
  "generator": "scripts/d2/callout-layout.mjs",
- "note": "Key field boxes of the hero sample documents (natural px; x from the inline-start edge), per language, with a hash of the documents' copy (App\\Design\\D2\\HeroStage::copyHash). Generated: do not edit.",
+ "note": "Key field boxes of the hero sample documents (natural px; x from the inline-start edge) and their callout labels' heights (canvas px at 1440 px, in the label margin `room`), per language, with a hash of the documents' copy (App\\Design\\D2\\HeroStage::copyHash). Generated: do not edit.",
  "hash": {
   "en": "b872d17da70eb6d9b0a78fd6e1780a54",
   "ar": "8bbd66524a55dadba565b8a7f8e7881d",
   "ru": "177496e2a685da7e9c7f0cba96063b0f"
  },
+ "room": 141.3,
  "fields": {
   "en": {
    "cheque": {
@@ -29,7 +30,7 @@
     ],
     "words": [
      66.8,
-     190.7,
+     190.8,
      97.9,
      18
     ],
@@ -41,7 +42,7 @@
     ],
     "signature": [
      356,
-     214.7,
+     214.8,
      142,
      35.8
     ]
@@ -207,7 +208,7 @@
     ],
     "instructions": [
      28,
-     206.2,
+     206.3,
      304,
      91.7
     ],
@@ -275,7 +276,7 @@
      28,
      176.5,
      304,
-     18.7
+     18.8
     ],
     "allowances": [
      28,
@@ -307,7 +308,7 @@
      28,
      182.8,
      324,
-     18.7
+     18.8
     ],
     "rent": [
      28,
@@ -339,7 +340,7 @@
      34,
      76,
      46.6,
-     15.3
+     15.2
     ],
     "amount": [
      34,
@@ -357,7 +358,7 @@
      22,
      186.8,
      276,
-     23.7
+     23.8
     ],
     "wallet": [
      22,
@@ -369,19 +370,19 @@
      22,
      272.8,
      276,
-     23.7
+     23.8
     ]
    },
    "messages": {
     "contact": [
      9,
-     33.2,
+     33.3,
      242,
      42
     ],
     "date": [
      101.8,
-     87.3,
+     87.2,
      56.3,
      13.7
     ],
@@ -397,13 +398,13 @@
      28,
      80.6,
      144,
-     25.7
+     25.8
     ],
     "department": [
      188,
      80.6,
      144,
-     25.7
+     25.8
     ],
     "hearing": [
      28,
@@ -415,7 +416,7 @@
      28,
      179.6,
      304,
-     24.8
+     24.7
     ],
     "instructions": [
      28,
@@ -453,7 +454,7 @@
     ],
     "words": [
      74,
-     190.7,
+     190.8,
      123,
      18
     ],
@@ -465,7 +466,7 @@
     ],
     "signature": [
      356,
-     214.7,
+     214.8,
      142,
      35.8
     ]
@@ -631,7 +632,7 @@
     ],
     "instructions": [
      28,
-     206.2,
+     206.3,
      304,
      91.7
     ],
@@ -641,6 +642,104 @@
      120,
      46.2
     ]
+   }
+  }
+ },
+ "labels": {
+  "en": {
+   "cheque": {
+    "memo": 47.4,
+    "date": 23.7,
+    "figures": 47.4
+   },
+   "contract": {
+    "parties": 47.4,
+    "wage": 47.4,
+    "notice": 23.7
+   },
+   "tenancy": {
+    "period": 23.7,
+    "rent": 23.7,
+    "renewal": 47.4
+   },
+   "transfer": {
+    "amount": 23.7,
+    "wallet": 23.7,
+    "txid": 47.4
+   },
+   "messages": {
+    "contact": 47.4,
+    "date": 47.4,
+    "promise": 47.4
+   },
+   "notice": {
+    "case": 23.7,
+    "hearing": 23.7,
+    "instructions": 47.4
+   }
+  },
+  "ar": {
+   "cheque": {
+    "memo": 52.2,
+    "date": 26.1,
+    "figures": 26.1
+   },
+   "contract": {
+    "parties": 26.1,
+    "wage": 26.1,
+    "notice": 26.1
+   },
+   "tenancy": {
+    "period": 26.1,
+    "rent": 26.1,
+    "renewal": 26.1
+   },
+   "transfer": {
+    "amount": 26.1,
+    "wallet": 26.1,
+    "txid": 26.1
+   },
+   "messages": {
+    "contact": 26.1,
+    "date": 26.1,
+    "promise": 26.1
+   },
+   "notice": {
+    "case": 26.1,
+    "hearing": 26.1,
+    "instructions": 26.1
+   }
+  },
+  "ru": {
+   "cheque": {
+    "memo": 71.2,
+    "date": 23.7,
+    "figures": 47.4
+   },
+   "contract": {
+    "parties": 47.4,
+    "wage": 47.4,
+    "notice": 47.4
+   },
+   "tenancy": {
+    "period": 23.7,
+    "rent": 47.4,
+    "renewal": 47.4
+   },
+   "transfer": {
+    "amount": 23.7,
+    "wallet": 47.4,
+    "txid": 47.4
+   },
+   "messages": {
+    "contact": 23.7,
+    "date": 23.7,
+    "promise": 47.4
+   },
+   "notice": {
+    "case": 23.7,
+    "hearing": 23.7,
+    "instructions": 47.4
    }
   }
  }

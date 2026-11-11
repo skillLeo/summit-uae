@@ -161,7 +161,7 @@
   ],
   "sources": {
     "database/content/*.json": "sha256:f6f61aa810792194b5c67759bb81bb7503abe56edc787f520d2dedb0410e326d",
-    "lang/**/*.php": "sha256:dc32d09080d70c970c55d0e66f4198ca1b49f0673cd2d887771d45af0f2a6e40"
+    "lang/**/*.php": "sha256:8261ed652d05bc0fc262c7e962ad78cf8be31c0f11e29cdc0bc81c263cef0fa7"
   },
   "files": {
     "1": {

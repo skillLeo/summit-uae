@@ -22,6 +22,10 @@ return [
     'prev' => 'Previous document',
     'next' => 'Next document',
     'segments_label' => 'Choose a sample document',
+    // The owner's autoplay (the samples change every few seconds; WCAG 2.2.2): the toggle beside previous / next.
+    // Its name says what pressing it does: pause while the samples play, play while they are stopped.
+    'pause' => 'Pause the samples',
+    'play' => 'Play the samples',
 
     // Tool card "Start your matter" (spec §12 B1).
     'tool' => [

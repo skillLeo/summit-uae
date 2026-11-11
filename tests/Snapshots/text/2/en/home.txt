@@ -48,6 +48,121 @@ B. Sample LLC
 Return reason on the bank memo
 Cheque date
 Amount in words and figures
+Employment contract
+Contract no. 0000-0000
+00/00/2026
+This contract is made between
+Employer
+B. Sample LLC
+Employee
+A. Example
+1. Position and start date
+Position: sample role. Start date: 00/00/2026. Term: 00 months.
+2. Wage
+Basic wage
+AED 00,000
+per month
+Allowances
+AED 0,000
+per month
+Total wage
+AED 00,000
+per month
+3. Working hours and leave
+Working hours: 00 per week. Annual leave: 00 days.
+4. Notice period
+Either party may end this contract with 00 days’ written notice.
+5. End of service
+End-of-service amounts are paid as set out in this contract.
+For the Employer
+B. Sample LLC
+The Employee
+A. Example
+Page 1 of 2
+Tenancy contract
+Residential unit
+Contract no. 000000
+Landlord
+B. Sample LLC
+Tenant
+A. Example
+Property
+Unit 000, Sample Building
+Schedule
+Contract period
+00/00/2026 – 00/00/2027
+Annual rent
+AED 000,000
+Payments
+0 cheques
+Security deposit
+AED 00,000
+Registration no.
+0000000000
+1. Use
+The unit is let for residential use only.
+2. Renewal and notice
+Renewal terms and any change in rent are notified in writing before the contract ends.
+3. Maintenance
+Maintenance responsibilities are set out in the annex.
+Landlord
+Tenant
+Sample Exchange
+Transfer receipt
+Completed
+Amount sent
+00,000.00 USDT
+Date
+00/00/2026 00:00
+Network
+ERC-20
+From
+0x0000…0000
+To
+0x0000…0000
+Recipient
+B. Sample LLC
+TxID
+0x0000000000…0000000000
+Network fee
+0.00 USDT
+Reference
+000000
+Keep this receipt for your records.
+00:00
+B
+B. Sample LLC
+Last seen 00:00
+00/00/2026
+The payment for your invoice will be sent on 00/00.
+00:00
+That is the second new date. Please confirm it in writing.
+00:00
+Confirmed: the full amount by 00/00/2026.
+00:00
+Noted. I will wait until that date.
+00:00
+Message
+Notice
+Ref. 000000
+Notice of hearing
+Case no.
+0000/2026
+Department
+Sample Department
+Hearing date
+00/00/2026
+Time 00:00
+Claimant
+B. Sample LLC
+Respondent
+A. Example
+You are notified that the case above is listed for a hearing on the date shown. Please attend, or arrange to be represented, and bring the documents listed below.
+Documents to bring
+A copy of this notice
+An identity document
+Supporting documents
+Issued on 00/00/2026
 Return reason on the bank memo
 Cheque date
 Amount in words and figures

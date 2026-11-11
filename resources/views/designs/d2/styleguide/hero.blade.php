@@ -1,8 +1,9 @@
 {{--
     Styleguide: Design 2 home hero (owner: hero). Annotations are internal: lang/en/styleguide_d2/hero.php.
     Demo content is approved copy (Navigator situations and documents) plus the hero's and the sample
-    documents' proposed copy. The stage specimens are live (Alpine d2HeroStage) in their final state: the pager
-    switches documents; the entrance plays only on the home page (the boot script arms it there).
+    documents' proposed copy. The stage specimens are live (Alpine d2HeroStage) in their final state: the pager and a
+    click on a back sheet switch documents, the toggle plays them; the entrance and the autoplay play only on the
+    home page (the boot script arms the entrance there, <x-d2.hero.visual autoplay> the autoplay).
 --}}
 @php
     use App\Design\D2\Docs;
@@ -91,6 +92,7 @@
         <div class="sg-specimen">
             <x-d2.hero.pager active="transfer" focus="next" id-prefix="sg-pager-focus-next" />
             <x-d2.hero.pager active="transfer" focus="segment" id-prefix="sg-pager-focus-segment" />
+            <x-d2.hero.pager active="transfer" focus="toggle" id-prefix="sg-pager-focus-toggle" />
             <p class="sg-label" {!! $en !!}>{{ $t('pager_focus') }}</p>
         </div>
     </div>

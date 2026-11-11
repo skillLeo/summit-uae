@@ -941,7 +941,7 @@ Arabic: IBM Plex Sans Arabic, H2 36/49 (28/38), tracking 0, body 18/31.5 (17/30)
 Icons
 One outline set on a 24-unit grid: 20 px, a 1.5 px pen at every size, round caps and joins, ink-2 when it stands alone, the label's colour inside a control. Functional only (brief §3.6 rule 5): every icon prints data-icon="name" for the design lint. The galleries that show icons out of their context carry data-lint-specimen: the lint checks each name there, not its place.
 The functional set
-19 glyphs the lint accepts (App\Design\D2\Icons::ALLOWED; it also holds six alias names: the four allowed arrows below, cross and email): search, menu, close, the chevrons, external link, phone, email, clock (the contact block only), check and cross, upload, info, warning, error, and the stepper's minus / plus and the date field's calendar.
+21 glyphs the lint accepts (App\Design\D2\Icons::ALLOWED; it also holds six alias names: the four allowed arrows below, cross and email): search, menu, close, the chevrons, external link, phone, email, clock (the contact block only), check and cross, upload, info, warning, error, and the stepper's minus / plus and the date field's calendar.
 search
 menu
 close
@@ -964,6 +964,8 @@ error
 minus
 plus
 calendar
+pause
+play
 The allowed arrows have their own names
 No arrows in buttons, links or card corners (rule 3): <x-d2.ui.button> drops icon="arrow", "arrow-start", "chevron" and "chevron-start". The exceptions are explicit names that draw an existing glyph: the carousel's previous and next, the form's Back and Next.
 carousel-prev
@@ -1024,8 +1026,8 @@ Business hours: Monday to Friday, 9 am to 6 pm.
 icon--inline: an icon inside running text, centred on the x-height (clock: contact block only)
 The official WhatsApp logo
 Meta's own files only, shown UNCHANGED in an <img> (never redrawn, recoloured, re-pathed or merged into the sprite): the variant for light backgrounds on light surfaces, the one for dark backgrounds on dark surfaces; the innermost surface decides. Every WhatsApp control renders through <x-d2.ui.icon name="whatsapp">, so all of them switch at once. Each mark carries data-brand="whatsapp".
-light-surface file: not in resources/brand/whatsapp/ yet: the grey dashed placeholder (data-placeholder="whatsapp-logo") stands in
-dark-surface file: not in resources/brand/whatsapp/ yet: the grey dashed placeholder (data-placeholder="whatsapp-logo") stands in
+light-surface file: whatsapp-logo-light.svg, published unchanged to public/d2/brand/whatsapp/
+dark-surface file: whatsapp-logo-dark.svg, published unchanged to public/d2/brand/whatsapp/
 on a light surface: 20, 24 and 48 px
 Contact Us on WhatsApp
 (opens in a new tab)
@@ -3070,7 +3072,7 @@ We read the stated reason and date closely, because different reasons can lead t
 Request a Legal Consultation
 Sample documents for illustration. What a real document shows depends on the whole file and the facts around it.
 Hero
-The home hero: the document stage (one sample document on a file of two blank sheets, its callouts, the legend, the pager) and the tool card. The specimens run the same scripts as the home page, in their final state: the entrance plays only on the home page.
+The home hero: the document stage (a pile of the six sample documents, the one on top with its callouts, the legend, the pager with its pause / play toggle) and the tool card. The specimens run the same scripts as the home page, in their final state: the entrance and the autoplay play only on the home page.
 Document stage
 Sample Bank
 Cheque return memo
@@ -3101,11 +3103,126 @@ B. Sample LLC
 Return reason on the bank memo
 Cheque date
 Amount in words and figures
+Employment contract
+Contract no. 0000-0000
+00/00/2026
+This contract is made between
+Employer
+B. Sample LLC
+Employee
+A. Example
+1. Position and start date
+Position: sample role. Start date: 00/00/2026. Term: 00 months.
+2. Wage
+Basic wage
+AED 00,000
+per month
+Allowances
+AED 0,000
+per month
+Total wage
+AED 00,000
+per month
+3. Working hours and leave
+Working hours: 00 per week. Annual leave: 00 days.
+4. Notice period
+Either party may end this contract with 00 days’ written notice.
+5. End of service
+End-of-service amounts are paid as set out in this contract.
+For the Employer
+B. Sample LLC
+The Employee
+A. Example
+Page 1 of 2
+Tenancy contract
+Residential unit
+Contract no. 000000
+Landlord
+B. Sample LLC
+Tenant
+A. Example
+Property
+Unit 000, Sample Building
+Schedule
+Contract period
+00/00/2026 – 00/00/2027
+Annual rent
+AED 000,000
+Payments
+0 cheques
+Security deposit
+AED 00,000
+Registration no.
+0000000000
+1. Use
+The unit is let for residential use only.
+2. Renewal and notice
+Renewal terms and any change in rent are notified in writing before the contract ends.
+3. Maintenance
+Maintenance responsibilities are set out in the annex.
+Landlord
+Tenant
+Sample Exchange
+Transfer receipt
+Completed
+Amount sent
+00,000.00 USDT
+Date
+00/00/2026 00:00
+Network
+ERC-20
+From
+0x0000…0000
+To
+0x0000…0000
+Recipient
+B. Sample LLC
+TxID
+0x0000000000…0000000000
+Network fee
+0.00 USDT
+Reference
+000000
+Keep this receipt for your records.
+00:00
+B
+B. Sample LLC
+Last seen 00:00
+00/00/2026
+The payment for your invoice will be sent on 00/00.
+00:00
+That is the second new date. Please confirm it in writing.
+00:00
+Confirmed: the full amount by 00/00/2026.
+00:00
+Noted. I will wait until that date.
+00:00
+Message
+Notice
+Ref. 000000
+Notice of hearing
+Case no.
+0000/2026
+Department
+Sample Department
+Hearing date
+00/00/2026
+Time 00:00
+Claimant
+B. Sample LLC
+Respondent
+A. Example
+You are notified that the case above is listed for a hearing on the date shown. Please attend, or arrange to be represented, and bring the documents listed below.
+Documents to bring
+A copy of this notice
+An identity document
+Supporting documents
+Issued on 00/00/2026
 Return reason on the bank memo
 Cheque date
 Amount in words and figures
 Samples of documents Summit commonly reviews
-Final state in the page direction (D15): one document at rotation 0 on two blank offset sheets, so nothing readable is ever cut off at a sheet's edge. Live: the segments, previous / next, ← / → while focus is in the pager (Home / End); a pointer tilt of at most 2° with a mouse. 620×440 design px from 768 px (620×540 on phones), scaled down to the column by CSS alone, aspect ratio reserved: CLS 0.
+Final state in the page direction (D15, the owner's option 3): all six sample documents in one pile, each in its own hand-placed pose (an offset and a few degrees, App\Design\D2\HeroStage::POSE) and depth; the one on top sits straight and shows its content, every sheet behind it shows only its paper (tint, texture, edge, the cheque's waves, memo and staple, the phone's frame), so nothing readable is ever cut off at a sheet's edge. Live: the segments, previous / next, ← / → while focus is in the pager (wrapping; Home / End), a click on a back sheet; with a mouse the pile follows the pointer by depth (up to 12 px, a 2° tilt), breathes open, and a hovered or focused segment's sheet peeks up. 620×510 design px from 768 px (620×650 on phones), scaled down to the column by CSS alone, aspect ratio reserved: CLS 0.
 البنك النموذجي
 إشعار إرجاع شيك
 مرتجع
@@ -3135,11 +3252,126 @@ AED
 سبب الإرجاع في إشعار البنك
 تاريخ الشيك
 المبلغ كتابةً وأرقامًا
+عقد عمل
+رقم العقد 0000-0000
+00/00/2026
+أُبرم هذا العقد بين
+صاحب العمل
+ب. نموذج ذ.م.م
+العامل
+أ. مثال
+1. الوظيفة وتاريخ البدء
+المسمى الوظيفي: وظيفة نموذجية. تاريخ البدء: 00/00/2026. المدة: 00 شهرًا.
+2. الأجر
+الأجر الأساسي
+AED 00,000
+شهريًا
+البدلات
+AED 0,000
+شهريًا
+إجمالي الأجر
+AED 00,000
+شهريًا
+3. ساعات العمل والإجازات
+ساعات العمل: 00 ساعة أسبوعيًا. الإجازة السنوية: 00 يومًا.
+4. مدة الإشعار
+يجوز لأي من الطرفين إنهاء هذا العقد بإشعار كتابي مدته 00 يومًا.
+5. نهاية الخدمة
+تُصرف مستحقات نهاية الخدمة وفق ما ينص عليه هذا العقد.
+عن صاحب العمل
+ب. نموذج ذ.م.م
+العامل
+أ. مثال
+صفحة 1 من 2
+عقد إيجار
+وحدة سكنية
+رقم العقد 000000
+المؤجر
+ب. نموذج ذ.م.م
+المستأجر
+أ. مثال
+العقار
+وحدة 000، مبنى نموذجي
+الجدول
+مدة العقد
+00/00/2026 – 00/00/2027
+الإيجار السنوي
+AED 000,000
+الدفعات
+0 شيكات
+مبلغ التأمين
+AED 00,000
+رقم التسجيل
+0000000000
+1. الاستخدام
+تُؤجَّر الوحدة للسكن فقط.
+2. التجديد والإشعار
+تُبلَّغ شروط التجديد وأي تغيير في الإيجار كتابيًا قبل انتهاء العقد.
+3. الصيانة
+تُحدَّد مسؤوليات الصيانة في الملحق.
+المؤجر
+المستأجر
+المنصة النموذجية
+إيصال تحويل
+مكتمل
+المبلغ المرسل
+00,000.00 USDT
+التاريخ
+00/00/2026 00:00
+الشبكة
+ERC-20
+من
+0x0000…0000
+إلى
+0x0000…0000
+المستلم
+ب. نموذج ذ.م.م
+معرّف المعاملة
+0x0000000000…0000000000
+رسوم الشبكة
+0.00 USDT
+المرجع
+000000
+احتفظ بهذا الإيصال لسجلاتك.
+00:00
+ب
+ب. نموذج ذ.م.م
+آخر ظهور 00:00
+00/00/2026
+سيتم إرسال دفعة فاتورتك في 00/00.
+00:00
+هذا ثاني موعد جديد. يُرجى تأكيده كتابيًا.
+00:00
+مؤكَّد: المبلغ كاملًا بحلول 00/00/2026.
+00:00
+تم. سأنتظر حتى ذلك التاريخ.
+00:00
+رسالة
+إشعار
+المرجع 000000
+إشعار بموعد جلسة
+رقم القضية
+0000/2026
+الدائرة
+الدائرة النموذجية
+موعد الجلسة
+00/00/2026
+الوقت 00:00
+المدعي
+ب. نموذج ذ.م.م
+المدعى عليه
+أ. مثال
+نحيطكم علمًا بأن القضية المذكورة أعلاه محددة لجلسة في الموعد المبيّن. يُرجى الحضور أو ترتيب من يمثلكم، وإحضار المستندات المذكورة أدناه.
+المستندات المطلوب إحضارها
+نسخة من هذا الإشعار
+وثيقة إثبات الهوية
+المستندات المؤيدة
+تاريخ الإصدار 00/00/2026
 سبب الإرجاع في إشعار البنك
 تاريخ الشيك
 المبلغ كتابةً وأرقامًا
 نماذج لمستندات تراجعها سَمِت عادةً
-Final state in the other direction (Arabic specimen on English and Russian pages, English on the Arabic page): the sheets' offsets and rotations, the callout sides, the leaders, the pager and the tilt's x axis mirror; the documents are laid out in their own language and the callouts follow their measured fields.
+Final state in the other direction (Arabic specimen on English and Russian pages, English on the Arabic page): the poses, the callout side (always the inline-end side of the pile, away from the H1), the leaders, the pager, the timer's fill and the tilt's x axis mirror; the documents are laid out in their own language and the callouts follow their measured fields.
 Sample Bank
 Cheque return memo
 Returned
@@ -3169,18 +3401,159 @@ B. Sample LLC
 1
 2
 3
+Employment contract
+Contract no. 0000-0000
+00/00/2026
+This contract is made between
+Employer
+B. Sample LLC
+Employee
+A. Example
+1. Position and start date
+Position: sample role. Start date: 00/00/2026. Term: 00 months.
+2. Wage
+Basic wage
+AED 00,000
+per month
+Allowances
+AED 0,000
+per month
+Total wage
+AED 00,000
+per month
+3. Working hours and leave
+Working hours: 00 per week. Annual leave: 00 days.
+4. Notice period
+Either party may end this contract with 00 days’ written notice.
+5. End of service
+End-of-service amounts are paid as set out in this contract.
+For the Employer
+B. Sample LLC
+The Employee
+A. Example
+Page 1 of 2
+Tenancy contract
+Residential unit
+Contract no. 000000
+Landlord
+B. Sample LLC
+Tenant
+A. Example
+Property
+Unit 000, Sample Building
+Schedule
+Contract period
+00/00/2026 – 00/00/2027
+Annual rent
+AED 000,000
+Payments
+0 cheques
+Security deposit
+AED 00,000
+Registration no.
+0000000000
+1. Use
+The unit is let for residential use only.
+2. Renewal and notice
+Renewal terms and any change in rent are notified in writing before the contract ends.
+3. Maintenance
+Maintenance responsibilities are set out in the annex.
+Landlord
+Tenant
+Sample Exchange
+Transfer receipt
+Completed
+Amount sent
+00,000.00 USDT
+Date
+00/00/2026 00:00
+Network
+ERC-20
+From
+0x0000…0000
+To
+0x0000…0000
+Recipient
+B. Sample LLC
+TxID
+0x0000000000…0000000000
+Network fee
+0.00 USDT
+Reference
+000000
+Keep this receipt for your records.
+00:00
+B
+B. Sample LLC
+Last seen 00:00
+00/00/2026
+The payment for your invoice will be sent on 00/00.
+00:00
+That is the second new date. Please confirm it in writing.
+00:00
+Confirmed: the full amount by 00/00/2026.
+00:00
+Noted. I will wait until that date.
+00:00
+Message
+Notice
+Ref. 000000
+Notice of hearing
+Case no.
+0000/2026
+Department
+Sample Department
+Hearing date
+00/00/2026
+Time 00:00
+Claimant
+B. Sample LLC
+Respondent
+A. Example
+You are notified that the case above is listed for a hearing on the date shown. Please attend, or arrange to be represented, and bring the documents listed below.
+Documents to bring
+A copy of this notice
+An identity document
+Supporting documents
+Issued on 00/00/2026
 Return reason on the bank memo
 Cheque date
 Amount in words and figures
 Samples of documents Summit commonly reviews
-Phone layout (below 768 px): the document larger, a numbered 24 px marker beside the paper in place of each label, and the legend under the document (the same numbers). Two markers on the same side keep 12 px of air on a 360 px phone; when they would not, they spread apart and their leaders take a short step outside the paper.
+Phone layout (below 768 px): a larger pile, a numbered 24 px marker beside the pile in place of each label, and the legend under the document (the same numbers). Markers keep 12 px of air on a 320 px canvas; when they would not, they spread apart and their leaders take a short step outside the pile. No pointer effects; the same switch.
 Motion
-Entrance, once (home page only): armed before the first paint by the boot script (html.hero-armed: motion allowed, no #section link); a 2.5 s timeout shows the final state if the hero script never runs. The two sheets and then the document come in from the inline-end side on the paper spring (110 ms apart, from 350 ms after the first paint) and settle; the callouts draw in once the document rests. The H1, paragraphs and CTAs never move.
-Switch (§6): the old callouts fade out in 120 ms; the next paper slides in from the inline-end side (from the inline-start side when going back) with a 4° turn, both settling to 0 on the spring {stiffness 170, damping 20}; its shadow layers move with it (the lifted shadow fades into the resting one) and the old paper fades out beneath it. Once the paper has settled the leaders draw in with stroke-dashoffset (400 ms), the dots scale in and the labels fade in, 90 ms apart.
-Transform and opacity only, on a fixed stage: no layout shift. Pointer tilt: fine pointer, from 768 px, at most 2° (rotateX and rotateY together), spring-followed, back to rest on pointerleave.
-Reduced motion or no JavaScript: the composed final state at the first paint, callouts included (printed by the server); a switch is instant. After a bfcache restore everything is final. A phone whose stage is below the fold plays the entrance when 20 % of it scrolls into view.
+Entrance, once (home page only): armed before the first paint by the boot script (html.hero-armed: motion allowed, no #section link); a 2.5 s timeout shows the final state if the hero script never runs. The six sheets are dealt onto the pile from the bottom up, from the inline-end side, on the paper spring (80 ms apart from 350 ms after the first paint, the whole deal about 1.2 s); the document on top lands last and its callouts draw in once it rests. The H1, paragraphs and CTAs never move.
+Switch (§6): the old top's callouts (120 ms) and ink (160 ms) fade out as it slides back to its own place in the pile on the spring {stiffness 170, damping 20}; the chosen sheet lifts out of its place (240 ms: towards the inline-end side, a little up and straighter, scale 1.035, its shadow growing), then, now the top of the pile, travels onto the top on the same spring, turns to 0 and settles, its ink fading in as it arrives. Once the paper has settled the leaders draw in with stroke-dashoffset (400 ms), the dots scale in and the labels fade in, 90 ms apart.
+Autoplay (the owner's decision; home page only): 2.8 s after the callouts are drawn the next document comes up (wrapping); the segment shown fills over that time (a scaleX). It pauses while the pointer is over the stage or the pager, while keyboard focus is in the hero, while the hero is off screen and while the tab is hidden; any manual choice stops it for good; the pause / play toggle (40 px, a Tab stop, named after what a press does) starts and stops it. Never under reduced motion (the toggle then reads Play), never on these specimens, never without JavaScript.
+Transform and opacity only, on a fixed stage: no layout shift. Pointer: fine pointer, from 768 px, motion allowed; every value spring-followed, back to rest on pointerleave. Reduced motion or no JavaScript: the composed pile at the first paint, callouts included (printed by the server); a switch is instant. After a bfcache restore everything is final. A phone whose stage is below the fold plays the entrance when a fifth of it scrolls into view above the tab bar.
 Callouts (D16)
-Laid out on the server (App\Design\D2\HeroStage) from every document's measured key fields (resources/js/d2/hero/callout-layout.json, by scripts/d2/callout-layout.mjs, which also checks the result in every language and width): the dot sits at the edge of its field, in the empty paper beside it; one straight leader runs out through the page margin; the label sits in the clear margin beside the file, never over a paper edge, its first text line on the leader (the upper one of two close callouts grows upwards instead). Labels are the Small role (15/500, ink) on screen at every canvas scale; start-side labels near the top keep room for the Russian H1. Everything is in inline coordinates: RTL mirrors.
+Laid out on the server (App\Design\D2\HeroStage) from every document's measured key fields and label heights (resources/js/d2/hero/callout-layout.json, by scripts/d2/callout-layout.mjs, which also checks the result in every language and width): the dot sits at the inline-end edge of its field, in the empty paper beside it; one leader runs out through the page margin and over the blank back sheets; the label sits in the clear margin on the inline-end side of the pile, never over any sheet, its first, middle or last text line on the leader, 12 px from its neighbours (a leader takes a short step beside the pile when two would come closer). Labels are the Small role (15/500, ink) on screen at every canvas scale. Everything is in inline coordinates: RTL mirrors.
+Sample Bank
+Cheque return memo
+Returned
+Cheque no. 000000
+Date 00/00/2026
+Amount AED 00,000.00
+Reason for return
+Insufficient funds
+Authorised signatory
+Ref. 000000
+Sample Bank
+Sample Branch
+No. 000000
+A/C payee only
+Date
+00/00/2026
+Pay
+A. Example
+or bearer
+Dirhams
+Zero dirhams only
+AED
+00,000.00
+Account 000-000000-000
+B. Sample LLC
+000000 000 000000000
 Employment contract
 Contract no. 0000-0000
 00/00/2026
@@ -3215,11 +3588,216 @@ Page 1 of 2
 Employer and employee
 Basic wage and allowances
 Notice period
+Tenancy contract
+Residential unit
+Contract no. 000000
+Landlord
+B. Sample LLC
+Tenant
+A. Example
+Property
+Unit 000, Sample Building
+Schedule
+Contract period
+00/00/2026 – 00/00/2027
+Annual rent
+AED 000,000
+Payments
+0 cheques
+Security deposit
+AED 00,000
+Registration no.
+0000000000
+1. Use
+The unit is let for residential use only.
+2. Renewal and notice
+Renewal terms and any change in rent are notified in writing before the contract ends.
+3. Maintenance
+Maintenance responsibilities are set out in the annex.
+Landlord
+Tenant
+Sample Exchange
+Transfer receipt
+Completed
+Amount sent
+00,000.00 USDT
+Date
+00/00/2026 00:00
+Network
+ERC-20
+From
+0x0000…0000
+To
+0x0000…0000
+Recipient
+B. Sample LLC
+TxID
+0x0000000000…0000000000
+Network fee
+0.00 USDT
+Reference
+000000
+Keep this receipt for your records.
+00:00
+B
+B. Sample LLC
+Last seen 00:00
+00/00/2026
+The payment for your invoice will be sent on 00/00.
+00:00
+That is the second new date. Please confirm it in writing.
+00:00
+Confirmed: the full amount by 00/00/2026.
+00:00
+Noted. I will wait until that date.
+00:00
+Message
+Notice
+Ref. 000000
+Notice of hearing
+Case no.
+0000/2026
+Department
+Sample Department
+Hearing date
+00/00/2026
+Time 00:00
+Claimant
+B. Sample LLC
+Respondent
+A. Example
+You are notified that the case above is listed for a hearing on the date shown. Please attend, or arrange to be represented, and bring the documents listed below.
+Documents to bring
+A copy of this notice
+An identity document
+Supporting documents
+Issued on 00/00/2026
 Employer and employee
 Basic wage and allowances
 Notice period
 Samples of documents Summit commonly reviews
-Employment contract: two labels on the start side, one on the end side.
+Employment contract on top of the pile: the parties, the wage and the notice period, all three labels beside the pile.
+Sample Bank
+Cheque return memo
+Returned
+Cheque no. 000000
+Date 00/00/2026
+Amount AED 00,000.00
+Reason for return
+Insufficient funds
+Authorised signatory
+Ref. 000000
+Sample Bank
+Sample Branch
+No. 000000
+A/C payee only
+Date
+00/00/2026
+Pay
+A. Example
+or bearer
+Dirhams
+Zero dirhams only
+AED
+00,000.00
+Account 000-000000-000
+B. Sample LLC
+000000 000 000000000
+Employment contract
+Contract no. 0000-0000
+00/00/2026
+This contract is made between
+Employer
+B. Sample LLC
+Employee
+A. Example
+1. Position and start date
+Position: sample role. Start date: 00/00/2026. Term: 00 months.
+2. Wage
+Basic wage
+AED 00,000
+per month
+Allowances
+AED 0,000
+per month
+Total wage
+AED 00,000
+per month
+3. Working hours and leave
+Working hours: 00 per week. Annual leave: 00 days.
+4. Notice period
+Either party may end this contract with 00 days’ written notice.
+5. End of service
+End-of-service amounts are paid as set out in this contract.
+For the Employer
+B. Sample LLC
+The Employee
+A. Example
+Page 1 of 2
+Tenancy contract
+Residential unit
+Contract no. 000000
+Landlord
+B. Sample LLC
+Tenant
+A. Example
+Property
+Unit 000, Sample Building
+Schedule
+Contract period
+00/00/2026 – 00/00/2027
+Annual rent
+AED 000,000
+Payments
+0 cheques
+Security deposit
+AED 00,000
+Registration no.
+0000000000
+1. Use
+The unit is let for residential use only.
+2. Renewal and notice
+Renewal terms and any change in rent are notified in writing before the contract ends.
+3. Maintenance
+Maintenance responsibilities are set out in the annex.
+Landlord
+Tenant
+Sample Exchange
+Transfer receipt
+Completed
+Amount sent
+00,000.00 USDT
+Date
+00/00/2026 00:00
+Network
+ERC-20
+From
+0x0000…0000
+To
+0x0000…0000
+Recipient
+B. Sample LLC
+TxID
+0x0000000000…0000000000
+Network fee
+0.00 USDT
+Reference
+000000
+Keep this receipt for your records.
+00:00
+B
+B. Sample LLC
+Last seen 00:00
+00/00/2026
+The payment for your invoice will be sent on 00/00.
+00:00
+That is the second new date. Please confirm it in writing.
+00:00
+Confirmed: the full amount by 00/00/2026.
+00:00
+Noted. I will wait until that date.
+00:00
+Message
 Notice
 Ref. 000000
 Notice of hearing
@@ -3247,15 +3825,15 @@ Case number
 Hearing date
 What you are asked to do
 Samples of documents Summit commonly reviews
-Hearing notice: the case number and the instructions on the start side, the hearing date on the end side.
+Hearing notice on top: the case number's dot and leader sit in the gap under its row (the department follows it on the same line), the hearing date and the instructions beside them.
 Return reason on the bank memo
 1
 Parts: a 1 px bronze leader with an 8 px dot (6 px on phones) and its 2 px paper ring, a label (Small, 500, ink, no box), a numbered 24 px marker with a 13 px figure (phones).
 Pager (D17)
-First document: one progress segment filled; previous disabled (aria-disabled, 40 %, focus stays). No counter, no dots, no autoplay, no wrap-around.
-A document in the middle: segments filled up to it; both steps enabled. The name is a polite live region.
-Last document: every segment filled, next disabled.
-Forced focus: the next button, then the current segment (44 px tall targets, 48 px on phones). The pager is one Tab stop: a roving tabindex on the segments, ← / → (mirrored in RTL), Home and End bring another document up and move focus to its segment; previous / next (40 px, with a 44 px hit area) are for pointers and assistive technology (tabindex -1).
+First document: one progress segment filled. Previous and next are always enabled: the pile wraps around (the owner's autoplay amends D17). No counter, no dots.
+A document in the middle: segments filled up to it. The name is a polite live region (off while the samples play by themselves). On the home page the segment shown fills over the dwell while the samples play.
+Last document: every segment filled; next brings up the first one.
+Forced focus: the next button, then the current segment (44 px tall targets, 48 px on phones), then the pause / play toggle. Two Tab stops: the segments (a roving tabindex; ← / → wrap, mirrored in RTL; Home and End bring another document up and move focus to its segment) and the toggle (WCAG 2.2.2). Previous / next (40 px, with a 44 px hit area) are for pointers and assistive technology (tabindex -1).
 Tool card "Start your matter"
 A card (white, 1 px --line edge, radius 10, no shadow; 16 px padding on phones, the card padding from 768 px). A GET form to the consultation form without JavaScript (?audience=…&situation=S06-2#consultation-form); with it, Continue (Ink, no arrow) calls prefill({service, situation, audience}). The result shows the empty well or the chosen service’s documents, one at a time (documents are never clamped, so the card grows only after a choice). Laid out by its own width (container queries): one column, then the situation and Continue side by side (420 px), then the form and the documents side by side (52rem: the home hero from 1024 px, where the card spans the container, and from 1280 px all 12 columns under the copy and the stage).
 Start your matter
