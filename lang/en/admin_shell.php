@@ -101,4 +101,8 @@ return [
     'group' => [
         'overview' => 'Overview', 'requests' => 'Requests', 'content' => 'Content', 'site' => 'Site', 'settings' => 'Settings', 'system' => 'System',
     ],
+    'two_factor_setup' => [
+        'later' => 'Set up later',
+        'later_hint' => 'You will be asked again at your next sign-in.',
+    ],
 ];

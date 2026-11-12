@@ -13,14 +13,17 @@ use Illuminate\Http\Request;
  * §12.2). Filament decides at route registration whether its "set up required" middleware runs on every page; this is
  * that middleware (AdminPanelProvider::multiFactorAuthenticationRequiredMiddlewareName), asking the user's roles:
  * a super admin or admin without an authenticator app or e-mail codes is sent to Filament's set-up page; everyone else
- * passes (they may still turn two-factor on in their profile).
+ * passes (they may still turn two-factor on in their profile). The set-up page's "Set up later" button
+ * (App\Filament\Pages\Auth\SetUpTwoFactor) sets SKIPPED in the session: the user passes until the next sign-in.
  */
 final class EnsureTwoFactor
 {
+    public const SKIPPED = 'summit.two_factor_skipped';
+
     public function handle(Request $request, Closure $next): mixed
     {
         $user = Filament::auth()->user();
-        if (! $user instanceof User || ! $user->requiresTwoFactor() || MultiFactorChallenge::make()->hasEnabledProviders($user)) {
+        if (! $user instanceof User || ! $user->requiresTwoFactor() || $request->session()->get(self::SKIPPED) === true || MultiFactorChallenge::make()->hasEnabledProviders($user)) {
             return $next($request);
         }
 

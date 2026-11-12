@@ -101,4 +101,8 @@ return [
     'group' => [
         'overview' => 'Обзор', 'requests' => 'Заявки', 'content' => 'Контент', 'site' => 'Сайт', 'settings' => 'Настройки', 'system' => 'Система',
     ],
+    'two_factor_setup' => [
+        'later' => 'Настроить позже',
+        'later_hint' => 'Мы снова предложим это при следующем входе.',
+    ],
 ];

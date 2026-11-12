@@ -66,7 +66,7 @@ class AdminPanelProvider extends PanelProvider
             ->multiFactorAuthentication([
                 AppAuthentication::make()->recoverable()->brandName('Summit Legal Consultancy'),
                 EmailAuthentication::make(),
-            ], isRequired: true)
+            ], setUpRequiredAction: \App\Filament\Pages\Auth\SetUpTwoFactor::class, isRequired: true)
             ->multiFactorAuthenticationRequiredMiddlewareName(EnsureTwoFactor::class)
             ->brandName(fn (): string => AdminBrand::name())
             ->brandLogo(fn () => AdminBrand::logo())

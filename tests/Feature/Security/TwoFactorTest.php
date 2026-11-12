@@ -62,6 +62,24 @@ final class TwoFactorTest extends TestCase
         }
     }
 
+    public function test_set_up_later_lets_them_in_for_this_sign_in_only(): void
+    {
+        $setUp = Filament::getSetUpRequiredMultiFactorAuthenticationUrl();
+        $user = $this->staff(Screens::SUPER_ADMIN, false);
+
+        $this->actingAs($user)->get($setUp)->assertOk()->assertSee(__('admin_shell.two_factor_setup.later'));
+        Livewire::actingAs($user)->test(\App\Filament\Pages\Auth\SetUpTwoFactor::class)
+            ->callAction('later')
+            ->assertRedirect();
+        $this->assertTrue(session(\App\Filament\Http\Middleware\EnsureTwoFactor::SKIPPED));
+        $this->actingAs($user)->get('/admin')->assertOk();
+        $this->actingAs($user)->get('/admin/requests')->assertOk();
+
+        // the next sign-in asks again
+        event(new \Illuminate\Auth\Events\Login('web', $user, false));
+        $this->actingAs($user)->get('/admin')->assertRedirect($setUp);
+    }
+
     public function test_with_two_factor_set_up_they_get_in(): void
     {
         $this->actingAs($this->staff(Screens::SUPER_ADMIN, true))->get('/admin')->assertOk();

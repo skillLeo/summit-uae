@@ -76,5 +76,8 @@ class AppServiceProvider extends ServiceProvider
 
         // A saved settings group (the settings screens, Phase 7) changes the published content cache.
         Event::listen(SettingsSaved::class, fn () => ContentCache::bump());
+
+        // "Set up later" on the two-factor page lasts for one sign-in only (App\Filament\Http\Middleware\EnsureTwoFactor).
+        Event::listen(\Illuminate\Auth\Events\Login::class, fn () => session()->forget(\App\Filament\Http\Middleware\EnsureTwoFactor::SKIPPED));
     }
 }
