@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreEnquiryRequest;
-use App\Mail\EnquiryReceived;
 use App\Models\Enquiry;
+use App\Requests\Intake;
+use App\Requests\Notifier;
+use App\Requests\SpamCheck;
+use App\Requests\Workflow;
 use App\Services\Turnstile;
 use Illuminate\Database\DetectsConcurrencyErrors;
 use Illuminate\Database\DetectsLostConnections;
@@ -14,7 +17,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -25,8 +27,11 @@ use Throwable;
  * POST /{locale}/enquiries: the consultation form's server contract (docs/enquiries.md).
  *
  * Order: field validation (StoreEnquiryRequest) → idempotency key → replay of an accepted key →
- * rate limit → Turnstile → store (a filled honeypot stores status "spam") → queue the firm's
- * notification. Success is reported only after the row is committed. Privacy: logs carry the
+ * rate limit → Turnstile → store (the spam rules of App\Requests\SpamCheck store status "spam"; a
+ * filled honeypot always does) with the intake context (App\Requests\Intake) → notify the on-duty
+ * list and the staff (App\Requests\Notifier). Success is reported only after the row is committed;
+ * spam is answered exactly like a success and never notified. The contract is unchanged
+ * (docs/enquiries.md): the context inputs are optional and the responses are the same. Privacy: logs carry the
  * reference and status only; exception messages are never logged, because a QueryException
  * embeds the SQL bindings, i.e. the visitor's details.
  */
@@ -82,6 +87,7 @@ final class EnquiryController extends Controller
         // Committed. From here on nothing may turn the acceptance into an error response.
         rescue(fn () => RateLimiter::hit($limiterKey, $this->decaySeconds()), report: false);
         $this->log('info', 'Enquiry received', ['reference' => $enquiry->reference, 'status' => $enquiry->status]);
+        rescue(fn () => Workflow::make()->event($enquiry, 'received', null, null, $enquiry->status, $enquiry->spam_reasons ? ['spam' => $enquiry->spam_reasons] : []), report: false);
         if ($enquiry->status === Enquiry::STATUS_NEW) {
             $this->notify($enquiry);
         }
@@ -94,15 +100,19 @@ final class EnquiryController extends Controller
     /** @param  array<string, mixed>  $attributes  StoreEnquiryRequest::enquiryAttributes() */
     private function persist(StoreEnquiryRequest $request, string $key, array $attributes, string $ipHash): Enquiry
     {
-        $status = $request->honeypotFilled() ? Enquiry::STATUS_SPAM : Enquiry::STATUS_NEW;
+        $spam = SpamCheck::evaluate($attributes, $request->honeypotFilled(), Intake::elapsedMs($request), $ipHash);
+        $status = $spam['spam'] ? Enquiry::STATUS_SPAM : Enquiry::STATUS_NEW;
         $attributes += [
             'idempotency_key' => $key,
             'locale' => app()->getLocale(),
             'status' => $status,
+            'received_at' => now(),
             'consent_at' => now(),
             'consent_text' => ui(Enquiry::CONSENT_LABEL_KEY),
             'ip_hash' => $ipHash,
-        ];
+            'spam_score' => $spam['score'],
+            'spam_reasons' => $spam['reasons'] ?: null,
+        ] + (array) rescue(fn () => Intake::context($request), [], report: false);
         // A document is kept only for a genuine enquiry, and only while attachments are enabled.
         $file = $status === Enquiry::STATUS_NEW ? $request->attachment() : null;
 
@@ -152,7 +162,7 @@ final class EnquiryController extends Controller
     private function notify(Enquiry $enquiry): void
     {
         try {
-            Mail::to((string) config('summit.enquiries.inbox'))->queue(new EnquiryReceived($enquiry));
+            app(Notifier::class)->received($enquiry);
         } catch (Throwable $e) {
             $this->log('error', 'Enquiry notification could not be queued', [
                 'reference' => $enquiry->reference,

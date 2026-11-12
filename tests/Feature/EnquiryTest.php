@@ -644,13 +644,13 @@ final class EnquiryTest extends TestCase
             foreach (['Jane', 'jane@example.com', '501234567', '123 4567', 'profit'] as $personal) {
                 $this->assertStringNotContainsString($personal, $mail->envelope()->subject);
             }
-            // The body lists the submitted fields for the firm.
-            $mail->assertSeeInText('name: Jane Example');
-            $mail->assertSeeInText('phone: +971501234567');
-            $mail->assertSeeInText('email: jane@example.com');
+            // By default the body holds the reference, the matter and the panel link, never the visitor's details
+            // (with the `log` mailer a body lands in the log): App\Requests\Notifier::includeDetails().
             $mail->assertSeeInText('matter_type: S04');
-            $mail->assertSeeInText('deadline_date: 2026-12-01');
-            $mail->assertSeeInText($payload['summary']);
+            $mail->assertSeeInText('open: ');
+            foreach (['Jane', 'jane@example.com', '501234567', $payload['summary']] as $personal) {
+                $mail->assertDontSeeInText($personal);
+            }
 
             return true;
         });

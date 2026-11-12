@@ -70,17 +70,23 @@ class AdminPanelProvider extends PanelProvider
             ->sidebarWidth('17rem')
             ->globalSearch(false)
             ->unsavedChangesAlerts()
+            ->databaseNotifications()
+            ->databaseNotificationsPolling('60s')
             ->defaultAvatarProvider(InitialsAvatarProvider::class)
             ->userMenuItems([$this->languageActions()])
             ->renderHook(PanelsRenderHook::HEAD_END, fn () => AdminBrand::fonts())
+            ->renderHook(PanelsRenderHook::HEAD_END, fn () => auth()->check() ? view('filament.reports.chart-theme') : '')
             ->renderHook(PanelsRenderHook::AUTH_LOGIN_FORM_AFTER, fn () => AdminBrand::loginLanguages())
             ->renderHook(PanelsRenderHook::BODY_END, fn () => view('filament.cms.scripts'))
+            ->renderHook(PanelsRenderHook::BODY_END, fn () => auth()->check() ? view('filament.admin.shortcuts') : '')
+            ->renderHook(PanelsRenderHook::CONTENT_START, fn () => view('filament.admin.demo-banner'))
             ->navigationGroups(self::navigationGroups())
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Cms/Pages'), for: 'App\Filament\Cms\Pages')
             // Pages and widgets are listed, not discovered: the profile page is registered by ->profile().
             ->pages([
                 Dashboard::class,
+                \App\Filament\Pages\Reports::class,
             ])
             ->widgets([])
             ->middleware([

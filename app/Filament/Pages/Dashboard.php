@@ -2,17 +2,20 @@
 
 namespace App\Filament\Pages;
 
+use App\Filament\Cms\Support\CmsAccess;
+use App\Filament\Widgets\ContentStatus;
+use App\Filament\Widgets\KpiTiles;
 use App\Filament\Widgets\LatestRequests;
-use App\Filament\Widgets\RequestsByLanguage;
-use App\Filament\Widgets\RequestsByService;
-use App\Filament\Widgets\RequestsOverview;
+use App\Filament\Widgets\NeedsAttention;
+use App\Filament\Widgets\RequestsChart;
 use Filament\Pages\Dashboard as BaseDashboard;
 use Illuminate\Contracts\Support\Htmlable;
 
 /**
- * Internal dashboard: consultation requests in the last 7 / 30 days, awaiting review, by service and by
- * language, and an honest "not tracked" state for the draft-to-submitted ratio (drafts never leave the
- * visitor's device, so there is nothing to count; adding tracking is the owner's decision).
+ * The dashboard: today's work, not analytics (docs/briefs/design-2.1-and-admin-cms.md §11.1, D50).
+ * Row 1: four KPI tiles. Row 2: "Requests, last 30 days" and "Needs attention". Row 3: latest requests and Content
+ * status. It adapts to the role: whoever edits content but does not handle requests sees Content status first; a
+ * widget the user may not see is left out (no placeholders, no filler tiles). Analysis lives in Reports.
  */
 class Dashboard extends BaseDashboard
 {
@@ -21,31 +24,32 @@ class Dashboard extends BaseDashboard
 
     public static function getNavigationLabel(): string
     {
-        return (string) __('admin.dashboard.title');
+        return (string) __('dashboard.title');
     }
 
     public function getTitle(): string|Htmlable
     {
-        return (string) __('admin.dashboard.title');
+        return (string) __('dashboard.title');
     }
 
     public function getSubheading(): ?string
     {
-        return (string) __('admin.dashboard.subheading');
+        return (string) __('dashboard.subheading');
     }
 
     public function getWidgets(): array
     {
-        return [
-            RequestsOverview::class,
-            LatestRequests::class,
-            RequestsByLanguage::class,
-            RequestsByService::class,
-        ];
+        $widgets = [KpiTiles::class, RequestsChart::class, NeedsAttention::class, LatestRequests::class, ContentStatus::class];
+        // an editor (content, not requests) sees the content status first
+        if (CmsAccess::can('pages', 'update') && ! CmsAccess::can('requests', 'view')) {
+            $widgets = [ContentStatus::class, ...array_diff($widgets, [ContentStatus::class])];
+        }
+
+        return array_values(array_filter($widgets, fn (string $w): bool => $w::canView()));
     }
 
     public function getColumns(): int|array
     {
-        return ['default' => 1, 'xl' => 2];
+        return ['default' => 1, 'xl' => 3];
     }
 }

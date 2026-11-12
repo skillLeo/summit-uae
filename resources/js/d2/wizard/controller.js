@@ -106,6 +106,7 @@ function focusEl(el, preventScroll = false) {
 
 class Wizard {
     constructor(root, data, services, options = {}) {
+        this.openedAt = Date.now();
         this.root = root;
         this.data = data;
         this.services = services;
@@ -939,12 +940,36 @@ class Wizard {
         if (file) body.append('attachment', file, file.name);
         if (this.f.csrf) body.append('_token', this.f.csrf.value);
         if (check) body.append('cf-turnstile-response', check.token());
+        this.appendIntake(body);
 
         const result = await this.post(body);
         this.setSending(false);
         const outcome = classify({ ...result, offline: navigator.onLine === false });
         if (check && resetsToken(outcome)) check.reset();
         this.finish(outcome, { body: result.body, fingerprint });
+    }
+
+    /**
+     * Optional context for the admin inbox (docs/briefs/design-2.1-and-admin-cms.md §10.1, App\\Requests\\Intake): the
+     * time since the form opened (spam check only), the external site the visitor came from (the server keeps its
+     * host), the UTM values of this address, and the pending-approval extras (kept only while those are switched on).
+     * Never part of the request fingerprint; the server ignores what it does not use.
+     */
+    appendIntake(body) {
+        body.append('form_elapsed', String(Math.max(0, Date.now() - this.openedAt)));
+        if (document.referrer) body.append('landing_referrer', document.referrer);
+        const params = new URLSearchParams(window.location.search);
+        for (const key of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content']) {
+            const value = params.get(key);
+            if (value) body.append(key, value.slice(0, 100));
+        }
+        const audience = this.audience();
+        if (audience) body.append('context_audience', audience);
+        const situation = this.situation();
+        if (situation) body.append('context_situation', situation);
+        if (this.context.tool) body.append('context_tool', this.context.tool);
+        const documents = this.tickedDocuments();
+        if (documents.length) body.append('context_documents', documents.join('\n'));
     }
 
     async post(body) {

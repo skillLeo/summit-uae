@@ -2,12 +2,11 @@
 
 namespace App\Filament\Resources\Enquiries;
 
-use App\Filament\Resources\Enquiries\Pages\EditEnquiry;
 use App\Filament\Resources\Enquiries\Pages\ListEnquiries;
 use App\Filament\Resources\Enquiries\Pages\ViewEnquiry;
-use App\Filament\Resources\Enquiries\Schemas\EnquiryForm;
 use App\Filament\Resources\Enquiries\Schemas\EnquiryInfolist;
 use App\Filament\Resources\Enquiries\Tables\EnquiriesTable;
+use App\Filament\Cms\Support\CmsAccess;
 use App\Models\Enquiry;
 use BackedEnum;
 use Filament\Resources\Resource;
@@ -18,10 +17,11 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Consultation requests from the public form (enquiries, docs/enquiries.md). Staff read a request,
- * change its status (new → in review → closed; spam is set by the form's honeypot) and keep an internal
- * note. Requests are never created or deleted here, never globally searched, and their personal data
- * never leaves the panel: the summary is decrypted only on the request's own page.
+ * The requests inbox (docs/briefs/design-2.1-and-admin-cms.md §10; the public form's enquiries, docs/enquiries.md).
+ * Staff triage a request on its page: status (New, In review, Closed with an outcome, Spam), assignee, notes, contact
+ * actions and the privacy tools (App\Filament\Resources\Enquiries\EnquiryActions). Requests are never created here;
+ * deleting moves one to the Trash. Their personal data never leaves the panel: the summary is decrypted only on the
+ * request's own page. Access: CmsAccess::can('requests', …).
  */
 class EnquiryResource extends Resource
 {
@@ -45,15 +45,6 @@ class EnquiryResource extends Resource
     /** Sentence case in every language (Filament would title-case "Заявки На Консультацию"). */
     protected static bool $hasTitleCaseModelLabel = false;
 
-    /**
-     * The panel's own casts for the admin-only columns (the shared Enquiry model is not changed):
-     * internal_note is encrypted at rest, like the visitor's summary.
-     */
-    public const ADMIN_CASTS = [
-        'internal_note' => 'encrypted',
-        'status_changed_at' => 'datetime',
-    ];
-
     public static function getModelLabel(): string
     {
         return (string) __('admin.nav.request');
@@ -66,7 +57,27 @@ class EnquiryResource extends Resource
 
     public static function getNavigationLabel(): string
     {
-        return (string) __('admin.nav.requests_short');
+        return (string) __('requests.nav.inbox');
+    }
+
+    public static function canAccess(): bool
+    {
+        return CmsAccess::can('requests', 'view');
+    }
+
+    public static function canViewAny(): bool
+    {
+        return CmsAccess::can('requests', 'view');
+    }
+
+    public static function canView(Model $record): bool
+    {
+        return CmsAccess::can('requests', 'view');
+    }
+
+    public static function canEdit(Model $record): bool
+    {
+        return false;
     }
 
     public static function getNavigationBadge(): ?string
@@ -87,19 +98,19 @@ class EnquiryResource extends Resource
     }
 
     /**
-     * Every record the panel loads (tables, record actions, the view and edit pages) carries
-     * ADMIN_CASTS; the view and edit pages re-apply them after Livewire rehydrates the record.
+     * The requests this user may see (Phase 7: a case handler limited to "assigned only" sees their own).
      *
      * @return Builder<Enquiry>
      */
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->withCasts(self::ADMIN_CASTS);
+        return CmsAccess::scopeRequests(parent::getEloquentQuery());
     }
 
-    public static function form(Schema $schema): Schema
+    /** A request in the Trash can still be opened (restore, permanent delete). */
+    public static function getRecordRouteBindingEloquentQuery(): Builder
     {
-        return EnquiryForm::configure($schema);
+        return CmsAccess::scopeRequests(parent::getEloquentQuery()->withTrashed());
     }
 
     public static function infolist(Schema $schema): Schema
@@ -132,7 +143,6 @@ class EnquiryResource extends Resource
         return [
             'index' => ListEnquiries::route('/'),
             'view' => ViewEnquiry::route('/{record}'),
-            'edit' => EditEnquiry::route('/{record}/edit'),
         ];
     }
 }

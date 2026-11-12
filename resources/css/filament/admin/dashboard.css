@@ -1,0 +1,194 @@
+/*
+ * Dashboard (docs/briefs/design-2.1-and-admin-cms.md §11.1, §11.4 "KPI tile"; Phase 6): the four KPI tiles (no icons,
+ * value 32/600, change line in ink-3, colour only for a KPI with a good direction, sparkline 2px one hue no fill),
+ * Needs attention, Content status and the empty chart. Design 2 tokens; logical properties.
+ */
+
+@layer components {
+    .slc-kpis {
+        display: grid;
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+        gap: var(--s-4);
+    }
+
+    @media (width >= 40rem) {
+        .slc-kpis {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @media (width >= 80rem) {
+        .slc-kpis {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+    }
+
+    .slc-kpi {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: var(--s-2);
+        min-block-size: 9rem;
+        padding: var(--s-5);
+        border: 1px solid var(--line);
+        border-radius: var(--r-md);
+        background: var(--canvas);
+        color: var(--ink);
+        text-decoration: none;
+    }
+
+    a.slc-kpi:hover {
+        border-color: var(--line-strong);
+        background: var(--canvas-hover);
+    }
+
+    a.slc-kpi:focus-visible {
+        outline: 2px solid var(--focus);
+        outline-offset: 2px;
+    }
+
+    .slc-kpi__label {
+        font-size: 0.875rem;
+        font-weight: 500;
+        line-height: 1.4;
+        color: var(--ink-2);
+    }
+
+    .slc-kpi__value {
+        font-size: 2rem;
+        font-weight: 600;
+        line-height: 1.1;
+        font-variant-numeric: proportional-nums;
+        letter-spacing: -0.01em;
+    }
+
+    .slc-kpi__line {
+        display: block;
+        font-size: 0.8125rem;
+        line-height: 1.45;
+        color: var(--ink-3);
+    }
+
+    .slc-kpi__line--better {
+        color: var(--success);
+    }
+
+    .slc-kpi__line--worse {
+        color: var(--danger);
+    }
+
+    .slc-kpi__arrow {
+        display: inline-block;
+        inline-size: 0.875rem;
+        block-size: 0.875rem;
+        margin-inline-end: var(--s-1);
+        vertical-align: -0.125rem;
+    }
+
+    .slc-kpi__spark {
+        display: block;
+        inline-size: 100%;
+        block-size: 2rem;
+        margin-block-start: auto;
+    }
+
+    .slc-kpi__spark polyline {
+        stroke: var(--bronze);
+        stroke-width: 2;
+        stroke-linejoin: round;
+        stroke-linecap: round;
+    }
+
+    [dir='rtl'] .slc-kpi__spark {
+        transform: scaleX(-1);
+    }
+
+    /* Needs attention */
+    .slc-attention__group + .slc-attention__group {
+        margin-block-start: var(--s-5);
+    }
+
+    .slc-attention__title {
+        margin: 0 0 var(--s-2);
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--ink-2);
+    }
+
+    .slc-attention__list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        border-block-start: 1px solid var(--line);
+    }
+
+    .slc-attention__item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--s-3);
+        min-block-size: 2.75rem;
+        padding-block: var(--s-2);
+        border-block-end: 1px solid var(--line);
+        color: var(--ink);
+        text-decoration: none;
+        font-size: 0.875rem;
+    }
+
+    a.slc-attention__item:hover .slc-attention__ref {
+        text-decoration: underline;
+    }
+
+    .slc-attention__meta {
+        color: var(--ink-3);
+        font-size: 0.8125rem;
+        white-space: nowrap;
+    }
+
+    .slc-attention__more {
+        margin: var(--s-2) 0 0;
+        font-size: 0.8125rem;
+        color: var(--ink-3);
+    }
+
+    /* Content status */
+    .slc-status-list {
+        display: grid;
+        margin: 0;
+    }
+
+    .slc-status-list > div {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--s-3);
+        min-block-size: 2.75rem;
+        border-block-end: 1px solid var(--line);
+        font-size: 0.875rem;
+    }
+
+    .slc-status-list dt a {
+        color: var(--ink);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+    }
+
+    .slc-status-list dd {
+        margin: 0;
+        font-weight: 600;
+    }
+
+    /* a chart without data */
+    .slc-chart-empty {
+        display: grid;
+        place-items: center;
+        gap: var(--s-2);
+        min-block-size: 12rem;
+        text-align: center;
+        color: var(--ink-2);
+    }
+
+    .slc-chart-empty p {
+        margin: 0;
+    }
+}

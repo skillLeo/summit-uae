@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Admin;
 
-use App\Filament\Resources\Enquiries\Pages\EditEnquiry;
 use App\Filament\Resources\Enquiries\Pages\ListEnquiries;
 use App\Filament\Resources\Enquiries\Pages\ViewEnquiry;
 use App\Filament\Support\AdminFormat;
@@ -120,14 +119,14 @@ final class AdminPanelTest extends TestCase
 
         $html = $this->actingAs($this->admin())->get('/admin')->assertOk()->getContent();
 
-        $this->assertStringContainsString(__('admin.stats.week'), $html);
-        $this->assertStringContainsString(__('admin.stats.month'), $html);
-        $this->assertStringContainsString(__('admin.stats.awaiting'), $html);
-        // The draft ratio is honestly not tracked (drafts never leave the visitor's device).
-        $this->assertStringContainsString(__('admin.stats.ratio_value'), $html);
-        // Approved service titles from the DOCX import.
+        foreach (['new', 'waiting', 'ttfr', 'closed'] as $tile) {
+            $this->assertStringContainsString(e(__('dashboard.tile.'.$tile)), $html);
+        }
+        // D50: no filler tile, no mixed-measure table
+        $this->assertStringNotContainsString(__('admin.stats.ratio_value'), $html);
+        $this->assertStringNotContainsString(__('admin.by_language.heading'), $html);
+        // Approved service titles from the DOCX import (latest requests).
         $this->assertStringContainsString(e(content()->service('S06', 'en')['title']), $html);
-        $this->assertStringContainsString(__('admin.by_language.heading'), $html);
     }
 
     public function test_an_admin_sees_the_request_list_without_the_summary(): void
@@ -158,17 +157,19 @@ final class AdminPanelTest extends TestCase
         $this->actingAs($this->admin());
         Filament::setCurrentPanel('admin');
 
-        Livewire::test(EditEnquiry::class, ['record' => $enquiry->getRouteKey()])
-            ->fillForm(['status' => 'in_review', 'internal_note' => 'Called back, documents requested.'])
-            ->call('save')
-            ->assertHasNoFormErrors();
+        Livewire::test(ViewEnquiry::class, ['record' => $enquiry->getRouteKey()])
+            ->callAction('status', data: ['status' => 'in_review'])
+            ->assertHasNoActionErrors()
+            ->callAction('note', data: ['body' => 'Called back, documents requested.'])
+            ->assertHasNoActionErrors();
 
         $enquiry->refresh();
         $this->assertSame('in_review', $enquiry->status);
         $raw = DB::table('enquiries')->where('id', $enquiry->getKey())->first();
         $this->assertNotNull($raw->status_changed_at);
-        $this->assertNotSame('Called back, documents requested.', $raw->internal_note);
-        $this->assertSame('Called back, documents requested.', Crypt::decryptString($raw->internal_note));
+        $note = DB::table('enquiry_notes')->where('enquiry_id', $enquiry->getKey())->first();
+        $this->assertNotSame('Called back, documents requested.', $note->body);
+        $this->assertSame('Called back, documents requested.', Crypt::decryptString($note->body));
         // The visitor's own submission is untouched.
         $this->assertSame('My end-of-service gratuity has not been paid.', $enquiry->summary);
     }
@@ -183,11 +184,13 @@ final class AdminPanelTest extends TestCase
         Livewire::test(ViewEnquiry::class, ['record' => $enquiry->getRouteKey()])->callAction('markInReview');
         $this->assertSame('in_review', $enquiry->fresh()->status);
 
-        Livewire::test(ViewEnquiry::class, ['record' => $enquiry->getRouteKey()])->callAction('close');
+        Livewire::test(ViewEnquiry::class, ['record' => $enquiry->getRouteKey()])->callAction('close', data: ['outcome' => 'engaged']);
         $this->assertSame('closed', $enquiry->fresh()->status);
+        $this->assertSame('engaged', $enquiry->fresh()->outcome);
 
         Livewire::test(ListEnquiries::class)
-            ->callTableBulkAction('changeStatus', [$other], data: ['status' => 'closed'])
+            ->set('activeTab', 'all')
+            ->callTableBulkAction('bulkStatus', [$other], data: ['status' => 'closed', 'outcome' => 'no_reply'])
             ->assertHasNoTableBulkActionErrors();
         $this->assertSame('closed', $other->fresh()->status);
     }
@@ -198,10 +201,9 @@ final class AdminPanelTest extends TestCase
         $this->actingAs($this->admin());
         Filament::setCurrentPanel('admin');
 
-        Livewire::test(EditEnquiry::class, ['record' => $enquiry->getRouteKey()])
-            ->fillForm(['status' => 'hacked'])
-            ->call('save')
-            ->assertHasFormErrors(['status']);
+        Livewire::test(ViewEnquiry::class, ['record' => $enquiry->getRouteKey()])
+            ->callAction('status', data: ['status' => 'hacked'])
+            ->assertHasActionErrors(['status']);
 
         $this->assertSame(Enquiry::STATUS_NEW, $enquiry->fresh()->status);
     }
@@ -217,8 +219,7 @@ final class AdminPanelTest extends TestCase
 
         $this->assertStringContainsString('dir="rtl"', $html);
         $this->assertStringContainsString('lang="ar"', $html);
-        $this->assertStringContainsString(__('admin.dashboard.title', [], 'ar'), $html);
-        $this->assertStringContainsString(e(content()->service('S06', 'ar')['title']), $html);
+        $this->assertStringContainsString(__('dashboard.title', [], 'ar'), $html);
     }
 
     public function test_arabic_request_values_start_under_their_labels_and_dates_use_the_arabic_comma(): void
@@ -240,10 +241,8 @@ final class AdminPanelTest extends TestCase
         $this->assertStringContainsString($consent->translatedFormat('j F Y، H:i'), $html);
         $this->assertStringNotContainsString($consent->translatedFormat('j F Y, H:i'), $html);
 
-        $form = $this->get("/admin/requests/{$enquiry->getKey()}/edit")->assertOk()->getContent();
-        $this->assertStringContainsString('<bdi dir="auto">A. Example</bdi>', $form);
-        $received = $enquiry->created_at->copy()->setTimezone('Asia/Dubai')->locale('ar');
-        $this->assertStringContainsString($received->translatedFormat('j F Y، H:i'), $form);
+        $received = $enquiry->received_at->copy()->setTimezone('Asia/Dubai')->locale('ar');
+        $this->assertStringContainsString($received->translatedFormat('j F Y، H:i'), $html);
 
         $english = $this->actingAs($this->admin())->get("/admin/requests/{$enquiry->getKey()}")->assertOk()->getContent();
         $this->assertStringContainsString($enquiry->consent_at->copy()->setTimezone('Asia/Dubai')->locale('en')->translatedFormat('j F Y, H:i'), $english);
@@ -267,21 +266,6 @@ final class AdminPanelTest extends TestCase
         $this->assertStringNotContainsString('2.3 MB', $html);
         // The stored path is never shown.
         $this->assertStringNotContainsString('0a1b2c', $html);
-    }
-
-    public function test_the_dashboard_latest_requests_and_sparklines_keep_inside_their_cards(): void
-    {
-        $enquiry = $this->enquiry();
-
-        $html = $this->actingAs($this->admin())->get('/admin')->assertOk()->getContent();
-
-        // Two short lines (date, then time) instead of "10 Nov 2026, 08:48" on one line (theme.css .slc-latest-table).
-        $this->assertStringContainsString('slc-latest-table', $html);
-        $received = $enquiry->created_at->copy()->setTimezone('Asia/Dubai')->locale('en');
-        $this->assertStringContainsString($received->translatedFormat('j M Y'), $html);
-        $this->assertStringNotContainsString($received->translatedFormat('j M Y, H:i'), $html);
-        // The 7- and 30-day sparkline cards (inset inside the card padding by theme.css .slc-stat-trend).
-        $this->assertSame(2, substr_count($html, 'slc-stat-trend'));
     }
 
     public function test_the_login_page_language_switch_is_kept_in_the_session(): void

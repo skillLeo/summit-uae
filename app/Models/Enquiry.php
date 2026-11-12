@@ -3,7 +3,11 @@
 namespace App\Models;
 
 use Carbon\CarbonInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
 /**
@@ -28,14 +32,49 @@ use Illuminate\Support\Carbon;
  * @property string|null $attachment_path
  * @property string|null $attachment_mime
  * @property int|null $attachment_size
+ * @property Carbon|null $received_at
+ * @property int|null $assignee_id
+ * @property string|null $outcome
+ * @property Carbon|null $first_reviewed_at
+ * @property Carbon|null $closed_at
+ * @property Carbon|null $status_changed_at
+ * @property int $spam_score
+ * @property list<string>|null $spam_reasons
+ * @property string|null $source_page
+ * @property string|null $referrer
+ * @property string|null $device_class
+ * @property int|null $design
+ * @property int|null $privacy_revision_id
+ * @property array<string, mixed>|null $extras
+ * @property bool $is_demo
+ * @property Carbon|null $overdue_notified_at
+ * @property Carbon|null $anonymized_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ *
+ * Inbox (docs/briefs/design-2.1-and-admin-cms.md §10): the workflow columns (assignee, outcome, first_reviewed_at,
+ * closed_at, status_changed_at) are written only by App\Requests\Workflow; the intake columns by App\Requests\Intake.
  */
 final class Enquiry extends Model
 {
+    use SoftDeletes;
+
     public const STATUS_NEW = 'new';
 
+    public const STATUS_IN_REVIEW = 'in_review';
+
+    public const STATUS_CLOSED = 'closed';
+
     public const STATUS_SPAM = 'spam';
+
+    /** In the order of the workflow (brief §10.2). */
+    public const STATUSES = [self::STATUS_NEW, self::STATUS_IN_REVIEW, self::STATUS_CLOSED, self::STATUS_SPAM];
+
+    /** Closing asks for one of these (brief §10.2). */
+    public const OUTCOMES = ['engaged', 'not_engaged', 'referred', 'no_reply'];
+
+    /** The UTM values the intake keeps. */
+    public const UTM = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
 
     /** ui() key of the consent checkbox label; its text is stored as consent evidence. */
     public const CONSENT_LABEL_KEY = 'form.consent.label';
@@ -52,6 +91,10 @@ final class Enquiry extends Model
         'summary', 'deadline_date', 'deadline_details',
         'consent_at', 'consent_text', 'ip_hash',
         'attachment_path', 'attachment_mime', 'attachment_size',
+        // intake context (App\Requests\Intake)
+        'received_at', 'spam_score', 'spam_reasons', 'source_page', 'referrer',
+        'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content',
+        'device_class', 'design', 'privacy_revision_id', 'extras',
     ];
 
     protected $hidden = ['ip_hash', 'idempotency_key'];
@@ -66,7 +109,66 @@ final class Enquiry extends Model
             'deadline_date' => 'date:Y-m-d',
             'consent_at' => 'datetime',
             'attachment_size' => 'integer',
+            'received_at' => 'datetime',
+            'first_reviewed_at' => 'datetime',
+            'closed_at' => 'datetime',
+            'status_changed_at' => 'datetime',
+            'overdue_notified_at' => 'datetime',
+            'anonymized_at' => 'datetime',
+            'spam_score' => 'integer',
+            'spam_reasons' => 'array',
+            'extras' => 'array',
+            'design' => 'integer',
+            'is_demo' => 'boolean',
         ];
+    }
+
+    protected static function booted(): void
+    {
+        static::creating(function (self $enquiry): void {
+            $enquiry->received_at ??= $enquiry->created_at ?? now();
+        });
+    }
+
+    /** @return BelongsTo<User, $this> */
+    public function assignee(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'assignee_id');
+    }
+
+    /** @return HasMany<EnquiryNote, $this> */
+    public function notes(): HasMany
+    {
+        return $this->hasMany(EnquiryNote::class)->orderBy('created_at')->orderBy('id');
+    }
+
+    /** @return HasMany<EnquiryEvent, $this> */
+    public function events(): HasMany
+    {
+        return $this->hasMany(EnquiryEvent::class)->orderBy('created_at')->orderBy('id');
+    }
+
+    /**
+     * Requests that count in figures (brief §11.3): never spam; demo records only outside production.
+     *
+     * @param  Builder<self>  $query
+     */
+    public function scopeCounted(Builder $query): void
+    {
+        $query->where('status', '!=', self::STATUS_SPAM);
+        if (app()->isProduction()) {
+            $query->where('is_demo', false);
+        }
+    }
+
+    public function isOpen(): bool
+    {
+        return in_array($this->status, [self::STATUS_NEW, self::STATUS_IN_REVIEW], true);
+    }
+
+    public function isAnonymised(): bool
+    {
+        return $this->anonymized_at !== null;
     }
 
     /**

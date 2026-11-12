@@ -1,0 +1,310 @@
+/*
+ * Requests inbox and request detail (docs/briefs/design-2.1-and-admin-cms.md §10.3, §10.4; Phase 5), the "Demo data"
+ * banner (§10.7) and the keyboard shortcuts sheet (§13). Design 2 tokens only; logical properties (LTR + RTL).
+ * No monospace: references use tabular figures of the sans.
+ */
+
+@layer components {
+    .slc-tabular,
+    .slc-tabular .fi-ta-text-item,
+    .slc-tabular .fi-badge {
+        font-family: var(--font-family);
+        font-variant-numeric: tabular-nums;
+        letter-spacing: 0;
+    }
+
+    .slc-requests-table .fi-ta-cell .fi-ta-text {
+        padding-block: var(--s-3);
+    }
+
+    .slc-requests-table .fi-ta-header-cell,
+    .slc-requests-table .fi-ta-cell {
+        padding-inline: var(--s-3);
+    }
+
+    .slc-requests-table .fi-ta-cell-reference .fi-ta-text-item {
+        white-space: nowrap;
+    }
+
+    .slc-requests-table .fi-ta-cell-received-at,
+    .slc-requests-table .fi-ta-cell-waiting,
+    .slc-requests-table .fi-ta-cell-status {
+        white-space: nowrap;
+    }
+
+    /* the demo banner, above every panel page while demo records exist */
+    .slc-demo-banner {
+        display: flex;
+        align-items: flex-start;
+        gap: var(--s-3);
+        margin-block-end: var(--s-6);
+        padding: var(--s-3) var(--s-4);
+        border: 1px solid var(--info-line);
+        border-radius: var(--r-sm);
+        background: var(--badge-info-bg);
+        color: var(--badge-info-fg);
+        font-size: 0.875rem;
+        line-height: 1.5;
+    }
+
+    .slc-demo-banner__icon {
+        flex: none;
+        inline-size: 1.25rem;
+        block-size: 1.25rem;
+        margin-block-start: 0.0625rem;
+    }
+
+    .slc-demo-banner p {
+        margin: 0;
+    }
+
+    /* request detail: notes */
+    .slc-notes {
+        display: grid;
+        gap: var(--s-4);
+    }
+
+    .slc-note {
+        display: grid;
+        gap: var(--s-2);
+        padding-block-end: var(--s-4);
+        border-block-end: 1px solid var(--line);
+    }
+
+    .slc-note:last-child {
+        padding-block-end: 0;
+        border-block-end: 0;
+    }
+
+    .slc-note__meta {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: var(--s-2) var(--s-3);
+        font-size: 0.8125rem;
+        color: var(--ink-3);
+    }
+
+    .slc-note__author {
+        font-weight: 500;
+        color: var(--ink);
+    }
+
+    .slc-note__mentions {
+        margin: 0;
+        font-size: 0.8125rem;
+        color: var(--ink-3);
+    }
+
+    .slc-note__actions {
+        display: flex;
+        gap: var(--s-4);
+    }
+
+    .slc-muted {
+        margin: 0;
+        color: var(--ink-3);
+    }
+
+    /* request detail: timeline, newest first */
+    .slc-timeline {
+        display: grid;
+        gap: var(--s-3);
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .slc-timeline__item {
+        display: grid;
+        gap: var(--s-1);
+        padding-inline-start: var(--s-4);
+        border-inline-start: 2px solid var(--line);
+    }
+
+    .slc-timeline__what {
+        font-size: 0.875rem;
+        color: var(--ink);
+    }
+
+    .slc-timeline__meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--s-1) var(--s-3);
+        font-size: 0.8125rem;
+        color: var(--ink-3);
+    }
+
+    /* the deadline within 7 days */
+    [data-deadline='soon'] .fi-badge {
+        font-weight: 500;
+    }
+
+    /* keyboard shortcuts sheet ("?") */
+    .slc-shortcuts {
+        inline-size: min(40rem, calc(100vw - 2rem));
+        max-block-size: calc(100dvh - 4rem);
+        padding: var(--s-6);
+        border: 1px solid var(--line);
+        border-radius: var(--r-lg);
+        background: var(--canvas);
+        color: var(--ink);
+        box-shadow: var(--shadow-overlay);
+        overflow: auto;
+    }
+
+    .slc-shortcuts::backdrop {
+        background: rgb(11 11 12 / 0.32);
+    }
+
+    .slc-shortcuts__head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--s-4);
+    }
+
+    .slc-shortcuts h2 {
+        margin: 0;
+        font-size: 1.125rem;
+        font-weight: 600;
+    }
+
+    .slc-shortcuts__close {
+        min-block-size: 2.75rem;
+        padding-inline: var(--s-4);
+        border: 1px solid var(--line-strong);
+        border-radius: var(--r-sm);
+        background: var(--canvas);
+        color: var(--ink);
+        font: inherit;
+        font-size: 0.875rem;
+        font-weight: 500;
+        cursor: pointer;
+    }
+
+    .slc-shortcuts__intro {
+        margin: var(--s-2) 0 var(--s-4);
+        font-size: 0.875rem;
+        color: var(--ink-3);
+    }
+
+    .slc-shortcuts__group + .slc-shortcuts__group {
+        margin-block-start: var(--s-5);
+    }
+
+    .slc-shortcuts h3 {
+        margin: 0 0 var(--s-2);
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--ink-2);
+    }
+
+    .slc-shortcuts dl {
+        display: grid;
+        margin: 0;
+    }
+
+    .slc-shortcuts dl > div {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--s-4);
+        padding-block: var(--s-2);
+        border-block-end: 1px solid var(--line);
+    }
+
+    .slc-shortcuts dt {
+        display: flex;
+        align-items: center;
+        gap: var(--s-1);
+        font-size: 0.8125rem;
+        color: var(--ink-3);
+    }
+
+    .slc-shortcuts dd {
+        margin: 0;
+        font-size: 0.875rem;
+    }
+
+    .slc-shortcuts kbd,
+    .slc-kbd {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-inline-size: 1.5rem;
+        block-size: 1.5rem;
+        padding-inline: var(--s-1);
+        border: 1px solid var(--line-strong);
+        border-radius: var(--r-mark);
+        background: var(--band);
+        color: var(--ink);
+        font-family: var(--font-family);
+        font-size: 0.75rem;
+        font-weight: 500;
+    }
+}
+
+/* the inbox on a phone (< 640px, Filament's stacked rows): one compact card per request, label at the start and the
+   value at the end of each line, the reference and the name as the card's title; no inner scroll box */
+@layer components {
+    @media (width < 40rem) {
+        .slc-requests-table .fi-ta-content-ctn {
+            max-block-size: none;
+            overflow: visible;
+        }
+
+        .slc-requests-table .fi-ta-table > tbody > tr {
+            padding-block: var(--s-3);
+        }
+
+        .slc-requests-table .fi-ta-table > tbody > tr > .fi-ta-cell:not(.fi-ta-selection-cell) {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: var(--s-3);
+            padding-inline: var(--s-4) var(--s-4);
+        }
+
+        .slc-requests-table .fi-ta-cell .fi-ta-cell-label {
+            flex: none;
+            font-size: 0.8125rem;
+            color: var(--ink-3);
+        }
+
+        .slc-requests-table .fi-ta-cell .fi-ta-cell-content {
+            min-inline-size: 0;
+            text-align: end;
+        }
+
+        .slc-requests-table .fi-ta-cell .fi-ta-col {
+            justify-content: flex-end;
+            text-align: end;
+        }
+
+        .slc-requests-table .fi-ta-cell .fi-ta-text {
+            padding-block: var(--s-1);
+        }
+
+        .slc-requests-table .fi-ta-cell-reference .fi-ta-cell-label,
+        .slc-requests-table .fi-ta-cell-name .fi-ta-cell-label {
+            display: none;
+        }
+
+        .slc-requests-table .fi-ta-cell-reference .fi-ta-col,
+        .slc-requests-table .fi-ta-cell-name .fi-ta-col {
+            justify-content: flex-start;
+            text-align: start;
+        }
+
+        .slc-requests-table .fi-ta-cell-reference .fi-ta-cell-content,
+        .slc-requests-table .fi-ta-cell-name .fi-ta-cell-content {
+            text-align: start;
+        }
+
+        .slc-requests-table .fi-ta-cell-name .fi-ta-text-item,
+        .slc-requests-table .fi-ta-cell-name .fi-ta-text-description {
+            max-inline-size: none;
+        }
+    }
+}

@@ -22,6 +22,9 @@
 @import './cms-collections.css';
 @import './cms-media.css';
 @import './cms-site.css';
+@import './requests.css';
+@import './dashboard.css';
+@import './reports.css';
 
 @source '../../../../app/Filament/**/*';
 @source '../../../../app/Providers/Filament/**/*';
