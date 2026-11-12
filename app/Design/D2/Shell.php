@@ -86,7 +86,8 @@ final class Shell
      * The "Design 1 | Design 2" switch for the menu sheet (brief 2.1 §6 "Mobile": on phones the switch sits in the
      * menu sheet, so it never covers the bottom bar; components/tabbar.css hides the floating one there). Exactly
      * the conditions and links of App\Http\Middleware\DesignSwitcher, which injects the floating switch: on only
-     * with SUMMIT_DESIGN_SWITCHER, never for the QA cookie (summit_qa=1) or header, and each link is this page's
+     * with SUMMIT_DESIGN_SWITCHER or the Design Preview setting (DesignManager::showsSwitcher), never for the QA
+     * cookie (summit_qa=1) or header, and each link is this page's
      * path and query with ?design=N (the #anchor is added in the browser, resources/js/d2/modules/sheets.js).
      * Null when the switch is off.
      *
@@ -95,9 +96,9 @@ final class Shell
     public static function designSwitch(): ?array
     {
         $request = request();
-        if (! config('design.switcher')
-            || $request->headers->has((string) config('design.qa_header'))
-            || $request->cookies->get((string) config('design.qa_cookie')) === '1') {
+        if ($request->headers->has((string) config('design.qa_header'))
+            || $request->cookies->get((string) config('design.qa_cookie')) === '1'
+            || ! app(DesignManager::class)->showsSwitcher($request)) {
             return null;
         }
 

@@ -25,6 +25,8 @@ use Filament\Tables\Table;
 /** Guide categories (brief §8.2 "Legal Guides + categories"): name and the guides of the category, in order. */
 class GuideCategoryResource extends CmsResource
 {
+    protected static string $screen = 'guide_categories';
+
     protected static ?string $model = GuideCategory::class;
 
     protected static ?string $slug = 'guide-categories';

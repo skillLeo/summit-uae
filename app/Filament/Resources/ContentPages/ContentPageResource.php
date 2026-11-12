@@ -28,6 +28,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ContentPageResource extends CmsResource
 {
+    protected static string $screen = 'pages';
+
     protected static ?string $model = Page::class;
 
     protected static ?string $slug = 'pages';

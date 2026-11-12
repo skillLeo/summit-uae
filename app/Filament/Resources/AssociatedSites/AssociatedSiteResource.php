@@ -32,6 +32,8 @@ use Filament\Tables\Table;
  */
 class AssociatedSiteResource extends CmsResource
 {
+    protected static string $screen = 'associated_sites';
+
     protected static ?string $model = SpecialistSite::class;
 
     protected static ?string $slug = 'associated-sites';

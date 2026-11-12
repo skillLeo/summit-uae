@@ -10,7 +10,7 @@
  *   primary  bronze #8A6A2E · gray  warm neutral on #F7F6F3 / #E4E1DA / #3A3A3F
  *   radius   10 (--r-sm: buttons, inputs, menus) · 14 (--r-md: cards, sections, tables)
  *   shadows  --shadow-1 (cards at rest) · --shadow-2 (raised: menus, sign-in card) · --shadow-4 (modals)
- *   sidebar  night #0B0B0C, gold active indicator, the brand logo tile
+ *   sidebar  light (white, 1px line), ink active item with a 2px bronze bar, groups collapsible with their labels (§13)
  *
  * Overrides live in @layer components, after Filament's own component rules, so Filament's utilities
  * (hidden, lg:hidden …) still win. Custom-property overrides are unlayered, because Filament prints
@@ -25,6 +25,8 @@
 @import './requests.css';
 @import './dashboard.css';
 @import './reports.css';
+@import './system.css';
+@import './shell.css';
 
 @source '../../../../app/Filament/**/*';
 @source '../../../../app/Providers/Filament/**/*';
@@ -45,7 +47,7 @@ html.fi {
     --radius-xl: var(--r-md);
     --radius-2xl: var(--r-lg);
 
-    --sidebar-active-bar: var(--gold);
+    --sidebar-active-bar: var(--bronze);
     --livewire-progress-bar-color: var(--gold);
 }
 
@@ -57,7 +59,7 @@ html.fi:lang(ar) {
 /* Focus on night is gold (Design 2: .on-night). Unlayered on purpose: Filament's focus-visible utilities
    (outline-color: currentColor) sit in the utilities layer, above any component rule. */
 html.fi .fi-sidebar :focus-visible {
-    outline-color: var(--gold);
+    outline-color: var(--focus);
 }
 
 /* Arabic runs on English / Russian pages (language names, an Arabic visitor's summary) */
@@ -191,36 +193,23 @@ html.fi:not(:lang(ar)) [lang="ar"] {
         color: var(--ink-3);
     }
 
-    /* -------------------------------------------------------------- sidebar: night, gold indicator */
-
-    /* the night column runs the full height of the page behind the sticky sidebar (docked from lg) */
-    @media (width >= 64rem) {
-        .fi-body-has-navigation:not(.fi-body-has-top-navigation) .fi-layout {
-            background-image: linear-gradient(var(--night), var(--night));
-            background-repeat: no-repeat;
-            background-size: var(--sidebar-width) 100%;
-            background-position: left top;
-        }
-
-        html.fi[dir="rtl"] .fi-body-has-navigation:not(.fi-body-has-top-navigation) .fi-layout {
-            background-position: right top;
-        }
-    }
+    /* -------------------------------------------------------------- sidebar: light, ink active item, bronze bar (§13) */
 
     .fi-sidebar {
-        background-color: var(--night);
-        color: var(--on-night);
-        border-inline-end: 1px solid var(--night-line);
+        background-color: var(--canvas);
+        color: var(--ink);
+        border-inline-end: 1px solid var(--line);
     }
 
     .fi-sidebar-header,
     :not(.fi-body-has-topbar) .fi-sidebar-header {
-        background-color: var(--night);
-        border-block-end: 1px solid var(--night-line);
+        background-color: var(--canvas);
+        border-block-end: 1px solid var(--line);
         block-size: auto;
-        min-block-size: 4.5rem;
-        padding-block: var(--s-4);
+        min-block-size: 4rem;
+        padding-block: var(--s-3);
         padding-inline: var(--s-5);
+        box-shadow: none;
     }
 
     .fi-sidebar-header .fi-logo {
@@ -228,128 +217,111 @@ html.fi:not(:lang(ar)) [lang="ar"] {
     }
 
     .fi-sidebar-header-controls::after {
-        border-color: var(--night-line);
+        border-color: var(--line);
     }
 
     .fi-sidebar-nav {
-        padding-block: var(--s-6);
+        padding-block: var(--s-5);
         padding-inline: var(--s-4);
     }
 
     .fi-sidebar-nav-groups {
         margin-inline: 0;
+        row-gap: var(--s-5);
     }
 
+    /* group labels stay visible and readable: sentence case, no tracking */
     .fi-sidebar-group-label {
-        color: var(--on-night-3);
-        font-size: var(--fs-meta);
-        letter-spacing: var(--ls-eyebrow);
-        text-transform: uppercase;
-    }
-
-    html.fi:lang(ar) .fi-sidebar-group-label {
+        color: var(--ink-3);
+        font-size: 0.8125rem;
+        font-weight: var(--fw-medium);
         letter-spacing: 0;
         text-transform: none;
     }
 
+    .fi-sidebar-group-btn {
+        min-block-size: 2.25rem;
+    }
+
+    .fi-sidebar-group-btn .fi-icon-btn {
+        color: var(--ink-3);
+    }
+
     .fi-sidebar-item-btn {
         position: relative;
-        min-block-size: var(--target);
+        min-block-size: 2.5rem;
         border-radius: var(--r-sm);
-        color: var(--on-night-2);
+        color: var(--ink-2);
         padding-inline: var(--s-3);
     }
 
     .fi-sidebar-item-btn > .fi-icon {
-        color: var(--on-night-3);
+        color: var(--ink-3);
     }
 
     .fi-sidebar-item-label {
-        color: var(--on-night-2);
+        color: var(--ink-2);
         font-weight: var(--fw-medium);
     }
 
     .fi-sidebar-item.fi-sidebar-item-has-url > .fi-sidebar-item-btn:hover,
     .fi-sidebar-item.fi-sidebar-item-has-url > .fi-sidebar-item-btn:focus-visible {
-        background-color: var(--night-3);
+        background-color: var(--band);
     }
 
     .fi-sidebar-item.fi-sidebar-item-has-url > .fi-sidebar-item-btn:hover > .fi-sidebar-item-label,
     .fi-sidebar-item.fi-sidebar-item-has-url > .fi-sidebar-item-btn:hover > .fi-icon {
-        color: var(--on-night);
+        color: var(--ink);
     }
 
     .fi-sidebar-item-btn:focus-visible {
-        outline: var(--focus-w) solid var(--gold);
+        outline: var(--focus-w) solid var(--focus);
         outline-offset: var(--focus-offset);
     }
 
     .fi-sidebar-item.fi-active > .fi-sidebar-item-btn {
-        background-color: var(--night-2);
-        box-shadow: var(--shadow-night-inset);
+        background-color: var(--band);
     }
 
-    .fi-sidebar-item.fi-active > .fi-sidebar-item-btn > .fi-icon {
-        color: var(--gold);
+    .fi-sidebar-item.fi-active > .fi-sidebar-item-btn > .fi-icon,
+    .fi-sidebar-item.fi-active > .fi-sidebar-item-btn > .fi-sidebar-item-label {
+        color: var(--ink);
     }
 
     .fi-sidebar-item.fi-active > .fi-sidebar-item-btn > .fi-sidebar-item-label {
-        color: var(--on-night);
         font-weight: var(--fw-semibold);
     }
 
-    /* the gold active indicator: a bar on the inline-start edge (mirrors in RTL) */
+    /* the active indicator: a 2px bronze bar on the inline-start edge (mirrors in RTL) */
     .fi-sidebar-item.fi-active > .fi-sidebar-item-btn::before {
         content: "";
         position: absolute;
         inset-block: var(--s-2);
-        inset-inline-start: calc(-1 * var(--s-4));
-        inline-size: 3px;
-        border-start-end-radius: var(--r-pill);
-        border-end-end-radius: var(--r-pill);
-        background: var(--metal);
+        inset-inline-start: 0;
+        inline-size: 2px;
+        border-radius: var(--r-pill);
+        background: var(--bronze);
     }
 
     .fi-sidebar-item .fi-badge {
-        background-color: var(--gold-wash);
-        color: var(--gold-hi);
+        background-color: var(--badge-brand-bg);
+        color: var(--bronze-700);
         --tw-ring-color: transparent;
     }
 
     .fi-sidebar-footer {
-        border-block-start: 1px solid var(--night-line);
+        border-block-start: 1px solid var(--line);
         padding: var(--s-3) var(--s-4);
     }
 
-    .fi-sidebar-footer .fi-user-menu-trigger,
-    .fi-sidebar .fi-user-menu-trigger {
-        color: var(--on-night);
-        border-radius: var(--r-sm);
-    }
-
-    .fi-sidebar .fi-user-menu-trigger:hover,
-    .fi-sidebar .fi-user-menu-trigger:focus-visible {
-        background-color: var(--night-3);
-    }
-
-    .fi-sidebar .fi-user-menu-trigger:focus-visible {
-        outline: var(--focus-w) solid var(--gold);
-        outline-offset: var(--focus-offset);
-    }
-
-    .fi-sidebar .fi-user-menu-trigger .fi-icon,
-    .fi-sidebar .fi-user-menu-trigger-text {
-        color: var(--on-night-2);
-    }
-
     .fi-sidebar .fi-icon-btn {
-        color: var(--on-night-2);
+        color: var(--ink-3);
     }
 
     .fi-sidebar .fi-icon-btn:hover,
     .fi-sidebar .fi-icon-btn:focus-visible {
-        background-color: var(--night-3);
-        color: var(--on-night);
+        background-color: var(--band);
+        color: var(--ink);
     }
 
     .fi-sidebar-close-overlay {
@@ -396,11 +368,11 @@ html.fi:not(:lang(ar)) [lang="ar"] {
     }
 
     .fi-sidebar .slc-brand__name {
-        color: var(--on-night);
+        color: var(--ink);
     }
 
     .fi-sidebar .slc-brand__panel {
-        color: var(--gold);
+        color: var(--bronze-700);
     }
 
     .fi-sidebar .fi-logo {
@@ -411,12 +383,12 @@ html.fi:not(:lang(ar)) [lang="ar"] {
     /* -------------------------------------------------------------- sign-in */
 
     .fi-simple-layout {
-        background-color: var(--canvas);
-        background-image: var(--hero-light);
+        background-color: var(--band);
+        background-image: none;
     }
 
     html.fi[dir="rtl"] .fi-simple-layout {
-        background-image: var(--hero-light-rtl);
+        background-image: none;
     }
 
     .fi-simple-main {

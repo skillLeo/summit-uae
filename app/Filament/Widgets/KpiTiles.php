@@ -27,7 +27,7 @@ class KpiTiles extends Widget
 
     public static function canView(): bool
     {
-        return CmsAccess::can('dashboard', 'view') && CmsAccess::can('requests', 'view');
+        return CmsAccess::can('dashboard', 'view') && (CmsAccess::can('requests', 'view') || CmsAccess::can('reports', 'view'));
     }
 
     /** @return list<array<string, mixed>> */

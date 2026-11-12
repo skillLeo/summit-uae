@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Spatie\Activitylog\Contracts\Activity;
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
 
 /**
  * A consultation enquiry from the shared Home / Contact form. API contract: docs/enquiries.md.
@@ -57,7 +60,51 @@ use Illuminate\Support\Carbon;
  */
 final class Enquiry extends Model
 {
+    use LogsActivity {
+        shouldLogEvent as private logsActivityShouldLogEvent;
+    }
     use SoftDeletes;
+
+    /**
+     * Activity log (brief §1.4, §12.2, Phase 7; App\Support\ActivityLogging): only the workflow fields, with the
+     * reference as a property. Never the name, phone, e-mail, summary, deadline details, notes, consent text or the
+     * hashed IP. Demo records (summit:demo-requests) are not logged when they are created.
+     */
+    public const LOGGED_FIELDS = ['status', 'assignee_id', 'outcome', 'first_reviewed_at', 'closed_at', 'anonymized_at', 'deleted_at'];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->useLogName(\App\Support\ActivityLogging::LOG)
+            ->logOnly(self::LOGGED_FIELDS)
+            ->logOnlyDirty()
+            ->dontLogEmptyChanges();
+    }
+
+    protected function shouldLogEvent(string $eventName): bool
+    {
+        if ($eventName === 'created' && $this->is_demo === true) {
+            return false;
+        }
+
+        return $this->logsActivityShouldLogEvent($eventName);
+    }
+
+    /** spatie/laravel-activitylog hook: the reference names the request; a visitor's request comes from the site. */
+    public function beforeActivityLogged(Activity $activity, string $eventName): void
+    {
+        $properties = collect($activity->properties ?? [])->put('reference', $this->reference);
+        if ($eventName === 'created' && $activity->causer_id === null) {
+            $properties->put('source', 'website');
+        }
+        $activity->properties = $properties;
+        if (in_array($eventName, ['deleted', 'restored'], true) && ! $this->isForceDeleting()) {
+            $at = $this->deleted_at?->toAtomString();
+            $activity->attribute_changes = collect($eventName === 'deleted'
+                ? ['attributes' => ['deleted_at' => $at], 'old' => ['deleted_at' => null]]
+                : ['attributes' => ['deleted_at' => null], 'old' => ['deleted_at' => $activity->attribute_changes?->get('old')['deleted_at'] ?? null]]);
+        }
+    }
 
     public const STATUS_NEW = 'new';
 

@@ -39,6 +39,7 @@ final class DashboardTest extends TestCase
     {
         $user = User::factory()->create();
         $user->forceFill(['is_admin' => true])->save();
+        $this->grantRole($user);
 
         return $user;
     }

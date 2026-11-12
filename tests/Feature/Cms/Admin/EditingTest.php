@@ -55,6 +55,7 @@ final class EditingTest extends TestCase
     {
         $user = User::factory()->create();
         $user->forceFill(['is_admin' => true])->save();
+        $this->grantRole($user);
         $this->actingAs($user);
         Filament::setCurrentPanel(Filament::getPanel('admin'));
 
@@ -209,7 +210,8 @@ final class EditingTest extends TestCase
         $guide = Guide::query()->findOrFail('G06');
         $guide->delete();
 
-        config(['cms.super_admin_is_admin' => false]);
+        // an admin (not the super admin) may not delete permanently
+        $this->grantRole(auth()->user(), 'admin');
         Livewire::test(Trash::class)->filterTable('type', 'guide')->assertTableActionHidden('forceDelete', $guide);
         try {
             Trash::forceDelete($guide);
@@ -219,7 +221,7 @@ final class EditingTest extends TestCase
         }
         $this->assertSoftDeleted('guides', ['code' => 'G06']);
 
-        config(['cms.super_admin_is_admin' => true]);
+        $this->grantRole(auth()->user(), 'super_admin');
         Livewire::test(Trash::class)->filterTable('type', 'guide')->callTableAction('forceDelete', $guide);
         $this->assertDatabaseMissing('guides', ['code' => 'G06']);
         $this->assertDatabaseMissing('revisions', ['revisionable_type' => 'guide', 'revisionable_id' => 'G06']);

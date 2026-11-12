@@ -45,6 +45,8 @@ use UnitEnum;
  */
 class InterfaceTextResource extends CmsResource
 {
+    protected static string $screen = 'interface_text';
+
     protected static ?string $model = UiString::class;
 
     protected static ?string $slug = 'interface-text';

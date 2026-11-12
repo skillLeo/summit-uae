@@ -42,6 +42,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class SituationResource extends CmsResource
 {
+    protected static string $screen = 'situations';
+
     protected static ?string $model = Situation::class;
 
     protected static ?string $slug = 'situations';

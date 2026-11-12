@@ -58,6 +58,8 @@ use UnitEnum;
  */
 class MediaLibraryResource extends CmsResource
 {
+    protected static string $screen = 'media';
+
     protected static ?string $model = MediaAsset::class;
 
     protected static ?string $slug = 'media';
@@ -381,7 +383,7 @@ class MediaLibraryResource extends CmsResource
                     DeleteBulkAction::make()->label((string) __('cms.action.delete')),
                     RestoreBulkAction::make()->label((string) __('cms.action.restore')),
                     ForceDeleteBulkAction::make()->label((string) __('cms.action.force_delete'))
-                        ->visible(fn () => CmsAccess::superAdmin())->authorize(fn () => CmsAccess::superAdmin()),
+                        ->visible(fn () => CmsAccess::can('media', 'force_delete'))->authorize(fn () => CmsAccess::can('media', 'force_delete')),
                 ]),
             ])
             ->emptyStateHeading((string) __('cms_media.library.empty'))
@@ -413,8 +415,8 @@ class MediaLibraryResource extends CmsResource
             ForceDeleteAction::make()->label((string) __('cms.action.force_delete'))
                 ->modalDescription((string) __('cms_media.library.force_delete_body'))
                 ->successNotificationTitle((string) __('cms.action.force_deleted'))
-                ->visible(fn (Model $record) => CmsAccess::superAdmin() && $record->trashed())
-                ->authorize(fn () => CmsAccess::superAdmin()),
+                ->visible(fn (Model $record) => CmsAccess::can('media', 'force_delete') && $record->trashed())
+                ->authorize(fn () => CmsAccess::can('media', 'force_delete')),
         ];
     }
 

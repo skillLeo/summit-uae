@@ -118,3 +118,197 @@
 .cms-table .cms-ui-text {
     min-inline-size: 14rem;
 }
+
+/* Settings (Phase 7): notes, read-only states, the consent text and the accent contrast checks. */
+.cms-settings-note {
+    font-size: var(--fs-small);
+    color: var(--ink-2);
+    overflow-wrap: anywhere;
+}
+
+.cms-settings-note--warning {
+    padding-block: var(--s-2);
+    padding-inline: var(--s-3);
+    border: var(--line-w, 1px) solid var(--warning-line);
+    border-radius: var(--radius-control);
+    background: var(--badge-warning-bg);
+    color: var(--badge-warning-fg);
+}
+
+.cms-settings-note bdi,
+.cms-settings-state bdi {
+    font-weight: var(--fw-medium);
+    color: var(--ink);
+}
+
+.cms-settings-link {
+    color: var(--bronze-700);
+    font-weight: var(--fw-medium);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.cms-settings-link:focus-visible {
+    outline: 2px solid var(--bronze);
+    outline-offset: 2px;
+    border-radius: var(--radius-control);
+}
+
+/* "Attachment field: Off. Locked: …" */
+.cms-settings-state {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--s-1) var(--s-3);
+    font-size: var(--fs-small);
+}
+
+.cms-settings-state__label {
+    font-weight: var(--fw-semibold);
+    color: var(--ink);
+}
+
+.cms-settings-state__value {
+    padding-block: 2px;
+    padding-inline: var(--s-2);
+    border-radius: var(--radius-control);
+    background: var(--badge-neutral-bg);
+    color: var(--badge-neutral-fg);
+    font-weight: var(--fw-medium);
+}
+
+.cms-settings-state__value[data-state="on"] {
+    background: var(--badge-success-bg);
+    color: var(--badge-success-fg);
+}
+
+.cms-settings-state__note {
+    flex: 1 1 100%;
+    color: var(--ink-2);
+}
+
+/* Forms and Consent: the approved consent text per language. */
+.cms-settings-consent {
+    display: grid;
+    gap: var(--s-3);
+}
+
+.cms-settings-consent__row {
+    display: grid;
+    gap: var(--s-1) var(--s-4);
+    padding-block-end: var(--s-3);
+    border-block-end: var(--line-w, 1px) solid var(--line);
+}
+
+@media (min-width: 768px) {
+    .cms-settings-consent__row {
+        grid-template-columns: 7rem minmax(0, 1fr);
+    }
+}
+
+.cms-settings-consent__lang {
+    font-size: var(--fs-small);
+    font-weight: var(--fw-semibold);
+    color: var(--ink-2);
+}
+
+.cms-settings-consent__text {
+    color: var(--ink);
+    unicode-bidi: isolate;
+    text-align: start;
+}
+
+.cms-settings-consent__footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--s-2) var(--s-4);
+    font-size: var(--fs-small);
+}
+
+.cms-settings-consent__draft {
+    color: var(--warning);
+}
+
+/* Brand: the live contrast checks of the accent colour. */
+.cms-settings-contrast__caption {
+    margin-block-end: var(--s-2);
+    font-size: var(--fs-small);
+    color: var(--ink-2);
+}
+
+.cms-settings-contrast__caption,
+.cms-settings-contrast__ratio {
+    font-variant-numeric: tabular-nums;
+}
+
+.cms-settings-contrast__list {
+    display: grid;
+    gap: var(--s-2);
+}
+
+.cms-settings-contrast__row {
+    display: grid;
+    grid-template-columns: 2.75rem minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--s-1) var(--s-3);
+    font-size: var(--fs-small);
+}
+
+.cms-settings-contrast__sample {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: 2.75rem;
+    block-size: 2.75rem;
+    border: 2px solid transparent;
+    border-radius: var(--radius-control);
+    background: var(--canvas);
+    font-weight: var(--fw-semibold);
+}
+
+.cms-settings-contrast__sample--band {
+    background: var(--band);
+}
+
+.cms-settings-contrast__text {
+    display: grid;
+    gap: 2px;
+    min-inline-size: 0;
+}
+
+.cms-settings-contrast__pair {
+    color: var(--ink);
+    font-weight: var(--fw-medium);
+}
+
+.cms-settings-contrast__ratio {
+    font-weight: var(--fw-semibold);
+    color: var(--ink);
+    direction: ltr;
+    unicode-bidi: isolate;
+}
+
+.cms-settings-contrast__min {
+    color: var(--ink-2);
+}
+
+.cms-settings-contrast__result {
+    justify-self: end;
+    padding-block: 2px;
+    padding-inline: var(--s-2);
+    border-radius: var(--radius-control);
+    background: var(--badge-success-bg);
+    color: var(--badge-success-fg);
+    font-weight: var(--fw-medium);
+}
+
+.cms-settings-contrast__row[data-pass="false"] .cms-settings-contrast__result {
+    background: var(--badge-danger-bg);
+    color: var(--badge-danger-fg);
+}
+
+.cms-settings-contrast__wait {
+    font-size: var(--fs-small);
+    color: var(--ink-2);
+}

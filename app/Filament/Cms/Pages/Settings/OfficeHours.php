@@ -34,6 +34,8 @@ class OfficeHours extends SettingsPage
 {
     use EditsSettings;
 
+    protected static string $screen = 'settings_hours';
+
     protected static string $settings = OfficeHoursSettings::class;
 
     protected static ?string $slug = 'settings/office-hours';
@@ -117,6 +119,11 @@ class OfficeHours extends SettingsPage
         }
 
         return $out;
+    }
+
+    protected function fieldLabels(): array
+    {
+        return ['closures' => (string) __('cms_site.hours.closures')];
     }
 
     protected function settingsToForm(array $data): array

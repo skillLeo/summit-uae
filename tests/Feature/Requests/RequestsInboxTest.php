@@ -70,6 +70,7 @@ final class RequestsInboxTest extends TestCase
     {
         $user = User::factory()->create(['name' => $name]);
         $user->forceFill(['is_admin' => true])->save();
+        $this->grantRole($user);
 
         return $user;
     }

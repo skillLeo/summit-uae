@@ -31,6 +31,8 @@ use Illuminate\Validation\Rule;
  */
 class CaseStudyResource extends CmsResource
 {
+    protected static string $screen = 'case_studies';
+
     protected static ?string $model = CaseStudy::class;
 
     protected static ?string $slug = 'case-studies';

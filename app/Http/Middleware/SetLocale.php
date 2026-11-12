@@ -2,17 +2,22 @@
 
 namespace App\Http\Middleware;
 
+use App\Support\Languages;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Symfony\Component\HttpFoundation\Response;
 
-/** Applies the language from the URL prefix. Never redirects by Accept-Language or IP. */
+/**
+ * Applies the language from the URL prefix. Never redirects by Accept-Language or IP. The Languages settings
+ * (App\Support\Languages) come first: a language that is off answers 404 here; with the defaults nothing changes.
+ */
 final class SetLocale
 {
     public function handle(Request $request, Closure $next): Response
     {
+        Languages::apply();
         $locale = (string) $request->route('locale');
         $locales = config('summit.locales');
         if (! array_key_exists($locale, $locales)) {

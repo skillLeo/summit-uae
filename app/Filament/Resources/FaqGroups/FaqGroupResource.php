@@ -32,6 +32,8 @@ use Illuminate\Validation\Rule;
  */
 class FaqGroupResource extends CmsResource
 {
+    protected static string $screen = 'faq_groups';
+
     protected static ?string $model = FaqCategory::class;
 
     protected static ?string $slug = 'faq-groups';

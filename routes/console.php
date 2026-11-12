@@ -48,3 +48,23 @@ Artisan::command('summit:requests-overdue', function () {
     $count = App\Requests\Digest::sweepOverdue(app(App\Requests\Notifier::class));
     $this->info("Overdue alerts sent: {$count}.");
 })->purpose('Alert the on-duty list about requests past the internal review target');
+
+// System (docs/briefs/design-2.1-and-admin-cms.md §12.4; Phase 7), in Dubai time:
+// - the daily backup at the Backups screen's time (App\Settings\BackupSettings, 02:30 by default, when it is on): the
+//   database and the media to storage/app/private/backups (config/backup.php), then backup:clean (the default
+//   retention: every backup for 7 days, then daily for 16 days, weekly for 8 weeks, monthly for 4 months);
+// - the health heartbeats every minute (the scheduler check and, through a queued job, the queue check) and the checks
+//   every five minutes (the Health screen shows the latest results; its "Run checks" button runs them at once).
+$backupTime = (string) rescue(fn () => app(App\Settings\BackupSettings::class)->time, '02:30', report: false);
+$backupTime = preg_match('/^([01]\d|2[0-3]):[0-5]\d$/', $backupTime) === 1 ? $backupTime : '02:30';
+[$backupHour, $backupMinute] = array_map('intval', explode(':', $backupTime));
+$cleanTime = sprintf('%02d:%02d', ($backupHour + intdiv($backupMinute + 30, 60)) % 24, ($backupMinute + 30) % 60);
+Schedule::command('backup:run --disable-notifications')->dailyAt($backupTime)->timezone('Asia/Dubai')
+    ->when(fn (): bool => (bool) rescue(fn () => app(App\Settings\BackupSettings::class)->enabled, true, report: false))
+    ->name('backup-run')->withoutOverlapping();
+Schedule::command('backup:clean --disable-notifications')->dailyAt($cleanTime)->timezone('Asia/Dubai')
+    ->when(fn (): bool => (bool) rescue(fn () => app(App\Settings\BackupSettings::class)->enabled, true, report: false))
+    ->name('backup-clean')->withoutOverlapping();
+Schedule::command('health:schedule-check-heartbeat')->everyMinute()->name('health-schedule-heartbeat');
+Schedule::command('health:queue-check-heartbeat')->everyMinute()->name('health-queue-heartbeat');
+Schedule::command('health:check --no-notification')->everyFiveMinutes()->name('health-check')->withoutOverlapping();

@@ -29,7 +29,7 @@ class RequestsChart extends ChartWidget
 
     public static function canView(): bool
     {
-        return CmsAccess::can('requests', 'view');
+        return CmsAccess::can('requests', 'view') || CmsAccess::can('reports', 'view');
     }
 
     public function getHeading(): string

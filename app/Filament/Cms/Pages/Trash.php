@@ -44,7 +44,7 @@ class Trash extends Page implements HasTable
 
     public static function canAccess(): bool
     {
-        return CmsAccess::admin();
+        return CmsAccess::can('trash', 'view');
     }
 
     public static function getNavigationLabel(): string
@@ -95,14 +95,15 @@ class Trash extends Page implements HasTable
             ])
             ->recordActions([
                 Action::make('restore')->label((string) __('cms.action.restore'))->icon(Heroicon::OutlinedArrowUturnLeft)
+                    ->authorize(fn () => CmsAccess::can('trash', 'restore'))
                     ->action(function (Model $record) {
                         $record->restore();
                         Notification::make()->success()->title((string) __('cms.action.restored'))->send();
                     }),
                 Action::make('forceDelete')->label((string) __('cms.action.force_delete'))->icon(Heroicon::OutlinedTrash)->color('danger')
                     ->requiresConfirmation()->modalDescription((string) __('cms.action.force_delete_body'))
-                    ->visible(fn () => CmsAccess::superAdmin())
-                    ->authorize(fn () => CmsAccess::superAdmin())
+                    ->visible(fn () => CmsAccess::can('trash', 'force_delete'))
+                    ->authorize(fn () => CmsAccess::can('trash', 'force_delete'))
                     ->action(function (Model $record) {
                         self::forceDelete($record);
                         Notification::make()->success()->title((string) __('cms.action.force_deleted'))->send();
@@ -110,6 +111,7 @@ class Trash extends Page implements HasTable
             ])
             ->toolbarActions([
                 BulkAction::make('restoreMany')->label((string) __('cms.action.restore'))->icon(Heroicon::OutlinedArrowUturnLeft)
+                    ->authorize(fn () => CmsAccess::can('trash', 'restore'))
                     ->action(fn (Collection $records) => $records->each->restore()),
             ])
             ->filtersLayout(FiltersLayout::AboveContent)
@@ -122,7 +124,7 @@ class Trash extends Page implements HasTable
     /** Permanent delete: super admin only. Revisions go with the record. */
     public static function forceDelete(Model $record): void
     {
-        abort_unless(CmsAccess::superAdmin(), 403);
+        abort_unless(CmsAccess::can('trash', 'force_delete'), 403);
         $record->revisions()->delete();
         $record->forceDelete();
     }

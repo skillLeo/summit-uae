@@ -39,6 +39,8 @@ use Illuminate\Validation\Rule;
  */
 class FaqResource extends CmsResource
 {
+    protected static string $screen = 'faqs';
+
     protected static ?string $model = Faq::class;
 
     protected static ?string $slug = 'faqs';

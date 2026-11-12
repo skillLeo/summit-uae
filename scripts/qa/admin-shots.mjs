@@ -6,6 +6,7 @@ import { chromium } from '@playwright/test';
 import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
+import { adminSignIn, credentials } from './admin-login.mjs';
 
 const args = Object.fromEntries(process.argv.slice(2).filter((a) => a.startsWith('--')).map((a) => a.slice(2).split('=')));
 const paths = process.argv.slice(2).filter((a) => !a.startsWith('--'));
@@ -16,9 +17,7 @@ const out = args.out || 'storage/app/d2/phase-4/admin';
 const full = args.full !== 'false';
 fs.mkdirSync(out, { recursive: true });
 
-const creds = fs.readFileSync('storage/app/d2/admin/credentials.txt', 'utf8');
-const email = creds.match(/^email:\s*(.+)$/m)[1].trim();
-const password = creds.match(/^password:\s*(.+)$/m)[1].trim();
+const { email } = credentials();
 
 // The admin's interface language is the user's own choice (users.admin_locale): set it for each run, restore after.
 const setLocale = (value) => execFileSync('php', ['artisan', 'tinker', '--execute',
@@ -26,14 +25,13 @@ const setLocale = (value) => execFileSync('php', ['artisan', 'tinker', '--execut
 const original = setLocale('en') || null;
 
 const browser = await chromium.launch({ channel: 'chrome' });
+// the user's own language is put back even when a capture fails
+process.on('exit', () => { try { setLocale(original); } catch { /* best effort */ } });
 for (const locale of locales) {
   setLocale(locale);
   const context = await browser.newContext({ viewport: { width: 1440, height: 900 }, timezoneId: 'Asia/Dubai' });
   const page = await context.newPage();
-  await page.goto(`${base}/admin/login`);
-  await page.fill('input[type=email]', email);
-  await page.fill('input[type=password]', password);
-  await Promise.all([page.waitForURL((u) => !u.pathname.endsWith('/login')), page.click('button[type=submit]')]);
+  await adminSignIn(page, base);
   // interface language through the user menu action is a Livewire action; the session key is set by visiting with ?locale
   for (const width of widths) {
     await page.setViewportSize({ width, height: width < 500 ? 844 : 900 });

@@ -10,6 +10,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Contracts\Activity;
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
 
 /**
  * The CMS fields every content record carries (docs/briefs/design-2.1-and-admin-cms.md §8.5, §8.7): status (draft |
@@ -19,7 +22,32 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 trait HasCmsFields
 {
+    use LogsActivity;
     use SoftDeletes;
+
+    /**
+     * Activity log (brief §12.2, Phase 7; App\Support\ActivityLogging): created, updated (the changed fields only),
+     * deleted and restored, on log "admin", with the signed-in user as causer. Translatable columns are logged as their
+     * {en, ar, ru} JSON; a draft change keeps only the draft fields that differ (ActivityLogging::content()). The content
+     * import writes with the query builder and logs nothing.
+     */
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->useLogName(\App\Support\ActivityLogging::LOG)
+            ->logAll()
+            ->logExcept(['created_at', 'updated_at'])
+            ->logOnlyDirty()
+            ->dontLogIfAttributesChangedOnly(['updated_at'])
+            ->dontLogEmptyChanges()
+            ->useAttributeRawValues(method_exists($this, 'getTranslatableAttributes') ? $this->getTranslatableAttributes() : []);
+    }
+
+    /** spatie/laravel-activitylog hook: keep the entry small and name the record (ActivityLogging::content()). */
+    public function beforeActivityLogged(Activity $activity, string $eventName): void
+    {
+        \App\Support\ActivityLogging::content($this, $activity, $eventName);
+    }
 
     public static function bootHasCmsFields(): void
     {

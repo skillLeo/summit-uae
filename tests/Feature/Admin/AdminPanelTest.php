@@ -51,6 +51,7 @@ final class AdminPanelTest extends TestCase
     {
         $user = User::factory()->create();
         $user->forceFill(['is_admin' => true] + $attributes)->save();
+        $this->grantRole($user);
 
         return $user;
     }

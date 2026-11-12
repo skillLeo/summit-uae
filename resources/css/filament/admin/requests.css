@@ -17,6 +17,13 @@
         padding-block: var(--s-3);
     }
 
+    /* a narrow window scrolls the table inside its card instead of cutting the last columns */
+    @media (width >= 40rem) {
+        .slc-requests-table .fi-ta-content-ctn {
+            overflow-x: auto;
+        }
+    }
+
     .slc-requests-table .fi-ta-header-cell,
     .slc-requests-table .fi-ta-cell {
         padding-inline: var(--s-3);
@@ -142,6 +149,7 @@
 
     /* keyboard shortcuts sheet ("?") */
     .slc-shortcuts {
+        margin: auto;
         inline-size: min(40rem, calc(100vw - 2rem));
         max-block-size: calc(100dvh - 4rem);
         padding: var(--s-6);
@@ -249,7 +257,8 @@
    value at the end of each line, the reference and the name as the card's title; no inner scroll box */
 @layer components {
     @media (width < 40rem) {
-        .slc-requests-table .fi-ta-content-ctn {
+        /* more specific than theme.css's scroll box (it comes later in the same layer) */
+        html.fi .slc-requests-table .fi-ta-content-ctn {
             max-block-size: none;
             overflow: visible;
         }

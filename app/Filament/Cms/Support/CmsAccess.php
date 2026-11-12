@@ -2,39 +2,61 @@
 
 namespace App\Filament\Cms\Support;
 
+use App\Access\Screens;
 use App\Models\User;
+use App\Settings\RequestSettings;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Throwable;
 
 /**
- * Who may do what in the CMS screens, until roles arrive (docs/briefs/design-2.1-and-admin-cms.md §12.1, Phase 7).
- *
- * Today every admin user (users.is_admin) may edit, publish and move content to the Trash. The super-admin-only actions
- * (permanent delete, calculator rules) go through superAdmin(): for now it is the same admin flag.
- *
- * PHASE 7 HOOK: replace superAdmin() with the "super admin" role of spatie/laravel-permission (and admin() with the
- * per-screen permissions of the matrix). Every caller already goes through these two methods.
+ * Who may do what in the admin (docs/briefs/design-2.1-and-admin-cms.md §12.1): the roles and the permission matrix
+ * of spatie/laravel-permission (App\Access\Screens; permissions "screen.ability"). The super admin may do everything
+ * (Gate::before in AppServiceProvider). Every screen, action and widget asks through these methods.
  */
 final class CmsAccess
 {
-    public static function admin(?Authenticatable $user = null): bool
+    private static function user(?Authenticatable $user): ?User
     {
         $user ??= auth()->user();
 
-        return $user instanceof User && $user->is_admin === true;
+        return $user instanceof User ? $user : null;
+    }
+
+    /** May open the admin at all: flagged, active and holding a role. */
+    public static function admin(?Authenticatable $user = null): bool
+    {
+        $user = self::user($user);
+
+        return $user !== null && $user->canUsePanel();
     }
 
     /**
-     * Whether the user may do $ability (view, create, update, publish, delete, restore, force_delete, export) on $screen
-     * (a key of the permission matrix). Until the roles of Phase 7 every admin may do everything.
+     * Whether the user may do $ability (view, create, update, publish, delete, restore, force_delete, export) on
+     * $screen (a key of App\Access\Screens).
      */
     public static function can(string $screen, string $ability = 'view', ?Authenticatable $user = null): bool
     {
-        return self::admin($user);
+        $user = self::user($user);
+        if ($user === null || ! $user->canUsePanel()) {
+            return false;
+        }
+        if ($user->hasRole(Screens::SUPER_ADMIN)) {
+            return true;
+        }
+        if (! Screens::exists($screen, $ability)) {
+            return false;
+        }
+
+        try {
+            return $user->hasPermissionTo(Screens::permission($screen, $ability), 'web');
+        } catch (Throwable) {
+            return false;
+        }
     }
 
     /**
-     * The requests a user may see: everything, or (a case handler while the setting is "assigned only") the requests
-     * assigned to them. Until Phase 7, everything.
+     * The requests a user may see: everything, or (a user who handles requests but does not manage them, while the
+     * Forms and Consent setting is "assigned only") the requests assigned to them.
      *
      * @template TBuilder of \Illuminate\Database\Eloquent\Builder
      *
@@ -43,20 +65,37 @@ final class CmsAccess
      */
     public static function scopeRequests($query, ?Authenticatable $user = null)
     {
-        return $query;
+        $user = self::user($user);
+        if ($user === null || ! self::assignedOnly($user)) {
+            return $query;
+        }
+
+        return $query->where('assignee_id', $user->getKey());
+    }
+
+    public static function assignedOnly(?Authenticatable $user = null): bool
+    {
+        $user = self::user($user);
+        if ($user === null || $user->hasAnyRole([Screens::SUPER_ADMIN, Screens::ADMIN]) || self::can('requests', 'delete', $user)) {
+            return false;
+        }
+        try {
+            return app(RequestSettings::class)->case_handler_scope === 'assigned';
+        } catch (Throwable) {
+            return false;
+        }
     }
 
     /** A read-only user (the Viewer role): figures without links into the workflow. */
     public static function readOnly(?Authenticatable $user = null): bool
     {
-        return false;
+        return ! self::can('requests', 'view', $user) && ! self::can('pages', 'update', $user);
     }
 
     public static function superAdmin(?Authenticatable $user = null): bool
     {
-        $user ??= auth()->user();
+        $user = self::user($user);
 
-        // Phase 7: return $user?->hasRole('super_admin') === true;
-        return $user instanceof User && $user->is_admin === true && (bool) config('cms.super_admin_is_admin', true);
+        return $user !== null && $user->canUsePanel() && $user->hasRole(Screens::SUPER_ADMIN);
     }
 }

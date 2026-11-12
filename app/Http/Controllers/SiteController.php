@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Support\Languages;
 use App\Support\Seo;
 use App\Support\SiteUrl;
 use Illuminate\Http\JsonResponse;
@@ -16,6 +17,7 @@ final class SiteController extends Controller
     /** "/": a 302 to the language the visitor chose before (cookie only), otherwise a chooser. */
     public function root(Request $request): RedirectResponse|Response
     {
+        Languages::filter(); // a language that is off (Settings, Languages) is neither offered nor followed
         $remembered = (string) $request->cookie(config('summit.locale_cookie'));
         if (array_key_exists($remembered, config('summit.locales'))) {
             return redirect()->to(SiteUrl::home($remembered), 302);
@@ -32,6 +34,7 @@ final class SiteController extends Controller
     /** Released pages only (the three homepages in Phase 1), with reciprocal alternates. */
     public function sitemap(): Response
     {
+        Languages::apply();
         $released = [['code' => 'P01', 'path' => '']];
         foreach (config('summit.pages') as $code => $page) {
             if ($code !== 'P01' && ($page['built'] ?? false)) {

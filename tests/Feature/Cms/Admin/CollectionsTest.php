@@ -66,6 +66,7 @@ final class CollectionsTest extends TestCase
     {
         $user = User::factory()->create();
         $user->forceFill(['is_admin' => true])->save();
+        $this->grantRole($user);
         $this->actingAs($user);
         Filament::setCurrentPanel(Filament::getPanel('admin'));
 

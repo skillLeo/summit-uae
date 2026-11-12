@@ -37,6 +37,11 @@ class Dashboard extends BaseDashboard
         return (string) __('dashboard.subheading');
     }
 
+    public static function canAccess(): bool
+    {
+        return CmsAccess::can('dashboard', 'view');
+    }
+
     public function getWidgets(): array
     {
         $widgets = [KpiTiles::class, RequestsChart::class, NeedsAttention::class, LatestRequests::class, ContentStatus::class];

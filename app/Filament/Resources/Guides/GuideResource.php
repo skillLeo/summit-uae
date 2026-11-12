@@ -37,6 +37,8 @@ use Illuminate\Validation\Rule;
  */
 class GuideResource extends CmsResource
 {
+    protected static string $screen = 'guides';
+
     protected static ?string $model = Guide::class;
 
     protected static ?string $slug = 'guides';

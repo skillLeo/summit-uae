@@ -300,6 +300,7 @@ return [
 
     'access' => [
         'super_admin' => 'Only the super admin can do this.',
+        'denied' => 'Your role does not allow this.',
     ],
 
 ];

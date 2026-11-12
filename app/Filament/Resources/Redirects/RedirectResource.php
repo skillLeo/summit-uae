@@ -85,9 +85,20 @@ class RedirectResource extends Resource
         return $record instanceof Redirect ? (string) $record->from_path : static::getModelLabel();
     }
 
-    public static function canAccess(): bool
+    public static function screen(): string
     {
-        return CmsAccess::admin();
+        return 'redirects';
+    }
+
+    /** The permission matrix answers every authorization question (App\Filament\Cms\CmsResource). */
+    public static function getAuthorizationResponse(string|\UnitEnum $action, ?Model $record = null): \Illuminate\Auth\Access\Response
+    {
+        $action = $action instanceof \UnitEnum ? $action->name : $action;
+        $ability = \App\Filament\Cms\CmsResource::ABILITY[$action] ?? $action;
+
+        return CmsAccess::can('redirects', $ability)
+            ? \Illuminate\Auth\Access\Response::allow()
+            : \Illuminate\Auth\Access\Response::deny((string) __('cms.access.denied'));
     }
 
     public static function form(Schema $schema): Schema

@@ -2,7 +2,10 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Http\Middleware\EnsureTwoFactor;
 use App\Filament\Http\Middleware\PrepareAdminRequest;
+use Filament\Auth\MultiFactor\App\AppAuthentication;
+use Filament\Auth\MultiFactor\Email\EmailAuthentication;
 use App\Filament\Http\Middleware\SetAdminLocale;
 use App\Filament\Pages\Auth\EditProfile;
 use App\Filament\Pages\Dashboard;
@@ -58,6 +61,13 @@ class AdminPanelProvider extends PanelProvider
             ->path(self::PATH)
             ->login()
             ->profile(EditProfile::class, isSimple: false)
+            // Two-factor (brief §12.2): an authenticator app (with recovery codes) or an e-mail code; required for the super
+            // admin and the admin (EnsureTwoFactor asks the roles; Filament decides at boot whether it runs at all).
+            ->multiFactorAuthentication([
+                AppAuthentication::make()->recoverable()->brandName('Summit Legal Consultancy'),
+                EmailAuthentication::make(),
+            ], isRequired: true)
+            ->multiFactorAuthenticationRequiredMiddlewareName(EnsureTwoFactor::class)
             ->brandName(fn (): string => AdminBrand::name())
             ->brandLogo(fn () => AdminBrand::logo())
             ->brandLogoHeight('2.5rem')
@@ -65,9 +75,10 @@ class AdminPanelProvider extends PanelProvider
             ->colors(AdminPalette::colors())
             ->font('D2 Sans', provider: LocalFontProvider::class)
             ->viteTheme('resources/css/filament/admin/theme.css', 'build-admin')
-            ->darkMode(false)
-            ->topbar(false)
+            ->darkMode(true)
             ->sidebarWidth('17rem')
+            ->sidebarFullyCollapsibleOnDesktop()
+            ->collapsibleNavigationGroups()
             ->globalSearch(false)
             ->unsavedChangesAlerts()
             ->databaseNotifications()
@@ -80,6 +91,7 @@ class AdminPanelProvider extends PanelProvider
             ->renderHook(PanelsRenderHook::BODY_END, fn () => view('filament.cms.scripts'))
             ->renderHook(PanelsRenderHook::BODY_END, fn () => auth()->check() ? view('filament.admin.shortcuts') : '')
             ->renderHook(PanelsRenderHook::CONTENT_START, fn () => view('filament.admin.demo-banner'))
+            ->renderHook(PanelsRenderHook::GLOBAL_SEARCH_BEFORE, fn () => auth()->check() ? view('filament.admin.topbar') : '')
             ->navigationGroups(self::navigationGroups())
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Cms/Pages'), for: 'App\Filament\Cms\Pages')

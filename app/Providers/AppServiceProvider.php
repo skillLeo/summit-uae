@@ -49,6 +49,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Admin passwords (brief §12.2): at least 12 characters with letters and digits (Filament's profile and set-up).
+        \Illuminate\Validation\Rules\Password::defaults(fn () => \Illuminate\Validation\Rules\Password::min(12)->letters()->numbers());
+
+        // The super admin may do everything (docs/briefs/design-2.1-and-admin-cms.md §12.1; App\Access\Screens).
+        \Illuminate\Support\Facades\Gate::before(fn ($user, string $ability) => $user instanceof \App\Models\User && $user->canUsePanel() && $user->hasRole(\App\Access\Screens::SUPER_ADMIN) ? true : null);
+
         // Stable names for the polymorphic revisions (CMS, brief §8.5); other morphs keep their class names.
         Relation::morphMap([
             'page' => Page::class,

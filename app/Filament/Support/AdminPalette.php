@@ -2,7 +2,10 @@
 
 namespace App\Filament\Support;
 
+use App\Http\Middleware\SecurityHeaders;
 use Filament\Support\Colors\Color;
+use Illuminate\Support\Facades\DB;
+use Throwable;
 
 /**
  * The admin panel's Filament colour palettes, built from the Design 2 tokens (resources/css/d2/tokens.css;
@@ -23,6 +26,9 @@ use Filament\Support\Colors\Color;
  * Filament fills a button with shade 600 and hovers it with 500 when white text passes AA on both, otherwise it
  * falls back to 400 with dark text: each state colour at 500 and a darker step at 600 therefore gives buttons with
  * white text; links and small primary text use 600 (bronze-700). The full admin look is Phase 7 (brief §13).
+ *
+ * The Brand accent (Settings, Brand: brand.accent, super admin only, contrast-checked there) replaces the primary
+ * palette of the admin pages when it is set; null (the default) keeps the bronze above. It never reaches the public CSS.
  */
 final class AdminPalette
 {
@@ -65,11 +71,17 @@ final class AdminPalette
     /** @var array<string, string>|null */
     private static ?array $tokens = null;
 
-    /** @return array<string, array<int, string>> Filament ->colors([...]) */
-    public static function colors(): array
+    /**
+     * @param  string|null  $accent  "#RRGGBB" to build the primary palette from; null = the stored Brand accent of an
+     *                               admin request, if any (accent()), else bronze
+     * @return array<string, array<int, string>> Filament ->colors([...])
+     */
+    public static function colors(?string $accent = null): array
     {
+        $accent ??= self::accent();
+
         return [
-            'primary' => self::primary(),
+            'primary' => $accent === null ? self::primary() : self::accentPalette($accent),
             'gray' => self::gray(),
             'success' => self::semantic('success'),
             'warning' => self::semantic('warning'),
@@ -96,6 +108,46 @@ final class AdminPalette
             900 => $generated[900],
             950 => $generated[950],
         ];
+    }
+
+    /** The primary palette from a Brand accent: the accent at 500, a darker step at 600 (buttons, links). */
+    public static function accentPalette(string $accent): array
+    {
+        $accent = strtoupper($accent);
+        $generated = Color::generatePalette($accent);
+
+        return [
+            50 => $generated[50],
+            100 => $generated[100],
+            200 => $generated[200],
+            300 => $generated[300],
+            400 => $generated[400],
+            500 => $accent,
+            600 => self::mix($accent, $generated[800]),
+            700 => $generated[800],
+            800 => $generated[900],
+            900 => self::mix($generated[900], $generated[950]),
+            950 => $generated[950],
+        ];
+    }
+
+    /**
+     * The stored Brand accent ("#RRGGBB"), read only for a request of the admin panel (the panel's colours are
+     * registered on every request; public pages never read it), or null: unset, invalid or unreadable.
+     */
+    public static function accent(): ?string
+    {
+        try {
+            if (! app()->bound('request') || ! SecurityHeaders::isAdminRequest(request())) {
+                return null;
+            }
+            $payload = DB::table('settings')->where('group', 'brand')->where('name', 'accent')->value('payload');
+            $value = is_string($payload) ? json_decode($payload, true) : null;
+
+            return is_string($value) && preg_match('/^#[0-9A-Fa-f]{6}$/', $value) === 1 ? strtoupper($value) : null;
+        } catch (Throwable) {
+            return null;
+        }
     }
 
     /** @return array<int, string> */

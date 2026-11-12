@@ -25,6 +25,8 @@ class GeneralContact extends SettingsPage
 {
     use EditsSettings;
 
+    protected static string $screen = 'settings_general';
+
     protected static string $settings = ContactSettings::class;
 
     protected static ?string $slug = 'settings/contact';

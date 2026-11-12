@@ -1,0 +1,259 @@
+/*
+ * The admin shell (docs/briefs/design-2.1-and-admin-cms.md §9.1, §13; Phase 7): the top bar (Search with Cmd/Ctrl+K,
+ * View site), the search dialog, and dark mode built from the Design 2 dark tokens. Logical properties (LTR + RTL).
+ */
+
+/* dark mode: the same tokens, dark values (Filament adds .dark to <html>). Unlayered, like the light values. */
+html.fi.dark {
+    color-scheme: dark;
+    --canvas: #151517;
+    --surface: #151517;
+    --band: #1f1f23;
+    --surface-sunken: #0b0b0c;
+    --canvas-hover: #1f1f23;
+    --ink: #f4f4f5;
+    --ink-2: #d4d4d8;
+    --ink-3: #a1a1aa;
+    --line: #27272a;
+    --line-strong: #3f3f46;
+    --field-border: #71717a;
+    --bronze: #d9b26a;
+    --bronze-700: #e2cf9f;
+    --focus: #e2cf9f;
+    --success: #6fcf97;
+    --danger: #f19a92;
+    --warning: #f2c46d;
+    --badge-neutral-fg: #d4d4d8;
+    --badge-neutral-bg: #27272a;
+    --badge-info-fg: #9dbdf0;
+    --badge-info-bg: rgb(79 130 203 / 0.18);
+    --badge-success-fg: #8fd8ae;
+    --badge-success-bg: rgb(30 107 71 / 0.28);
+    --badge-warning-fg: #f2c46d;
+    --badge-warning-bg: rgb(138 83 0 / 0.3);
+    --badge-danger-fg: #f19a92;
+    --badge-danger-bg: rgb(180 35 24 / 0.28);
+    --badge-brand-fg: #e2cf9f;
+    --badge-brand-bg: rgb(176 125 43 / 0.22);
+    --info-line: rgb(79 130 203 / 0.4);
+    --backdrop: rgb(0 0 0 / 0.6);
+}
+
+html.fi.dark body,
+html.fi.dark .fi-layout,
+html.fi.dark .fi-main-ctn {
+    background-color: var(--surface-sunken);
+}
+
+@layer components {
+    /* -------------------------------------------------------------- top bar */
+    .fi-topbar {
+        background-color: var(--canvas);
+        border-block-end: 1px solid var(--line);
+        box-shadow: none;
+    }
+
+    .slc-topbar {
+        display: flex;
+        align-items: center;
+        gap: var(--s-2);
+        margin-inline-end: var(--s-2);
+    }
+
+    .slc-topbar__search,
+    .slc-topbar__site {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--s-2);
+        min-block-size: 2.5rem;
+        padding-inline: var(--s-3);
+        border: 1px solid var(--line-strong);
+        border-radius: var(--r-sm);
+        background: var(--canvas);
+        color: var(--ink-2);
+        font: inherit;
+        font-size: 0.875rem;
+        font-weight: 500;
+        cursor: pointer;
+    }
+
+    .slc-topbar__search {
+        min-inline-size: 15rem;
+    }
+
+    .slc-topbar__search .slc-kbd {
+        margin-inline-start: auto;
+    }
+
+    .slc-topbar__search:hover,
+    .slc-topbar__site:hover {
+        border-color: var(--field-border);
+        color: var(--ink);
+    }
+
+    .slc-topbar__search:focus-visible,
+    .slc-topbar__site:focus-visible {
+        outline: 2px solid var(--focus);
+        outline-offset: 2px;
+    }
+
+    .slc-topbar__icon {
+        inline-size: 1.125rem;
+        block-size: 1.125rem;
+        color: var(--ink-3);
+    }
+
+    @media (width < 48rem) {
+        .slc-topbar__search {
+            min-inline-size: 0;
+        }
+
+        .slc-topbar__search > span,
+        .slc-topbar__search .slc-kbd,
+        .slc-topbar__site > span {
+            position: absolute;
+            inline-size: 1px;
+            block-size: 1px;
+            overflow: hidden;
+            clip-path: inset(50%);
+            white-space: nowrap;
+        }
+
+        .slc-topbar__search,
+        .slc-topbar__site {
+            inline-size: 2.75rem;
+            min-block-size: 2.75rem;
+            justify-content: center;
+            padding-inline: 0;
+        }
+    }
+
+    /* -------------------------------------------------------------- search dialog */
+    .slc-search {
+        inline-size: min(40rem, calc(100vw - 2rem));
+        max-block-size: min(36rem, calc(100dvh - 6rem));
+        margin: 10vh auto auto;
+        padding: 0;
+        border: 1px solid var(--line);
+        border-radius: var(--r-lg);
+        background: var(--canvas);
+        color: var(--ink);
+        box-shadow: var(--shadow-overlay);
+        overflow: hidden;
+    }
+
+    .slc-search[open] {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .slc-search::backdrop {
+        background: rgb(11 11 12 / 0.32);
+    }
+
+    .slc-search__field {
+        display: flex;
+        align-items: center;
+        gap: var(--s-3);
+        padding: var(--s-3) var(--s-4);
+        border-block-end: 1px solid var(--line);
+    }
+
+    .slc-search__icon {
+        flex: none;
+        inline-size: 1.25rem;
+        block-size: 1.25rem;
+        color: var(--ink-3);
+    }
+
+    .slc-search__field input {
+        flex: 1;
+        min-inline-size: 0;
+        min-block-size: 2.75rem;
+        border: 0;
+        background: transparent;
+        color: var(--ink);
+        font: inherit;
+        font-size: 1rem;
+        outline: none;
+    }
+
+    .slc-search__field input::-webkit-search-cancel-button {
+        appearance: none;
+    }
+
+    .slc-search__close {
+        min-block-size: 2.25rem;
+        padding-inline: var(--s-3);
+        border: 1px solid var(--line-strong);
+        border-radius: var(--r-sm);
+        background: var(--canvas);
+        color: var(--ink-2);
+        font: inherit;
+        font-size: 0.8125rem;
+        cursor: pointer;
+    }
+
+    .slc-search__results {
+        overflow-y: auto;
+        padding: var(--s-2);
+    }
+
+    .slc-search__group {
+        margin: var(--s-3) var(--s-3) var(--s-1);
+        font-size: 0.8125rem;
+        font-weight: 600;
+        color: var(--ink-3);
+    }
+
+    .slc-search__item {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: var(--s-3);
+        min-block-size: 2.75rem;
+        padding: var(--s-2) var(--s-3);
+        border-radius: var(--r-sm);
+        color: var(--ink);
+        text-decoration: none;
+    }
+
+    .slc-search__item:hover,
+    .slc-search__item:focus-visible {
+        background: var(--band);
+        outline: none;
+    }
+
+    .slc-search__item:focus-visible {
+        box-shadow: inset 0 0 0 2px var(--focus);
+    }
+
+    .slc-search__title {
+        font-size: 0.875rem;
+        font-weight: 500;
+        min-inline-size: 0;
+        overflow-wrap: anywhere;
+    }
+
+    .slc-search__meta {
+        flex: none;
+        max-inline-size: 45%;
+        font-size: 0.8125rem;
+        color: var(--ink-3);
+        text-align: end;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .slc-search__empty {
+        margin: var(--s-4) var(--s-3);
+        font-size: 0.875rem;
+        color: var(--ink-3);
+    }
+
+    /* the role matrix: one compact row of abilities per screen */
+    [data-matrix] .fi-fo-checkbox-list-option {
+        min-block-size: 2.25rem;
+    }
+}

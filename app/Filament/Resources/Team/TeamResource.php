@@ -51,6 +51,8 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  */
 class TeamResource extends CmsResource
 {
+    protected static string $screen = 'team';
+
     protected static ?string $model = TeamMember::class;
 
     protected static ?string $slug = 'team';

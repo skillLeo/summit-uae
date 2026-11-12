@@ -43,6 +43,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class DocumentSampleResource extends CmsResource
 {
+    protected static string $screen = 'document_samples';
+
     protected static ?string $model = DocumentSample::class;
 
     protected static ?string $slug = 'document-samples';

@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * Injects the floating "Design 1 | Design 2" switch into HTML responses when SUMMIT_DESIGN_SWITCHER is
- * on. Injecting it here (inline CSS/JS carrying the CSP nonce) keeps every Design 1 template and both
+ * on (or, when Settings, Design Preview sets it, for admins only or admins and share links: DesignManager::showsSwitcher). Injecting it here (inline CSS/JS carrying the CSP nonce) keeps every Design 1 template and both
  * asset builds untouched. Requests with the QA cookie (summit_qa=1) or header (X-Summit-QA) never get it,
  * so screenshots and Lighthouse runs stay clean.
  */
@@ -24,13 +24,13 @@ final class DesignSwitcher
     {
         $response = $next($request);
 
-        if (! config('design.switcher')
-            || $request->headers->has((string) config('design.qa_header'))
+        if ($request->headers->has((string) config('design.qa_header'))
             || $request->cookies->get((string) config('design.qa_cookie')) === '1'
             || $response instanceof StreamedResponse
             || $response instanceof BinaryFileResponse
             || $response->isRedirection()
-            || ! str_contains((string) $response->headers->get('Content-Type', 'text/html'), 'text/html')) {
+            || ! str_contains((string) $response->headers->get('Content-Type', 'text/html'), 'text/html')
+            || ! $this->designs->showsSwitcher($request)) {
             return $response;
         }
 

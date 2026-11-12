@@ -56,6 +56,8 @@ use UnitEnum;
  */
 class CalculatorResource extends CmsResource
 {
+    protected static string $screen = 'calculators';
+
     protected static ?string $model = CalculatorRuleSet::class;
 
     protected static ?string $slug = 'calculators';
@@ -76,40 +78,16 @@ class CalculatorResource extends CmsResource
 
     // ------------------------------------------------------------------ access: super admin only (the Phase 7 hook)
 
-    public static function canAccess(): bool
-    {
-        return CmsAccess::superAdmin();
-    }
 
-    public static function canViewAny(): bool
-    {
-        return CmsAccess::superAdmin();
-    }
 
-    public static function canView(Model $record): bool
-    {
-        return CmsAccess::superAdmin();
-    }
 
     public static function canCreate(): bool
     {
         return false; // a new version is made by "New version" (a copy of the latest one)
     }
 
-    public static function canEdit(Model $record): bool
-    {
-        return CmsAccess::superAdmin();
-    }
 
-    public static function canDelete(Model $record): bool
-    {
-        return CmsAccess::superAdmin();
-    }
 
-    public static function canDeleteAny(): bool
-    {
-        return CmsAccess::superAdmin();
-    }
 
     public static function getRecordTitle(?Model $record): string
     {

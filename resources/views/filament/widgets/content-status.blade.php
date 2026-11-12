@@ -24,7 +24,7 @@
             </div>
             @foreach ($f['missing'] as $locale => $count)
                 <div>
-                    <dt>{{ __('dashboard.content.missing') }}: <span lang="{{ $locale }}">{{ \App\Filament\Support\AdminLocale::nativeName($locale) }}</span></dt>
+                    <dt>{{ __('dashboard.content.missing') }}: <bdi lang="{{ $locale }}" dir="{{ $locale === 'ar' ? 'rtl' : 'ltr' }}">{{ \App\Filament\Support\AdminLocale::nativeName($locale) }}</bdi></dt>
                     <dd class="slc-tabular">{{ \App\Filament\Support\RequestFormat::number($count, 0) }}</dd>
                 </div>
             @endforeach

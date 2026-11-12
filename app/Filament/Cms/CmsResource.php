@@ -47,30 +47,36 @@ abstract class CmsResource extends Resource
         return $record === null ? static::getModelLabel() : Registry::label($record);
     }
 
-    public static function canAccess(): bool
+    /** The screen key of the permission matrix (App\Access\Screens). */
+    protected static string $screen = 'pages';
+
+    public static function screen(): string
     {
-        return CmsAccess::admin();
+        return static::$screen;
     }
 
-    public static function canForceDelete(Model $record): bool
-    {
-        return CmsAccess::superAdmin();
-    }
+    /** Filament's policy actions → the abilities of the matrix (§12.1). */
+    public const ABILITY = [
+        'viewAny' => 'view', 'view' => 'view',
+        'create' => 'create', 'replicate' => 'create',
+        'update' => 'update', 'reorder' => 'update',
+        'delete' => 'delete', 'deleteAny' => 'delete',
+        'restore' => 'restore', 'restoreAny' => 'restore',
+        'forceDelete' => 'force_delete', 'forceDeleteAny' => 'force_delete',
+    ];
 
-    public static function canForceDeleteAny(): bool
+    /**
+     * Every Filament authorization question (can*(), the actions' authorization responses) is answered by the permission
+     * matrix: CmsAccess::can(screen, ability). Permanent delete is the super admin's by default (Screens::roles()).
+     */
+    public static function getAuthorizationResponse(string|\UnitEnum $action, ?Model $record = null): Response
     {
-        return CmsAccess::superAdmin();
-    }
+        $action = $action instanceof \BackedEnum ? (string) $action->value : ($action instanceof \UnitEnum ? $action->name : $action);
+        $ability = self::ABILITY[$action] ?? $action;
 
-    /** Filament 5 actions ask the authorization responses, not canForceDelete(): permanent delete is super admin only. */
-    public static function getForceDeleteAuthorizationResponse(Model $record): Response
-    {
-        return CmsAccess::superAdmin() ? Response::allow() : Response::deny((string) __('cms.access.super_admin'));
-    }
-
-    public static function getForceDeleteAnyAuthorizationResponse(): Response
-    {
-        return CmsAccess::superAdmin() ? Response::allow() : Response::deny((string) __('cms.access.super_admin'));
+        return CmsAccess::can(static::screen(), $ability)
+            ? Response::allow()
+            : Response::deny((string) __($ability === 'force_delete' ? 'cms.access.super_admin' : 'cms.access.denied'));
     }
 
     public static function getRelations(): array

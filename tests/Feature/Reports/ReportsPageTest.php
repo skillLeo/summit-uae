@@ -52,6 +52,7 @@ final class ReportsPageTest extends TestCase
     {
         $user = User::factory()->create(['name' => 'Report Admin']);
         $user->forceFill(['is_admin' => true, 'admin_locale' => $locale])->save();
+        $this->grantRole($user);
 
         return $user;
     }

@@ -17,6 +17,16 @@ return [
     // Floating "Design 1 | Design 2" switch (Alt+1 / Alt+2). Internal demo tool: keep it off in production.
     'switcher' => (bool) env('SUMMIT_DESIGN_SWITCHER', false),
 
+    // Settings, Design Preview (App\Settings\DesignSettings, brief 2.1 §12.3) may choose the default design and who sees
+    // the switch (off, admins only, admins and share links); null there = the two values above. The raw environment
+    // value (null when unset) lets SUMMIT_DESIGN_SWITCHER=false always win in production (DesignManager::switcherMode).
+    'switcher_env' => env('SUMMIT_DESIGN_SWITCHER'),
+    // "Create share link": a signed link, valid this many days, that shows the switch in the browser that opens it
+    // (this query parameter carries the link version; the cookie remembers it until the link expires).
+    'share_days' => 7,
+    'share_param' => 'design_preview',
+    'share_cookie' => 'summit_design_share',
+
     'cookie' => 'summit_design',
 
     'cookie_minutes' => 60 * 24 * 365,

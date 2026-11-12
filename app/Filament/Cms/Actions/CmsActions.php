@@ -48,6 +48,8 @@ final class CmsActions
     public static function publish(): Action
     {
         return Action::make('cmsPublish')
+            ->visible(fn (mixed $livewire): bool => self::allowed($livewire, 'publish'))
+            ->authorize(fn (mixed $livewire): bool => self::allowed($livewire, 'publish'))
             ->label((string) __('cms.action.publish'))
             ->icon(Heroicon::OutlinedCloudArrowUp)
             ->color('primary')
@@ -128,6 +130,7 @@ final class CmsActions
         $zone = EnquiryStats::timezone();
 
         return Action::make('cmsSchedule')
+            ->authorize(fn (mixed $livewire): bool => self::allowed($livewire, 'publish'))
             ->label((string) __('cms.action.schedule'))
             ->icon(Heroicon::OutlinedClock)
             ->color('gray')
@@ -156,6 +159,7 @@ final class CmsActions
     public static function unschedule(): Action
     {
         return Action::make('cmsUnschedule')
+            ->authorize(fn (mixed $livewire): bool => self::allowed($livewire, 'publish'))
             ->label((string) __('cms.action.unschedule'))
             ->icon(Heroicon::OutlinedXMark)
             ->color('gray')
@@ -170,6 +174,7 @@ final class CmsActions
     public static function unpublish(): Action
     {
         return Action::make('cmsUnpublish')
+            ->authorize(fn (mixed $livewire): bool => self::allowed($livewire, 'publish'))
             ->label((string) __('cms.action.unpublish'))
             ->icon(Heroicon::OutlinedEyeSlash)
             ->color('gray')
@@ -225,8 +230,8 @@ final class CmsActions
             ->label((string) __('cms.action.force_delete'))
             ->modalDescription((string) __('cms.action.force_delete_body'))
             ->successNotificationTitle((string) __('cms.action.force_deleted'))
-            ->visible(fn (Model $record) => CmsAccess::superAdmin() && method_exists($record, 'trashed') && $record->trashed())
-            ->authorize(fn () => CmsAccess::superAdmin())
+            ->visible(fn (Model $record, mixed $livewire) => self::allowed($livewire, 'force_delete') && method_exists($record, 'trashed') && $record->trashed())
+            ->authorize(fn (mixed $livewire) => self::allowed($livewire, 'force_delete'))
             ->before(fn (Model $record) => $record->revisions()->delete());
     }
 
@@ -235,6 +240,8 @@ final class CmsActions
     public static function bulkPublish(): BulkAction
     {
         return BulkAction::make('cmsBulkPublish')
+            ->visible(fn (mixed $livewire): bool => self::allowed($livewire, 'publish'))
+            ->authorize(fn (mixed $livewire): bool => self::allowed($livewire, 'publish'))
             ->label((string) __('cms.action.publish'))
             ->icon(Heroicon::OutlinedCloudArrowUp)
             ->requiresConfirmation()
@@ -249,6 +256,8 @@ final class CmsActions
     public static function bulkUnpublish(): BulkAction
     {
         return BulkAction::make('cmsBulkUnpublish')
+            ->visible(fn (mixed $livewire): bool => self::allowed($livewire, 'publish'))
+            ->authorize(fn (mixed $livewire): bool => self::allowed($livewire, 'publish'))
             ->label((string) __('cms.action.unpublish'))
             ->icon(Heroicon::OutlinedEyeSlash)
             ->requiresConfirmation()
@@ -293,6 +302,19 @@ final class CmsActions
     }
 
     /** The record of an action group (groups get no record of their own): the action's, else the page's. */
+    /** The permission-matrix screen of the page or table an action runs on (App\Filament\Cms\CmsResource::screen()). */
+    public static function screenOf(mixed $livewire): string
+    {
+        $resource = is_object($livewire) && method_exists($livewire, 'getResource') ? $livewire::getResource() : null;
+
+        return $resource !== null && method_exists($resource, 'screen') ? $resource::screen() : 'pages';
+    }
+
+    public static function allowed(mixed $livewire, string $ability): bool
+    {
+        return CmsAccess::can(self::screenOf($livewire), $ability);
+    }
+
     private static function recordOf(?Model $record, mixed $livewire): ?Model
     {
         if ($record !== null) {

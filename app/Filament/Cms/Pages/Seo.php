@@ -49,6 +49,8 @@ use UnitEnum;
  */
 class Seo extends SettingsPage implements HasTable
 {
+    protected static string $screen = 'seo';
+
     use EditsSettings;
     use InteractsWithTable;
 
@@ -73,12 +75,12 @@ class Seo extends SettingsPage implements HasTable
     /** SEO is an admin screen (brief §12.1 Admin: "SEO"), not a super-admin one. */
     public static function canAccess(): bool
     {
-        return CmsAccess::admin();
+        return CmsAccess::can('seo', 'view');
     }
 
     public function canEdit(): bool
     {
-        return CmsAccess::admin();
+        return CmsAccess::can('seo', 'update');
     }
 
     public static function getNavigationLabel(): string

@@ -43,7 +43,7 @@ class ApprovalReport extends Page implements HasTable
 
     public static function canAccess(): bool
     {
-        return CmsAccess::admin();
+        return CmsAccess::can('approval_report', 'view');
     }
 
     public static function getNavigationLabel(): string

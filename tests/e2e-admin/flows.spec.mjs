@@ -1,7 +1,7 @@
 // Phase 4 admin flows (docs/briefs/design-2.1-and-admin-cms.md §14.2): each one edits in the admin and checks the
 // public Design 2 page as a visitor. They run in order; the teardown restores the approved content.
 import { test, expect } from '@playwright/test';
-import { signIn, publicHtml, publish, saveDraft, settle, blockItem } from './support.mjs';
+import { signIn, publicHtml, publish, saveDraft, saveSettings, settle, blockItem } from './support.mjs';
 
 const SHOTS = 'storage/app/d2/phase-4/flows';
 
@@ -119,8 +119,7 @@ test('change office hours and see the contact block update', async ({ page, brow
   await page.goto('/admin/settings/office-hours');
   const close = page.getByLabel(/Clos/i).first();
   await close.fill('17:00');
-  await page.getByRole('button', { name: /^Save/ }).first().click();
-  await settle(page);
+  await saveSettings(page);
   expect((await read()).close).toBe('17:00');
 });
 
@@ -130,8 +129,7 @@ test('change WA01 and see every WhatsApp link update', async ({ page, browser, b
   await page.goto('/admin/settings/whatsapp');
   const en = page.locator('.cms-locale-en textarea, textarea[lang="en"]').first();
   await en.fill(draft);
-  await page.getByRole('button', { name: /^Save/ }).first().click();
-  await settle(page);
+  await saveSettings(page);
   // Pages without a page-specific approved WhatsApp message (the practice-area pages carry their own DOCX draft, which
   // equals WA01 today: an owner decision in docs/d2.1/phase-4/README.md).
   for (const path of ['/en/', '/en/contact/', '/en/about/', '/en/faq/']) {

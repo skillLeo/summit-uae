@@ -48,6 +48,8 @@ use UnitEnum;
  */
 class NavigationResource extends CmsResource
 {
+    protected static string $screen = 'navigation';
+
     protected static ?string $model = NavigationMenu::class;
 
     protected static ?string $slug = 'navigation';

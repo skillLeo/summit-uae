@@ -44,3 +44,13 @@ export async function saveDraft(page) {
 export function blockItem(page, label) {
   return page.locator('.fi-fo-builder-item').filter({ has: page.locator('.fi-fo-builder-item-header-label', { hasText: label }) }).first();
 }
+
+/** Save a settings screen: Save, then the confirmation dialog (Phase 7: settings saves are confirmed and logged). */
+export async function saveSettings(page) {
+  await page.getByRole('button', { name: /^Save/ }).first().click();
+  const modal = page.locator('.fi-modal-window').filter({ has: page.getByRole('heading') }).last();
+  await expect(modal).toBeVisible();
+  await modal.locator('button[type=submit], .fi-modal-footer-actions button').filter({ hasText: /Save/ }).last().click();
+  await expect(modal).toBeHidden();
+  await settle(page);
+}

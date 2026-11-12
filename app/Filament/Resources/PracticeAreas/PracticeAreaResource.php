@@ -43,6 +43,8 @@ use Illuminate\Validation\Rule;
  */
 class PracticeAreaResource extends CmsResource
 {
+    protected static string $screen = 'practice_areas';
+
     protected static ?string $model = Service::class;
 
     protected static ?string $slug = 'practice-areas';

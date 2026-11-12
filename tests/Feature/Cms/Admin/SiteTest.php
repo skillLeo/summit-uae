@@ -63,6 +63,7 @@ final class SiteTest extends TestCase
     {
         $user = User::factory()->create();
         $user->forceFill(['is_admin' => true])->save();
+        $this->grantRole($user);
 
         return $user;
     }
@@ -264,7 +265,8 @@ final class SiteTest extends TestCase
         $this->get(CalculatorResource::getUrl('index'))->assertOk();
         $this->get(CalculatorResource::getUrl('edit', ['record' => $record]))->assertOk()->assertSee('cms-calc-results', escape: false);
 
-        config(['cms.super_admin_is_admin' => false]);
+        // the calculator rules belong to the super admin: an admin is refused
+        $this->grantRole(auth()->user(), 'admin');
         $this->get(CalculatorResource::getUrl('index'))->assertForbidden();
         $this->get(CalculatorResource::getUrl('edit', ['record' => $record]))->assertForbidden();
         Livewire::test(ListCalculatorRuleSets::class)->assertForbidden();

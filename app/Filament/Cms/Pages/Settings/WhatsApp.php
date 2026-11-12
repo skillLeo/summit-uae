@@ -31,6 +31,8 @@ class WhatsApp extends SettingsPage
 {
     use EditsSettings;
 
+    protected static string $screen = 'settings_whatsapp';
+
     protected static string $settings = WhatsAppSettings::class;
 
     protected static ?string $slug = 'settings/whatsapp';
@@ -105,6 +107,11 @@ class WhatsApp extends SettingsPage
         $pages = Limits::for('pages')['whatsapp_draft'] ?? 0;
 
         return max(600, (int) ceil(max($longest, (int) $pages) * 1.15));
+    }
+
+    protected function fieldLabels(): array
+    {
+        return ['draft' => (string) __('cms_site.whatsapp.draft')];
     }
 
     protected function settingsToForm(array $data): array

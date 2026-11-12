@@ -44,6 +44,7 @@ final class MediaTest extends TestCase
         $this->withoutVite();
         $user = User::factory()->create();
         $user->forceFill(['is_admin' => true])->save();
+        $this->grantRole($user);
         $this->actingAs($user);
         Filament::setCurrentPanel('admin');
     }
