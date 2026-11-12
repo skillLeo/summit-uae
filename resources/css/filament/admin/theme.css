@@ -223,6 +223,17 @@ html.fi:not(:lang(ar)) [lang="ar"] {
     .fi-sidebar-nav {
         padding-block: var(--s-5);
         padding-inline: var(--s-4);
+        /* the menu scrolls when it is taller than the window: a thin scrollbar that shows only while the pointer is
+           over the menu or it has focus (with "always show scrollbars" on, the system bar otherwise stays visible) */
+        scrollbar-width: thin;
+        scrollbar-color: transparent transparent;
+        scrollbar-gutter: stable;
+        transition: scrollbar-color var(--dur-2, 200ms) ease;
+    }
+
+    .fi-sidebar-nav:hover,
+    .fi-sidebar-nav:focus-within {
+        scrollbar-color: color-mix(in srgb, var(--ink-3) 45%, transparent) transparent;
     }
 
     .fi-sidebar-nav-groups {
