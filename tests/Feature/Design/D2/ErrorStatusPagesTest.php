@@ -2,11 +2,9 @@
 
 namespace Tests\Feature\Design\D2;
 
-use App\Design\DesignManager;
 use Database\Seeders\ContentSeeder;
 use Illuminate\Contracts\Foundation\MaintenanceMode;
 use Illuminate\Database\QueryException;
-use Illuminate\Foundation\Exceptions\RegisterErrorViewPaths;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Illuminate\Session\TokenMismatchException;
@@ -15,20 +13,17 @@ use Illuminate\Support\Facades\Exceptions;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Vite;
-use Illuminate\Support\ViewErrorBag;
 use Illuminate\Testing\TestResponse;
 use RuntimeException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Tests\TestCase;
 
 /**
  * Design 2 error pages 403, 419, 429, 500 and 503 (owner: error-pages; d2::errors.{status} → d2::errors.status).
  *
- * Laravel renders errors::{status}; DesignManager::apply() lists resources/views/designs/d2 first in
- * config('view.paths') for Design 2, which Laravel's handler maps to the errors:: namespace right before it
- * renders. So Design 2 gets its own page with the right status, in the language of the URL, noindex, without
- * the database, the exception, the address or the query; Design 1 (cookie 1, or no choice) keeps exactly the
- * stock page. bootstrap/app.php applies the design for errors thrown before SetDesign (maintenance mode).
+ * Laravel renders errors::{status}; config/view.php lists resources/views/designs/d2 first in config('view.paths'),
+ * which Laravel's handler maps to the errors:: namespace right before it renders. So every error page is Design 2's,
+ * with the right status, in the language of the URL, noindex, without the database, the exception, the address or
+ * the query, maintenance mode's 503 included.
  */
 final class ErrorStatusPagesTest extends TestCase
 {
@@ -70,28 +65,15 @@ final class ErrorStatusPagesTest extends TestCase
         };
     }
 
-    /** One request with a clean client: only the given design cookie, no session carried over. */
-    private function visit(string $uri, ?string $design): TestResponse
+    /** One request with a clean client: no cookies, no session carried over. */
+    private function visit(string $uri): TestResponse
     {
         $this->unencryptedCookies = [];
         $this->defaultCookies = [];
         $this->app['session']->driver()->flush();
-        $this->app->forgetInstance(DesignManager::class);
         $this->rendered = [];
 
-        return $this->withUnencryptedCookies($design === null ? [] : ['summit_design' => $design])->get($uri);
-    }
-
-    /**
-     * The stock page Laravel renders for a status (Design 1 has no error views but its 404), with the same
-     * exception message as raise() (the stock 403 prints it).
-     */
-    private function stock(int $status): string
-    {
-        (new RegisterErrorViewPaths)();
-        $exception = new HttpException($status, $status === 403 ? 'secret-policy-message' : '');
-
-        return view('errors::'.$status, ['errors' => new ViewErrorBag, 'exception' => $exception])->render();
+        return $this->get($uri);
     }
 
     private function fakeMaintenance(): void
@@ -149,7 +131,7 @@ final class ErrorStatusPagesTest extends TestCase
 
         foreach (self::STATUSES as $status) {
             foreach (array_keys(self::LOCALES) as $locale) {
-                $response = $this->visit("/{$locale}/d2-test-status/{$status}", '2')->assertStatus($status);
+                $response = $this->visit("/{$locale}/d2-test-status/{$status}")->assertStatus($status);
                 $html = (string) $response->getContent();
                 $this->assertDesignTwoPage($html, $status, $locale);
 
@@ -172,37 +154,12 @@ final class ErrorStatusPagesTest extends TestCase
 
     public function test_status_codes_and_headers_are_kept(): void
     {
-        $this->visit('/en/d2-test-status/429', '2')->assertStatus(429)->assertHeader('Retry-After', '60');
+        $this->visit('/en/d2-test-status/429')->assertStatus(429)->assertHeader('Retry-After', '60');
         foreach (self::STATUSES as $status) {
-            $response = $this->visit("/ar/d2-test-status/{$status}", '2')->assertStatus($status);
+            $response = $this->visit("/ar/d2-test-status/{$status}")->assertStatus($status);
             $this->assertStringStartsWith('text/html', (string) $response->headers->get('Content-Type'));
             $this->assertNotNull($response->headers->get('Content-Security-Policy'), 'the global security headers still apply');
         }
-    }
-
-    public function test_design_one_renders_exactly_the_stock_pages(): void
-    {
-        $this->assertSame([resource_path('views')], config('view.paths'));
-        $expected = [];
-        foreach (self::STATUSES as $status) {
-            $expected[$status] = $this->stock($status);
-        }
-
-        // A Design 2 request first: Design 1 must not inherit anything from it.
-        $this->visit('/en/d2-test-status/500', '2')->assertStatus(500);
-
-        foreach (self::STATUSES as $status) {
-            foreach (['no choice' => null, 'cookie 1' => '1'] as $label => $design) {
-                foreach (['en', 'ar'] as $locale) {
-                    $response = $this->visit("/{$locale}/d2-test-status/{$status}", $design)->assertStatus($status);
-                    $this->assertSame($expected[$status], $response->getContent(), "{$status} {$label} {$locale}: the stock page, byte for byte");
-                    $this->assertContains(base_path(self::STOCK."/{$status}.blade.php"), $this->rendered);
-                    $this->assertEmpty(array_filter($this->rendered, fn (string $path) => str_contains($path, 'designs/d2')), "{$status} {$label}: no Design 2 view");
-                    $this->assertSame([resource_path('views')], config('view.paths'), 'Design 1 keeps the original view paths');
-                }
-            }
-        }
-        $this->visit('/en/d2-test-status/429', '1')->assertHeader('Retry-After', '60');
     }
 
     public function test_maintenance_mode_renders_the_design_two_503(): void
@@ -210,21 +167,8 @@ final class ErrorStatusPagesTest extends TestCase
         $this->fakeMaintenance();
 
         foreach (self::LOCALES as $locale => $dir) {
-            $response = $this->visit("/{$locale}/", '2')->assertStatus(503)->assertHeader('Retry-After', '120');
+            $response = $this->visit("/{$locale}/")->assertStatus(503)->assertHeader('Retry-After', '120');
             $this->assertDesignTwoPage((string) $response->getContent(), 503, $locale);
-        }
-    }
-
-    public function test_maintenance_mode_keeps_the_stock_503_for_design_one(): void
-    {
-        $expected = $this->stock(503);
-        $this->fakeMaintenance();
-
-        foreach ([null, '1'] as $design) {
-            foreach (['en', 'ar'] as $locale) {
-                $response = $this->visit("/{$locale}/", $design)->assertStatus(503)->assertHeader('Retry-After', '120');
-                $this->assertSame($expected, $response->getContent(), ($design ?? 'no choice')." {$locale}");
-            }
         }
     }
 
@@ -241,16 +185,16 @@ final class ErrorStatusPagesTest extends TestCase
         ]);
 
         try {
-            $html = (string) $this->visit('/en/d2-test-database/', '2')->assertStatus(500)->getContent();
+            $html = (string) $this->visit('/en/d2-test-database/')->assertStatus(500)->getContent();
             $this->assertDesignTwoPage($html, 500, 'en');
             Exceptions::assertReported(fn (QueryException $e) => str_contains($e->getMessage(), 'Connection: gone'));
 
             foreach (self::STATUSES as $status) {
-                $this->assertDesignTwoPage((string) $this->visit("/ar/d2-test-status/{$status}", '2')->assertStatus($status)->getContent(), $status, 'ar');
+                $this->assertDesignTwoPage((string) $this->visit("/ar/d2-test-status/{$status}")->assertStatus($status)->getContent(), $status, 'ar');
             }
 
             $this->fakeMaintenance();
-            $this->assertDesignTwoPage((string) $this->visit('/ru/', '2')->assertStatus(503)->getContent(), 503, 'ru');
+            $this->assertDesignTwoPage((string) $this->visit('/ru/')->assertStatus(503)->getContent(), 503, 'ru');
         } finally {
             config(['database.default' => $default]);
         }
@@ -259,7 +203,7 @@ final class ErrorStatusPagesTest extends TestCase
     public function test_the_exception_the_address_and_the_query_are_never_shown(): void
     {
         foreach ([500, 403] as $status) {
-            $html = (string) $this->visit("/ru/d2-test-status/{$status}?name=Ivan&case=12345", '2')->assertStatus($status)->getContent();
+            $html = (string) $this->visit("/ru/d2-test-status/{$status}?name=Ivan&case=12345")->assertStatus($status)->getContent();
             foreach (['secret-detail', 'SQLSTATE', 'private.php', 'secret-policy-message', 'd2-test-status', 'Ivan', '12345', 'RuntimeException'] as $leak) {
                 $this->assertStringNotContainsString($leak, $html, "{$status}: {$leak}");
             }
@@ -276,13 +220,13 @@ final class ErrorStatusPagesTest extends TestCase
         $retry = '<a class="btn btn--%s btn--48" href="./">';
 
         // 403: back home (primary), then the approved U01 links.
-        $html = (string) $this->visit('/en/d2-test-status/403', '2')->getContent();
+        $html = (string) $this->visit('/en/d2-test-status/403')->getContent();
         $this->assertStringContainsString(sprintf($home, 'ink'), $html);
         $this->assertStringContainsString(e($u01['actions']['home_label']), $html);
         $this->assertStringNotContainsString('href="./"', $html);
 
         // 419: go back (reloads the previous page with a nonce'd script; "./" without JavaScript), then home.
-        $html = (string) $this->visit('/en/d2-test-status/419', '2')->getContent();
+        $html = (string) $this->visit('/en/d2-test-status/419')->getContent();
         $this->assertStringContainsString('<a class="btn btn--ink btn--48" href="./" data-error-back="">', $html);
         $this->assertStringContainsString(e(d2p('errors.back')), $html);
         $this->assertStringContainsString(sprintf($home, 'secondary'), $html);
@@ -290,7 +234,7 @@ final class ErrorStatusPagesTest extends TestCase
 
         // 429 and 500: try again ("./": the same page without its query), then home.
         foreach ([429, 500] as $status) {
-            $html = (string) $this->visit("/en/d2-test-status/{$status}", '2')->getContent();
+            $html = (string) $this->visit("/en/d2-test-status/{$status}")->getContent();
             $this->assertStringContainsString(sprintf($retry, 'ink'), $html, (string) $status);
             $this->assertStringContainsString('<span data-copy-status="proposed">'.e(d2p('offline.retry')).'</span>', $html);
             $this->assertStringContainsString(sprintf($home, 'secondary'), $html, (string) $status);
@@ -298,13 +242,13 @@ final class ErrorStatusPagesTest extends TestCase
         }
 
         // 503: try again only (in maintenance mode the home page is down too).
-        $html = (string) $this->visit('/en/d2-test-status/503', '2')->getContent();
+        $html = (string) $this->visit('/en/d2-test-status/503')->getContent();
         $this->assertStringContainsString(sprintf($retry, 'ink'), $html);
         $this->assertSame(1, substr_count($html, 'class="btn '), '503: one action');
 
         // 403, 419, 429: the approved "Looking for specific information?" links, as on the 404: the kit's link rows.
         foreach ([403, 419, 429] as $status) {
-            $html = (string) $this->visit("/en/d2-test-status/{$status}", '2')->getContent();
+            $html = (string) $this->visit("/en/d2-test-status/{$status}")->getContent();
             $this->assertStringContainsString('<h2 class="err__next-title" id="err-next-title">'.e($u01['more_heading']).'</h2>', $html);
             foreach ($u01['links'] as $link) {
                 $this->assertStringContainsString(e($link['label']), $html);
@@ -322,7 +266,7 @@ final class ErrorStatusPagesTest extends TestCase
 
         foreach ([500, 503] as $status) {
             foreach (array_keys(self::LOCALES) as $locale) {
-                $html = (string) $this->visit("/{$locale}/d2-test-status/{$status}", '2')->getContent();
+                $html = (string) $this->visit("/{$locale}/d2-test-status/{$status}")->getContent();
                 app()->setLocale($locale);
                 $details = content()->page('P07')['content']['details'];
 
@@ -346,8 +290,8 @@ final class ErrorStatusPagesTest extends TestCase
 
     public function test_urls_without_a_language_use_the_default_language(): void
     {
-        $this->assertDesignTwoPage((string) $this->visit('/d2-test-status/500', '2')->assertStatus(500)->getContent(), 500, 'en');
-        $this->assertDesignTwoPage((string) $this->visit('/de/d2-test-status/403', '2')->assertStatus(403)->getContent(), 403, 'en');
+        $this->assertDesignTwoPage((string) $this->visit('/d2-test-status/500')->assertStatus(500)->getContent(), 500, 'en');
+        $this->assertDesignTwoPage((string) $this->visit('/de/d2-test-status/403')->assertStatus(403)->getContent(), 403, 'en');
     }
 
     public function test_the_inline_style_and_scripts_carry_the_response_nonce(): void
@@ -355,7 +299,7 @@ final class ErrorStatusPagesTest extends TestCase
         $this->withVite();
         Vite::clearResolvedInstance();
 
-        $response = $this->visit('/ar/d2-test-status/419', '2')->assertStatus(419);
+        $response = $this->visit('/ar/d2-test-status/419')->assertStatus(419);
         preg_match("/'nonce-([^']+)'/", (string) $response->headers->get('Content-Security-Policy'), $m);
         $this->assertNotEmpty($m[1] ?? null);
         preg_match_all('#<(?:script|style)\b[^>]*>#', (string) $response->getContent(), $tags);
@@ -367,7 +311,7 @@ final class ErrorStatusPagesTest extends TestCase
 
     public function test_json_requests_keep_laravels_json_errors(): void
     {
-        $this->withUnencryptedCookies(['summit_design' => '2']);
+        $this;
         $this->getJson('/en/d2-test-status/403')->assertStatus(403)->assertJsonStructure(['message']);
         $this->getJson('/en/d2-test-status/500')->assertStatus(500)->assertExactJson(['message' => 'Server Error']);
     }
@@ -375,23 +319,14 @@ final class ErrorStatusPagesTest extends TestCase
     public function test_debug_mode_keeps_laravels_debug_page_for_unhandled_errors(): void
     {
         config(['app.debug' => true]);
-        $html = (string) $this->visit('/en/d2-test-status/500', '2')->assertStatus(500)->getContent();
+        $html = (string) $this->visit('/en/d2-test-status/500')->assertStatus(500)->getContent();
         $this->assertStringNotContainsString('data-design="2"', $html);
         $this->assertStringContainsString('secret-detail', $html);
     }
 
-    public function test_design_manager_restores_the_view_paths_for_design_one(): void
+    public function test_the_view_paths_list_design_two_first(): void
     {
-        $original = config('view.paths');
-        $designs = app(DesignManager::class);
-
-        $designs->apply(2);
-        $this->assertSame([config('design.d2.views'), ...$original], config('view.paths'));
-        $designs->apply(2);
-        $this->assertSame([config('design.d2.views'), ...$original], config('view.paths'), 'applying twice adds nothing');
-        $designs->apply(1);
-        $this->assertSame($original, config('view.paths'));
-        $this->assertTrue($designs->applied());
+        $this->assertSame([resource_path('views/designs/d2'), resource_path('views')], config('view.paths'));
     }
 
     public function test_proposed_copy_exists_for_every_status_in_every_language(): void

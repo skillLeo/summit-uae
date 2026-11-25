@@ -30,7 +30,7 @@ status. Repeat until every check in sections 1 and 2 passes.
 | 2 | All UI text ≥ 14 px; body ≥ 16 px; H1 ≥ 40 px on mobile | visual spec \`smallText\` (14 px floor; sample-document fine print exempt); body and H1 sizes: inspect the 390 shots | | |
 | 3 | Contrast: text ≥ 4.5:1, large text and icons ≥ 3:1; gold never small text on light | axe \`color-contrast\` (serious) in the visual spec and Lighthouse accessibility | | |
 | 4 | Only token values (no raw hex, radius or shadow outside \`tokens.css\`) | \`npx stylelint "resources/css/d2/**/*.css"\` | | |
-| 5 | Every interactive element has hover, active, focus-visible, disabled and loading states | \`/en/styleguide/\` and \`/ar/styleguide/\` with \`summit_design=2\` (manual) | | |
+| 5 | Every interactive element has hover, active, focus-visible, disabled and loading states | \`/en/styleguide/\` and \`/ar/styleguide/\` (manual) | | |
 | 6 | Two-column components start at the same y (±1 px): Navigator, Footer | Playwright \`boundingBox\` assertions (Phase C) | | |
 | 7 | No underlined links outside running text | visual spec \`underlinedLinks\` (reported as a warning) | | |
 | 8 | Hero: documents visible by 2.0 s, callouts by 3.0 s, zero layout shift | hero spec \`docsRestBy2000\`, \`calloutsBy3000\`, \`cls\`; frames 0 / 600 / 1200 / 2000 / 3000 ms (production build: see qa/README.md) | | |
@@ -50,7 +50,6 @@ status. Repeat until every check in sections 1 and 2 passes.
 | G4 | axe 0 serious / critical; Lighthouse CI mobile gates | visual spec \`axe\`; \`npm run qa:d2:lighthouse\` | |
 | G5 | Checklist: bands, text size, contrast, tokens, states, alignment, underlines, hero timings, RTL, reduced motion, compliance, proposed copy | section 1 | |
 | G6 | Phase summary: changes, remaining issues, screenshot paths | summary | |
-| — | Design 1 unchanged: HTML byte for byte and pixels against the \`design-1\` tag | \`node scripts/qa/d1-identity.mjs\` and \`npm run qa:d2:d1-visual\` | |
 
 ## 3. Deviations
 

@@ -46,7 +46,7 @@
  *   DOCX says to reuse them). 00_Site_Map is the link registry, not a page. The calculators page has no DOCX.
  *
  * Capture
- *   Google Chrome (channel 'chrome'), cookies summit_design=2 and summit_qa=1, 1440 x 900, reduced motion, the page's
+ *   Google Chrome (channel 'chrome'), no cookies, 1440 x 900, reduced motion, the page's
  *   browser locale and Asia/Dubai. Images and media are not fetched. Every text node of the document is read with its
  *   state: visible, visually hidden (screen-reader only), collapsed (a closed details element) or hidden (display:
  *   none, the hidden attribute, visibility: hidden, opacity 0). Option text counts as visible when its select is.
@@ -997,10 +997,6 @@ async function captureOnce(browser, opt, target) {
         serviceWorkers: 'block',
     });
     try {
-        await context.addCookies([
-            { name: 'summit_design', value: '2', url: origin.origin },
-            { name: 'summit_qa', value: '1', url: origin.origin },
-        ]);
         await context.route('**/*', (route) => {
             const request = route.request();
             if (/\/@vite\/client(?:\?.*)?$/u.test(request.url())) return route.fulfill({ status: 200, contentType: 'text/javascript', body: HMR_STUB });
@@ -1226,7 +1222,7 @@ async function main() {
         return 2;
     }
     try {
-        const response = await fetch(`${opt.base}/en/`, { headers: { cookie: 'summit_design=2; summit_qa=1' }, signal: AbortSignal.timeout(20_000) });
+        const response = await fetch(`${opt.base}/en/`, { signal: AbortSignal.timeout(20_000) });
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
     } catch (error) {
         console.error(`${opt.base}/en/ cannot be reached: ${error.message}`);
@@ -1245,7 +1241,7 @@ async function main() {
             console.log(`[${done}/${targets.length}] ${target.locale} ${target.slug}: capture failed (${raw.error})`);
             return { ...base, error: raw.error };
         }
-        if (raw.design !== '2') return { ...base, error: `served data-design=${raw.design ?? 'none'} (Design 2 cookie not applied?)` };
+        if (raw.design !== '2') return { ...base, error: `served data-design=${raw.design ?? 'none'} (not Design 2's layout)` };
         if (raw.status !== target.status) return { ...base, error: `HTTP ${raw.status}, expected ${target.status}` };
         const result = comparePage(target, raw, registries[target.locale]);
         // The report keeps the extra strings that need action; the recognised ones are only counted (extraCounts).

@@ -44,7 +44,7 @@ final class DocsTest extends TestCase
 
     private function home(string $locale): string
     {
-        return $this->withUnencryptedCookies(['summit_design' => '2'])->get("/{$locale}/")->assertOk()->getContent();
+        return $this->get("/{$locale}/")->assertOk()->getContent();
     }
 
     /** @return list<Element> */

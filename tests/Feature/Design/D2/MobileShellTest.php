@@ -31,7 +31,7 @@ final class MobileShellTest extends TestCase
 
     private function d2(string $path): string
     {
-        return $this->withUnencryptedCookies(['summit_design' => '2'])->get($path)->assertOk()->getContent();
+        return $this->get($path)->assertOk()->getContent();
     }
 
     private function fragment(string $html, string $pattern, string $what): string
@@ -232,8 +232,8 @@ final class MobileShellTest extends TestCase
             foreach (['data-hours-status', 'data-icon="clock"', 'data-icon="chevron"', 'data-icon="check"', 'data-icon="external"', ' · '] as $banned) {
                 $this->assertStringNotContainsString($banned, $sheet, "{$locale}: {$banned}");
             }
-            // The QA cookie is not set here, but the switcher is off by default: no design switch in the sheet.
-            $this->assertStringNotContainsString('data-d2-design-switch', $sheet, $locale);
+            // The retired design switch is gone from the sheet.
+            $this->assertStringNotContainsString('menu-sheet__design', $sheet, $locale);
 
             // The language sheet (brief 2.1 §6: a sheet): the approved labels in the page language (D12), hreflang
             // naming the target, lang the label's own language, the page language current. Text rows only.
@@ -247,38 +247,6 @@ final class MobileShellTest extends TestCase
             }
             $this->assertStringNotContainsString('<svg', $this->fragment($langSheet, '/<ul class="lang-sheet__list" role="list">.*?<\/ul>/s', 'the language list'), "{$locale}: no icon in a language row");
         }
-    }
-
-    /** Brief 2.1 §6: on phones the design switch sits in the menu sheet, with the floating switch's rules. */
-    public function test_the_menu_sheet_holds_the_design_switch_only_when_the_floating_one_would_show(): void
-    {
-        config(['design.switcher' => true]);
-        foreach (self::LOCALES as $locale) {
-            app()->setLocale($locale);
-            $html = $this->withUnencryptedCookies(['summit_design' => '2', 'summit_qa' => '0'])->get("/{$locale}/faq/?q=cheque")->assertOk()->getContent();
-            $switch = $this->fragment($html, '/<nav class="menu-sheet__group menu-sheet__design" aria-labelledby="sheet-menu-design" data-d2-design-switch>.*?<\/nav>/s', "{$locale} design switch");
-            $this->assertStringContainsString('>'.e(__('switcher.label')).'</h3>', $switch);
-            preg_match_all('/<a class="menu-sheet__design-option" href="([^"]+)" data-d2-design="(\d)"\s+aria-keyshortcuts="Alt\+\2"\s*(aria-current="true")?\s*>(.*?)<\/a>/s', $switch, $options, PREG_SET_ORDER);
-            $this->assertSame(['1', '2'], array_column($options, 2), $locale);
-            // Same path and query, ?design=N (the #anchor is added at click time by modules/sheets.js).
-            $this->assertSame(["/{$locale}/faq/?q=cheque&amp;design=1", "/{$locale}/faq/?q=cheque&amp;design=2"], array_column($options, 1), $locale);
-            $this->assertSame(['', 'aria-current="true"'], array_column($options, 3), "{$locale}: Design 2 is current");
-            $this->assertSame([__('switcher.option', ['number' => 1]), __('switcher.option', ['number' => 2])], array_map(fn ($o) => $this->text($o[4]), $options));
-            // The floating switch is still injected (tabbar.css hides it below 768 px on Design 2 pages only).
-            $this->assertStringContainsString('data-design-switch', $html);
-
-            // The QA cookie hides both, as it always hid the floating one.
-            $qa = $this->withUnencryptedCookies(['summit_design' => '2', 'summit_qa' => '1'])->get("/{$locale}/faq/")->assertOk()->getContent();
-            $this->assertStringNotContainsString('data-d2-design-switch', $qa, $locale);
-            $this->assertStringNotContainsString('data-design-switch', $qa, $locale);
-        }
-
-        config(['design.switcher' => false]);
-        $this->assertStringNotContainsString('data-d2-design-switch', $this->withUnencryptedCookies(['summit_qa' => '0'])->get('/en/faq/')->assertOk()->getContent());
-        // The floating switch's own hook is never reused in the sheet (switch.js takes the first [data-design-switch]).
-        $this->assertStringNotContainsString('data-design-switch', (string) file_get_contents(resource_path('views/components/d2/shell/sheets.blade.php')));
-        // Design 2's CSS hides the floating switch on phones where the tab bar is; Design 1 never loads it.
-        $this->assertMatchesRegularExpression('/@media \(width < 768px\) \{\s*body:has\(> \.tabbar:not\(\.tabbar--static\)\) > \.sds \{\s*display: none !important;/', (string) file_get_contents(resource_path('css/d2/components/tabbar.css')));
     }
 
     /** Design 2.1 (D03, D04, D09): every full approved summary, no object icon, chevron or arrow. */

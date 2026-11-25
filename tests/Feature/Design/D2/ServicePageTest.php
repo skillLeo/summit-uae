@@ -35,8 +35,7 @@ final class ServicePageTest extends TestCase
 
     private function d2(string $path): string
     {
-        return $this->pages[$path] ??= $this->withUnencryptedCookies(['summit_design' => '2', 'summit_qa' => '1'])
-            ->get($path)->assertOk()->getContent();
+        return $this->pages[$path] ??= $this->get($path)->assertOk()->getContent();
     }
 
     private function servicePath(string $code, string $locale): string
@@ -375,17 +374,6 @@ final class ServicePageTest extends TestCase
         }
     }
 
-    public function test_design_one_keeps_its_own_preview_pages(): void
-    {
-        $service = $this->get($this->servicePath('S01', 'en'))->assertOk()->getContent();
-        $hub = $this->get('/en/practice-areas/')->assertOk()->getContent();
-        foreach ([$service, $hub] as $html) {
-            $this->assertStringNotContainsString('data-design="2"', $html);
-            $this->assertStringNotContainsString('svc-page', $html);
-            $this->assertStringNotContainsString('pa-page', $html);
-        }
-    }
-
     public function test_the_head_has_no_aside_and_the_checklist_follows_the_process_in_docx_order(): void
     {
         // Phase 2 (brief §5.3, DOCX conformance): the "Documents That Help Us Get Started" card was the head's aside, so
@@ -445,7 +433,7 @@ final class ServicePageTest extends TestCase
         $this->assertMatchesRegularExpression('/\.js \.pa-card__fit-toggle \{[^}]*font-size: var\(--fs-ui\);\s*font-weight: var\(--fw-medium\);/', $css);
         // P02's narrow card summaries: Russian breaks between words only (no run of hyphenated lines).
         $this->assertMatchesRegularExpression('/\.pa-card__summary \{[^}]*hyphens: manual;/', $css);
-        $html = $this->withUnencryptedCookies(['summit_design' => '2'])->get(SiteUrl::service('S06', 'en'))->assertOk()->getContent();
+        $html = $this->get(SiteUrl::service('S06', 'en'))->assertOk()->getContent();
         $this->assertMatchesRegularExpression('#<div class="svc-next__card svc-next__card--do">\s*<h3 class="svc-next__title">#', $html);
     }
 }

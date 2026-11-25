@@ -11,8 +11,7 @@ use Spatie\TranslationLoader\LanguageLine;
  * {en, ar, ru}, copy_source, note.
  *
  *   group "ui"        the approved interface strings of the DOCX files, read by ui()
- *   group "proposed"  lang/{locale}/proposed.php with proposed-d2/*.php: proposed() (Design 1) and d2p() (Design 2)
- *   group "switcher"  lang/{locale}/switcher.php (the design switch)
+ *   group "proposed"  lang/{locale}/proposed.php with proposed-d2/*.php: proposed() and d2p()
  *
  * The model of spatie/laravel-translation-loader: every translation group reads these rows first and the lang files
  * fill the rest. Two differences from the package's LanguageLine: the rows come from App\Content\ContentRepository's

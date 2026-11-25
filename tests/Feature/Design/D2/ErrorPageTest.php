@@ -11,7 +11,7 @@ use Tests\TestCase;
  * Design 2 404 (owner: system-pages; upgrade spec §7.4 and §12 Phase D: "404 (misfiled sample document +
  * search)"). A real 404 in the language of the URL, noindex, the approved U01 copy, the palette trigger with
  * its no-JS list of main pages, the misfiled sample document, language links to each home page, and the
- * missing address never echoed. Design 1's 404 stays as it was.
+ * missing address never echoed.
  */
 final class ErrorPageTest extends TestCase
 {
@@ -26,8 +26,7 @@ final class ErrorPageTest extends TestCase
 
     private function missing(string $path): string
     {
-        return $this->withUnencryptedCookies(['summit_design' => '2'])
-            ->get($path)
+        return $this->get($path)
             ->assertNotFound()
             ->getContent();
     }
@@ -174,15 +173,6 @@ final class ErrorPageTest extends TestCase
 
         $this->assertStringContainsString('<html lang="en" dir="ltr"', $html);
         $this->assertStringContainsString('data-design="2"', $html);
-    }
-
-    public function test_design_one_keeps_its_own_404(): void
-    {
-        $html = $this->get('/en/no-such-page/')->assertNotFound()->getContent();
-
-        $this->assertStringNotContainsString('data-design="2"', $html);
-        $this->assertStringNotContainsString('nf-art', $html);
-        $this->assertStringContainsString('class="has-bottombar', $html, 'Design 1 layout');
     }
 
     public function test_proposed_copy_exists_in_every_language_and_is_marked(): void

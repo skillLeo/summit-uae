@@ -53,20 +53,6 @@ final class InterfaceTextTest extends TestCase
         $this->assertSame((require lang_path('ar/proposed-d2/hero.php'))['pause'], d2p('hero.pause', [], 'ar'), 'the Arabic file, not the English row');
     }
 
-    public function test_design_1_reads_its_interface_strings_from_the_database(): void
-    {
-        $nav = $this->line('ui', 'nav.home');
-        $nav->text = ['en' => 'Home (CMS)'] + $nav->text;
-        $nav->save();
-        $main = $this->line('proposed', 'nav.main');
-        $main->text = ['en' => 'Main navigation (CMS)'] + $main->text;
-        $main->save();
-
-        $html = (string) $this->withUnencryptedCookies(['summit_design' => '1'])->get('/en/')->assertOk()->getContent();
-        $this->assertStringContainsString('Home (CMS)', $html, 'ui()');
-        $this->assertStringContainsString('Main navigation (CMS)', $html, 'proposed()');
-    }
-
     public function test_every_interface_string_has_its_source_and_copy_source(): void
     {
         $this->assertSame(0, UiString::query()->whereNull('note')->count());

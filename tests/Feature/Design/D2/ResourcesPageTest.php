@@ -32,8 +32,7 @@ final class ResourcesPageTest extends TestCase
 
     private function html(string $locale): string
     {
-        return $this->pages[$locale] ??= $this->withUnencryptedCookies(['summit_design' => '2'])
-            ->get("/{$locale}/resources/")->assertOk()->getContent();
+        return $this->pages[$locale] ??= $this->get("/{$locale}/resources/")->assertOk()->getContent();
     }
 
     /** The visible text of a fragment: tags removed, entities decoded, whitespace collapsed. */

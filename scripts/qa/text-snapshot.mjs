@@ -5,11 +5,14 @@
  *
  * For every public route (routes/web.php + config/summit.php: the language chooser "/", the home, the
  * styleguide, the offline page, P02-P08, L01, L02, the eleven services S01-S11 and a 404 URL; not the web
- * manifest, the sitemap, the enquiry POST or the admin panel), every locale (en, ar, ru) and both designs,
- * the page is loaded in Google Chrome and the normalised visible text of its header, main and footer is
- * saved to
+ * manifest, the sitemap, the enquiry POST or the admin panel) and every locale (en, ar, ru), the page is
+ * loaded in Google Chrome and the normalised visible text of its header, main and footer is saved to
  *
- *     tests/Snapshots/text/{design}/{locale}/{route}.txt
+ *     tests/Snapshots/text/2/{locale}/{route}.txt
+ *
+ * "2" is Design 2, the site's only design since the owner retired Design 1 (2026-11-25; Design 1 is archived at
+ * the git tags design-1 and design-1.1). The folder and the "design 2" header line are kept, so the snapshots
+ * written before that compare byte for byte.
  *
  *   node scripts/qa/text-snapshot.mjs            write the snapshots (npm run qa:text-snapshot)
  *   node scripts/qa/text-snapshot.mjs --check    compare the live site with them (npm run qa:text-snapshot:check)
@@ -19,7 +22,6 @@
  *                          the missing files and (without filters) the stale ones; writes nothing; exit 1 on
  *                          any difference, unexpected status or failed capture
  *   --base=<url>           site under test, default http://127.0.0.1:8042 (a server of this working tree)
- *   --design=1|2|both      default both (also "1,2")
  *   --locales=<list>       en, ar, ru and "root" (the chooser), default all
  *   --routes=<list>        route slugs (below), "*" is a wildcard: --routes=home,s0*,404
  *   --dir=<folder>         snapshot folder, default tests/Snapshots/text (e.g. a copy to test --check)
@@ -29,35 +31,33 @@
  * Without --check the selected snapshots are written (a file is rewritten only when its text changed), and
  * so is manifest.json; without filters, *.txt snapshots of routes that no longer exist are deleted. A page
  * that fails to load, loads without its stylesheets or answers 5xx is tried again (3 attempts in all); a page
- * that still fails, serves the wrong design or answers with an unexpected status is reported and never
+ * that still fails, is not a Design 2 page or answers with an unexpected status is reported and never
  * written. Exit 0 = clean, 1 = a difference (--check), an unexpected status or a failed capture, 2 = bad
  * arguments or the site (or its stylesheets) cannot be reached.
  *
  * Layout and route slugs
- *   {design} is 1 or 2. Route slugs: home, p02-practice-areas, p03-resources, p04-case-studies, p05-faq,
+ *   Route slugs: home, p02-practice-areas, p03-resources, p04-case-studies, p05-faq,
  *   p06-about, p07-contact, p08-legal-disclaimer, l01-privacy-policy, l02-terms-and-conditions,
  *   s01-debt-recovery-cheque-cases ... s11-business-services (code + slug from config/summit.php),
- *   calculators (/{locale}/calculators/, Design 2 only: brief 2.1 §5.1 moved the calculators to their own page,
- *   which renders while pending copy is shown; Design 1 has none and redirects it to its home page, so the route
- *   is not captured for Design 1), styleguide, offline and 404 (/{locale}/no-such-page-qa/, expected status 404;
- *   neither design echoes the address). The chooser "/" has no locale: it is stored once per design as {design}/root/chooser.txt
- *   ("root" is a pseudo-locale for the site root, also accepted by --locales). manifest.json beside the design
- *   folders records the capture rules, the routes, the file counts and a hash of the text sources (sha256
+ *   calculators (/{locale}/calculators/: brief 2.1 §5.1 moved the calculators to their own page, which renders
+ *   while pending copy is shown), styleguide, offline and 404 (/{locale}/no-such-page-qa/, expected status 404;
+ *   the page never echoes the address). The chooser "/" has no locale: it is stored as 2/root/chooser.txt
+ *   ("root" is a pseudo-locale for the site root, also accepted by --locales). manifest.json beside the 2/
+ *   folder records the capture rules, the routes, the file counts and a hash of the text sources (sha256
  *   of database/content/*.json and of lang/**\/*.php), nothing volatile (no time, host or commit); --check
  *   reports, without failing, when those sources changed since the snapshots were written.
  *
  * Capture (deterministic)
- *   Google Chrome (channel 'chrome'), headless, one fresh context per page with the cookies
- *   summit_design=<1|2> and summit_qa=1 (no floating design switcher). JavaScript disabled: the snapshot is
+ *   Google Chrome (channel 'chrome'), headless, one fresh context per page, no cookies. JavaScript disabled: the snapshot is
  *   the server-rendered text, which is what the CMS will produce and what every visitor receives before any
  *   script runs (no live office-hours status, no carousel or tab state). prefers-reduced-motion: reduce,
  *   light colour scheme, time zone Asia/Dubai, browser locale of the page language (en-GB, ar-AE, ru-RU;
  *   en-GB for the chooser). Viewport 1440 x 900 at device scale 1: responsive CSS decides which navigation
  *   items, sample-document variants and panels are rendered, so the width is fixed (the desktop reference of
  *   the screenshot matrix). Images, fonts, media and scripts are not fetched (they cannot change the text
- *   with JavaScript off) and neither is anything on another host. Every stylesheet must load (a Design 2
- *   page without its Vite dev server would show its hidden panels) and the html element must carry the
- *   requested design (data-design="2" for Design 2, none for Design 1).
+ *   with JavaScript off) and neither is anything on another host. Every stylesheet must load (a page without
+ *   its Vite build or dev server would show its hidden panels) and the html element must carry Design 2's
+ *   data-design="2".
  *
  * What counts as visible text (decisions)
  *   - innerText of three landmarks: the first <header> and the first <footer> that are not inside article,
@@ -82,8 +82,8 @@
  *     (an uppercase label is stored as written in its source; a CSS-only change never changes a snapshot); and every
  *     <details> is opened (its name attribute removed first so exclusive groups stay open), because the
  *     accordion answers are complete in the server HTML (brief §5.2) and the parity test must cover them.
- *   - Everything outside the three landmarks is left out: the skip link, Design 1's language-suggestion
- *     bars and bottom bar, Design 2's tab bar, sheets, command palette, toast region and announcer.
+ *   - Everything outside the three landmarks is left out: the skip link, the tab bar, sheets, command
+ *     palette, toast region and announcer.
  *
  * Normalisation (per part)
  *   Unicode NFC; CR LF, CR, U+2028 and U+2029 become line breaks; tabs and every Unicode space separator
@@ -94,7 +94,7 @@
  *   itself, and a changed quote is a change to approved copy (docs/d2/engineering.md §0.2: never re-punctuate).
  *
  * Masks (volatile values; the run prints how often each one applied)
- *   {{YEAR}}   the year after "©": both footers print the approved "© 2026 …" line with the year taken
+ *   {{YEAR}}   the year after "©": the footer prints the approved "© 2026 …" line with the year taken
  *              from the clock (Asia/Dubai), so it would change on 1 January
  *   {{CSRF}}   the page's CSRF token, {{NONCE}} its CSP nonce, {{UUID}} any UUID (the form's idempotency key):
  *              none of them is visible text today; they are masked only if one ever appears in the text
@@ -124,6 +124,8 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const DEFAULT_BASE = 'http://127.0.0.1:8042';
 const DEFAULT_DIR = join(ROOT, 'tests/Snapshots/text');
 const ROOT_LOCALE = 'root';
+/** Design 2, the only design: its folder and header line (see the header). */
+const DESIGN = '2';
 const NOT_FOUND_PATH = 'no-such-page-qa/';
 const VIEWPORT = { width: 1440, height: 900 };
 const TIMEZONE = 'Asia/Dubai';
@@ -149,10 +151,7 @@ export function readRegistry() {
     return JSON.parse(execFileSync('php', ['-r', php, join(ROOT, 'config/summit.php')], { encoding: 'utf8' }));
 }
 
-/**
- * Every public HTML route, per locale, with its stable slug and expected status (plus the chooser). A route with
- * `designs` exists only in those designs (the calculators page: Design 2).
- */
+/** Every public HTML route, per locale, with its stable slug and expected status (plus the chooser). */
 export function buildRoutes(registry) {
     const routes = [];
     for (const locale of registry.locales) {
@@ -163,7 +162,7 @@ export function buildRoutes(registry) {
         for (const [code, service] of Object.entries(registry.services)) {
             routes.push({ locale, slug: `${code.toLowerCase()}-${service}`, path: `/${locale}/practice-areas/${service}/`, expect: 200 });
         }
-        routes.push({ locale, slug: 'calculators', path: `/${locale}/calculators/`, expect: 200, designs: ['2'] });
+        routes.push({ locale, slug: 'calculators', path: `/${locale}/calculators/`, expect: 200 });
         routes.push({ locale, slug: 'styleguide', path: `/${locale}/styleguide/`, expect: 200 });
         routes.push({ locale, slug: 'offline', path: `/${locale}/offline/`, expect: 200 });
         routes.push({ locale, slug: '404', path: `/${locale}/${NOT_FOUND_PATH}`, expect: 404 });
@@ -349,10 +348,6 @@ async function captureOnce(browser, base, target) {
         serviceWorkers: 'block',
     });
     try {
-        await context.addCookies([
-            { name: 'summit_design', value: target.design, url: origin.origin },
-            { name: 'summit_qa', value: '1', url: origin.origin },
-        ]);
         await context.route('**/*', (route) => {
             const request = route.request();
             let host = '';
@@ -421,30 +416,28 @@ async function pool(items, size, task) {
     return results;
 }
 
-/** The site answers and each selected design's stylesheets load (exit 2 otherwise). */
-async function preflight(base, designs) {
+/** The site answers and its stylesheets load (exit 2 otherwise). */
+async function preflight(base) {
     const origin = new URL(base).origin;
-    for (const design of designs) {
-        let html;
+    let html;
+    try {
+        const response = await fetch(`${origin}/en/`, { signal: AbortSignal.timeout(20_000) });
+        html = await response.text();
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    } catch (error) {
+        throw new Error(`${origin}/en/ cannot be reached: ${error.message}`);
+    }
+    const links = [...html.matchAll(/<link\b[^>]*>/gi)].map((m) => m[0]).filter((tag) => /\brel=["'][^"']*\bstylesheet\b/i.test(tag));
+    for (const tag of links) {
+        const href = tag.match(/\bhref=["']([^"']+)["']/i)?.[1];
+        if (!href) continue;
+        const url = new URL(href.replaceAll('&amp;', '&'), `${origin}/en/`).href;
         try {
-            const response = await fetch(`${origin}/en/`, { headers: { cookie: `summit_design=${design}; summit_qa=1` }, signal: AbortSignal.timeout(20_000) });
-            html = await response.text();
+            const response = await fetch(url, { signal: AbortSignal.timeout(20_000) });
+            await response.arrayBuffer();
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
         } catch (error) {
-            throw new Error(`${origin}/en/ (design ${design}) cannot be reached: ${error.message}`);
-        }
-        const links = [...html.matchAll(/<link\b[^>]*>/gi)].map((m) => m[0]).filter((tag) => /\brel=["'][^"']*\bstylesheet\b/i.test(tag));
-        for (const tag of links) {
-            const href = tag.match(/\bhref=["']([^"']+)["']/i)?.[1];
-            if (!href) continue;
-            const url = new URL(href.replaceAll('&amp;', '&'), `${origin}/en/`).href;
-            try {
-                const response = await fetch(url, { signal: AbortSignal.timeout(20_000) });
-                await response.arrayBuffer();
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            } catch (error) {
-                throw new Error(`design ${design} stylesheet ${url} cannot be loaded (${error.message}); is its Vite dev server or build there?`);
-            }
+            throw new Error(`stylesheet ${url} cannot be loaded (${error.message}); is the Vite dev server or build there?`);
         }
     }
 }
@@ -554,7 +547,7 @@ export function unifiedDiff(oldLines, newLines, oldLabel, newLabel, context = CO
 const toLines = (content) => content.replace(/\r\n?/g, '\n').replace(/\n$/, '').split('\n');
 const snapshotFile = (dir, target) => join(dir, target.design, target.locale, `${target.slug}.txt`);
 
-/** Every stored snapshot: {dir}/{design}/{locale}/{route}.txt. */
+/** Every stored snapshot: {dir}/2/{locale}/{route}.txt (any other design folder is reported as stale). */
 function listSnapshots(dir) {
     const files = [];
     if (!existsSync(dir)) return files;
@@ -625,10 +618,10 @@ function writeManifest(dir, routes) {
     const manifest = {
         generator: 'scripts/qa/text-snapshot.mjs',
         format: 1,
-        layout: '{design}/{locale}/{route}.txt; the language chooser "/" has no locale and is stored as {design}/root/chooser.txt',
+        layout: '2/{locale}/{route}.txt (2 = Design 2, the only design); the language chooser "/" has no locale and is stored as 2/root/chooser.txt',
         capture: {
             browser: 'Google Chrome (Playwright channel "chrome"), headless, one fresh context per page',
-            cookies: 'summit_design=<design>, summit_qa=1',
+            cookies: 'none',
             javaScript: false,
             reducedMotion: 'reduce',
             colorScheme: 'light',
@@ -662,20 +655,20 @@ function writeManifest(dir, routes) {
 
 // ------------------------------------------------------------------------------------------ cli
 
-const USAGE = `Usage: node scripts/qa/text-snapshot.mjs [--check] [--base=<url>] [--design=1|2|both] [--locales=en,ar,ru,root]
+const USAGE = `Usage: node scripts/qa/text-snapshot.mjs [--check] [--base=<url>] [--locales=en,ar,ru,root]
        [--routes=<slugs, * wildcard>] [--dir=<folder>] [--concurrency=<n>] [--verbose]
 See the header of scripts/qa/text-snapshot.mjs for the capture rules, the normalisation and the masks.`;
 
 class UsageError extends Error {}
 
 function parseArgs(argv) {
-    const opt = { check: false, verbose: false, help: false, base: DEFAULT_BASE, dir: DEFAULT_DIR, concurrency: 4, design: null, locales: null, routes: null };
+    const opt = { check: false, verbose: false, help: false, base: DEFAULT_BASE, dir: DEFAULT_DIR, concurrency: 4, locales: null, routes: null };
     for (const arg of argv) {
         const [, key, value] = arg.match(/^--([a-z-]+)(?:=(.*))?$/) ?? [];
         if (key === 'check' || key === 'verbose' || key === 'help') {
             if (value !== undefined) throw new UsageError(`--${key} takes no value`);
             opt[key] = true;
-        } else if (['base', 'dir', 'concurrency', 'design', 'locales', 'routes'].includes(key)) {
+        } else if (['base', 'dir', 'concurrency', 'locales', 'routes'].includes(key)) {
             if (!value) throw new UsageError(`--${key} needs a value`);
             opt[key] = value;
         } else {
@@ -696,8 +689,6 @@ function parseArgs(argv) {
 const splitList = (value) => value.split(',').map((s) => s.trim()).filter(Boolean);
 
 function selectTargets(opt, routes, registry) {
-    const designs = opt.design ? [...new Set(splitList(opt.design).flatMap((d) => (d === 'both' ? ['1', '2'] : [d])))] : ['1', '2'];
-    for (const design of designs) if (!['1', '2'].includes(design)) throw new UsageError(`unknown design: ${design} (1, 2 or both)`);
     const allLocales = [...registry.locales, ROOT_LOCALE];
     const locales = opt.locales ? splitList(opt.locales) : allLocales;
     for (const locale of locales) if (!allLocales.includes(locale)) throw new UsageError(`unknown locale: ${locale} (${allLocales.join(', ')})`);
@@ -710,23 +701,19 @@ function selectTargets(opt, routes, registry) {
           })
         : null;
     const targets = [];
-    for (const design of designs) {
-        for (const route of routes) {
-            if (!locales.includes(route.locale)) continue;
-            if (patterns && !patterns.some((re) => re.test(route.slug))) continue;
-            if (route.designs && !route.designs.includes(design)) continue;
-            targets.push({ ...route, design, id: `${design}/${route.locale}/${route.slug}` });
-        }
+    for (const route of routes) {
+        if (!locales.includes(route.locale)) continue;
+        if (patterns && !patterns.some((re) => re.test(route.slug))) continue;
+        targets.push({ ...route, design: DESIGN, id: `${DESIGN}/${route.locale}/${route.slug}` });
     }
     if (!targets.length) throw new UsageError('no page matches the filters');
-    return { targets, filtered: Boolean(opt.design || opt.locales || opt.routes), designs };
+    return { targets, filtered: Boolean(opt.locales || opt.routes) };
 }
 
 /** Turns a raw capture into the snapshot text, its mask counts and its problems. */
 function processCapture(target, raw, today) {
     if (raw.error) return { target, error: raw.error, attempts: raw.attempts };
-    const servedOk = target.design === '2' ? raw.served === '2' : raw.served === null || raw.served === '1';
-    if (!servedOk) return { target, error: `served html data-design=${raw.served ?? 'none'} for design ${target.design} (cookie not applied?)`, attempts: raw.attempts };
+    if (raw.served !== DESIGN) return { target, error: `served html data-design=${raw.served ?? 'none'}, not Design 2's layout`, attempts: raw.attempts };
     const counts = Object.fromEntries(MASKS.map((m) => [m, 0]));
     const parts = raw.parts.map((part) => ({ ...part, lines: part.text === null ? null : applyMasks(normaliseText(part.text), raw.volatile, counts) }));
     const content = renderSnapshot(target, raw, parts);
@@ -884,7 +871,7 @@ async function main() {
         return 2;
     }
     try {
-        await preflight(opt.base, selection.designs);
+        await preflight(opt.base);
     } catch (error) {
         console.error(error.message);
         return 2;

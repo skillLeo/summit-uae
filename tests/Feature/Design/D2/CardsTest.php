@@ -32,7 +32,7 @@ final class CardsTest extends TestCase
     {
         app()->setLocale($locale);
 
-        return $this->withUnencryptedCookies(['summit_design' => '2'])->get("/{$locale}/")->assertOk()->getContent();
+        return $this->get("/{$locale}/")->assertOk()->getContent();
     }
 
     /** The home with the "Our Team" block switched on (it is off by default: D24). */
@@ -211,7 +211,7 @@ final class CardsTest extends TestCase
         $this->assertMatchesRegularExpression('/\.team__item \.profile > \.card__footer \{\s*align-items: flex-start;/', (string) file_get_contents(resource_path('css/d2/sections/team.css')), 'the links of a row start on one line');
 
         // The prefill link is accepted by the wizard's validation.
-        $this->withUnencryptedCookies(['summit_design' => '2'])->get('/en/?consultant=team-sarah')->assertOk();
+        $this->get('/en/?consultant=team-sarah')->assertOk();
         $this->assertSame(['consultant' => 'team-sarah'], Prefill::fromRequest());
     }
 

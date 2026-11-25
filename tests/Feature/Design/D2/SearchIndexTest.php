@@ -27,11 +27,6 @@ final class SearchIndexTest extends TestCase
         $this->withoutVite();
     }
 
-    private function d2(): array
-    {
-        return ['summit_design' => '2', 'summit_qa' => '1'];
-    }
-
     /** @return array{version: int, locale: string, items: list<array<string, string>>} */
     private function index(string $locale): array
     {
@@ -121,7 +116,7 @@ final class SearchIndexTest extends TestCase
     public function test_palette_and_copy_blocks_are_on_every_design_two_page(): void
     {
         foreach (['/en/', '/ar/faq/', '/ru/practice-areas/labor-law/', '/en/about/'] as $path) {
-            $html = $this->withUnencryptedCookies($this->d2())->get($path)->assertOk()->getContent();
+            $html = $this->get($path)->assertOk()->getContent();
             $locale = explode('/', $path)[1];
             $this->assertSame(1, substr_count($html, 'data-modal="palette"'), $path);
             $this->assertSame(1, substr_count($html, 'id="d2-palette-copy"'), $path);
@@ -136,7 +131,7 @@ final class SearchIndexTest extends TestCase
     {
         foreach (self::LOCALES as $locale) {
             app()->setLocale($locale);
-            $html = $this->withUnencryptedCookies($this->d2())->get("/{$locale}/")->assertOk()->getContent();
+            $html = $this->get("/{$locale}/")->assertOk()->getContent();
             preg_match('#<div class="palette__group" role="group" aria-labelledby="palette-g-featured" data-palette-featured>(.*?)</div>\s*<a class="palette-option palette-option--describe#s', $html, $m);
             $this->assertNotEmpty($m, $locale);
             $this->assertSame(7, substr_count($m[1], 'role="option"'), "{$locale}: six services + View All Practice Areas");
@@ -157,7 +152,7 @@ final class SearchIndexTest extends TestCase
     {
         foreach (self::LOCALES as $locale) {
             app()->setLocale($locale);
-            $html = $this->withUnencryptedCookies($this->d2())->get("/{$locale}/")->assertOk()->getContent();
+            $html = $this->get("/{$locale}/")->assertOk()->getContent();
             $this->assertSame(1, preg_match('#<dialog[^>]*data-modal="palette".*?</dialog>#s', $html, $m), $locale);
             $palette = $m[0];
             foreach (['palette-option__icon', 'palette-option__go', 'data-palette-icons', 'chip__icon', 'data-slot="icon"'] as $gone) {
@@ -200,7 +195,7 @@ final class SearchIndexTest extends TestCase
     {
         foreach (self::LOCALES as $locale) {
             app()->setLocale($locale);
-            $html = $this->withUnencryptedCookies($this->d2())->get("/{$locale}/")->assertOk()->getContent();
+            $html = $this->get("/{$locale}/")->assertOk()->getContent();
             $this->assertSame(1, preg_match('#<dialog[^>]*data-modal="palette".*?</dialog>#s', $html, $m), $locale);
             $hint = e(d2p('shell.search_placeholder'));
             $this->assertMatchesRegularExpression('#<div class="palette__box" data-palette-box>\s*<span class="control[^"]*palette__field"\s*>.*?<input class="input"(?=[^>]*\sid="palette-input")(?=[^>]*\saria-describedby="palette-hint")[^>]*>.*?</span>\s*<span class="palette__placeholder" id="palette-hint" data-copy-status="proposed">'.preg_quote($hint, '#').'</span>\s*</div>#s', $m[0], "{$locale}: the hint drawn in the field");
@@ -216,7 +211,7 @@ final class SearchIndexTest extends TestCase
     public function test_hours_copy_block_carries_config_and_plural_forms(): void
     {
         foreach (self::LOCALES as $locale) {
-            $html = $this->withUnencryptedCookies($this->d2())->get("/{$locale}/")->assertOk()->getContent();
+            $html = $this->get("/{$locale}/")->assertOk()->getContent();
             preg_match('#<script type="application/json" id="d2-hours-copy">(.*?)</script>#s', $html, $m);
             $data = json_decode($m[1] ?? 'null', true, 512, JSON_THROW_ON_ERROR);
             $this->assertSame(['timeZone' => 'Asia/Dubai', 'days' => [1, 2, 3, 4, 5], 'open' => '09:00', 'close' => '18:00'], $data['hours']);

@@ -1,7 +1,6 @@
 /**
- * Pixel-by-pixel image comparison on raw RGBA buffers (sharp). Used by the Design 1 visual proof
- * (scripts/qa/d1-visual.mjs, exact: tolerance 0), the reduced-motion hero check and the report's
- * "changed since the comparison image" figure.
+ * Pixel-by-pixel image comparison on raw RGBA buffers (sharp). Used by the reduced-motion hero check and the
+ * report's "changed since the comparison image" figure.
  */
 import { mkdirSync } from 'node:fs';
 import path from 'node:path';

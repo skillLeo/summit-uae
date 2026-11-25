@@ -3,9 +3,8 @@ import laravel from 'laravel-vite-plugin';
 import tailwindcss from '@tailwindcss/vite';
 
 /**
- * Internal admin panel (Filament, /admin): its theme only. A THIRD build, separate from vite.config.js
- * (Design 1) and vite.d2.config.js (Design 2): no chunk is shared, so neither public design ever loads
- * admin CSS (or the reverse), and Design 1's bundles stay byte-identical to the design-1 tag.
+ * Internal admin panel (Filament, /admin): its theme only. A build separate from vite.d2.config.js (the site):
+ * no chunk is shared, so the public pages never load admin CSS (or the reverse).
  *
  *   npm run dev:admin    → Vite dev server on 127.0.0.1:5184, writes public/hot-admin
  *   npm run build:admin  → public/build-admin (AdminPanelProvider: ->viteTheme(…, 'build-admin'))

@@ -6,7 +6,7 @@
  * 1. The gzip proxy survives the browser giving up on a request (before the answer and mid-body) and aborts
  *    the upstream request with it: a late answer used to be piped into the closed response, which Node 26
  *    throws on synchronously (ERR_STREAM_UNABLE_TO_PIPE), killing the run after a few pages.
- * 2. A normal request through the proxy: gzip, X-Summit-QA: 1 and the summit_design=2 cookie.
+ * 2. A normal request through the proxy: gzip, and the browser's own headers (the cookie) passed on unchanged.
  * 3. The php -S server never outlives the script: a crash (uncaught exception) and SIGHUP both end its
  *    process group, so the port is free for the next run. Each case starts the app on a free local port.
  */
@@ -114,11 +114,11 @@ test('a browser that leaves mid-body ends both sides without a crash', async () 
     assert.equal(up.seen[0].closedEarly, true, 'the upstream response is cut when the browser leaves mid-body');
 });
 
-test('a normal request is gzipped and carries X-Summit-QA and the Design 2 cookie', async () => {
+test('a normal request is gzipped and passes the browser\'s cookie on unchanged', async () => {
     const up = await upstream();
     const proxy = await proxyFor(up.origin);
     const { status, headers, body } = await new Promise((resolve, reject) => {
-        http.get({ host: '127.0.0.1', port: proxy.port, path: '/en/', headers: { 'accept-encoding': 'gzip, br', cookie: 'summit_qa=1' } }, (response) => {
+        http.get({ host: '127.0.0.1', port: proxy.port, path: '/en/', headers: { 'accept-encoding': 'gzip, br', cookie: 'summit_lang=en' } }, (response) => {
             const parts = [];
             response.on('data', (d) => parts.push(d));
             response.on('end', () => resolve({ status: response.statusCode, headers: response.headers, body: Buffer.concat(parts) }));
@@ -128,10 +128,8 @@ test('a normal request is gzipped and carries X-Summit-QA and the Design 2 cooki
     assert.equal(headers['content-encoding'], 'gzip');
     assert.match(gunzipSync(body).toString('utf8'), /^<p>answer<\/p>/);
     const sent = up.seen[0].headers;
-    assert.equal(sent['x-summit-qa'], '1');
     assert.equal(sent['accept-encoding'], undefined, 'php -S is asked for an uncompressed body');
-    assert.match(sent.cookie, /(^|;\s*)summit_qa=1(;|$)/);
-    assert.match(sent.cookie, /(^|;\s*)summit_design=2(;|$)/);
+    assert.equal(sent.cookie, 'summit_lang=en');
 });
 
 // ------------------------------------------------------------------------------------ the server never outlives a crash

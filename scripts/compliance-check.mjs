@@ -5,7 +5,7 @@
  * Fetches every Design 2 page (the home, the styleguide and every other Design 2 route: the practice-area
  * hub and the eleven service pages, resources, case studies, FAQ, about, contact, the legal pages, offline,
  * the 404 page and the language chooser, plus two server-rendered home states) in EN, AR and RU from
- * QA_BASE_URL (default http://127.0.0.1:8040) with the cookies summit_design=2 and summit_qa=1, parses the
+ * QA_BASE_URL (default http://127.0.0.1:8040), parses the
  * HTML and fails (exit 1) on:
  *
  *   banned        banned claims: law firm, free consultation, 24/7, success rate, years of experience,
@@ -34,7 +34,6 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const BASE = (process.env.QA_BASE_URL || 'http://127.0.0.1:8040').replace(/\/+$/, '');
-const COOKIE = 'summit_design=2; summit_qa=1';
 const LOCALES = ['en', 'ar', 'ru'];
 const VERBOSE = process.argv.includes('--verbose');
 const SHOW = VERBOSE ? Infinity : 8;
@@ -430,7 +429,7 @@ function proposedKeys() {
 
 // ------------------------------------------------------------------------------------------ run
 async function get(path) {
-    const res = await fetch(`${BASE}${path}`, { headers: { cookie: COOKIE, 'accept-language': 'en' }, redirect: 'manual' });
+    const res = await fetch(`${BASE}${path}`, { headers: { 'accept-language': 'en' }, redirect: 'manual' });
     return { status: res.status, body: await res.text(), location: res.headers.get('location') };
 }
 

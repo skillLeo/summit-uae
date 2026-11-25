@@ -28,7 +28,6 @@ const VIEWPORTS = {
 };
 async function newPage(browser, width) {
     const context = await browser.newContext({ ...(VIEWPORTS[width] ?? { viewport: { width, height: 900 } }), reducedMotion: 'reduce' });
-    await context.addCookies([{ name: 'summit_design', value: '2', url: BASE }, { name: 'summit_qa', value: '1', url: BASE }]);
     // a dev server's reload client would reload the page whenever a file is saved
     await context.route(/\/@vite\/client$/, (route) => route.fulfill({ status: 200, contentType: 'text/javascript', body: 'export const createHotContext=()=>({data:{},accept(){},acceptExports(){},dispose(){},prune(){},invalidate(){},decline(){},on(){},off(){},send(){}});export const updateStyle=()=>{};export const removeStyle=()=>{};export const injectQuery=(u)=>u;export class ErrorOverlay{}' }));
     return { context, page: await context.newPage() };

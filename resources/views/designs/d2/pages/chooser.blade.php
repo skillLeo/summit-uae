@@ -64,6 +64,9 @@
          arrives too late for it). --}}
     <style nonce="{{ Vite::cspNonce() }}">@view-transition{navigation:auto}@media (prefers-reduced-motion:reduce){@view-transition{navigation:none}}</style>
     @include('d2::shell.boot')
+    {{-- GA4 (first visits often land here): the tag with consent denied; no consent bar on this page in no single
+         language, the visitor meets it on the chosen language's page. --}}
+    @include('d2::partials.analytics', ['pageKey' => 'chooser'])
     {{ d2_vite($entries) }}
 </head>
 <body class="d2 page-chooser">

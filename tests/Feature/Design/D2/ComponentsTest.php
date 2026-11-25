@@ -359,7 +359,7 @@ final class ComponentsTest extends TestCase
     public function test_the_styleguide_areas_show_every_component_in_every_language(): void
     {
         foreach (['en', 'ar', 'ru'] as $locale) {
-            $html = (string) $this->withUnencryptedCookies(['summit_design' => '2'])->get("/{$locale}/styleguide/")->assertOk()->getContent();
+            $html = (string) $this->get("/{$locale}/styleguide/")->assertOk()->getContent();
             foreach (['icons', 'controls', 'surfaces', 'mobile', 'upload'] as $area) {
                 $this->assertStringContainsString('<section class="sg-section" id="sg-'.$area.'">', $html, "{$locale} {$area}");
             }
@@ -416,7 +416,7 @@ final class ComponentsTest extends TestCase
         $placed = ['clock', 'minus', 'plus', 'calendar', 'chevron', 'chevron-start'];
         $origin = (string) parse_url(url('/'), PHP_URL_HOST);
         foreach (['en', 'ar', 'ru'] as $locale) {
-            $html = (string) $this->withUnencryptedCookies(['summit_design' => '2'])->get("/{$locale}/styleguide/")->assertOk()->getContent();
+            $html = (string) $this->get("/{$locale}/styleguide/")->assertOk()->getContent();
             $section = HTMLDocument::createFromString($html, LIBXML_NOERROR)->getElementById('sg-icons');
             $this->assertNotNull($section, "{$locale}: #sg-icons");
 

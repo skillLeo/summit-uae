@@ -57,32 +57,4 @@ final class Seo
             'robots_index' => ($seo['robots_index'] ?? true) !== false,
         ];
     }
-
-    /**
-     * Font files to preload for the current language's H1 (from the font pipeline): its display
-     * face, plus the Latin serif on AR/RU pages, whose H1 spaces and full stops come from it.
-     *
-     * @return list<string>
-     */
-    public static function preloadFonts(): array
-    {
-        $manifest = self::fontManifest();
-        $keys = match (app()->getLocale()) {
-            'ar' => ['naskh-400-arabic', 'serif-400-latin'],
-            'ru' => ['serif-400-cyrillic', 'serif-400-latin'],
-            default => ['serif-400-latin'],
-        };
-
-        return array_values(array_filter(array_map(fn ($k) => $manifest[$k] ?? null, $keys)));
-    }
-
-    /** @return array<string, string> */
-    private static function fontManifest(): array
-    {
-        static $manifest = null;
-
-        return $manifest ??= is_file(public_path('fonts/manifest.json'))
-            ? (json_decode((string) file_get_contents(public_path('fonts/manifest.json')), true) ?: [])
-            : [];
-    }
 }

@@ -40,7 +40,7 @@ final class ContentCacheTest extends TestCase
 
     private function get2(string $url): string
     {
-        return (string) $this->withUnencryptedCookies(['summit_design' => '2', 'summit_qa' => '1'])->get($url)->assertOk()->getContent();
+        return (string) $this->get($url)->assertOk()->getContent();
     }
 
     public function test_a_content_change_clears_the_cache_and_shows_at_once(): void

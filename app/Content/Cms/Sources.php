@@ -14,8 +14,8 @@ use Illuminate\Support\Arr;
  *   database/content/*.json            the DOCX import (php artisan summit:import): records, interface strings
  *                                      (ui_strings.json, copy_source docx), contacts, WA01 drafts, the site-map link
  *                                      registry, SEO titles and descriptions
- *   lang/{en,ar,ru}/proposed.php       proposed copy of both designs (incl. proposed-d2/*.php): interface text,
- *   lang/{en,ar,ru}/switcher.php       copy_source pending; the Anatomy parts go to document_samples instead
+ *   lang/{en,ar,ru}/proposed.php       proposed copy (incl. proposed-d2/*.php): interface text, copy_source
+ *                                      pending; the Anatomy parts go to document_samples instead
  *   config/summit.php, config/design.php   office hours and WhatsApp number, the "Start your matter" quick picks,
  *                                      the team portrait focal points (the home blocks' defaults: HomeBlocks)
  *   resources/js/d2/tools/*.js         the calculators' constants (rule set version 1)
@@ -33,7 +33,7 @@ final class Sources
     ];
 
     /** Interface-text groups imported from lang/{locale}/{group}.php (copy_source pending). */
-    public const LANG_GROUPS = ['proposed', 'switcher'];
+    public const LANG_GROUPS = ['proposed'];
 
     /** Interface-text keys that live in their own table instead (document_samples). */
     public const LANG_EXCLUDE = ['proposed' => ['d2.anatomy.fields']];
@@ -446,7 +446,7 @@ final class Sources
     }
 
     /**
-     * The proposed interface text of both designs (lang/{locale}/proposed.php with proposed-d2/*.php, switcher.php):
+     * The proposed interface text (lang/{locale}/proposed.php with proposed-d2/*.php):
      * one row per leaf, in file order, copy_source pending.
      *
      * @return list<array<string, mixed>>

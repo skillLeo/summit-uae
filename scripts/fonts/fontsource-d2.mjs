@@ -287,7 +287,6 @@ function collectCopy() {
         const dir = path.join(ROOT, 'lang', locale);
         // proposed.php merges every proposed-d2/<area>.php under its "d2" key
         if (existsSync(path.join(dir, 'proposed.php'))) strings(dumpPhp(path.join(dir, 'proposed.php')), copy[locale].public);
-        if (existsSync(path.join(dir, 'switcher.php'))) strings(dumpPhp(path.join(dir, 'switcher.php')), copy[locale].internal);
         copy[locale].internal.push(...notes); // styleguide annotations are English on every page
     }
     return copy;

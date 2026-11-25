@@ -141,11 +141,10 @@ class AdminPanelProvider extends PanelProvider
     {
         parent::register();
 
-        // blade-icons (installed with Filament) would register the alias <x-icon> for its own component on
-        // every request, taking Design 1's <x-icon> (App\View\Components\Icon) over as soon as views are
-        // recompiled ("Svg by name … not found"), and register every icon of every set as a component.
-        // Filament draws its icons through the svg() factory, not through those components (its own
-        // DisableBladeIconComponents middleware turns them off on panel routes), so they are off app-wide.
+        // blade-icons (installed with Filament) would register the alias <x-icon> for its own component and
+        // every icon of every set as a component on every request. Nothing uses them: Filament draws its icons
+        // through the svg() factory (its own DisableBladeIconComponents middleware turns them off on panel
+        // routes) and Design 2 has its own icons (App\Design\D2\Icons), so they are off app-wide.
         config([
             'blade-icons.components.default' => null,
             'blade-icons.components.disabled' => true,

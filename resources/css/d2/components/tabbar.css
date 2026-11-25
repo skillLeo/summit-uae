@@ -307,8 +307,7 @@
      (<x-d2.shell.sheets>, opened by the header's menu button). Text-only rows with hairlines (no icons, arrows or
      check marks in menu items: brief §3.6 rules 3 and 5); the current page in ink at 600; one row that opens the
      language sheet (the current language and a chevron, as the header's language trigger); contact rows with their
-     functional icons; the homepage's hours sentence; on phones with the design switcher on, the Design 1 / Design 2
-     switch (the floating one is hidden there so it never covers the bottom bar). */
+     functional icons; the homepage's hours sentence. */
   .menu-sheet__group + .menu-sheet__group {
     margin-block-start: var(--s-8);
   }
@@ -446,51 +445,6 @@
     line-height: var(--lh-small);
   }
 
-  /* The design switch (internal demo tool, phones only): two equal segments on a band track, the current design on
-     a white thumb with a --line-strong edge (the segmented control's look, §3.5). Links, not radios: each one reloads
-     the same page, language and #anchor in the other design (modules/sheets.js keeps the #hash). */
-  .menu-sheet__design {
-    display: none;
-  }
-
-  @media (width < 768px) {
-    .menu-sheet__design {
-      display: block;
-    }
-  }
-
-  .menu-sheet__designs {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--s-1);
-    padding: var(--s-1);
-    list-style: none;
-    background: var(--band);
-    border-radius: var(--radius-pill);
-  }
-
-  .menu-sheet__design-option {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-block-size: var(--target-touch);
-    padding-inline: var(--s-2);
-    color: var(--ink-2);
-    font-size: var(--fs-ui);
-    font-weight: var(--fw-medium);
-    line-height: var(--lh-ui);
-    text-align: center;
-    border: var(--line-w) solid transparent;
-    border-radius: var(--radius-pill);
-    -webkit-tap-highlight-color: transparent;
-
-    &[aria-current] {
-      color: var(--ink);
-      background: var(--canvas);
-      border-color: var(--line-strong);
-    }
-  }
-
   /* ================================================================ global sheets: the language sheet
      (opened from the menu sheet's language row). The three approved labels in the page language, as text rows with
      hairlines; the current language in ink at 600 (aria-current; no check mark: no icon in a menu item). */
@@ -570,8 +524,7 @@
   /* Hover only where a pointer can hover (no sticky hover on touch). */
   @media (hover: hover) {
     .menu-sheet__link:not([aria-current]):hover,
-    .lang-sheet__option:not([aria-current]):hover,
-    .menu-sheet__design-option:not([aria-current]):hover {
+    .lang-sheet__option:not([aria-current]):hover {
       color: var(--ink);
     }
 
@@ -584,15 +537,6 @@
       text-decoration-line: underline;
       text-decoration-thickness: 1px;
       text-underline-offset: 3px;
-    }
-  }
-
-  /* The floating "Design 1 | Design 2" switch (resources/views/design-switch, injected when SUMMIT_DESIGN_SWITCHER is
-     on) would sit over the tab bar on phones: Design 2 shows it in the menu sheet there instead. Its stylesheet is
-     unlayered, so this rule needs !important to win from a layer; Design 1 never loads this file. */
-  @media (width < 768px) {
-    body:has(> .tabbar:not(.tabbar--static)) > .sds {
-      display: none !important;
     }
   }
 }

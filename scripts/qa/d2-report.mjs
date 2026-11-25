@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Design 2 QA report (upgrade spec §9 "screenshot QA loop" step 2, §12 G2): qa/report.html from a run folder
- * qa/shots/<date>/ written by playwright.d2.config.mjs, scripts/qa/d1-visual.mjs and lighthouse-d2.mjs.
+ * qa/shots/<date>/ written by playwright.d2.config.mjs and lighthouse-d2.mjs.
  *
  *   node scripts/qa/d2-report.mjs                    the run of today (else the latest run)
  *   node scripts/qa/d2-report.mjs --run=2026-11-10   a given run
@@ -44,7 +44,7 @@ if (args['init-findings']) {
 }
 
 // ------------------------------------------------------------------------------------ run folders
-const isRun = (d) => ['visual', 'hero', 'd1-visual', 'lighthouse'].some((k) => existsSync(path.join(SHOTS_DIR, d, k)));
+const isRun = (d) => ['visual', 'hero', 'lighthouse'].some((k) => existsSync(path.join(SHOTS_DIR, d, k)));
 const runs = existsSync(SHOTS_DIR)
     ? readdirSync(SHOTS_DIR)
           .filter((d) => statSync(path.join(SHOTS_DIR, d)).isDirectory() && isRun(d))
@@ -97,7 +97,6 @@ async function change(currentFile, cmp) {
 // ------------------------------------------------------------------------------------ data
 const visual = listJson(path.join(RUN_DIR, 'visual'));
 const hero = listJson(path.join(RUN_DIR, 'hero'));
-const d1 = readJson(path.join(RUN_DIR, 'd1-visual', 'summary.json'));
 const lighthouse = readJson(path.join(QA_DIR, 'lighthouse-d2.json'));
 const runInfo = readJson(path.join(RUN_DIR, 'run.json')) ?? {};
 const verdict = readJson(path.join(RUN_DIR, 'verdict.json'));
@@ -301,23 +300,6 @@ async function heroSection() {
     return `<section id="hero"><h2>Hero frames (0 / 600 / 1200 / 2000 / 3000 ms)</h2><p class="hint">Each frame is the screen at that time (DevTools screencast, not timed screenshots). Filmstrips: <code>hero/hero-&lt;locale&gt;-&lt;width&gt;-&lt;motion&gt;-strip.png</code>.</p><div class="cards hero-cards">${cards.join('\n')}</div></section>`;
 }
 
-function d1Section() {
-    if (!d1) return '<section id="d1"><h2>Design 1 visual proof</h2><p class="none">Not run (npm run qa:d2:d1-visual).</p></section>';
-    const diffs = d1.rows.filter((r) => !r.same);
-    const fig = (file, label) => (file ? `<figure><figcaption>${esc(label)}</figcaption><div class="pane" data-sync><a href="${esc(rel(path.join(RUN_DIR, file)))}" target="_blank" rel="noopener"><img loading="lazy" src="${esc(rel(path.join(RUN_DIR, file)))}" alt="${esc(label)}"></a></div></figure>` : '');
-    const diffCards = diffs.map(
-        (r) => `<article class="card s-fail"><header><h4>${esc(r.path)} · ${esc(r.width)} px</h4><span class="badge b-fail">${r.error ? 'error' : `${esc(r.different)} px`}</span></header>
-  ${r.error ? `<p class="err">${esc(r.error)}</p>` : `<div class="pair three">${fig(r.files?.baseline, 'baseline (design-1 tag)')}${fig(r.files?.branch, 'branch')}${fig(r.files?.diff, 'diff (magenta)')}</div>`}</article>`,
-    );
-    const thumbs = d1.rows
-        .filter((r) => r.thumb)
-        .map((r) => `<figure class="thumb ${r.same ? '' : 'bad'}"><a href="${esc(rel(path.join(RUN_DIR, r.thumb)))}" target="_blank" rel="noopener"><img loading="lazy" src="${esc(rel(path.join(RUN_DIR, r.thumb)))}" alt="${esc(r.path)}"></a><figcaption>${esc(r.path)} · ${esc(r.width)}${r.same ? ' · identical' : ' · DIFF'}</figcaption></figure>`);
-    return `<section id="d1"><h2>Design 1 visual proof</h2>
-<p class="${diffs.length ? 'err' : 'okline'}">${esc(d1.comparisons)} comparisons (${esc(d1.pages)} pages × ${esc(d1.widths.join(' / '))} px): ${diffs.length ? `${diffs.length} different` : 'every page pixel-identical to the design-1 baseline'} · baseline ${esc(d1.baseline)} · branch ${esc(d1.branch)} · ${esc(d1.generatedAt)}</p>
-${diffCards.join('\n')}
-<details><summary>All ${esc(d1.rows.length)} branch captures (thumbnails)</summary><div class="thumbs">${thumbs.join('')}</div></details></section>`;
-}
-
 function lighthouseSection() {
     if (!lighthouse) return '<section id="lighthouse"><h2>Lighthouse (production build)</h2><p class="none">Not run (npm run qa:d2:lighthouse).</p></section>';
     const kb = (b) => (b === null || b === undefined ? 'n/a' : `${(b / 1024).toFixed(1)} KB`);
@@ -350,7 +332,6 @@ function findingsTable() {
             rows.push(['Hero', `${r.width} ${r.motion}`, r.locale.toUpperCase(), `${id}: ${brief(id, c)}`, c.warn ? 'low' : SEVERITY[id] ?? 'medium', 'open']);
         }
     }
-    for (const r of d1?.rows ?? []) if (!r.same) rows.push(['Design 1 ' + r.path, r.width, '–', r.error ? `capture error: ${r.error}` : `${r.different} pixels differ from the design-1 baseline`, 'critical', 'open']);
     for (const r of lighthouse?.rows ?? []) for (const g of r.gateFailures ?? []) rows.push([`Lighthouse ${r.page}`, 'mobile', r.page.split('-').pop().toUpperCase(), g, /accessibility|seo/.test(g) ? 'high' : 'medium', 'open']);
     const order = { critical: 0, high: 1, medium: 2, low: 3 };
     rows.sort((a, b) => order[a[4]] - order[b[4]]);
@@ -405,14 +386,13 @@ async function main() {
     const h = count(hero);
     const html = `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Design 2 QA report ${esc(current)}</title><style>${CSS}</style></head>
-<body><header class="top"><h1>Design 2 QA · ${esc(current)}</h1><nav><a href="#summary">Summary</a><a href="#visual">Pages</a><a href="#hero">Hero</a><a href="#d1">Design 1</a><a href="#lighthouse">Lighthouse</a></nav><label><input type="checkbox" id="only-failing"> only failing captures</label></header>
+<body><header class="top"><h1>Design 2 QA · ${esc(current)}</h1><nav><a href="#summary">Summary</a><a href="#visual">Pages</a><a href="#hero">Hero</a><a href="#lighthouse">Lighthouse</a></nav><label><input type="checkbox" id="only-failing"> only failing captures</label></header>
 <main>
 <section id="summary"><h2>Summary</h2>
 <p class="meta">Site ${esc(runInfo.baseUrl ?? '?')} · ${runInfo.devServer ? 'Vite dev server (unbundled assets: timings indicative only)' : 'built assets'} · commit ${esc(runInfo.commit ?? '?')} · started ${esc(runInfo.startedAt ?? '?')} · report ${esc(new Date().toISOString())}${earlier.length ? ` · earlier runs: ${esc(earlier.slice(0, 5).join(', '))}` : ''}</p>
 <div class="summary">
 <div class="stat"><b>${v.pass} / ${v.total}</b>page captures pass</div>
 <div class="stat"><b>${h.pass} / ${h.total}</b>hero captures pass</div>
-<div class="stat"><b>${d1 ? (d1.different ? `${d1.different} diff` : '0 diff') : 'n/a'}</b>Design 1 pixel proof</div>
 <div class="stat"><b>${lighthouse ? (lighthouse.pass ? 'pass' : `${lighthouse.rows.filter((r) => r.gateFailures?.length).length} fail`) : 'n/a'}</b>Lighthouse gates</div>
 ${verdict ? `<div class="stat"><b>${esc(Object.keys(verdict.byCheck ?? {}).length)}</b>failing check types: ${esc(Object.entries(verdict.byCheck ?? {}).map(([k, n]) => `${k} ×${n}`).join(', '))}</div>` : ''}
 </div>
@@ -422,7 +402,6 @@ ${matrix()}
 <section id="visual"><h2>Full-page screenshots (page · width · language)</h2></section>
 ${visualHtml}
 ${heroHtml}
-${d1Section()}
 ${lighthouseSection()}
 </main><script>${JS}</script></body></html>`;
     mkdirSync(path.dirname(OUT), { recursive: true });
@@ -439,7 +418,7 @@ ${lighthouseSection()}
         }
         writeFileSync(path.join(RUN_DIR, 'tiles', 'index.txt'), `${index.join('\n')}\n`);
     }
-    console.log(`Report: ${path.relative(process.cwd(), OUT)} (run ${current}: ${visual.length} page captures, ${hero.length} hero captures${d1 ? `, Design 1 proof ${d1.comparisons} comparisons` : ''}${lighthouse ? ', Lighthouse' : ''})`);
+    console.log(`Report: ${path.relative(process.cwd(), OUT)} (run ${current}: ${visual.length} page captures, ${hero.length} hero captures${lighthouse ? ', Lighthouse' : ''})`);
     console.log(`Findings: ${path.relative(process.cwd(), path.join(RUN_DIR, 'findings-auto.md'))}${args.tiles ? ` · ${tileCount} tiles in ${path.relative(process.cwd(), path.join(RUN_DIR, 'tiles'))}/ (index.txt)` : ''}`);
 }
 

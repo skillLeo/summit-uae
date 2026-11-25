@@ -208,8 +208,8 @@ final class MediaTest extends TestCase
     public function test_the_media_import_is_idempotent_and_changes_nothing_on_the_public_site(): void
     {
         $normalise = fn (string $html) => preg_replace(['/nonce="[^"]*"/', '/name="_token" value="[^"]*"/', '/<meta name="csrf-token" content="[^"]*"/', '/name="idempotency_key" value="[^"]*"/'], ['nonce=""', 'name="_token"', '<meta name="csrf-token"', 'name="idempotency_key"'], $html);
-        $page = fn (string $locale, string $design) => $this->withUnencryptedCookies(['summit_design' => $design])->get("/{$locale}/about/")->assertOk()->getContent();
-        $before = ['en2' => $page('en', '2'), 'ar2' => $page('ar', '2'), 'en1' => $page('en', '1')];
+        $page = fn (string $locale) => $this->get("/{$locale}/about/")->assertOk()->getContent();
+        $before = ['en' => $page('en'), 'ar' => $page('ar')];
 
         $this->assertSame(0, Artisan::call('summit:media-import'));
         $media = Media::query()->count();
@@ -233,10 +233,9 @@ final class MediaTest extends TestCase
         $this->assertSame($assets, MediaAsset::query()->count());
 
         // the imported originals are not uploads: the pages render exactly as before
-        $this->assertSame($normalise($before['en2']), $normalise($page('en', '2')));
-        $this->assertSame($normalise($before['ar2']), $normalise($page('ar', '2')));
-        $this->assertSame($normalise($before['en1']), $normalise($page('en', '1')));
-        $this->assertStringContainsString('/images/d2/team/ahmed-mohammadi-480.webp', $before['en2']);
+        $this->assertSame($normalise($before['en']), $normalise($page('en')));
+        $this->assertSame($normalise($before['ar']), $normalise($page('ar')));
+        $this->assertStringContainsString('/images/d2/team/ahmed-mohammadi-480.webp', $before['en']);
     }
 
     public function test_the_team_screens_render_and_an_untouched_save_creates_no_draft(): void
@@ -298,17 +297,13 @@ final class MediaTest extends TestCase
         $this->assertSame([52, 30], Publisher::draft($member)['focal_point'] ?? null);
         Publisher::publish($member);
 
-        $html = $this->withUnencryptedCookies(['summit_design' => '2'])->get('/en/about/')->assertOk()->getContent();
+        $html = $this->get('/en/about/')->assertOk()->getContent();
         $url = '/storage/'.$upload->getKey().'/conversions/new-portrait-webp-480.webp';
         $this->assertStringContainsString('src="'.$url.'"', $html);
         $this->assertStringContainsString('/storage/'.$upload->getKey().'/conversions/new-portrait-avif-768.avif 768w', $html);
         $this->assertStringContainsString('.portrait[data-member="team-ahmed"]{--portrait-x:52%;--portrait-y:30%', $html);
         $this->assertStringNotContainsString('/images/d2/team/ahmed-mohammadi-480.webp', $html);
         $this->assertStringContainsString('/images/d2/team/dr-mohamed-raouf-480.webp', $html, 'the other members keep their static files');
-
-        // Design 1 keeps its static portraits
-        $d1 = $this->withUnencryptedCookies(['summit_design' => '1'])->get('/en/about/')->assertOk()->getContent();
-        $this->assertStringNotContainsString('/storage/', $d1);
     }
 
     public function test_the_document_samples_screens_render_without_create_or_delete(): void

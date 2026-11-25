@@ -44,8 +44,7 @@ final class HomeIntegrationTest extends TestCase
 
     private function home(string $locale): string
     {
-        return $this->pages[$locale] ??= $this->withUnencryptedCookies(['summit_design' => '2'])
-            ->get("/{$locale}/")->assertOk()->getContent();
+        return $this->pages[$locale] ??= $this->get("/{$locale}/")->assertOk()->getContent();
     }
 
     public function test_sections_follow_contract_a_with_one_h1_and_unique_ids(): void

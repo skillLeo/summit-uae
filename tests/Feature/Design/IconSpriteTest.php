@@ -48,17 +48,17 @@ final class IconSpriteTest extends TestCase
     public function test_design_two_pages_print_each_glyph_once_in_a_sprite_after_body(): void
     {
         foreach (['/en/', '/ar/', '/ru/', '/en/contact/', '/ar/practice-areas/', '/ru/styleguide/'] as $url) {
-            $html = (string) $this->withUnencryptedCookies(['summit_design' => '2'])->get($url)->assertOk()->getContent();
+            $html = (string) $this->get($url)->assertOk()->getContent();
             $this->assertSprite($html, $url);
         }
         // The home's 43 glyphs serve its ~785 icons.
-        [$uses, $symbols] = $this->references((string) $this->withUnencryptedCookies(['summit_design' => '2'])->get('/en/')->getContent());
+        [$uses, $symbols] = $this->references((string) $this->get('/en/')->getContent());
         $this->assertGreaterThan(5 * count($symbols), count($uses));
     }
 
     public function test_error_pages_get_the_sprite_too(): void
     {
-        $html = (string) $this->withUnencryptedCookies(['summit_design' => '2'])->get('/ar/no-such-page/')->assertNotFound()->getContent();
+        $html = (string) $this->get('/ar/no-such-page/')->assertNotFound()->getContent();
         $this->assertSprite($html, '404');
 
         // Maintenance mode's 503 is rendered inside the global middleware stack: the sprite middleware is outermost.
@@ -79,19 +79,19 @@ final class IconSpriteTest extends TestCase
                 return [];
             }
         });
-        $html = (string) $this->withUnencryptedCookies(['summit_design' => '2'])->get('/en/')->assertStatus(503)->getContent();
+        $html = (string) $this->get('/en/')->assertStatus(503)->getContent();
         $this->assertStringContainsString('data-status="503"', $html);
         $this->assertSprite($html, '503');
     }
 
     public function test_responses_without_design_two_icons_are_untouched(): void
     {
-        foreach (['/en/', '/ar/contact/'] as $url) {
-            $html = (string) $this->get($url)->assertOk()->getContent();
-            $this->assertStringNotContainsString('icon-sprite', $html, "Design 1 {$url}");
-            $this->assertStringNotContainsString('#d2i-', $html, "Design 1 {$url}");
-        }
-        $this->assertStringNotContainsString('icon-sprite', (string) $this->withUnencryptedCookies(['summit_design' => '2'])->get('/sitemap.xml')->getContent());
+        // The admin's sign-in page (Filament's own icons) is HTML without a Design 2 icon.
+        $html = (string) $this->get('/admin/login')->assertOk()->getContent();
+        $this->assertStringContainsString('</body>', $html);
+        $this->assertStringNotContainsString('icon-sprite', $html, 'admin sign-in');
+        $this->assertStringNotContainsString('#d2i-', $html, 'admin sign-in');
+        $this->assertStringNotContainsString('icon-sprite', (string) $this->get('/sitemap.xml')->getContent());
         $this->assertSame([], Icons::used(), 'the request leaves nothing recorded behind');
     }
 
@@ -146,7 +146,7 @@ final class IconSpriteTest extends TestCase
         // The official WhatsApp logo is a brand mark (Meta's files, unchanged): no glyph file, no symbol on any page.
         $this->assertFileDoesNotExist(resource_path('svg/d2/icons/whatsapp.svg'));
         foreach (['/en/', '/ar/contact/', '/ru/styleguide/'] as $url) {
-            $html = (string) $this->withUnencryptedCookies(['summit_design' => '2'])->get($url)->assertOk()->getContent();
+            $html = (string) $this->get($url)->assertOk()->getContent();
             $this->assertStringNotContainsString('d2i-whatsapp', $html, $url);
             $this->assertStringContainsString('data-brand="whatsapp"', $html, $url);
             preg_match_all('/<svg class="icon(?: [^"]*)?"[^>]*\bdata-icon="([^"]+)"/', $html, $icons);

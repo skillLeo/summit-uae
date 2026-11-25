@@ -31,8 +31,7 @@ final class HeroTest extends TestCase
 
     private function home(string $locale = 'en', string $query = ''): string
     {
-        return $this->withUnencryptedCookies(['summit_design' => '2'])
-            ->get("/{$locale}/".($query !== '' ? '?'.$query : ''))
+        return $this->get("/{$locale}/".($query !== '' ? '?'.$query : ''))
             ->assertOk()
             ->getContent();
     }
@@ -243,7 +242,7 @@ final class HeroTest extends TestCase
         $this->assertDoesNotMatchRegularExpression('/<option value="S[^"]+" selected/', $tool, 'unknown codes select nothing');
         $this->assertStringContainsString('<option value="" selected>', $tool);
 
-        $html = $this->withUnencryptedCookies(['summit_design' => '2'])->get('/en/?situation[]=S06-2')->assertOk()->getContent();
+        $html = $this->get('/en/?situation[]=S06-2')->assertOk()->getContent();
         $this->assertDoesNotMatchRegularExpression('/<option value="S[^"]+" selected/', $this->start($html), 'array values are ignored');
     }
 
@@ -450,7 +449,7 @@ final class HeroTest extends TestCase
         $this->assertStringNotContainsString('box-shadow', $notes);
         // The styleguide's specimens of the stage's own parts and of a document's watermark are illustrations too.
         foreach (['en', 'ar', 'ru'] as $locale) {
-            $sg = $this->withUnencryptedCookies(['summit_design' => '2'])->get("/{$locale}/styleguide/")->assertOk()->getContent();
+            $sg = $this->get("/{$locale}/styleguide/")->assertOk()->getContent();
             $this->assertMatchesRegularExpression('/<div class="hero-parts" aria-hidden="true" data-illustration>/', $sg, "{$locale}: hero parts");
             $this->assertSame(2, preg_match_all('/<div class="sg-wm(?: sg-wm--min)? doc" aria-hidden="true" data-illustration>/', $sg), "{$locale}: both watermark specimens");
         }
@@ -466,7 +465,7 @@ final class HeroTest extends TestCase
         $this->assertMatchesRegularExpression('/data-hero-visual\s+data-autoplay="'.HeroStage::DWELL.'"\s+x-data="d2HeroStage"/', $hero);
         $this->assertGreaterThanOrEqual(2500, HeroStage::DWELL);
         $this->assertLessThanOrEqual(3000, HeroStage::DWELL);
-        $sg = $this->withUnencryptedCookies(['summit_design' => '2'])->get('/en/styleguide/')->assertOk()->getContent();
+        $sg = $this->get('/en/styleguide/')->assertOk()->getContent();
         $this->assertGreaterThan(0, substr_count($sg, 'data-hero-visual'));
         $this->assertStringNotContainsString('data-autoplay', $sg, 'no specimen plays by itself');
         $this->assertStringContainsString('data-pager-toggle data-state="stopped"', $sg, 'a specimen\'s toggle reads "Play"');

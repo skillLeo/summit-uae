@@ -44,7 +44,6 @@ const browser = await chromium.launch({ channel: 'chrome', headless: true });
 
 async function open(width, locale) {
     const context = await browser.newContext({ viewport: { width, height: 900 }, reducedMotion: 'reduce', locale });
-    await context.addCookies([{ name: 'summit_design', value: '2', url: BASE }, { name: 'summit_qa', value: '1', url: BASE }]);
     await context.route(/\/@vite\/client(?:\?.*)?$/, (route) => route.fulfill({ status: 200, contentType: 'text/javascript', body: HMR_STUB }));
     const page = await context.newPage();
     await page.goto(`${BASE}/${locale}/`, { waitUntil: 'load' });

@@ -1,8 +1,8 @@
 {{--
     Design 2 error pages 403 · 419 · 429 · 500 · 503 (owner: error-pages), shared by errors/{status}.blade.php.
-    Laravel's exception handler renders errors::{status}; in Design 2 that namespace starts with this folder
-    (App\Design\DesignManager::apply lists resources/views/designs/d2 first in config('view.paths'), which
-    the handler maps to {path}/errors), so each file here replaces the stock page and Design 1 keeps it.
+    Laravel's exception handler renders errors::{status}; that namespace starts with this folder (config/view.php
+    lists resources/views/designs/d2 first in config('view.paths'), which the handler maps to {path}/errors), so
+    each file here replaces the stock page.
     The 404 is separate (d2::errors.404 with the full shell, rendered by bootstrap/app.php).
 
     Robust by construction: the error may be the database itself, so nothing here touches the database,

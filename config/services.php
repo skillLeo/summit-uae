@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    // Google Analytics 4 (App\Support\Analytics): the fallback measurement ID ("G-…"). The admin's Settings,
+    // Integrations value wins when it is set; empty or invalid = no tag at all.
+    'ga4' => [
+        'id' => env('GA4_MEASUREMENT_ID'),
+    ],
+
 ];

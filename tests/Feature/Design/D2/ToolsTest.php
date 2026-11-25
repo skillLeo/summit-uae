@@ -27,7 +27,7 @@ final class ToolsTest extends TestCase
 
     private function page(string $path): string
     {
-        return $this->withUnencryptedCookies(['summit_design' => '2'])->get($path)->assertOk()->getContent();
+        return $this->get($path)->assertOk()->getContent();
     }
 
     /** The tools <section> (it contains the result <section>s, so match the tags). */
@@ -48,18 +48,16 @@ final class ToolsTest extends TestCase
     }
 
     /** @return array<string, mixed> */
-    public function test_the_page_is_design_2_only_noindex_and_hidden_without_pending_copy(): void
+    public function test_the_page_is_noindex_and_hidden_without_pending_copy(): void
     {
         foreach (self::LOCALES as $locale) {
             $html = $this->page("/{$locale}/calculators/");
             $this->assertStringContainsString('noindex', $html, "{$locale}: noindex while pending");
             $this->assertStringNotContainsString('id="tools"', $this->page("/{$locale}/"), "{$locale}: the calculators left the home");
-            $this->withUnencryptedCookies(['summit_design' => '1'])->get("/{$locale}/calculators/")
-                ->assertRedirect(url('/')."/{$locale}/");
         }
         $this->assertStringNotContainsString('calculators', $this->get('/sitemap.xml')->getContent(), 'out of the sitemap');
         config(['design.d2.show_pending' => false]);
-        $this->withUnencryptedCookies(['summit_design' => '2'])->get('/en/calculators/')->assertNotFound();
+        $this->get('/en/calculators/')->assertNotFound();
     }
 
     private function config(string $html, string $tool): array

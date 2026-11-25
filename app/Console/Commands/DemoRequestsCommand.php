@@ -206,7 +206,6 @@ final class DemoRequestsCommand extends Command
             'utm_medium' => $campaign ? 'cpc' : null,
             'utm_campaign' => $campaign,
             'device_class' => $this->pick(['mobile' => 58, 'desktop' => 36, 'tablet' => 6]),
-            'design' => $this->pick(['1' => 50, '2' => 50]),
             'privacy_revision_id' => $this->privacy,
             'is_demo' => true,
         ]);

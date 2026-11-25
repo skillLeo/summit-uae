@@ -1,10 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import { HYSTERESIS, MIN_SCROLL, compactLayout, compactThreshold, nextCompact, overflows, shortcut } from '../header.js';
+import { BRAND_GAP, COMPACT_SCALE, HYSTERESIS, MIN_SCROLL, compactThreshold, nextCompact, overflows, rowFit, rowState, shortcut } from '../header.js';
 
 // Lives outside modules/*.js on purpose: app.js eagerly imports every modules/*.js file.
-// Design 2.1 header (brief §3.7, §3.8, D13, D14): the compact state, the navigation fit and the search shortcuts.
+// The header (brief §3.7, §3.8, D13, D14; the client's final changes, item 1): the compact state, the navigation fit
+// and the search shortcuts.
 describe('header: compact state', () => {
-    it('turns compact once the masthead has lifted by its own spare height (88 - 64 = 24 px on desktop)', () => {
+    it('turns compact once the masthead has lifted by its own spare height (88 - 72 = 16 px on desktop)', () => {
+        expect(compactThreshold(-16)).toBe(16);
         expect(compactThreshold(-24)).toBe(24);
         expect(compactThreshold(-8)).toBe(MIN_SCROLL); // 72 → 64 from 768 px
         expect(nextCompact(false, 23, 24)).toBe(false);
@@ -39,33 +41,51 @@ describe('header: navigation fit', () => {
     });
 });
 
-// D13 + QA round 1: once scrolled, the seven labels stay in the 64 px bar wherever they fit beside the shield and
-// the tools; the menu button replaces them only where they do not. Widths measured on the live header (Onest and
-// IBM Plex Sans Arabic, 15/500): label boxes with their 12 px paddings, the shield's 44 px target, the bar's 16 px
-// gap, the tools (search, language, CTA).
-describe('header: the compact bar docks the seven labels where they fit', () => {
-    const en = { rowShown: true, collapsed: false, brand: 44, labels: 724, gap: 16, tools: 400 };
-    const ar = { rowShown: true, collapsed: false, brand: 44, labels: 755, gap: 16, tools: 304 };
-    const ru = { rowShown: true, collapsed: false, brand: 44, labels: 1030, gap: 16, tools: 493 };
+// D13 + the client's item 1: the header holds the lockup, the seven labels and the language menu only. The labels ride
+// in the bar, at its end, wherever they fit beside the lockup (56 px at the top of the page, 44 px once compact) and
+// the tools; elsewhere they take their own row at the top of the page and tuck behind the menu button once scrolled.
+// Widths measured on the live header (Onest and IBM Plex Sans Arabic, 15/500): label boxes with their 12 px paddings,
+// the 222 px lockup, the bar's 16 px gap, the language trigger.
+describe('header: the seven labels ride in the bar where they fit', () => {
+    const en = { rowShown: true, collapsed: false, lockup: 222, labels: 724, gap: 16, tools: 104 };
+    const ar = { rowShown: true, collapsed: false, lockup: 222, labels: 755, gap: 16, tools: 92 };
+    const ru = { rowShown: true, collapsed: false, lockup: 222, labels: 1030, gap: 16, tools: 108 };
+    const needs = (row, scale = 1) => row.lockup * scale + BRAND_GAP + row.labels + row.gap + row.tools;
 
-    it('docks English and Arabic in a full 1200 px container (windows from about 1,250 px)', () => {
-        expect(compactLayout({ ...en, bar: 1200 })).toBe('docked');
-        expect(compactLayout({ ...ar, bar: 1200 })).toBe('docked');
-        expect(compactLayout({ ...en, bar: 1184 })).toBe('docked'); // 44 + 724 + 16 + 400: exactly full
-        expect(compactLayout({ ...ar, bar: 1119 })).toBe('docked');
+    it('fits English and Arabic in one row in a full 1200 px container, at the top and once compact', () => {
+        expect(rowFit({ ...en, bar: 1200 })).toEqual({ top: true, compact: true });
+        expect(rowFit({ ...ar, bar: 1200 })).toEqual({ top: true, compact: true });
+        expect(rowFit({ ...en, bar: needs(en) })).toEqual({ top: true, compact: true }); // exactly full
     });
 
-    it('tucks the row (menu button beside the shield) where the labels do not fit: Russian, narrower windows', () => {
-        expect(compactLayout({ ...ru, bar: 1200 })).toBe('tucked'); // Russian never fits beside its tools
-        expect(compactLayout({ ...en, bar: 1116 })).toBe('tucked'); // English at 1180 px
-        expect(compactLayout({ ...en, bar: 960 })).toBe('tucked'); // 1024 px
-        expect(compactLayout({ ...ar, bar: 1118 })).toBe('docked'); // 1119 needed: within the 1 px rounding slack
-        expect(compactLayout({ ...ar, bar: 1116 })).toBe('tucked'); // Arabic at 1180 px
+    it('fits only once compact where the 44 px lockup leaves the room the 56 px one does not', () => {
+        const bar = needs(en, COMPACT_SCALE) + 1;
+        expect(rowFit({ ...en, bar })).toEqual({ top: false, compact: true });
+        expect(rowState(rowFit({ ...en, bar }), false)).toEqual({ inline: false, tucked: false, lifted: false });
+        expect(rowState(rowFit({ ...en, bar }), true)).toEqual({ inline: true, tucked: false, lifted: true });
     });
 
-    it('has no compact layout where the row is not shown or collapsed (the menu button at the end is already there)', () => {
-        expect(compactLayout({ ...en, bar: 1200, rowShown: false })).toBe(null); // below 1024 px; Russian below 69rem
-        expect(compactLayout({ ...en, bar: 1200, collapsed: true })).toBe(null); // the row would overflow even alone
+    it('gives Russian its own row at the top and tucks it once scrolled (it never fits beside the lockup)', () => {
+        const fit = rowFit({ ...ru, bar: 1200 });
+        expect(fit).toEqual({ top: false, compact: false });
+        expect(rowState(fit, false)).toEqual({ inline: false, tucked: false, lifted: false });
+        expect(rowState(fit, true)).toEqual({ inline: false, tucked: true, lifted: true });
+    });
+
+    it('keeps an inline row inline when compact, with nothing lifted (the header never changes height)', () => {
+        const fit = rowFit({ ...en, bar: 1200 });
+        expect(rowState(fit, false)).toEqual({ inline: true, tucked: false, lifted: false });
+        expect(rowState(fit, true)).toEqual({ inline: true, tucked: false, lifted: false });
+    });
+
+    it('has no row state where the row is not shown or collapsed (the menu button at the end is already there)', () => {
+        expect(rowFit({ ...en, bar: 1200, rowShown: false })).toBe(null); // below 1024 px; Russian below 69rem
+        expect(rowFit({ ...en, bar: 1200, collapsed: true })).toBe(null); // the row would overflow even alone
+        expect(rowState(null, true)).toEqual({ inline: false, tucked: false, lifted: false });
+    });
+
+    it('scales the lockup from 56 to 44 px in the compact bar', () => {
+        expect(COMPACT_SCALE * 56).toBeCloseTo(44, 6);
     });
 });
 

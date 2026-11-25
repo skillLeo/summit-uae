@@ -99,8 +99,7 @@ final class InnerBannedPatternsTest extends TestCase
 
         foreach ($this->pages($locale) as $key => $page) {
             $ctx = "{$key} {$locale}";
-            $html = (string) $this->withUnencryptedCookies(['summit_design' => '2', 'summit_qa' => '1'])
-                ->get($page['path'])->assertStatus($page['status'])->getContent();
+            $html = (string) $this->get($page['path'])->assertStatus($page['status'])->getContent();
             $x = $this->dom($html);
             $main = $x->query('//main')->item(0);
             $this->assertInstanceOf(DOMElement::class, $main, $ctx);

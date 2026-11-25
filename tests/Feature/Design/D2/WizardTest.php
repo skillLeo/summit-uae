@@ -53,7 +53,7 @@ final class WizardTest extends TestCase
 
     private function home(string $locale, string $query = ''): string
     {
-        return $this->withUnencryptedCookies(['summit_design' => '2'])->get("/{$locale}/{$query}")->assertOk()->getContent();
+        return $this->get("/{$locale}/{$query}")->assertOk()->getContent();
     }
 
     private function dom(string $html): DOMXPath
@@ -417,7 +417,7 @@ final class WizardTest extends TestCase
 
     public function test_the_rate_limited_flash_renders_its_notice_with_the_channels(): void
     {
-        $x = $this->dom($this->withSession(['enquiry_status' => 'rate_limited'])->withUnencryptedCookies(['summit_design' => '2'])->get('/ru/')->assertOk()->getContent());
+        $x = $this->dom($this->withSession(['enquiry_status' => 'rate_limited'])->get('/ru/')->assertOk()->getContent());
         $notice = $this->one($x, '//*[@data-wizard-notice="rate_limited"]');
         $this->assertFalse($notice->hasAttribute('hidden'));
         $this->assertStringContainsString(ui('form.state.rate_limited', 'ru'), $notice->textContent);
@@ -427,7 +427,7 @@ final class WizardTest extends TestCase
     public function test_array_shaped_old_input_and_query_values_never_break_the_page(): void
     {
         $this->withSession(['_old_input' => ['name' => ['x'], 'summary' => ['y'], 'phone' => ['z'], 'matter_type' => ['S06']]])
-            ->withUnencryptedCookies(['summit_design' => '2'])
+            
             ->get('/en/?service[]=S06&situation[]=S06-1&consultant[]=team-ahmed')
             ->assertOk();
     }
@@ -567,7 +567,7 @@ final class WizardTest extends TestCase
         $this->assertFalse($this->one($x, '//button[@data-wizard-back]')->hasAttribute('hidden'));
 
         // A delivery notice opens the review: Submit shows at once, Next does not.
-        $y = $this->dom($this->withSession(['enquiry_status' => 'failed'])->withUnencryptedCookies(['summit_design' => '2'])->get('/en/')->assertOk()->getContent());
+        $y = $this->dom($this->withSession(['enquiry_status' => 'failed'])->get('/en/')->assertOk()->getContent());
         $this->assertSame('5', $this->one($y, '//div[@data-wizard]')->getAttribute('data-step'));
         $this->assertFalse($this->one($y, '//button[@data-wizard-submit]')->hasAttribute('data-wizard-later'));
         $this->assertTrue($this->one($y, '//button[@data-wizard-next]')->hasAttribute('hidden'));
@@ -652,7 +652,7 @@ final class WizardTest extends TestCase
     #[DataProvider('locales')]
     public function test_d38_the_fields_follow_the_contact_docx_order(string $locale): void
     {
-        foreach ([$this->home($locale), $this->withUnencryptedCookies(['summit_design' => '2'])->get("/{$locale}/contact/")->assertOk()->getContent()] as $html) {
+        foreach ([$this->home($locale), $this->get("/{$locale}/contact/")->assertOk()->getContent()] as $html) {
             $x = $this->dom($html);
             $this->assertSame(['name', 'phone', 'email', 'preferred_language', 'matter_type', 'summary', 'deadline_date', 'deadline_details', 'enquiry_consent'], $this->fieldOrder($x), $locale);
 
@@ -731,7 +731,7 @@ final class WizardTest extends TestCase
     {
         $pages = [
             'home' => [$this->home($locale), content()->page('P01', $locale)['content']['form_home_variant']['consent']],
-            'contact' => [$this->withUnencryptedCookies(['summit_design' => '2'])->get("/{$locale}/contact/")->assertOk()->getContent(), ui('form.consent.label', $locale)],
+            'contact' => [$this->get("/{$locale}/contact/")->assertOk()->getContent(), ui('form.consent.label', $locale)],
         ];
         foreach ($pages as $page => [$html, $sentence]) {
             $x = $this->dom($html);
@@ -758,7 +758,7 @@ final class WizardTest extends TestCase
     #[DataProvider('locales')]
     public function test_the_contact_page_form_uses_the_contact_files_copy(string $locale): void
     {
-        $x = $this->dom($this->withUnencryptedCookies(['summit_design' => '2'])->get("/{$locale}/contact/")->assertOk()->getContent());
+        $x = $this->dom($this->get("/{$locale}/contact/")->assertOk()->getContent());
         $form = $this->one($x, '//form[@data-wizard-form]');
         foreach (['name.label', 'name.help', 'phone.label', 'phone.help', 'email.label', 'email.help', 'contact_group.help', 'preferred_language.label', 'matter_type.label', 'summary.label', 'summary.help', 'deadline_date.label', 'deadline_date.help', 'deadline_details.label', 'notice.sensitive', 'notice.engagement', 'submit'] as $key) {
             $this->assertStringContainsString(ui('form.'.$key, $locale), $form->textContent, "{$locale}: {$key}");
@@ -817,7 +817,7 @@ final class WizardTest extends TestCase
             config(['summit.features.attachments_enabled' => $enabled]);
             $this->assertFalse(\App\Design\D2\Attachment::enabled());
             foreach (['/en/', '/en/contact/'] as $url) {
-                $html = $this->withUnencryptedCookies(['summit_design' => '2'])->get($url)->assertOk()->getContent();
+                $html = $this->get($url)->assertOk()->getContent();
                 $x = $this->dom($html);
                 $this->assertFalse($this->one($x, '//form[@data-wizard-form]')->hasAttribute('enctype'), $url);
                 $this->assertSame(0, $x->query('//*[@data-upload] | //input[@type="file"] | //*[@data-review="attachment"]')->length, $url);

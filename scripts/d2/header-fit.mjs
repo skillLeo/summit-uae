@@ -32,7 +32,6 @@ const browser = await chromium.launch({ channel: 'chrome' });
 const out = {};
 for (const loc of ['en', 'ar', 'ru']) {
   const ctx = await browser.newContext({ viewport: { width: 1900, height: 900 }, bypassCSP: true });
-  await ctx.addCookies([{ name: 'summit_design', value: '2', url: BASE }, { name: 'summit_qa', value: '1', url: BASE }]);
   const page = await ctx.newPage();
   await page.goto(`${BASE}/${loc}/practice-areas/labor-law/`, { waitUntil: 'networkidle' });
   out[loc] = await page.evaluate(async ({ SIM, faces }) => {

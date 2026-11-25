@@ -377,7 +377,7 @@ final class InnerKitTest extends TestCase
     {
         foreach (['en', 'ar'] as $locale) {
             app()->setLocale($locale);
-            $html = $this->withUnencryptedCookies(['summit_design' => '2'])->get("/{$locale}/styleguide/")->assertOk()->getContent();
+            $html = $this->get("/{$locale}/styleguide/")->assertOk()->getContent();
             $start = strpos($html, '<section class="sg-section sg-inner" id="sg-inner">');
             $this->assertNotFalse($start, "{$locale}: inner area");
             $next = strpos($html, '<section class="sg-section', $start + 10);
@@ -405,7 +405,7 @@ final class InnerKitTest extends TestCase
         };
         foreach (['en', 'ar', 'ru'] as $locale) {
             app()->setLocale($locale);
-            $html = $this->withUnencryptedCookies(['summit_design' => '2'])->get("/{$locale}/styleguide/")->assertOk()->getContent();
+            $html = $this->get("/{$locale}/styleguide/")->assertOk()->getContent();
             $start = strpos($html, 'id="sg-inner-cta-3"');
             $this->assertNotFalse($start, "{$locale}: the direction specimen");
             $card = substr($html, $start, strpos($html, '</aside>', $start) - $start);
@@ -432,7 +432,7 @@ final class InnerKitTest extends TestCase
             (string) parse_url(SiteUrl::service('S06', 'en'), PHP_URL_PATH) => 'svc-prose svc-prose--scope inner-scope',
         ];
         foreach ($pages as $path => $classes) {
-            $html = $this->withUnencryptedCookies(['summit_design' => '2'])->get($path)->assertOk()->getContent();
+            $html = $this->get($path)->assertOk()->getContent();
             $this->assertStringContainsString('class="prose prose--md '.$classes.'"', $html, $path);
         }
         $css = (string) file_get_contents(resource_path('css/d2/pages/inner.css'));

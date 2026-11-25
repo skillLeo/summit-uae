@@ -1,27 +1,24 @@
 #!/usr/bin/env node
 /**
- * Screenshot matrix (docs/briefs/design-2.1-and-admin-cms.md §7.3) for Design 1 and Design 2.
- * Phase 0 keeps its run as the "before" set; every later phase runs it again into its own folder, and the
- * Design 1 regression of §7.4 compares two runs taken with --mask: this tree, and a server of the frozen tag
- * (:8041 serves design-1.1, docs/d2/running.md §8).
+ * Screenshot matrix (docs/briefs/design-2.1-and-admin-cms.md §7.3) of Design 2, the site's only design (Design 1
+ * was retired on 2026-11-25 and is archived at the git tags design-1 and design-1.1). A phase keeps its run as the
+ * "before" set; every later phase runs it again into its own folder.
  *
- *   node scripts/qa/screens.mjs --phase=phase-0 --design=both              everything (npm run qa:screens -- …)
- *   node scripts/qa/screens.mjs --phase=p1 --design=2 --pages=home,faq --locales=ar --widths=390 --states=off
- *   node scripts/qa/screens.mjs --phase=d1-tag --design=1 --mask --states=off --base=http://127.0.0.1:8041
+ *   node scripts/qa/screens.mjs --phase=phase-0                            everything (npm run qa:screens -- …)
+ *   node scripts/qa/screens.mjs --phase=p1 --pages=home,faq --locales=ar --widths=390 --states=off
+ *   node scripts/qa/screens.mjs --phase=p1-masked --mask --states=off      the year and live status masked
  *   node scripts/qa/screens.mjs --phase=phase-0 --sheets-only              rebuild sheets + index.html only
  *
  * Options
  *   --phase=<name>        output folder storage/qa/screens/<name>/ (required: letters, digits, ". _ -")
- *   --design=1|2|both     default both
  *   --locales=en,ar,ru    default en,ar,ru
  *   --widths=1440,1280,768,390   default all four (any other width: below 768 px a touch phone, else desktop)
  *   --pages=<keys>|none   default all (PAGES below)
  *   --states=on|off       default on (STATES below)
  *   --state-list=<keys>   default all states
- *   --base=<url>          default http://127.0.0.1:8040 (a server of this working tree: the design comes from
- *                         the cookie summit_design, the floating switcher stays out with summit_qa=1)
+ *   --base=<url>          default http://127.0.0.1:8040 (a server of this working tree)
  *   --mask                paint a flat magenta box over the copyright line (the dynamic year) and every live
- *                         office-hours status (Design 1 [data-open-status], Design 2 [data-hours-status])
+ *                         office-hours status ([data-hours-status]), for pixel comparisons of two runs
  *   --concurrency=<n>     parallel captures, default 4
  *   --clock=<ISO>|real    the page clock (Date, Date.now) starts at this instant and runs on; default
  *                         2026-11-10T10:30:00+04:00 (a Tuesday inside the 09:00-18:00 office hours), so the
@@ -33,8 +30,8 @@
  *   --no-sheets           captures and manifest only
  *   QA_MIN_FREE_GIB=<n>   environment: the free-space floor in GiB (default 3, minimum 0.5)
  *
- * Capture rules: Google Chrome (channel chrome), one fresh context per capture with the cookies
- * summit_design=<1|2> and summit_qa=1, prefers-reduced-motion: reduce (deterministic final states), the
+ * Capture rules: Google Chrome (channel chrome), one fresh context per capture, no cookies,
+ * prefers-reduced-motion: reduce (deterministic final states), the
  * browser locale of the page language, device scale 1 (390 = isMobile + hasTouch, 768 = hasTouch, as in
  * qa/lib/config.mjs), Vite's reload client stubbed (qa/lib/browser.mjs), requests to other hosts than
  * 127.0.0.1 / localhost blocked (Turnstile), any non-GET request to /enquiries blocked (nothing is ever
@@ -51,8 +48,8 @@
  * again, before each segment (the last one included) and after the capture; the page reports any pointer or
  * hover change while Chrome paints; and the image must be as tall as the region asked for. Any difference
  * fails the capture (one retry) and is recorded in manifest.json (layoutCheck), so a capture never ends in
- * rows the page does not have. Chrome draws position: fixed elements (the phone tab bar, Design 1's bottom
- * bar, floating buttons) once, where they sit in the first screen: on phones they cover the bottom of the
+ * rows the page does not have. Chrome draws position: fixed elements (the phone tab bar, floating buttons)
+ * once, where they sit in the first screen: on phones they cover the bottom of the
  * first screen of a full-page capture and appear nowhere else, exactly as a visitor sees that first screen.
  * Element captures (#tools on the calculators page, the form, the anatomy) are clipped from the full page at
  * scroll 0 with 24 px of the page above and below; position: fixed elements (the tab bar, floating buttons, a
@@ -60,14 +57,15 @@
  * covered by them; overlay states are viewport captures.
  *
  * Output (storage/qa/screens/<phase>/, gitignored):
- *   d1/ d2/                    <page>-<locale>-<width>.jpg and state-<state>-<locale>-<width>.jpg
- *   sheets/<design>-<page>.jpg one labelled grid per page and design (rows = locales, columns = widths)
- *   sheets/<design>-state-<state>.jpg
+ *   d2/                        <page>-<locale>-<width>.jpg and state-<state>-<locale>-<width>.jpg (d2: Design 2,
+ *                              the folder name of the runs made while there were two designs)
+ *   sheets/d2-<page>.jpg       one labelled grid per page (rows = locales, columns = widths)
+ *   sheets/d2-state-<state>.jpg
  *   manifest.json              every capture: url, status, size, height, time, console errors, notes, the
  *                              input the page saw (pointer, hover, touch points) and the layout check
  *                              (height measured, re-measured before every segment and after, pointer or
  *                              hover changes while painted, segment and image heights, difference in px);
- *                              and every page or state that does not exist in a design, with the reason
+ *                              and every page or state that does not exist, with the reason
  *   index.html                 links to every sheet and capture
  * Re-runs into the same folder replace only the captures they make (the manifest is merged).
  *
@@ -98,14 +96,11 @@ const list = (value, fallback) => (value && value !== 'true' ? value.split(',').
 
 const PHASE = argv.phase;
 if (!PHASE || !/^[A-Za-z0-9._-]+$/.test(PHASE)) {
-    console.error('Usage: node scripts/qa/screens.mjs --phase=<name> [--design=1|2|both] … (--help for every option)');
+    console.error('Usage: node scripts/qa/screens.mjs --phase=<name> … (--help for every option)');
     process.exit(2);
 }
-const DESIGNS = { 1: [1], 2: [2], both: [1, 2] }[argv.design ?? 'both'];
-if (!DESIGNS) {
-    console.error(`--design must be 1, 2 or both (got ${argv.design})`);
-    process.exit(2);
-}
+/** Design 2, the only design: every record carries it, and the captures go to d2/ (see the header). */
+const DESIGN = 2;
 const LOCALES = list(argv.locales, ['en', 'ar', 'ru']).filter((l) => ['en', 'ar', 'ru'].includes(l));
 const WIDTHS = list(argv.widths, ['1440', '1280', '768', '390']).map(Number).filter((w) => Number.isInteger(w) && w >= 320 && w <= 2560);
 const BASE = (argv.base || 'http://127.0.0.1:8040').replace(/\/+$/, '');
@@ -125,7 +120,7 @@ if (CLOCK !== null && !Number.isFinite(CLOCK_MS)) {
 const OUT = path.resolve(ROOT, argv.out && argv.out !== 'true' ? argv.out : 'storage/qa/screens', PHASE);
 const MANIFEST = path.join(OUT, 'manifest.json');
 // Stop scheduling captures below 3 GiB free (3.2 GB: the shared disk's floor is 3 GB). QA_MIN_FREE_GIB lowers or
-// raises it for one run (a full matrix of both designs writes about 160 MB), never below 0.5 GiB.
+// raises it for one run (a full matrix writes about 80 MB), never below 0.5 GiB.
 const MIN_FREE = Math.max(0.5, Number(process.env.QA_MIN_FREE_GIB) || 3) * 2 ** 30;
 const MAX_SINGLE = 16_000; // taller full-page captures are stitched from segments
 const SEGMENT = 8_000;
@@ -168,7 +163,7 @@ const MAP = siteMap();
 
 /**
  * Brief §7.3 pages. capture: full (default) | viewport (scrolled to `anchor`) | element (`target`, clipped).
- * `missingIf`: a selector that must exist, else the page is recorded as not existing in that design.
+ * `missingIf`: a selector that must exist, else the page is recorded as not existing.
  */
 const PAGES = [
     { key: 'home', code: 'P01', label: 'Home (P01)' },
@@ -183,9 +178,8 @@ const PAGES = [
     {
         key: 'calculators',
         path: 'calculators/',
-        designs: [2],
-        label: 'Calculators page (/{locale}/calculators/, Design 2 only)',
-        note: 'Brief 2.1 §5.1: the calculators live on their own page (pending copy; it renders while pending copy is shown). Design 1 has none (the address redirects to its home page).',
+        label: 'Calculators page (/{locale}/calculators/)',
+        note: 'Brief 2.1 §5.1: the calculators live on their own page (pending copy; it renders while pending copy is shown).',
     },
     { key: 'legal-notice', code: 'P08', label: 'Legal notice (P08)' },
     { key: 'privacy', code: 'L01', label: 'Privacy policy (L01)' },
@@ -216,25 +210,12 @@ async function waitOpen(page, selector, timeout = 6000) {
     await page.waitForTimeout(500); // sheet and popover transitions (none under reduced motion, but be safe)
 }
 
-/** The menu sheet of either design from the header's menu button (Design 1: also the phone bottom bar). */
-async function openMenuSheet(page, design) {
-    if (design === 2) {
-        if (!(await visible(page, '.d2-header__menu'))) return unavailable('the header shows no menu button at this width (the full navigation is inline)');
-        await page.locator('.d2-header__menu').first().click();
-        await waitOpen(page, '[data-sheet="menu"].is-open');
-        return ok();
-    }
-    if (await visible(page, '.site-header__menu-btn')) {
-        await page.locator('.site-header__menu-btn').first().click();
-        await waitOpen(page, '[data-sheet="menu"].is-open');
-        return ok();
-    }
-    if (await visible(page, '.bottombar [data-sheet-open="services"]')) {
-        await page.locator('.bottombar [data-sheet-open="services"]').first().click();
-        await waitOpen(page, '[data-sheet="services"].is-open');
-        return ok(["Design 1 has no menu button below 768 px: its bottom bar is the navigation; this is the bottom bar's Practice Areas sheet."]);
-    }
-    return unavailable('Design 1 shows neither a menu button nor the bottom bar at this width (the full navigation is inline)');
+/** The menu sheet from the header's menu button. */
+async function openMenuSheet(page) {
+    if (!(await visible(page, '.d2-header__menu'))) return unavailable('the header shows no menu button at this width (the full navigation is inline)');
+    await page.locator('.d2-header__menu').first().click();
+    await waitOpen(page, '[data-sheet="menu"].is-open');
+    return ok();
 }
 
 /** Gratuity estimator inputs: a typical full-time mainland employee (about six years, AED 12,000 basic). */
@@ -252,7 +233,7 @@ const GRATUITY_VALUES = [
 
 /**
  * Brief §7.3 states, all on the home page. Each `prepare` gets the page settled at the top and returns
- * ok(notes) or unavailable(reason) (a state the design does not have at that width or at all).
+ * ok(notes) or unavailable(reason) (a state the page does not have at that width or at all).
  */
 const STATES = [
     {
@@ -260,9 +241,9 @@ const STATES = [
         label: 'Practice Areas mega menu open (home, viewport)',
         widths: [1440, 1280],
         capture: 'viewport',
-        async prepare(page, design) {
-            const toggle = design === 1 ? '.site-nav__toggle[aria-controls="nav-panel-services"]' : '.d2-nav__item--mega > .d2-nav__toggle';
-            const panel = design === 1 ? '#nav-panel-services' : '#d2-megamenu';
+        async prepare(page) {
+            const toggle = '.d2-nav__item--mega > .d2-nav__toggle';
+            const panel = '#d2-megamenu';
             if (!(await visible(page, toggle))) {
                 return unavailable('the desktop navigation with the Practice Areas menu is not shown at this width in this language (the header shows its menu button instead)');
             }
@@ -276,24 +257,14 @@ const STATES = [
         label: 'Menu sheet open (home, viewport)',
         widths: [768, 390],
         capture: 'viewport',
-        prepare: (page, design) => openMenuSheet(page, design),
+        prepare: (page) => openMenuSheet(page),
     },
     {
         key: 'lang-menu',
-        label: 'Language menu open (Design 2: the header popover; the menu sheet\'s language group where the header hides it) (home, viewport)',
+        label: 'Language menu open (the header popover; the menu sheet\'s language group where the header hides it) (home, viewport)',
         widths: [1440, 1280, 768, 390],
         capture: 'viewport',
-        async prepare(page, design, width) {
-            if (design === 1) {
-                if (!(await visible(page, '.lang-menu__button'))) return unavailable('no language button at this width');
-                await page.locator('.lang-menu__button').first().click();
-                if (width < 768) {
-                    await waitOpen(page, '[data-sheet="language"].is-open');
-                    return ok(['Below 768 px the language button opens the language sheet.']);
-                }
-                await waitOpen(page, '#lang-menu-list');
-                return ok();
-            }
+        async prepare(page) {
             // Design 2.1 header (<x-d2.shell.langmenu class="d2-header__lang">): the trigger shows the current
             // language's approved label and a chevron and opens the popover #d2-langmenu (the header shows it from
             // 768 px, components/header.css).
@@ -308,7 +279,7 @@ const STATES = [
             if (!(await visible(page, '.d2-header__menu'))) {
                 return unavailable('the header shows neither the language menu trigger nor the menu button at this width');
             }
-            const sheet = await openMenuSheet(page, 2);
+            const sheet = await openMenuSheet(page);
             if (!sheet.ok) return sheet;
             const row = '[data-sheet="menu"] [data-sheet-open="lang"]';
             if (!(await visible(page, row))) return unavailable('the menu sheet has no language row (data-sheet-open="lang")');
@@ -319,46 +290,36 @@ const STATES = [
     },
     {
         key: 'form-step1',
-        label: 'Consultation form as first shown (home #consultation-form: Design 2 wizard step 1; Design 1 single form)',
+        label: 'Consultation form as first shown (home #consultation-form: the wizard\'s step 1)',
         capture: 'element',
         target: '#consultation-form',
-        async prepare(page, design) {
+        async prepare(page) {
             if (!(await exists(page, '#consultation-form'))) return unavailable('no #consultation-form on the home page');
             await scrollToTarget(page, '#consultation-form');
-            if (design === 2) {
-                await page.locator('[data-wizard][data-wizard-load="ready"]').first().waitFor({ state: 'attached', timeout: 20_000 });
-                await page.waitForTimeout(400);
-                return ok(['Design 2: the wizard, step 1 of 5 ("You"), after its lazy controller mounted.']);
-            }
-            return ok(['Design 1 has one single form (no steps): this is that form, empty.']);
+            await page.locator('[data-wizard][data-wizard-load="ready"]').first().waitFor({ state: 'attached', timeout: 20_000 });
+            await page.waitForTimeout(400);
+            return ok(['The wizard, step 1 of 5 ("You"), after its lazy controller mounted.']);
         },
     },
     {
         key: 'form-error',
-        label: 'Consultation form error state (Design 2: Next on an empty step 1; Design 1: empty submit)',
+        label: 'Consultation form error state (Next on an empty step 1)',
         capture: 'element',
         target: '#consultation-form',
-        async prepare(page, design) {
+        async prepare(page) {
             if (!(await exists(page, '#consultation-form'))) return unavailable('no #consultation-form on the home page');
             await scrollToTarget(page, '#consultation-form');
-            if (design === 2) {
-                await page.locator('[data-wizard][data-wizard-load="ready"]').first().waitFor({ state: 'attached', timeout: 20_000 });
-                await page.locator('[data-wizard-next]').first().click();
-                await page.locator('[data-wizard] [data-field-error]:not([hidden])').first().waitFor({ state: 'visible', timeout: 6000 });
-                await page.waitForTimeout(500);
-                return ok(['Design 2: "Next" pressed on an empty step 1.']);
-            }
-            await page.locator('[data-consultation] [data-submit]').first().click();
-            await page.locator('[data-consultation] [data-error-for]:not([hidden])').first().waitFor({ state: 'visible', timeout: 6000 });
+            await page.locator('[data-wizard][data-wizard-load="ready"]').first().waitFor({ state: 'attached', timeout: 20_000 });
+            await page.locator('[data-wizard-next]').first().click();
+            await page.locator('[data-wizard] [data-field-error]:not([hidden])').first().waitFor({ state: 'visible', timeout: 6000 });
             await page.waitForTimeout(500);
-            return ok(['Design 1: the submit button pressed on the empty form (browser-side validation; nothing is sent).']);
+            return ok(['"Next" pressed on an empty step 1.']);
         },
     },
     {
         key: 'calculator-values',
         label: 'Gratuity calculator with typical values (calculators page #tools)',
         page: 'calculators',
-        designs: [2],
         capture: 'element',
         target: '#tools',
         async prepare(page) {
@@ -397,7 +358,7 @@ const STATES = [
         capture: 'element',
         target: '#anatomy',
         async prepare(page) {
-            if (!(await exists(page, '#anatomy [data-anatomy-part]'))) return unavailable('this design has no Anatomy of a Document section');
+            if (!(await exists(page, '#anatomy [data-anatomy-part]'))) return unavailable('the home page shows no Anatomy of a Document section');
             await scrollToTarget(page, '#anatomy');
             const part = page.locator('#anatomy [data-anatomy-panel]:not([hidden]) [data-anatomy-part]').nth(1);
             const name = (await part.textContent())?.trim();
@@ -444,13 +405,11 @@ function viewportFor(width) {
     return width < 768 ? { viewport: { width, height: 844 }, isMobile: true, hasTouch: true } : { viewport: { width, height: 900 } };
 }
 
-async function openContext(browser, { design, locale, width }) {
+async function openContext(browser, { locale, width }) {
     const context = await newContext(browser, {
         width,
         locale,
         variant: 'reduced',
-        baseURL: BASE,
-        design: String(design),
         extra: { ...viewportFor(width), deviceScaleFactor: 1, timezoneId: TIMEZONE },
     });
     if (CLOCK_MS !== null) await context.addInitScript({ content: clockShim(CLOCK_MS) });
@@ -676,7 +635,7 @@ async function viewportCapture(page) {
 
 /** --mask: the copyright line (any element whose text holds "© <year>") and every live office-hours status. */
 function maskTargets() {
-    const set = new Set(document.querySelectorAll('[data-open-status], [data-hours-status], .d2-footer__copyright'));
+    const set = new Set(document.querySelectorAll('[data-hours-status], .d2-footer__copyright'));
     const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
     while (walker.nextNode()) {
         const node = walker.currentNode;
@@ -722,14 +681,12 @@ function buildJobs() {
         console.error(`Pages: ${PAGES.map((p) => p.key).join(', ')}\nStates: ${STATES.map((s) => s.key).join(', ')}`);
         process.exit(2);
     }
-    for (const design of DESIGNS) {
-        for (const def of PAGES.filter((p) => pageKeys.includes(p.key))) {
-            for (const locale of LOCALES) for (const width of WIDTHS) jobs.push({ kind: 'page', key: def.key, def, design, locale, width });
-        }
-        for (const def of STATES.filter((s) => stateKeys.includes(s.key))) {
-            for (const locale of LOCALES) {
-                for (const width of WIDTHS) if (!def.widths || def.widths.includes(width)) jobs.push({ kind: 'state', key: def.key, def, design, locale, width });
-            }
+    for (const def of PAGES.filter((p) => pageKeys.includes(p.key))) {
+        for (const locale of LOCALES) for (const width of WIDTHS) jobs.push({ kind: 'page', key: def.key, def, design: DESIGN, locale, width });
+    }
+    for (const def of STATES.filter((s) => stateKeys.includes(s.key))) {
+        for (const locale of LOCALES) {
+            for (const width of WIDTHS) if (!def.widths || def.widths.includes(width)) jobs.push({ kind: 'state', key: def.key, def, design: DESIGN, locale, width });
         }
     }
     return jobs;
@@ -755,10 +712,6 @@ async function runJob(browser, job) {
         available: true,
         notes: [],
     };
-    if (def.designs && !def.designs.includes(job.design)) {
-        // A page or state of one design only (the calculators page is Design 2's; Design 1 redirects the address home).
-        return Object.assign(record, { available: false, reason: `Design ${job.design} has no ${def.page ?? def.key} page (Design ${def.designs.join(', ')} only)`, ms: 0 });
-    }
     const { context, blocked } = await openContext(browser, job);
     const page = await context.newPage();
     const watch = watchPage(page, { expectStatus, ignoreHosts: IGNORED_HOSTS });
@@ -770,9 +723,8 @@ async function runJob(browser, job) {
         record.finalUrl = page.url();
         record.scrollSteps = scrollSteps;
         record.html = await page.evaluate(() => ({ lang: document.documentElement.lang, dir: document.documentElement.dir, design: document.documentElement.dataset.design ?? null }));
-        // Design 2's layout sets html[data-design="2"]; a view Design 2 lacks falls back to Design 1's (no attribute).
-        const rendered = record.html.design === '2' ? 2 : 1;
-        if (rendered !== job.design) record.notes.push(`Rendered by Design ${rendered}'s layout, not Design ${job.design}'s (view fallback).`);
+        // Design 2's layout sets html[data-design="2"]; any other page is not the site's own layout.
+        if (record.html.design !== '2') record.notes.push(`Not rendered by Design 2's layout (html data-design=${record.html.design ?? 'none'}).`);
         // The input the CSS sees must be the device's: touch styles (48 px targets, no hover) on touch widths.
         record.input = await page.evaluate(() => ({
             pointer: ['coarse', 'fine', 'none'].find((v) => window.matchMedia(`(pointer: ${v})`).matches) ?? null,
@@ -786,7 +738,7 @@ async function runJob(browser, job) {
 
         let shot;
         if (job.kind === 'state') {
-            const prepared = await def.prepare(page, job.design, job.width);
+            const prepared = await def.prepare(page, job.width);
             if (!prepared.ok) {
                 Object.assign(record, { available: false, reason: prepared.reason });
                 return record;
@@ -796,13 +748,13 @@ async function runJob(browser, job) {
             shot = def.capture === 'element' ? await elementCapture(page, def.target) : await viewportCapture(page);
         } else if (def.capture === 'element') {
             if (!(await exists(page, def.target))) {
-                Object.assign(record, { available: false, reason: `the page has no ${def.target} element in this design` });
+                Object.assign(record, { available: false, reason: `the page has no ${def.target} element` });
                 return record;
             }
             shot = await elementCapture(page, def.target);
         } else if (def.capture === 'viewport') {
             if (!(await exists(page, `[id="${def.anchor}"]`))) {
-                Object.assign(record, { available: false, reason: `the Legal Resources page has no #${def.anchor} anchor in this design` });
+                Object.assign(record, { available: false, reason: `the Legal Resources page has no #${def.anchor} anchor` });
                 return record;
             }
             // Back to the anchor the way a visitor's link lands there (hashchange included), after the scroll-through.
@@ -882,20 +834,20 @@ function git(args) {
 async function capture() {
     const jobs = buildJobs();
     try {
-        const res = await fetch(`${BASE}/en/`, { headers: { cookie: 'summit_qa=1' }, redirect: 'manual', signal: AbortSignal.timeout(20_000) });
+        const res = await fetch(`${BASE}/en/`, { redirect: 'manual', signal: AbortSignal.timeout(20_000) });
         if (res.status >= 500) throw new Error(`HTTP ${res.status}`);
     } catch (error) {
         console.error(`Nothing answers at ${BASE} (${error.message}). Start a server of this tree (docs/d2/running.md) or pass --base.`);
         return { code: 2 };
     }
     // The brief's calculators page: record what its obvious URL answers today.
-    const calculatorsRoute = await fetch(`${BASE}/en/calculators/`, { headers: { cookie: 'summit_qa=1' }, redirect: 'manual' })
+    const calculatorsRoute = await fetch(`${BASE}/en/calculators/`, { redirect: 'manual' })
         .then((r) => r.status)
         .catch(() => null);
 
     mkdirSync(OUT, { recursive: true });
     const freeBefore = freeBytes();
-    console.log(`Screens ${PHASE}: ${jobs.length} jobs (designs ${DESIGNS.join(', ')}; ${LOCALES.join(', ')}; ${WIDTHS.join(', ')} px), base ${BASE}, ${CONCURRENCY} at a time, clock ${CLOCK ?? 'real'}, ${TIMEZONE}${MASK ? ', masked' : ''}; ${gib(freeBefore)} free`);
+    console.log(`Screens ${PHASE}: ${jobs.length} jobs (${LOCALES.join(', ')}; ${WIDTHS.join(', ')} px), base ${BASE}, ${CONCURRENCY} at a time, clock ${CLOCK ?? 'real'}, ${TIMEZONE}${MASK ? ', masked' : ''}; ${gib(freeBefore)} free`);
     if (freeBefore < MIN_FREE) {
         console.error(`Only ${gib(freeBefore)} free (minimum ${gib(MIN_FREE)}): nothing captured.`);
         return { code: 2 };
@@ -958,8 +910,8 @@ async function capture() {
         startedAt: new Date(started).toISOString(),
         finishedAt: new Date().toISOString(),
         seconds: Math.round((Date.now() - started) / 1000),
-        options: { designs: DESIGNS, locales: LOCALES, widths: WIDTHS, pages: argv.pages ?? 'all', states: STATES_ON ? argv['state-list'] ?? 'all' : 'off', base: BASE, mask: MASK, concurrency: CONCURRENCY, clock: CLOCK ?? 'real', timezone: TIMEZONE },
-        rules: 'Google Chrome (channel chrome, software raster); touch widths in a second Chrome with a touch screen\'s pointer and hover (--blink-settings), checked per capture; cookies summit_design + summit_qa=1; reduced motion; device scale 1; fonts ready; one scroll-through; settled; full page (segments of 8,000 px above 16,000 px, stitched at the heights Chrome returned), viewport, or element (clipped at scroll 0, 24 px margin above and below); full-page and element captures fail when the settled page height differs before a segment or after the capture, pointer or hover change while Chrome paints, or the image is not the region asked for (layoutCheck); JPEG q80 (mozjpeg)',
+        options: { designs: [DESIGN], locales: LOCALES, widths: WIDTHS, pages: argv.pages ?? 'all', states: STATES_ON ? argv['state-list'] ?? 'all' : 'off', base: BASE, mask: MASK, concurrency: CONCURRENCY, clock: CLOCK ?? 'real', timezone: TIMEZONE },
+        rules: 'Google Chrome (channel chrome, software raster); touch widths in a second Chrome with a touch screen\'s pointer and hover (--blink-settings), checked per capture; no cookies; reduced motion; device scale 1; fonts ready; one scroll-through; settled; full page (segments of 8,000 px above 16,000 px, stitched at the heights Chrome returned), viewport, or element (clipped at scroll 0, 24 px margin above and below); full-page and element captures fail when the settled page height differs before a segment or after the capture, pointer or hover change while Chrome paints, or the image is not the region asked for (layoutCheck); JPEG q80 (mozjpeg)',
         touchBlinkSettings: TOUCH_BLINK_SETTINGS,
         git: { head: git(['rev-parse', '--short', 'HEAD']), branch: git(['rev-parse', '--abbrev-ref', 'HEAD']), changedFiles: (git(['status', '--porcelain']) ?? '').split('\n').filter(Boolean).length },
         chrome: chromeVersion,
@@ -1099,7 +1051,7 @@ async function sheetsAndIndex(manifest) {
     const locales = ['en', 'ar', 'ru'].filter((l) => caps.some((c) => c.locale === l));
     const allWidths = orderedWidths(caps);
     const sheets = [];
-    for (const design of [1, 2]) {
+    for (const design of [DESIGN]) {
         const groups = [
             ...PAGES.map((p) => ({ kind: 'page', def: p })),
             ...STATES.map((s) => ({ kind: 'state', def: s })),
@@ -1152,7 +1104,7 @@ function indexHtml(manifest, sheets) {
     };
     const notAvailable = caps.filter((c) => c.available === false);
     const failed = caps.filter((c) => c.error);
-    const designs = [1, 2].filter((d) => caps.some((c) => c.design === d));
+    const designs = [DESIGN].filter((d) => caps.some((c) => c.design === d));
     return `<!doctype html>
 <html lang="en">
 <head>

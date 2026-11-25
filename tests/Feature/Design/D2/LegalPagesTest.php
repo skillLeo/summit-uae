@@ -32,8 +32,7 @@ final class LegalPagesTest extends TestCase
     {
         app()->setLocale($locale);
 
-        return $this->withUnencryptedCookies(['summit_design' => '2'])
-            ->get('/'.$locale.'/'.self::PAGES[$code].'/')
+        return $this->get('/'.$locale.'/'.self::PAGES[$code].'/')
             ->assertOk()
             ->getContent();
     }
@@ -189,13 +188,5 @@ final class LegalPagesTest extends TestCase
         // the Latin-run isolation into "info" + "@" + …
         $this->assertStringContainsString('<bdi class="channel__text" dir="ltr">info@summitlegaluae.com</bdi>', $main);
         $this->assertStringNotContainsString('<bdi dir="ltr">info</bdi>', $main, 'e-mail isolated as one run, not split by the Latin-run isolation');
-    }
-
-    public function test_without_the_design_2_cookie_design_1_still_renders_its_own_preview(): void
-    {
-        app()->setLocale('en');
-        $html = $this->get('/en/privacy-policy/')->assertOk()->getContent();
-        $this->assertStringNotContainsString('data-design="2"', $html);
-        $this->assertStringNotContainsString('inner-head', $html);
     }
 }

@@ -30,7 +30,7 @@ final class PendingCopyTest extends TestCase
 
     private function home(string $locale): string
     {
-        return (string) $this->withUnencryptedCookies(['summit_design' => '2', 'summit_qa' => '1'])->get("/{$locale}/")->assertOk()->getContent();
+        return (string) $this->get("/{$locale}/")->assertOk()->getContent();
     }
 
     private function showPending(?bool $value): void
@@ -49,7 +49,7 @@ final class PendingCopyTest extends TestCase
                 $this->assertStringContainsString('id="'.$id.'"', $html, "{$locale}: #{$id}");
             }
         }
-        $this->withUnencryptedCookies(['summit_design' => '2'])->get('/en/calculators/')->assertOk();
+        $this->get('/en/calculators/')->assertOk();
     }
 
     public function test_pending_blocks_and_pages_are_hidden_when_the_setting_is_off(): void
@@ -63,7 +63,7 @@ final class PendingCopyTest extends TestCase
             foreach (['services', 'who-we-help', 'review', 'about', 'case-studies', 'guides', 'questions', 'consultation-form'] as $id) {
                 $this->assertStringContainsString('id="'.$id.'"', $html, "{$locale}: #{$id} is approved copy");
             }
-            $this->withUnencryptedCookies(['summit_design' => '2'])->get("/{$locale}/calculators/")->assertNotFound();
+            $this->get("/{$locale}/calculators/")->assertNotFound();
         }
 
         // The environment's flag still decides for one environment.

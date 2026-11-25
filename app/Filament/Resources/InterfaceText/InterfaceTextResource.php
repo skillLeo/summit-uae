@@ -35,7 +35,7 @@ use UnitEnum;
 /**
  * Interface Text (docs/briefs/design-2.1-and-admin-cms.md §8.2, §8.10, §8.11 ui_strings): buttons, form labels and
  * messages, aria labels, mobile controls and tool labels, in English, Arabic and Russian. Group "ui" holds the approved
- * DOCX strings, "proposed" the team's texts (pending client approval), "switcher" the design switch.
+ * DOCX strings, "proposed" the team's texts (pending client approval).
  *
  * The views define the keys, so strings are never created or deleted here: an editor changes the text of a key, and the
  * site shows it after publishing. Each string has its own limit (115 % of its longest approved text, Limits::for(

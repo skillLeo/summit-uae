@@ -1,52 +1,47 @@
 /*
- * Design 2.1 header (<x-d2.shell.header>; brief §3.7, §3.8; fixes D06, D12, D13, D14, D48).
+ * The header (<x-d2.shell.header>; brief §3.7, §3.8, D06, D13; the client's final changes, item 1, 2026-11-25).
  *
- * Solid white, a 1 px --line, no glass, no blur, no shadow, no night variant, no metal: the CTA is the Ink button
- * at every width and scroll position. Two rows inside the one container every section uses (Option A; the owner
- * still chooses between A and the slim-top-row Option B):
- *   masthead        the official lockup | search, the language menu, the Ink CTA (and the menu button < 1024 px)
- *   navigation row  the seven approved labels (Home first), from 1024 px while they fit on one line
+ * Black (#0B0B0C) with a 1 px #27272A line, and only the official lockup, the main navigation and the language
+ * menu: no button, no search, no WhatsApp. The gold lockup sits on the black directly (no tile). Colours: labels
+ * --on-dark-2 (#E4E4E7, 15.5:1), the current page and hover --on-dark (#FFFFFF) with the current page's 2 px gold
+ * bar, muted controls --on-dark-3 (#A1A1AA, 7.7:1) turning white on hover, the light gold focus ring
+ * (--focus-on-dark, 2 px, 2 px offset).
  *
- * Heights (tokens): the masthead is --header-h-top at the top of the page (56 / 72 from 768 / 88 from 1024 px)
- * and --header-h once scrolled (56 / 64 from 768 px: the sticky offsets and the scroll padding use it). The
- * navigation row adds 48 px at the top of the page from 1024 px (136 px in all), never when scrolled. The lockup
- * is 40 px on phones, 48 px on tablets (72 px masthead: the wordmark stays legible) and 56 px from 1024 px.
+ * Heights (tokens): the masthead is --header-h-top at the top of the page (56 / 72 from 768 / 88 from 1024 px) and
+ * --header-h once scrolled (56 / 64 from 768 / 72 from 1024 px). The lockup is 40 px on phones, 48 px on tablets
+ * and 56 px from 1024 px, where it eases to 44 px in the compact bar (a scale, 200 ms; reduced motion: at once).
  *
- * Scrolling, with no animated height and no layout shift: the header is sticky at --header-h minus
- * --header-h-top (-24 px on desktop), so the masthead's spare height scrolls away and the visible part becomes the
- * compact bar; the bar itself is sticky inside the masthead at half the spare height, so it stays centred at the
- * top of the page and settles into the compact band as the masthead's lower edge reaches it. Then
- * modules/header.js sets .is-scrolled (the shield replaces the lockup: opacity) and, while the navigation row is
- * shown, one of two compact layouts (the row leaves the flow under an equal margin, so nothing below moves):
- *   .is-docked   the seven labels fit in the 64 px bar between the shield and the tools (English and Arabic in a
- *                full 1200 px container): the row moves into the bar (the labels fade in, 240 ms) and the mega
- *                menu still opens from Practice Areas. header.js measures the fit with the real fonts.
- *   .is-tucked   they do not (Russian; narrower windows): the row slides under the masthead and a menu button
- *                appears beside the shield, where the labels were, so the tools never move.
+ * Scrolling, with no animated height and no layout shift: the header is sticky at --header-h minus --header-h-top
+ * (-16 px on desktop), so the masthead's spare height scrolls away and the visible part becomes the compact bar; the
+ * bar itself is sticky inside the masthead at half the spare height, so it stays centred. modules/header.js sets
+ * .is-scrolled once the masthead has reached the compact bar.
  *
- * Layout tiers are container queries on the header in rem (they follow the visitor's text size, and styleguide
- * specimens lay out like the real header at their own width):
- *   < 48rem   lockup, search, menu button (the CTA and the language menu live in the menu sheet and the tab bar)
- *   48rem+    + the language menu (in every language: Russian closes the tools to 4 px below 52rem and keeps the
- *             40 px lockup below 50rem, so its approved CTA and "Русский" fit) and the CTA; the 48 px lockup
- *   64rem+    + the navigation row, no menu button (Russian: from 69rem, where its seven labels fit)
- * header.js adds .is-nav-collapsed where the row would still overflow (other fonts, a larger text size): the row
- * hides and the menu button returns; and .is-mast-tight where the lockup and the tools would not fit the bar: the
- * shield stands in for the lockup (the brand name stays the link's name), so the tools never leave the container.
+ * The seven labels (from 1024 px) are measured by header.js with the real fonts:
+ *   .is-inline   they fit in the bar between the lockup and the language menu: the row leaves the flow and rides in
+ *                the bar, at its end (English and Arabic in wide windows, at the top of the page and scrolled; or only
+ *                once scrolled, where the smaller lockup leaves room).
+ *   (neither)    at the top of the page where they do not fit: their own 48 px black row under the masthead.
+ *   .is-tucked   scrolled, where they do not fit the bar either (Russian; narrower windows): the row slides under
+ *                the masthead and the menu button appears at the end of the bar.
+ *   .is-lifted   the row left the flow only because of scrolling: the same height as margin keeps the page in place.
+ *   .is-nav-collapsed  the row would overflow even on its own (other fonts, a larger text size): the menu button.
+ *   .is-mast-tight     the lockup and the tools do not fit a very narrow bar: the language menu moves to the menu
+ *                      sheet (the lockup always shows in full).
  *
- * Overlays hang from the header's bottom line, never over the navigation row: the mega menu (megamenu.css) and the
- * language list (--lang-drop below; langmenu.css), so no half-covered label is left as a target (axe target-size).
+ * Overlays hang from the header's bottom line, never over the navigation row: the mega menu (megamenu.css, white
+ * panel) and the language list (--lang-drop below; langmenu.css).
  */
 @layer components {
   .d2-header {
     --mast-h: var(--header-h-top);   /* masthead at the top of the page: 56 / 72 / 88 */
-    --bar-h: var(--header-h);        /* the compact bar: 56 / 64 */
+    --bar-h: var(--header-h);        /* the compact bar: 56 / 64 / 72 */
     --navrow-h: var(--s-12);         /* navigation row: 48 */
-    --mark-h: var(--s-10);           /* the shield alone in the compact bar: 40 (a size, not spacing) */
     --nav-pad: var(--s-3);           /* half the space between two labels: 12 */
     --nav-link-h: var(--target);     /* a label's target: 44, 48 on touch screens */
-    --brand-w: var(--target);        /* the brand link's box with the shield alone: its target, 44 (48 on touch) */
     --lang-h: var(--target);         /* the language trigger's height: 44 (48 on touch) */
+    --lockup-scale: 1;               /* 44 / 56 in the compact bar from 1024 px */
+    --tools-w: 0px;                  /* header.js: the tools' width (the inline row ends before them) */
+    --focus-color: var(--focus-on-dark);
 
     container: d2-header / inline-size;
     position: sticky;
@@ -66,7 +61,7 @@
     position: relative;
     z-index: 1;
     block-size: var(--mast-h);
-    background: var(--canvas);
+    background: var(--dark);
 
     /* The header's 1 px line (inside the masthead's height, so the heights stay exact). */
     &::after {
@@ -75,7 +70,7 @@
       inset-block-end: 0;
       block-size: var(--line-w);
       content: "";
-      background: var(--line);
+      background: var(--line-on-dark);
     }
   }
 
@@ -94,25 +89,18 @@
     align-items: center;
   }
 
-  /* ------------------------------------------------------------------ brand: the lockup, the shield when compact */
+  /* ------------------------------------------------------------------ brand: the official lockup, always in full */
   .d2-brand {
-    position: relative;
     display: flex;
     flex: none;
     align-items: center;
-    min-inline-size: var(--brand-w);
     min-block-size: var(--target);
-
-    /* The shield draws in currentColor: the logo's own gold, as in the lockup (a logo, not a UI colour). */
-    color: var(--gold);
     border-radius: var(--radius-control);
   }
 
-  /* Touch screens: 48 px targets (the brand link, a navigation label, the language trigger). */
   @media (pointer: coarse) {
     .d2-header {
       --nav-link-h: var(--target-touch);
-      --brand-w: var(--target-touch);
       --lang-h: var(--target-touch);
     }
 
@@ -121,10 +109,17 @@
     }
   }
 
-  /* Never squeezed: the reset's max-inline-size would clamp the image to the link while the shield shows. */
+  /* Never squeezed (the reset's max-inline-size would clamp the image to the link). From 1024 px it eases to
+     44 px in the compact bar: a scale from its start edge, so it never leaves its place. */
   .d2-brand__lockup {
     display: block;
     max-inline-size: none;
+    transform-origin: left center;
+    scale: var(--lockup-scale);
+
+    &:dir(rtl) {
+      transform-origin: right center;
+    }
 
     img {
       display: block;
@@ -134,38 +129,13 @@
     }
   }
 
-  .d2-brand__mark {
-    position: absolute;
-    inset-block-start: 50%;
-    inset-inline-start: 0;
-    inline-size: auto;
-    max-inline-size: none;
-    block-size: var(--mark-h);
-    pointer-events: none;
-    opacity: 0;
-    translate: 0 -50%;
-  }
-
-  /* Compact, or (header.js) a masthead too narrow for the lockup and the tools: the shield alone. */
-  .d2-header:is(.is-scrolled, .is-mast-tight) {
-    /* The lockup steps out of the flow (the link shrinks to the shield; the image stays the link's name). */
-    .d2-brand__lockup {
-      position: absolute;
-      inset-block-start: 50%;
-      inset-inline-start: 0;
-      pointer-events: none;
-      opacity: 0;
-      translate: 0 -50%;
-    }
-
-    .d2-brand__mark {
-      position: static;
-      opacity: 1;
-      translate: none;
+  @media (width >= 1024px) {
+    .d2-header.is-scrolled {
+      --lockup-scale: 0.7857; /* 44 / 56 */
     }
   }
 
-  /* ------------------------------------------------------------------ tools: search, language, CTA, menu */
+  /* ------------------------------------------------------------------ tools: the language menu, the menu button */
   .d2-header__tools {
     display: flex;
     flex: none;
@@ -174,52 +144,31 @@
     margin-inline-start: auto;
   }
 
-  /* Search: an icon button (D14: no key cap). A link to Legal Resources without JavaScript; header.js opens the
-     palette on click, "/" and Ctrl/Cmd+K; the tooltip (modules/tooltip.js, data-tooltip) names the "/" key. */
-  .d2-search {
-    position: relative;
-    display: inline-grid;
-    flex: none;
-    place-items: center;
-    inline-size: var(--target);
-    block-size: var(--target);
-    color: var(--ink-2);
-    border-radius: var(--radius-control);
-    transition:
-      color var(--dur-hover) var(--ease-out),
-      background-color var(--dur-hover) var(--ease-out),
-      scale var(--dur-press) var(--ease-out);
+  /* The language trigger on black: muted at rest, white on hover and while open (langmenu.css draws it on light). */
+  .d2-header .langmenu__trigger {
+    color: var(--on-dark-3);
 
-    &:hover {
-      color: var(--ink);
-      background: var(--hover-tint);
-    }
-
-    &:active {
-      scale: var(--press-scale);
-    }
-
-    /* styleguide specimen: the keyboard focus state */
-    &.is-focus {
-      outline: var(--focus-w) solid var(--focus-color);
-      outline-offset: var(--focus-offset);
+    &:hover,
+    &[aria-expanded="true"] {
+      color: var(--on-dark);
+      background: var(--dark-hover-tint);
     }
   }
 
-  @media (pointer: coarse) {
-    .d2-search {
-      inline-size: var(--target-touch);
-      block-size: var(--target-touch);
-    }
+  /* The menu button on black (variant night, with its dark wash and white hover): no fill and no edge, muted at rest
+     like the other controls. */
+  .d2-header .icon-btn.d2-header__menu {
+    --btn-bg: transparent;
+    --btn-edge: transparent;
+    --btn-fg: var(--on-dark-3);
   }
 
-  .d2-header .d2-header__cta,
-  .d2-header .d2-header__lang,
-  .d2-header .d2-header__compact-menu {
+  /* A very narrow bar (header.js): the language menu moves to the menu sheet; the lockup keeps its full size. */
+  .d2-header.is-mast-tight .d2-header__lang {
     display: none;
   }
 
-  /* Compact, the language list hangs from the bar (the row has left the flow, docked in the bar or tucked away). */
+  /* Compact, the language list hangs from the bar (the row has left the flow: inline or tucked away). */
   .d2-header.is-scrolled .d2-header__mast {
     --lang-drop: calc((var(--bar-h) - var(--lang-h)) / 2 + var(--s-2));
   }
@@ -231,7 +180,7 @@
 
     position: relative;
     display: none;
-    background: var(--canvas);
+    background: var(--dark);
 
     &::after {
       position: absolute;
@@ -239,7 +188,7 @@
       inset-block-end: 0;
       block-size: var(--line-w);
       content: "";
-      background: var(--line);
+      background: var(--line-on-dark);
     }
   }
 
@@ -253,7 +202,7 @@
     align-items: center;
     block-size: var(--navrow-h);
 
-    /* The first label's text starts on the container's edge, under the lockup's edge. */
+    /* In its own row the first label's text starts on the container's edge, under the lockup's edge. */
     margin-inline-start: calc(-1 * var(--nav-pad));
     list-style: none;
   }
@@ -270,7 +219,7 @@
     align-items: center;
     block-size: var(--nav-link-h);
     padding-inline: var(--nav-pad);
-    color: var(--ink-2);
+    color: var(--on-dark-2);
     font-size: var(--fs-ui);
     font-weight: var(--fw-medium);
     line-height: var(--lh-ui);
@@ -279,12 +228,12 @@
     transition: color var(--dur-hover) var(--ease-out);
 
     &:hover {
-      color: var(--ink);
+      color: var(--on-dark);
     }
 
-    /* The page you are on (or its section): ink, and a 2 px ink bar on the header's line under the label. */
+    /* The page you are on (or its section): white, and a 2 px gold bar on the header's line under the label. */
     &[aria-current] {
-      color: var(--ink);
+      color: var(--on-dark);
     }
 
     &[aria-current]::after {
@@ -293,17 +242,25 @@
       inset-block-end: calc((var(--nav-link-h) - var(--nav-line-h)) / 2);
       block-size: calc(2 * var(--line-w));
       content: "";
-      background: var(--ink);
+      background: var(--gold);
     }
   }
 
   .d2-nav__toggle[aria-expanded="true"] {
-    color: var(--ink);
+    color: var(--on-dark);
   }
 
   .d2-nav__chev {
     flex: none;
-    transition: rotate var(--dur-hover) var(--ease-out);
+    color: var(--on-dark-3);
+    transition:
+      rotate var(--dur-hover) var(--ease-out),
+      color var(--dur-hover) var(--ease-out);
+  }
+
+  .d2-nav__link:hover .d2-nav__chev,
+  .d2-nav__toggle[aria-expanded="true"] .d2-nav__chev {
+    color: var(--on-dark);
   }
 
   .d2-nav__toggle[aria-expanded="true"] .d2-nav__chev {
@@ -315,33 +272,11 @@
     display: none;
   }
 
-  /* ------------------------------------------------------------------ 48rem+ (768): the language menu and the CTA */
+  /* ------------------------------------------------------------------ 48rem+ (768): tablets */
   @container d2-header (width >= 48rem) {
-    .d2-header .d2-header__cta {
-      display: inline-flex;
-    }
-
-    .d2-header .d2-header__lang {
-      display: flex;
-    }
-
-    /* Tablets: the 72 px masthead takes a 48 px lockup, so the wordmark's capitals stay legible. */
+    /* The 72 px masthead takes a 48 px lockup, so the wordmark's capitals stay legible. */
     .d2-header__mast {
       --brand-h: var(--s-12);
-    }
-  }
-
-  /* Russian tablets keep the language menu like English and Arabic: the tools close up to 4 px below 52rem (the
-     approved CTA is 332 px wide), and the lockup stays 40 px below 50rem, where 48 px would leave no room for it. */
-  @container d2-header (48rem <= width < 52rem) {
-    .d2-header__tools:lang(ru) {
-      gap: var(--s-1);
-    }
-  }
-
-  @container d2-header (48rem <= width < 50rem) {
-    .d2-header__mast:lang(ru) {
-      --brand-h: var(--lockup-h);
     }
   }
 
@@ -366,7 +301,7 @@
     }
   }
 
-  /* Russian: the seven approved labels need 69rem (about 1,100 px of window); below that, the menu button. */
+  /* Russian: the seven approved labels need 69rem (about 1,100 px of window) in their own row; below, the menu. */
   @container d2-header (64rem <= width < 69rem) {
     .d2-header__navrow:lang(ru) {
       display: none;
@@ -404,16 +339,17 @@
     }
   }
 
-  /* ------------------------------------------------------------------ compact: docked or tucked */
-  /* Both: the row leaves the flow; the same height as margin keeps everything below in place; the masthead draws
-     the header's line again. */
-  .d2-header:is(.is-docked, .is-tucked) {
-    margin-block-end: var(--navrow-h);
-
+  /* ------------------------------------------------------------------ the row in the bar, or tucked away */
+  /* Out of the flow (inline or tucked): the masthead draws the header's line again. */
+  .d2-header:is(.is-inline, .is-tucked) {
     .d2-header__navrow {
       position: absolute;
       inset-block-start: 100%;
       inset-inline: 0;
+    }
+
+    .d2-header__mast {
+      --row-below: 0px;
     }
 
     .d2-header__mast::after {
@@ -421,17 +357,29 @@
     }
   }
 
-  /* Docked: the row rides in the compact bar, centred on it, above the masthead; transparent and click-through
-     except for the labels themselves, so the shield and the tools under its box stay live. A spacer as wide as the
-     shield's target starts the labels right after it; the current label's bar sits on the header's line. */
-  .d2-header.is-docked {
+  /* The row left the flow because of scrolling: the same height as margin keeps everything below in place. */
+  .d2-header.is-lifted {
+    margin-block-end: var(--navrow-h);
+  }
+
+  /* Inline: the row rides in the bar, centred on it, at its end before the tools; transparent and click-through
+     except for the labels themselves, so the lockup and the tools under its box stay live. The current label's bar
+     sits on the header's line. At the top of the page it centres on the masthead; once scrolled, on the bar. */
+  .d2-header.is-inline {
     .d2-header__navrow {
-      --nav-line-h: var(--bar-h);
-      --mega-top: calc(var(--bar-h) + var(--s-2));
+      --nav-line-h: var(--mast-h);
+      --mega-top: calc(var(--mast-h) + var(--s-2));
 
       z-index: 1;
       pointer-events: none;
       background: none;
+      translate: 0 calc(-1 * (var(--mast-h) + var(--navrow-h)) / 2);
+    }
+
+    &.is-scrolled .d2-header__navrow {
+      --nav-line-h: var(--bar-h);
+      --mega-top: calc(var(--bar-h) + var(--s-2));
+
       translate: 0 calc(-1 * (var(--navrow-h) + (var(--bar-h) - var(--navrow-h)) / 2));
     }
 
@@ -439,12 +387,15 @@
       opacity: 0;
     }
 
+    /* The labels end before the tools: a spacer as wide as the tools (measured by header.js) and the bar's gap,
+       less the last label's own padding. */
     .d2-nav__list {
+      justify-content: flex-end;
       margin-inline-start: 0;
 
-      &::before {
+      &::after {
         flex: none;
-        inline-size: var(--brand-w);
+        inline-size: calc(var(--tools-w) + var(--s-4) - var(--nav-pad));
         content: "";
       }
     }
@@ -454,7 +405,7 @@
     }
   }
 
-  /* Tucked: the row slides under the masthead; the menu button beside the shield opens the menu sheet. */
+  /* Tucked: the row slides under the masthead; the menu button at the end of the bar opens the menu sheet. */
   .d2-header.is-tucked {
     .d2-header__navrow {
       visibility: hidden;
@@ -469,25 +420,29 @@
       translate: none;
     }
 
-    .d2-header__compact-menu {
+    .d2-header__menu--end {
       display: inline-flex;
     }
   }
 
   /* Motion once the page is running (header.js adds .is-live after the first frame, so a page opened scrolled
-     does not animate into place). Opacity and transform only; reduced motion: final states at once (motion.css). */
-  .d2-header.is-live {
-    .d2-brand__lockup,
-    .d2-brand__mark {
-      transition: opacity var(--dur-hover) var(--ease-out);
+     does not animate into place; while header.js measures, .is-measuring holds them). Opacity and transform only;
+     reduced motion: final states at once (motion.css). */
+  .d2-header.is-live:not(.is-measuring) {
+    .d2-brand__lockup {
+      transition: scale 200ms var(--ease-out);
     }
 
-    /* Back to the top: the row slides down from under the masthead (from the bar or from its tucked place). */
     .d2-header__navrow {
       transition:
         translate var(--dur-enter) var(--ease-out),
         opacity var(--dur-enter) var(--ease-out),
         visibility 0s linear;
+    }
+
+    /* In the bar from the top of the page: it follows the bar's centre in step with the lockup (200 ms). */
+    &.is-inline:not(.is-lifted) .d2-header__navrow {
+      transition: translate 200ms var(--ease-out);
     }
 
     &.is-tucked .d2-header__navrow {
@@ -497,8 +452,8 @@
         visibility 0s linear var(--dur-enter);
     }
 
-    /* Into the bar: no slide; the labels fade in (header.js sets .is-docking for one entrance). */
-    &.is-docked .d2-header__navrow {
+    /* From its own row into the bar: no slide; the labels fade in (header.js sets .is-docking for one entrance). */
+    &.is-inline.is-lifted .d2-header__navrow {
       transition: none;
     }
   }
@@ -515,26 +470,26 @@
   }
 
   @starting-style {
-    .d2-header.is-live.is-tucked .d2-header__compact-menu {
+    .d2-header.is-live.is-tucked .d2-header__menu--end {
       opacity: 0;
     }
   }
 
-  .d2-header.is-live .d2-header__compact-menu {
+  .d2-header.is-live:not(.is-measuring) .d2-header__menu--end {
     transition: opacity var(--dur-hover) var(--ease-out);
   }
 
   /* ------------------------------------------------------------------ keyboard focus in the sticky header */
   /* The page keeps --header-h of scroll padding (base.css), so an anchor or a focused field never lands under the
      sticky header. A control of the header itself always sits inside that band, so the browser took it for hidden
-     and scrolled the page to centre it (418 px per Tab at 1440 x 900; the bar never moved, the page fell back to
-     its top). While focus is inside the live header the padding is off: Tab and Shift+Tab leave the page where it is. */
+     and scrolled the page to centre it. While focus is inside the live header the padding is off: Tab and
+     Shift+Tab leave the page where it is. */
   :root:has([data-d2-header]:focus-within) {
     scroll-padding-block-start: 0;
   }
 
   /* Without JavaScript the header never turns compact: once scrolled, the bar and the navigation row both stay
-     (112 px from 1024 px), so in-page targets (#consultation-form …) keep clear of the row as well. */
+     (120 px from 1024 px), so in-page targets keep clear of the row as well. */
   @media (width >= 1024px) {
     :root.no-js {
       scroll-padding-block-start: calc(var(--header-h) + var(--s-12) + var(--s-4)); /* bar + the 48 px row + 16 */
@@ -579,7 +534,7 @@
       --mast-h: var(--bar-h);
     }
 
-    &:is(.is-docked, .is-tucked) {
+    &.is-lifted {
       margin-block-end: 0;
     }
 
@@ -613,12 +568,8 @@
     }
   }
 
-  /* The docked compact bar needs 78rem of header (English: 1,184 px of shield, labels, gap and tools in the bar, plus
-     the container's 32 px sides), more than a specimen card holds (1,150 px in the styleguide's 1,200 px container).
-     It is laid out at that width and scaled to its frame, so the whole bar shows in the card (round 2: the CTA was
-     cut at the card's edge): zoom = the frame's width / 78rem (tan(atan2(a, b)) = a / b), 0.92 in a full container,
-     at most 1 and at least 0.875, where its 15 px labels stay above 13 px; narrower frames scroll it sideways.
-     Zoom scales the rendering only: computed sizes and spacing stay the tokens'. */
+  /* The inline compact bar needs about 78rem of header: laid out at that width and scaled to its frame (zoom = the
+     frame's width / 78rem, at most 1 and at least 0.875); narrower frames scroll it sideways. */
   .d2-shell-demo__frame--docked {
     container-type: inline-size;
 
@@ -628,8 +579,7 @@
     }
   }
 
-  /* Room for the open panels, which hang under the header (the frame's scrolling clips them): the header, the
-     panel (the list sets its height; two Russian titles wrap in a 70rem frame) and its shadow. */
+  /* Room for the open panels, which hang under the header (the frame's scrolling clips them). */
   .d2-shell-demo__frame--mega {
     min-block-size: 52rem;
   }
@@ -640,13 +590,9 @@
 }
 
 /*
- * Styleguide only (designs/d2/styleguide/shell.blade.php, the header block; round 2). Its explanations are .sg-note,
- * the styleguide's reading block (styleguide.css: on the Arabic page a left-to-right block, so their lines start on
- * one edge). Inside a specimen card a note sits under its specimen as a label does (the card's 12 px gap + 4) and
- * the card's own padding ends it. In the styleguide's own layer (pages), where .sg-note's bottom margin is set.
- * English notes never hyphenate: on the Russian page base.css's ":lang(ru) p" (a descendant selector) also reaches
- * these lang="en" paragraphs ("shrink-ing", "docu-ments"), while the same notes break whole words in English and
- * Arabic.
+ * Styleguide only (designs/d2/styleguide/shell.blade.php, the header block). Its explanations are .sg-note, the
+ * styleguide's reading block. English notes never hyphenate (base.css's ":lang(ru) p" also reaches them on the
+ * Russian page).
  */
 @layer pages {
   .d2-shell-demo > .sg-note {

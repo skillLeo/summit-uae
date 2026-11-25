@@ -66,7 +66,7 @@ final class EditingTest extends TestCase
     {
         app()->forgetScopedInstances();
 
-        return (string) $this->withUnencryptedCookies(['summit_design' => '2', 'summit_qa' => '1'])->get($path)->assertOk()->getContent();
+        return (string) $this->get($path)->assertOk()->getContent();
     }
 
     // ------------------------------------------------------------------ slugs and redirects
@@ -387,13 +387,13 @@ final class EditingTest extends TestCase
 
     public function test_the_edit_bar_is_shown_to_admins_only_and_never_cached(): void
     {
-        $guest = $this->withUnencryptedCookies(['summit_design' => '2', 'summit_qa' => '1'])->get('/en/');
+        $guest = $this->get('/en/');
         $this->assertStringNotContainsString('data-cms-editbar', (string) $guest->getContent());
         $this->assertStringNotContainsString('no-store', (string) $guest->headers->get('Cache-Control'));
 
         $this->admin();
         app()->forgetScopedInstances();
-        $admin = $this->withUnencryptedCookies(['summit_design' => '2', 'summit_qa' => '1'])->get('/en/practice-areas/labor-law/');
+        $admin = $this->get('/en/practice-areas/labor-law/');
         $this->assertStringContainsString('data-cms-editbar', (string) $admin->getContent());
         $this->assertStringContainsString('/admin/practice-areas/S06/edit', (string) $admin->getContent());
         $this->assertStringContainsString('no-store', (string) $admin->headers->get('Cache-Control'));

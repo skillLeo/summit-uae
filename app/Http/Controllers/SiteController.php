@@ -82,8 +82,6 @@ final class SiteController extends Controller
         return view('pages.styleguide', [
             'seo' => Seo::make('Styleguide | '.ui('brand.name'), null, index: false),
             'pageKey' => 'styleguide',
-            'extraStyles' => ['resources/scss/styleguide.scss'],
-            'p01' => content()->page('P01'),
         ]);
     }
 }

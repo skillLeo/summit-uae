@@ -12,13 +12,12 @@
  * Options
  *   --routes=<list>      route slugs as text-snapshot.mjs names them, "*" is a wildcard (home, p02-practice-areas,
  *                        p03-resources, p04-case-studies, p05-faq, p06-about, p07-contact, p08-legal-disclaimer,
- *                        l01-privacy-policy, l02-terms-and-conditions, s01-… … s11-…, calculators (Design 2
- *                        only), styleguide, offline, 404, chooser); default all
+ *                        l01-privacy-policy, l02-terms-and-conditions, s01-… … s11-…, calculators,
+ *                        styleguide, offline, 404, chooser); default all
  *   --locales=<list>     en, ar, ru and root (the chooser "/"); default all four
  *   --widths=<list>      CSS px, default 1440,768,390 (below 768 a touch phone, 768 a touch tablet)
  *   --rules=<list>       rule numbers or slugs (below), default all sixteen
  *   --base=<url>         site under test, default http://127.0.0.1:8042 (a server of this working tree)
- *   --design=1|2         default 2 (cookie summit_design); 1 lints Design 1 for comparison (areas: design-1)
  *   --concurrency=<n>    pages in parallel, default 4
  *   --states=on|off      default on: the states phase (see "States"): on the first selected route of each locale
  *                        and width (normally home) every overlay of the header and the tab bar with its menu
@@ -215,8 +214,8 @@
  * "incomplete", ignored auto/percentage spacing; the advice per pattern; the states; the rule to fix-list and area
  * table). Nothing volatile is written (no time), so two runs of the same tree give the same files.
  *
- * Capture: Google Chrome (channel chrome), one context per locale and width (cookies summit_design and
- * summit_qa=1, Vite's reload client stubbed: qa/lib/browser.mjs), browser locale of the page language,
+ * Capture: Google Chrome (channel chrome), one context per locale and width (Vite's reload client stubbed:
+ * qa/lib/browser.mjs), browser locale of the page language,
  * Asia/Dubai, light scheme, prefers-reduced-motion: reduce (final states; the hover test switches to
  * no-preference), device scale 1, other hosts blocked, no POST to /enquiries, localStorage per page. Each page:
  * load, fonts, one scroll through (lazy tools mount), back to the top, scripts and animations settled and frozen,
@@ -2655,8 +2654,6 @@ async function openContext(browser, opt, locale, width) {
         width,
         locale,
         variant: 'reduced',
-        baseURL: opt.base,
-        design: opt.design,
         extra: { ...viewportFor(width), deviceScaleFactor: 1, locale: BROWSER_LOCALE[locale] ?? 'en-GB', timezoneId: TIMEZONE, serviceWorkers: 'block' },
     });
     if (opt.clockMs !== null) await context.addInitScript({ content: clockShim(opt.clockMs) });
@@ -3415,8 +3412,7 @@ async function lintTarget(contexts, opt, target) {
         result.status = response ? response.status() : null;
         if (result.status !== target.expect) throw new Error(`HTTP ${result.status} (expected ${target.expect})`);
         const served = await page.evaluate(() => document.documentElement.getAttribute('data-design'));
-        if (opt.design === '2' && served !== '2' && !opt.selfTest) throw new Error(`served data-design=${served ?? 'none'} for Design 2 (cookie not applied?)`);
-        if (opt.design === '1' && served === '2') throw new Error('served Design 2 for --design=1');
+        if (served !== '2' && !opt.selfTest) throw new Error(`served data-design=${served ?? 'none'}, not Design 2's layout`);
         lap('load');
         await settlePage(page, watch);
         lap('settle');
@@ -3896,7 +3892,7 @@ export function renderMarkdown(report, opt) {
 // ------------------------------------------------------------------------------------------ CLI
 
 const USAGE = `Usage: node scripts/qa/lint-design.mjs [--routes=<slugs>] [--locales=en,ar,ru,root] [--widths=1440,768,390]
-       [--rules=<numbers or slugs>] [--base=<url>] [--design=1|2] [--concurrency=<n>] [--states=on|off]
+       [--rules=<numbers or slugs>] [--base=<url>] [--concurrency=<n>] [--states=on|off]
        [--illustrations=art|strict] [--clock=<ISO>|real] [--out=<prefix>] [--self-test [--verbose]] [--help]
 See the header of scripts/qa/lint-design.mjs for the rules, exemptions and decisions.`;
 
@@ -3911,7 +3907,7 @@ export function parseArgs(argv) {
         if (key === 'self-test' || key === 'help' || key === 'verbose') {
             if (value !== undefined) throw new UsageError(`--${key} takes no value`);
             opt[key === 'self-test' ? 'selfTest' : key] = true;
-        } else if (['base', 'design', 'concurrency', 'states', 'illustrations', 'clock', 'out', 'routes', 'locales', 'widths', 'rules'].includes(key)) {
+        } else if (['base', 'concurrency', 'states', 'illustrations', 'clock', 'out', 'routes', 'locales', 'widths', 'rules'].includes(key)) {
             if (!value) throw new UsageError(`--${key} needs a value`);
             opt[key] = value;
         } else {
@@ -3923,8 +3919,6 @@ export function parseArgs(argv) {
     } catch {
         throw new UsageError(`--base is not a URL: ${opt.base}`);
     }
-    if (!['1', '2'].includes(String(opt.design))) throw new UsageError('--design must be 1 or 2');
-    opt.design = String(opt.design);
     opt.concurrency = Number(opt.concurrency);
     if (!Number.isInteger(opt.concurrency) || opt.concurrency < 1 || opt.concurrency > 12) throw new UsageError('--concurrency must be a whole number from 1 to 12');
     if (typeof opt.states === 'string') {
@@ -3963,8 +3957,7 @@ function selectTargets(opt) {
               return re;
           })
         : null;
-    // Routes of one design only (the Design 2 calculators page) are linted only in that design.
-    const selected = routes.filter((r) => locales.includes(r.locale) && (!patterns || patterns.some((re) => re.test(r.slug))) && (!r.designs || r.designs.includes(String(opt.design))));
+    const selected = routes.filter((r) => locales.includes(r.locale) && (!patterns || patterns.some((re) => re.test(r.slug))));
     if (!selected.length) throw new UsageError('no route matches the filters');
     const stateRoute = selected.some((r) => r.slug === 'home') ? 'home' : selected[0].slug;
     const targets = [];
@@ -3978,11 +3971,11 @@ function selectTargets(opt) {
     return targets;
 }
 
-/** The site answers with the selected design, and its stylesheets load (exit 2 otherwise). */
+/** The site answers, and its stylesheets load (exit 2 otherwise). */
 async function preflight(opt) {
     let html;
     try {
-        const response = await fetch(`${opt.base}/en/`, { headers: { cookie: `summit_design=${opt.design}; summit_qa=1` }, signal: AbortSignal.timeout(20_000) });
+        const response = await fetch(`${opt.base}/en/`, { signal: AbortSignal.timeout(20_000) });
         html = await response.text();
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
     } catch (error) {

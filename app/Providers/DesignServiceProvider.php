@@ -2,19 +2,19 @@
 
 namespace App\Providers;
 
-use App\Design\DesignManager;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
-/** Switchable designs (docs/upgrade-plan.md). */
+/**
+ * Design 2, the site's only design (docs/upgrade-plan.md). Its folder resources/views/designs/d2 is first on the view
+ * path (config/view.php); this provider adds its helpers, the d2:: namespace and the @proposed directive.
+ */
 final class DesignServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
         require_once app_path('Design/D2/helpers.php');
-
-        $this->app->singleton(DesignManager::class, fn ($app) => new DesignManager($app['view']));
     }
 
     public function boot(): void

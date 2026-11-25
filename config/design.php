@@ -2,40 +2,16 @@
 
 /*
 |--------------------------------------------------------------------------
-| Switchable designs (docs/upgrade-plan.md)
+| Design 2 (docs/upgrade-plan.md, docs/d2/engineering.md)
 |--------------------------------------------------------------------------
-| Design 1 ("The File") is frozen at the git tag design-1. Design 2 lives in
-| separate files (resources/views/designs/d2, resources/css/d2, resources/js/d2)
-| and is built by vite.d2.config.js into public/build-d2.
+| The site's only design (owner, 2026-11-25; Design 1 is archived at the git
+| tags design-1 and design-1.1). Its files: resources/views/designs/d2 (first
+| on the view path, config/view.php), resources/views/components/d2,
+| resources/css/d2, resources/js/d2; built by vite.d2.config.js into
+| public/build-d2.
 */
 
 return [
-
-    // The design visitors see until they choose one with ?design=1 / ?design=2.
-    'default' => (int) env('SUMMIT_DEFAULT_DESIGN', 1),
-
-    // Floating "Design 1 | Design 2" switch (Alt+1 / Alt+2). Internal demo tool: keep it off in production.
-    'switcher' => (bool) env('SUMMIT_DESIGN_SWITCHER', false),
-
-    // Settings, Design Preview (App\Settings\DesignSettings, brief 2.1 §12.3) may choose the default design and who sees
-    // the switch (off, admins only, admins and share links); null there = the two values above. The raw environment
-    // value (null when unset) lets SUMMIT_DESIGN_SWITCHER=false always win in production (DesignManager::switcherMode).
-    'switcher_env' => env('SUMMIT_DESIGN_SWITCHER'),
-    // "Create share link": a signed link, valid this many days, that shows the switch in the browser that opens it
-    // (this query parameter carries the link version; the cookie remembers it until the link expires).
-    'share_days' => 7,
-    'share_param' => 'design_preview',
-    'share_cookie' => 'summit_design_share',
-
-    'cookie' => 'summit_design',
-
-    'cookie_minutes' => 60 * 24 * 365,
-
-    'session_key' => 'summit.design',
-
-    // Requests carrying this cookie (=1) or header never get the switcher injected (QA screenshots, Lighthouse).
-    'qa_cookie' => 'summit_qa',
-    'qa_header' => 'X-Summit-QA',
 
     'd2' => [
         'views' => resource_path('views/designs/d2'),
@@ -52,8 +28,8 @@ return [
         // set, decides for one environment. null = the setting.
         'arabic_digits' => env('SUMMIT_ARABIC_DIGITS'),
         // The proposed live office-hours status next to the approved hours sentence, in the contact block only
-        // (App\Design\D2\Hours, resources/js/d2/modules/hours.js). Design 1 keeps its own switch,
-        // summit.features.open_now_indicator (SUMMIT_OPEN_NOW_INDICATOR), which was Design 2's switch before 2.1:
+        // (App\Design\D2\Hours, resources/js/d2/modules/hours.js). The older flag SUMMIT_OPEN_NOW_INDICATOR
+        // (summit.features.open_now_indicator, Design 2's switch before 2.1 and the retired Design 1's):
         // while SUMMIT_LIVE_STATUS is unset, that older flag decides, so an environment that turned the status off
         // with it keeps it off. Both are documented in docs/d2/running.md §6 and .env.example. Since Phase 3 the CMS
         // setting hours.live_status (App\Settings\OfficeHoursSettings) must be on as well: either one turns it off.

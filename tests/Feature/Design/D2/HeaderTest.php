@@ -12,10 +12,10 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 /**
- * Design 2.1 header (docs/briefs/design-2.1-and-admin-cms.md §3.7, §3.8; fixes D06, D12, D13, D14, D48; owner:
- * header): the official lockup and the shield, the seven approved labels in the DOCX order, the Ink CTA, the
- * language menu with the approved labels of the page language, the search trigger without a key cap, the
- * text-only mega menu over its scrim, and the retired night glass and metal.
+ * The header (docs/briefs/design-2.1-and-admin-cms.md §3.7, §3.8; D06, D12, D13, D48; the client's final changes,
+ * item 1, 2026-11-25): black, holding only the official lockup, the seven approved labels in the DOCX order and the
+ * language menu with the approved labels of the page language (no button, no search, no WhatsApp, no subtitle);
+ * the text-only mega menu over its scrim; the retired night glass and metal.
  */
 final class HeaderTest extends TestCase
 {
@@ -38,7 +38,7 @@ final class HeaderTest extends TestCase
 
     private function visit(string $path): string
     {
-        $html = $this->withUnencryptedCookies(['summit_design' => '2'])->get($path)->assertOk()->getContent();
+        $html = $this->get($path)->assertOk()->getContent();
         app()->setLocale(explode('/', trim($path, '/'))[0] ?: 'en');
 
         return $html;
@@ -136,12 +136,12 @@ final class HeaderTest extends TestCase
         $source = $this->one($x, './/picture//source[@type="image/webp"]', $brand);
         $this->assertStringContainsString(asset('images/d2/brand/lockup@3x.webp').' 3x', $source->getAttribute('srcset'));
 
-        // The shield alone for the compact bar: the official traced emblem, decorative inside the named link.
-        $mark = $this->one($x, './/*[local-name()="svg"][contains(@class,"d2-brand__mark")]', $brand);
-        $this->assertSame('true', $mark->getAttribute('aria-hidden'));
-        $this->assertSame('0 0 2586 4256', $mark->getAttribute('viewbox'), 'resources/brand/emblem.svg, never redrawn');
+        // The full lockup always: no shield standing in for it, no subtitle under the name.
+        $this->assertSame(0, $x->query('.//*[local-name()="svg"]', $brand)->length, 'no shield alone, ever');
+        $this->assertSame(1, $x->query('.//img', $brand)->length, 'the lockup is the link\'s only content');
 
         $header = $this->header($this->visit("/{$locale}/"));
+        $this->assertStringNotContainsString('d2-brand__mark', $header);
         $this->assertStringNotContainsString('d2-brand__tile', $header, 'no mark in a black tile');
         $this->assertStringNotContainsString('d2-brand__name', $header, 'the wordmark is never set in a font');
     }
@@ -170,44 +170,62 @@ final class HeaderTest extends TestCase
         $this->assertFileExists(base_path('scripts/d2/brand-lockup.mjs'));
     }
 
-    /** D06: the header CTA is the Ink button with the approved label; no metal, no night glass, no short proposed label. */
+    /**
+     * The client's final changes, item 1: the header holds the logo and company name (the lockup), the main
+     * navigation and the language menu only. No consultation button, no WhatsApp, no search, no phone or e-mail.
+     */
     #[DataProvider('locales')]
-    public function test_the_header_cta_is_always_the_ink_button(string $locale): void
+    public function test_the_header_holds_only_the_lockup_the_navigation_and_the_language_menu(string $locale): void
     {
-        $x = $this->dom($this->visit("/{$locale}/"));
-        $cta = $this->one($x, '//header//a[contains(@class,"d2-header__cta")]');
-        $this->assertStringContainsString('btn--ink', $cta->getAttribute('class'));
-        $this->assertStringNotContainsString('btn--signature', $cta->getAttribute('class'));
-        $this->assertSame(SiteUrl::consultation(), $cta->getAttribute('href'));
-        $this->assertSame(ui('cta.request_consultation'), $this->text($this->one($x, './/span[@class="btn__label"]', $cta)->textContent));
+        $html = $this->visit("/{$locale}/");
+        $x = $this->dom($html);
+        // The bar itself (the masthead) and the navigation row's own links; the mega menu panel under Practice Areas
+        // is a page of its own and keeps its "Explore This Service" buttons.
+        $mast = $this->one($x, '//header//div[contains(@class,"d2-header__mast")]');
+        $bar = (string) $mast->ownerDocument?->saveHTML($mast);
+        foreach (['d2-header__cta', 'btn--ink', 'btn--gold', 'btn--signature', 'btn--secondary', 'btn--primary', 'data-d2-search', 'd2-search', 'wa.me', 'whatsapp', 'tel:', 'mailto:'] as $gone) {
+            $this->assertStringNotContainsStringIgnoringCase($gone, $bar, "{$locale}: no {$gone} in the header bar");
+        }
+        $this->assertStringNotContainsString(ui('cta.request_consultation'), $bar, 'no consultation button');
+        $rowLinks = $x->query('//header//ul[contains(@class,"d2-nav__list")]/li/*[self::a or self::button]');
+        $this->assertSame(7, $rowLinks->length, 'the seven navigation labels and nothing else in the row');
+        foreach (['wa.me', 'tel:', 'mailto:'] as $gone) {
+            $this->assertStringNotContainsString($gone, $this->header($html), "{$locale}: no {$gone} anywhere in the header");
+        }
 
-        $header = $this->header($this->visit("/{$locale}/"));
-        $this->assertStringNotContainsString('btn--signature', $header);
-        $this->assertStringNotContainsString('btn--gold', $header);
-        $this->assertStringNotContainsString('d2-header__night', $header);
-        $this->assertStringNotContainsString('d2-header__cta-short', $header);
+        // The tools: the language menu and the one menu button (shown where the seven labels do not).
+        $tools = $this->one($x, '//header//div[contains(@class,"d2-header__tools")]');
+        $children = [];
+        foreach ($tools->childNodes as $node) {
+            if ($node instanceof DOMElement) {
+                $children[] = $node->getAttribute('class');
+            }
+        }
+        $this->assertCount(2, $children, 'the language menu and the menu button only');
+        $this->assertStringContainsString('langmenu', $children[0]);
+        $this->assertStringContainsString('d2-header__menu--end', $children[1]);
+
+        // "/" and Ctrl/Cmd+K still open the search palette; without it they lead to Legal Resources.
+        $root = $this->one($x, '//header[contains(@class,"d2-header")]');
+        $this->assertSame(SiteUrl::page('P03'), $root->getAttribute('data-search-url'));
     }
 
     /**
-     * Where the seven labels do not fit, the tools' menu button (.d2-header__menu, the only one: the QA matrix and
-     * the menu sheet find it by that class); the compact bar has its own beside the shield. Both open the menu sheet
-     * and are a link to the footer navigation without JavaScript.
+     * Where the seven labels do not show (or tuck away once scrolled), the one menu button at the end of the bar
+     * (.d2-header__menu: the QA matrix and the menu sheet find it by that class). It opens the menu sheet and is a
+     * link to the footer navigation without JavaScript.
      */
     #[DataProvider('locales')]
-    public function test_the_menu_buttons(string $locale): void
+    public function test_the_menu_button(string $locale): void
     {
         $x = $this->dom($this->visit("/{$locale}/"));
         $menu = $this->one($x, '//header//a[contains(concat(" ", normalize-space(@class), " "), " d2-header__menu ")]');
         $this->assertStringContainsString('d2-header__menu--end', $menu->getAttribute('class'));
-        $compact = $this->one($x, '//header//a[contains(@class,"d2-header__compact-menu")]');
-        $this->assertNotNull($compact->parentNode);
-        $this->assertStringContainsString('d2-header__start', $compact->parentNode instanceof DOMElement ? $compact->parentNode->getAttribute('class') : '', 'beside the shield');
-        foreach ([$menu, $compact] as $button) {
-            $this->assertSame('#d2-footer-nav', $button->getAttribute('href'));
-            $this->assertSame('menu', $button->getAttribute('data-sheet-open'));
-            $this->assertSame(ui('a11y.open_menu'), $button->getAttribute('aria-label'));
-            $this->one($x, './/*[@data-icon="menu"]', $button);
-        }
+        $this->assertSame(0, $x->query('//header//*[contains(@class,"d2-header__compact-menu")]')->length);
+        $this->assertSame('#d2-footer-nav', $menu->getAttribute('href'));
+        $this->assertSame('menu', $menu->getAttribute('data-sheet-open'));
+        $this->assertSame(ui('a11y.open_menu'), $menu->getAttribute('aria-label'));
+        $this->one($x, './/*[@data-icon="menu"]', $menu);
     }
 
     /** D06, §3.6 rule 6: the metal-once machinery and the night glass are gone with their hooks. */
@@ -259,25 +277,6 @@ final class HeaderTest extends TestCase
         $header = $this->header($this->visit("/{$locale}/"));
         $this->assertStringNotContainsString('langmenu__dot', $header, 'no "EN · ع · RU"');
         $this->assertStringNotContainsString(' · ', $header);
-    }
-
-    /** D14: no visible key cap; the shortcuts stay and the tooltip names "/". */
-    #[DataProvider('locales')]
-    public function test_the_search_trigger_has_no_key_cap(string $locale): void
-    {
-        $html = $this->visit("/{$locale}/");
-        $x = $this->dom($html);
-        $search = $this->one($x, '//header//a[contains(@class,"d2-search")][@data-d2-search]');
-        $this->assertSame(SiteUrl::page('P03'), $search->getAttribute('href'), 'no-JS: Legal Resources');
-        $this->assertSame('/ Control+K Meta+K', $search->getAttribute('aria-keyshortcuts'));
-        $this->assertSame(d2p('shell.search_placeholder'), $search->getAttribute('aria-label'));
-        $this->assertSame(d2p('shell.search_tip'), $search->getAttribute('data-tooltip'));
-        $this->assertStringContainsString('(/)', d2p('shell.search_tip'));
-        $this->one($x, './/*[@data-icon="search"]', $search);
-
-        $header = $this->header($html);
-        $this->assertStringNotContainsString('class="kbd', $header);
-        $this->assertStringNotContainsString('<kbd', $header);
     }
 
     /**
@@ -373,22 +372,38 @@ final class HeaderTest extends TestCase
         $this->assertMatchesRegularExpression('/@media \(pointer: coarse\)\s*\{\s*\.d2-header\s*\{\s*--nav-link-h: var\(--target-touch\);/', $css);
         $this->assertStringContainsString('block-size: var(--nav-link-h);', $css);
 
-        // D12 + QA round 1: the language menu shows from 48rem in every language; Russian closes its tools up to
-        // 4 px below 52rem and keeps the 40 px lockup below 50rem instead of hiding the menu.
-        $this->assertDoesNotMatchRegularExpression('/\.d2-header__lang:lang\(ru\)\s*\{\s*display: none;/', $css, 'Russian tablets keep the language menu');
-        $this->assertMatchesRegularExpression('/@container d2-header \(width >= 48rem\)\s*\{\s*\.d2-header \.d2-header__cta\s*\{\s*display: inline-flex;\s*\}\s*\.d2-header \.d2-header__lang\s*\{\s*display: flex;/', $css);
-        $this->assertMatchesRegularExpression('/@container d2-header \(48rem <= width < 52rem\)\s*\{\s*\.d2-header__tools:lang\(ru\)\s*\{\s*gap: var\(--s-1\);/', $css);
-        $this->assertMatchesRegularExpression('/@container d2-header \(48rem <= width < 50rem\)\s*\{\s*\.d2-header__mast:lang\(ru\)\s*\{\s*--brand-h: var\(--lockup-h\);/', $css);
+        // D12 + the client's item 1: the language menu shows at every width, in every language (only a bar too narrow
+        // for the lockup and the tools moves it to the menu sheet: header.js, .is-mast-tight).
+        $this->assertDoesNotMatchRegularExpression('/(?<!is-mast-tight )\.d2-header__lang(:lang\(\w+\))?\s*\{\s*display: none;/', $css, 'never hidden by width or language');
+        $this->assertMatchesRegularExpression('/\.d2-header\.is-mast-tight \.d2-header__lang\s*\{\s*display: none;/', $css);
+        $this->assertStringNotContainsString('d2-header__cta', $css);
+
+        // The client's item 1: black, the gold lockup straight on it, light text, the current page's gold bar, the
+        // light gold focus ring; no gradient, glass or shadow.
+        $this->assertMatchesRegularExpression('/\.d2-header__mast\s*\{[^}]*background: var\(--dark\);/', $css);
+        $this->assertMatchesRegularExpression('/\.d2-header__navrow\s*\{[^}]*background: var\(--dark\);/', $css);
+        $this->assertSame(2, substr_count($css, 'background: var(--line-on-dark);'), 'the masthead\'s and the row\'s 1 px line');
+        $this->assertMatchesRegularExpression('/\.d2-nav__link\s*\{[^}]*color: var\(--on-dark-2\);/', $css);
+        $this->assertMatchesRegularExpression('/&\[aria-current\]::after\s*\{[^}]*background: var\(--gold\);/', $css);
+        $this->assertStringContainsString('--focus-color: var(--focus-on-dark);', $css);
+        $this->assertMatchesRegularExpression('/\.d2-header \.langmenu__trigger\s*\{\s*color: var\(--on-dark-3\);/', $css);
+        $this->assertDoesNotMatchRegularExpression('/gradient|backdrop-filter/', $css);
+        $this->assertDoesNotMatchRegularExpression('/d2-brand__mark|is-docked|--brand-w/', $css, 'the shield and its docking spacer are gone');
         // D13 + QA round 1: a 48 px lockup on tablets (the 72 px masthead), 56 px from 1024 px.
         $this->assertStringContainsString('block-size: var(--brand-h);', $css);
         $this->assertMatchesRegularExpression('/@container d2-header \(width >= 48rem\)\s*\{[^@]*\.d2-header__mast\s*\{\s*--brand-h: var\(--s-12\);/', $css);
 
-        // D13 + QA round 1: compact, the seven labels dock in the 64 px bar where header.js measures that they fit;
-        // the row is centred on the bar, above the masthead, click-through except for its labels; a spacer as wide as
-        // the shield's target starts them; otherwise the row tucks away and the menu button shows beside the shield.
+        // D13 + the client's item 1: the seven labels ride in the bar, at its end before the tools, where header.js
+        // measures that they fit beside the lockup (centred on the 88 px masthead at the top of the page, on the 72 px
+        // bar once scrolled), click-through except for the labels; otherwise their own row at the top of the page
+        // and, once scrolled, tucked away behind the menu button. The lockup eases from 56 to 44 px (a scale).
+        $this->assertStringContainsString('translate: 0 calc(-1 * (var(--mast-h) + var(--navrow-h)) / 2);', $css);
         $this->assertStringContainsString('translate: 0 calc(-1 * (var(--navrow-h) + (var(--bar-h) - var(--navrow-h)) / 2));', $css);
-        $this->assertMatchesRegularExpression('/\.d2-header\.is-docked\s*\{[^}]*\.d2-header__navrow\s*\{[^}]*z-index: 1;\s*pointer-events: none;\s*background: none;/', $css);
-        $this->assertMatchesRegularExpression('/\.d2-nav__list\s*\{\s*margin-inline-start: 0;\s*&::before\s*\{\s*flex: none;\s*inline-size: var\(--brand-w\);/', $css);
+        $this->assertMatchesRegularExpression('/\.d2-header\.is-inline\s*\{[^}]*\.d2-header__navrow\s*\{[^}]*z-index: 1;\s*pointer-events: none;\s*background: none;/', $css);
+        $this->assertMatchesRegularExpression('/\.d2-nav__list\s*\{\s*justify-content: flex-end;\s*margin-inline-start: 0;\s*&::after\s*\{\s*flex: none;\s*inline-size: calc\(var\(--tools-w\) \+ var\(--s-4\) - var\(--nav-pad\)\);/', $css);
+        $this->assertMatchesRegularExpression('/\.d2-header\.is-lifted\s*\{\s*margin-block-end: var\(--navrow-h\);/', $css, 'no layout shift when the row leaves the flow by scrolling');
+        $this->assertMatchesRegularExpression('/\.d2-header\.is-scrolled\s*\{\s*--lockup-scale: 0\.7857;/', $css);
+        $this->assertStringContainsString('scale: var(--lockup-scale);', $css);
         $this->assertMatchesRegularExpression('/\.d2-header\.is-tucked\s*\{[^}]*\.d2-header__navrow\s*\{\s*visibility: hidden;\s*opacity: 0;\s*translate: 0 -100%;/', $css);
         $this->assertMatchesRegularExpression('/\.d2-header\.is-docking \.d2-nav__link\s*\{\s*animation: d2-nav-dock var\(--dur-enter\) var\(--ease-out\) both;/', $css);
 
@@ -420,7 +435,8 @@ final class HeaderTest extends TestCase
         $this->assertMatchesRegularExpression('/\.megamenu__card-title,\s*\.megamenu__summary\s*\{\s*hyphens: manual;\s*\}/', $mega);
         $this->assertStringContainsString('max-block-size: calc(100dvh - var(--mega-top) - var(--s-2));', $mega);
         $this->assertStringContainsString('--mega-top: calc(var(--mast-h) + var(--navrow-h) + var(--s-2));', $css, 'under the row at the top of the page');
-        $this->assertStringContainsString('--mega-top: calc(var(--bar-h) + var(--s-2));', $css, 'under the bar when docked');
+        $this->assertStringContainsString('--mega-top: calc(var(--bar-h) + var(--s-2));', $css, 'under the bar when inline and scrolled');
+        $this->assertStringContainsString('--mega-top: calc(var(--mast-h) + var(--s-2));', $css, 'under the masthead when inline at the top');
         $this->assertMatchesRegularExpression('/&\.is-clipped\s*\{\s*mask-image: var\(--mask-fade-bottom\);/', $mega);
         $this->assertMatchesRegularExpression('/@media \(pointer: coarse\)\s*\{\s*\.megamenu__item,\s*\.megamenu__all\s*\{\s*min-block-size: var\(--target-touch\);/', $mega);
     }
@@ -429,10 +445,11 @@ final class HeaderTest extends TestCase
     public function test_the_styleguide_shows_the_header_states(): void
     {
         $html = $this->visit('/en/styleguide/');
-        foreach (['sg-top', 'sg-docked', 'sg-tucked', 'sg-mega', 'sg-lang', 'sg-search', 'sg-collapsed'] as $prefix) {
+        foreach (['sg-top', 'sg-docked', 'sg-tucked', 'sg-mega', 'sg-lang', 'sg-collapsed'] as $prefix) {
             $this->assertStringContainsString('id="'.$prefix.'-megamenu"', $html, $prefix);
         }
-        $this->assertStringContainsString('d2-header d2-header--demo is-scrolled is-docked', $html);
+        $this->assertStringNotContainsString('id="sg-search-megamenu"', $html, 'no search specimen: the header has no search');
+        $this->assertStringContainsString('d2-header d2-header--demo is-scrolled is-inline', $html);
         $this->assertStringContainsString('d2-header d2-header--demo is-scrolled is-tucked', $html);
         $this->assertStringContainsString('d2-header d2-header--demo is-nav-collapsed', $html);
         $this->assertSame(1, substr_count($html, 'data-d2-header'), 'only the live header is enhanced');
@@ -445,7 +462,7 @@ final class HeaderTest extends TestCase
 
         // QA round 2: each header specimen's explanation is a .sg-note (on the Arabic page a left-to-right reading
         // block whose lines start on one edge), never a .sg-label, which runs flush right with a ragged left edge.
-        foreach (['en' => [$html, 8], 'ar' => [$this->visit('/ar/styleguide/'), 8], 'ru' => [$ru, 7]] as $locale => [$page, $count]) {
+        foreach (['en' => [$html, 7], 'ar' => [$this->visit('/ar/styleguide/'), 7], 'ru' => [$ru, 6]] as $locale => [$page, $count]) {
             $x = $this->dom($page);
             $demos = $this->one($x, '//section[@id="sg-shell"]/div[@class="d2-shell-demos"]');
             $notes = $x->query('./div[contains(@class,"d2-shell-demo")]/p[@class="sg-note"]', $demos);

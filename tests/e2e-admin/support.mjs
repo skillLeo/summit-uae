@@ -10,7 +10,7 @@ export async function signIn(page) {
 /** A public page in Design 2 as a visitor (no admin session, no switcher): the server's HTML. */
 export async function publicHtml(browser, baseURL, path) {
   const { request } = await import('@playwright/test');
-  const ctx = await request.newContext({ extraHTTPHeaders: { Cookie: 'summit_design=2; summit_qa=1' } });
+  const ctx = await request.newContext();
   const res = await ctx.get(`${baseURL}${path}`, { maxRedirects: 0 });
   expect(res.status(), path).toBe(200);
   const html = await res.text();

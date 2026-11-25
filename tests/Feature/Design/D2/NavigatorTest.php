@@ -25,8 +25,7 @@ final class NavigatorTest extends TestCase
 
     private function home(string $locale = 'en', string $query = ''): string
     {
-        return $this->withUnencryptedCookies(['summit_design' => '2'])
-            ->get("/{$locale}/".$query)
+        return $this->get("/{$locale}/".$query)
             ->assertOk()
             ->getContent();
     }
@@ -289,7 +288,7 @@ final class NavigatorTest extends TestCase
 
     public function test_styleguide_lists_the_navigator_area(): void
     {
-        $html = $this->withUnencryptedCookies(['summit_design' => '2'])->get('/en/styleguide/')->assertOk()->getContent();
+        $html = $this->get('/en/styleguide/')->assertOk()->getContent();
         $this->assertStringContainsString('id="sg-navigator"', $html);
         $this->assertStringContainsString('href="#sg-navigator"', $html);
         $this->assertStringNotContainsString('id="navigator"', $html, 'specimens never reuse the section ids');

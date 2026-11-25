@@ -17,7 +17,6 @@ return [
     ],
     'view_site' => [
         'button' => 'View site',
-        'design' => 'Design :design',
     ],
     'theme' => [
         'label' => 'Appearance',
@@ -93,9 +92,10 @@ return [
         'document_samples' => 'Document Samples', 'associated_sites' => 'Associated Sites', 'approval_report' => 'Approval report',
         'navigation' => 'Navigation', 'media' => 'Media Library', 'interface_text' => 'Interface Text', 'seo' => 'SEO', 'redirects' => 'Redirects',
         'calculators' => 'Calculators',
+        'settings_integrations' => 'Integrations',
         'settings_general' => 'General and Contact', 'settings_hours' => 'Office Hours', 'settings_whatsapp' => 'WhatsApp',
         'settings_languages' => 'Languages', 'settings_forms' => 'Forms and Consent', 'settings_notifications' => 'Notifications',
-        'settings_brand' => 'Brand', 'settings_design' => 'Design Preview',
+        'settings_brand' => 'Brand',
         'users' => 'Users', 'roles' => 'Roles and Permissions', 'activity' => 'Activity Log', 'trash' => 'Trash', 'backups' => 'Backups', 'health' => 'Health',
     ],
     'group' => [

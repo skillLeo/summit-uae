@@ -27,7 +27,7 @@ final class FoundationTest extends TestCase
 
     private function home(string $locale = 'en'): string
     {
-        return $this->withUnencryptedCookies(['summit_design' => '2'])->get("/{$locale}/")->assertOk()->getContent();
+        return $this->get("/{$locale}/")->assertOk()->getContent();
     }
 
     private function css(string $file): string
@@ -386,7 +386,7 @@ final class FoundationTest extends TestCase
     {
         $this->assertArrayNotHasKey('eyebrow', require lang_path('en/styleguide_d2/page.php'));
         foreach (['en', 'ar', 'ru'] as $locale) {
-            $html = $this->withUnencryptedCookies(['summit_design' => '2'])->get("/{$locale}/styleguide/")->assertOk()->getContent();
+            $html = $this->get("/{$locale}/styleguide/")->assertOk()->getContent();
             $head = $this->between($html, '<header class="sg-head">', '</header>');
             $this->assertMatchesRegularExpression('/^<header class="sg-head">\s*<h1 class="sg-head__title"/', $head, "{$locale}: the H1 opens the page");
             $this->assertStringNotContainsString('t-eyebrow', $head, $locale);

@@ -1,10 +1,10 @@
 {
   "generator": "scripts/qa/text-snapshot.mjs",
   "format": 1,
-  "layout": "{design}/{locale}/{route}.txt; the language chooser \"/\" has no locale and is stored as {design}/root/chooser.txt",
+  "layout": "2/{locale}/{route}.txt (2 = Design 2, the only design); the language chooser \"/\" has no locale and is stored as 2/root/chooser.txt",
   "capture": {
     "browser": "Google Chrome (Playwright channel \"chrome\"), headless, one fresh context per page",
-    "cookies": "summit_design=<design>, summit_qa=1",
+    "cookies": "none",
     "javaScript": false,
     "reducedMotion": "reduce",
     "colorScheme": "light",
@@ -161,15 +161,9 @@
   ],
   "sources": {
     "database/content/*.json": "sha256:f6f61aa810792194b5c67759bb81bb7503abe56edc787f520d2dedb0410e326d",
-    "lang/**/*.php": "sha256:8261ed652d05bc0fc262c7e962ad78cf8be31c0f11e29cdc0bc81c263cef0fa7"
+    "lang/**/*.php": "sha256:b474a96c69ac1aff03501e5609331e46a62f0596ff5406022226233c30660e93"
   },
   "files": {
-    "1": {
-      "en": 24,
-      "ar": 24,
-      "ru": 24,
-      "root": 1
-    },
     "2": {
       "en": 25,
       "ar": 25,

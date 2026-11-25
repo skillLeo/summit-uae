@@ -32,7 +32,7 @@ final class FooterTest extends TestCase
 
     private function d2(string $path, int $status = 200): string
     {
-        return $this->withUnencryptedCookies(['summit_design' => '2'])->get($path)->assertStatus($status)->getContent();
+        return $this->get($path)->assertStatus($status)->getContent();
     }
 
     private function footer(string $html): string

@@ -1,6 +1,6 @@
 /**
  * Preflight for playwright.d2.config.mjs: note when this invocation started (for the verdict), fail fast when
- * nothing answers at QA_BASE_URL or when it does not render Design 2 for the QA cookies, then record the run
+ * nothing answers at QA_BASE_URL or when it does not render Design 2, then record the run
  * (qa/shots/<date>/run.json).
  */
 import { execFileSync } from 'node:child_process';
@@ -17,7 +17,6 @@ export default async function globalSetup() {
     let html = '';
     try {
         const res = await fetch(`${BASE_URL}/en/`, {
-            headers: { cookie: 'summit_design=2; summit_qa=1' },
             redirect: 'manual',
             signal: AbortSignal.timeout(20_000),
         });
@@ -32,7 +31,7 @@ export default async function globalSetup() {
         );
     }
     if (!html.includes('data-design="2"')) {
-        throw new Error(`[qa:d2] ${BASE_URL}/en/ did not render Design 2 for the cookie summit_design=2 (no data-design="2" on <html>).`);
+        throw new Error(`[qa:d2] ${BASE_URL}/en/ did not render Design 2 (no data-design="2" on <html>).`);
     }
     const hot = path.join(ROOT, 'public/hot-d2');
     const devServer = existsSync(hot) && html.includes(readFileSync(hot, 'utf8').trim());

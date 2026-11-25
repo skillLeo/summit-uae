@@ -1,0 +1,146 @@
+/*
+ * Design 2 component: the analytics consent bar (resources/views/designs/d2/partials/consent.blade.php, behaviour in
+ * resources/js/d2/modules/analytics.js) and the footer's "Privacy Settings" button that reopens it (.consent-open).
+ *
+ * An overlay (data-overlay: brief §3.4): a white panel, 1 px --line, --radius-overlay and the one --shadow-overlay,
+ * fixed at the bottom of the screen. Below 768 px it spans the screen between the side margins and rests above the
+ * tab bar AND the floating WhatsApp button (the toasts' height: bar + safe area + 48 px button + 32 px), so it never
+ * covers either; when the tab bar slides away the button moves down with it, away from the panel. From 768 px (no tab
+ * bar, no floating button) it sits 24 px from the bottom, at most 960 px wide, centred. Copy on the start side, the
+ * two equal buttons (same variant, same size: neither choice is favoured) on the end side from 1024 px, under the copy
+ * before (one under the other while the panel is narrower than 520 px). Under a sheet or dialog it is inert like the
+ * rest of the page (lib/inert.js). No entrance animation.
+ */
+@layer components {
+  .consent {
+    position: fixed;
+    inset-inline: max(var(--s-4), var(--safe-x));
+    inset-block-end: calc(var(--tabbar-h) + var(--safe-bottom) + var(--target-touch) + var(--s-8));
+    z-index: var(--z-tabbar);
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  .consent__panel {
+    container: d2-consent / inline-size;
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-4);
+    inline-size: 100%;
+    max-inline-size: 960px;
+    max-block-size: calc(100dvh - var(--tabbar-h) - var(--safe-bottom) - var(--target-touch) - var(--s-16));
+    padding: var(--s-5);
+    overflow-y: auto;
+    color: var(--ink);
+    background: var(--canvas);
+    border: var(--line-w) solid var(--line);
+    border-radius: var(--radius-overlay);
+    box-shadow: var(--shadow-overlay);
+    pointer-events: auto;
+    overscroll-behavior: contain;
+  }
+
+  .consent__copy {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-1);
+    min-inline-size: 0;
+  }
+
+  .consent__title {
+    margin: 0;
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-ui);
+  }
+
+  .consent__text {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+    text-wrap: pretty;
+  }
+
+  /* The Privacy Policy link: a body link (underlined), ink. */
+  .consent__link {
+    color: var(--ink);
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+
+    &:hover {
+      text-decoration-thickness: 2px;
+    }
+  }
+
+  /* Two equal buttons: one under the other in a narrow panel (phones: the Russian labels need the full width, never
+     a word broken), side by side, each half of the row, once the panel has room for both labels on one line. */
+  .consent__actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--s-3);
+  }
+
+  @container d2-consent (width >= 520px) {
+    .consent__actions {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .consent__button {
+    min-inline-size: 0;
+  }
+
+  @media (width < 768px) {
+    .consent__button {
+      min-block-size: var(--target-touch);
+    }
+  }
+
+  @media (width >= 768px) {
+    .consent {
+      inset-inline: var(--s-6);
+      inset-block-end: calc(var(--s-6) + var(--safe-bottom));
+    }
+
+    .consent__panel {
+      max-block-size: calc(100dvh - var(--s-16));
+      padding: var(--s-6);
+    }
+  }
+
+  @media (width >= 1024px) {
+    .consent__panel {
+      flex-direction: row;
+      gap: var(--s-8);
+      align-items: center;
+    }
+
+    .consent__copy {
+      flex: 1 1 auto;
+    }
+
+    .consent__actions {
+      flex: none;
+      grid-template-columns: repeat(2, minmax(max-content, 1fr));
+    }
+  }
+
+  /* The footer's "Privacy Settings" button looks like the footer links around it (.d2-footer__link; the reset
+     already gives buttons the inherited font and no fill, border or padding). */
+  .consent-open {
+    text-align: start;
+  }
+
+  @media print {
+    .consent {
+      display: none;
+    }
+  }
+}

@@ -1,12 +1,11 @@
 /**
  * Browser contexts and page watching for the Design 2 harness.
  *
- * Every context carries the cookies summit_design=2 (Design 2) and summit_qa=1 (no floating design
- * switcher; never a header, which would break Turnstile's cross-origin requests), the browser locale of
- * the page language, Asia/Dubai time, and a stub for Vite's client so that other builders saving files
+ * Every context carries the browser locale of the page language, Asia/Dubai time, and a stub for Vite's
+ * client so that other builders saving files
  * never full-reload a page mid-capture (the same stub as storage/app/d2/qa/lib.mjs).
  */
-import { BASE_URL, IGNORED_HOSTS, LOCALES, VIEWPORTS } from './config.mjs';
+import { IGNORED_HOSTS, LOCALES, VIEWPORTS } from './config.mjs';
 
 const HMR_STUB = `const noop = () => {};
 export const createHotContext = () => ({ data: {}, accept: noop, acceptExports: noop, dispose: noop, prune: noop, invalidate: noop, decline: noop, on: noop, off: noop, send: noop });
@@ -15,9 +14,9 @@ export class ErrorOverlay {}`;
 
 /**
  * A fresh context for one capture. variant: default (motion allowed) · reduced (prefers-reduced-motion)
- * · nojs (JavaScript disabled). `design` sets the summit_design cookie (Design 1 proof: 1).
+ * · nojs (JavaScript disabled).
  */
-export async function newContext(browser, { width, locale = 'en', variant = 'default', baseURL = BASE_URL, design = '2', extra = {} }) {
+export async function newContext(browser, { width, locale = 'en', variant = 'default', extra = {} }) {
     const context = await browser.newContext({
         ...VIEWPORTS[width],
         locale: (LOCALES[locale] ?? LOCALES.en).browser,
@@ -27,10 +26,6 @@ export async function newContext(browser, { width, locale = 'en', variant = 'def
         javaScriptEnabled: variant !== 'nojs',
         ...extra,
     });
-    await context.addCookies([
-        { name: 'summit_design', value: String(design), url: baseURL },
-        { name: 'summit_qa', value: '1', url: baseURL },
-    ]);
     await context.route(/\/@vite\/client(?:\?.*)?$/, (route) =>
         route.fulfill({ status: 200, contentType: 'text/javascript', body: HMR_STUB }),
     );

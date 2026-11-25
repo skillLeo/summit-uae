@@ -115,6 +115,11 @@
                     @foreach (Shell::nav('footer_useful') as $link)
                         <li><a class="d2-footer__link" href="{{ $link['href'] }}">{{ $link['label'] }}</a></li>
                     @endforeach
+                    {{-- The approved "Privacy Settings" button (L01 cookies.footer_button): reopens the analytics consent bar
+                         (d2::partials.consent); only where the GA4 tag is on the page. --}}
+                    @if (\App\Support\Analytics::active())
+                        <li><button type="button" class="d2-footer__link consent-open" data-consent-open aria-controls="consent" aria-expanded="false">{{ ui('cookies.footer_button') }}</button></li>
+                    @endif
                 </ul>
             </nav>
         </div>

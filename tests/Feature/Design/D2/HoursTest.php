@@ -36,7 +36,7 @@ final class HoursTest extends TestCase
     {
         app()->setLocale($locale);
 
-        return $this->withUnencryptedCookies(['summit_design' => '2'])->get($path)->assertOk()->getContent();
+        return $this->get($path)->assertOk()->getContent();
     }
 
     /** @return array<string, mixed> the #d2-hours-copy block of a page */

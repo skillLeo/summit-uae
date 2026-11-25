@@ -42,7 +42,7 @@ final class AboutPageTest extends TestCase
     {
         app()->setLocale($locale);
 
-        return $this->withUnencryptedCookies(['summit_design' => '2'])->get("/{$locale}/about/")->assertOk()->getContent();
+        return $this->get("/{$locale}/about/")->assertOk()->getContent();
     }
 
     private function dom(string $html): DOMXPath

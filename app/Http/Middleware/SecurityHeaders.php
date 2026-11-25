@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Providers\Filament\AdminPanelProvider;
+use App\Support\Analytics;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Vite;
@@ -11,7 +12,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Nonce-based CSP (no unsafe-inline, no unsafe-eval: Alpine runs on its CSP build) and the usual
- * hardening headers. Cloudflare Turnstile is the only third-party origin.
+ * hardening headers. Cloudflare Turnstile is the only third-party origin, plus Google Analytics 4's (script:
+ * www.googletagmanager.com; hits: *.google-analytics.com, *.analytics.google.com, www.googletagmanager.com) on a
+ * response that printed the GA4 tag (App\Support\Analytics::active(); production, public pages only).
  *
  * The internal admin panel (/admin, Filament) and Livewire's endpoints get their own, relaxed policy
  * (adminPolicy()): Filament runs Alpine without the CSP build ('unsafe-eval') and writes inline styles
@@ -32,9 +35,17 @@ final class SecurityHeaders
         $script = ["'self'", "'nonce-{$nonce}'", $turnstile];
         $style = ["'self'", "'nonce-{$nonce}'"];
         $connect = ["'self'", $turnstile];
+        $img = ["'self'", 'data:'];
 
-        // Vite dev servers (npm run dev / npm run dev:d2) serve modules and inject styles from another origin.
-        foreach (['hot', (string) config('design.d2.hot_file', 'hot-d2')] as $hotFile) {
+        // Google Analytics 4: only for a response that printed the tag (App\Support\Analytics).
+        if (Analytics::active($request)) {
+            $script[] = Analytics::SCRIPT_ORIGIN;
+            array_push($connect, ...Analytics::COLLECT_ORIGINS);
+            array_push($img, ...Analytics::COLLECT_ORIGINS);
+        }
+
+        // The Vite dev server (npm run dev) serves modules and injects styles from another origin.
+        foreach ([(string) config('design.d2.hot_file', 'hot-d2')] as $hotFile) {
             if (! is_file(public_path($hotFile))) {
                 continue;
             }
@@ -49,7 +60,7 @@ final class SecurityHeaders
             "default-src 'self'",
             'script-src '.implode(' ', $script),
             'style-src '.implode(' ', $style),
-            "img-src 'self' data:",
+            'img-src '.implode(' ', $img),
             "font-src 'self'",
             'connect-src '.implode(' ', $connect),
             "frame-src {$turnstile}",

@@ -145,7 +145,7 @@ final class RequestsInboxTest extends TestCase
         $this->assertSame('google.com', $enquiry->referrer);
         $this->assertSame(['google', 'cpc', 'employment'], [$enquiry->utm_source, $enquiry->utm_medium, $enquiry->utm_campaign]);
         $this->assertSame('mobile', $enquiry->device_class);
-        $this->assertSame(1, $enquiry->design);
+        $this->assertNull($enquiry->design, 'no longer written: Design 2 is the only design');
         $this->assertSame(0, $enquiry->spam_score);
         $privacy = DB::table('revisions')->where('revisionable_type', 'page')->where('revisionable_id', 'L01')->max('id');
         $this->assertSame($privacy, $enquiry->privacy_revision_id);

@@ -34,8 +34,7 @@ final class HomeSectionsTest extends TestCase
 
     private function home(string $locale): string
     {
-        return $this->pages[$locale] ??= $this->withUnencryptedCookies(['summit_design' => '2'])
-            ->get("/{$locale}/")->assertOk()->getContent();
+        return $this->pages[$locale] ??= $this->get("/{$locale}/")->assertOk()->getContent();
     }
 
     /** The outer HTML of the <section> whose id is $id (these sections never nest another section). */
@@ -265,7 +264,7 @@ final class HomeSectionsTest extends TestCase
     public function test_sections_styleguide_partial_shows_every_state_without_duplicate_ids(): void
     {
         foreach (['en', 'ar'] as $locale) {
-            $html = $this->withUnencryptedCookies(['summit_design' => '2'])->get("/{$locale}/styleguide/")->assertOk()->getContent();
+            $html = $this->get("/{$locale}/styleguide/")->assertOk()->getContent();
             $start = strpos($html, '<section class="sg-section" id="sg-sections">');
             $this->assertNotFalse($start, "the sections area is listed ({$locale})");
             $end = strpos($html, '<section class="sg-section"', $start + 10);

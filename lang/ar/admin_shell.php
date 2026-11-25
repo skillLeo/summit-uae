@@ -17,7 +17,6 @@ return [
     ],
     'view_site' => [
         'button' => 'عرض الموقع',
-        'design' => 'التصميم :design',
     ],
     'theme' => [
         'label' => 'المظهر',
@@ -93,9 +92,10 @@ return [
         'document_samples' => 'نماذج المستندات', 'associated_sites' => 'المواقع المرتبطة', 'approval_report' => 'تقرير الموافقات',
         'navigation' => 'التنقل', 'media' => 'مكتبة الوسائط', 'interface_text' => 'نصوص الواجهة', 'seo' => 'تحسين محركات البحث', 'redirects' => 'إعادة التوجيه',
         'calculators' => 'الحاسبات',
+        'settings_integrations' => 'التكاملات',
         'settings_general' => 'عام وبيانات الاتصال', 'settings_hours' => 'ساعات العمل', 'settings_whatsapp' => 'واتساب',
         'settings_languages' => 'اللغات', 'settings_forms' => 'النماذج والموافقة', 'settings_notifications' => 'الإشعارات',
-        'settings_brand' => 'الهوية', 'settings_design' => 'معاينة التصميم',
+        'settings_brand' => 'الهوية',
         'users' => 'المستخدمون', 'roles' => 'الأدوار والصلاحيات', 'activity' => 'سجل النشاط', 'trash' => 'سلة المحذوفات', 'backups' => 'النسخ الاحتياطية', 'health' => 'حالة النظام',
     ],
     'group' => [

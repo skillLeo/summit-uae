@@ -3,9 +3,7 @@
 namespace Tests\Feature\Cms\Admin;
 
 use App\Access\RoleSync;
-use App\Design\DesignManager;
 use App\Filament\Cms\Pages\Settings\Brand;
-use App\Filament\Cms\Pages\Settings\DesignPreview;
 use App\Filament\Cms\Pages\Settings\FormsConsent;
 use App\Filament\Cms\Pages\Settings\GeneralContact;
 use App\Filament\Cms\Pages\Settings\Languages;
@@ -16,7 +14,6 @@ use App\Filament\Support\AdminPalette;
 use App\Models\Revision;
 use App\Models\User;
 use App\Settings\BrandSettings;
-use App\Settings\DesignSettings;
 use App\Settings\LanguageSettings;
 use App\Settings\NotificationSettings;
 use App\Settings\OfficeHoursSettings;
@@ -30,13 +27,12 @@ use Livewire\Livewire;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\PermissionRegistrar;
-use Symfony\Component\HttpFoundation\Cookie;
 use Tests\TestCase;
 
 /**
  * Phase 7 settings screens (docs/briefs/design-2.1-and-admin-cms.md §9.4, §12.3): access per screen key, the save
  * confirmation and its one activity entry with only the changed fields, Languages, Forms and Consent, Notifications,
- * Brand (the accent contrast check), Design Preview (share links, production) and the public HTML with the defaults.
+ * Brand (the accent contrast check) and the public HTML with the defaults.
  */
 final class SettingsScreensTest extends TestCase
 {
@@ -51,7 +47,6 @@ final class SettingsScreensTest extends TestCase
         'settings_forms' => FormsConsent::class,
         'settings_notifications' => Notifications::class,
         'settings_brand' => Brand::class,
-        'settings_design' => DesignPreview::class,
     ];
 
     protected function setUp(): void
@@ -106,9 +101,9 @@ final class SettingsScreensTest extends TestCase
         return Activity::query()->where('log_name', 'admin')->where('description', $screen.'.update')->orderBy('id')->get()->all();
     }
 
-    private function html(string $url, int $design, array $cookies = []): string
+    private function html(string $url): string
     {
-        $html = (string) $this->withUnencryptedCookies(['summit_design' => (string) $design, 'summit_qa' => '1'] + $cookies)->get($url)->assertOk()->getContent();
+        $html = (string) $this->get($url)->assertOk()->getContent();
 
         return self::normalise($html);
     }
@@ -208,10 +203,8 @@ final class SettingsScreensTest extends TestCase
         $this->assertSame(['en', 'ar', 'ru'], $settings->enabled_locales);
         $this->assertSame('en', $settings->default_locale);
         $this->assertNull($settings->language_suggestion);
-        foreach ([1, 2] as $design) {
-            foreach (['/en/', '/ar/', '/ru/', '/ru/contact/'] as $url) {
-                $this->html($url, $design);
-            }
+        foreach (['/en/', '/ar/', '/ru/', '/ru/contact/'] as $url) {
+            $this->html($url);
         }
 
         $this->actingAs($this->superAdmin());
@@ -224,15 +217,12 @@ final class SettingsScreensTest extends TestCase
         $this->assertSame('ar', $settings->default_locale);
         $this->assertFalse($settings->language_suggestion);
 
-        $this->withUnencryptedCookies(['summit_qa' => '1'])->get('/ru/')->assertNotFound();
-        $this->withUnencryptedCookies(['summit_qa' => '1'])->get('/ru/contact/')->assertNotFound();
-        $d2 = $this->html('/en/', 2);
-        $this->assertStringNotContainsString('hreflang="ru"', $d2, 'Design 2: the menus and hreflang links leave Russian out');
-        $this->assertStringContainsString('hreflang="ar"', $d2);
-        $this->assertStringContainsString('<link rel="alternate" hreflang="x-default" href="https://www.summitlegaluae.com/ar/">', $d2);
-        $d1 = $this->html('/en/', 1);
-        $this->assertStringNotContainsString('hreflang="ru"', $d1);
-        $this->assertStringNotContainsString('data-suggest-dismiss', $d1, 'the suggestion bar follows the setting');
+        $this->get('/ru/')->assertNotFound();
+        $this->get('/ru/contact/')->assertNotFound();
+        $html = $this->html('/en/');
+        $this->assertStringNotContainsString('hreflang="ru"', $html, 'the menus and hreflang links leave Russian out');
+        $this->assertStringContainsString('hreflang="ar"', $html);
+        $this->assertStringContainsString('<link rel="alternate" hreflang="x-default" href="https://www.summitlegaluae.com/ar/">', $html);
         $this->assertStringNotContainsString('/ru/', (string) $this->get('/sitemap.xml')->getContent());
 
         // the default language must be on
@@ -242,8 +232,8 @@ final class SettingsScreensTest extends TestCase
         // back to all three: reachable again
         Livewire::test(Languages::class)->fillForm(['enabled_locales' => ['en', 'ar', 'ru'], 'default_locale' => 'en', 'language_suggestion' => 'environment'])
             ->call('confirmSave')->callMountedAction();
-        $this->html('/ru/', 2);
-        $this->assertStringContainsString('hreflang="ru"', $this->html('/en/', 1));
+        $this->html('/ru/');
+        $this->assertStringContainsString('hreflang="ru"', $this->html('/en/'));
     }
 
     // ------------------------------------------------------------------ forms and consent
@@ -313,115 +303,22 @@ final class SettingsScreensTest extends TestCase
         Livewire::test(Brand::class)->assertFormSet(['social_image' => 'a-uuid']);
     }
 
-    // ------------------------------------------------------------------ design preview
-
-    public function test_a_share_link_is_signed_shows_the_switch_and_expires_after_seven_days(): void
-    {
-        config(['design.switcher' => false]);
-        app(DesignSettings::class)->fill(['switcher' => 'link'])->save();
-        $this->assertSame('link', app(DesignManager::class)->switcherMode());
-        $link = DesignManager::createShareLink('en');
-        $this->assertMatchesRegularExpression('#/en/\?design_preview=1&expires=\d+&signature=[0-9a-f]{64}$#', $link['url']);
-        $this->assertSame(7, (int) round(now()->diffInDays($link['expires'])));
-
-        // a forged signature sets nothing
-        $forged = $this->get(preg_replace('/signature=[0-9a-f]+/', 'signature='.str_repeat('0', 64), $link['url']));
-        $forged->assertRedirect(url('/').'/en/');
-        $this->assertNull(collect($forged->headers->getCookies())->first(fn (Cookie $c) => $c->getName() === 'summit_design_share'));
-
-        $response = $this->get($link['url']);
-        $response->assertRedirect(url('/').'/en/');
-        $cookie = collect($response->headers->getCookies())->first(fn (Cookie $c) => $c->getName() === 'summit_design_share');
-        $this->assertNotNull($cookie, 'the share link sets the share cookie');
-        $this->assertTrue($cookie->isHttpOnly());
-        $value = decrypt($cookie->getValue(), false);
-        $plain = str_contains($value, '|') ? substr($value, strpos($value, '|') + 1) : $value;
-
-        $page = fn () => (string) $this->withCookie('summit_design_share', $plain)->get('/en/')->assertOk()->getContent();
-        $this->assertStringContainsString('data-design-switch', $page(), 'the browser with the link sees the switch');
-        $this->defaultCookies = [];
-        $this->unencryptedCookies = [];
-        $this->assertStringNotContainsString('data-design-switch', (string) $this->get('/en/')->getContent(), 'others do not');
-
-        $this->travel(7)->days();
-        $this->travel(2)->minutes();
-        $this->assertStringNotContainsString('data-design-switch', $page(), 'the cookie ends with the link');
-        $late = $this->get($link['url']);
-        $this->assertNull(collect($late->headers->getCookies())->first(fn (Cookie $c) => $c->getName() === 'summit_design_share'), 'an expired link sets nothing');
-    }
-
-    public function test_revoking_ends_every_share_link(): void
-    {
-        config(['design.switcher' => false]);
-        app(DesignSettings::class)->fill(['switcher' => 'link'])->save();
-        $link = DesignManager::createShareLink('en');
-        $this->actingAs($this->superAdmin());
-        Livewire::test(DesignPreview::class)->call('createShareLink')->assertSet('data.share_link', fn ($v) => is_string($v) && str_contains($v, 'signature='));
-        $this->assertSame('settings_design.share_link', Activity::query()->latest('id')->value('description'));
-        Livewire::test(DesignPreview::class)->call('revokeShareLinks');
-        $this->assertSame(2, app(DesignSettings::class)->refresh()->share_version);
-        auth()->logout();
-        $response = $this->get($link['url']);
-        $this->assertNull(collect($response->headers->getCookies())->first(fn (Cookie $c) => $c->getName() === 'summit_design_share'));
-    }
-
-    public function test_switcher_visibility_and_the_environment_winning_in_production(): void
-    {
-        $designs = app(DesignManager::class);
-        config(['design.switcher' => true, 'design.switcher_env' => true]);
-        $this->assertSame('everyone', $designs->switcherMode(), 'null setting: the environment decides, as before');
-
-        app(DesignSettings::class)->fill(['switcher' => 'admins'])->save();
-        $this->assertSame('admins', $designs->switcherMode());
-        $this->assertStringNotContainsString('data-design-switch', (string) $this->get('/en/')->getContent(), 'visitors');
-        $this->actingAs($this->superAdmin());
-        $this->assertStringContainsString('data-design-switch', (string) $this->get('/en/')->getContent(), 'signed-in admins');
-
-        config(['design.switcher' => false, 'design.switcher_env' => false]);
-        $this->assertSame('admins', $designs->switcherMode(), 'outside production the setting may turn it on for admins');
-        $this->app->detectEnvironment(fn () => 'production');
-        $this->assertSame('off', $designs->switcherMode(), 'SUMMIT_DESIGN_SWITCHER=false always wins in production');
-        $this->assertStringNotContainsString('data-design-switch', (string) $this->get('/en/')->getContent());
-    }
-
-    public function test_the_default_design_setting_overrides_the_environment_only_when_set(): void
-    {
-        config(['design.default' => 1]);
-        $this->assertSame(1, app(DesignManager::class)->default());
-        $this->actingAs($this->superAdmin());
-        Livewire::test(DesignPreview::class)->assertFormSet(['default_design' => 'environment', 'switcher' => 'environment'])
-            ->fillForm(['default_design' => '2'])->call('confirmSave')->callMountedAction();
-        $this->assertSame(2, app(DesignSettings::class)->refresh()->default_design);
-        auth()->logout();
-        $this->assertStringContainsString('data-design="2"', (string) $this->withUnencryptedCookies(['summit_qa' => '1'])->get('/en/')->getContent());
-    }
-
     // ------------------------------------------------------------------ public site unchanged
 
     public function test_with_default_settings_the_public_html_equals_the_html_without_the_settings_rows(): void
     {
         $urls = ['/', '/en/', '/ar/'];
         $with = [];
-        foreach ([1, 2] as $design) {
-            foreach ($urls as $url) {
-                $with["{$design}{$url}"] = $this->html($url, $design);
-            }
+        foreach ($urls as $url) {
+            $with[$url] = $this->html($url);
         }
-        // the switch shown to everyone (SUMMIT_DESIGN_SWITCHER=true) is unchanged as well
-        config(['design.switcher' => true]);
-        $switch = self::normalise((string) $this->withUnencryptedCookies(['summit_design' => '2'])->get('/en/')->getContent());
 
-        DB::table('settings')->whereIn('group', ['brand', 'design'])->delete();
+        DB::table('settings')->where('group', 'brand')->delete();
         DB::table('settings')->where('group', 'languages')->whereIn('name', ['enabled_locales', 'default_locale', 'language_suggestion'])->delete();
         content()->flush();
 
-        config(['design.switcher' => false]);
-        foreach ([1, 2] as $design) {
-            foreach ($urls as $url) {
-                $this->assertSame($with["{$design}{$url}"], $this->html($url, $design), "Design {$design} {$url}");
-            }
+        foreach ($urls as $url) {
+            $this->assertSame($with[$url], $this->html($url), $url);
         }
-        config(['design.switcher' => true]);
-        $this->assertSame($switch, self::normalise((string) $this->withUnencryptedCookies(['summit_design' => '2'])->get('/en/')->getContent()));
     }
 }

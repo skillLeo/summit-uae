@@ -3,7 +3,6 @@
 namespace App\Requests;
 
 use App\Design\D2\Pending;
-use App\Design\DesignManager;
 use App\Models\Revision;
 use App\Settings\RequestSettings;
 use Illuminate\Http\Request;
@@ -18,7 +17,7 @@ use Throwable;
  * - referrer     the external site the visitor came from: only its host (Design 2's form sends `landing_referrer`)
  * - utm_*        the UTM values of the page's address (Design 2's form sends them; otherwise from the Referer's query)
  * - device_class mobile, tablet or desktop, from the User-Agent; the User-Agent itself is never stored
- * - design       1 or 2, as the site served it
+ * - design       no longer written (Design 2 is the only design since 2026-11-25); older requests keep their 1 or 2
  * - privacy_revision_id  the Privacy Policy revision the consent refers to (Forms and Consent setting, else the latest)
  * - extras       the pending-approval extras (audience, situation, ticked documents, tool) only while pending copy is
  *                shown on the site (Pending::visible()); otherwise they are dropped
@@ -39,7 +38,6 @@ final class Intake
             'source_page' => $own !== '' ? Str::limit((string) (parse_url($own, PHP_URL_PATH) ?: '/'), 250, '') : null,
             'referrer' => self::externalHost((string) $request->input('landing_referrer', ''), $request),
             'device_class' => self::deviceClass((string) $request->userAgent()),
-            'design' => self::design($request),
             'privacy_revision_id' => self::privacyRevision(),
             'extras' => self::extras($request),
         ] + $utm;
@@ -100,20 +98,6 @@ final class Intake
         }
 
         return 'desktop';
-    }
-
-    private static function design(Request $request): ?int
-    {
-        try {
-            $designs = app(DesignManager::class);
-            if ($designs->applied()) {
-                return $designs->current();
-            }
-        } catch (Throwable) {
-            // fall through
-        }
-
-        return DesignManager::normalize($request->cookies->get((string) config('design.cookie')));
     }
 
     private static function privacyRevision(): ?int

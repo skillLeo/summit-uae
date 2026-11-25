@@ -2,13 +2,11 @@
 
 use App\Design\D2\Digits;
 use App\Design\D2\IconSprite;
-use App\Design\DesignManager;
 use App\Http\Middleware\CmsPreview;
-use App\Http\Middleware\DesignSwitcher;
 use App\Http\Middleware\EditThisPageBar;
+use App\Http\Middleware\RetireDesignSwitch;
 use App\Http\Middleware\SecurityHeaders;
 use App\Http\Middleware\ServeRedirects;
-use App\Http\Middleware\SetDesign;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -33,41 +31,23 @@ return Application::configure(basePath: dirname(__DIR__))
         // Arabic digits (App\Design\D2\Digits, Design 2.1 brief §3.7): outermost, so every Design 2 Arabic HTML response
         // (error pages and maintenance mode's 503 included) shows one digit style; every other response is untouched.
         $middleware->prepend(Digits::class);
-        // Design 1 / Design 2 (docs/upgrade-plan.md): global so unmatched URLs render their 404 in the
-        // chosen design, and again after StartSession so the choice is also kept in the session.
-        $middleware->append(SetDesign::class);
-        $middleware->append(DesignSwitcher::class);
-        $middleware->appendToGroup('web', SetDesign::class);
+        // Design 2 is the only design (docs/upgrade-plan.md): links of the retired design switch get a 301 to the same
+        // address without its parameter, and its old cookies are expired. Global, so unknown addresses are covered too.
+        $middleware->append(RetireDesignSwitch::class);
         // CMS (docs/briefs/design-2.1-and-admin-cms.md §8.3, §8.5): redirects before routing (none exist today, so
-        // nothing changes), signed previews of drafts (global for the 404 page, and after the web group's SetDesign so
-        // the preview stays in Design 2), and the admins' "Edit this page" bar (visitors' responses are untouched).
+        // nothing changes), signed previews of drafts (global, so the 404 page can be previewed too), and the admins'
+        // "Edit this page" bar (visitors' responses are untouched).
         $middleware->append(ServeRedirects::class);
         $middleware->append(CmsPreview::class);
-        $middleware->appendToGroup('web', CmsPreview::class);
         $middleware->appendToGroup('web', EditThisPageBar::class);
         // Preference cookies written by the browser (language choice, dismissed suggestion bar)
-        // hold no secrets and cannot be encrypted client-side. The design cookie must be readable
-        // by the global middleware, before the web group decrypts cookies.
-        $middleware->encryptCookies(except: ['summit_lang', 'summit_suggest_off', 'summit_design', 'summit_qa']);
+        // hold no secrets and cannot be encrypted client-side.
+        $middleware->encryptCookies(except: ['summit_lang', 'summit_suggest_off']);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
         );
-
-        // Design 2 error pages (DesignManager::apply): an error thrown before the global SetDesign middleware
-        // ran (maintenance mode's 503) still renders in the visitor's design (cookie, else the default).
-        // Renders nothing itself: Laravel then renders errors::{status} as usual.
-        $exceptions->render(function (Throwable $e, Request $request) {
-            rescue(function () use ($request) {
-                $designs = app(DesignManager::class);
-                if (! $designs->applied()) {
-                    $designs->apply(DesignManager::normalize($request->cookies->get((string) config('design.cookie'))) ?? $designs->default());
-                }
-            }, report: false);
-
-            return null;
-        });
 
         // U01: a real HTTP 404 in the language of the requested URL, at the requested address.
         $exceptions->render(function (NotFoundHttpException $e, Request $request) {

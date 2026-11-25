@@ -7,10 +7,9 @@
  *   2. serves this working tree with php -S on 127.0.0.1:8043 (its own server, stopped at the end) with
  *      SUMMIT_D2_BUILD_DIR=build-d2-qa and SUMMIT_D2_HOT_FILE=<a file that does not exist> (config/design.php),
  *      so Laravel ignores the dev server and loads the bundled assets; APP_ENV=production, APP_DEBUG=false,
- *      SUMMIT_DEFAULT_DESIGN=2 (a first visit, no cookie), SUMMIT_DESIGN_SWITCHER=false, SUMMIT_NOINDEX=false;
+ *      SUMMIT_NOINDEX=false (a first visit, no cookie);
  *   3. runs Lighthouse (mobile, default simulated throttling, installed Chrome) through a local gzip proxy
- *      (production sits behind Cloudflare; php -S never compresses) that also sends X-Summit-QA: 1, on the
- *      home, one service, the resources page and the contact page in EN and AR;
+ *      (production sits behind Cloudflare; php -S never compresses), on the home, one service, the resources page and the contact page in EN and AR;
  *   4. gates: performance >= 90, accessibility = 100, best practices >= 95, SEO = 100; budgets LCP <= 2.0 s,
  *      CLS <= 0.02, first-party JS on home <= 90 KB gzip, hero JS <= 25 KB gzip, <= 2 font preloads.
  *
@@ -222,8 +221,6 @@ export async function startServer(port) {
         APP_DEBUG: 'false',
         SUMMIT_D2_BUILD_DIR: BUILD_DIR,
         SUMMIT_D2_HOT_FILE: MISSING_HOT,
-        SUMMIT_DEFAULT_DESIGN: '2',
-        SUMMIT_DESIGN_SWITCHER: 'false',
         SUMMIT_NOINDEX: 'false',
     };
     // Its own process group: php -S forks PHP_CLI_SERVER_WORKERS workers, and stopping must reach them all.
@@ -265,7 +262,7 @@ async function verify(origin) {
     const res = await fetch(`${origin}/en/`, { signal: AbortSignal.timeout(20_000) });
     const html = await res.text();
     const problems = [];
-    if (!html.includes('data-design="2"')) problems.push('no data-design="2" on <html> (Design 2 is not the default design)');
+    if (!html.includes('data-design="2"')) problems.push('no data-design="2" on <html> (not Design 2\'s layout)');
     if (!html.includes(`/${BUILD_DIR}/`)) problems.push(`no /${BUILD_DIR}/ asset URL`);
     if (/127\.0\.0\.1:5183|@vite\/client/.test(html)) problems.push('the page still loads the Vite dev server');
     return problems;
@@ -286,8 +283,6 @@ export function startProxy(upstream) {
     const server = http.createServer((req, res) => {
         const headers = { ...req.headers }; // the browser's Host header: Laravel builds URLs for the proxy origin
         delete headers['accept-encoding'];
-        headers['x-summit-qa'] = '1'; // never the design switcher
-        if (!/(?:^|;\s*)summit_design=/.test(headers.cookie ?? '')) headers.cookie = [headers.cookie, 'summit_design=2'].filter(Boolean).join('; ');
         const browserLeft = () => res.destroyed || res.writableEnded;
         const forward = http.request({ hostname: upstream.hostname, port: upstream.port, method: req.method, path: req.url, headers, agent }, (up) => {
             if (browserLeft()) {

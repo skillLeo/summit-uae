@@ -10,9 +10,11 @@ use Spatie\LaravelSettings\Migrations\SettingsMigration;
  *   languages.default_locale       "en"                 the x-default hreflang of today
  *   languages.language_suggestion  null                 the server setting SUMMIT_LANGUAGE_SUGGESTION decides
  *   brand.*                        null                 today's logo files, favicon and the bronze accent
- *   design.default_design          null                 the server setting SUMMIT_DEFAULT_DESIGN decides
- *   design.switcher                null                 the server setting SUMMIT_DESIGN_SWITCHER decides
+ *   design.default_design          null                 the server's default design decided
+ *   design.switcher                null                 the server's switch flag decided
  *   design.share_version           1                    no share link exists yet
+ *
+ * The three design.* settings were removed with Design 1 and the design switch (2026_11_25_100000_remove_design_settings).
  */
 return new class extends SettingsMigration
 {

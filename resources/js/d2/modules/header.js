@@ -1,41 +1,45 @@
 /**
- * Design 2.1 header behaviour (<x-d2.shell.header>, components/header.css; brief §3.7, §3.8, D13, D14).
+ * Header behaviour (<x-d2.shell.header>, components/header.css; brief §3.7, §3.8, D13; the client's final changes,
+ * item 1: logo, navigation and language only, on black).
  *
- * 1. Compact state. The header is sticky at --header-h minus --header-h-top (-24 px on desktop), so scrolling
+ * 1. Compact state. The header is sticky at --header-h minus --header-h-top (-16 px on desktop), so scrolling
  *    itself shrinks the visible masthead to the compact bar. Once it has (scrollY >= the header's own lift, at
- *    least 8 px), [data-d2-header] gets .is-scrolled: the shield replaces the lockup. While the navigation row is
- *    shown it also gets one of two layouts (compactLayout):
- *      .is-docked  the seven labels fit in the bar between the shield and the tools: the row moves into the bar
- *                  (English and Arabic in a full container); .is-docking marks its one entrance (the labels fade
- *                  in), removed when that animation ends.
- *      .is-tucked  they do not (Russian, narrower windows): the row slides under the masthead and the menu button
- *                  beside the shield opens the menu sheet.
- *    A small hysteresis keeps the state from flickering at the edge. 'd2:header-compact' ({ detail: { compact,
- *    layout } }) is dispatched on window when the state changes (the mega menu closes unless focus is inside).
- *    .is-live is added after the first frame, so a page opened scrolled does not animate into place.
+ *    least 8 px), [data-d2-header] gets .is-scrolled (from 1024 px the lockup eases from 56 to 44 px). A small
+ *    hysteresis keeps the state from flickering at the edge. 'd2:header-compact' ({ detail: { compact, layout } })
+ *    is dispatched on window when the state changes (the mega menu closes unless focus is inside). .is-live is
+ *    added after the first frame, so a page opened scrolled does not animate into place.
  * 2. Fit, measured with the real fonts and text size on every width change and once the fonts are in:
  *    - the row: header.css shows the seven labels from 1024 px (Russian from 69rem); .is-nav-collapsed where they
- *      would still overflow it (the menu button then opens the menu sheet). The labels never wrap, shrink or move
- *      into "More".
- *    - the compact bar: the shield's target, the labels, the bar's gap and the tools (which never change between
- *      the two states) against the bar's width: docked or tucked.
- *    - the masthead: the lockup, the bar's gap and the tools; where they would not fit (another font, a larger
- *      text size) .is-mast-tight puts the shield in the lockup's place, so the tools never leave the container.
- * 3. Search: a click on any [data-d2-search] trigger, "/" (when not typing in a field) and Ctrl/Cmd+K dispatch a
- *    cancelable window CustomEvent 'd2:palette-open' ({ detail: { source } }). Ctrl/Cmd+K inside a field
- *    dispatches too, but never falls back to navigating (typed text stays). PROTOCOL for the command palette:
- *    listen on window, call event.preventDefault() to claim the event, then open. While nothing claims it, the
- *    visitor goes to Legal Resources (the trigger's href, which is also the no-JS behaviour). When the palette is
- *    ready it may dispatch 'd2:palette-ready' (or set <html data-palette>): the triggers then announce
- *    aria-haspopup="dialog". The visible trigger has no key cap (D14); its tooltip names the "/" key.
+ *      would still overflow their own row (the menu button then opens the menu sheet). The labels never wrap,
+ *      shrink or move into "More".
+ *    - the bar: the lockup (56 px, or 44 px once compact), the labels and the tools against the bar's width:
+ *      .is-inline where they fit (the row rides in the bar, at its end), else the row's own line at the top of
+ *      the page and .is-tucked once scrolled (the menu button at the end of the bar). .is-lifted marks a row that
+ *      left the flow only because of scrolling (its height stays as margin); .is-docking marks its one entrance
+ *      into the bar (the labels fade in), removed when that animation ends.
+ *    - the masthead: the lockup beside the tools; where they would not fit (a very narrow window, a larger text
+ *      size) .is-mast-tight moves the language menu to the menu sheet. The lockup always shows in full.
+ * 3. Search: a click on any [data-d2-search] trigger (the header has none; other pages may), "/" (when not typing
+ *    in a field) and Ctrl/Cmd+K dispatch a cancelable window CustomEvent 'd2:palette-open' ({ detail: { source } }).
+ *    Ctrl/Cmd+K inside a field dispatches too, but never falls back to navigating (typed text stays). PROTOCOL for
+ *    the command palette: listen on window, call event.preventDefault() to claim the event, then open. While nothing
+ *    claims it, the visitor goes to Legal Resources (the trigger's href, or the header's data-search-url). When the
+ *    palette is ready it may dispatch 'd2:palette-ready' (or set <html data-palette>): the triggers then announce
+ *    aria-haspopup="dialog".
  */
 import { isEditable } from '../lib/dom.js';
 
-/** Phones (no masthead lift): the shield replaces the lockup after this much scroll. */
+/** Phones (no masthead lift): compact after this much scroll. */
 export const MIN_SCROLL = 8;
 
 /** Back to the top state only this far above the threshold (no flicker at the edge). */
 export const HYSTERESIS = 8;
+
+/** The lockup in the compact bar from 1024 px: 44 of its 56 px (header.css, --lockup-scale). */
+export const COMPACT_SCALE = 44 / 56;
+
+/** The least space between the lockup and the first label when the row rides in the bar. */
+export const BRAND_GAP = 32;
 
 /** Scroll distance at which the header is compact: the masthead's lift (its negative sticky top), at least 8 px. */
 export function compactThreshold(stickyTop) {
@@ -55,13 +59,21 @@ export function overflows(needed, available) {
 }
 
 /**
- * The compact bar's layout for the navigation row: 'docked' when the shield's target, the labels (their boxes,
- * paddings included), the bar's gap and the tools fit the bar's width; 'tucked' when they do not; null when the
- * row is not shown at all (below 1024 px, Russian below 69rem, a collapsed row: the menu button is already there).
+ * Where the seven labels fit in the bar beside the lockup and the tools: { top, compact } (booleans: at the top of
+ * the page with the 56 px lockup, once compact with the 44 px one), or null where the row is not shown at all
+ * (below 1024 px, Russian below 69rem, a collapsed row: the menu button is already there).
  */
-export function compactLayout({ rowShown, collapsed, brand, labels, gap, tools, bar }) {
+export function rowFit({ rowShown, collapsed, lockup, labels, gap, tools, bar, scale = COMPACT_SCALE }) {
     if (!rowShown || collapsed) return null;
-    return overflows(brand + labels + gap + tools, bar) ? 'tucked' : 'docked';
+    const needs = (brand) => brand + BRAND_GAP + labels + gap + tools;
+    return { top: !overflows(needs(lockup), bar), compact: !overflows(needs(lockup * scale), bar) };
+}
+
+/** The row's state for a fit and a compact state: { inline, tucked, lifted } (header.css). */
+export function rowState(fit, compact) {
+    if (!fit) return { inline: false, tucked: false, lifted: false };
+    const inline = fit.top || (compact && fit.compact);
+    return { inline, tucked: compact && !inline, lifted: compact && !fit.top };
 }
 
 /** The palette shortcut a keydown is: 'shortcut-k' (Ctrl/Cmd+K, by physical key too), 'shortcut-slash' or null. */
@@ -83,14 +95,13 @@ function contentWidth(el) {
 }
 
 /**
- * Measures the row, the compact bar and the masthead (section 2 above); sets .is-nav-collapsed and
- * .is-mast-tight and returns the compact layout. Everything it reads is laid out as CSS lays it out at this width;
- * the classes it clears are set again within the same frame (from display: none nothing transitions, and nothing
- * paints in between).
+ * Measures the row, the bar and the masthead (section 2 above); sets .is-nav-collapsed, .is-mast-tight and
+ * --tools-w and returns the row's fit. Everything it reads is laid out as CSS lays it out at this width with the
+ * row in its own line (the state classes are cleared first and set again within the same frame, with transitions
+ * held: .is-measuring).
  */
 function measure(header) {
     const bar = header.querySelector('.d2-header__bar');
-    const brand = header.querySelector('.d2-brand');
     const lockup = header.querySelector('.d2-brand__lockup img');
     const tools = header.querySelector('.d2-header__tools');
     const row = header.querySelector('.d2-header__navrow');
@@ -98,13 +109,15 @@ function measure(header) {
     const nav = list?.parentElement;
     if (!bar || !tools) return null;
 
-    header.classList.remove('is-nav-collapsed', 'is-mast-tight');
+    header.classList.remove('is-nav-collapsed', 'is-mast-tight', 'is-inline', 'is-tucked', 'is-lifted');
     const barWidth = contentWidth(bar);
     const gap = px(getComputedStyle(bar).columnGap);
+    // Layout widths (offsetWidth): the compact lockup's scale is a transform and must not count here.
+    const lockupWidth = lockup ? lockup.offsetWidth : 0;
     const toolsWidth = tools.getBoundingClientRect().width;
+    header.style.setProperty('--tools-w', `${Math.ceil(toolsWidth)}px`);
 
-    // The masthead at the top of the page: the lockup (its box, wherever it sits) beside the tools.
-    const lockupWidth = lockup ? lockup.getBoundingClientRect().width : 0;
+    // The masthead: the lockup beside the tools (the language menu leaves for the menu sheet where they do not fit).
     header.classList.toggle('is-mast-tight', overflows(lockupWidth + gap + toolsWidth, barWidth));
 
     if (!list || !nav || !rowShown(row)) return null;
@@ -115,22 +128,14 @@ function measure(header) {
     const collapsed = overflows(labels - pad, contentWidth(nav));
     header.classList.toggle('is-nav-collapsed', collapsed);
 
-    return compactLayout({
-        rowShown: true,
-        collapsed,
-        brand: px(getComputedStyle(brand ?? bar).minInlineSize),
-        labels,
-        gap,
-        tools: toolsWidth,
-        bar: barWidth,
-    });
+    return rowFit({ rowShown: true, collapsed, lockup: lockupWidth, labels, gap, tools: toolsWidth, bar: barWidth });
 }
 
 /** The header's state machine: scroll position x fit. Returns refresh(), which measures again and re-applies. */
 function controller(header) {
     let threshold = MIN_SCROLL;
     let compact = false;
-    let layout = null; // the compact layout the last fit allows: 'docked' | 'tucked' | null
+    let fit = null; // the row's fit from the last measure: { top, compact } | null
     let ticking = false;
     let undock = 0;
 
@@ -141,12 +146,14 @@ function controller(header) {
         header.classList.remove('is-docking');
     };
 
-    const apply = (next) => {
-        const docked = next && layout === 'docked';
-        const wasDocked = header.classList.contains('is-docked');
-        set('is-docked', docked);
-        set('is-tucked', next && layout === 'tucked');
-        if (docked && !wasDocked && header.classList.contains('is-live')) {
+    const apply = (next, force = false) => {
+        const state = rowState(fit, next);
+        const wasDocked = header.classList.contains('is-inline') && header.classList.contains('is-lifted');
+        set('is-inline', state.inline);
+        set('is-tucked', state.tucked);
+        set('is-lifted', state.lifted);
+        const docked = state.inline && state.lifted;
+        if (docked && !wasDocked && !force && header.classList.contains('is-live')) {
             // The labels fade into the bar once (header.css); the class goes when that animation ends.
             header.classList.add('is-docking');
             window.clearTimeout(undock);
@@ -157,7 +164,8 @@ function controller(header) {
         if (next === compact) return;
         compact = next;
         set('is-scrolled', next);
-        window.dispatchEvent(new CustomEvent('d2:header-compact', { detail: { compact: next, layout: next ? layout : null } }));
+        const layout = state.inline ? 'inline' : state.tucked ? 'tucked' : null;
+        window.dispatchEvent(new CustomEvent('d2:header-compact', { detail: { compact: next, layout } }));
     };
 
     const update = () => {
@@ -166,9 +174,13 @@ function controller(header) {
     };
 
     const refresh = () => {
+        // Transitions are held while the state classes are cleared for measuring and set again (no jump on resize).
+        header.classList.add('is-measuring');
         threshold = compactThreshold(px(getComputedStyle(header).top));
-        layout = measure(header);
-        update();
+        fit = measure(header);
+        apply(nextCompact(compact, window.scrollY, threshold), true);
+        void header.offsetWidth;
+        header.classList.remove('is-measuring');
     };
 
     header.addEventListener('animationend', (e) => {
@@ -201,7 +213,7 @@ function watch(header, refresh) {
         frame = window.requestAnimationFrame(refresh);
     };
     if ('ResizeObserver' in window) {
-        // Width changes only: docking or tucking the row changes the header's height, which needs no new fit.
+        // Width changes only: moving the row into the bar or tucking it changes the header's height, not the fit.
         new ResizeObserver((entries) => {
             const next = Math.round(entries[0]?.contentRect.width ?? 0);
             if (next === width) return;

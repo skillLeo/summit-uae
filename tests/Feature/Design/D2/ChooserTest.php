@@ -9,7 +9,7 @@ use Tests\TestCase;
 /**
  * Design 2 root language chooser "/" (owner: system-pages). A neutral page with one link per language, in
  * its own language and direction, in the order Arabic, English, Russian; the summit_lang cookie still sends
- * "/" straight to the remembered language (SiteController@root); Design 1 keeps its own chooser.
+ * "/" straight to the remembered language (SiteController@root).
  */
 final class ChooserTest extends TestCase
 {
@@ -24,7 +24,7 @@ final class ChooserTest extends TestCase
 
     private function chooser(): string
     {
-        return $this->withUnencryptedCookies(['summit_design' => '2'])->get('/')->assertOk()->getContent();
+        return $this->get('/')->assertOk()->getContent();
     }
 
     public function test_the_root_renders_the_design_two_chooser_noindex_with_alternates(): void
@@ -80,20 +80,11 @@ final class ChooserTest extends TestCase
     public function test_a_remembered_language_still_redirects_from_the_root(): void
     {
         foreach (['ar', 'ru'] as $code) {
-            $this->withUnencryptedCookies(['summit_design' => '2', 'summit_lang' => $code])
+            $this->withUnencryptedCookies(['summit_lang' => $code])
                 ->get('/')
                 ->assertRedirect(url('/').'/'.$code.'/');
         }
         // An unknown value is ignored: the chooser again.
-        $this->withUnencryptedCookies(['summit_design' => '2', 'summit_lang' => 'de'])->get('/')->assertOk();
-    }
-
-    public function test_design_one_keeps_its_own_chooser(): void
-    {
-        $html = $this->get('/')->assertOk()->getContent();
-
-        $this->assertStringNotContainsString('data-design="2"', $html);
-        $this->assertStringNotContainsString('chooser-card', $html);
-        $this->assertStringContainsString('class="chooser"', $html);
+        $this->withUnencryptedCookies(['summit_lang' => 'de'])->get('/')->assertOk();
     }
 }

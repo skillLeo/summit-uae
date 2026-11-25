@@ -349,7 +349,7 @@ final class DigitsTest extends TestCase
             $locale = explode('/', $path)[1];
             $arabic = $locale === 'ar';
             app()->setLocale($locale);
-            $raw = $this->withUnencryptedCookies(['summit_design' => '2'])->get($path)->assertOk()->getContent();
+            $raw = $this->get($path)->assertOk()->getContent();
             $this->assertStringNotContainsString('data-digits', $raw, 'the page as the views render it');
             if (! $arabic) {
                 $this->assertNotSame($raw, Digits::page($raw, Digits::WESTERN), "{$path}: Arabic blocks with something to convert");
@@ -449,7 +449,7 @@ final class DigitsTest extends TestCase
 
     private function get2(string $path): string
     {
-        return $this->withUnencryptedCookies(['summit_design' => '2'])->get($path)->getContent();
+        return $this->get($path)->getContent();
     }
 
     public function test_design_two_arabic_pages_show_one_digit_style_western_by_default(): void
@@ -489,13 +489,8 @@ final class DigitsTest extends TestCase
         $this->assertDoesNotMatchRegularExpression('~<bdi>\s*[0-9]+\s*</bdi>~', $html);
     }
 
-    public function test_design_one_english_russian_and_other_responses_pass_through_untouched(): void
+    public function test_english_russian_and_other_responses_pass_through_untouched(): void
     {
-        // Design 1 (the default design in the test environment): no attribute, nothing converted.
-        $d1 = $this->get('/ar/')->getContent();
-        $this->assertStringNotContainsString('data-design="2"', $d1);
-        $this->assertStringNotContainsString('data-digits', $d1);
-
         foreach (['en', 'ru'] as $locale) {
             app()->setLocale($locale);
             $this->assertStringNotContainsString('data-digits', $this->get2("/{$locale}/"), $locale);
@@ -523,7 +518,7 @@ final class DigitsTest extends TestCase
     public function test_error_pages_follow_the_setting_too(): void
     {
         app()->setLocale('ar');
-        $response = $this->withUnencryptedCookies(['summit_design' => '2'])->get('/ar/no-such-page/');
+        $response = $this->get('/ar/no-such-page/');
         $response->assertNotFound();
         $this->assertMatchesRegularExpression('/<html lang="ar"[^>]* data-design="2"[^>]* data-digits="western">/', $response->getContent());
     }

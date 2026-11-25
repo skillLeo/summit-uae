@@ -70,7 +70,7 @@ final class SiteTest extends TestCase
 
     private function get2(string $url): string
     {
-        return (string) $this->withUnencryptedCookies(['summit_design' => '2', 'summit_qa' => '1'])->get($url)->assertOk()->getContent();
+        return (string) $this->get($url)->assertOk()->getContent();
     }
 
     /** @return list<string> the data-nav-key of the header row's links, in order */

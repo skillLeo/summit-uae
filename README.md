@@ -45,10 +45,9 @@ suggests the firm is a law firm or that a result is guaranteed.
   source documents, so no line is missing, cut, altered or out of order.
 - **Three languages, one codebase.** Full right-to-left layout for Arabic with logical CSS properties, and a
   per-locale setting for Western or Eastern Arabic digits. Phone numbers, e-mails and codes stay left to right.
-- **Two design directions.** A refined editorial design and a modern premium design share the same routes,
-  content and backend. A session- and cookie-based switch lets the client compare them side by side. The
-  second design adds an animated document stage, interactive tools, a mobile bottom bar, bottom sheets and
-  view transitions.
+- **A premium design.** An animated document stage, interactive tools, a mobile bottom bar, bottom sheets and
+  view transitions. (A first, editorial design was retired; it is archived at the git tags `design-1` and
+  `design-1.1`.)
 - **Accessibility.** Targets WCAG 2.2 AA: one H1 per page, skip link, visible focus, 44–48 px touch targets,
   4.5:1 contrast, keyboard-operable menus, carousels and tools, and full support for reduced motion.
 - **Performance.** Lighthouse mobile scores of 98–100. Each page loads only the JavaScript it uses (45–80 KB
@@ -85,30 +84,30 @@ content tables  ──►  ContentRepository (cached)  ──►  Blade views
 Interface strings live in `lang/{en,ar,ru}/`. Texts written for the site that are not yet in the approved
 documents are kept separately in `lang/*/proposed*/`, so they can be reviewed and approved as a set.
 
-### Design switch
+### Design
 
-`?design=1` or `?design=2` sets a cookie (`summit_design`); `SUMMIT_DEFAULT_DESIGN` sets the default.
-The second design lives in its own folders (`resources/views/designs/d2`, `resources/views/components/d2`,
-`resources/css/d2`, `resources/js/d2`) and builds with `vite.d2.config.js`. Any view it does not provide falls
-back to the first design.
+The site's design (Design 2) lives in its own folders (`resources/views/designs/d2`, first on the view path,
+`resources/views/components/d2`, `resources/css/d2`, `resources/js/d2`) and builds with `vite.d2.config.js`.
+Old links with the retired design switch's `design` query parameter answer with a 301 to the same address
+without it.
 
 ## Project structure
 
 ```
 app/
   Content/            DOCX reader, importers, ContentRepository, Navigator data
-  Design/             design switch, D2 helpers (digits, hours, icons, hero stage, calculators, pending copy)
+  Design/D2/          view helpers (digits, hours, icons, hero stage, calculators, pending copy)
   Http/Controllers/   home, pages, calculators, enquiries
   Filament/           admin panel
 config/summit.php     locales, pages, services, guides, anchors
-config/design.php     design switch and design settings
+config/design.php     design settings
 database/content/     imported content (JSON)
 lang/{en,ar,ru}/      interface and proposed texts
 package/docx/         the approved source documents
 resources/
-  views/              design 1 views; designs/d2 and components/d2 for design 2
-  scss/, css/d2/      styles (design tokens, components, sections, pages)
-  js/, js/d2/         Alpine components, hero stage, tools, wizard, search
+  views/              designs/d2 and components/d2 (the site), filament/ (admin), mail/
+  css/d2/             styles (design tokens, components, sections, pages)
+  js/d2/              Alpine components, hero stage, tools, wizard, search
 scripts/              build helpers and QA scripts
 tests/                PHPUnit feature tests and text snapshots
 qa/                   Playwright suites and shared QA library
@@ -131,15 +130,13 @@ php artisan migrate --seed
 composer run dev          # app server, queue, logs and Vite together
 ```
 
-Open `http://127.0.0.1:8000/en/` (add `?design=2` for the second design).
+Open `http://127.0.0.1:8000/en/`.
 
 ### Production build
 
 ```sh
 composer install --no-dev --optimize-autoloader
-npm run build                                  # design 1
-npx vite build --config vite.d2.config.js      # design 2
-npx vite build --config vite.admin.config.js   # admin
+npm run build                                  # the site (vite.d2.config.js) and the admin theme
 php artisan migrate --force && php artisan db:seed --force
 php artisan optimize
 ```
@@ -154,18 +151,16 @@ php artisan optimize
 | `php artisan summit:proposed-copy` | List every text that still needs client approval |
 | `php artisan test` | PHPUnit test suite |
 | `npx vitest run` | JavaScript unit tests |
-| `npm run qa` | Playwright: pages, accessibility, keyboard |
+| `npm run qa:d2` | Playwright: pages, accessibility, hero, screenshots |
 | `npm run qa:lint` | Design-rule lint across every page, language and width |
 | `npm run qa:docx` | Rendered pages against the approved documents |
 | `npm run qa:budgets` | Per-page JavaScript, CSS and font budgets |
-| `npm run qa:lighthouse` | Lighthouse mobile gate |
+| `npm run qa:d2:lighthouse` | Lighthouse mobile gate |
 
 ## Configuration
 
 | Variable | Meaning |
 |---|---|
-| `SUMMIT_DEFAULT_DESIGN` | `1` or `2`, the design shown by default |
-| `SUMMIT_DESIGN_SWITCHER` | show the floating design switch (review environments only) |
 | `SUMMIT_SHOW_PENDING` | show texts awaiting client approval (default: on outside production) |
 | `SUMMIT_ARABIC_DIGITS` | `western` (0-9) or `eastern` (٠-٩) on Arabic pages |
 | `SUMMIT_LIVE_STATUS` | show the "open now" office-hours status in the contact block |

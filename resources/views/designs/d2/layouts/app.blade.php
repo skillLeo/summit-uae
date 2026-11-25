@@ -75,11 +75,13 @@
          then aborts with an uncaught "ViewTransition opt-in disabled" page error. --}}
     <style nonce="{{ Vite::cspNonce() }}">@view-transition{navigation:auto}@media (prefers-reduced-motion:reduce){@view-transition{navigation:none}}</style>
     @include('d2::shell.boot')
+    @include('d2::partials.analytics')
     {{ d2_vite($entries) }}
     @stack('head')
 </head>
 <body class="d2 page-{{ $pageKey }}">
     <a class="skip-link" href="#main-content">{{ ui('a11y.skip_to_content') }}</a>
+    @include('d2::partials.consent')
     {{-- system-pages: an error page ($pageKey 'error', d2::errors.404) also sends the language links of the header,
          the footer and the menu sheet to each home page when the 404 comes from abort() on a matched route
          (null keeps the shell's own detection: no route = error). --}}

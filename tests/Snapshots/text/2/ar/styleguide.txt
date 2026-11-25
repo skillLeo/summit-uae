@@ -3,7 +3,6 @@
 === header ===
 اختيار اللغة
 العربية
-اطلب استشارة قانونية
 الرئيسية
 مناطق الممارسة
 المعرفة القانونية
@@ -430,7 +429,7 @@ side padding 32px
 12 columns, gap 24px
 section padding 128px
 card padding 32px
-header 88px at the top, 64px after scrolling
+header 88px at the top, 72px after scrolling
 H2 to its intro 16 px; intro to the content 48 px. Neighbouring sections on the same background (white, band or dark) share one gap.
 Control and layout sizes
 --button-h
@@ -1854,7 +1853,6 @@ Solid white header on the page container: the official lockup, search, the langu
 Header
 اختيار اللغة
 العربية
-اطلب استشارة قانونية
 الرئيسية
 مناطق الممارسة
 المعرفة القانونية
@@ -1862,10 +1860,9 @@ Header
 الأسئلة الشائعة
 من نحن
 تواصل معنا
-At the top of the page (Option A: 88 px masthead with the 56 px lockup, then the 48 px navigation row from 1024 px: 136 px in all; 72 px with a 48 px lockup from 768 px and 56 px with a 40 px lockup on phones, where the menu button replaces the row). From 768 px the language menu shows in every language (Russian closes its tools up to 4 px below 832 px and keeps the 40 px lockup below 800 px). This specimen follows its own width.
+At the top of the page: black (#0B0B0C) with a 1 px #27272A line, holding only the official gold lockup, the main navigation and the language menu (the client's final changes, item 1: no button, no search, no subtitle). From 1024 px the 88 px masthead carries the 56 px lockup and, where the seven labels fit beside it (English and Arabic in wide windows; header.js measures it with the real fonts), the labels at the end of the same row; otherwise (Russian, narrower windows) they take their own 48 px black row under it. 72 px with a 48 px lockup from 768 px and 56 px with a 40 px lockup on phones, with the language menu and the menu button.
 اختيار اللغة
 العربية
-اطلب استشارة قانونية
 الرئيسية
 مناطق الممارسة
 المعرفة القانونية
@@ -1873,14 +1870,12 @@ At the top of the page (Option A: 88 px masthead with the 56 px lockup, then the
 الأسئلة الشائعة
 من نحن
 تواصل معنا
-Compact, after scrolling, where the seven labels fit (English and Arabic in a full 1200 px container; header.js measures it with the real fonts): the 64 px bar (--header-h) holds the shield (the brand name stays the link's name), the seven labels and the tools; Practice Areas still opens the mega menu, which then hangs under the bar. The labels fade in as the row docks; the CTA is the Ink button in every state (D06). The specimen lays the bar out at the width it needs (78rem, 1,248 px) and scales it to fit the card, so the whole bar shows: 92% in a full container, never below 87.5% (narrower screens scroll it sideways).
+Compact, after scrolling, where the seven labels fit in the bar: the 72 px bar (--header-h) holds the full lockup eased to 44 px (a scale, 200 ms; at once with reduced motion), the labels at its end and the language menu. The current page is white with a 2 px gold bar on the header's line.
 اختيار اللغة
 العربية
-اطلب استشارة قانونية
-Compact where the seven labels do not fit beside the tools (Russian; narrower windows): the navigation row slides under the masthead and the menu button appears beside the shield, where the labels were, so the tools never move. CSS sticky offsets do the shrinking; header.js only switches .is-scrolled and .is-docked or .is-tucked.
+Compact where the seven labels do not fit the bar (Russian; narrower windows): the navigation row slides under the masthead and the menu button appears at the end of the bar; the lockup stays in full.
 اختيار اللغة
 العربية
-اطلب استشارة قانونية
 الرئيسية
 مناطق الممارسة
 تحصيل الديون وقضايا الشيكات
@@ -1914,7 +1909,6 @@ Practice Areas mega menu, previewing Employment Law: as wide as the container, r
 العربية
 الإنجليزية
 الروسية
-اطلب استشارة قانونية
 الرئيسية
 مناطق الممارسة
 المعرفة القانونية
@@ -1925,20 +1919,8 @@ Practice Areas mega menu, previewing Employment Law: as wide as the container, r
 Language menu: the trigger shows the current language's approved label and a chevron; the list gives the three approved labels in the page's language, in the DOCX order, with hreflang (D12). The current one is in ink, without a tick. The list hangs 8 px under the header's bottom line, never over the navigation row (Russian labels reach under the trigger).
 اختيار اللغة
 العربية
-اطلب استشارة قانونية
-الرئيسية
-مناطق الممارسة
-المعرفة القانونية
-نماذج من ملفات قانونية
-الأسئلة الشائعة
-من نحن
-تواصل معنا
-Search: an icon button without a key cap (D14), keyboard focus shown. Click, "/" or Ctrl/Cmd+K dispatch d2:palette-open; its tooltip reads "Search (/)" (pending approval). Until the palette claims the event, the trigger goes to Legal Resources, which is also its no-JS link.
-اختيار اللغة
-العربية
-اطلب استشارة قانونية
 Where the seven labels do not fit on one line (below 1024 px; Russian below 69rem, about 1,100 px; or header.js measures an overflow with other fonts or a larger text size), the row is replaced by the menu button, which opens the menu sheet with the same seven labels. Labels never wrap, shrink or move into a "More" list.
-Heights: masthead 88 / 72 / 56 at the top, 64 / 64 / 56 compact; navigation row 48 from 1024 px (its own row only at the top of the page; docked in the bar or tucked once scrolled). Lockup 56 / 48 / 40. One container with every section (edges within 1 px). Nav labels 15/500 in --ink-2, ink on hover and when current (a 2 px ink bar on the header's line). Overlays hang under the header's bottom line. No glass, blur, shadow, gradient, night variant or metal; no mono labels, key caps, middle dots or arrows. Targets 44 px (48 px on touch).
+Heights: masthead 88 / 72 / 56 at the top, 72 / 64 / 56 compact; the navigation row 48 from 1024 px only where it takes its own row at the top of the page. Lockup 56 (44 compact) / 48 / 40, always the full lockup on black, never a tile. Colours: labels #E4E4E7 (15.5:1), current and hover #FFFFFF, muted controls #A1A1AA (7.7:1) turning white on hover, the current page's 2 px gold bar, focus ring #E2CF9F 2 px with a 2 px offset. No gradient, glass, shadow or button in the header. "/" and Ctrl/Cmd+K still open the search palette.
 Footer (the dark band)
 In the homepage DOCX order: the official gold lockup and the description; the contact controls (phone, WhatsApp with the WA01 draft, e-mail) and the homepage file's own hours sentence, without a live status (brief §3.7); Practice Areas, Legal Resources (Centre, FAQs, Case Studies) and Useful Links; the disclaimer; the specialist resources (the last group, directly above the copyright line: owner decision); the copyright line with the dynamic year and the language links. No address, no map, no cards.
 Group headings are the approved words in Minor heading style (16/600, white), never mono capitals (D01, D47). Text on dark: white headings and contact controls, #E4E4E7 links and description, #A1A1AA hours, disclaimer, domains and copyright; gold only in the lockup. The specialist sites are a two-column list (one column on phones): the name, then the domain and the external-link icon; its second column starts on a grid line of the groups above (Practice Areas from 1280 px). Link rows keep 12 px above and below the label, so a wrapped title keeps the list's rhythm. Language links carry the approved labels of the page language with hreflang (D12). One container with the header and the sections; 48 px targets on phones, 44 px from 768 px; the light-gold focus ring of .on-dark.

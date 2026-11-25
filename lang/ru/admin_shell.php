@@ -17,7 +17,6 @@ return [
     ],
     'view_site' => [
         'button' => 'Открыть сайт',
-        'design' => 'Дизайн :design',
     ],
     'theme' => [
         'label' => 'Оформление',
@@ -93,9 +92,10 @@ return [
         'document_samples' => 'Образцы документов', 'associated_sites' => 'Связанные сайты', 'approval_report' => 'Отчёт о согласовании',
         'navigation' => 'Навигация', 'media' => 'Медиатека', 'interface_text' => 'Тексты интерфейса', 'seo' => 'SEO', 'redirects' => 'Перенаправления',
         'calculators' => 'Калькуляторы',
+        'settings_integrations' => 'Интеграции',
         'settings_general' => 'Общие и контакты', 'settings_hours' => 'Часы работы', 'settings_whatsapp' => 'WhatsApp',
         'settings_languages' => 'Языки', 'settings_forms' => 'Формы и согласие', 'settings_notifications' => 'Уведомления',
-        'settings_brand' => 'Бренд', 'settings_design' => 'Предпросмотр дизайна',
+        'settings_brand' => 'Бренд',
         'users' => 'Пользователи', 'roles' => 'Роли и права', 'activity' => 'Журнал действий', 'trash' => 'Корзина', 'backups' => 'Резервные копии', 'health' => 'Состояние системы',
     ],
     'group' => [

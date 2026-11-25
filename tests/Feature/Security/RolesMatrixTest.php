@@ -70,8 +70,8 @@ final class RolesMatrixTest extends TestCase
             'settings_languages' => '/admin/settings/languages',
             'settings_forms' => '/admin/settings/forms',
             'settings_notifications' => '/admin/settings/notifications',
+            'settings_integrations' => '/admin/settings/integrations',
             'settings_brand' => '/admin/settings/brand',
-            'settings_design' => '/admin/settings/design-preview',
             'users' => '/admin/system/users',
             'roles' => '/admin/system/roles',
             'activity' => '/admin/system/activity',
@@ -119,7 +119,7 @@ final class RolesMatrixTest extends TestCase
     public function test_the_briefs_role_sentences_hold(): void
     {
         $admin = $this->staff(Screens::ADMIN);
-        foreach (['users', 'roles', 'activity', 'backups', 'health', 'settings_general', 'settings_design', 'calculators'] as $screen) {
+        foreach (['users', 'roles', 'activity', 'backups', 'health', 'settings_general', 'calculators'] as $screen) {
             $this->assertFalse(CmsAccess::can($screen, 'view', $admin), "admin {$screen}");
         }
         foreach (['pages', 'guides', 'requests', 'reports', 'navigation', 'media', 'seo'] as $screen) {

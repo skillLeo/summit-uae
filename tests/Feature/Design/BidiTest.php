@@ -42,10 +42,10 @@ final class BidiTest extends TestCase
 
     public function test_the_mega_menu_isolates_latin_codes_on_arabic_pages(): void
     {
-        // Seed inside the test transaction (as DesignSwitchTest does); asset tags are irrelevant here.
+        // Seed inside the test transaction; asset tags are irrelevant here.
         $this->seed(ContentSeeder::class);
         $this->withoutVite();
-        $html = $this->withUnencryptedCookie('summit_design', '2')->get('/ar/')->assertOk()->getContent();
+        $html = $this->get('/ar/')->assertOk()->getContent();
 
         $this->assertStringContainsString('<bdi dir="ltr">USDT</bdi>', $html);
         $this->assertStringContainsString('<bdi dir="ltr">TxID</bdi>', $html);

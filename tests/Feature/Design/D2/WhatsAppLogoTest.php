@@ -72,7 +72,7 @@ final class WhatsAppLogoTest extends TestCase
 
     private function page(string $url): string
     {
-        return (string) $this->withUnencryptedCookies(['summit_design' => '2'])->get($url)->getContent();
+        return (string) $this->get($url)->getContent();
     }
 
     /** @return list<string> the inner HTML of every wa.me / api.whatsapp.com link */

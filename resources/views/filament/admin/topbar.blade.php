@@ -1,6 +1,6 @@
 {{--
     Top bar additions (docs/briefs/design-2.1-and-admin-cms.md §9.1): Search (Cmd/Ctrl+K, App\Filament\Livewire\AdminSearch)
-    and "View site" with the design and the language. Filament's own bell and user menu follow.
+    and "View site" in each language. Filament's own bell and user menu follow.
 --}}
 @php
     $locales = ['en' => 'English', 'ar' => 'العربية', 'ru' => 'Русский'];
@@ -20,16 +20,13 @@
                 <span>{{ __('admin_shell.view_site.button') }}</span>
             </button>
         </x-slot>
-        @foreach ([2, 1] as $design)
-            <x-filament::dropdown.header>{{ __('admin_shell.view_site.design', ['design' => $design]) }}</x-filament::dropdown.header>
-            <x-filament::dropdown.list>
-                @foreach ($locales as $code => $name)
-                    <x-filament::dropdown.list.item tag="a" :href="url('/'.$code.'/').'?design='.$design" target="_blank" rel="noopener" :attributes="new \Illuminate\View\ComponentAttributeBag(['lang' => $code, 'hreflang' => $code])">
-                        {{ $name }}
-                    </x-filament::dropdown.list.item>
-                @endforeach
-            </x-filament::dropdown.list>
-        @endforeach
+        <x-filament::dropdown.list>
+            @foreach ($locales as $code => $name)
+                <x-filament::dropdown.list.item tag="a" :href="\App\Support\SiteUrl::home($code)" target="_blank" rel="noopener" :attributes="new \Illuminate\View\ComponentAttributeBag(['lang' => $code, 'hreflang' => $code])">
+                    {{ $name }}
+                </x-filament::dropdown.list.item>
+            @endforeach
+        </x-filament::dropdown.list>
     </x-filament::dropdown>
     @livewire(\App\Filament\Livewire\AdminSearch::class)
 </div>

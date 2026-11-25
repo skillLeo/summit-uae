@@ -7,8 +7,8 @@
 //   npm run qa:d2:report       qa/report.html from the latest run
 //
 // Output: qa/shots/<date>/ (screenshots + one JSON of measured checks per capture); Playwright's own HTML
-// report and traces: storage/app/qa-d2/. Site: QA_BASE_URL (default http://127.0.0.1:8042), cookies
-// summit_design=2 and summit_qa=1, installed Google Chrome, Vite's reload client stubbed.
+// report and traces: storage/app/qa-d2/. Site: QA_BASE_URL (default http://127.0.0.1:8042), installed
+// Google Chrome, Vite's reload client stubbed.
 import { defineConfig } from '@playwright/test';
 import { BASE_URL, EXTRA_VARIANTS, PLAYWRIGHT_DIR, VARIANT_WIDTHS, WIDTHS } from './qa/lib/config.mjs';
 

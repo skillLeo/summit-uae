@@ -2,10 +2,9 @@
  * Design 2 PWA (upgrade spec §5.5 and §12 E). The manifest is static (public/d2/manifest-{locale}.webmanifest,
  * scripts/d2/pwa-icons.mjs) and linked by the Design 2 layout; this module only registers the service worker.
  *
- * The site keeps ONE service worker: Design 1's frozen /sw.js, on its default scope "/". Design 2 registers
- * that same script with the same (default) options, exactly like Design 1's resources/js/app.js, so the
- * browser keeps one registration whichever design the visitor sees first: a different script on the same
- * scope would replace Design 1's worker and take over Design 1's pages. What /sw.js does (read it, never edit
+ * The site keeps ONE service worker: /sw.js (from the first site, Design 1), on its default scope "/". Design 2
+ * registers that same script with the same (default) options as the first site did, so a browser that installed
+ * it then keeps its one registration: a different script on the same scope would replace that worker. What /sw.js does (read it, never edit
  * it): navigations go to the network first and fall back to the cached offline page of the visitor's
  * language when the network fails; Design 1's hashed /build/assets and the hashed fonts under /fonts/ (so
  * Design 2's /fonts/d2/ too) are cached first; POST requests (the consultation form) are never touched,

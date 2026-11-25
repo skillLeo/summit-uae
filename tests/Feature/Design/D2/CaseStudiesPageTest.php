@@ -36,8 +36,7 @@ final class CaseStudiesPageTest extends TestCase
 
     private function html(string $locale): string
     {
-        return $this->pages[$locale] ??= $this->withUnencryptedCookies(['summit_design' => '2'])
-            ->get("/{$locale}/case-studies/")->assertOk()->getContent();
+        return $this->pages[$locale] ??= $this->get("/{$locale}/case-studies/")->assertOk()->getContent();
     }
 
     private function text(string $html): string

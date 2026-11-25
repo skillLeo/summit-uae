@@ -42,7 +42,7 @@ final class ScreensMatrixTest extends TestCase
 
     private function dom(string $locale): DOMXPath
     {
-        $html = $this->withUnencryptedCookies(['summit_design' => '2'])->get("/{$locale}/")->assertOk()->getContent();
+        $html = $this->get("/{$locale}/")->assertOk()->getContent();
         $dom = new DOMDocument;
         libxml_use_internal_errors(true);
         $dom->loadHTML('<?xml encoding="utf-8" ?>'.$html, LIBXML_NOERROR | LIBXML_NOWARNING);
@@ -78,7 +78,7 @@ final class ScreensMatrixTest extends TestCase
 
         // The fallback runs only where the trigger is hidden, and opens the menu sheet's language group.
         $trigger = strpos($script, 'if (await visible(page, trigger))');
-        $sheet = strpos($script, 'const sheet = await openMenuSheet(page, 2);');
+        $sheet = strpos($script, 'const sheet = await openMenuSheet(page);');
         $this->assertNotFalse($trigger);
         $this->assertNotFalse($sheet);
         $this->assertLessThan($sheet, $trigger, 'the popover first; the sheet only where the trigger is hidden');
@@ -163,17 +163,17 @@ final class ScreensMatrixTest extends TestCase
 
     /**
      * Brief 2.1 §5.1 moved the calculators off the home to /{locale}/calculators/: §7.3's "calculators" page and the
-     * "calculator with values" state capture that page (Design 2 only), and every field the state fills exists there.
+     * "calculator with values" state capture that page, and every field the state fills exists there.
      */
     #[DataProvider('locales')]
     public function test_the_calculators_page_and_state_capture_the_calculators_page(string $locale): void
     {
         $script = $this->script();
-        $this->assertMatchesRegularExpression("/key: 'calculators',\\s*path: 'calculators\\/',\\s*designs: \\[2\\],/", $script);
-        $this->assertMatchesRegularExpression("/key: 'calculator-values',[^{}]*page: 'calculators',\\s*designs: \\[2\\],/", $script);
+        $this->assertMatchesRegularExpression("/key: 'calculators',\\s*path: 'calculators\\/',/", $script);
+        $this->assertMatchesRegularExpression("/key: 'calculator-values',[^{}]*page: 'calculators',/", $script);
         $this->assertStringContainsString('urlOf(job.locale, statePage(def))', $script);
 
-        $html = $this->withUnencryptedCookies(['summit_design' => '2'])->get("/{$locale}/calculators/")->assertOk()->getContent();
+        $html = $this->get("/{$locale}/calculators/")->assertOk()->getContent();
         $dom = new DOMDocument;
         libxml_use_internal_errors(true);
         $dom->loadHTML('<?xml encoding="utf-8" ?>'.$html, LIBXML_NOERROR | LIBXML_NOWARNING);

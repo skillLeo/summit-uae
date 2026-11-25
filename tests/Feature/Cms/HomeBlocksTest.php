@@ -26,7 +26,7 @@ final class HomeBlocksTest extends TestCase
 
     private function home(string $locale = 'en'): string
     {
-        return (string) $this->withUnencryptedCookies(['summit_design' => '2', 'summit_qa' => '1'])->get("/{$locale}/")->assertOk()->getContent();
+        return (string) $this->get("/{$locale}/")->assertOk()->getContent();
     }
 
     /** @param callable(list<array<string, mixed>>): list<array<string, mixed>> $change */

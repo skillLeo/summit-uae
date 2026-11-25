@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Design\D2\Pending;
-use App\Design\DesignManager;
 use App\Support\Seo;
 use App\Support\SiteUrl;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -16,17 +14,12 @@ use Illuminate\View\View;
  *
  * The two estimators (gratuity, Dubai rent increase) and every text on the page are pending client approval (and a
  * legal sign-off of their rules), so the page is noindex, stays out of the sitemap and renders only while pending
- * copy is shown (App\Design\D2\Pending; off in production). Design 1 has no calculators: there the address leads to
- * the home page, so the floating design switch never lands on an error page.
+ * copy is shown (App\Design\D2\Pending; off in production).
  */
 final class CalculatorsController extends Controller
 {
-    public function __invoke(Request $request, DesignManager $design): View|RedirectResponse
+    public function __invoke(Request $request): View
     {
-        if (! $design->is(2)) {
-            // A plain RedirectResponse: redirect()->to() would strip the site's trailing slash.
-            return new RedirectResponse(SiteUrl::home(), 302);
-        }
         abort_unless(Pending::visible(), 404);
 
         return view('d2::pages.calculators', [

@@ -439,7 +439,7 @@ test('arguments: defaults, rule slugs, bad values', () => {
     assert.equal(parseArgs(['--states=off']).states, false);
     assert.equal(parseArgs(['--clock=real']).clockMs, null);
     assert.throws(() => parseArgs(['--rules=17']), /unknown rule/);
-    assert.throws(() => parseArgs(['--design=3']), /design/);
+    assert.throws(() => parseArgs(['--design']), /unknown argument/);
     assert.throws(() => parseArgs(['--widths=100']), /widths/);
     assert.throws(() => parseArgs(['--states=maybe']), /states/);
     assert.throws(() => parseArgs(['--nope']), /unknown argument/);

@@ -7,9 +7,8 @@
       menu      the approved navigation (the seven labels, Home first), one row that opens the language sheet (the
                 approved "Choose language" and the current language's approved label with a chevron, as the
                 header's language trigger), the contact actions and the homepage file's hours sentence (the shell
-                is defined by the homepage DOCX; no live status: brief §3.7 keeps it to the contact block); on phones
-                with the design switcher on (and no QA cookie), the "Design 1 | Design 2" switch (brief 2.1 §6:
-                never over the bottom bar). Opened by the header's menu button (data-sheet-open="menu").
+                is defined by the homepage DOCX; no live status: brief §3.7 keeps it to the contact block). Opened by
+                the header's menu button (data-sheet-open="menu").
       lang      the language choice (brief 2.1 §6: a sheet, not a segmented group): the three approved labels in the
                 page language (D12), each with hreflang (its target) and lang (its own language, the page's); the
                 current one marked aria-current. Opened from the menu sheet's language row; without JavaScript that
@@ -20,7 +19,7 @@
     shadow; data-overlay marks it for the QA lint), text-only rows (no decorative icons, arrows, icon tiles or middle
     dots; the language row's chevron-down is the disclosure chevron of a list that opens); the functional contact
     icons (phone, the WhatsApp mark, e-mail) stay. Every string is approved copy (ui(), setting(), content()) except
-    the menu title (proposed) and the design switch's internal labels (lang/*/switcher.php, never in production).
+    the menu title (proposed).
     Behaviour: resources/js/d2/lib/sheet.js (modules/sheets.js wires it; opening the language sheet from the menu
     sheet replaces it, and Escape or Back returns focus to the menu button); the sheet itself:
     resources/css/d2/components/sheet.css; the content of these sheets: resources/css/d2/components/tabbar.css.
@@ -46,9 +45,6 @@
     usort($languages, fn ($a, $b) => ($order[$a['code']] ?? 9) <=> ($order[$b['code']] ?? 9));
     $locale = app()->getLocale();
     $currentLanguage = collect($languages)->firstWhere('current', true)['code'] ?? $locale;
-
-    // The "Design 1 | Design 2" switch (null unless SUMMIT_DESIGN_SWITCHER is on and the request is not a QA one).
-    $designSwitch = Shell::designSwitch();
 
     $contact = content()->page('P07')['content'] ?? [];
     $final = $contact['final'] ?? [];
@@ -122,21 +118,6 @@
             <p class="menu-sheet__hours">{{ $hours }}</p>
         @endif
     </section>
-
-    @if ($designSwitch)
-        {{-- Internal demo tool (SUMMIT_DESIGN_SWITCHER): phones only (tabbar.css); the floating switch is hidden there. --}}
-        <nav class="menu-sheet__group menu-sheet__design" aria-labelledby="sheet-menu-design" data-d2-design-switch>
-            <h3 class="menu-sheet__title" id="sheet-menu-design">{{ $designSwitch['label'] }}</h3>
-            <ul class="menu-sheet__designs" role="list">
-                @foreach ($designSwitch['options'] as $option)
-                    <li>
-                        <a class="menu-sheet__design-option" href="{{ $option['href'] }}" data-d2-design="{{ $option['design'] }}"
-                            aria-keyshortcuts="{{ $option['shortcut'] }}" @if ($option['current']) aria-current="true" @endif>{{ $option['label'] }}</a>
-                    </li>
-                @endforeach
-            </ul>
-        </nav>
-    @endif
 </x-d2.ui.sheet>
 
 <x-d2.ui.sheet id="lang" class="sheet--lang" :title="ui('a11y.choose_language')" :close-label="ui('a11y.close_menu')">

@@ -8,8 +8,8 @@ use Tests\TestCase;
 
 /**
  * Design 2 PWA (spec §5.5, §12 E; owner: mobile-shell): its own static manifest per language in public/d2/
- * (scripts/d2/pwa-icons.mjs), linked only from the Design 2 layout, while Design 1's manifest route, link and
- * frozen service worker stay as they are. The manifests must match their sources (approved brand name and
+ * (scripts/d2/pwa-icons.mjs), linked from the layout, while the older manifest route (/{locale}/manifest.webmanifest,
+ * the retired Design 1's) and the service worker stay as they are. The manifests must match their sources (approved brand name and
  * home description, proposed short name, the night / canvas tokens): when this test fails after a copy or
  * token change, run `node scripts/d2/pwa-icons.mjs`.
  */
@@ -48,7 +48,7 @@ final class PwaTest extends TestCase
     public function test_design_two_links_its_own_manifest_and_theme_colour(): void
     {
         foreach (self::LOCALES as $locale) {
-            $html = $this->withUnencryptedCookies(['summit_design' => '2'])->get("/{$locale}/")->assertOk()->getContent();
+            $html = $this->get("/{$locale}/")->assertOk()->getContent();
 
             $this->assertStringContainsString('<link rel="manifest" href="/d2/manifest-'.$locale.'.webmanifest">', $html, $locale);
             $this->assertStringNotContainsString('href="/'.$locale.'/manifest.webmanifest"', $html, $locale);
@@ -56,13 +56,9 @@ final class PwaTest extends TestCase
         }
     }
 
-    public function test_design_one_keeps_its_manifest_route_and_link(): void
+    /** The retired Design 1's manifest route still answers (an app installed from it keeps working); no page links it. */
+    public function test_the_older_manifest_route_still_answers(): void
     {
-        $html = $this->get('/en/')->assertOk()->getContent();
-        $this->assertStringNotContainsString('data-design="2"', $html);
-        $this->assertStringContainsString('/en/manifest.webmanifest', $html);
-        $this->assertStringNotContainsString('/d2/manifest-', $html);
-
         $manifest = $this->get('/en/manifest.webmanifest')->assertOk()
             ->assertHeader('Content-Type', 'application/manifest+json')->json();
         $this->assertSame('/', $manifest['scope']);
@@ -143,11 +139,11 @@ final class PwaTest extends TestCase
     public function test_the_registration_switch_follows_the_pwa_feature_flag(): void
     {
         config(['summit.features.pwa' => false]);
-        $off = $this->withUnencryptedCookies(['summit_design' => '2'])->get('/en/')->assertOk()->getContent();
+        $off = $this->get('/en/')->assertOk()->getContent();
         $this->assertDoesNotMatchRegularExpression('/<html[^>]*\sdata-pwa[\s>]/', $off);
 
         config(['summit.features.pwa' => true]);
-        $on = $this->withUnencryptedCookies(['summit_design' => '2'])->get('/en/')->assertOk()->getContent();
+        $on = $this->get('/en/')->assertOk()->getContent();
         $this->assertMatchesRegularExpression('/<html[^>]*\sdata-pwa[\s>]/', $on);
     }
 }

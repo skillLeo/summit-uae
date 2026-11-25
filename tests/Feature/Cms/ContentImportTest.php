@@ -53,7 +53,7 @@ final class ContentImportTest extends TestCase
             'pages' => 11, 'services' => 11, 'guides' => 9, 'guide_categories' => 3, 'case_studies' => 6, 'faq_categories' => 12,
             'faqs' => 74, 'team_members' => 3, 'specialist_sites' => 6, 'situations' => 44, 'document_samples' => 5,
             'ui_strings' => count((new Sources)->build()['ui_strings']), 'navigation_menus' => 9, 'navigation_items' => 51,
-            'calculator_rule_sets' => 2, 'settings' => 46, // 20 + Phase 5 (requests, notifications) + Phase 7 (languages, brand, design, backups)
+            'calculator_rule_sets' => 2, 'settings' => 43, // 20 + Phase 5 (requests, notifications) + Phase 7 (languages, brand, backups)
         ], $counts);
         $this->assertSame(144, DB::table('ui_strings')->where('group', 'ui')->count(), 'the approved DOCX interface strings');
     }
@@ -101,7 +101,7 @@ final class ContentImportTest extends TestCase
 
         // Approved DOCX copy vs the team's pending copy.
         $this->assertSame([CopySource::DOCX], DB::table('ui_strings')->where('group', 'ui')->distinct()->pluck('copy_source')->all());
-        $this->assertSame([CopySource::PENDING], DB::table('ui_strings')->whereIn('group', ['proposed', 'switcher'])->distinct()->pluck('copy_source')->all());
+        $this->assertSame([CopySource::PENDING], DB::table('ui_strings')->where('group', 'proposed')->distinct()->pluck('copy_source')->all());
         $this->assertSame([CopySource::PENDING], DB::table('document_samples')->distinct()->pluck('copy_source')->all());
         $this->assertSame([CopySource::PENDING], DB::table('calculator_rule_sets')->distinct()->pluck('copy_source')->all());
         foreach (['pages', 'services', 'guides', 'case_studies', 'faqs', 'team_members', 'situations'] as $table) {

@@ -4,14 +4,16 @@ import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 
 /**
- * Design 2 build (docs/upgrade-plan.md). Separate from vite.config.js (Design 1) on purpose: no chunk
- * is ever shared between the designs, Design 1's bundles stay byte-identical to the design-1 tag, and
- * Design 2 pages never load Design 1 CSS/JS (or the reverse).
+ * Design 2 build (docs/upgrade-plan.md), the site's only design. Separate from vite.admin.config.js (the admin
+ * theme): no chunk is shared, so the public pages never load admin CSS (or the reverse).
  *
  *   npm run dev:d2    → Vite dev server, writes public/hot-d2
  *   npm run build:d2  → public/build-d2
  *
- * Same Alpine CSP patch as Design 1 (see vite.config.js): skip reading the deprecated `window.fence`.
+ * The Alpine CSP build reads every global once at start-up. Reading `window.fence` makes Chrome log a "Fenced
+ * Frame API is deprecated" warning (Lighthouse best practices). Alpine already skips `styleMedia` and
+ * `sharedStorage` for the same reason; this patch adds `fence` to that list. The build fails if the upstream
+ * code changes, so the patch can never silently stop applying.
  */
 function alpineCspSkipDeprecatedGlobals() {
     const needle = 'if (key === "styleMedia" || key === "sharedStorage")';

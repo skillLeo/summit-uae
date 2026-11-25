@@ -17,10 +17,10 @@ use Tests\TestCase;
  *   1. Every record of every dataset, in every language, equals the record the pre-Phase-3 content tables gave
  *      (tests/Support/LegacyContent: the ContentSeeder and ContentRepository of d3e1481 over database/content/*.json),
  *      nested order included; so do the list order, every approved interface string and every setting.
- *   2. Key pages of both designs in EN, AR and RU render the same HTML from the database as from the files.
+ *   2. Key pages in EN, AR and RU render the same HTML from the database as from the files.
  *
  * The browser-level check against the text baseline of the polished Design 2 (tests/Snapshots/text, commit 064130d) is
- * `node scripts/qa/text-snapshot.mjs --check` (every route, locale and design; see the Phase 3 report).
+ * `node scripts/qa/text-snapshot.mjs --check` (every route and locale; see the Phase 3 report).
  */
 final class ContentParityTest extends TestCase
 {
@@ -92,37 +92,32 @@ final class ContentParityTest extends TestCase
         $this->assertNotSame('Database H1', (new LegacyContent)->record('pages', 'P06', 'en')['h1']);
     }
 
-    public function test_key_pages_of_both_designs_render_the_same_from_the_database_and_from_the_files(): void
+    public function test_key_pages_render_the_same_from_the_database_and_from_the_files(): void
     {
         $content = app(ContentRepository::class);
         $pages = 0;
-        foreach (['1', '2'] as $design) {
-            foreach (self::LOCALES as $locale) {
-                foreach (self::PAGES as $page) {
-                    if ($design === '1' && $page === 'calculators/') {
-                        continue; // Design 1 has no calculators page (it redirects)
-                    }
-                    $url = "/{$locale}/{$page}";
-                    $content->useSource(ContentRepository::SOURCE_DATABASE);
-                    $fromDatabase = $this->render($url, $design);
-                    $content->useSource(ContentRepository::SOURCE_FILES);
-                    $fromFiles = $this->render($url, $design);
-                    $content->useSource(ContentRepository::SOURCE_DATABASE);
-                    $this->assertNotSame('', $fromDatabase);
-                    $this->assertStringNotContainsString('⟦', $fromDatabase, "design {$design} {$url}: no missing copy");
-                    $this->assertSame($fromFiles, $fromDatabase, "design {$design} {$url}");
-                    $pages++;
-                }
+        foreach (self::LOCALES as $locale) {
+            foreach (self::PAGES as $page) {
+                $url = "/{$locale}/{$page}";
+                $content->useSource(ContentRepository::SOURCE_DATABASE);
+                $fromDatabase = $this->render($url);
+                $content->useSource(ContentRepository::SOURCE_FILES);
+                $fromFiles = $this->render($url);
+                $content->useSource(ContentRepository::SOURCE_DATABASE);
+                $this->assertNotSame('', $fromDatabase);
+                $this->assertStringNotContainsString('⟦', $fromDatabase, "{$url}: no missing copy");
+                $this->assertSame($fromFiles, $fromDatabase, $url);
+                $pages++;
             }
         }
-        $this->assertSame(81, $pages);
+        $this->assertSame(42, $pages);
     }
 
     /** The page's HTML without what changes on every request (nonce, CSRF token, UUIDs, generated ids). */
-    private function render(string $url, string $design): string
+    private function render(string $url): string
     {
         app('translator')->setLoaded([]);
-        $response = $this->withUnencryptedCookies(['summit_design' => $design, 'summit_qa' => '1'])->get($url);
+        $response = $this->get($url);
         $this->assertContains($response->getStatusCode(), [200, 404], $url);
         $html = (string) $response->getContent();
 

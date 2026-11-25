@@ -241,7 +241,7 @@
   --head-space: var(--s-12);    /* intro to the section's content */
   --pad-card: 24px;             /* card padding: 24, 32 from 768 px */
   --measure: 64ch;              /* longest line of running text */
-  --header-h: 56px;             /* the compact header (after scroll): sticky offsets and scroll padding use it; 64 from 768 px */
+  --header-h: 56px;             /* the compact header (after scroll): sticky offsets and scroll padding use it; 64 from 768 px, 72 from 1024 px */
   --header-h-top: 56px;         /* the header at the top of the page: 72 from 768 px, 88 from 1024 px (§3.8) */
   --lockup-h: 40px;             /* header lockup height at the top: 56 from 1024 px (§3.8) */
   --tabbar-h: 64px;
@@ -450,6 +450,7 @@
     --pad-x: 32px;
     --cols: 12;
     --section-y: 128px;
+    --header-h: 72px;
     --header-h-top: 88px;
     --lockup-h: 56px;
   }

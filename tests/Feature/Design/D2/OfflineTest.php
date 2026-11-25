@@ -24,7 +24,7 @@ final class OfflineTest extends TestCase
 
     private function offline(string $locale): string
     {
-        return $this->withUnencryptedCookies(['summit_design' => '2'])->get("/{$locale}/offline/")->assertOk()->getContent();
+        return $this->get("/{$locale}/offline/")->assertOk()->getContent();
     }
 
     public function test_the_offline_page_renders_in_design_two_in_every_language(): void
@@ -92,13 +92,5 @@ final class OfflineTest extends TestCase
                 $this->assertNotSame(d2p('offline.'.$key, [], 'en'), d2p('offline.'.$key, [], $locale), "{$locale} offline.{$key} is translated");
             }
         }
-    }
-
-    public function test_design_one_keeps_its_own_offline_page(): void
-    {
-        $html = $this->get('/en/offline/')->assertOk()->getContent();
-
-        $this->assertStringNotContainsString('data-design="2"', $html);
-        $this->assertStringContainsString('class="has-bottombar', $html);
     }
 }

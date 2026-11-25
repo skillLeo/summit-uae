@@ -29,7 +29,7 @@ final class WhoWeHelpTest extends TestCase
     private function section(string $locale): string
     {
         app()->setLocale($locale);
-        $html = $this->withUnencryptedCookies(['summit_design' => '2', 'summit_qa' => '1'])->get("/{$locale}/")->assertOk()->getContent();
+        $html = $this->get("/{$locale}/")->assertOk()->getContent();
         $this->assertSame(1, preg_match('#<section class="section who" id="who-we-help".*?</section>#s', $html, $m), "{$locale}: #who-we-help renders");
 
         return $m[0];

@@ -29,7 +29,7 @@ final class FaqTest extends TestCase
 
     private function home(string $locale): string
     {
-        return $this->withUnencryptedCookies(['summit_design' => '2', 'summit_qa' => '1'])->get("/{$locale}/")->assertOk()->getContent();
+        return $this->get("/{$locale}/")->assertOk()->getContent();
     }
 
     /** The #questions section of the Design 2 home page. */
@@ -45,7 +45,7 @@ final class FaqTest extends TestCase
     /** The FAQ browser section (#faq-search) of the Design 2 P05 page. */
     private function browser(string $locale): string
     {
-        $html = $this->withUnencryptedCookies(['summit_design' => '2', 'summit_qa' => '1'])->get("/{$locale}/faq/")->assertOk()->getContent();
+        $html = $this->get("/{$locale}/faq/")->assertOk()->getContent();
         $start = strpos($html, '<section class="section faq-browse" id="faq-search"');
         $this->assertNotFalse($start, 'the FAQ browser is on P05');
         $end = strpos($html, '</section>', $start);

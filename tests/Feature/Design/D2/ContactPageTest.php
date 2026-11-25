@@ -46,7 +46,7 @@ final class ContactPageTest extends TestCase
     {
         app()->setLocale($locale);
 
-        return $this->withUnencryptedCookies(['summit_design' => '2'])->get("/{$locale}/contact/{$query}")->assertOk()->getContent();
+        return $this->get("/{$locale}/contact/{$query}")->assertOk()->getContent();
     }
 
     private function dom(string $html): DOMXPath
@@ -176,7 +176,7 @@ final class ContactPageTest extends TestCase
         $this->assertSame($this->text($details['whatsapp_cta']), $this->text($this->one($x, '//header[contains(@class,"inner-head")]//a[contains(@class,"contact-card__channel--whatsapp")]//*[contains(@class,"contact-card__value")]')->textContent));
         $this->assertSame(setting('whatsapp_url'), $row->getAttribute('href'));
 
-        $home = $this->dom($this->withUnencryptedCookies(['summit_design' => '2'])->get("/{$locale}/")->assertOk()->getContent());
+        $home = $this->dom($this->get("/{$locale}/")->assertOk()->getContent());
         $this->assertSame($this->text(ui('cta.whatsapp')), $this->text($this->one($home, '//section[@id="consultation-form"]//a[contains(@class,"contact-card__channel--whatsapp")]//*[contains(@class,"contact-card__value")]')->textContent));
     }
 
@@ -258,7 +258,7 @@ final class ContactPageTest extends TestCase
         $this->assertSame(SiteUrl::home('en', 'consultation-form'), SiteUrl::consultation('en'));
         $this->assertStringStartsWith(SiteUrl::home('en'), Prefill::url(['consultant' => 'team-ahmed'], 'en'));
 
-        $about = $this->withUnencryptedCookies(['summit_design' => '2'])->get('/en/about/')->assertOk()->getContent();
+        $about = $this->get('/en/about/')->assertOk()->getContent();
         $this->assertStringNotContainsString('href="'.SiteUrl::page('P07', 'en').'#consultation-form"', $about);
     }
 

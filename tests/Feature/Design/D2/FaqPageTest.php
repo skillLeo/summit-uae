@@ -37,7 +37,7 @@ final class FaqPageTest extends TestCase
     {
         app()->setLocale($locale);
 
-        return $this->withUnencryptedCookies(['summit_design' => '2'])->get("/{$locale}/faq/")->assertOk()->getContent();
+        return $this->get("/{$locale}/faq/")->assertOk()->getContent();
     }
 
     private function dom(string $html): DOMXPath

@@ -108,14 +108,13 @@ final class QaHarnessTest extends TestCase
         $this->assertStringContainsString("buildDir: 'build-d2-budgets'", $budgets);
     }
 
-    /** The calculators page (brief 2.1 §5.1) is a Design 2 route of the text snapshots and the design lint. */
-    public function test_the_route_lists_include_the_design_2_calculators_page(): void
+    /** The calculators page (brief 2.1 §5.1) is a route of the text snapshots and the design-rule lint (their shared list). */
+    public function test_the_route_lists_include_the_calculators_page(): void
     {
         $snapshot = (string) file_get_contents(base_path('scripts/qa/text-snapshot.mjs'));
-        $this->assertStringContainsString("routes.push({ locale, slug: 'calculators', path: `/\${locale}/calculators/`, expect: 200, designs: ['2'] });", $snapshot);
-        $this->assertStringContainsString('if (route.designs && !route.designs.includes(design)) continue;', $snapshot);
+        $this->assertStringContainsString("routes.push({ locale, slug: 'calculators', path: `/\${locale}/calculators/`, expect: 200 });", $snapshot);
         $lint = (string) file_get_contents(base_path('scripts/qa/lint-design.mjs'));
-        $this->assertStringContainsString('(!r.designs || r.designs.includes(String(opt.design)))', $lint);
+        $this->assertStringContainsString("from './text-snapshot.mjs'", $lint);
         $config = (string) file_get_contents(base_path('qa/lib/config.mjs'));
         $this->assertStringContainsString("{ key: 'calculators', path: 'calculators/'", $config);
         // The page itself renders with seeded content in ScreensMatrixTest (the calculators state's fields).

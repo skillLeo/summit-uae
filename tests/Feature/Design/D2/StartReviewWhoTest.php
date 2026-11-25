@@ -37,8 +37,7 @@ final class StartReviewWhoTest extends TestCase
     {
         app()->setLocale($locale);
 
-        return $this->withUnencryptedCookies(['summit_design' => '2', 'summit_qa' => '1'])
-            ->get("/{$locale}/".($query !== '' ? '?'.$query : ''))->assertOk()->getContent();
+        return $this->get("/{$locale}/".($query !== '' ? '?'.$query : ''))->assertOk()->getContent();
     }
 
     private function start(string $html): string

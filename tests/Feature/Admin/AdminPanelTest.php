@@ -298,9 +298,9 @@ final class AdminPanelTest extends TestCase
         $this->assertFalse(SecurityHeaders::isAdminRequest(Request::create('/en/admin/')));
     }
 
-    public function test_installing_the_panel_leaves_the_public_html_of_both_designs_untouched(): void
+    public function test_installing_the_panel_leaves_the_public_html_untouched(): void
     {
-        // blade-icons must neither take over Design 1's <x-icon> nor register its icon components.
+        // blade-icons must neither register its <x-icon> alias nor its icon components.
         $aliases = array_keys(app('blade.compiler')->getClassComponentAliases());
         $this->assertNotContains('icon', $aliases);
         $this->assertSame([], array_values(array_filter($aliases, fn (string $alias): bool => str_starts_with($alias, 'heroicon'))));
@@ -310,7 +310,7 @@ final class AdminPanelTest extends TestCase
         $attributes = (function (): array {
             $out = [];
             foreach ([...$this->scriptTagAttributesResolvers, ...$this->styleTagAttributesResolvers] as $resolver) {
-                $out += (array) $resolver('resources/js/app.js', '/build/app.js', null, null);
+                $out += (array) $resolver('resources/js/d2/app.js', '/build-d2/app.js', null, null);
             }
 
             return $out;
@@ -318,20 +318,12 @@ final class AdminPanelTest extends TestCase
         $this->assertArrayNotHasKey('data-navigate-track', $attributes);
         $this->withoutVite();
 
-        // No Livewire or Filament output on public pages of either design.
-        foreach ([['/en/', []], ['/ar/', ['summit_design' => '2']], ['/ru/faq/', ['summit_design' => '2']]] as [$path, $cookies]) {
-            $html = $this->withUnencryptedCookies($cookies)->get($path)->assertOk()->getContent();
+        // No Livewire or Filament output on public pages.
+        foreach (['/en/', '/ar/', '/ru/faq/'] as $path) {
+            $html = $this->get($path)->assertOk()->getContent();
             $this->assertStringNotContainsString('data-navigate-track', $html, $path);
             $this->assertStringNotContainsStringIgnoringCase('livewire', $html, $path);
             $this->assertStringNotContainsStringIgnoringCase('filament', $html, $path);
         }
-    }
-
-    public function test_the_design_switcher_is_never_injected_into_the_panel(): void
-    {
-        config(['design.switcher' => true]);
-
-        $this->get('/admin/login')->assertOk()->assertDontSee('data-design-switch', false);
-        $this->get('/en/')->assertOk()->assertSee('data-design-switch', false);
     }
 }

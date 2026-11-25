@@ -1,7 +1,7 @@
 {{--
-    Styleguide: Design 2.1 shell (brief §3.7, §3.8, D06, D12, D13, D14, D47, D48): the header at the top of the
-    page and compact (docked and tucked), the Practice Areas mega menu, the language menu, the search trigger, the
-    collapsed navigation, and the footer (its own block, owned by footer-shell). Annotations are internal:
+    Styleguide: the shell (brief §3.7, §3.8, D06, D12, D13, D47, D48; the client's final changes, item 1): the black
+    header at the top of the page and compact (the labels in the bar, or tucked), the Practice Areas mega menu, the
+    language menu, the collapsed navigation, and the footer (its own block, owned by footer-shell). Annotations are internal:
     lang/en/styleguide_d2/shell.php. Every specimen is the real component with approved copy, rendered
     statically (demo="…": not sticky, no Alpine) with its own id prefix. The desktop-only states sit in a
     frame at least 70rem (1,120 px) wide, where the seven labels fit in every language (it scrolls sideways on
@@ -28,8 +28,8 @@
             <p class="sg-note" {!! $en !!}>{{ $t('top') }}</p>
         </div>
 
-        {{-- Compact. Docked: the seven labels in the 64 px bar (English and Arabic in a full container; Russian's
-             never fit beside its tools, so its page shows the tucked bar only). Tucked: the menu button instead. --}}
+        {{-- Compact. Inline: the seven labels in the 72 px bar beside the 44 px lockup (English and Arabic in a full
+             container; Russian's never fit, so its page shows the tucked bar only). Tucked: the menu button instead. --}}
         @unless (app()->isLocale('ru'))
             <div class="sg-specimen d2-shell-demo d2-shell-demo--canvas">
                 <div class="d2-shell-demo__frame d2-shell-demo__frame--docked">
@@ -58,13 +58,6 @@
                 <x-d2.shell.header id-prefix="sg-lang" demo="lang" />
             </div>
             <p class="sg-note" {!! $en !!}>{{ $t('lang') }}</p>
-        </div>
-
-        <div class="sg-specimen d2-shell-demo d2-shell-demo--canvas">
-            <div class="d2-shell-demo__frame">
-                <x-d2.shell.header id-prefix="sg-search" demo="search" />
-            </div>
-            <p class="sg-note" {!! $en !!}>{{ $t('search') }}</p>
         </div>
 
         <div class="sg-specimen d2-shell-demo d2-shell-demo--canvas">

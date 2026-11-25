@@ -52,8 +52,8 @@ final class Screens
             'settings_languages' => ['group' => 'settings', 'abilities' => self::SETTINGS],
             'settings_forms' => ['group' => 'settings', 'abilities' => self::SETTINGS],
             'settings_notifications' => ['group' => 'settings', 'abilities' => self::SETTINGS],
+            'settings_integrations' => ['group' => 'settings', 'abilities' => self::SETTINGS], // super admin only: in no built-in role
             'settings_brand' => ['group' => 'settings', 'abilities' => self::SETTINGS],
-            'settings_design' => ['group' => 'settings', 'abilities' => self::SETTINGS],
             // System
             'users' => ['group' => 'system', 'abilities' => ['view', 'create', 'update', 'delete']],
             'roles' => ['group' => 'system', 'abilities' => ['view', 'create', 'update', 'delete']],

@@ -12,7 +12,7 @@
  *      reuses the folder.
  *   2. Serves this working tree with its own php -S (default 127.0.0.1:8047, stopped at the end, on Ctrl+C and on a
  *      crash) with SUMMIT_D2_BUILD_DIR=build-d2-budgets and a hot file that does not exist, so every page loads the
- *      bundled assets; APP_ENV=production, SUMMIT_DESIGN_SWITCHER=false. Pending copy is shown by default
+ *      bundled assets; APP_ENV=production. Pending copy is shown by default
  *      (SUMMIT_SHOW_PENDING=true: the tool blocks and the calculators page are what the client meeting sees and the
  *      heaviest case); --pending=off measures what production serves today.
  *   3. Opens every Design 2 route (text-snapshot.mjs's list: home, P02-P08, L01, L02, S01-S11, calculators, 404) in
@@ -140,7 +140,6 @@ async function startServer(port, buildDir, pending) {
         APP_DEBUG: 'false',
         SUMMIT_D2_BUILD_DIR: buildDir,
         SUMMIT_D2_HOT_FILE: MISSING_HOT,
-        SUMMIT_DESIGN_SWITCHER: 'false',
         SUMMIT_SHOW_PENDING: pending ? 'true' : 'false',
     };
     const own = join(ROOT, 'server.php');
@@ -175,10 +174,6 @@ async function measure(browser, origin, buildDir, target) {
         serviceWorkers: 'block',
     });
     try {
-        await context.addCookies([
-            { name: 'summit_design', value: '2', url: origin },
-            { name: 'summit_qa', value: '1', url: origin },
-        ]);
         await context.route('**/*', (route) => {
             const host = (() => {
                 try {

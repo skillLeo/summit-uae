@@ -5,10 +5,9 @@ Run from the project root with the font venv (it only needs fonttools and brotli
     .venv-fonts/bin/python -I scripts/fonts/build-d2.py            # build everything
     .venv-fonts/bin/python -I scripts/fonts/build-d2.py --fetch    # first download missing D2 sources
 
-Design 1's pipeline (scripts/fonts/build.py, resources/fonts/src/**, public/fonts/*.woff2,
-resources/scss/base/_fonts.scss) is frozen: this script only READS the Design 1 sources it shares
-(IBM Plex Sans, IBM Plex Sans Arabic 400/500/600, Source Serif 4, Noto Naskh Arabic) and keeps its
-own downloads (IBM Plex Sans Arabic Bold, IBM Plex Mono) in resources/fonts/src-d2/<family>/.
+The sources in resources/fonts/src/<family>/ (IBM Plex Sans, IBM Plex Sans Arabic 400/500/600, Source Serif 4,
+Noto Naskh Arabic; first downloaded for Design 1, whose own font pipeline was removed with it) are only READ here;
+this script keeps its own downloads (IBM Plex Sans Arabic Bold, IBM Plex Mono) in resources/fonts/src-d2/<family>/.
 Every source is checked against the git blob SHA-1 that google/fonts reports for it.
 
 Pipeline

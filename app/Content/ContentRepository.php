@@ -18,12 +18,12 @@ use Illuminate\Support\Facades\Log;
 
 /**
  * The one read API over the published content (docs/briefs/design-2.1-and-admin-cms.md §8.6): every text, link and
- * setting both designs show. Views use content(), ui(), setting(), proposed() and d2p().
+ * setting the site shows. Views use content(), ui(), setting(), proposed() and d2p().
  *
  * Source: the CMS tables (published rows, not in the Trash), filled by `php artisan summit:content-import`. While a
  * table is still empty, or a key is missing, the same content is read from today's files instead
  * (App\Content\Cms\Sources: database/content/*.json, the lang files, config), so the site never depends on the import
- * having run. Interface text (proposed(), d2p(), the switcher) reads the database through
+ * having run. Interface text (proposed(), d2p()) reads the database through
  * spatie/laravel-translation-loader (App\Models\Content\UiString → lines()); the lang files fill the rest.
  *
  * Cache: one snapshot of the shared data (interface text, settings, menus, situations, document samples, rule sets) and

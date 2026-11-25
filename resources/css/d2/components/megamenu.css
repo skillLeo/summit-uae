@@ -24,7 +24,7 @@
 
     position: absolute;
 
-    /* 8 px under the band the row sits in: the row itself at the top of the page, the 64 px bar when docked. */
+    /* 8 px under the band the row sits in: the row itself at the top of the page, the bar when the row rides in it. */
     inset-block-start: calc(100% + var(--s-2) + (var(--nav-line-h) - var(--navrow-h)) / 2);
     inset-inline: var(--pad-x);
     z-index: 1;

@@ -176,7 +176,7 @@ final class UploadTest extends TestCase
 
     public function test_the_styleguide_shows_the_upload_area(): void
     {
-        $html = $this->withUnencryptedCookies(['summit_design' => '2'])->get('/en/styleguide/')->assertOk()->getContent();
+        $html = $this->get('/en/styleguide/')->assertOk()->getContent();
 
         $this->assertStringContainsString('id="sg-upload"', $html);
         $this->assertStringContainsString('href="#sg-upload"', $html);
@@ -191,7 +191,7 @@ final class UploadTest extends TestCase
     {
         config(['summit.features.attachments_enabled' => true]);
         foreach (['/en/', '/ar/contact/'] as $path) {
-            $html = $this->withUnencryptedCookies(['summit_design' => '2'])->get($path)->assertOk()->getContent();
+            $html = $this->get($path)->assertOk()->getContent();
             $this->assertSame(0, preg_match_all('/<input[^>]+type="file"[^>]+name="attachment"/', $html), "{$path}: no scan, no field");
             $this->assertStringNotContainsString('enctype="multipart/form-data"', $html, $path);
         }
@@ -201,13 +201,13 @@ final class UploadTest extends TestCase
     {
         config(['summit.features.attachments_enabled' => true, 'design.d2.attachment_scanned' => true]);
         foreach (['/en/', '/ar/contact/'] as $path) {
-            $html = $this->withUnencryptedCookies(['summit_design' => '2'])->get($path)->assertOk()->getContent();
+            $html = $this->get($path)->assertOk()->getContent();
             $this->assertSame(1, preg_match_all('/<input[^>]+type="file"[^>]+name="attachment"/', $html), $path);
             $this->assertStringContainsString('enctype="multipart/form-data"', $html, $path);
         }
 
         // Every wizard specimen in the styleguide carries an unnamed (never posted) dropzone specimen.
-        $guide = $this->withUnencryptedCookies(['summit_design' => '2'])->get('/en/styleguide/')->assertOk()->getContent();
+        $guide = $this->get('/en/styleguide/')->assertOk()->getContent();
         $this->assertSame(0, preg_match('/<input[^>]+type="file"[^>]+name="attachment"/', $guide));
         $this->assertGreaterThan(1, substr_count($guide, 'data-upload-input'));
     }
@@ -216,7 +216,7 @@ final class UploadTest extends TestCase
     {
         config(['summit.features.attachments_enabled' => false]);
         foreach (['/en/', '/en/contact/'] as $path) {
-            $html = $this->withUnencryptedCookies(['summit_design' => '2'])->get($path)->assertOk()->getContent();
+            $html = $this->get($path)->assertOk()->getContent();
             $this->assertStringContainsString('data-wizard-form', $html, $path);
             $this->assertStringNotContainsString('type="file"', $html, $path);
         }

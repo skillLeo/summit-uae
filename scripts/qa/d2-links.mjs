@@ -5,8 +5,7 @@
  *
  *   QA_BASE_URL=http://127.0.0.1:8042 node scripts/qa/d2-links.mjs [--locales=en,ar] [--json=report.json] [--verbose]
  *
- * Crawls every Design 2 route in EN, AR and RU (cookies summit_design=2 and summit_qa=1, so the floating
- * design switcher is never injected): home, styleguide, offline, P02-P08, L01, L02, the eleven services,
+ * Crawls every Design 2 route in EN, AR and RU: home, styleguide, offline, P02-P08, L01, L02, the eleven services,
  * a 404 (an unknown path, expected to answer 404) and the root language chooser "/". On every page it reads
  * the server-rendered HTML (progressive enhancement: what works without JavaScript) and checks:
  *   - every internal link (<a>, <area>, <link>: alternates, canonical, manifest, icons, font preloads) and
@@ -33,7 +32,6 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const BASE = (process.env.QA_BASE_URL || 'http://127.0.0.1:8042').replace(/\/+$/, '');
 const BASE_ORIGIN = new URL(BASE).origin;
 const CANONICAL_ORIGIN = new URL(process.env.SUMMIT_CANONICAL_HOST || 'https://www.summitlegaluae.com').origin;
-const COOKIE = 'summit_design=2; summit_qa=1';
 const CONCURRENCY = Number(process.env.QA_LINKS_CONCURRENCY || 4);
 const TIMEOUT_MS = 90_000;
 
@@ -159,7 +157,7 @@ async function request(url) {
     try {
         const res = await fetch(url, {
             redirect: 'manual',
-            headers: { cookie: COOKIE, accept: 'text/html,application/json;q=0.9,*/*;q=0.8', 'user-agent': 'summit-d2-links/1.0' },
+            headers: { accept: 'text/html,application/json;q=0.9,*/*;q=0.8', 'user-agent': 'summit-d2-links/1.0' },
             signal: AbortSignal.timeout(TIMEOUT_MS),
         });
         const type = res.headers.get('content-type') || '';
