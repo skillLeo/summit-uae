@@ -66,7 +66,8 @@ final class ContentCacheTest extends TestCase
         $line->text = ['en' => 'Search the site (CMS)'] + $line->text;
         $line->save();
 
-        $this->assertStringContainsString('aria-label="Search the site (CMS)"', $this->get2('/en/'));
+        // The search palette's field hint (the header itself has no search since the client's item 1).
+        $this->assertMatchesRegularExpression('#<span class="palette__placeholder" id="palette-hint"[^>]*>Search the site \(CMS\)</span>#', $this->get2('/en/'));
         $this->assertSame($before, d2p('shell.search_placeholder', [], 'ru'), 'the other languages keep theirs');
     }
 
