@@ -347,8 +347,8 @@ final class ComponentsTest extends TestCase
             $this->assertDoesNotMatchRegularExpression('/gradient\(/', $css, "{$name}: no gradient");
             preg_match_all('/box-shadow:\s*([^;]+);/', $css, $shadows);
             foreach ($shadows[1] as $value) {
-                // (and the WhatsApp button's one soft shadow: client PDF item 6)
-                $this->assertContains(trim($value), ['none', 'var(--shadow-overlay)', 'var(--shadow-whatsapp)'], "{$name}: shadows only on overlays");
+                // (and the contact buttons' one soft shadow, gold and green alike: client PDF item 6, owner 2026-11-26)
+                $this->assertContains(trim($value), ['none', 'var(--shadow-overlay)', 'var(--shadow-whatsapp)', 'var(--shadow-cta)', 'var(--shadow-cta-hover)'], "{$name}: shadows only on overlays and the contact buttons");
             }
             foreach (['--font-mono', '--metal', '--lift', '--shadow-btn', '--shadow-ctl', '--shadow-seg', '--duotone', '--shimmer', '--glass', 'backdrop-filter', 'uppercase', 'ellipsis', 'line-clamp', '--fs-meta', '--fw-ui', '--fw-bold', '--r-sm', '--r-md', '--r-lg', '--r-xl', '--bronze-wash'] as $legacy) {
                 $this->assertStringNotContainsString($legacy, $css, "{$name}: {$legacy} (Design 2.0 or banned)");
