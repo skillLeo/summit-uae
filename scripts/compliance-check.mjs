@@ -4,7 +4,7 @@
  *
  * Fetches every Design 2 page (the home, the styleguide and every other Design 2 route: the practice-area
  * hub and the eleven service pages, resources, case studies, FAQ, about, contact, the legal pages, offline,
- * the 404 page and the language chooser, plus two server-rendered home states) in EN, AR and RU from
+ * the 404 page, plus two server-rendered home states) in EN, AR and RU ("/" is a 301 to /en/: no page) from
  * QA_BASE_URL (default http://127.0.0.1:8040), parses the
  * HTML and fails (exit 1) on:
  *
@@ -457,7 +457,7 @@ async function main() {
         process.exit(2);
     }
     const slugs = [...new Set([...hub.body.matchAll(/href="(?:https?:\/\/[^/"]+)?\/en\/practice-areas\/([a-z0-9-]+)\/"/g)].map((m) => m[1]))];
-    const pages = [{ id: '/', url: '/', label: 'language chooser', status: 200, locale: null }];
+    const pages = [];
     for (const locale of LOCALES) {
         for (const p of PAGES) pages.push({ id: `/${locale}/${p.path}`, url: `/${locale}/${p.path}`, label: p.label, status: p.status ?? 200, locale });
         for (const s of slugs) pages.push({ id: `/${locale}/practice-areas/${s}/`, url: `/${locale}/practice-areas/${s}/`, label: `service ${s}`, status: 200, locale });

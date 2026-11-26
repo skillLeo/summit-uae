@@ -251,6 +251,15 @@
     line-height: var(--lh-small);
   }
 
+  /* No result: "Contact Us on WhatsApp" (client PDF item 7: WhatsApp instead of a consultation form). */
+  .faq-browser__whatsapp {
+    display: none;
+  }
+
+  .faq-browser.is-empty .faq-browser__whatsapp {
+    display: inline-flex;
+  }
+
   .faq-browser.is-empty .faq-browser__status {
     max-inline-size: 46ch;
     color: var(--ink);

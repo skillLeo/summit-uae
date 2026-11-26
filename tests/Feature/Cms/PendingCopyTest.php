@@ -26,6 +26,9 @@ final class PendingCopyTest extends TestCase
         $this->seed(ContentSeeder::class);
         $this->withoutVite();
         config(['design.d2.show_pending' => null]); // no environment override: the CMS setting decides
+        // "Start your matter" is one of the pending blocks; it renders only with the form, off since client PDF item 7.
+        $this->consultationFormOn(startBlock: true);
+        $this->homeBlockOn('anatomy'); // off by default since client PDF item 13
     }
 
     private function home(string $locale): string

@@ -17,7 +17,7 @@ Try again
 What you can still do
 Contact Details
 Telephone
-+971 52 466 6191
++971524666191
 WhatsApp
 Contact Us on WhatsApp
 (opens in a new tab)
@@ -31,14 +31,15 @@ Write to us
 Your e-mail app keeps the message in its outbox and sends it once you are back online.
 Prepare your documents
 Gather the papers related to your matter, so they are ready when you contact us.
-Other pages, the tools and the consultation form need a connection.
+Other pages and the tools need a connection.
 === footer ===
 Summit Legal Consultancy
 Legal advice for individuals, businesses, investors and residents in the UAE, in Arabic, English and Russian.
-+971 52 466 6191
++971524666191
 Contact Us on WhatsApp
 (opens in a new tab)
 info@summitlegaluae.com
+www.summitlegaluae.com
 Business hours: Monday to Friday, 9 am to 6 pm.
 Practice Areas
 Debt Recovery and Cheque Cases
@@ -50,8 +51,8 @@ Employment Law
 Tax Disputes and Tax Compliance
 Family Law and Wills
 Compliance and Regulatory Matters
-Legal Translation
 Business Services
+View All Practice Areas
 Legal Resources
 Legal Resources Centre
 FAQs
@@ -84,6 +85,6 @@ uaetaxdisputes.com
 (opens in a new tab)
 © {{YEAR}} Summit Legal Consultancy. All rights reserved.
 Choose language
-Arabic
 English
-Russian
+العربية
+Русский

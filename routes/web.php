@@ -7,17 +7,21 @@ use App\Http\Controllers\EnquiryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PagePreviewController;
 use App\Http\Controllers\SiteController;
+use App\Http\Middleware\EnsureConsultationForm;
 use App\Http\Middleware\EnsureTrailingSlash;
 use App\Http\Middleware\SetLocale;
+use App\Support\SiteUrl;
 use Illuminate\Support\Facades\Route;
 
 // The published slugs of the CMS (pages, practice areas) decide the addresses below (App\Content\Cms\Editing\Slugs; brief
 // §8.3). While they equal config/summit.php, which they do after the import, nothing changes.
 Slugs::apply();
 
-// Neutral root: language chooser, or a 302 to a language the visitor chose before (cookie only).
+// Root: a 301 to the default language's home page, /en/ (client PDF item 29). No chooser page any more.
 Route::get('/', [SiteController::class, 'root'])->name('root');
 Route::get('/sitemap.xml', [SiteController::class, 'sitemap'])->name('sitemap');
+// Production rules or the test site's (client PDF item 24); replaces the static public/robots.txt.
+Route::get('/robots.txt', [SiteController::class, 'robots'])->name('robots');
 
 Route::prefix('{locale}')
     ->where(['locale' => implode('|', array_keys(config('summit.locales')))])
@@ -40,6 +44,13 @@ Route::prefix('{locale}')
             Route::get('practice-areas/{service}/', [PagePreviewController::class, 'service'])
                 ->whereIn('service', array_values(config('summit.services')))
                 ->name('service');
+            // A practice area taken off the site (Legal Translation, client PDF item 9, owner decision 6): a temporary 302
+            // to its page in the same language (Practice Areas), so it can point at the replacement once that is live.
+            foreach ((array) config('summit.retired_services') as $code => $retired) {
+                // (SetLocale has set the page language and taken {locale} out of the route parameters)
+                Route::get('practice-areas/'.$retired['slug'].'/', fn () => redirect()->away(SiteUrl::target((string) $retired['to']), 302))
+                    ->name('retired-service.'.$code);
+            }
 
             // Design 2 only (brief 2.1 §5.1): the calculators page. Design 1 has none and is sent to its home page;
             // noindex and out of the sitemap while its copy is pending client approval.
@@ -47,5 +58,6 @@ Route::prefix('{locale}')
         });
 
         Route::get('manifest.webmanifest', [SiteController::class, 'manifest'])->name('manifest');
-        Route::post('enquiries', [EnquiryController::class, 'store'])->name('enquiries.store');
+        // The consultation form's endpoint: 404 while the form is off (WhatsApp only, client PDF item 7).
+        Route::post('enquiries', [EnquiryController::class, 'store'])->middleware(EnsureConsultationForm::class)->name('enquiries.store');
     });

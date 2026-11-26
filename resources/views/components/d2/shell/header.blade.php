@@ -14,7 +14,7 @@
                        phones) on the start side, the language menu and (where the seven labels do not show) the menu
                        button on the end side. 88 px at the top of the page from 1024 px (72 on tablets, 56 on phones),
                        sticky, shrinking to the 72 px compact bar from 1024 px (64 on tablets, 56 on phones) by
-                       scrolling: no animated height, no layout shift. From 1024 px the lockup eases from 56 to 44 px
+                       scrolling: no animated height, no layout shift. From 1024 px the lockup eases from 56 to 48 px
                        (a scale, 200 ms; at once with reduced motion). The lockup always shows in full.
       navigation       from 1024 px, the seven approved labels in the DOCX order (Home first), never shortened or
                        replaced; Practice Areas opens the mega menu. modules/header.js measures them with the real

@@ -14,7 +14,7 @@ Contact Us
 Home
 Check the Figures Yourself
 Check the Figures Yourself
-Two quick estimates that run in your browser: the end-of-service gratuity and final settlement under the UAE Labour Law, and the Dubai rent increase check. Nothing you enter leaves this page unless you add it to a consultation request.
+Two quick estimates that run in your browser: the end-of-service gratuity and final settlement under the UAE Labour Law, and the Dubai rent increase check. Nothing you enter leaves this page.
 Gratuity estimator
 Rent increase check
 End-of-service gratuity estimator
@@ -52,6 +52,8 @@ Days of the notice period already worked
 This estimate is calculated in your browser and needs JavaScript. You can still request a consultation, and we will go through the figures with you.
 The employer pays wages and entitlements within 14 days of the end of the contract (Art. 53).
 Request a Legal Consultation
+– WhatsApp
+(opens in a new tab)
 Legal basis: Federal Decree-Law No. 33 of 2021, Art. 51, 53, 43, 29; Cabinet Resolution No. 1 of 2022, Art. 19, 30.
 Estimate only, based on Federal Decree-Law No. 33 of 2021. It is not legal advice and does not replace a review of your contract and records.
 Dubai rent increase check
@@ -89,16 +91,19 @@ Maximum increase
 Below the average
 Maximum increase
 Request a Legal Consultation
+– WhatsApp
+(opens in a new tab)
 Dubai only, for residential properties; other emirates have different rules. The averages come from the Dubai Land Department’s Smart Rental Index, in use since January 2025.
 Legal basis: Increase bands: Decree No. 43 of 2013. Notice: Law No. 26 of 2007, Art. 14, as amended by Law No. 33 of 2008.
 Estimate only. It is not legal advice and does not replace a review of your tenancy contract.
 === footer ===
 Summit Legal Consultancy
 Legal advice for individuals, businesses, investors and residents in the UAE, in Arabic, English and Russian.
-+971 52 466 6191
++971524666191
 Contact Us on WhatsApp
 (opens in a new tab)
 info@summitlegaluae.com
+www.summitlegaluae.com
 Business hours: Monday to Friday, 9 am to 6 pm.
 Practice Areas
 Debt Recovery and Cheque Cases
@@ -110,8 +115,8 @@ Employment Law
 Tax Disputes and Tax Compliance
 Family Law and Wills
 Compliance and Regulatory Matters
-Legal Translation
 Business Services
+View All Practice Areas
 Legal Resources
 Legal Resources Centre
 FAQs
@@ -144,6 +149,6 @@ uaetaxdisputes.com
 (opens in a new tab)
 © {{YEAR}} Summit Legal Consultancy. All rights reserved.
 Choose language
-Arabic
 English
-Russian
+العربية
+Русский

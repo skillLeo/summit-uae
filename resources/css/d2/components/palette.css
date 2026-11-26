@@ -219,6 +219,18 @@
     font-weight: var(--fw-semibold);
   }
 
+  /* "Contact Us on WhatsApp" (WhatsApp only, client PDF item 7): the WhatsApp mark, then the approved label. */
+  .palette-option--whatsapp {
+    grid-template-columns: var(--icon-size) minmax(0, 1fr);
+    column-gap: var(--s-3);
+  }
+
+  .palette-option__mark {
+    display: grid;
+    place-items: center;
+    inline-size: var(--icon-size);
+  }
+
   .palette-option mark {
     color: inherit;
     font-weight: var(--fw-semibold);

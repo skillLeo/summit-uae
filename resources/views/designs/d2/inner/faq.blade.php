@@ -67,7 +67,7 @@
     @endif
     @if (! empty($heroCta['label']))
         <x-slot:actions>
-            <x-d2.ui.button variant="gold" size="52" :href="SiteUrl::target((string) ($heroCta['target'] ?? 'P07'))">{{ $heroCta['label'] }}</x-d2.ui.button>
+            <x-d2.ui.button variant="gold" size="52" :href="SiteUrl::cta((string) ($heroCta['target'] ?? 'P07'))">{{ $heroCta['label'] }}</x-d2.ui.button>
         </x-slot:actions>
     @endif
     @if ($topics !== [])
@@ -117,7 +117,7 @@
                 <div class="pp-cta__actions">
                     <div class="pp-cta__buttons">
                         @if (! empty($ask['cta']['label']))
-                            <x-d2.ui.button variant="ink" size="48" :full="true" :href="SiteUrl::target((string) ($ask['cta']['target'] ?? 'P07'))">{{ $ask['cta']['label'] }}</x-d2.ui.button>
+                            <x-d2.ui.button variant="ink" size="48" :full="true" :href="SiteUrl::cta((string) ($ask['cta']['target'] ?? 'P07'))">{{ $ask['cta']['label'] }}</x-d2.ui.button>
                         @endif
                         @if (! empty($ask['whatsapp']['label']))
                             <x-d2.ui.button variant="whatsapp" size="48" :full="true" :href="setting('whatsapp_url')">{{ $ask['whatsapp']['label'] }}</x-d2.ui.button>

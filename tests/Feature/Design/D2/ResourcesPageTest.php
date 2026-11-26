@@ -2,7 +2,11 @@
 
 namespace Tests\Feature\Design\D2;
 
+use App\Content\Cms\ContentCache;
+use App\Content\Cms\CopySource;
+use App\Content\Cms\Status;
 use App\Design\D2\Prefill;
+use App\Models\Content\UiString;
 use App\Support\SiteUrl;
 use Database\Seeders\ContentSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -209,14 +213,128 @@ final class ResourcesPageTest extends TestCase
                         $this->assertStringContainsString('aria-label="'.e($item['label']).'"', $article, "the service card is named by the approved label ({$locale})");
                     }
                 }
+                if ($code === 'G08') {
+                    // The legal translation guide stays (PDF item 10); its service link went with the service (item 9).
+                    $this->assertStringNotContainsString('/practice-areas/legal-translation/', $article);
+                    $service = 'S10';
+                }
                 $this->assertNotNull($service);
                 $this->assertStringContainsString('href="'.e(Prefill::url(['service' => $service], $locale)).'"', $article, "{$code}: the consultation CTA pre-fills {$service} ({$locale})");
-                $this->assertStringContainsString('#consultation-form', Prefill::url(['service' => $service], $locale));
+                $this->assertSame(setting('whatsapp_url', $locale), Prefill::url(['service' => $service], $locale)); // WhatsApp only (client PDF item 7)
                 foreach ($guide['body']['sources']['items'] as $source) {
                     $this->assertMatchesRegularExpression('#<a [^>]*href="'.preg_quote(e($source['url']), '#').'"[^>]*target="_blank" rel="noopener noreferrer"#', $article, "{$code}: official source opens in a new tab ({$locale})");
                 }
             }
         }
+    }
+
+    /**
+     * The client's final changes, item 10: every external link of the page (the official sources, WhatsApp) opens
+     * in a new tab with target="_blank" rel="noopener noreferrer" and says so to assistive technology (the visually
+     * hidden "(opens in a new tab)", or the control's aria-label); no official link is left out, in every language.
+     */
+    public function test_every_external_link_opens_in_a_new_tab_and_says_so(): void
+    {
+        foreach (self::LOCALES as $locale) {
+            app()->setLocale($locale);
+            $main = $this->main($locale);
+            preg_match_all('#<a\b([^>]*)\bhref="(https?://[^"]+)"([^>]*)>(.*?)</a>#s', $main, $links, PREG_SET_ORDER);
+            $external = array_values(array_filter($links, fn ($l) => ! str_starts_with($l[2], url('/'))));
+            $sources = array_merge(...array_map(fn ($g) => array_column($g['body']['sources']['items'] ?? [], 'url'), content()->guides($locale)));
+            $this->assertNotSame([], $sources, $locale);
+            $hrefs = array_map(fn ($l) => html_entity_decode($l[2]), $external);
+            foreach ($sources as $url) {
+                $this->assertContains($url, $hrefs, "{$locale}: {$url} is linked");
+            }
+            foreach ($external as $link) {
+                $attrs = $link[1].' '.$link[3];
+                $this->assertMatchesRegularExpression('/\btarget="_blank"/', $attrs, "{$locale}: {$link[2]}");
+                $this->assertMatchesRegularExpression('/\brel="noopener noreferrer"/', $attrs, "{$locale}: {$link[2]}");
+                $hint = str_contains($link[4], 'class="sr-only"') || preg_match('/\baria-label="[^"]*'.preg_quote(e(proposed('external.new_tab')), '/').'/u', $attrs) === 1;
+                $this->assertTrue($hint, "{$locale}: {$link[2]} announces the new tab");
+            }
+        }
+    }
+
+    /** The client's final changes, items 11 and 12: the client's exact note texts (docs/briefs/client-final-changes-2026-11-25.md). */
+    private const EXTERNAL_NOTES = [
+        'ar' => 'ملاحظة حول الروابط الخارجية: تتضمن هذه الصفحة روابط إلى مصادر رسمية وجهات حكومية أو تنظيمية في دولة الإمارات. تم اختيار الروابط العربية الرسمية حيثما كانت متاحة. وفي بعض الحالات، قد تفتح بعض المصادر الرسمية باللغة الإنجليزية إذا لم تكن النسخة العربية متاحة أو إذا كانت الجهة تنشر الدليل المعني باللغة الإنجليزية فقط.',
+        'ru' => 'Примечание о внешних ссылках: На этой странице размещены ссылки на официальные источники, государственные и регулирующие органы ОАЭ. Русскоязычные версии таких официальных материалов обычно недоступны, поэтому некоторые ссылки могут открываться на английском или арабском языке. Мы используем только официальные источники, когда они доступны, и не заменяем их неофициальными блогами или сторонними материалами.',
+    ];
+
+    /**
+     * Items 11 and 12: the note on external links, the client's text unchanged, once, before the guides that hold
+     * the official sources (in the reading column, ahead of the first guide), as a role="note" box; none on the
+     * English page (the PDF gives none). Its style: white, a 1 px gold edge, no icon, no warning or error tone.
+     */
+    public function test_the_external_links_note_shows_the_clients_text_on_the_arabic_and_russian_pages_only(): void
+    {
+        foreach (self::LOCALES as $locale) {
+            app()->setLocale($locale);
+            $main = $this->main($locale);
+            $expected = self::EXTERNAL_NOTES[$locale] ?? null;
+            if ($expected === null) {
+                $this->assertStringNotContainsString('data-kc-extnote', $main, "{$locale}: no note");
+
+                continue;
+            }
+            $this->assertSame(1, preg_match_all('#<div class="kc-extnote" role="note" data-kc-extnote>(.*?)</div>#s', $main, $notes), $locale);
+            $this->assertSame($expected, $this->text($notes[1][0]), "{$locale}: the client's text, unchanged");
+            $this->assertStringNotContainsString('data-icon', $notes[1][0], 'no icon');
+            [$lead] = explode(':', $expected, 2);
+            $this->assertStringContainsString('<strong class="kc-extnote__lead">'.e($lead).':</strong>', $notes[1][0]);
+            // Before the first guide, inside the reading column that holds the official sources.
+            $at = strpos($main, 'data-kc-extnote');
+            $this->assertGreaterThan(strpos($main, 'id="kc-guides"'), $at);
+            $this->assertLessThan(strpos($main, 'data-kc-guide="'), $at);
+        }
+
+        $css = (string) preg_replace('#/\*.*?\*/#s', '', (string) file_get_contents(resource_path('css/d2/pages/resources.css')));
+        $this->assertMatchesRegularExpression('/\.kc-extnote \{[^}]*background: var\(--canvas\);\s*border: var\(--line-w\) solid var\(--gold\);\s*border-radius: var\(--radius-card\);/', $css);
+        $this->assertDoesNotMatchRegularExpression('/\.kc-extnote[^{]*\{[^}]*(--warning|--danger|--badge-warning|--badge-danger)/', $css);
+    }
+
+    /** Items 11 and 12: once the CMS holds the note (ui "resources.external_note"), it wins; an empty English text shows nothing. */
+    public function test_the_external_links_note_follows_the_cms_once_it_holds_one(): void
+    {
+        // The client-approved layer created the string (database/content/client); the admin edits it.
+        UiString::query()->updateOrCreate(['group' => 'ui', 'key' => 'resources.external_note'], [
+            'text' => ['en' => '', 'ar' => 'ملاحظة حول الروابط الخارجية: نص من لوحة التحكم.', 'ru' => self::EXTERNAL_NOTES['ru']],
+            'copy_source' => CopySource::CLIENT_APPROVED,
+            'status' => Status::PUBLISHED,
+            'note' => 'test',
+        ]);
+        ContentCache::bump();
+
+        $this->assertStringNotContainsString('data-kc-extnote', $this->main('en'));
+        $this->assertStringNotContainsString('⟦', $this->main('en'));
+        app()->setLocale('ar');
+        $this->assertStringContainsString('<strong class="kc-extnote__lead">ملاحظة حول الروابط الخارجية:</strong> نص من لوحة التحكم.', $this->main('ar'));
+    }
+
+    /**
+     * The client's final changes, item 7 (WhatsApp only, the form removed): when the guide search finds nothing, its
+     * status row offers "Contact Us on WhatsApp" (the approved WA01 link, a new tab, the WhatsApp mark) beside the
+     * approved message; d2Resources shows it only for a result count of 0.
+     */
+    public function test_a_search_without_result_offers_whatsapp(): void
+    {
+        foreach (self::LOCALES as $locale) {
+            app()->setLocale($locale);
+            $html = $this->html($locale);
+            $this->assertSame(1, preg_match('#<div class="kc-find__foot" data-kc-foot hidden>(.*?)</div>\s*<script#s', $html, $foot), $locale);
+            $this->assertSame(1, preg_match('#<a\b[^>]*class="[^"]*kc-find__whatsapp[^"]*"[^>]*>.*?</a>#s', $foot[1], $wa), $locale);
+            $this->assertStringContainsString('href="'.e(setting('whatsapp_url')).'"', $wa[0]);
+            $this->assertMatchesRegularExpression('/\btarget="_blank"/', $wa[0]);
+            $this->assertMatchesRegularExpression('/\brel="noopener noreferrer"/', $wa[0]);
+            $this->assertMatchesRegularExpression('/\bdata-kc-whatsapp\b[^>]*\bhidden\b|\bhidden\b[^>]*\bdata-kc-whatsapp\b/', $wa[0], 'hidden until nothing matches');
+            $this->assertStringContainsString('data-brand="whatsapp"', $wa[0]);
+            $this->assertStringContainsString(e(ui('cta.whatsapp')), $wa[0]);
+            $this->assertStringNotContainsString('consultation-form', $foot[1]);
+        }
+        $js = (string) file_get_contents(resource_path('js/d2/components/resources.js'));
+        $this->assertStringContainsString("whatsapp: finder?.querySelector('[data-kc-whatsapp]') ?? null,", $js);
+        $this->assertStringContainsString('if (ui.whatsapp) ui.whatsapp.hidden = count !== 0;', $js);
     }
 
     public function test_contact_section_follows_the_contact_rules(): void
@@ -226,7 +344,7 @@ final class ResourcesPageTest extends TestCase
             $this->assertStringContainsString('href="'.e(SiteUrl::consultation($locale)).'"', $html, "consultation goes to the home form until P07 is released ({$locale})");
             $this->assertStringContainsString('href="'.e(setting('whatsapp_url', $locale)).'"', $html, "approved WhatsApp draft ({$locale})");
             // the kit's contact channels (Design 2.1: one channel pattern with every CTA panel and the footer)
-            $this->assertMatchesRegularExpression('#<a class="channel channel--phone" href="tel:\+971524666191">[\s\S]*?<bdi class="channel__text" dir="ltr">\+971 52 466 6191</bdi>#', $html, "telephone isolated left to right ({$locale})");
+            $this->assertMatchesRegularExpression('#<a class="channel channel--phone" href="tel:\+971524666191">[\s\S]*?<bdi class="channel__text" dir="ltr">\+971524666191</bdi>#', $html, "telephone isolated left to right ({$locale})");
             $this->assertMatchesRegularExpression('#<a class="channel channel--email" href="mailto:info@summitlegaluae.com">[\s\S]*?<bdi class="channel__text" dir="ltr">info@summitlegaluae.com</bdi>#', $html, "e-mail isolated left to right ({$locale})");
             // the request and WhatsApp buttons share one height on phones (resources.css .kc-contact__buttons)
             $this->assertMatchesRegularExpression('#<div class="kc-contact__buttons">\s*<a class="btn [^"]*btn--ink#', $html);

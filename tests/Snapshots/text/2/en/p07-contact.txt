@@ -17,12 +17,11 @@ Contact Summit Legal Consultancy
 Start with your question. We help you identify the next step.
 You may have an ongoing dispute, a contract to review or a decision whose effect you need to understand before acting. Tell us what happened and where you need help, so that we can identify with you the information needed and the appropriate scope of service.
 Contact us in Arabic, English or Russian. If you have a hearing or a response or appeal deadline, state the date and relevant authority at the outset.
-Send a Consultation Request
 Contact Us on WhatsApp
 (opens in a new tab)
 Contact Details
 Telephone
-+971 52 466 6191
++971524666191
 WhatsApp
 Message Us on WhatsApp
 (opens in a new tab)
@@ -38,53 +37,6 @@ We review your summary to identify the type of matter and any current deadline, 
 We identify with you the documents required, scope of advice or work, and fees. Requirements may differ if the matter needs translation, technical expertise or representation by a licensed advocate.
 3. We Agree the Appointment or Engagement
 We coordinate the means of communication and an available appointment where needed, and begin work once the engagement is accepted and its scope agreed. Initial contact and document exchange can take place remotely, with any later attendance, power of attorney or authentication requirements explained.
-Consultation Request Details
-Write a clear summary and provide at least one way to contact you. You do not need a registered case or a complete file to send an enquiry.
-Your name, matter summary, one contact method and consent to the use of your data are required. All other fields are optional.
-You
-Your name and at least one way to reach you.
-Name*
-Enter the name you would like us to use when contacting you.
-Phone Number, Email
-One valid phone number or email address is enough. You may provide both if you wish.
-Phone Number
-Include the country code and a number where you can be reached.
-Email
-Enter an email address you check regularly.
-Preferred Language
-Choose a language
-Arabic
-English
-Russian
-Your matter
-Choose the type of matter if you know it, and describe what happened.
-Type of Legal Matter
-Choose a topic if you know it
-Debts and Cheques
-Criminal Cases
-Cryptocurrencies
-Companies and Contracts
-Property and Tenancy
-Employment and Employee Entitlements
-Tax Matters
-Family and Wills
-Compliance and Regulatory Matters
-Legal Translation
-Business Services
-Other matter
-Not sure which category applies
-Matter Summary*
-Describe what happened, who the parties are and where you need help. Mention any earlier procedure or decision.
-Deadline
-If a hearing or a response or appeal deadline applies, give its date and the authority. Both fields are optional.
-Nearest Relevant Date or Deadline
-State the nearest hearing date or response or appeal deadline, if any.
-Date or Deadline Details
-Identify the relevant authority and what the date or deadline relates to, and explain if it has already passed.
-Do not send passwords, verification codes, private keys or a cryptocurrency wallet recovery phrase. A suitable way to send sensitive documents can be arranged once the nature of the matter is identified.
-Submitting a request does not mean that an engagement has been accepted, an appointment confirmed or monitoring of legal deadlines begun. If a deadline is approaching, call directly, state it clearly and confirm that the engagement has been accepted.
-I agree to the use of my data to contact me about this request in accordance with the Privacy Policy.*
-Submit Consultation Request
 What Helps Us Understand Your Matter
 A clear account of what happened, with key dates, parties and the request you wish to discuss.
 The document underlying the matter, such as a contract, cheque, decision or judgment, if available.
@@ -100,7 +52,7 @@ They depend on the nature of the matter, volume of documents and type of review 
 Can I make initial contact from outside the UAE?
 Initial contact and document exchange can take place remotely. Any later requirements concerning attendance, a power of attorney, authentication or translation are explained according to the matter, authority and procedure.
 Does an acknowledgement of receipt confirm my appointment?
-An acknowledgement confirms that the request has reached the system. The consultation appointment, acceptance of the engagement and scope of work are determined through communication and agreement. Monitoring of legal deadlines does not begin merely because the form was submitted.
+An acknowledgement confirms that the request has reached the system. The consultation appointment, acceptance of the engagement and scope of work are determined through communication and agreement.
 Can I send an urgent matter outside office hours?
 You can send a WhatsApp message identifying the relevant event or deadline and its date. Replies are subject to availability. Do not rely on sending alone as confirmation that follow-up has been accepted or a deadline protected.
 Useful Links
@@ -117,10 +69,11 @@ Summit is a legal consultancy. Advocacy or representation requiring an advocate 
 === footer ===
 Summit Legal Consultancy
 Legal advice for individuals, businesses, investors and residents in the UAE, in Arabic, English and Russian.
-+971 52 466 6191
++971524666191
 Contact Us on WhatsApp
 (opens in a new tab)
 info@summitlegaluae.com
+www.summitlegaluae.com
 Business hours: Monday to Friday, 9 am to 6 pm.
 Practice Areas
 Debt Recovery and Cheque Cases
@@ -132,8 +85,8 @@ Employment Law
 Tax Disputes and Tax Compliance
 Family Law and Wills
 Compliance and Regulatory Matters
-Legal Translation
 Business Services
+View All Practice Areas
 Legal Resources
 Legal Resources Centre
 FAQs
@@ -166,6 +119,6 @@ uaetaxdisputes.com
 (opens in a new tab)
 © {{YEAR}} Summit Legal Consultancy. All rights reserved.
 Choose language
-Arabic
 English
-Russian
+العربية
+Русский

@@ -241,6 +241,11 @@ final class DocxBlack extends Command
         }
         if (preg_match('/^02_(S\d\d)_/', $filename, $m)) {
             $code = $m[1];
+            // A retired service (config summit.retired_services: Legal Translation, client PDF item 9) has no page any more:
+            // its DOCX stays in the package but is not checked, like the site map.
+            if (is_array(config('summit.retired_services.'.$code))) {
+                return null;
+            }
             $slug = config('summit.services.'.$code);
             if (is_string($slug)) {
                 return ['slug' => strtolower($code).'-'.$slug, 'code' => $code, 'path' => 'practice-areas/'.$slug.'/', 'status' => 200];

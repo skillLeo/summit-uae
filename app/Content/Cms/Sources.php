@@ -14,6 +14,10 @@ use Illuminate\Support\Arr;
  *   database/content/*.json            the DOCX import (php artisan summit:import): records, interface strings
  *                                      (ui_strings.json, copy_source docx), contacts, WA01 drafts, the site-map link
  *                                      registry, SEO titles and descriptions
+ *   database/content/client/*.php      the client-approved layer (App\Content\Cms\ClientLayer), applied after the
+ *                                      DOCX import: texts, statuses and records the client approved outside the DOCX
+ *                                      files; what it changes is copy_source client_approved. summit:import never
+ *                                      writes there.
  *   lang/{en,ar,ru}/proposed.php       proposed copy (incl. proposed-d2/*.php): interface text, copy_source
  *                                      pending; the Anatomy parts go to document_samples instead
  *   config/summit.php, config/design.php   office hours and WhatsApp number, the "Start your matter" quick picks,
@@ -97,10 +101,24 @@ final class Sources
     /** @var array<string, array<string, mixed>> process memo: sources hash => build() */
     private static array $memo = [];
 
+    /**
+     * What the client layer changed in the build under way (ClientLayer::apply()): records, statuses, interface strings.
+     *
+     * @var array{records: array<string, array<string, array<string, mixed>>>, status: array<string, array<string, string>>, ui: array<string, true>, notes: list<string>}
+     */
+    private array $client = ['records' => [], 'status' => [], 'ui' => [], 'notes' => []];
+
     public function __construct(
         private readonly ?string $contentDir = null,
         private readonly ?string $langDir = null,
+        private readonly ?string $clientDir = null,
     ) {}
+
+    /** The client-approved layer read by this build (database/content/client, or the directory given). */
+    public function clientLayer(): ClientLayer
+    {
+        return new ClientLayer($this->clientDir ?? $this->contentDir().'/client');
+    }
 
     /**
      * Every row, built once per process for the current sources.
@@ -127,7 +145,7 @@ final class Sources
     /** @return list<string> */
     public function files(): array
     {
-        $files = glob($this->contentDir().'/*.json') ?: [];
+        $files = [...(glob($this->contentDir().'/*.json') ?: []), ...$this->clientLayer()->files()];
         foreach (Tree::LOCALES as $locale) {
             foreach (self::LANG_GROUPS as $group) {
                 $files[] = $this->langDir()."/{$locale}/{$group}.php";
@@ -154,6 +172,11 @@ final class Sources
         }
         $ui = $this->json('ui_strings');
         $settingsJson = $this->json('settings');
+        $settings = $this->settings($settingsJson);
+
+        // The client-approved layer, after the DOCX import (ClientLayer): its changes win over the JSON files.
+        $this->client = $this->clientLayer()->apply($data, $ui, $settings);
+        array_push($notes, ...$this->client['notes']);
 
         $records = [];
         $situations = [];
@@ -163,7 +186,7 @@ final class Sources
                 [$row, $derived] = $this->row($dataset, $code, (array) $fields + $this->registryDefaults($dataset, $code), $notes);
                 $records[$dataset][$code] = $row;
                 if (isset($derived['situations'])) {
-                    array_push($situations, ...$this->situations($code, $derived['situations']));
+                    array_push($situations, ...$this->situations($code, $derived['situations'], $row['status']));
                 }
             }
         }
@@ -173,8 +196,8 @@ final class Sources
             'ui_strings' => [...$this->uiRows($ui), ...$this->langRows()],
             'situations' => $situations,
             'document_samples' => $this->documentSamples(),
-            'menus' => $this->menus($ui, $records, $settingsJson['link_registry'] ?? []),
-            'settings' => $this->settings($settingsJson),
+            'menus' => $this->menus($ui, $records, $settings['site_map']['link_registry'] ?? []),
+            'settings' => $settings,
             'calculator_rule_sets' => $this->ruleSets(),
             'notes' => $notes,
         ];
@@ -233,8 +256,8 @@ final class Sources
         if ($schema['blocks'] !== null) {
             $row['blocks'] = $this->blocks($dataset, $code, $blocksField, $pageFields, $notes);
         }
-        $row['status'] = Status::PUBLISHED;
-        $row['copy_source'] = CopySource::DOCX;
+        $row['status'] = $this->client['status'][$dataset][$code] ?? Status::PUBLISHED;
+        $row['copy_source'] = isset($this->client['records'][$dataset][$code]) ? CopySource::CLIENT_APPROVED : CopySource::DOCX;
 
         return [$row, $derived];
     }
@@ -294,7 +317,8 @@ final class Sources
                     'enabled' => $this->homeEnabled($def),
                     'anchor' => $def['anchor'],
                     'background' => $def['background'],
-                    'copy_source' => $def['copy_source'],
+                    // a block without content keys (the tools, the team grid) holds none of the record's text
+                    'copy_source' => $fields !== [] && $this->clientBlock($dataset, $code, $fields) ? CopySource::CLIENT_APPROVED : $def['copy_source'],
                 ]);
             }
             foreach (array_diff($keys, $used) as $key) {
@@ -314,13 +338,35 @@ final class Sources
             $field = Schema::DATASETS[$dataset]['blocks'];
             $notes[] = "{$dataset}.{$code}.{$field} is not a group of sections: one block";
 
-            return [...$blocks, $this->block($code, 'section', $field, [$field => $tree], $locales([$field]), ['into' => 'self'])];
+            return [...$blocks, $this->block($code, 'section', $field, [$field => $tree], $locales([$field]), ['into' => 'self'] + $this->clientCopy($dataset, $code, []))];
         }
         foreach ($keys as $key) {
-            $blocks[] = $this->block($code, 'section', (string) $key, [$key => $tree[$key]], $locales([$key]), []);
+            $blocks[] = $this->block($code, 'section', (string) $key, [$key => $tree[$key]], $locales([$key]), $this->clientCopy($dataset, $code, [(string) $key]));
         }
 
         return $blocks;
+    }
+
+    /**
+     * Whether the client layer changed the content behind a block: the record's blocks field as a whole, or one of the
+     * block's content keys (a home block's keys, a section's key; [] = the whole field).
+     *
+     * @param  list<string>  $keys
+     */
+    private function clientBlock(string $dataset, string $code, array $keys): bool
+    {
+        $changed = $this->client['records'][$dataset][$code][Schema::DATASETS[$dataset]['blocks'] ?? ''] ?? null;
+
+        return $changed === true || (is_array($changed) && ($keys === [] ? $changed !== [] : array_intersect($keys, array_keys($changed)) !== []));
+    }
+
+    /**
+     * @param  list<string>  $keys
+     * @return array<string, string>
+     */
+    private function clientCopy(string $dataset, string $code, array $keys): array
+    {
+        return $this->clientBlock($dataset, $code, $keys) ? ['copy_source' => CopySource::CLIENT_APPROVED] : [];
     }
 
     /** The default switch of a home block (HomeBlocks; config('design.d2.home.blocks') before Phase 3). */
@@ -364,7 +410,8 @@ final class Sources
                 'position' => array_search($code, array_keys((array) config('summit.pages')), true) ?: 0,
             ],
             'services' => [
-                'slug' => config("summit.services.{$code}"),
+                // a practice area taken off the site keeps its slug (config summit.retired_services)
+                'slug' => config("summit.services.{$code}") ?? config("summit.retired_services.{$code}.slug"),
                 'position' => (int) substr($code, 1),
             ],
             'guides' => [
@@ -388,7 +435,7 @@ final class Sources
      * @param  array<string, list<string>>  $byLocale
      * @return list<array<string, mixed>>
      */
-    private function situations(string $service, array $byLocale): array
+    private function situations(string $service, array $byLocale, string $status = Status::PUBLISHED): array
     {
         $lists = array_map(fn ($list) => array_values((array) $list), $byLocale);
         $count = max(array_map('count', $lists) ?: [0]);
@@ -412,7 +459,8 @@ final class Sources
                 'mistakes' => null,
                 'featured' => $featured !== false,
                 'featured_position' => $featured === false ? null : $featured + 1,
-                'status' => Status::PUBLISHED,
+                // a practice area taken off the site takes its situations with it (client layer status)
+                'status' => $status,
                 'copy_source' => CopySource::DOCX,
             ];
         }
@@ -432,12 +480,13 @@ final class Sources
     {
         $rows = [];
         foreach ($ui as $key => $values) {
+            $client = isset($this->client['ui'][(string) $key]);
             $rows[] = [
                 'group' => 'ui',
                 'key' => (string) $key,
                 'text' => self::byLocale($values),
-                'copy_source' => CopySource::DOCX,
-                'note' => 'database/content/ui_strings.json (summit:import)',
+                'copy_source' => $client ? CopySource::CLIENT_APPROVED : CopySource::DOCX,
+                'note' => $client ? 'database/content/client (client-approved layer over ui_strings.json)' : 'database/content/ui_strings.json (summit:import)',
                 'status' => Status::PUBLISHED,
             ];
         }
@@ -567,6 +616,9 @@ final class Sources
             $rows = [];
             if ($items === 'services') {
                 foreach (self::ordered($records['services'] ?? []) as $code => $service) {
+                    if (($service['status'] ?? Status::PUBLISHED) !== Status::PUBLISHED) {
+                        continue; // taken off the site (client layer status): not in a menu either
+                    }
                     $rows[] = [null, null, 'record', (string) $code, []];
                 }
             } elseif ($items === 'sites') {
@@ -589,7 +641,7 @@ final class Sources
                     'enabled' => true,
                     'options' => $options ?: null,
                     'status' => Status::PUBLISHED,
-                    'copy_source' => CopySource::DOCX,
+                    'copy_source' => $labelKey !== null && isset($this->client['ui'][$labelKey]) ? CopySource::CLIENT_APPROVED : CopySource::DOCX,
                 ];
             }
             $menus[] = [

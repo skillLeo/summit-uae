@@ -19,19 +19,23 @@ Artisan::command('summit:publish-scheduled', function () {
     $this->info("Published {$count} scheduled record(s).");
 })->purpose('Publish the CMS records whose scheduled time has come');
 
-// Requests inbox (docs/briefs/design-2.1-and-admin-cms.md §10.5, §10.6), in Dubai time:
+// Requests inbox (docs/briefs/design-2.1-and-admin-cms.md §10.5, §10.6), in Dubai time, only while the consultation
+// form is on (WhatsApp only since client PDF item 7, App\Support\ConsultationForm: none of them is scheduled; the
+// commands below stay and can be run by hand):
 // - the retention job every night (spam and the Trash after N days, closed requests anonymised after N months);
 // - the daily digest at the Notifications setting's time (09:00 by default), when it is on;
 // - the overdue sweep every 15 minutes (one alert per request past the internal target in business hours).
-Schedule::command('summit:requests-retention')->dailyAt('03:30')->timezone('Asia/Dubai')->name('requests-retention')->withoutOverlapping();
-Schedule::command('summit:requests-digest')
-    ->dailyAt((string) rescue(fn () => App\Requests\Notifier::settings()['digest_time'], '09:00', report: false))
-    ->timezone('Asia/Dubai')
-    ->when(fn (): bool => (bool) rescue(fn () => App\Requests\Notifier::settings()['digest_enabled'], true, report: false))
-    ->name('requests-digest');
-Schedule::command('summit:requests-overdue')->everyFifteenMinutes()
-    ->when(fn (): bool => (bool) rescue(fn () => App\Requests\Notifier::settings()['overdue_alerts'], true, report: false))
-    ->name('requests-overdue')->withoutOverlapping();
+if (App\Support\ConsultationForm::enabled()) {
+    Schedule::command('summit:requests-retention')->dailyAt('03:30')->timezone('Asia/Dubai')->name('requests-retention')->withoutOverlapping();
+    Schedule::command('summit:requests-digest')
+        ->dailyAt((string) rescue(fn () => App\Requests\Notifier::settings()['digest_time'], '09:00', report: false))
+        ->timezone('Asia/Dubai')
+        ->when(fn (): bool => (bool) rescue(fn () => App\Requests\Notifier::settings()['digest_enabled'], true, report: false))
+        ->name('requests-digest');
+    Schedule::command('summit:requests-overdue')->everyFifteenMinutes()
+        ->when(fn (): bool => (bool) rescue(fn () => App\Requests\Notifier::settings()['overdue_alerts'], true, report: false))
+        ->name('requests-overdue')->withoutOverlapping();
+}
 
 Artisan::command('summit:requests-retention', function () {
     $out = App\Requests\Privacy::retention();

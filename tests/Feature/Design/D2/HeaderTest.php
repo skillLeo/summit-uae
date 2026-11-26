@@ -13,9 +13,9 @@ use Tests\TestCase;
 
 /**
  * The header (docs/briefs/design-2.1-and-admin-cms.md §3.7, §3.8; D06, D12, D13, D48; the client's final changes,
- * item 1, 2026-11-25): black, holding only the official lockup, the seven approved labels in the DOCX order and the
- * language menu with the approved labels of the page language (no button, no search, no WhatsApp, no subtitle);
- * the text-only mega menu over its scrim; the retired night glass and metal.
+ * items 1 and 18, 2026-11-25): black, holding only the official lockup, the seven approved labels in the DOCX order
+ * and the language menu (a flag and each language's own name; no button, no search, no WhatsApp, no subtitle); the
+ * text-only mega menu over its scrim; the retired night glass and metal.
  */
 final class HeaderTest extends TestCase
 {
@@ -78,6 +78,18 @@ final class HeaderTest extends TestCase
     private function text(string $value): string
     {
         return trim((string) preg_replace('/\s+/u', ' ', $value));
+    }
+
+    /** Item 18: a language's flag is the local SVG (UK, UAE, Russia), decorative: alt="" and aria-hidden. */
+    private function assertFlag(DOMElement $img, string $file): void
+    {
+        $this->assertSame('img', $img->tagName);
+        $this->assertSame('flag', $img->getAttribute('class'));
+        $this->assertSame(asset("images/d2/flags/{$file}.svg"), $img->getAttribute('src'));
+        $this->assertTrue($img->hasAttribute('alt'));
+        $this->assertSame('', $img->getAttribute('alt'));
+        $this->assertSame('true', $img->getAttribute('aria-hidden'));
+        $this->assertFileExists(public_path("images/d2/flags/{$file}.svg"));
     }
 
     /** brief D13 + the DOCX header note: all seven labels, Home first, in the DOCX order, never shortened or moved into "More". */
@@ -245,10 +257,15 @@ final class HeaderTest extends TestCase
         $this->assertStringNotContainsString('IntersectionObserver', $js, 'no night-section observer');
     }
 
-    /** brief §3.7, D12: the trigger shows the current language's approved label; the list the three approved labels of the page language. */
+    /**
+     * brief §3.7, D12; the client's final changes, item 18 (the owner, 2026-11-25): one compact dropdown; the trigger
+     * shows the current language's flag and approved name; the list [flag] English, [flag] العربية, [flag] Русский,
+     * each name the approved label of its own language; UK, UAE and Russia flags (local SVGs, decorative).
+     */
     #[DataProvider('locales')]
-    public function test_the_language_menu_uses_the_approved_labels_of_the_page_language(string $locale): void
+    public function test_the_language_menu_shows_a_flag_and_the_name_of_each_language(string $locale): void
     {
+        $flags = ['en' => 'gb', 'ar' => 'ae', 'ru' => 'ru'];
         $x = $this->dom($this->visit("/{$locale}/about/"));
         $menu = $this->one($x, '//header//div[contains(@class,"langmenu")][@x-data="d2Langmenu"]');
         $trigger = $this->one($x, './/a[contains(@class,"langmenu__trigger")]', $menu);
@@ -256,23 +273,28 @@ final class HeaderTest extends TestCase
         $this->assertSame(ui('lang.'.$locale), $this->text($this->one($x, './/span[@class="langmenu__current"]', $trigger)->textContent));
         $this->assertSame('#d2-footer-languages', $trigger->getAttribute('href'), 'no-JS: the footer language list');
         $this->one($x, './/*[@data-icon="chevron-down"]', $trigger);
+        $this->assertFlag($this->one($x, './/img[contains(@class,"flag")]', $trigger), $flags[$locale]);
+        $this->assertSame('flag', $this->one($x, './*[not(contains(@class,"sr-only"))][1]', $trigger)->getAttribute('class'), 'the flag before the name');
 
         $panel = $this->one($x, './/div[contains(@class,"langmenu__panel")]', $menu);
         $this->assertTrue($panel->hasAttribute('data-overlay'));
         $this->assertTrue($panel->hasAttribute('hidden'));
         $options = $x->query('.//a[contains(@class,"langmenu__option")]', $panel);
         $this->assertSame(3, $options->length);
-        foreach (['ar', 'en', 'ru'] as $i => $code) {
+        foreach (['en', 'ar', 'ru'] as $i => $code) {
             $option = $options->item($i);
             $this->assertInstanceOf(DOMElement::class, $option);
-            $this->assertSame(ui('lang.'.$code), $this->text($option->textContent), "{$locale}: the approved label for {$code}, in the page language");
+            $this->assertSame(ui('lang.'.$code, $code), $this->text($option->textContent), "{$locale}: the approved name of {$code}, in its own language");
             $this->assertSame($code, $option->getAttribute('hreflang'));
-            $this->assertSame($locale, $option->getAttribute('lang'), 'the label is in the page language');
+            $this->assertSame($code, $option->getAttribute('lang'), 'the name is in its own language');
+            $this->assertSame($code === 'ar' ? 'rtl' : 'ltr', $this->one($x, './span[@class="langmenu__name"]', $option)->getAttribute('dir'));
             $this->assertSame($code, $option->getAttribute('data-lang-switch'));
             $this->assertStringEndsWith("/{$code}/about/", $option->getAttribute('href'), 'the translated page');
             $this->assertSame($code === $locale ? 'true' : '', $option->getAttribute('aria-current'));
+            $this->assertFlag($this->one($x, './*[1]', $option), $flags[$code]);
         }
         $this->assertSame(0, $x->query('.//*[@data-icon]', $panel)->length, 'no tick or other icon in a menu item');
+        $this->assertDoesNotMatchRegularExpression('/[\x{1F1E6}-\x{1F1FF}]/u', $this->header($this->visit("/{$locale}/")), 'no emoji flags');
 
         $header = $this->header($this->visit("/{$locale}/"));
         $this->assertStringNotContainsString('langmenu__dot', $header, 'no "EN · ع · RU"');
@@ -396,13 +418,13 @@ final class HeaderTest extends TestCase
         // D13 + the client's item 1: the seven labels ride in the bar, at its end before the tools, where header.js
         // measures that they fit beside the lockup (centred on the 88 px masthead at the top of the page, on the 72 px
         // bar once scrolled), click-through except for the labels; otherwise their own row at the top of the page
-        // and, once scrolled, tucked away behind the menu button. The lockup eases from 56 to 44 px (a scale).
+        // and, once scrolled, tucked away behind the menu button. The lockup eases from 56 to 48 px (a scale; the owner, 2026-11-25).
         $this->assertStringContainsString('translate: 0 calc(-1 * (var(--mast-h) + var(--navrow-h)) / 2);', $css);
         $this->assertStringContainsString('translate: 0 calc(-1 * (var(--navrow-h) + (var(--bar-h) - var(--navrow-h)) / 2));', $css);
         $this->assertMatchesRegularExpression('/\.d2-header\.is-inline\s*\{[^}]*\.d2-header__navrow\s*\{[^}]*z-index: 1;\s*pointer-events: none;\s*background: none;/', $css);
         $this->assertMatchesRegularExpression('/\.d2-nav__list\s*\{\s*justify-content: flex-end;\s*margin-inline-start: 0;\s*&::after\s*\{\s*flex: none;\s*inline-size: calc\(var\(--tools-w\) \+ var\(--s-4\) - var\(--nav-pad\)\);/', $css);
         $this->assertMatchesRegularExpression('/\.d2-header\.is-lifted\s*\{\s*margin-block-end: var\(--navrow-h\);/', $css, 'no layout shift when the row leaves the flow by scrolling');
-        $this->assertMatchesRegularExpression('/\.d2-header\.is-scrolled\s*\{\s*--lockup-scale: 0\.7857;/', $css);
+        $this->assertMatchesRegularExpression('/\.d2-header\.is-scrolled\s*\{\s*--lockup-scale: 0\.8571;/', $css);
         $this->assertStringContainsString('scale: var(--lockup-scale);', $css);
         $this->assertMatchesRegularExpression('/\.d2-header\.is-tucked\s*\{[^}]*\.d2-header__navrow\s*\{\s*visibility: hidden;\s*opacity: 0;\s*translate: 0 -100%;/', $css);
         $this->assertMatchesRegularExpression('/\.d2-header\.is-docking \.d2-nav__link\s*\{\s*animation: d2-nav-dock var\(--dur-enter\) var\(--ease-out\) both;/', $css);

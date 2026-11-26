@@ -89,7 +89,7 @@
 
     // Contact constants (project rules): never from the database here.
     $channels = [
-        ['icon' => 'phone', 'label' => $str($details['telephone_label'] ?? null), 'value' => '+971 52 466 6191', 'href' => 'tel:+971524666191'],
+        ['icon' => 'phone', 'label' => $str($details['telephone_label'] ?? null), 'value' => '+971524666191', 'href' => 'tel:+971524666191'],
         ['icon' => 'mail', 'label' => $str($details['email_label'] ?? null), 'value' => 'info@summitlegaluae.com', 'href' => 'mailto:info@summitlegaluae.com'],
     ];
 

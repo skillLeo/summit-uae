@@ -79,7 +79,9 @@ final class ComponentsTest extends TestCase
         $this->assertMatchesRegularExpression('/\.btn \{[^}]*border-radius: var\(--radius-control\);[^}]*box-shadow: none;[^}]*font-size: var\(--fs-ui\);[^}]*font-weight: var\(--fw-medium\);/s', $css);
         $this->assertMatchesRegularExpression('/:is\(\.btn--ink, \.btn--primary\)\s*\{/', $css);
         $this->assertMatchesRegularExpression('/:is\(\.btn--gold, \.btn--signature\)\s*\{\s*--btn-bg: var\(--gold\);\s*--btn-fg: var\(--ink\);/', $css);
-        $this->assertMatchesRegularExpression('/:is\(\.btn--secondary, \.btn--whatsapp\) \{\s*--btn-bg: var\(--canvas\);\s*--btn-fg: var\(--ink\);\s*--btn-edge: var\(--line-strong\);/', $css);
+        $this->assertMatchesRegularExpression('/\.btn--secondary \{\s*--btn-bg: var\(--canvas\);\s*--btn-fg: var\(--ink\);\s*--btn-edge: var\(--line-strong\);/', $css);
+        // client PDF item 6: the WhatsApp button in the official green with the white mark, an ink label, one soft shadow
+        $this->assertMatchesRegularExpression('/\.btn\.btn--whatsapp \{\s*--btn-bg: var\(--whatsapp-fill\);\s*--btn-fg: var\(--ink\);/', $css);
         $this->assertMatchesRegularExpression('/:is\(\.btn--text, \.btn--ghost\)\s*\{[^}]*--btn-pad: 0;[^}]*text-decoration-line: underline;[^}]*text-decoration-thickness: 1px;\s*text-underline-offset: 3px;/s', $css);
         $this->assertMatchesRegularExpression('/:is\(\.btn--52, \.btn--56\)\s*\{\s*--btn-h: var\(--button-h-hero\);\s*--btn-pad: var\(--s-6\);\s*font-size: var\(--fs-minor\);/', $css, 'hero: 52 px, padding 24, 16/500');
         // Hover: an 8% lighter or darker wash whose opacity fades; press: a 120 ms scale(.98); no lift.
@@ -345,7 +347,8 @@ final class ComponentsTest extends TestCase
             $this->assertDoesNotMatchRegularExpression('/gradient\(/', $css, "{$name}: no gradient");
             preg_match_all('/box-shadow:\s*([^;]+);/', $css, $shadows);
             foreach ($shadows[1] as $value) {
-                $this->assertContains(trim($value), ['none', 'var(--shadow-overlay)'], "{$name}: shadows only on overlays");
+                // (and the WhatsApp button's one soft shadow: client PDF item 6)
+                $this->assertContains(trim($value), ['none', 'var(--shadow-overlay)', 'var(--shadow-whatsapp)'], "{$name}: shadows only on overlays");
             }
             foreach (['--font-mono', '--metal', '--lift', '--shadow-btn', '--shadow-ctl', '--shadow-seg', '--duotone', '--shimmer', '--glass', 'backdrop-filter', 'uppercase', 'ellipsis', 'line-clamp', '--fs-meta', '--fw-ui', '--fw-bold', '--r-sm', '--r-md', '--r-lg', '--r-xl', '--bronze-wash'] as $legacy) {
                 $this->assertStringNotContainsString($legacy, $css, "{$name}: {$legacy} (Design 2.0 or banned)");
@@ -360,8 +363,12 @@ final class ComponentsTest extends TestCase
     {
         foreach (['en', 'ar', 'ru'] as $locale) {
             $html = (string) $this->get("/{$locale}/styleguide/")->assertOk()->getContent();
-            foreach (['icons', 'controls', 'surfaces', 'mobile', 'upload'] as $area) {
+            foreach (['icons', 'controls', 'surfaces', 'mobile'] as $area) {
                 $this->assertStringContainsString('<section class="sg-section" id="sg-'.$area.'">', $html, "{$locale} {$area}");
+            }
+            // No consultation form on any page (client PDF item 7): the wizard and the upload are not specimens either.
+            foreach (['wizard', 'upload'] as $area) {
+                $this->assertStringNotContainsString('<section class="sg-section" id="sg-'.$area.'">', $html, "{$locale} {$area}");
             }
             foreach (['btn-ink', 'btn-gold', 'btn-secondary', 'btn-text', 'btn-whatsapp', 'btn-aliases', 'links', 'ib-ghost', 'chip-filter', 'segmented', 'input', 'input-values', 'input-wrap', 'field-columns', 'checkbox', 'radio', 'badges', 'steps', 'controls-dark', 'icon-set', 'icon-arrows', 'whatsapp-light', 'whatsapp-dark', 'cards', 'tabs'] as $hook) {
                 $this->assertStringContainsString('data-sg="'.$hook.'"', $html, "{$locale}: {$hook}");

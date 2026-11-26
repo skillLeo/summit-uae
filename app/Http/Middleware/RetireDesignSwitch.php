@@ -81,6 +81,7 @@ final class RetireDesignSwitch
             },
         );
 
-        return SiteUrl::abs($request->getPathInfo()).($kept === [] ? '' : '?'.implode('&', $kept));
+        // Root-relative, never built from the Host header (a cacheable 301: SiteUrl::redirectTarget()).
+        return SiteUrl::redirectTarget($request->getPathInfo(), $kept === [] ? null : implode('&', $kept));
     }
 }

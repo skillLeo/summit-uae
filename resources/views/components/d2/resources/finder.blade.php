@@ -16,7 +16,8 @@
     approved (ui('resources.*')); the result count is proposed (trans_choice, rendered here for every
     possible count, so the script never builds a plural itself). The status row appears with the first
     filter; its text is announced through the layout's polite live region (lib/announce.js), which is
-    always in the accessibility tree.
+    always in the accessibility tree. When nothing matches, the row also offers "Contact Us on WhatsApp" (the
+    approved WA01 link; the client's final changes, item 7: WhatsApp instead of the removed consultation form).
 --}}
 @php
     use App\Design\D2\Bidi;
@@ -71,6 +72,10 @@
             </form>
             <div class="kc-find__foot" data-kc-foot hidden>
                 <p class="kc-find__status" data-kc-status @proposed></p>
+                {{-- No result: WhatsApp with the approved message instead of a consultation form (the client's final
+                     changes, item 7: the form is removed; a new tab, the WhatsApp mark, like every WhatsApp button);
+                     d2Resources shows it only while nothing matches. --}}
+                <x-d2.ui.button variant="whatsapp" class="kc-find__whatsapp" :href="setting('whatsapp_url')" data-kc-whatsapp hidden>{{ ui('cta.whatsapp') }}</x-d2.ui.button>
                 <x-d2.ui.button variant="text" icon="close" :disabled="true" class="kc-find__clear" data-kc-clear>{{ ui('resources.clear') }}</x-d2.ui.button>
             </div>
             <script type="application/json" data-kc-strings>@json(['results' => $results, 'none' => ui('resources.no_results')])</script>

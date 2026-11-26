@@ -43,6 +43,8 @@ final class WizardTest extends TestCase
         Mail::fake();
         Http::preventStrayRequests();
         Http::fake([config('summit.turnstile.verify_url') => Http::response(['success' => true, 'error-codes' => []])]);
+        // The form and the requests screens are off since client PDF item 7 (WhatsApp only); this file tests their kept code.
+        $this->consultationFormOn();
     }
 
     /** @return array<string, array{string}> */
@@ -320,7 +322,8 @@ final class WizardTest extends TestCase
         $response = $this->post("/{$locale}/enquiries", $payload, ['Accept' => 'text/html']);
 
         $response->assertStatus(303);
-        $this->assertSame("/{$locale}/", parse_url((string) $response->headers->get('Location'), PHP_URL_PATH));
+        // The form's own place (SiteUrl::consultation: the Contact page since it was released, client PDF items 7 and 19).
+        $this->assertSame(parse_url(\App\Support\SiteUrl::consultation($locale), PHP_URL_PATH), parse_url((string) $response->headers->get('Location'), PHP_URL_PATH));
         $this->assertSame('consultation-form', parse_url((string) $response->headers->get('Location'), PHP_URL_FRAGMENT));
         $response->assertSessionHas('enquiry_status', 'received');
         $enquiry = Enquiry::sole();

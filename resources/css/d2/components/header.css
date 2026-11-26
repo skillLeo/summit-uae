@@ -9,7 +9,7 @@
  *
  * Heights (tokens): the masthead is --header-h-top at the top of the page (56 / 72 from 768 / 88 from 1024 px) and
  * --header-h once scrolled (56 / 64 from 768 / 72 from 1024 px). The lockup is 40 px on phones, 48 px on tablets
- * and 56 px from 1024 px, where it eases to 44 px in the compact bar (a scale, 200 ms; reduced motion: at once).
+ * and 56 px from 1024 px, where it eases to 48 px in the compact bar (a scale, 200 ms; reduced motion: at once).
  *
  * Scrolling, with no animated height and no layout shift: the header is sticky at --header-h minus --header-h-top
  * (-16 px on desktop), so the masthead's spare height scrolls away and the visible part becomes the compact bar; the
@@ -39,7 +39,7 @@
     --nav-pad: var(--s-3);           /* half the space between two labels: 12 */
     --nav-link-h: var(--target);     /* a label's target: 44, 48 on touch screens */
     --lang-h: var(--target);         /* the language trigger's height: 44 (48 on touch) */
-    --lockup-scale: 1;               /* 44 / 56 in the compact bar from 1024 px */
+    --lockup-scale: 1;               /* 48 / 56 in the compact bar from 1024 px */
     --tools-w: 0px;                  /* header.js: the tools' width (the inline row ends before them) */
     --focus-color: var(--focus-on-dark);
 
@@ -110,7 +110,7 @@
   }
 
   /* Never squeezed (the reset's max-inline-size would clamp the image to the link). From 1024 px it eases to
-     44 px in the compact bar: a scale from its start edge, so it never leaves its place. */
+     48 px in the compact bar: a scale from its start edge, so it never leaves its place. */
   .d2-brand__lockup {
     display: block;
     max-inline-size: none;
@@ -131,7 +131,7 @@
 
   @media (width >= 1024px) {
     .d2-header.is-scrolled {
-      --lockup-scale: 0.7857; /* 44 / 56 */
+      --lockup-scale: 0.8571; /* 48 / 56 (the owner, 2026-11-25) */
     }
   }
 
@@ -270,6 +270,20 @@
   /* Without JavaScript, Practice Areas is a plain link to the Practice Areas page: no menu chevron. */
   .no-js .d2-nav__item--mega .d2-nav__chev {
     display: none;
+  }
+
+  /* ------------------------------------------------------------------ below 48rem (768): phones */
+  /* At least 8 px between the lockup and the tools and 4 px between the language menu and the menu button, so the
+     language menu (flag, name, chevron; item 18) keeps its place in the bar from 375 px in every language (Arabic
+     from 360 px); narrower, header.js moves it to the menu sheet (.is-mast-tight). */
+  @container d2-header (width < 48rem) {
+    .d2-header__bar {
+      gap: var(--s-2);
+    }
+
+    .d2-header__tools {
+      gap: var(--s-1);
+    }
   }
 
   /* ------------------------------------------------------------------ 48rem+ (768): tablets */

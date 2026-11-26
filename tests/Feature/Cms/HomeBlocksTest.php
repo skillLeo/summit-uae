@@ -54,6 +54,7 @@ final class HomeBlocksTest extends TestCase
 
     public function test_every_block_renders_in_every_language(): void
     {
+        $this->consultationFormOn(); // "Start your matter" renders only while the form is on (client PDF item 7)
         $this->blocks(fn (array $blocks) => array_map(fn (array $b) => ['enabled' => true] + $b, $blocks));
         $types = array_column(HomeBlocks::BLOCKS, 'type');
         foreach (['en', 'ar', 'ru'] as $locale) {
@@ -82,7 +83,7 @@ final class HomeBlocksTest extends TestCase
             }, $rest);
         });
         $html = $this->home('en');
-        $this->assertLessThan(strpos($html, 'id="start"'), strpos($html, 'id="questions"'), 'the questions now come first');
+        $this->assertLessThan(strpos($html, 'id="services"'), strpos($html, 'id="questions"'), 'the questions now come first');
         $this->assertStringNotContainsString('<section class="section about"', $html, 'about is off');
         $this->assertStringContainsString('<section class="section guides" id="legal-guides"', $html, 'the anchor is the section id');
     }

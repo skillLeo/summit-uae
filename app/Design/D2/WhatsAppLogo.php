@@ -29,6 +29,22 @@ namespace App\Design\D2;
  */
 final class WhatsAppLogo
 {
+    /**
+     * The brand's name as the site's approved WhatsApp labels write it (ui cta.whatsapp: "Contact Us on WhatsApp",
+     * «تواصل عبر واتساب», "Написать в WhatsApp"): a name, not copy. Used where a link opens WhatsApp but its approved
+     * label does not say so (client PDF items 7 and 32: "Request a Legal Consultation" opens WhatsApp).
+     */
+    public static function name(?string $locale = null): string
+    {
+        return ($locale ?? app()->getLocale()) === 'ar' ? 'واتساب' : 'WhatsApp';
+    }
+
+    /** Whether a text already names WhatsApp. */
+    public static function named(string $text): bool
+    {
+        return preg_match('/whatsapp|واتساب|ватсап/iu', $text) === 1;
+    }
+
     /** The two variants: for light surfaces and for dark surfaces. */
     public const VARIANTS = ['light', 'dark'];
 

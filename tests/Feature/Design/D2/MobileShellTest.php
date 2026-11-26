@@ -143,7 +143,7 @@ final class MobileShellTest extends TestCase
             app()->setLocale($locale);
             $html = $this->d2("/{$locale}/faq/");
             // It starts away (modules/tabbar.js shows it once it has looked at the page; no-JS CSS shows it).
-            $fab = $this->fragment($html, '/<a class="btn btn--secondary btn--48 icon-btn wa-fab is-away"[^>]*>.*?<\/a>/s', "{$locale} floating WhatsApp button");
+            $fab = $this->fragment($html, '/<a class="btn btn--whatsapp btn--48 icon-btn wa-fab is-away"[^>]*>.*?<\/a>/s', "{$locale} floating WhatsApp button");
 
             $this->assertStringContainsString('href="'.e(setting('whatsapp_url')).'" target="_blank" rel="noopener noreferrer"', $fab, $locale);
             $this->assertStringContainsString('aria-label="'.e(ui('cta.whatsapp')).' '.e(d2p('controls.new_tab')).'"', $fab, "{$locale}: the approved name");
@@ -152,13 +152,13 @@ final class MobileShellTest extends TestCase
             $this->assertStringContainsString('data-brand="whatsapp"', $fab, $locale);
             $this->assertStringContainsString('class="btn__icon wa-fab__icon" aria-hidden="true"', $fab);
             // Outside the navigation landmark, right after it.
-            $this->assertMatchesRegularExpression('/<\/nav>\s*(?:\{\{--.*?--\}\}\s*)?<a class="btn btn--secondary btn--48 icon-btn wa-fab is-away"/s', $html, $locale);
+            $this->assertMatchesRegularExpression('/<\/nav>\s*(?:\{\{--.*?--\}\}\s*)?<a class="btn btn--whatsapp btn--48 icon-btn wa-fab is-away"/s', $html, $locale);
             $this->assertStringNotContainsString('style="', $fab);
         }
 
         // A static specimen draws it in place, inert; :fab="false" leaves it out.
         $static = Blade::render('<x-d2.shell.tabbar current="home" :static="true" />');
-        $this->assertMatchesRegularExpression('/<a class="btn btn--secondary btn--48 icon-btn wa-fab wa-fab--static"[^>]*inert aria-hidden="true" tabindex="-1"/s', $static);
+        $this->assertMatchesRegularExpression('/<a class="btn btn--whatsapp btn--48 icon-btn wa-fab wa-fab--static"[^>]*inert aria-hidden="true" tabindex="-1"/s', $static);
         $this->assertStringNotContainsString('data-wa-fab', $static);
         $this->assertStringNotContainsString('wa-fab', Blade::render('<x-d2.shell.tabbar current="home" :static="true" :fab="false" />'));
     }
@@ -195,7 +195,9 @@ final class MobileShellTest extends TestCase
     /** Design 2.1 (brief §3.6 rules 3 and 5, §3.7, D03, D04, D12): text-only menu rows, approved labels, no live status. */
     public function test_the_menu_sheet_is_text_only_with_the_approved_labels(): void
     {
-        $approved = ['en' => ['Arabic', 'English', 'Russian'], 'ar' => ['العربية', 'الإنجليزية', 'الروسية'], 'ru' => ['Арабский', 'Английский', 'Русский']];
+        // Item 18: [flag] English, [flag] العربية, [flag] Русский on every page (each name in its own language).
+        $approved = ['English', 'العربية', 'Русский'];
+        $flags = ['en' => 'gb', 'ar' => 'ae', 'ru' => 'ru'];
         foreach (self::LOCALES as $locale) {
             app()->setLocale($locale);
             $html = $this->d2("/{$locale}/faq/");
@@ -213,11 +215,13 @@ final class MobileShellTest extends TestCase
             $this->assertSame('page', $links[4][2], "{$locale}: the FAQ page is current");
             $this->assertStringNotContainsString('<svg', $nav, "{$locale}: no icon in a menu item");
 
-            // The language: one row (the approved "Choose language" and the current language with a chevron) that
-            // opens the language sheet; without JavaScript a link to the footer's language list. No segmented group.
+            // The language: one row (the approved "Choose language" and the current language's flag and name with a
+            // chevron) that opens the language sheet; without JavaScript a link to the footer's language list. No
+            // segmented group.
             $row = $this->fragment($sheet, '/<a class="menu-sheet__langrow" href="#d2-footer-languages" data-sheet-open="lang">.*?<\/a>/s', "{$locale} language row");
             $this->assertStringContainsString(e(ui('a11y.choose_language')), $row);
             $this->assertStringContainsString(e(ui('lang.'.$locale)), $row, "{$locale}: the current language");
+            $this->assertMatchesRegularExpression('#<span class="menu-sheet__langrow-value"><img class="flag" src="'.preg_quote(asset('images/d2/flags/'.$flags[$locale].'.svg'), '#').'" alt="" aria-hidden="true"#', $row, "{$locale}: the flag before the name");
             $this->assertStringContainsString('data-icon="chevron-down"', $row);
             $this->assertStringNotContainsString('menu-sheet__langs', $sheet, "{$locale}: no segmented language group");
             $this->assertStringNotContainsString('data-lang-switch', $sheet, "{$locale}: the languages are in their own sheet");
@@ -235,15 +239,17 @@ final class MobileShellTest extends TestCase
             // The retired design switch is gone from the sheet.
             $this->assertStringNotContainsString('menu-sheet__design', $sheet, $locale);
 
-            // The language sheet (brief 2.1 §6: a sheet): the approved labels in the page language (D12), hreflang
-            // naming the target, lang the label's own language, the page language current. Text rows only.
+            // The language sheet (brief 2.1 §6: a sheet; item 18): the flag, then the approved name in its own
+            // language (lang), hreflang naming the target, the page language current. No icon besides the flag.
             $langSheet = $this->fragment($html, '/<div class="sheet sheet--lang".*?(?=<div class="sheet sheet--services")/s', "{$locale} language sheet");
-            preg_match_all('/<a class="lang-sheet__option" href="([^"]+)" hreflang="([a-z]+)" lang="'.$locale.'"\s+data-lang-switch="\2"\s*(aria-current="true")?\s*>(.*?)<\/a>/s', $langSheet, $languages, PREG_SET_ORDER);
-            $this->assertSame(['ar', 'en', 'ru'], array_column($languages, 2), $locale);
-            $this->assertSame($approved[$locale], array_map(fn ($link) => $this->text($link[4]), $languages), $locale);
+            preg_match_all('/<a class="lang-sheet__option" href="([^"]+)" hreflang="([a-z]+)" lang="\2"\s+data-lang-switch="\2"\s*(aria-current="true")?\s*><img class="flag" src="([^"]+)" alt="" aria-hidden="true"[^>]*>\s*<span class="lang-sheet__name" dir="(ltr|rtl)">(.*?)<\/span><\/a>/s', $langSheet, $languages, PREG_SET_ORDER);
+            $this->assertSame(['en', 'ar', 'ru'], array_column($languages, 2), $locale);
+            $this->assertSame($approved, array_map(fn ($link) => $this->text($link[6]), $languages), $locale);
+            $this->assertSame(['ltr', 'rtl', 'ltr'], array_column($languages, 5), $locale);
             $this->assertSame([$locale], array_column(array_filter($languages, fn ($link) => $link[3] !== ''), 2), "{$locale}: the page language is current");
             foreach ($languages as $link) {
                 $this->assertStringStartsWith(SiteUrl::abs('/'.$link[2].'/faq/'), $link[1], "{$locale}: the translated page");
+                $this->assertSame(asset('images/d2/flags/'.$flags[$link[2]].'.svg'), $link[4], "{$locale}: the {$link[2]} flag");
             }
             $this->assertStringNotContainsString('<svg', $this->fragment($langSheet, '/<ul class="lang-sheet__list" role="list">.*?<\/ul>/s', 'the language list'), "{$locale}: no icon in a language row");
         }

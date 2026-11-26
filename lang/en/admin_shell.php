@@ -10,6 +10,8 @@ return [
         'title' => 'Search',
         'button' => 'Search',
         'placeholder' => 'Search requests and content',
+        // WhatsApp only (client PDF item 7): no requests inbox to search.
+        'placeholder_content' => 'Search content',
         'results' => 'Results',
         'recent' => 'Recently opened',
         'hint' => 'Type at least two letters: a reference, a name, a phone number, an e-mail address or any title in English, Arabic or Russian.',

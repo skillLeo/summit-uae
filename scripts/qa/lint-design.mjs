@@ -222,6 +222,7 @@
  * then the checks; then the overlays (first route), the hover test and the interactive states.
  */
 import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { createServer } from 'node:http';
 import { createRequire } from 'node:module';
 import { tmpdir } from 'node:os';
@@ -462,7 +463,8 @@ export function compareWhatsApp(href, expected) {
 /**
  * Rule 13: null when the icon is allowed here, else the reason. The names follow §3.6 rule 5 and the components
  * contract (App\Design\D2\Icons::ALLOWED): search, menu, close / cross, the chevrons, external, phone,
- * mail / email, clock (contact block only), check, upload, info, warning, error; the arrows §3.6 rule 3 allows
+ * mail / email, clock (contact block only), website (the footer's contact details: item 19), check, upload, info,
+ * warning, error; the arrows §3.6 rule 3 allows
  * under their own names carousel-prev / carousel-next and form-back / form-next (a bare arrow only inside a
  * carousel/pager step or the form's Back/Next); minus / plus (stepper) and calendar (date field). A "go"
  * chevron (chevron, chevron-start) on a link or in a card is an arrow (Icons::ARROWS) unless it belongs to a
@@ -485,6 +487,8 @@ export function iconVerdict(name, ctx) {
     if (c.specimen && ['chevron', 'chevron-start', 'clock', 'external', 'minus', 'plus', 'calendar'].includes(n)) return null;
     if (/^chevron(?:-(?:start|end|left|right))?$/.test(n)) return !c.disclosure && !c.step && (c.inLink || c.inCard) ? `"go" chevron "${n}" on a link or card (an arrow, §3.6 rule 3)` : null;
     if (n === 'clock') return c.contact ? null : 'icon "clock" outside the contact block';
+    // The website address among the footer's contact details (the client's final changes, item 19).
+    if (n === 'website') return c.contact ? null : 'icon "website" outside the contact details';
     if (n === 'external') return c.externalLink ? null : 'icon "external" on a link that stays on this site';
     if (n === 'arrow' || n === 'arrow-start' || n === 'arrow-end') return c.step ? null : `arrow icon "${n}" outside carousel previous/next and the form's Back/Next`;
     if (n === 'minus' || n === 'plus') return c.stepper ? null : `icon "${n}" outside a stepper`;
@@ -1099,6 +1103,9 @@ export function pageLint(o) {
     probe.style.boxShadow = 'var(--shadow-overlay)';
     body.appendChild(probe);
     const overlayShadow = getComputedStyle(probe).boxShadow;
+    // The WhatsApp button's one soft shadow (client PDF item 6, 2026-11-25: the PDF wins over §3.4's "no shadow").
+    probe.style.boxShadow = 'var(--shadow-whatsapp)';
+    const whatsappShadow = getComputedStyle(probe).boxShadow;
     probe.remove();
     info.overlayShadow = overlayShadow;
 
@@ -1181,7 +1188,7 @@ export function pageLint(o) {
     const shadowChecks = (el, s, f, label) => {
         if (f.ill) return;
         const text = textExcerpt(el);
-        if (visibleShadow(s.boxShadow) && !(f.ovl && s.boxShadow === overlayShadow)) push(6, el, `${label}box-shadow ${s.boxShadow}`, text, cssOf(label, ['box-shadow']));
+        if (visibleShadow(s.boxShadow) && !(f.ovl && s.boxShadow === overlayShadow) && !(label === '' && el.matches('.btn--whatsapp') && s.boxShadow === whatsappShadow)) push(6, el, `${label}box-shadow ${s.boxShadow}`, text, cssOf(label, ['box-shadow']));
         if (visibleShadow(s.textShadow)) push(6, el, `${label}text-shadow ${s.textShadow}`, text, cssOf(label, ['text-shadow']));
         if (/drop-shadow\(/.test(s.filter || '')) push(6, el, `${label}filter ${s.filter}`, text, cssOf(label, ['filter']));
         if (s.backdropFilter && s.backdropFilter !== 'none') push(6, el, `${label}backdrop-filter ${s.backdropFilter}`, text, cssOf(label, ['backdrop-filter', '-webkit-backdrop-filter']));
@@ -1700,7 +1707,7 @@ export function pageLint(o) {
                 externalLink,
                 inLink: Boolean(link),
                 inCard: Boolean(cardUp(icon)) && !icon.closest('button, [role="button"]'),
-                contact: Boolean(icon.closest('[data-contact-block], .contact-card, .cta-card')),
+                contact: Boolean(icon.closest('[data-contact-block], .contact-card, .cta-card, .d2-footer__channels')),
                 step: Boolean(icon.closest(stepControls)),
                 stepper: Boolean(icon.closest('[data-stepper], .stepper, button[data-step]')),
                 date: near((a) => a.matches('[data-datepicker], .datepicker, .date-picker') || Boolean(a.querySelector('input[type="date"], [data-datepicker]'))),
@@ -2568,8 +2575,22 @@ export function wizardNext() {
 
 // ------------------------------------------------------------------------------------------ Node: sources
 
-/** The approved WA01 href per locale from database/content/settings.json ("whatsapp_url"). */
+/**
+ * The approved WhatsApp href per locale. Since the client's final changes (PDF item 6, 2026-11-25) the message is one
+ * English text on every page, kept in the client-approved layer (database/content/client) and the settings: the
+ * site's own setting('whatsapp_url') per locale (php artisan tinker), else database/content/settings.json
+ * ("whatsapp_url", the DOCX import).
+ */
 export function readWa01(file = join(ROOT, 'database/content/settings.json')) {
+    if (file === join(ROOT, 'database/content/settings.json')) {
+        try {
+            const out = execFileSync('php', ['artisan', 'tinker', '--execute', 'echo json_encode(array_combine(["en","ar","ru"], array_map(fn ($l) => setting("whatsapp_url", $l), ["en","ar","ru"])));'], { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'], timeout: 120000 });
+            const urls = JSON.parse(out.slice(out.indexOf('{')));
+            if (urls && typeof urls.en === 'string' && urls.en.startsWith('https://wa.me/')) return urls;
+        } catch {
+            /* no database or PHP here: the DOCX import's link below */
+        }
+    }
     const settings = JSON.parse(readFileSync(file, 'utf8'));
     const urls = settings.whatsapp_url ?? settings.find?.((row) => row.key === 'whatsapp_url')?.value;
     if (!urls || typeof urls !== 'object') throw new Error(`no whatsapp_url in ${relative(ROOT, file)}`);

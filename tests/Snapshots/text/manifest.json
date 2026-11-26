@@ -1,7 +1,7 @@
 {
   "generator": "scripts/qa/text-snapshot.mjs",
   "format": 1,
-  "layout": "2/{locale}/{route}.txt (2 = Design 2, the only design); the language chooser \"/\" has no locale and is stored as 2/root/chooser.txt",
+  "layout": "2/{locale}/{route}.txt (2 = Design 2, the only design); \"/\" is a 301 to /en/ (client PDF item 29), so there is no 2/root/ page",
   "capture": {
     "browser": "Google Chrome (Playwright channel \"chrome\"), headless, one fresh context per page",
     "cookies": "none",
@@ -124,11 +124,6 @@
       "status": 200
     },
     {
-      "route": "s10-legal-translation",
-      "path": "/{locale}/practice-areas/legal-translation/",
-      "status": 200
-    },
-    {
       "route": "s11-business-services",
       "path": "/{locale}/practice-areas/business-services/",
       "status": 200
@@ -152,23 +147,17 @@
       "route": "404",
       "path": "/{locale}/no-such-page-qa/",
       "status": 404
-    },
-    {
-      "route": "chooser",
-      "path": "/",
-      "status": 200
     }
   ],
   "sources": {
     "database/content/*.json": "sha256:f6f61aa810792194b5c67759bb81bb7503abe56edc787f520d2dedb0410e326d",
-    "lang/**/*.php": "sha256:b474a96c69ac1aff03501e5609331e46a62f0596ff5406022226233c30660e93"
+    "lang/**/*.php": "sha256:a708f1e8eb5abdb0cdbf04708e317ca01842173e7283ea76195860b6a6fb597a"
   },
   "files": {
     "2": {
-      "en": 25,
-      "ar": 25,
-      "ru": 25,
-      "root": 1
+      "en": 24,
+      "ar": 24,
+      "ru": 24
     }
   }
 }

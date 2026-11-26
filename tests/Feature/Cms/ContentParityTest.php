@@ -67,7 +67,7 @@ final class ContentParityTest extends TestCase
                 );
             }
         }
-        $this->assertSame(405, $checked, '135 records x 3 languages');
+        $this->assertSame(387, $checked, '129 published records x 3 languages (client PDF item 9: the Legal Translation service, its FAQ category and its four questions left the site)');
     }
 
     public function test_interface_strings_and_settings_equal_the_pre_cms_content(): void

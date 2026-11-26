@@ -23,7 +23,7 @@
  */
 import { announce } from '../lib/announce.js';
 import { normalise } from '../lib/normalise.js';
-import { prefill } from '../lib/prefill.js';
+import { isWhatsApp, prefill } from '../lib/prefill.js';
 import { reducedMotion, scrollBehavior } from '../lib/prefs.js';
 import { activeSheet, closeSheet, openSheet } from '../lib/sheet.js';
 import { read, write } from '../lib/storage.js';
@@ -488,6 +488,8 @@ export function mount(root) {
         if (button.getAttribute('aria-disabled') === 'true') return;
         const name = button.dataset.navAction;
         if (name === 'request') {
+            // WhatsApp only (client PDF item 7): the link opens WhatsApp in a new tab by itself.
+            if (isWhatsApp(button.getAttribute('href'))) return;
             event.preventDefault();
             request();
         } else if (name === 'print') {

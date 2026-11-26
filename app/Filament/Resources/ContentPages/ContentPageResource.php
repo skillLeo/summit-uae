@@ -56,8 +56,10 @@ class ContentPageResource extends CmsResource
                     CmsForm::slug()->visible(fn (?Model $record) => $record !== null && ! in_array($record->getKey(), ['P01', 'U01'], true))
                         ->regex('#^(?:[a-z0-9]+(?:-[a-z0-9]+)*/)+$#'),
                     CmsForm::structured(Page::class, 'breadcrumb', (string) __('cms_pages.pages.breadcrumb'), $limits),
+                    // Not shown since client PDF item 6: one WhatsApp message on every page (Settings → WhatsApp); the
+                    // stored per-page text is kept but no page reads it.
                     Translatable::textarea('whatsapp_draft', (string) __('cms_pages.pages.whatsapp_draft'), $limits['whatsapp_draft'] ?? null)
-                        ->visible(fn (?Model $record) => filled(CmsForm::working($record, 'whatsapp_draft'))),
+                        ->hidden(),
                     Translatable::text('last_updated', (string) __('cms_pages.pages.last_updated'), $limits['last_updated'] ?? null)
                         ->visible(fn (?Model $record) => filled(CmsForm::working($record, 'last_updated'))),
                 ]),

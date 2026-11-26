@@ -40,7 +40,14 @@
         $locale = app()->getLocale();
         app()->setLocale('ar');
         try {
-            return new \Illuminate\Support\HtmlString(\Illuminate\Support\Facades\Blade::render($tag, ['prefix' => $prefix, 'values' => $values]));
+            // Every WhatsApp link of a page carries that page's message (brief 5.2, 14.2): the specimen's "Request a Legal
+            // Consultation" opens WhatsApp since client PDF item 7, so it is shown, not live (the inner kit's direction
+            // specimen: the same markup without href, target and rel, marked data-lint-specimen).
+            return new \Illuminate\Support\HtmlString((string) preg_replace_callback(
+                '#<a\b[^>]*\bhref="https://(?:wa\.me|api\.whatsapp\.com)/[^"]*"[^>]*>#',
+                fn (array $a): string => (string) preg_replace('#^<a\b#', '<a data-lint-specimen', (string) preg_replace('#\s(?:href|target|rel)="[^"]*"#', '', $a[0])),
+                \Illuminate\Support\Facades\Blade::render($tag, ['prefix' => $prefix, 'values' => $values]),
+            ));
         } finally {
             app()->setLocale($locale);
         }

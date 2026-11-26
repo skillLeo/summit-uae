@@ -34,8 +34,9 @@ final class InnerBannedPatternsTest extends TestCase
 
     private const LOCALES = ['en', 'ar', 'ru'];
 
-    /** Pages whose inner head carries the page's one gold action (the hero primary). */
-    private const GOLD = ['P02', 'P05', 'P07', 'S01', 'S02', 'S03', 'S04', 'S05', 'S06', 'S07', 'S08', 'S09', 'S10', 'S11'];
+    /** Pages whose inner head carries the page's one gold action (the hero primary). P07's "Send a Consultation Request"
+     * led into the form and went with it (client PDF item 7): its hero keeps the WhatsApp button only. */
+    private const GOLD = ['P02', 'P05', 'S01', 'S02', 'S03', 'S04', 'S05', 'S06', 'S07', 'S08', 'S09', 'S10', 'S11'];
 
     protected function setUp(): void
     {

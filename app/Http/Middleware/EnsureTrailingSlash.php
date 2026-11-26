@@ -15,11 +15,9 @@ final class EnsureTrailingSlash
     {
         $path = $request->getPathInfo();
         if ($request->isMethodSafe() && ! str_ends_with($path, '/')) {
-            $query = $request->getQueryString();
-
-            // Absolute target: redirect()->to() would run the path through url(), which strips
-            // the trailing slash again and loops.
-            return new RedirectResponse(SiteUrl::abs($path.'/').($query !== null ? '?'.$query : ''), 301);
+            // Root-relative target, never built from the Host header (SiteUrl::redirectTarget()); not redirect()->to(),
+            // which would run the path through url(), strip the trailing slash again and loop.
+            return new RedirectResponse(SiteUrl::redirectTarget($path.'/', $request->getQueryString()), 301);
         }
 
         return $next($request);

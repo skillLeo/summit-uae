@@ -108,6 +108,8 @@ export function requestUrl(base, code, ref) {
     } catch {
         return base;
     }
+    // WhatsApp only (client PDF item 7): the WhatsApp link keeps its approved message and takes no context.
+    if (['wa.me', 'api.whatsapp.com'].includes(url.hostname)) return base;
     url.search = '';
     if (SERVICE.test(code)) url.searchParams.set('service', code);
     if (parseRef(ref)) url.searchParams.set('situation', ref);

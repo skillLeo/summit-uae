@@ -63,7 +63,7 @@ class GeneralContact extends SettingsPage
                     Grid::make(['default' => 1, 'md' => 2])->schema([
                         TextInput::make('phone_display')->label((string) __('cms_site.contact.phone_display'))
                             ->helperText((string) __('cms_site.contact.phone_display_hint'))
-                            ->required()->maxLength(32)->regex('/^\+[1-9][0-9]{0,3}( [0-9]{1,4}){1,5}$/')
+                            ->required()->maxLength(32)->regex('/^\+[1-9][0-9]{6,14}$/') // client PDF item 5: no spaces, dashes or brackets
                             ->extraInputAttributes($ltr + ['inputmode' => 'tel']),
                         TextInput::make('phone_href')->label((string) __('cms_site.contact.phone_href'))
                             ->helperText((string) __('cms_site.contact.phone_href_hint'))

@@ -481,7 +481,7 @@ final class DigitsTest extends TestCase
         $home = content()->page('P01', 'ar')['content']['contact']['hours'];
         $this->assertStringContainsString('من 9 صباحًا إلى 6 مساءً', $home, 'the approved homepage line is written with 9 and 6');
         $this->assertStringContainsString("من ٩\u{00A0}صباحًا إلى ٦\u{00A0}مساءً", $html);
-        $this->assertStringContainsString('<bdi class="contact-card__value" dir="ltr">+971 52 466 6191</bdi>', $html, 'the phone number stays left to right');
+        $this->assertStringContainsString('<bdi class="contact-card__value" dir="ltr">+971524666191</bdi>', $html, 'the phone number stays left to right');
         $this->assertStringContainsString('info@summitlegaluae.com', $html);
         $this->assertStringContainsString('href="tel:+971524666191"', $html, 'links are never touched');
         $this->assertStringContainsString(e(setting('whatsapp_url')), $html, 'nor the WhatsApp draft');

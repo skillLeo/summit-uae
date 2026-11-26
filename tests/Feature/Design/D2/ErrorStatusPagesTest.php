@@ -253,7 +253,7 @@ final class ErrorStatusPagesTest extends TestCase
             foreach ($u01['links'] as $link) {
                 $this->assertStringContainsString(e($link['label']), $html);
             }
-            foreach (['/en/resources/', '/en/faq/', '/en/#consultation-form'] as $path) {
+            foreach (['/en/resources/', '/en/faq/', '/en/contact/'] as $path) { // Contact: P07, released 2026-11-25
                 $this->assertMatchesRegularExpression('#<a class="link-row nf-link" href="'.preg_quote($base.$path, '#').'">\s*<span class="link-row__label">#', $html, "{$status} {$path}");
             }
             $this->assertStringNotContainsString('tel:', $html);
@@ -279,7 +279,7 @@ final class ErrorStatusPagesTest extends TestCase
                 $this->assertStringContainsString('<bdi class="err-channel__value" dir="ltr">'.e(setting('phone_display')).'</bdi>', $html);
                 $this->assertStringContainsString('<bdi class="err-channel__value" dir="ltr">'.str_replace('@', '@<wbr>', e(setting('email'))).'</bdi>', $html);
                 $this->assertSame('tel:+971524666191', setting('phone_href'));
-                $this->assertSame('+971 52 466 6191', setting('phone_display'));
+                $this->assertSame('+971524666191', setting('phone_display'));
                 $this->assertSame('info@summitlegaluae.com', setting('email'));
                 foreach (['24/7', 'free consultation', 'law firm', 'within 24', 'google.com/maps'] as $banned) {
                     $this->assertStringNotContainsStringIgnoringCase($banned, $html);

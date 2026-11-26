@@ -5,7 +5,6 @@
 @php
     /** @var array $seo */
     $pageKey = $pageKey ?? 'page';
-    $ogImage = \App\Support\SiteUrl::canonical('images/og-default.png');
     $entries = array_merge(['resources/css/d2/app.css'], $d2Styles ?? [], ['resources/js/d2/app.js']);
 @endphp
 <!DOCTYPE html>
@@ -13,19 +12,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <title>{{ $seo['title'] }}</title>
-    @if ($seo['description'])
-        <meta name="description" content="{{ $seo['description'] }}">
-    @endif
-    @unless ($seo['index'])
-        <meta name="robots" content="noindex, follow">
-    @endunless
-    @if ($seo['canonical'])
-        <link rel="canonical" href="{{ $seo['canonical'] }}">
-    @endif
-    @foreach ($seo['alternates'] as $hreflang => $href)
-        <link rel="alternate" hreflang="{{ $hreflang }}" href="{{ $href }}">
-    @endforeach
+    {{-- Title, description, robots, canonical, hreflang, Open Graph, structured data (client PDF items 21-27). --}}
+    @include('d2::partials.seo')
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="d2-consultation" content="{{ \App\Design\D2\Prefill::url() }}">
     <meta property="csp-nonce" nonce="{{ Vite::cspNonce() }}">
@@ -38,21 +26,6 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     {{-- mobile-shell (Phase E): Design 2's static manifest per language (scripts/d2/pwa-icons.mjs); Design 1's /{locale}/manifest.webmanifest route is untouched. --}}
     <link rel="manifest" href="/d2/manifest-{{ $locale }}.webmanifest">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="{{ ui('brand.name') }}">
-    <meta property="og:title" content="{{ $seo['title'] }}">
-    @if ($seo['description'])
-        <meta property="og:description" content="{{ $seo['description'] }}">
-    @endif
-    @if ($seo['canonical'])
-        <meta property="og:url" content="{{ $seo['canonical'] }}">
-    @endif
-    <meta property="og:image" content="{{ $ogImage }}">
-    <meta property="og:locale" content="{{ $seo['og_locale'] }}">
-    @foreach ($seo['og_alternates'] as $alt)
-        <meta property="og:locale:alternate" content="{{ $alt }}">
-    @endforeach
-    <meta name="twitter:card" content="summary_large_image">
     {{-- Fonts (brief §3.2; docs/d2.1/phase-1/tokens.md §5): at most two preloads, the page language's 400 and 600 files
          (App\Design\D2\Fonts::PRELOAD; one variable Onest file draws both on English pages). --}}
     @foreach (\App\Design\D2\Fonts::preload($locale) as $font)

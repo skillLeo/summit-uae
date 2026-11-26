@@ -4,21 +4,25 @@
 ])
 {{--
     Design 2 footer: the dark band at the end of every page (brief §3.3 text on dark, §3.8 the full lockup, §5.1
-    item 11, §5.2; fix list D01, D02, D10, D11, D12, D47). In the order of the homepage DOCX (01_Homepage, FOOTER):
-      1. the brand: the hidden approved H2 (the official gold lockup shows the name), the approved description, the
-         contact controls of the homepage's section 09 ("Reuse the contact and language controls supplied above":
-         phone, WhatsApp with the WA01 draft, e-mail) and that file's own hours sentence (owner decision: each place
-         shows the hours sentence of the Word file that defines it; the footer is defined by the homepage file);
+    item 11, §5.2; fix list D01, D02, D10, D11, D12, D47; the client's final changes, item 19). In the order of the
+    homepage DOCX (01_Homepage, FOOTER):
+      1. the brand: the hidden approved H2 (the official gold lockup, transparent, straight on the dark band with no
+         tile, shows the name; the copyright line repeats it), the approved description, the contact controls of the
+         homepage's section 09 ("Reuse the contact and language controls supplied above": phone, WhatsApp with the
+         WA01 draft, e-mail), the website address (item 19: www.summitlegaluae.com, the canonical host, left to
+         right) and that file's own hours sentence (owner decision: each place shows the hours sentence of the Word
+         file that defines it; the footer is defined by the homepage file);
       2. the three link groups with their approved H3 headings in DOCX wording and case (16/600, white, never mono
-         or capitals): Practice Areas (S01–S11), Legal Resources (Centre, FAQs, Case Studies: the DOCX order),
-         Useful Links;
+         or capitals): Practice Areas (the services, then the approved "View All Practice Areas": the Practice Areas
+         page, item 19), Legal Resources (Centre, FAQs, Case Studies: the DOCX order), Useful Links (About, Contact,
+         Legal Notice, Privacy Policy, Terms and Conditions);
       3. the approved disclaimer;
       4. "Specialist Resources and Services Associated with Summit" (X01–X06, new tab): the DOCX red note keeps this
          compact group "in the expanded footer, separate from the primary service links"; owner decision: the last
          group inside the footer, directly above the copyright line. A two-column list (one column on phones):
          the name, then the domain in muted text, then the external-link icon (SVG). No boxed cards;
-      5. the copyright line with the dynamic year, and the language links (approved labels in the page language,
-         D12; hreflang names the target).
+      5. the copyright line with the dynamic year, and the language links (the client's item 18: the flag, then the
+         approved name in its own language, English, العربية, Русский; hreflang names the target).
     No address, no map, no live office-hours status (brief §3.7: the live status appears only in the contact block).
     The WhatsApp mark is <x-d2.ui.icon name="whatsapp"> (<x-d2.ui.brand-mark>): on this .on-dark surface Meta's
     official dark-background logo once resources/brand/whatsapp/whatsapp-logo-dark.* is there, the marked placeholder
@@ -41,9 +45,13 @@
     // Approved line "© 2026 Summit Legal Consultancy…": the year is rendered dynamically (DOCX red note, as in Design 1).
     $copyright = preg_replace('/\b(19|20)\d{2}\b/', $year, ui('footer.copyright'), 1);
     $languages = collect(Shell::languageLinks($pageKey))->keyBy('code');
-    $order = array_values(array_intersect(['ar', 'en', 'ru'], $languages->keys()->all()));
+    // The client's item 18: English, Arabic, Russian, as in the header's language menu.
+    $order = array_values(array_intersect(['en', 'ar', 'ru'], $languages->keys()->all()));
     $newTab = proposed('external.new_tab');
     $channels = Shell::nav('footer_contact');
+    // Item 19: the website address, the production host the canonical URLs use (config summit.canonical_host).
+    $website = rtrim((string) config('summit.canonical_host'), '/');
+    $websiteLabel = (string) preg_replace('#^https?://#', '', $website);
 
     // Official lockup (resources/brand/lockup.svg, fill="currentColor"): inlined, gold on dark.
     $lockup = trim((string) preg_replace('/<\?xml.*?\?>|<!--.*?-->/s', '', (string) @file_get_contents(resource_path('brand/lockup.svg'))));
@@ -84,6 +92,15 @@
                                 @endif
                             </li>
                         @endforeach
+                        @if ($websiteLabel !== '')
+                            {{-- Item 19: the website address, after the e-mail; the site itself, so the same tab. --}}
+                            <li>
+                                <a class="d2-footer__channel" href="{{ $website }}/" data-footer-website>
+                                    <x-d2.ui.icon name="website" size="20" class="d2-footer__channel-icon" />
+                                    <bdi class="d2-footer__channel-text" dir="ltr">{{ $websiteLabel }}</bdi>
+                                </a>
+                            </li>
+                        @endif
                     </ul>
                     @if ($hours !== '')
                         <p class="d2-footer__hours">{{ $hours }}</p>
@@ -97,6 +114,8 @@
                     @foreach (Shell::nav('footer_practice') as $link)
                         <li><a class="d2-footer__link" href="{{ $link['href'] }}">{{ $link['label'] }}</a></li>
                     @endforeach
+                    {{-- Item 19: the Practice Areas page itself (the approved "View All Practice Areas"). --}}
+                    <li><a class="d2-footer__link d2-footer__link--all" href="{{ SiteUrl::page('P02') }}">{{ ui('cta.view_all_practice_areas') }}</a></li>
                 </ul>
             </nav>
 
@@ -155,9 +174,10 @@
                     @foreach ($order as $code)
                         @php $link = $languages[$code]; @endphp
                         <li>
-                            {{-- D12: the approved label in the page language ("Arabic" on English pages), so no lang attribute. --}}
-                            <a class="d2-footer__lang" href="{{ $link['href'] }}" hreflang="{{ $code }}"
-                                data-lang-switch="{{ $code }}" @if ($link['current']) aria-current="true" @endif>{{ ui('lang.'.$code) }}</a>
+                            {{-- Item 18: the flag (decorative), then the approved name in its own language (lang), as in the
+                                 header's language menu; hreflang names the target. --}}
+                            <a class="d2-footer__lang" href="{{ $link['href'] }}" hreflang="{{ $code }}" lang="{{ $code }}"
+                                data-lang-switch="{{ $code }}" @if ($link['current']) aria-current="true" @endif><x-d2.ui.flag :code="$code" /><span class="d2-footer__lang-name" dir="{{ $link['dir'] }}">{{ $link['label'] }}</span></a>
                         </li>
                     @endforeach
                 </ul>

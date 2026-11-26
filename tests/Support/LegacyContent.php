@@ -32,13 +32,33 @@ final class LegacyContent
     {
         $dir ??= database_path('content');
         $read = fn (string $name) => is_file("{$dir}/{$name}.json") ? json_decode((string) file_get_contents("{$dir}/{$name}.json"), true, 512, JSON_THROW_ON_ERROR) : [];
+        // The client-approved layer (App\Content\Cms\ClientLayer, since 2026-11-25) is part of the sources: the same
+        // changes on top of the JSON files, and the records it takes off the site (status draft) are not on the site.
+        $data = [];
+        foreach (array_keys(\App\Content\Cms\Schema::DATASETS) as $dataset) {
+            $data[$dataset] = $read($dataset);
+        }
+        $ui = $read('ui_strings');
+        $settings = (new \App\Content\Cms\Sources($dir))->build()['settings'];
+        $client = (new \App\Content\Cms\ClientLayer($dir.'/client'))->apply($data, $ui, $settings);
         foreach (self::TABLES as $dataset => [$translatable, $plain]) {
-            foreach ($read($dataset) as $code => $fields) {
+            foreach ($data[$dataset] as $code => $fields) {
+                if (($client['status'][$dataset][(string) $code] ?? \App\Content\Cms\Status::PUBLISHED) !== \App\Content\Cms\Status::PUBLISHED) {
+                    continue;
+                }
                 $this->raw[$dataset][(string) $code] = $this->seed($dataset, (string) $code, (array) $fields, $translatable, $plain);
             }
         }
-        foreach (['ui_strings', 'settings'] as $flat) {
-            foreach ($read($flat) as $key => $values) {
+        // the contacts and the WhatsApp message as the layer leaves them (a client change to a setting is a default here)
+        $flatSettings = $read('settings');
+        foreach (['phone_display', 'phone_href', 'email', 'email_href'] as $key) {
+            $flatSettings[$key] = array_fill_keys(\App\Content\Cms\Tree::LOCALES, $settings['contact'][$key]);
+        }
+        $flatSettings['whatsapp_draft'] = $settings['whatsapp']['draft'];
+        $flatSettings['link_registry'] = $settings['site_map']['link_registry'];
+        $flatSettings['whatsapp_url'] = array_map(fn (string $draft) => 'https://wa.me/'.$settings['contact']['whatsapp_number'].'?text='.rawurlencode($draft), $settings['whatsapp']['draft']);
+        foreach (['ui_strings' => $ui, 'settings' => $flatSettings] as $flat => $rows) {
+            foreach ($rows as $key => $values) {
                 $this->raw[$flat][$key] = array_filter((array) $values, fn ($v) => $v !== null);
             }
         }

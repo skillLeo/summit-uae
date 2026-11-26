@@ -48,10 +48,8 @@
         : count(array_filter($services, fn ($svc) => in_array($audience, $audiencesOf((string) $svc['code']), true)));
     $chipUrl = fn (string $audience) => SiteUrl::page('P02').($audience === 'all' ? '' : '?audience='.$audience).'#services';
 
-    $draft = trim((string) ($page['whatsapp_draft'] ?? ''));
-    $whatsapp = $draft !== ''
-        ? 'https://wa.me/'.config('summit.contact.whatsapp_number').'?text='.rawurlencode($draft)
-        : (string) setting('whatsapp_url');
+    // One WhatsApp message on every page in every language (client PDF item 6): the setting's link, never a page draft.
+    $whatsapp = (string) setting('whatsapp_url');
     $start = $c['start'] ?? [];
     $cta = $c['cta'] ?? [];
 

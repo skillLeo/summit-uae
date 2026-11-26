@@ -28,7 +28,7 @@
             <p class="sg-note" {!! $en !!}>{{ $t('top') }}</p>
         </div>
 
-        {{-- Compact. Inline: the seven labels in the 72 px bar beside the 44 px lockup (English and Arabic in a full
+        {{-- Compact. Inline: the seven labels in the 72 px bar beside the 48 px lockup (English and Arabic in a full
              container; Russian's never fit, so its page shows the tucked bar only). Tucked: the menu button instead. --}}
         @unless (app()->isLocale('ru'))
             <div class="sg-specimen d2-shell-demo d2-shell-demo--canvas">

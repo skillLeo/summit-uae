@@ -50,12 +50,14 @@ final class ContentImportTest extends TestCase
             $counts[$table] = DB::table($table)->count();
         }
         $this->assertSame([
-            'pages' => 11, 'services' => 11, 'guides' => 9, 'guide_categories' => 3, 'case_studies' => 6, 'faq_categories' => 12,
+            // services: S01-S11 and the Powers of Attorney draft S12; navigation items: the menus without Legal Translation
+            // (client PDF item 9)
+            'pages' => 11, 'services' => 12, 'guides' => 9, 'guide_categories' => 3, 'case_studies' => 6, 'faq_categories' => 12,
             'faqs' => 74, 'team_members' => 3, 'specialist_sites' => 6, 'situations' => 44, 'document_samples' => 5,
-            'ui_strings' => count((new Sources)->build()['ui_strings']), 'navigation_menus' => 9, 'navigation_items' => 51,
+            'ui_strings' => count((new Sources)->build()['ui_strings']), 'navigation_menus' => 9, 'navigation_items' => 49,
             'calculator_rule_sets' => 2, 'settings' => 44, // 20 + Phase 5 (requests, notifications) + Phase 7 (languages, brand, backups) + integrations (GA4), less the retired design settings
         ], $counts);
-        $this->assertSame(144, DB::table('ui_strings')->where('group', 'ui')->count(), 'the approved DOCX interface strings');
+        $this->assertSame(145, DB::table('ui_strings')->where('group', 'ui')->count(), 'the approved DOCX interface strings (144) and the client layer\'s resources.external_note');
     }
 
     public function test_edits_are_kept_and_fresh_rebuilds(): void
@@ -99,20 +101,28 @@ final class ContentImportTest extends TestCase
         }
         $this->assertSame(0, DB::table('navigation_items')->whereNotIn('copy_source', CopySource::ALL)->count());
 
-        // Approved DOCX copy vs the team's pending copy.
-        $this->assertSame([CopySource::DOCX], DB::table('ui_strings')->where('group', 'ui')->distinct()->pluck('copy_source')->all());
+        // Approved DOCX copy vs the team's pending copy; what the client-approved layer changed (database/content/client)
+        // is client_approved.
+        $layer = (new \App\Content\Cms\Sources)->build();
+        $expected = fn (array $rows) => array_values(array_unique(array_map(fn ($r) => $r['copy_source'], $rows)));
+        $this->assertEqualsCanonicalizing($expected(array_filter($layer['ui_strings'], fn ($r) => $r['group'] === 'ui')), DB::table('ui_strings')->where('group', 'ui')->distinct()->pluck('copy_source')->all());
         $this->assertSame([CopySource::PENDING], DB::table('ui_strings')->where('group', 'proposed')->distinct()->pluck('copy_source')->all());
         $this->assertSame([CopySource::PENDING], DB::table('document_samples')->distinct()->pluck('copy_source')->all());
         $this->assertSame([CopySource::PENDING], DB::table('calculator_rule_sets')->distinct()->pluck('copy_source')->all());
         foreach (['pages', 'services', 'guides', 'case_studies', 'faqs', 'team_members', 'situations'] as $table) {
-            $this->assertSame([CopySource::DOCX], DB::table($table)->distinct()->pluck('copy_source')->all(), $table);
+            $rows = $table === 'situations' ? $layer['situations'] : $layer['records'][$table];
+            $this->assertEqualsCanonicalizing($expected($rows), DB::table($table)->distinct()->pluck('copy_source')->all(), $table);
+            $this->assertSame([], array_diff(DB::table($table)->distinct()->pluck('copy_source')->all(), [CopySource::DOCX, CopySource::CLIENT_APPROVED]), $table);
         }
 
-        // Blocks: the three tool blocks of the home are pending, every other block is approved copy.
+        // Blocks: the three tool blocks of the home are pending, a block whose text the client layer changed is client
+        // approved, every other block is approved DOCX copy.
         foreach (Page::query()->get() as $page) {
             foreach ($page->blocks as $block) {
                 $pending = $page->code === HomeBlocks::PAGE && in_array($block['type'], ['start', 'anatomy', 'navigator'], true);
-                $this->assertSame($pending ? CopySource::PENDING : CopySource::DOCX, $block['copy_source'], "{$page->code} {$block['id']}");
+                $source = collect($layer['records']['pages'][$page->code]['blocks'])->firstWhere('id', $block['id'])['copy_source'];
+                $this->assertSame($pending ? CopySource::PENDING : $source, $block['copy_source'], "{$page->code} {$block['id']}");
+                $this->assertContains($block['copy_source'], $pending ? [CopySource::PENDING] : [CopySource::DOCX, CopySource::CLIENT_APPROVED], "{$page->code} {$block['id']}");
             }
         }
     }
@@ -124,7 +134,9 @@ final class ContentImportTest extends TestCase
         $this->assertSame(array_column(HomeBlocks::BLOCKS, 'type'), array_column($blocks, 'type'));
         $this->assertSame(['hero', 'start', 'services', 'anatomy', 'who', 'review', 'navigator', 'about', 'team', 'cases', 'guides', 'faq', 'contact'], array_column($blocks, 'type'));
         $this->assertSame([null, 'start', 'services', 'anatomy', 'who-we-help', 'review', 'navigator', 'about', 'our-team', 'case-studies', 'guides', 'questions', 'consultation-form'], array_column($blocks, 'anchor'));
-        $this->assertSame([true, true, true, true, true, true, true, true, false, true, true, true, true], array_column($blocks, 'enabled'), 'the team block is off (D24)');
+        // the team block is off (D24); "Start your matter" is off since the form was removed (client PDF item 7);
+        // "Anatomy of a Document" is off since client PDF item 13 (homepage density)
+        $this->assertSame([true, false, true, false, true, true, true, true, false, true, true, true, true], array_column($blocks, 'enabled'), 'the team, start and anatomy blocks are off');
         foreach ($blocks as $block) {
             $this->assertContains($block['background'], ['white', 'band', 'dark']);
         }
@@ -141,6 +153,13 @@ final class ContentImportTest extends TestCase
                 $this->walk($block['data'], '', function (string $path, array $leaf) use ($block, $page, &$checked) {
                     $longest = max(array_map(fn ($t) => is_string($t) ? mb_strlen($t) : 0, $leaf));
                     if ($longest === 0) {
+                        return;
+                    }
+                    // Structure (URLs, link targets …) is not copy and has no limit (App\Content\Cms\Tree::limits()).
+                    $last = substr((string) strrchr('.'.$path, '.'), 1);
+                    if (in_array($last, ['id', 'type', 'ref', 'key', 'target', 'anchor', 'href', 'url', 'domain', 'marker', 'level', 'code', 'icon', 'service'], true) || str_ends_with($last, '_target')) {
+                        $this->assertArrayNotHasKey($path, $block['limits'] ?? [], "{$page->code} {$path}: structure, no limit");
+
                         return;
                     }
                     $limit = $block['limits'][$path] ?? null;
@@ -180,7 +199,7 @@ final class ContentImportTest extends TestCase
     public function test_settings_hold_the_contacts_hours_and_wa01_drafts(): void
     {
         app(ContentImporter::class)->run();
-        $this->assertSame('+971 52 466 6191', content()->settings('contact')['phone_display']);
+        $this->assertSame('+971524666191', content()->settings('contact')['phone_display']);
         $this->assertSame('tel:+971524666191', setting('phone_href'));
         $this->assertSame('info@summitlegaluae.com', setting('email'));
         $this->assertSame('971524666191', content()->settings('contact')['whatsapp_number']);

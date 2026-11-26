@@ -8,8 +8,8 @@
         <h2 id="slc-search-title" class="fi-sr-only">{{ __('admin_shell.search.title') }}</h2>
         <div class="slc-search__field">
             <x-filament::icon icon="heroicon-o-magnifying-glass" class="slc-search__icon" />
-            <input type="search" wire:model.live.debounce.250ms="q" placeholder="{{ __('admin_shell.search.placeholder') }}"
-                   aria-label="{{ __('admin_shell.search.placeholder') }}" autocomplete="off" spellcheck="false" data-search-input
+            <input type="search" wire:model.live.debounce.250ms="q" placeholder="{{ __(\App\Support\ConsultationForm::enabled() ? 'admin_shell.search.placeholder' : 'admin_shell.search.placeholder_content') }}"
+                   aria-label="{{ __(\App\Support\ConsultationForm::enabled() ? 'admin_shell.search.placeholder' : 'admin_shell.search.placeholder_content') }}" autocomplete="off" spellcheck="false" data-search-input
                    aria-controls="slc-search-results" />
             <button type="button" class="slc-search__close" data-search-close>{{ __('requests.shortcuts.close') }}</button>
         </div>

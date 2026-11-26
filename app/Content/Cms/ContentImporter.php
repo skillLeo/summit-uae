@@ -10,10 +10,12 @@ use Illuminate\Support\Facades\DB;
  * php artisan summit:content-import (docs/briefs/design-2.1-and-admin-cms.md §8.8 step 2): today's sources
  * (App\Content\Cms\Sources) into the CMS tables, idempotently.
  *
- * Default run: a missing row is created; a row the admin has not touched (updated_by is null, not client approved, not
- * in the Trash) is updated when its source changed; everything else is kept, and so are rows that no longer have a
- * source. Settings are created when missing and otherwise kept (they belong to the settings screens). Running it twice
- * changes nothing the second time.
+ * Default run: a missing row is created; a row the admin has not touched (updated_by is null, not approved in the
+ * admin, not in the Trash) is updated when its source changed; everything else is kept, and so are rows that no longer
+ * have a source. A row the client-approved layer wrote (copy_source client_approved, App\Content\Cms\ClientLayer) is
+ * not "touched": a later layer change updates it too, while its source is still client approved. Settings are created
+ * when missing and otherwise kept (they belong to the settings screens; a client change to a stored setting is a
+ * settings migration). Running it twice changes nothing the second time.
  *
  * --fresh rebuilds: every CMS content table and the settings are written from the sources again (users, enquiries and
  * revisions are never touched). Every created or changed record gets a revision ("imported").
@@ -33,6 +35,9 @@ final class ContentImporter
     /** @var list<array<string, mixed>> */
     private array $revisions = [];
 
+    /** @var list<string> what this run could not do (a client-approved change kept back by an admin edit) */
+    private array $notes = [];
+
     private string $now;
 
     public function __construct(private readonly Sources $sources = new Sources) {}
@@ -45,6 +50,7 @@ final class ContentImporter
         $build = $this->sources->build();
         $this->counts = [];
         $this->revisions = [];
+        $this->notes = [];
         $this->now = now()->toDateTimeString();
 
         DB::transaction(function () use ($build, $fresh) {
@@ -70,7 +76,7 @@ final class ContentImporter
             }
         }
 
-        return ['counts' => $this->counts, 'notes' => $build['notes']];
+        return ['counts' => $this->counts, 'notes' => [...$build['notes'], ...$this->notes]];
     }
 
     /** @return list<string> */
@@ -123,8 +129,11 @@ final class ContentImporter
 
                 continue;
             }
-            if ($this->edited($old)) {
+            if ($this->edited($old, $row)) {
                 $count['kept']++;
+                if (($row['copy_source'] ?? null) === CopySource::CLIENT_APPROVED) {
+                    $this->notes[] = "{$table} ".str_replace("\u{1F}", ':', $id).': a client-approved change was not applied (the row was edited in the admin): apply it there';
+                }
 
                 continue;
             }
@@ -169,7 +178,13 @@ final class ContentImporter
             $old = $existing->get($menu['key']);
             if ($old !== null) {
                 $oldItems = DB::table('navigation_items')->where('menu_id', $old->id)->orderBy('position')->get()->map(fn ($r) => (array) $r)->all();
-                $edited = $this->edited((array) $old) || collect($oldItems)->contains(fn ($r) => $this->edited($r));
+                // each stored item against its source item (same target and site-map key), for the client-approved rule
+                $sourceItems = [];
+                foreach ($items as $item) {
+                    $sourceItems[$item['target_type'].'|'.$item['target'].'|'.$item['link_key']] = $item;
+                }
+                $edited = $this->edited((array) $old, $menu)
+                    || collect($oldItems)->contains(fn ($r) => $this->edited($r, $sourceItems[$r['target_type'].'|'.$r['target'].'|'.$r['link_key']] ?? []));
                 $same = count($oldItems) === count($items) && collect($items)->every(fn ($item, $i) => $this->same($oldItems[$i], $item, $itemJson));
                 if ($same) {
                     $count['unchanged']++;
@@ -285,11 +300,17 @@ final class ContentImporter
         return true;
     }
 
-    /** Touched in the admin: saved by a user, approved by the client or moved to the Trash. */
-    private function edited(array $row): bool
+    /**
+     * Touched in the admin: saved by a user, approved by the client in the admin (client_approved while the source row is
+     * not: the client-approved layer's own rows are client_approved in the source too) or moved to the Trash.
+     *
+     * @param  array<string, mixed>  $row  the stored row
+     * @param  array<string, mixed>  $source  the source row it would be updated from
+     */
+    private function edited(array $row, array $source = []): bool
     {
         return ($row['updated_by'] ?? null) !== null
-            || ($row['copy_source'] ?? null) === CopySource::CLIENT_APPROVED
+            || (($row['copy_source'] ?? null) === CopySource::CLIENT_APPROVED && ($source['copy_source'] ?? null) !== CopySource::CLIENT_APPROVED)
             || ($row['deleted_at'] ?? null) !== null;
     }
 

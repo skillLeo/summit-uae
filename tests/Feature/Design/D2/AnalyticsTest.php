@@ -47,12 +47,13 @@ final class AnalyticsTest extends TestCase
     private function assertTag(TestResponse $response, string $id = self::ID): string
     {
         $html = (string) $response->getContent();
-        $this->assertSame(1, substr_count($html, 'https://www.googletagmanager.com/gtag/js?id='.$id.'"'), 'one tag with the ID');
-        $this->assertSame(1, substr_count($html, "gtag('config', id,"), 'one config call');
+        $this->assertSame(1, substr_count($html, 'https://www.googletagmanager.com/gtm.js?id='.$id.'"'), 'one Google tag with the ID');
+        $this->assertStringNotContainsString("gtag('config'", $html, 'the Google tag initialises itself: no config call, one page_view');
+        $this->assertSame(1, substr_count($html, "gtag('js', new Date());"), 'Google\'s snippet once');
+        $this->assertLessThan(strpos($html, 'gtm.js?id='), strpos($html, "gtag('consent', 'default'"), 'consent defaults before the tag');
         $this->assertStringContainsString("gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });", $html);
-        $this->assertStringContainsString('})("'.$id.'", [', $html, 'the ID is a JSON string in the script');
-        $this->assertStringNotContainsString('gtm.js', $html, 'gtag.js, not the Tag Manager container');
-        $this->assertMatchesRegularExpression('/<script async src="https:\/\/www\.googletagmanager\.com\/gtag\/js\?id='.$id.'" nonce="[^"]+"><\/script>\s*<script nonce="[^"]+">/', $html, 'both scripts carry the CSP nonce');
+        $this->assertMatchesRegularExpression('/<script async src="https:\/\/www\.googletagmanager\.com\/gtm\.js\?id='.$id.'" nonce="[^"]+"><\/script>\s*<script nonce="[^"]+">/', $html, 'the scripts carry the CSP nonce');
+        $this->assertSame(3, preg_match_all('/<script[^>]* nonce="[^"]+"/', substr($html, (int) strpos($html, "gtag('consent', 'default'") - 400, 4000)), 'the consent script and both of Google\'s');
         $csp = (string) $response->headers->get('Content-Security-Policy');
         $this->assertMatchesRegularExpression("/script-src [^;]*https:\/\/www\.googletagmanager\.com/", $csp);
         $this->assertMatchesRegularExpression("/connect-src [^;]*https:\/\/\*\.google-analytics\.com [^;]*https:\/\/\*\.analytics\.google\.com/", $csp);
@@ -98,9 +99,8 @@ final class AnalyticsTest extends TestCase
             $this->assertGreaterThan(strpos($html, 'class="skip-link"'), strpos($html, 'data-consent hidden'));
         }
 
-        // The root chooser (no single language): the tag, no bar.
-        $chooser = $this->assertTag($this->visit('/')->assertOk());
-        $this->assertStringNotContainsString('data-consent', $chooser);
+        // The root "/" is a 301 to /en/ (client PDF item 29): no page, so no tag.
+        $this->visit('/')->assertStatus(301);
     }
 
     public function test_never_on_the_admin_its_login_error_offline_or_preview_pages(): void

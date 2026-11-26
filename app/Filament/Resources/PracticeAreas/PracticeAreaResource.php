@@ -95,7 +95,9 @@ class PracticeAreaResource extends CmsResource
                 Translatable::text('h1', $t('h1'), $limits['h1'] ?? null),
                 Translatable::textarea('intro', $t('intro'), $limits['intro'] ?? null, rows: 4),
                 CmsForm::structured(Service::class, 'breadcrumb', $t('breadcrumb'), $limits),
-                Translatable::textarea('whatsapp_draft', $t('whatsapp_draft'), $limits['whatsapp_draft'] ?? null, rows: 2),
+                // Not shown since client PDF item 6: one WhatsApp message on every page (Settings → WhatsApp); the stored
+                // per-page text is kept but no page reads it.
+                Translatable::textarea('whatsapp_draft', $t('whatsapp_draft'), $limits['whatsapp_draft'] ?? null, rows: 2)->hidden(),
             ]),
             Section::make($t('section_lists'))->collapsible()->schema([
                 CmsForm::structured(Service::class, 'documents', $t('documents'), $limits),

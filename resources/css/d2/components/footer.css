@@ -272,8 +272,10 @@
     list-style: none;
   }
 
+  /* Item 18: the flag 8 px before the language's name (in its own language). */
   .d2-footer__lang {
     display: inline-flex;
+    gap: var(--s-2);
     align-items: center;
     min-block-size: var(--target-touch);
     color: var(--on-dark-2);

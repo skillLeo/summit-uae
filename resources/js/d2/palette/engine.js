@@ -320,6 +320,12 @@ export function mount(dialog) {
 
     const activate = (option) => {
         if (!option) return;
+        if (option.hasAttribute('data-palette-external')) {
+            // "Contact Us on WhatsApp" (WhatsApp only, client PDF item 7): a new tab with the approved message.
+            window.open(option.getAttribute('href') || '', '_blank', 'noopener,noreferrer');
+            closeModal('palette', { restore: true });
+            return;
+        }
         if (option.hasAttribute('data-palette-describe')) {
             describeMatter();
             return;

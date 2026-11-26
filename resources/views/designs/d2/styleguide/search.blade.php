@@ -47,6 +47,9 @@
         ['label' => ui('nav.case_studies'), 'rows' => [[$case['card_title'] ?? '', $case['card_summary'] ?? '']]],
     ];
     $describeWith = fn (string $q) => str_replace(':query', $q, d2p('palette.describe_with'));
+    // WhatsApp only (client PDF item 7, App\Support\ConsultationForm off): the palette's last row is "Contact Us on
+    // WhatsApp" instead of "Describe your matter", as on the live palette.
+    $form = \App\Support\ConsultationForm::enabled();
 
     // ---------------------------------------------------------------- FAQ specimens: three categories, prefixed ids
     $categories = array_slice(content()->faqCategories(), 0, 3);
@@ -139,12 +142,21 @@
                             @endforeach
                         </div>
                     @endforeach
-                    <span class="palette-option palette-option--describe">
-                        <span class="palette-option__text">
-                            <span class="palette-option__title">{{ d2p('palette.describe') }}</span>
-                            <span class="palette-option__summary">{{ $describeWith($query) }}</span>
+                    @if ($form)
+                        <span class="palette-option palette-option--describe">
+                            <span class="palette-option__text">
+                                <span class="palette-option__title">{{ d2p('palette.describe') }}</span>
+                                <span class="palette-option__summary">{{ $describeWith($query) }}</span>
+                            </span>
                         </span>
-                    </span>
+                    @else
+                        <span class="palette-option palette-option--describe palette-option--whatsapp">
+                            <span class="palette-option__mark" aria-hidden="true"><x-d2.ui.brand-mark size="20" /></span>
+                            <span class="palette-option__text">
+                                <span class="palette-option__title">{{ ui('cta.whatsapp') }}</span>
+                            </span>
+                        </span>
+                    @endif
                 </div>
             </x-d2.ui.modal>
             <p class="sg-label" {{ $en }}>{{ $t('palette_results') }}</p>
@@ -158,15 +170,24 @@
                 </x-slot:head>
                 <div class="palette__notice">
                     <p class="palette__notice-title">{{ str_replace(':query', $none, d2p('palette.no_results')) }}</p>
-                    <p class="palette__notice-text">{{ d2p('palette.no_results_hint') }}</p>
+                    <p class="palette__notice-text">{{ d2p($form ? 'palette.no_results_hint' : 'palette.no_results_hint_whatsapp') }}</p>
                 </div>
                 <div class="palette__list">
-                    <span class="palette-option palette-option--describe is-active">
-                        <span class="palette-option__text">
-                            <span class="palette-option__title">{{ d2p('palette.describe') }}</span>
-                            <span class="palette-option__summary">{{ $describeWith($none) }}</span>
+                    @if ($form)
+                        <span class="palette-option palette-option--describe is-active">
+                            <span class="palette-option__text">
+                                <span class="palette-option__title">{{ d2p('palette.describe') }}</span>
+                                <span class="palette-option__summary">{{ $describeWith($none) }}</span>
+                            </span>
                         </span>
-                    </span>
+                    @else
+                        <span class="palette-option palette-option--describe palette-option--whatsapp is-active">
+                            <span class="palette-option__mark" aria-hidden="true"><x-d2.ui.brand-mark size="20" /></span>
+                            <span class="palette-option__text">
+                                <span class="palette-option__title">{{ ui('cta.whatsapp') }}</span>
+                            </span>
+                        </span>
+                    @endif
                 </div>
             </x-d2.ui.modal>
             <p class="sg-label" {{ $en }}>{{ $t('palette_none') }}</p>
@@ -198,12 +219,21 @@
                     <x-d2.ui.button class="palette__retry" variant="secondary" size="40" tabindex="-1">{{ d2p('palette.retry') }}</x-d2.ui.button>
                 </div>
                 <div class="palette__list">
-                    <span class="palette-option palette-option--describe">
-                        <span class="palette-option__text">
-                            <span class="palette-option__title">{{ d2p('palette.describe') }}</span>
-                            <span class="palette-option__summary">{{ $describeWith($query) }}</span>
+                    @if ($form)
+                        <span class="palette-option palette-option--describe">
+                            <span class="palette-option__text">
+                                <span class="palette-option__title">{{ d2p('palette.describe') }}</span>
+                                <span class="palette-option__summary">{{ $describeWith($query) }}</span>
+                            </span>
                         </span>
-                    </span>
+                    @else
+                        <span class="palette-option palette-option--describe palette-option--whatsapp">
+                            <span class="palette-option__mark" aria-hidden="true"><x-d2.ui.brand-mark size="20" /></span>
+                            <span class="palette-option__text">
+                                <span class="palette-option__title">{{ ui('cta.whatsapp') }}</span>
+                            </span>
+                        </span>
+                    @endif
                 </div>
             </x-d2.ui.modal>
             <p class="sg-label" {{ $en }}>{{ $t('palette_error') }}</p>

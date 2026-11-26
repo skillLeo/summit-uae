@@ -14,8 +14,9 @@
 return [
 
     'hero' => [
-        'individual' => ['S01', 'S02', 'S03', 'S05', 'S06', 'S08', 'S10'],
-        'business' => ['S01', 'S04', 'S06', 'S07', 'S09', 'S10', 'S11'],
+        // (S10 Legal Translation left these lists with the service: client PDF item 9)
+        'individual' => ['S01', 'S02', 'S03', 'S05', 'S06', 'S08'],
+        'business' => ['S01', 'S04', 'S06', 'S07', 'S09', 'S11'],
         'investor' => ['S03', 'S04', 'S05', 'S07', 'S09'],
     ],
 
@@ -24,7 +25,7 @@ return [
         'individuals' => ['S01', 'S02', 'S05', 'S06', 'S08'],
         'businesses' => ['S01', 'S04', 'S06', 'S07', 'S11'],
         'investors' => ['S03', 'S04', 'S05', 'S07', 'S09'],
-        'residents' => ['S05', 'S06', 'S08', 'S10'],
+        'residents' => ['S05', 'S06', 'S08'],
         'entrepreneurs' => ['S04', 'S07', 'S09', 'S11'],
     ],
 

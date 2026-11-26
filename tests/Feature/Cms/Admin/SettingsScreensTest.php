@@ -56,6 +56,8 @@ final class SettingsScreensTest extends TestCase
         RoleSync::run();
         $this->withoutVite();
         Filament::setCurrentPanel('admin');
+        // The form and the requests screens are off since client PDF item 7 (WhatsApp only); this file tests their kept code.
+        $this->consultationFormOn();
     }
 
     protected function tearDown(): void
@@ -307,11 +309,13 @@ final class SettingsScreensTest extends TestCase
 
     public function test_with_default_settings_the_public_html_equals_the_html_without_the_settings_rows(): void
     {
-        $urls = ['/', '/en/', '/ar/'];
+        // "/" is a 301 to /en/ since client PDF item 29 (no page): its Location is compared instead.
+        $urls = ['/en/', '/ar/', '/ru/contact/'];
         $with = [];
         foreach ($urls as $url) {
             $with[$url] = $this->html($url);
         }
+        $root = $this->get('/')->assertStatus(301)->headers->get('Location');
 
         DB::table('settings')->where('group', 'brand')->delete();
         DB::table('settings')->where('group', 'languages')->whereIn('name', ['enabled_locales', 'default_locale', 'language_suggestion'])->delete();
@@ -320,5 +324,6 @@ final class SettingsScreensTest extends TestCase
         foreach ($urls as $url) {
             $this->assertSame($with[$url], $this->html($url), $url);
         }
+        $this->assertSame($root, $this->get('/')->assertStatus(301)->headers->get('Location'));
     }
 }

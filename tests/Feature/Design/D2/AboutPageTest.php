@@ -142,7 +142,9 @@ final class AboutPageTest extends TestCase
             // "Request a consultation with …": a real link that pre-fills the consultant (works without JS).
             $request = $this->one($x, '//article[@id="'.$member['anchor'].'"]//a[@data-consultant="'.$code.'"]');
             $this->assertSame(Prefill::url(['consultant' => $code]), $request->getAttribute('href'));
-            $this->assertStringContainsString('consultant='.$code, $request->getAttribute('href'));
+            // WhatsApp only (client PDF item 7): the link opens WhatsApp with the approved message, in a new tab.
+            $this->assertSame(setting('whatsapp_url'), $request->getAttribute('href'));
+            $this->assertSame('_blank', $request->getAttribute('target'));
 
             // The approved focus line (the DOCX's "role and expertise descriptor"), verbatim, right after the role; no
             // proposed chips stand in for it on P06 (brief §5.3).
@@ -229,8 +231,9 @@ final class AboutPageTest extends TestCase
     {
         $x = $this->dom($this->page('en'));
         $cta = $this->one($x, '//section[@id="about-cta"]');
-        $this->assertSame(1, $x->query('.//a[@href="'.SiteUrl::consultation().'"]', $cta)->length);
-        $this->assertSame(1, $x->query('.//a[@href="'.setting('whatsapp_url').'"][@target="_blank"]', $cta)->length);
+        // WhatsApp only (client PDF item 7): "Request a Legal Consultation" and "Contact Us on WhatsApp" both open WhatsApp.
+        $this->assertSame(setting('whatsapp_url'), SiteUrl::consultation());
+        $this->assertSame(2, $x->query('.//a[@href="'.setting('whatsapp_url').'"][@target="_blank"]', $cta)->length);
         $this->assertSame(1, $x->query('.//a[@href="tel:+971524666191"]//bdi[@dir="ltr"]', $cta)->length);
         $this->assertSame(1, $x->query('.//a[@href="mailto:info@summitlegaluae.com"]//bdi[@dir="ltr"]', $cta)->length);
         // Design 2.1 (one contact-channel pattern): telephone and e-mail are the kit's channel rows (glyph + value),

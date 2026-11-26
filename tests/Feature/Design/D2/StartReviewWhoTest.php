@@ -31,6 +31,8 @@ final class StartReviewWhoTest extends TestCase
         parent::setUp();
         $this->seed(ContentSeeder::class);
         $this->withoutVite();
+        // The form and the requests screens are off since client PDF item 7 (WhatsApp only); this file tests their kept code.
+        $this->consultationFormOn(startBlock: true);
     }
 
     private function home(string $locale = 'en', string $query = ''): string

@@ -116,16 +116,19 @@ final class ServicePageTest extends TestCase
                 $this->assertSame(1, preg_match_all('#<h2[^>]*>\s*'.preg_quote($heading, '#').'\s*</h2>#', $main), "one H2 for the CTA heading ({$ctx})");
                 $this->assertMatchesRegularExpression('#<aside class="cta-card[^"]*" id="svc-cta-card"\s+aria-labelledby="svc-cta-card-title"\s*>\s*<p class="cta-card__title" id="svc-cta-card-title">'.preg_quote($heading, '#').'</p>#', $main, "the rail card's title is a label ({$ctx})");
 
-                // CTAs: the consultation prefilled with the service, WhatsApp with the service's approved draft.
+                // CTAs: the consultation opens WhatsApp (client PDF item 7: no form; Prefill::url()), WhatsApp with the
+                // service's approved draft.
                 $consult = e(Prefill::url(['service' => $code], $locale));
                 $this->assertStringContainsString('href="'.$consult.'"', $main, $ctx);
-                $this->assertStringContainsString('?service='.$code.'#consultation-form', html_entity_decode($consult), $ctx);
-                $whatsapp = 'https://wa.me/971524666191?text='.rawurlencode($service['whatsapp_draft']);
-                $this->assertStringContainsString('href="'.e($whatsapp).'"', $main, "service WhatsApp draft ({$ctx})");
+                $this->assertSame(e((string) setting('whatsapp_url', $locale)), $consult, $ctx);
+                // one WhatsApp message everywhere (client PDF item 6): the setting's link, not the page's own draft
+                $this->assertStringContainsString('href="'.e((string) setting('whatsapp_url', $locale)).'"', $main, "the one WhatsApp message ({$ctx})");
                 $this->assertStringNotContainsString('api.whatsapp.com/send', $main);
 
-                // The controller's SEO decides indexing (service pages are noindex previews): kept.
-                $this->assertStringContainsString('<meta name="robots" content="noindex, follow">', $html, $ctx);
+                // The controller's SEO decides indexing: every published practice area is a current, indexable page
+                // with its own canonical URL (client PDF item 21).
+                $this->assertStringNotContainsString('<meta name="robots" content="noindex', $html, $ctx);
+                $this->assertStringContainsString('<link rel="canonical" href="'.\App\Support\SiteUrl::canonical(\App\Support\SiteUrl::servicePath($code, $locale)).'">', $html, $ctx);
             }
         }
     }
@@ -274,7 +277,7 @@ final class ServicePageTest extends TestCase
         $html = $this->main($this->d2($this->servicePath('S03', 'ar')));
         $this->assertStringContainsString('<bdi dir="ltr">USDT</bdi>', $html);
         // the final panel's telephone and e-mail: the kit's contact channels, each value one left-to-right run
-        $this->assertStringContainsString('<bdi class="channel__text" dir="ltr">+971 52 466 6191</bdi>', $html);
+        $this->assertStringContainsString('<bdi class="channel__text" dir="ltr">+971524666191</bdi>', $html);
         $this->assertStringContainsString('<bdi class="channel__text" dir="ltr">info@summitlegaluae.com</bdi>', $html);
         $this->assertStringContainsString('href="tel:+971524666191"', $html);
         $this->assertStringContainsString('href="mailto:info@summitlegaluae.com"', $html);
@@ -294,7 +297,7 @@ final class ServicePageTest extends TestCase
             foreach (['start', 'choose', 'overlap', 'before', 'faq', 'resources', 'cta', 'scope'] as $key) {
                 $this->assertHasText($main, $page['content'][$key]['heading'], "{$key} ({$locale})");
             }
-            $this->assertSame(11, substr_count($main, 'class="card card--default card--pad-md card--interactive card--link pa-card"'), $locale);
+            $this->assertSame(10, substr_count($main, 'class="card card--default card--pad-md card--interactive card--link pa-card"'), $locale); // (10 since Legal Translation left the site: client PDF item 9)
             foreach (content()->services($locale) as $service) {
                 $this->assertStringContainsString('href="'.e(SiteUrl::service($service['code'], $locale)).'"', $main, $locale);
                 $this->assertHasText($main, $service['hub_title'], $locale);
@@ -305,11 +308,11 @@ final class ServicePageTest extends TestCase
                 }
             }
             $this->assertHasText($main, ui('service.situations_intro'), $locale);
-            // Resources and the legal notice resolve to their pages; the WhatsApp link carries the P02 draft.
+            // Resources and the legal notice resolve to their pages; the WhatsApp link carries the one message (item 6).
             $this->assertStringContainsString('href="'.e(SiteUrl::page('P03', $locale)).'"', $main, $locale);
             $this->assertStringContainsString('href="'.e(SiteUrl::page('P05', $locale)).'"', $main, $locale);
             $this->assertStringContainsString('href="'.e(SiteUrl::page('P08', $locale)).'"', $main, $locale);
-            $this->assertStringContainsString(e('https://wa.me/971524666191?text='.rawurlencode($page['whatsapp_draft'])), $main, $locale);
+            $this->assertStringContainsString(e((string) setting('whatsapp_url', $locale)), $main, $locale);
         }
     }
 

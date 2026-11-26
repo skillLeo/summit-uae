@@ -179,11 +179,16 @@ final class ContentRepository
         return 'https://wa.me/'.$number.'?text='.rawurlencode($draft);
     }
 
+    /**
+     * The WhatsApp message: one English message on every page in every language (client PDF item 6), so the English
+     * draft of the WhatsApp setting, whatever the page language.
+     */
     private function whatsappDraft(string $locale): ?string
     {
         $draft = (array) ($this->settings('whatsapp')['draft'] ?? []);
+        $english = $draft['en'] ?? null;
 
-        return $draft[$locale] ?? $draft['en'] ?? null;
+        return is_string($english) && $english !== '' ? $english : (is_string($draft[$locale] ?? null) ? $draft[$locale] : null);
     }
 
     // ------------------------------------------------------------------ records
@@ -307,6 +312,11 @@ final class ContentRepository
             $type = (string) $item['target_type'];
             $target = $item['target'] !== null ? (string) $item['target'] : null;
             $record = $type === 'record' && $target !== null ? $this->targetRecord($target, $locale) : null;
+            // A record that is not published (a draft, the Trash, a removed practice area such as Legal Translation)
+            // leaves the menus: never a link without a label to a page that answers 404 (client PDF item 28).
+            if ($type === 'record' && $target !== null && $record === null && $this->targetDataset($target) !== null) {
+                continue;
+            }
             $label = is_array($item['label'] ?? null) ? ($item['label'][$locale] ?? null) : null;
             $label ??= match ($type) {
                 'tel' => $this->setting('phone_display', $locale),
@@ -331,7 +341,15 @@ final class ContentRepository
     /** @return array<string, mixed>|null the record a site-map id names (S06, X02, G04, case-01 …) */
     private function targetRecord(string $target, string $locale): ?array
     {
-        $dataset = match (true) {
+        $dataset = $this->targetDataset($target);
+
+        return $dataset === null ? null : $this->record($dataset, $target, $locale);
+    }
+
+    /** The dataset of a site-map id (S06 → services …), or null for an id that names no record. */
+    private function targetDataset(string $target): ?string
+    {
+        return match (true) {
             (bool) preg_match('/^S\d{2}$/', $target) => 'services',
             (bool) preg_match('/^X\d{2}$/', $target) => 'specialist_sites',
             (bool) preg_match('/^G\d{2}$/', $target) => 'guides',
@@ -339,8 +357,6 @@ final class ContentRepository
             (bool) preg_match('/^(P0\d|L0[12]|U01)$/', $target) => 'pages',
             default => null,
         };
-
-        return $dataset === null ? null : $this->record($dataset, $target, $locale);
     }
 
     private function href(string $type, ?string $target, string $locale, ?array $record): string
@@ -514,7 +530,7 @@ final class ContentRepository
         }
 
         $situations = [];
-        foreach ($this->dbRows('situations', 'position') ?: $files['situations'] as $row) {
+        foreach ($this->dbRows('situations', 'position') ?: array_filter($files['situations'], fn (array $s) => ($s['status'] ?? Status::PUBLISHED) === Status::PUBLISHED) as $row) {
             $row['title'] = $this->decode($row['title']);
             $situations[$row['code']] = $row;
         }
@@ -608,7 +624,13 @@ final class ContentRepository
             $rows[(string) $row['code']] = $row;
         }
 
-        return $rows !== [] ? $rows : (($files ?? (new Sources)->build())['records'][$dataset] ?? []);
+        if ($rows !== []) {
+            return $rows;
+        }
+
+        // The file fallback shows what the published rows would: a record the client layer took off the site (status
+        // draft) stays off here too.
+        return array_filter(($files ?? (new Sources)->build())['records'][$dataset] ?? [], fn (array $row) => ($row['status'] ?? Status::PUBLISHED) === Status::PUBLISHED);
     }
 
     /** Whether any content dataset still reads from the files. */

@@ -14,9 +14,17 @@ final class Prefill
 {
     public const KEYS = ['service', 'situation', 'audience', 'consultant', 'tool'];
 
-    /** @param array<string, string|null> $params */
+    /**
+     * The consultation link with the context as query parameters. WhatsApp only (client PDF item 7,
+     * App\Support\ConsultationForm off): the WhatsApp link with the approved message, without any context.
+     *
+     * @param  array<string, string|null>  $params
+     */
     public static function url(array $params = [], ?string $locale = null): string
     {
+        if (! \App\Support\ConsultationForm::enabled()) {
+            return SiteUrl::consultation($locale);
+        }
         $query = array_filter(array_intersect_key($params, array_flip(self::KEYS)), fn ($v) => is_string($v) && $v !== '');
         $base = config('summit.contact_page_released') ? SiteUrl::page('P07', $locale) : SiteUrl::home($locale);
 

@@ -39,6 +39,8 @@ final class ReportsPageTest extends TestCase
         $this->seed(ContentSeeder::class);
         $this->withoutVite();
         $this->travelTo(CarbonImmutable::parse(self::NOW, 'UTC'));
+        // The form and the requests screens are off since client PDF item 7 (WhatsApp only); this file tests their kept code.
+        $this->consultationFormOn();
     }
 
     protected function tearDown(): void

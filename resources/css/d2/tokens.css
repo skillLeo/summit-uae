@@ -48,6 +48,11 @@
   --warning: #8A5300;           /* warnings: 6.33:1 on white */
   --info: #2F5DA0;              /* information: 6.57:1 on white */
   --whatsapp: #25D366;          /* the WhatsApp glyph on light only; never a fill under white text (1.98:1) */
+  /* The WhatsApp button (client PDF item 6, 2026-11-25): the official WhatsApp green as the fill, Meta's white glyph,
+     an ink label (ink on this green is 9.9:1; white text would be 1.98:1), one soft shadow. */
+  --whatsapp-fill: #25D366;
+  --whatsapp-wash: rgb(11 11 12 / 0.1);       /* hover: the green 10% deeper */
+  --shadow-whatsapp: 0 1px 2px rgb(11 11 12 / 0.1), 0 4px 12px -2px rgb(18 140 76 / 0.28);
   --success-on-dark: #5CC08A;   /* status dots and icons on dark (never text on light): 8.77:1 */
   --warning-on-dark: #E8B04F;   /* status dots and icons on dark: 10.08:1 */
   --danger-on-dark: #F0786C;    /* status dots and icons on dark: 7.13:1 */

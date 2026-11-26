@@ -93,7 +93,7 @@ final class HomeSectionsTest extends TestCase
             $explore = e(content()->ui('cta.explore_service', $locale));
             $this->assertMatchesRegularExpression('/<h2 id="services-title">'.preg_quote(e($copy['heading']), '/').'<\/h2>/', $html);
             $this->assertStringContainsString(e($copy['intro']), $html);
-            $this->assertCount(11, $services);
+            $this->assertCount(10, $services); // (10 since Legal Translation left the site: client PDF item 9)
             // D21: the eleven cards in the supplied order, each its own <li> of one plain list (no carousel, no bento).
             $this->assertStringNotContainsString('carousel', $html, "no swipe rail ({$locale})");
             preg_match_all('/<li class="[^"]*\bsvc-card\b[^"]*" data-svc="(S\d\d)"/', $html, $order);
@@ -107,8 +107,8 @@ final class HomeSectionsTest extends TestCase
                 $this->assertStringContainsString($service['home_summary'], $this->text($html), "{$code}: the complete summary ({$locale})");
             }
             // One link per card (the stretched title); the visible approved "Explore This Service" is its label, not a second link.
-            $this->assertSame(11, substr_count($html, '<a class="card__link"'));
-            $this->assertSame(11, substr_count($html, '<span class="svc-card__cta" aria-hidden="true" data-card-link>'.$explore.'</span>'), "a visible Explore This Service on every card ({$locale})");
+            $this->assertSame(10, substr_count($html, '<a class="card__link"'));
+            $this->assertSame(10, substr_count($html, '<span class="svc-card__cta" aria-hidden="true" data-card-link>'.$explore.'</span>'), "a visible Explore This Service on every card ({$locale})");
             $this->assertDoesNotMatchRegularExpression('/<a\b[^>]*>\s*'.preg_quote($explore, '/').'/', $html, "Explore This Service is not a second link ({$locale})");
             // D03: no corner arrow and no arrow on the button; D06: the button is Ink. D22: no documents line.
             $this->assertStringNotContainsString('svc-card__arrow', $html);
@@ -141,7 +141,7 @@ final class HomeSectionsTest extends TestCase
     {
         $map = config('audience_map.hero');
         $html = $this->section('en', 'services');
-        $this->assertMatchesRegularExpression('/data-svc-audience="all" data-svc-result="11 practice areas shown"\s+type="button"\s+aria-pressed="true"/', $html);
+        $this->assertMatchesRegularExpression('/data-svc-audience="all" data-svc-result="10 practice areas shown"\s+type="button"\s+aria-pressed="true"/', $html);
         $titles = ['individual' => 'Individuals', 'business' => 'Businesses', 'investor' => 'Investors'];
         foreach ($map as $audience => $codes) {
             $count = count($codes);
@@ -156,15 +156,15 @@ final class HomeSectionsTest extends TestCase
         $this->assertStringContainsString('x-data="d2Services"', $html);
         $this->assertStringContainsString('x-on:click="pick"', $html);
         // The chips need JavaScript, so the CSS draws them only under .js; every card is in the HTML.
-        $this->assertSame(11, substr_count($html, 'data-svc-audiences="'));
+        $this->assertSame(10, substr_count($html, 'data-svc-audiences="'));
         $this->assertDoesNotMatchRegularExpression('/<li[^>]*\shidden[\s>=]/', $html, 'no card is hidden on the server');
         // Russian / Arabic plural forms in the announcements.
         $ru = $this->section('ru', 'services');
         $this->assertStringContainsString('data-svc-result="Показано 5 направлений"', $ru);
-        $this->assertStringContainsString('data-svc-result="Показано 11 направлений"', $ru);
+        $this->assertStringContainsString('data-svc-result="Показано 10 направлений"', $ru);
         $ar = $this->section('ar', 'services');
-        $this->assertStringContainsString('data-svc-result="تُعرض 7 مناطق ممارسة"', $ar);
-        $this->assertStringContainsString('data-svc-result="تُعرض 11 منطقة ممارسة"', $ar);
+        $this->assertStringContainsString('data-svc-result="تُعرض 6 مناطق ممارسة"', $ar);
+        $this->assertStringContainsString('data-svc-result="تُعرض 10 مناطق ممارسة"', $ar);
     }
 
     public function test_arabic_latin_runs_in_summaries_are_isolated(): void
@@ -271,9 +271,12 @@ final class HomeSectionsTest extends TestCase
             $area = substr($html, $start, $end === false ? null : $end - $start);
             foreach (['data-sg="svc-states"', 'svc-card is-hover', 'svc-card is-focus', 'data-sg="svc-row"', 'data-sg="svc-more"',
                 'data-sg="svc-live"', 'data-sg="svc-filtered"', 'data-sg="steps"',
-                'data-sg="steps-stacked"', 'data-sg="questions"', 'data-sg="who-list"', 'data-sg="start-picks"', 'data-sg="start-documents"',
-                'data-sg="start-none"'] as $marker) {
+                'data-sg="steps-stacked"', 'data-sg="questions"', 'data-sg="who-list"'] as $marker) {
                 $this->assertStringContainsString($marker, $area, "styleguide shows {$marker} ({$locale})");
+            }
+            // "Start your matter" fed the consultation form: no specimens while the form is off (client PDF item 7).
+            foreach (['data-sg="start-picks"', 'data-sg="start-documents"', 'data-sg="start-none"'] as $marker) {
+                $this->assertStringNotContainsString($marker, $area, "styleguide hides {$marker} ({$locale})");
             }
             // The filtered snapshot hides the non-investor cards on the server (S01, S02 here).
             $filtered = substr($area, strpos($area, 'data-sg="svc-filtered"'));

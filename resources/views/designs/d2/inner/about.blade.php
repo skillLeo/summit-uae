@@ -50,7 +50,7 @@
     $hero = $c['hero'] ?? [];
     $lead = is_string($hero['lead'] ?? null) ? trim($hero['lead']) : '';
     $heroLinks = array_values(array_filter((array) ($hero['links'] ?? []), fn ($l) => is_array($l) && trim((string) ($l['label'] ?? '')) !== ''));
-    $href = fn (string $target) => in_array($target, ['team', 'story', 'approach', 'process', 'scope'], true) ? '#'.$target : SiteUrl::target($target);
+    $href = fn (string $target) => in_array($target, ['team', 'story', 'approach', 'process', 'scope'], true) ? '#'.$target : SiteUrl::cta($target);
 
     $story = $c['story'] ?? [];
     $approach = $c['approach'] ?? [];
@@ -322,7 +322,7 @@
                 <div class="pp-cta__actions">
                     <div class="pp-cta__buttons">
                         @if (! empty($cta['consultation']['label']))
-                            <x-d2.ui.button variant="ink" size="48" :full="true" :href="SiteUrl::target((string) ($cta['consultation']['target'] ?? 'P07'))">{{ $cta['consultation']['label'] }}</x-d2.ui.button>
+                            <x-d2.ui.button variant="ink" size="48" :full="true" :href="SiteUrl::cta((string) ($cta['consultation']['target'] ?? 'P07'))">{{ $cta['consultation']['label'] }}</x-d2.ui.button>
                         @endif
                         @if (! empty($cta['whatsapp']['label']))
                             <x-d2.ui.button variant="whatsapp" size="48" :full="true" :href="setting('whatsapp_url')">{{ $cta['whatsapp']['label'] }}</x-d2.ui.button>

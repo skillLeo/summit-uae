@@ -4,6 +4,7 @@ namespace App\Filament\Cms\Support;
 
 use App\Access\Screens;
 use App\Models\User;
+use App\Support\ConsultationForm;
 use App\Settings\RequestSettings;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Throwable;
@@ -38,6 +39,11 @@ final class CmsAccess
     {
         $user = self::user($user);
         if ($user === null || ! $user->canUsePanel()) {
+            return false;
+        }
+        // WhatsApp only (client PDF item 7): the requests inbox, the request reports and the Forms and Consent and
+        // Notifications settings are hidden from every role, the super admin included (App\Support\ConsultationForm).
+        if (ConsultationForm::retires($screen)) {
             return false;
         }
         if ($user->hasRole(Screens::SUPER_ADMIN)) {

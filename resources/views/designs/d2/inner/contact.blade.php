@@ -26,7 +26,11 @@
     form until the page is released), and telephone, WhatsApp and e-mail stay visible above it.
     Styles: resources/css/d2/pages/contact.css (+ the shared pp-* blocks in pages/about.css).
     Design 2.1: the hero's "Send a Consultation Request" is the page's one gold action (the hero primary, brief
-    §3.5), no arrows, no decorative glyphs or timeline dots, plain bullets. Arabic digits (the approved hours line
+    §3.5), no arrows, no decorative glyphs or timeline dots, plain bullets.
+    WhatsApp only (client PDF item 7, App\Support\ConsultationForm off): no form. The hero keeps "Contact Us on
+    WhatsApp" (its "Send a Consultation Request" led to the form and goes with it); "Consultation Request Details",
+    its intro, the required-fields note and the wizard go; "What Helps Us Understand Your Matter" stays as its own
+    section (#contact-helps: what to put in the message). Arabic digits (the approved hours line
     ٩ / ٦, the step numbers ١. …) follow the site setting at render time (App\Design\D2\Digits, brief §3.7,
     D11), so the page never mixes the two digit sets.
 --}}
@@ -53,6 +57,7 @@
 
         return [null, $title];
     };
+    $form = \App\Support\ConsultationForm::enabled();
     $heroTarget = (string) ($c['hero_cta_target'] ?? 'consultation-form');
     $heroHref = preg_match('/^[a-z][a-z0-9-]*$/', $heroTarget) === 1 && ! preg_match('/^(P0\d|S\d{2}|G\d{2})$/', $heroTarget) ? '#'.$heroTarget : SiteUrl::target($heroTarget);
 @endphp
@@ -62,7 +67,7 @@
         <x-slot:meta><p class="pp-lead">{{ Bidi::isolate($lead) }}</p></x-slot:meta>
     @endif
     <x-slot:actions>
-        @if (! empty($c['hero_cta_label']))
+        @if ($form && ! empty($c['hero_cta_label']))
             <x-d2.ui.button variant="gold" size="52" :href="$heroHref">{{ $c['hero_cta_label'] }}</x-d2.ui.button>
         @endif
         @if (! empty($c['hero_whatsapp_label']))
@@ -98,6 +103,7 @@
     </section>
 @endif
 
+@if ($form)
 {{-- The form section keeps the Design 1 anchor (#consultation-form: the hero CTA, prefill() and, once the page
      is released, every "Request a Legal Consultation" and the no-JS enquiry redirect land here). Its heading, intro
      and required-fields note are the Contact file's (the home's section 09 prints its own). --}}
@@ -132,6 +138,29 @@
         </div>
     </div>
 </section>
+@endif
+
+@if (! $form && ! empty($helps['heading']))
+    {{-- WhatsApp only: the approved checklist of what helps us understand a matter, without the form. --}}
+    <section class="section contact-helps-section" id="contact-helps" aria-labelledby="contact-helps-title">
+        <div class="container">
+            <div class="contact-helps contact-helps--section">
+                <h2 class="contact-helps__title" id="contact-helps-title">{{ Bidi::isolate($helps['heading']) }}</h2>
+                <ul class="pp-checklist" role="list" aria-labelledby="contact-helps-title">
+                    @foreach ($texts($helps['items'] ?? []) as $item)
+                        <li class="pp-checklist__item">
+                            <span class="pp-checklist__mark" aria-hidden="true"></span>
+                            <span>{{ Bidi::isolate($item) }}</span>
+                        </li>
+                    @endforeach
+                </ul>
+                @if (! empty($helps['note']))
+                    <p class="contact-helps__note">{{ Bidi::isolate($helps['note']) }}</p>
+                @endif
+            </div>
+        </div>
+    </section>
+@endif
 
 @if ($faqItems !== [])
     <section class="section section--surface contact-questions" id="contact-questions" aria-labelledby="contact-questions-title">

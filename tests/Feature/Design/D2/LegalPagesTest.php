@@ -11,7 +11,7 @@ use Tests\TestCase;
  * Design 2 legal pages (resources/views/designs/d2/inner/legal.blade.php; owner: inner-kit): P08 Legal
  * Notice, L01 Privacy Policy and L02 Terms and Conditions render the complete approved text (intro, every
  * numbered H2 section verbatim, the last-updated line) in the 720 px column with the TOC, the TOC sheet and
- * the reading progress, keep the contact release rule and the noindex preview SEO, in EN, AR and RU.
+ * the reading progress, keep the contact release rule and their own SEO (indexable since client PDF item 21), in EN, AR and RU.
  */
 final class LegalPagesTest extends TestCase
 {
@@ -133,7 +133,7 @@ final class LegalPagesTest extends TestCase
                 // e-mail and telephone are the kit's contact channels (one pattern with the CTA panels and the footer),
                 // in the DOCX order before "Contact Summit", which stays a link row
                 $this->assertStringContainsString('<bdi class="channel__text" dir="ltr">info@summitlegaluae.com</bdi>', $main);
-                $this->assertStringContainsString('<bdi class="channel__text" dir="ltr">+971 52 466 6191</bdi>', $main);
+                $this->assertStringContainsString('<bdi class="channel__text" dir="ltr">+971524666191</bdi>', $main);
                 $this->assertStringNotContainsString('link-row--email', $main);
                 $this->assertStringNotContainsString('link-row--phone', $main);
                 $this->assertLessThan(strpos($main, 'href="'.SiteUrl::home($locale, 'consultation-form').'"'), strpos($main, 'class="channel channel--email"'));
@@ -149,12 +149,12 @@ final class LegalPagesTest extends TestCase
         }
     }
 
-    public function test_the_preview_seo_stays_noindex_and_the_copy_is_compliant(): void
+    public function test_the_pages_are_indexable_and_the_copy_is_compliant(): void
     {
         foreach (self::PAGES as $code => $path) {
             foreach (self::LOCALES as $locale) {
                 $html = $this->page($code, $locale);
-                $this->assertStringContainsString('<meta name="robots" content="noindex, follow">', $html);
+                $this->assertStringNotContainsString('<meta name="robots" content="noindex', $html, 'a current page (client PDF item 21)');
                 $this->assertStringContainsString('<title>'.e(content()->page($code, $locale)['seo_title']).'</title>', $html);
                 $text = mb_strtolower($this->text($this->main($html)));
                 foreach (['law firm', '24/7', 'free consultation', 'years of experience', 'success rate', 'award'] as $banned) {

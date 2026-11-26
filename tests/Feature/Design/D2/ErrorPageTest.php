@@ -73,9 +73,9 @@ final class ErrorPageTest extends TestCase
         $this->assertStringNotContainsString('nf-link__icon', $main);
         $this->assertSame(1, substr_count($main, 'data-icon='), 'one glyph: the search button');
         $this->assertStringContainsString('data-icon="search"', $main);
-        // Approved U01 links: Knowledge Centre (P03), FAQ (P05), Contact (P07 → the home form until released), as
-        // the kit's link rows (brief §3.5: the one look of a link to a related page), never cards.
-        foreach (['/ar/resources/', '/ar/faq/', '/ar/#consultation-form'] as $path) {
+        // Approved U01 links: Knowledge Centre (P03), FAQ (P05), Contact (P07, released 2026-11-25), as the kit's link
+        // rows (brief §3.5: the one look of a link to a related page), never cards.
+        foreach (['/ar/resources/', '/ar/faq/', '/ar/contact/'] as $path) {
             $this->assertMatchesRegularExpression('#<a class="link-row nf-link" href="'.preg_quote($base.$path, '#').'">\s*<span class="link-row__label">#', $html, $path);
         }
         $this->assertStringNotContainsString('nf-link__label', $main);

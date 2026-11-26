@@ -158,6 +158,8 @@
         </div>
     </div>
 
+    {{-- "Start your matter" fed the consultation form: shown only while the form is on (client PDF item 7). --}}
+    @if (\App\Support\ConsultationForm::enabled())
     {{-- ================================================================== start your matter: the result half (D19) --}}
     <h3 class="sg-sub" {{ $en }}>{{ $t('start') }}</h3>
     <p class="sg-label" {{ $en }}>{{ $t('start_note') }}</p>
@@ -179,4 +181,5 @@
             <p class="sg-label" {{ $en }}>{{ $t('start_none') }}</p>
         </div>
     </div>
+    @endif
 </section>

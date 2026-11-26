@@ -10,6 +10,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Components\Component;
 use Filament\Schemas\Components\Fieldset;
+use Filament\Schemas\Components\Group;
 use Filament\Schemas\Components\Utilities\Get;
 
 /**
@@ -137,8 +138,9 @@ final class TreeFields
                 return Translatable::rich($key, $label);
             }
             $longest = max(array_map(fn ($leaf) => self::longest(array_values($leaf)), $arrays) ?: [0]);
+            $field = Translatable::make($key, fn (string $l) => self::textField($l, $limit, $longest, $l), $label, $limit);
 
-            return Translatable::make($key, fn (string $l) => self::textField($l, $limit, $longest, $l), $label, $limit);
+            return in_array($key, self::STRUCTURAL, true) ? self::mixedStructure($field) : $field;
         }
 
         $lists = array_values(array_filter($arrays, 'array_is_list'));
@@ -188,6 +190,31 @@ final class TreeFields
         }
 
         return $repeater->schema(self::groupFields(array_values(array_filter($arrays, fn ($a) => ! array_is_list($a))), $itemPath, $limits, $rich, $shared, $locale));
+    }
+
+    /**
+     * A structural value (a URL, a target …) that differs by language somewhere in its list: the content store keeps it
+     * once where it is the same in every language (App\Content\Cms\Tree) and per language where it is not, so one list
+     * can hold both shapes (an official source with an English and an Arabic address beside one with a single address).
+     * The field is per language for all of them: a single value fills the three languages when the form is filled, and
+     * three identical values are stored once again on save, so an unchanged form saves exactly what it was given.
+     */
+    private static function mixedStructure(Group $field): Group
+    {
+        return $field
+            ->afterStateHydrated(function (Group $component, mixed $state): void {
+                if (is_string($state)) {
+                    $component->state(array_fill_keys(Tree::LOCALES, $state));
+                }
+            })
+            ->dehydrateStateUsing(function (mixed $state): mixed {
+                if (! is_array($state)) {
+                    return $state;
+                }
+                $values = array_map(fn (string $l) => $state[$l] ?? null, Tree::LOCALES);
+
+                return count(array_unique($values, SORT_REGULAR)) === 1 && is_string($values[0]) ? $values[0] : $state;
+            });
     }
 
     private static function textField(string $name, ?int $limit, int $longest, ?string $locale): Field

@@ -46,7 +46,9 @@ final class Icons
      * - minus / plus (the stepper's own buttons) and calendar (the date field): control glyphs that are the
      *   control's only visible label;
      * - pause / play: the home hero's autoplay toggle (the owner's autoplay; WCAG 2.2.2 needs a visible pause),
-     *   the control's only visible label.
+     *   the control's only visible label;
+     * - website: the website address among the footer's contact details, beside the phone and e-mail (the client's
+     *   final changes, item 19); it draws the globe glyph, which stays decorative (not allowed) under its own name.
      *
      * @var list<string>
      */
@@ -58,6 +60,7 @@ final class Icons
         'carousel-prev', 'carousel-next', 'form-back', 'form-next',
         'minus', 'plus', 'calendar',
         'pause', 'play',
+        'website',
     ];
 
     /**
@@ -72,6 +75,7 @@ final class Icons
         'form-next' => 'arrow',
         'cross' => 'close',
         'email' => 'mail',
+        'website' => 'globe',
     ];
 
     /**

@@ -3,7 +3,7 @@
  * Text snapshots of every public page (docs/briefs/design-2.1-and-admin-cms.md §2 item 5). Phase 3 runs it
  * again before and after Design 2 switches to the CMS (§8.8): the text must stay identical.
  *
- * For every public route (routes/web.php + config/summit.php: the language chooser "/", the home, the
+ * For every public route (routes/web.php + config/summit.php: the home, the
  * styleguide, the offline page, P02-P08, L01, L02, the eleven services S01-S11 and a 404 URL; not the web
  * manifest, the sitemap, the enquiry POST or the admin panel) and every locale (en, ar, ru), the page is
  * loaded in Google Chrome and the normalised visible text of its header, main and footer is saved to
@@ -22,7 +22,7 @@
  *                          the missing files and (without filters) the stale ones; writes nothing; exit 1 on
  *                          any difference, unexpected status or failed capture
  *   --base=<url>           site under test, default http://127.0.0.1:8042 (a server of this working tree)
- *   --locales=<list>       en, ar, ru and "root" (the chooser), default all
+ *   --locales=<list>       en, ar, ru ("root" is accepted and selects nothing: "/" is a 301 to /en/), default all
  *   --routes=<list>        route slugs (below), "*" is a wildcard: --routes=home,s0*,404
  *   --dir=<folder>         snapshot folder, default tests/Snapshots/text (e.g. a copy to test --check)
  *   --concurrency=<n>      parallel captures, default 4
@@ -41,8 +41,8 @@
  *   s01-debt-recovery-cheque-cases ... s11-business-services (code + slug from config/summit.php),
  *   calculators (/{locale}/calculators/: brief 2.1 §5.1 moved the calculators to their own page, which renders
  *   while pending copy is shown), styleguide, offline and 404 (/{locale}/no-such-page-qa/, expected status 404;
- *   the page never echoes the address). The chooser "/" has no locale: it is stored as 2/root/chooser.txt
- *   ("root" is a pseudo-locale for the site root, also accepted by --locales). manifest.json beside the 2/
+ *   the page never echoes the address). "/" is a 301 to /en/ since client PDF item 29 (it was the language
+ *   chooser, 2/root/chooser.txt; a run without filters deletes that file). manifest.json beside the 2/
  *   folder records the capture rules, the routes, the file counts and a hash of the text sources (sha256
  *   of database/content/*.json and of lang/**\/*.php), nothing volatile (no time, host or commit); --check
  *   reports, without failing, when those sources changed since the snapshots were written.
@@ -151,7 +151,7 @@ export function readRegistry() {
     return JSON.parse(execFileSync('php', ['-r', php, join(ROOT, 'config/summit.php')], { encoding: 'utf8' }));
 }
 
-/** Every public HTML route, per locale, with its stable slug and expected status (plus the chooser). */
+/** Every public HTML route, per locale, with its stable slug and expected status. ("/" is a 301 to /en/: no page.) */
 export function buildRoutes(registry) {
     const routes = [];
     for (const locale of registry.locales) {
@@ -167,7 +167,6 @@ export function buildRoutes(registry) {
         routes.push({ locale, slug: 'offline', path: `/${locale}/offline/`, expect: 200 });
         routes.push({ locale, slug: '404', path: `/${locale}/${NOT_FOUND_PATH}`, expect: 404 });
     }
-    routes.push({ locale: ROOT_LOCALE, slug: 'chooser', path: '/', expect: 200 });
     return routes;
 }
 
@@ -618,7 +617,7 @@ function writeManifest(dir, routes) {
     const manifest = {
         generator: 'scripts/qa/text-snapshot.mjs',
         format: 1,
-        layout: '2/{locale}/{route}.txt (2 = Design 2, the only design); the language chooser "/" has no locale and is stored as 2/root/chooser.txt',
+        layout: '2/{locale}/{route}.txt (2 = Design 2, the only design); "/" is a 301 to /en/ (client PDF item 29), so there is no 2/root/ page',
         capture: {
             browser: 'Google Chrome (Playwright channel "chrome"), headless, one fresh context per page',
             cookies: 'none',

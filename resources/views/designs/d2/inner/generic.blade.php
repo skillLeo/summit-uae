@@ -139,7 +139,6 @@
             :service="$serviceCode"
             :request-label="$requestLabel"
             :whatsapp-label="$whatsappLabel"
-            :email="! empty($cta['email'])"
-            :whatsapp-draft="$serviceCode ? ($record['whatsapp_draft'] ?? null) : null" />
+            :email="! empty($cta['email'])" />
     </x-slot:aside>
 </x-d2.inner.layout>

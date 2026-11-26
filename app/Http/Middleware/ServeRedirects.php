@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Content\Cms\ContentCache;
+use App\Support\SiteUrl;
 use Closure;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -40,7 +41,8 @@ final class ServeRedirects
         $query = $request->getQueryString();
         $to = $hit['to'];
         if (! preg_match('#^https?://#i', $to)) {
-            $to = rtrim($request->getSchemeAndHttpHost(), '/').'/'.ltrim($to, '/');
+            // Root-relative, never built from the Host header (cacheable 301s: App\Support\SiteUrl::redirectTarget()).
+            $to = SiteUrl::redirectTarget($to);
         }
         $response = new RedirectResponse($to.($query !== null && $query !== '' && ! str_contains($to, '?') ? '?'.$query : ''), $hit['code']);
         $response->headers->set('Cache-Control', $hit['code'] === 301 ? 'public, max-age=3600' : 'no-store, private');

@@ -57,12 +57,13 @@ final class NavigatorTest extends TestCase
             $this->assertStringContainsString('id="navigator"', $section);
             $this->assertStringContainsString('aria-labelledby="navigator-title"', $section);
             $this->assertStringContainsString('x-data="d2Navigator"', $section);
-            $this->assertSame(44, preg_match_all('/name="navigator" value="S\d{2}-[1-9]"/', $section), $locale);
-            $this->assertSame(11, preg_match_all('/data-nav-group="S\d{2}"/', $section), $locale);
+            // 40 situations of 10 practice areas (Legal Translation's four left with it: client PDF item 9)
+            $this->assertSame(40, preg_match_all('/name="navigator" value="S\d{2}-[1-9]"/', $section), $locale);
+            $this->assertSame(10, preg_match_all('/data-nav-group="S\d{2}"/', $section), $locale);
             $this->assertSame(1, preg_match_all('/<h2[\s>]/', $section), "{$locale}: one H2");
             $this->assertStringNotContainsString(' checked', substr($section, 0, (int) strpos($section, 'data-nav-file')), "{$locale}: nothing chosen");
             // Nothing chosen: the empty card is shown, every file waits in a template, the actions hide.
-            $this->assertSame(11, substr_count($section, '<template data-nav-file-template='), $locale);
+            $this->assertSame(10, substr_count($section, '<template data-nav-file-template='), $locale);
             $this->assertMatchesRegularExpression('/class="nav-file__empty" data-nav-file-empty\s*>/', $section);
             $this->assertMatchesRegularExpression('/data-nav-file-actions[^>]*hidden/', $section);
         }
@@ -88,14 +89,14 @@ final class NavigatorTest extends TestCase
         $base = rtrim(url('/'), '/');
         $this->assertStringContainsString('action="'.$base.'/en/#navigator"', $section);
         $this->assertMatchesRegularExpression('/value="S05-2" checked="checked" type="radio"/', $section);
-        // S05 is live DOM (not a template) with the situation quote; the other ten stay in templates.
-        $this->assertSame(10, substr_count($section, '<template data-nav-file-template='));
+        // S05 is live DOM (not a template) with the situation quote; the other nine stay in templates.
+        $this->assertSame(9, substr_count($section, '<template data-nav-file-template='));
         $this->assertStringNotContainsString('data-nav-file-template="S05"', $section);
         $this->assertMatchesRegularExpression('/<article class="nav-file__service" id="navigator-file-S05" data-file="S05" aria-labelledby="navigator-file-S05-title"\s*>/', $section);
         $this->assertStringContainsString('<q data-nav-quote>After purchase, you discovered a property defect that was not mentioned in the contract.</q>', $section);
         $this->assertMatchesRegularExpression('/class="nav-file__empty" data-nav-file-empty\s+hidden/', $section);
-        // Request without JavaScript: the consultation form with the prefill query (Prefill::url()).
-        $this->assertStringContainsString('href="'.$base.'/en/?service=S05&amp;situation=S05-2#consultation-form"', $section);
+        // Request: WhatsApp with the approved message (client PDF item 7, no form; Prefill::url()), a new tab.
+        $this->assertStringContainsString('href="'.e(setting('whatsapp_url')).'" target="_blank" rel="noopener noreferrer"', $section);
         $this->assertStringContainsString('data-nav-submit', $section);
         $this->assertStringContainsString('Show the starting file', $section);
     }
@@ -104,7 +105,7 @@ final class NavigatorTest extends TestCase
     {
         foreach (['?navigator=S12-1', '?navigator=S05-9', '?navigator=%3Cscript%3E', '?navigator='] as $query) {
             $section = $this->section($this->home('en', $query));
-            $this->assertSame(11, substr_count($section, '<template data-nav-file-template='), $query);
+            $this->assertSame(10, substr_count($section, '<template data-nav-file-template='), $query);
             $this->assertStringNotContainsString('checked="checked"', $section, $query);
             $this->assertStringNotContainsString('<script>', $section, $query);
         }
@@ -114,9 +115,9 @@ final class NavigatorTest extends TestCase
     {
         $en = $this->config($this->section($this->home('en')));
         $this->assertSame('summit.navigator.v1', $en['storageKey']);
-        $this->assertSame(rtrim(url('/'), '/').'/en/#consultation-form', $en['request']);
+        $this->assertSame(setting('whatsapp_url', 'en'), $en['request']); // WhatsApp only (client PDF item 7)
         $this->assertSame('en-GB', $en['dateLocale']);
-        $this->assertCount(45, $en['matches']);
+        $this->assertCount(41, $en['matches']); // 0 to 40 situations
         $this->assertSame('1 situation', $en['matches'][1]);
         $this->assertSame('4 situations', $en['matches'][4]);
         $this->assertSame("\u{2068}2\u{2069} of \u{2068}4\u{2069} documents ready", $en['progress'][4][2]);
@@ -150,7 +151,7 @@ final class NavigatorTest extends TestCase
         $this->assertGreaterThan($main, $sheet, 'the sheet renders after </main> (@push sheets)');
         $this->assertStringContainsString('id="sheet-navigator-title"', $html);
         $this->assertStringContainsString('data-nav-sheet-slot', $html);
-        $href = preg_quote(rtrim(url('/'), '/').'/en/?service=S06&amp;situation=S06-1#consultation-form', '~');
+        $href = preg_quote(e(setting('whatsapp_url', 'en')), '~'); // WhatsApp only (client PDF item 7)
         $this->assertMatchesRegularExpression('~data-nav-sheet-actions>\s*<a class="btn btn--ink btn--48 btn--full" href="'.$href.'"~', $html);
     }
 
@@ -165,8 +166,9 @@ final class NavigatorTest extends TestCase
             }
             preg_match_all('/data-icon="([^"]+)"/', $section, $icons);
             // search field, disclosure chevrons, and the check and cross marks of the useful first steps and the
-            // mistakes to avoid (brief §3.6 rule 5); the chip rail has no previous / next buttons since D30
-            $this->assertSame([], array_values(array_diff(array_unique($icons[1]), ['search', 'chevron-down', 'check', 'cross'])), "{$locale}: functional icons only");
+            // mistakes to avoid (brief §3.6 rule 5); the chip rail has no previous / next buttons since D30; the WhatsApp
+            // mark on the links that open WhatsApp (client PDF item 7)
+            $this->assertSame([], array_values(array_diff(array_unique($icons[1]), ['search', 'chevron-down', 'check', 'cross', 'whatsapp'])), "{$locale}: functional icons only");
             $this->assertSame(4, preg_match_all('/data-icon="check"/', $this->between($section, 'id="navigator-file-S05"', '</article>')), "{$locale}: one check per useful first step");
             $this->assertMatchesRegularExpression('/<button class="btn btn--secondary btn--48"[^>]*data-nav-action="print"[^>]*>.*?'.preg_quote(e(__('proposed.d2.navigator.print', [], $locale)), '/').'/s', $section, "{$locale}: Print is a labelled button");
             $this->assertMatchesRegularExpression('/<button class="btn btn--secondary btn--48"[^>]*data-nav-action="copy"[^>]*>.*?'.preg_quote(e(__('proposed.d2.navigator.copy_link', [], $locale)), '/').'/s', $section, "{$locale}: Copy link is a labelled button");
@@ -198,7 +200,7 @@ final class NavigatorTest extends TestCase
                 $this->assertStringNotContainsString($gone, $section, "{$locale}: no {$gone}");
             }
             $this->assertMatchesRegularExpression('/<div class="nav-chips" data-nav-chips-wrap>\s*<div class="nav-chips__rail" data-nav-rail>\s*<div class="nav-chips__list" role="toolbar"/', $section, "{$locale}: the chips toolbar sits alone in its rail");
-            $this->assertSame(12, preg_match_all('/data-nav-chip="/', $section), "{$locale}: All plus the 11 practice areas");
+            $this->assertSame(11, preg_match_all('/data-nav-chip="/', $section), "{$locale}: All plus the 10 practice areas");
         }
 
         $css = (string) file_get_contents(resource_path('css/d2/sections/navigator.css'));

@@ -16,6 +16,8 @@ Practical Solutions.
 Clear legal support for individuals, businesses, investors, and residents — built on a precise understanding of the facts, documents, and legal procedures in the United Arab Emirates.
 We provide consultations in Arabic, English and Russian, explaining your options and the next step based on the facts and documents in your matter.
 Request a Legal Consultation
+– WhatsApp
+(opens in a new tab)
 Contact Us on WhatsApp
 (opens in a new tab)
 Sample Bank
@@ -166,62 +168,6 @@ Return reason on the bank memo
 Cheque date
 Amount in words and figures
 Samples of documents Summit commonly reviews
-Start your matter
-Who is this for?
-Individual
-Business
-Investor
-Your situation
-Choose your situation
-You paid for a service or goods but did not receive what you paid for.
-You hold a cheque that was presented to the bank and returned unpaid.
-You are dealing with a debtor who delays payment or has left the country.
-You have outstanding invoices and want to understand your options before escalating the matter.
-You received a summons or a criminal complaint was made against you, and you do not know what to do first.
-You have been accused of fraud or forgery that you did not commit.
-Your name appeared in a criminal file although you were not actually involved.
-A judgment has already been issued and you want to understand whether it can be reviewed.
-You placed funds on a trading platform and they disappeared or were frozen.
-You sold digital assets and faced an accusation concerning events in which you were not involved.
-You want to trace suspicious digital transfers or establish evidence of them.
-You were defrauded through a crypto investment offer.
-A dispute with your business partner arose sooner than you expected.
-You signed a commercial contract and later discovered terms whose effect you had not understood at the time.
-You want to establish a company and structure your relationship with partners from the outset.
-You have a commercial dispute with a customer, supplier or business partner.
-You bought an off-plan property and handover has been delayed beyond your expectations.
-After purchase, you discovered a property defect that was not mentioned in the contract.
-A landlord or tenant is making a demand you believe is unlawful.
-You want a sale or tenancy agreement reviewed before signing.
-Your salary is overdue and you do not know your rights if you decide to pursue the matter.
-Your employment ended and you suspect your final entitlements were calculated incorrectly.
-You signed a settlement release and are unsure which rights you waived.
-You are an employer seeking to organise employment contracts and review your obligations.
-You received a tax penalty or decision that you believe is incorrect.
-You want to object to a tax assessment.
-Your company has expanded and you want to review its new tax obligations.
-You want to organise your tax records before the filing deadline.
-You live in the UAE, have assets or children, and have not yet made a will.
-You are facing a family dispute and want to understand your options before taking any step.
-A relative has died and you want to understand how the estate will be distributed.
-You are a non-Muslim resident and want to know how inheritance rules apply in the UAE.
-Your company has expanded or changed its activity without reviewing its regulatory obligations.
-You want to update your company’s anti-money laundering policies.
-You received an enquiry from a regulator and do not know how to respond.
-You want a compliance review before a new investment partner joins.
-You have a contract in a foreign language and want it translated before signing.
-A document must be submitted to a government authority or court and requires certified translation.
-You signed a translated document and want to check the translation’s accuracy.
-You need a translation between Arabic and English or Russian for an official transaction.
-You want to establish a company and need guidance on choosing an appropriate structure.
-Your licence needs renewing or its activities need amending.
-You need attestation or official documents for a government transaction.
-You want to organise your company’s documents before an investor or partner joins.
-Continue
-Common situations
-You hold a cheque that was presented to the bank and returned unpaid.
-A landlord or tenant is making a demand you believe is unlawful.
-Your employment ended and you suspect your final entitlements were calculated incorrectly.
 Our Legal Services in the UAE
 Your matter may begin with an unpaid invoice, a contract that needs reviewing or a summons whose implications are unclear. Choose the area most relevant to your situation to see what the service covers and which documents will help us review it.
 Debt Recovery and Cheque Cases
@@ -251,74 +197,11 @@ Explore This Service
 Compliance and Regulatory Matters
 We review business activities, licences, policies, beneficial ownership records, due diligence, governance and data protection. We identify gaps and the steps needed to address them in line with the requirements applicable to the business.
 Explore This Service
-Legal Translation
-We review the legal meaning of multilingual contracts and documents and check that obligations, names and figures are consistent. When certified translation is required, we coordinate it with a registered legal translator.
-Explore This Service
 Business Services
 We assist with choosing a business structure and preparing documents for licences, amendments, renewals, attestations and administrative procedures. We explain which work Summit undertakes and which steps are carried out by the competent authorities.
 Explore This Service
 If your matter spans more than one area, simply describe what happened and what you want to achieve. We will identify the overlapping issues and the appropriate service for reviewing them.
 View All Practice Areas
-Anatomy of a Document
-Much of a document review comes down to a few details. Choose a sample document, then one of its parts, to see what that part can show and what we check when we review it.
-Sample Bank
-Cheque return memo
-Returned
-Cheque no. 000000
-Date 00/00/2026
-Amount AED 00,000.00
-Reason for return
-Insufficient funds
-Authorised signatory
-Ref. 000000
-Sample Bank
-Sample Branch
-No. 000000
-A/C payee only
-Date
-00/00/2026
-Pay
-A. Example
-or bearer
-Dirhams
-Zero dirhams only
-AED
-00,000.00
-Account 000-000000-000
-B. Sample LLC
-000000 000 000000000
-Date
-What it can show
-When the cheque became payable, and whether it was dated in advance.
-What we check
-We compare it with the presentation date on the return memo and with the agreement behind the payment.
-Payee
-What it can show
-Who the cheque was made out to.
-What we check
-We check that the name matches the person or company raising the matter, and any related agreement or invoice.
-Amount in words
-What it can show
-The amount written out in full by the person who signed.
-What we check
-We compare the words with the figures and note any difference for review.
-Amount in figures
-What it can show
-The amount written in numbers in the amount box.
-What we check
-We check it against the amount in words, the return memo and the invoice or agreement it relates to.
-Signature
-What it can show
-Who signed for the account, and whether the account holder is a person or a company.
-What we check
-We note who signed and in what capacity, and whether the memo mentions a signature issue.
-Return memo
-What it can show
-The reason the bank gave for not paying the cheque, and when it was returned.
-What we check
-We read the stated reason and date closely, because different reasons can lead to different next steps.
-Request a Legal Consultation
-Sample documents for illustration. What a real document shows depends on the whole file and the facts around it.
 Who We Help
 We serve clients in the UAE and abroad whose interests, transactions or disputes are connected with the country.
 Individuals
@@ -401,11 +284,6 @@ Your company has expanded or changed its activity without reviewing its regulato
 You want to update your company’s anti-money laundering policies.
 You received an enquiry from a regulator and do not know how to respond.
 You want a compliance review before a new investment partner joins.
-Legal Translation
-You have a contract in a foreign language and want it translated before signing.
-A document must be submitted to a government authority or court and requires certified translation.
-You signed a translated document and want to check the translation’s accuracy.
-You need a translation between Arabic and English or Russian for an official transaction.
 Business Services
 You want to establish a company and need guidance on choosing an appropriate structure.
 Your licence needs renewing or its activities need amending.
@@ -485,49 +363,14 @@ Does Sending an Enquiry Mean You Have Accepted My Matter?
 Sending a message or document does not, by itself, mean that we have accepted the engagement or begun monitoring legal deadlines. Work begins once the scope of service and fees have been agreed and the engagement accepted.
 Does a Consultation Guarantee a Particular Outcome?
 No. A consultation helps assess rights, evidence and options, but the outcome depends on the facts, documents, competent authority and procedures. The ability to recover money may also depend on the assets available.
-Do Your Services Include Tax, Compliance, Translation and Business Support?
+Do Your Services Include Tax, Compliance and Business Support?
 Yes, within the agreed scope of work. We explain what Summit provides directly and what requires a licensed advocate, registered legal translator, tax agent or other professional, depending on the matter.
 View All FAQs
 Start with Clear Legal Advice
 Tell us what happened and what you want to achieve, and mention any hearing, response deadline or appeal deadline. Before the service begins, we will explain the documents needed, the scope of consultation and the fee.
-You
-Your name and at least one way to reach you.
-Full Name*
-Phone or WhatsApp Number, Email Address
-Phone or WhatsApp Number
-Email Address
-Preferred Language
-Choose a Language
-Arabic
-English
-Russian
-Your matter
-Choose the type of matter if you know it, and describe what happened.
-Type of Legal Matter
-Choose a Matter Type
-Debt Recovery and Cheque Cases
-Criminal Cases
-Cryptocurrency and Digital Currency Cases
-Corporate and Commercial Law
-Property and Tenancy Disputes
-Employment Law
-Tax Disputes and Tax Compliance
-Family Law and Wills
-Compliance and Regulatory Matters
-Legal Translation
-Business Services
-Other Matter
-Summary of Your Matter*
-Deadline
-If a hearing or a response or appeal deadline applies, give its date and the authority. Both fields are optional.
-Nearest Upcoming Deadline or Hearing
-If a hearing or deadline has been set, give the date and the relevant authority.
-Date or Deadline Details
-Do not send passwords, verification codes or private wallet keys. After initial contact, we can agree on an appropriate way to share sensitive documents.
-I agree to the use of my data to contact me about this enquiry in accordance with the Privacy Policy.*
-Submit Consultation Request
-Submitting this form does not mean that the engagement has been accepted or that monitoring of legal deadlines has begun. If you have an urgent deadline, call us directly and confirm that the engagement has been accepted.
-+971 52 466 6191
+Contact Us on WhatsApp
+(opens in a new tab)
++971524666191
 Contact Us on WhatsApp
 (opens in a new tab)
 info@summitlegaluae.com
@@ -537,10 +380,11 @@ Estimate an end-of-service gratuity or a Dubai rent increase
 === footer ===
 Summit Legal Consultancy
 Legal advice for individuals, businesses, investors and residents in the UAE, in Arabic, English and Russian.
-+971 52 466 6191
++971524666191
 Contact Us on WhatsApp
 (opens in a new tab)
 info@summitlegaluae.com
+www.summitlegaluae.com
 Business hours: Monday to Friday, 9 am to 6 pm.
 Practice Areas
 Debt Recovery and Cheque Cases
@@ -552,8 +396,8 @@ Employment Law
 Tax Disputes and Tax Compliance
 Family Law and Wills
 Compliance and Regulatory Matters
-Legal Translation
 Business Services
+View All Practice Areas
 Legal Resources
 Legal Resources Centre
 FAQs
@@ -586,6 +430,6 @@ uaetaxdisputes.com
 (opens in a new tab)
 © {{YEAR}} Summit Legal Consultancy. All rights reserved.
 Choose language
-Arabic
 English
-Russian
+العربية
+Русский

@@ -245,7 +245,7 @@ final class CaseStudiesPageTest extends TestCase
             $this->assertStringContainsString('href="'.e(SiteUrl::consultation($locale)).'"', $page, "final consultation follows the release rule ({$locale})");
             $this->assertStringContainsString('href="'.e(setting('whatsapp_url', $locale)).'"', $page, "approved WhatsApp draft ({$locale})");
             // telephone and e-mail: the kit's contact channels (one pattern with every CTA panel and the footer)
-            $this->assertMatchesRegularExpression('#<ul class="channels kc-contact__channels" role="list">[\s\S]*?<a class="channel channel--phone" href="tel:\+971524666191">[\s\S]*?<bdi class="channel__text" dir="ltr">\+971 52 466 6191</bdi>#', $page);
+            $this->assertMatchesRegularExpression('#<ul class="channels kc-contact__channels" role="list">[\s\S]*?<a class="channel channel--phone" href="tel:\+971524666191">[\s\S]*?<bdi class="channel__text" dir="ltr">\+971524666191</bdi>#', $page);
             $main = mb_strtolower($this->text($this->main($locale)));
             foreach (['law firm', 'free consultation', '24/7', 'years of experience', 'success rate', 'success stor'] as $banned) {
                 $this->assertStringNotContainsString($banned, $main, "no '{$banned}' ({$locale})");
@@ -267,7 +267,8 @@ final class CaseStudiesPageTest extends TestCase
                 $file = $this->file($locale, $code);
                 $case = content()->caseStudy($code, $locale);
                 $this->assertSame(1, substr_count($file, 'casefile__cta'), "{$code}: one Ink CTA ({$locale})");
-                $this->assertMatchesRegularExpression('#<div class="casefile__actions">\s*<a class="btn btn--ink btn--48 btn--full casefile__cta" href="[^"]*\?service=S\d\d\#consultation-form">\s*<span class="btn__spinner" aria-hidden="true"></span>\s*<span class="btn__label">'.preg_quote(e(ui('cta.request_consultation', $locale)), '#').'</span>\s*</a>\s*<a [^>]*href="\#cases-top"#', $file, "{$code}: the CTA opens the actions slot, before the way back ({$locale})");
+                // WhatsApp only (client PDF item 7): the CTA opens WhatsApp with the approved message (a new tab, the mark).
+                $this->assertMatchesRegularExpression('#<div class="casefile__actions">\s*<a class="btn btn--ink btn--48 btn--full casefile__cta" href="'.preg_quote(e((string) setting('whatsapp_url', $locale)), '#').'" target="_blank" rel="noopener noreferrer">\s*<span class="btn__icon" aria-hidden="true">.*?</span>\s*<span class="btn__label">'.preg_quote(e(ui('cta.request_consultation', $locale)), '#').'</span>.*?</a>\s*<a [^>]*href="\#cases-top"#s', $file, "{$code}: the CTA opens the actions slot, before the way back ({$locale})");
                 preg_match('#<ul class="casefile__related" role="list">(.*?)</ul>#s', $file, $list);
                 $this->assertStringNotContainsString('btn--ink', $list[1] ?? '', "{$code}: no CTA among the related links ({$locale})");
                 // The related items keep the DOCX order of their labels.

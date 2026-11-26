@@ -22,7 +22,7 @@ On this page
 3. Nature of Published Information
 4. Enquiries and Acceptance of an Engagement
 5. Information and Documents You Provide
-6. Forms and Electronic Communications
+6. Electronic Communications
 7. Fees, Appointments and External Services
 8. Intellectual Property and Permitted Use
 9. External Links and Sources
@@ -46,11 +46,11 @@ Summit is a legal consultancy company. Advocacy or representation requiring an a
 5. Information and Documents You Provide
 Provide the information you know accurately and identify anything uncertain or incomplete. You must have appropriate authority or a proper basis to send documents and third-party data, and limit what you send to what is needed to understand the matter or perform the agreed work.
 Do not send passwords, verification codes, private keys or a wallet recovery phrase. Sending a file does not grant general permission to publish it or use it beyond a lawful purpose. Its processing is governed by the Privacy Policy and applicable obligations.
-6. Forms and Electronic Communications
+6. Electronic Communications
 Communication channels are used for initial enquiries, coordination and follow-up as agreed. Technical issues may delay delivery or a response. An automated acknowledgement is not acceptance of an engagement or a decision on the matter.
 If a legal deadline is approaching, state it and confirm that responsibility for following it up has been accepted. Clicking WhatsApp is not proof that a message has been sent, and opening an email or telephone application does not prove that Summit has received the request.
 7. Fees, Appointments and External Services
-The fees, scope and payment arrangements for a consultation or service are set out in the relevant agreement. The availability of a form or contact link does not mean that legal review is free or that an appointment has been confirmed.
+The fees, scope and payment arrangements for a consultation or service are set out in the relevant agreement. The availability of a contact link does not mean that legal review is free or that an appointment has been confirmed.
 Authority fees or work by external specialists may be required and are explained according to the service and the agreement. This page does not establish a uniform payment, refund or cancellation policy for all engagements. The terms of the particular service apply, subject to rights provided by law.
 8. Intellectual Property and Permitted Use
 Original published materials, the brand, logos and design are owned by or licensed to Summit unless stated otherwise. Rights in third-party materials and official documents remain with their respective holders under the applicable rules.
@@ -73,17 +73,18 @@ If a provision cannot be enforced, it will be dealt with in accordance with the 
 14. Contact
 For questions about website use or to report an issue concerning content or rights, identify the page and topic and provide a suitable way to respond. Personal data requests should be directed in accordance with the Privacy Policy.
 info@summitlegaluae.com
-+971 52 466 6191
++971524666191
 Contact Summit
 Legal Notice and Scope of Services
 Privacy Policy
 === footer ===
 Summit Legal Consultancy
 Legal advice for individuals, businesses, investors and residents in the UAE, in Arabic, English and Russian.
-+971 52 466 6191
++971524666191
 Contact Us on WhatsApp
 (opens in a new tab)
 info@summitlegaluae.com
+www.summitlegaluae.com
 Business hours: Monday to Friday, 9 am to 6 pm.
 Practice Areas
 Debt Recovery and Cheque Cases
@@ -95,8 +96,8 @@ Employment Law
 Tax Disputes and Tax Compliance
 Family Law and Wills
 Compliance and Regulatory Matters
-Legal Translation
 Business Services
+View All Practice Areas
 Legal Resources
 Legal Resources Centre
 FAQs
@@ -129,6 +130,6 @@ uaetaxdisputes.com
 (opens in a new tab)
 © {{YEAR}} Summit Legal Consultancy. All rights reserved.
 Choose language
-Arabic
 English
-Russian
+العربية
+Русский

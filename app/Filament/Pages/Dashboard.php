@@ -34,7 +34,8 @@ class Dashboard extends BaseDashboard
 
     public function getSubheading(): ?string
     {
-        return (string) __('dashboard.subheading');
+        // WhatsApp only (client PDF item 7): no request figures, so no line about how they are counted.
+        return \App\Support\ConsultationForm::enabled() ? (string) __('dashboard.subheading') : null;
     }
 
     public static function canAccess(): bool

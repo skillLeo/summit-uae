@@ -11,6 +11,11 @@
 @php
     $t = fn (string $key) => __('styleguide_d2/page.'.$key);
     $areas = ['foundations', 'type', 'icons', 'controls', 'surfaces', 'shell', 'mobile', 'documents', 'hero', 'sections', 'navigator', 'tools', 'cards', 'search', 'wizard', 'upload', 'inner'];
+    // WhatsApp only (client PDF item 7, App\Support\ConsultationForm off): no consultation form on any page, so the
+    // wizard and the document upload are not shown here either (their code is kept).
+    if (! \App\Support\ConsultationForm::enabled()) {
+        $areas = array_values(array_diff($areas, ['wizard', 'upload']));
+    }
     // Only areas whose partial exists are listed, so the index never links to a missing anchor.
     $present = array_values(array_filter($areas, fn (string $area) => view()->exists('d2::styleguide.'.$area)));
     $labels = (array) $t('areas');

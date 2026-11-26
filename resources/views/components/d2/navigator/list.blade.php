@@ -57,5 +57,7 @@
     <div class="nav-empty" data-nav-empty @unless ($emptyVisible) hidden @endunless>
         <p class="nav-empty__text" @proposed>{{ d2p('navigator.no_results') }}</p>
         <x-d2.ui.button variant="night" size="40" data-nav-clear :data-copy-status="$cs">{{ d2p('navigator.clear_filter') }}</x-d2.ui.button>
+        {{-- No result: WhatsApp with the approved message instead of a consultation form (client PDF item 7). --}}
+        <x-d2.ui.button variant="whatsapp" size="40" :href="setting('whatsapp_url')" class="nav-empty__whatsapp">{{ ui('cta.whatsapp') }}</x-d2.ui.button>
     </div>
 </fieldset>

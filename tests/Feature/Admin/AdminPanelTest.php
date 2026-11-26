@@ -35,6 +35,8 @@ final class AdminPanelTest extends TestCase
         // Approved service titles and form options come from the DOCX content (inside the test transaction).
         $this->seed(ContentSeeder::class);
         $this->withoutVite();
+        // The requests screens are off since client PDF item 7 (WhatsApp only); this file tests their kept code.
+        $this->consultationFormOn();
     }
 
     protected function tearDown(): void

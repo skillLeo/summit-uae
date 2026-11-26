@@ -34,6 +34,8 @@ final class ContactPageTest extends TestCase
         $this->seed(ContentSeeder::class);
         $this->withoutVite();
         config(['summit.features.attachments_enabled' => false]);
+        // The form and the requests screens are off since client PDF item 7 (WhatsApp only); this file tests their kept code.
+        $this->consultationFormOn();
     }
 
     /** @return array<string, array{string}> */
@@ -129,7 +131,7 @@ final class ContactPageTest extends TestCase
         $this->assertSame(1, $x->query('.//a[@href="mailto:info@summitlegaluae.com"]', $aside)->length);
         $this->assertSame(1, $x->query('.//a[@href="'.setting('whatsapp_url').'"]', $aside)->length);
         $this->assertStringContainsString('https://wa.me/971524666191?text=', setting('whatsapp_url'));
-        $this->assertSame('+971 52 466 6191', $this->text($x->query('.//bdi[@dir="ltr"]', $aside)->item(0)->textContent));
+        $this->assertSame('+971524666191', $this->text($x->query('.//bdi[@dir="ltr"]', $aside)->item(0)->textContent));
 
         $text = $this->text($aside->textContent);
         foreach (['hours', 'languages', 'after_hours'] as $key) {
@@ -250,11 +252,13 @@ final class ContactPageTest extends TestCase
         $this->assertSame([], json_decode($this->one($y, '//script[@data-wizard-data]')->textContent, true)['prefill']);
     }
 
-    public function test_until_released_the_page_is_noindex_and_other_pages_keep_the_home_form(): void
+    public function test_until_released_other_pages_keep_the_home_form_and_the_page_is_still_indexable(): void
     {
         config(['summit.contact_page_released' => false]);
         $html = $this->page('en');
-        $this->assertStringContainsString('<meta name="robots" content="noindex, follow">', $html);
+        // Every current page has its canonical URL and may be indexed (client PDF items 21, 23).
+        $this->assertStringNotContainsString('<meta name="robots" content="noindex', $html);
+        $this->assertStringContainsString('<link rel="canonical" href="https://www.summitlegaluae.com/en/contact/">', $html);
         $this->assertSame(SiteUrl::home('en', 'consultation-form'), SiteUrl::consultation('en'));
         $this->assertStringStartsWith(SiteUrl::home('en'), Prefill::url(['consultant' => 'team-ahmed'], 'en'));
 

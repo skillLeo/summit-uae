@@ -13,7 +13,9 @@
       approved order (no usage data is collected, so no "most used" ranking) + View All Practice Areas.
     - The index public/search/{locale}.json (php artisan summit:search-index) and MiniSearch load on first
       open (resources/js/d2/palette/engine.js): that JSON is the only request. Nothing is stored or sent;
-      "Describe your matter" hands the typed words to the consultation wizard (lib/prefill.js).
+      "Describe your matter" hands the typed words to the consultation wizard (lib/prefill.js). WhatsApp only
+      (client PDF item 7, App\Support\ConsultationForm off): that last row is "Contact Us on WhatsApp" instead (the
+      approved label and message, a new tab, nothing sent), also under "No results".
     - Copy blocks for scripts: #d2-palette-copy (palette strings) and #d2-hours-copy (office hours for
       modules/hours.js, used by every [data-hours-status] on the page).
     - Design 2.1 (Phase 1, home-b): text rows only. No icon tiles on the options, no icons in the type chips,
@@ -88,10 +90,11 @@
 
     <p class="sr-only" role="status" data-palette-status></p>
 
-    {{-- No results / error: shown above the list (the "Describe your matter" option stays in the list). --}}
+    {{-- No results / error: shown above the list (the "Describe your matter" option, or "Contact Us on WhatsApp",
+         stays in the list). --}}
     <div class="palette__notice" data-palette-notice hidden>
         <p class="palette__notice-title" data-palette-notice-title></p>
-        <p class="palette__notice-text" data-palette-notice-text @proposed>{{ d2p('palette.no_results_hint') }}</p>
+        <p class="palette__notice-text" data-palette-notice-text @proposed>{{ d2p(\App\Support\ConsultationForm::enabled() ? 'palette.no_results_hint' : 'palette.no_results_hint_whatsapp') }}</p>
         <x-d2.ui.button class="palette__retry" variant="secondary" size="40" :data-copy-status="$mark" data-palette-retry hidden>{{ d2p('palette.retry') }}</x-d2.ui.button>
     </div>
 
@@ -119,12 +122,23 @@
                 </span>
             </a>
         </div>
-        <a class="palette-option palette-option--describe" role="option" id="palette-o-describe" href="{{ Prefill::url() }}" tabindex="-1" aria-selected="false" hidden data-palette-option data-palette-describe>
-            <span class="palette-option__text">
-                <span class="palette-option__title" @proposed>{{ d2p('palette.describe') }}</span>
-                <span class="palette-option__summary" data-palette-describe-text @proposed></span>
-            </span>
-        </a>
+        @if (\App\Support\ConsultationForm::enabled())
+            <a class="palette-option palette-option--describe" role="option" id="palette-o-describe" href="{{ Prefill::url() }}" tabindex="-1" aria-selected="false" hidden data-palette-option data-palette-describe>
+                <span class="palette-option__text">
+                    <span class="palette-option__title" @proposed>{{ d2p('palette.describe') }}</span>
+                    <span class="palette-option__summary" data-palette-describe-text @proposed></span>
+                </span>
+            </a>
+        @else
+            <a class="palette-option palette-option--describe palette-option--whatsapp" role="option" id="palette-o-whatsapp" href="{{ setting('whatsapp_url') }}"
+                target="_blank" rel="noopener noreferrer" tabindex="-1" aria-selected="false" hidden data-palette-option data-palette-describe data-palette-external>
+                <span class="palette-option__mark" aria-hidden="true"><x-d2.ui.brand-mark size="20" /></span>
+                <span class="palette-option__text">
+                    <span class="palette-option__title">{{ ui('cta.whatsapp') }}</span>
+                </span>
+                <span class="sr-only" @proposed>{{ d2p('controls.new_tab') }}</span>
+            </a>
+        @endif
     </div>
 
     {{-- Markup the script clones (no HTML strings in JavaScript). --}}

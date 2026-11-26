@@ -9,9 +9,11 @@ namespace App\Content\Cms;
  * The approved sections 01-09 are in the order of 01_Homepage_EN_Revised.docx (the same in Arabic and Russian). The
  * switchable blocks sit between approved sections, never inside one:
  *     01 hero
- *        [start]      "Start your matter" (pending copy)
+ *        [start]      "Start your matter" (pending copy): off since the form was removed (client PDF item 7; its
+ *                     Continue led into the form, and it renders only while the form is on)
  *     02 services
- *        [anatomy]    "Anatomy of a Document" (pending copy)
+ *        [anatomy]    "Anatomy of a Document" (pending copy): off since client PDF item 13 (homepage density: the
+ *                     hero's sample documents are the one interactive document section; Anatomy repeated the concept)
  *     03 who we help
  *     04 review       "What a Review of Your Matter Can Clarify"
  *        [navigator]  "Where Do You Stand?" (pending copy)
@@ -20,7 +22,7 @@ namespace App\Content\Cms;
  *     06 case studies
  *     07 guides
  *     08 questions
- *     09 contact      #consultation-form
+ *     09 contact      #consultation-form (WhatsApp, the contact details; the form only while it is on)
  *
  * keys: the P01 content keys a block carries (the views read them as $c['hero'] …); a block without keys renders copy
  * from other records and the interface text. anchor: the section's id. background: white | band | dark (the brief's
@@ -32,9 +34,9 @@ final class HomeBlocks
 
     public const BLOCKS = [
         ['type' => 'hero', 'keys' => ['hero'], 'anchor' => null, 'background' => 'white', 'copy_source' => CopySource::DOCX, 'enabled' => true],
-        ['type' => 'start', 'keys' => [], 'anchor' => 'start', 'background' => 'white', 'copy_source' => CopySource::PENDING, 'enabled' => true],
+        ['type' => 'start', 'keys' => [], 'anchor' => 'start', 'background' => 'white', 'copy_source' => CopySource::PENDING, 'enabled' => false],
         ['type' => 'services', 'keys' => ['services'], 'anchor' => 'services', 'background' => 'white', 'copy_source' => CopySource::DOCX, 'enabled' => true],
-        ['type' => 'anatomy', 'keys' => [], 'anchor' => 'anatomy', 'background' => 'white', 'copy_source' => CopySource::PENDING, 'enabled' => true],
+        ['type' => 'anatomy', 'keys' => [], 'anchor' => 'anatomy', 'background' => 'white', 'copy_source' => CopySource::PENDING, 'enabled' => false],
         ['type' => 'who', 'keys' => ['who_we_help'], 'anchor' => 'who-we-help', 'background' => 'white', 'copy_source' => CopySource::DOCX, 'enabled' => true],
         ['type' => 'review', 'keys' => ['review'], 'anchor' => 'review', 'background' => 'white', 'copy_source' => CopySource::DOCX, 'enabled' => true],
         ['type' => 'navigator', 'keys' => [], 'anchor' => 'navigator', 'background' => 'dark', 'copy_source' => CopySource::PENDING, 'enabled' => true],

@@ -15,8 +15,8 @@
  * The service pages' sticky consultation bar never shows where this bar exists (components/sticky-cta.css): one
  * bottom bar, never two stacked.
  *
- * Floating WhatsApp button (.wa-fab): a 48 px secondary icon button (white, 1 px --line-strong, radius 6, no shadow:
- * §3.4, §3.5) with the official mark at 24 px, 16 px above the bar at the inline end (side safe areas included). It
+ * Floating WhatsApp button (.wa-fab): a 48 px WhatsApp icon button (client PDF item 6: the official green, Meta's white
+ * mark at 24 px, one soft shadow; components/button.css .btn--whatsapp), 16 px above the bar at the inline end (side safe areas included). It
  * moves down with the bar when the bar slides away, and fades out (opacity and a 8 px drop, 160 ms) while another
  * WhatsApp control, the footer or the consultation form is on screen, a field has the on-screen keyboard, or a sheet
  * or dialog is open (.is-away, set by modules/tabbar.js).
@@ -389,6 +389,11 @@
     color: var(--ink-2);
   }
 
+  /* Item 18: the current language's flag 8 px before its name (the chevron keeps its 4 px). */
+  .menu-sheet__langrow-value .flag {
+    margin-inline-end: var(--s-1);
+  }
+
   .menu-sheet__contacts {
     display: grid;
     list-style: none;
@@ -457,8 +462,10 @@
     }
   }
 
+  /* Item 18: the flag 12 px before the name, both at the start side. */
   .lang-sheet__option {
     display: flex;
+    gap: var(--s-3);
     align-items: center;
     min-block-size: var(--target-touch);
     padding-block: var(--s-1);

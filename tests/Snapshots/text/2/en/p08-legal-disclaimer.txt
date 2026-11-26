@@ -33,7 +33,7 @@ A matter may have a similar description to yours while differing in material res
 Summit Legal Consultancy is a legal consultancy company in the United Arab Emirates. Its work is defined by the agreed engagement and may include advice, document review, preparation of legal opinions or written submissions, and legal support, depending on the service.
 Advocacy or representation requiring an advocate is undertaken by licensed advocates, according to the authority and procedure concerned. Work requiring a technical expert, legal translator, tax agent or another regulated professional is coordinated with a suitably qualified specialist where needed. Listing a practice area on the website does not mean that Summit directly performs every regulated activity within that area.
 3. When a Professional Engagement Begins
-Reading the website or sending an enquiry or document through the form, by email or on WhatsApp does not, by itself, create a professional engagement or mean that responsibility for a matter or its deadlines has been accepted. Work begins once the engagement is accepted and its scope, fees and any necessary documents or authority have been agreed.
+Reading the website or sending an enquiry or document by email or on WhatsApp does not, by itself, create a professional engagement or mean that responsibility for a matter or its deadlines has been accepted. Work begins once the engagement is accepted and its scope, fees and any necessary documents or authority have been agreed.
 An acknowledgement confirms that the request has reached the system; it does not confirm an appointment or acceptance of the work. If you have an upcoming hearing or deadline, state it clearly and confirm that the engagement has been accepted. A request for contact alone does not suspend legal deadlines.
 4. Outcomes and Case Studies
 Published case studies describe issues and outcomes relating to particular matters. Outcomes vary according to the facts, documents, evidence, deadlines, competent authority and procedural stage. A past outcome does not guarantee a similar result in another matter.
@@ -53,17 +53,18 @@ This notice is not intended to exclude any liability of Summit that cannot lawfu
 9. Applicable Law and Contact
 This notice is interpreted in light of the applicable laws of the United Arab Emirates, subject to mandatory rules and the jurisdiction established by law. For questions about the content or scope of service, contact us and identify the relevant page or topic.
 info@summitlegaluae.com
-+971 52 466 6191
++971524666191
 Contact Summit
 Privacy Policy
 Terms and Conditions
 === footer ===
 Summit Legal Consultancy
 Legal advice for individuals, businesses, investors and residents in the UAE, in Arabic, English and Russian.
-+971 52 466 6191
++971524666191
 Contact Us on WhatsApp
 (opens in a new tab)
 info@summitlegaluae.com
+www.summitlegaluae.com
 Business hours: Monday to Friday, 9 am to 6 pm.
 Practice Areas
 Debt Recovery and Cheque Cases
@@ -75,8 +76,8 @@ Employment Law
 Tax Disputes and Tax Compliance
 Family Law and Wills
 Compliance and Regulatory Matters
-Legal Translation
 Business Services
+View All Practice Areas
 Legal Resources
 Legal Resources Centre
 FAQs
@@ -109,6 +110,6 @@ uaetaxdisputes.com
 (opens in a new tab)
 © {{YEAR}} Summit Legal Consultancy. All rights reserved.
 Choose language
-Arabic
 English
-Russian
+العربية
+Русский

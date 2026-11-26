@@ -50,7 +50,7 @@ final class OfflineTest extends TestCase
 
         $this->assertStringContainsString('href="tel:+971524666191"', $html);
         $this->assertStringContainsString('href="mailto:info@summitlegaluae.com"', $html);
-        $this->assertStringContainsString('<bdi class="contact-card__value" dir="ltr">+971 52 466 6191</bdi>', $html);
+        $this->assertStringContainsString('<bdi class="contact-card__value" dir="ltr">+971524666191</bdi>', $html);
         $this->assertStringContainsString('dir="ltr">info@summitlegaluae.com</bdi>', $html);
         $this->assertStringContainsString('href="'.e(setting('whatsapp_url', 'ar')).'"', $html);
         $this->assertStringContainsString('https://wa.me/971524666191?text=', $html);

@@ -4,7 +4,7 @@
  *
  * 1. Compact state. The header is sticky at --header-h minus --header-h-top (-16 px on desktop), so scrolling
  *    itself shrinks the visible masthead to the compact bar. Once it has (scrollY >= the header's own lift, at
- *    least 8 px), [data-d2-header] gets .is-scrolled (from 1024 px the lockup eases from 56 to 44 px). A small
+ *    least 8 px), [data-d2-header] gets .is-scrolled (from 1024 px the lockup eases from 56 to 48 px). A small
  *    hysteresis keeps the state from flickering at the edge. 'd2:header-compact' ({ detail: { compact, layout } })
  *    is dispatched on window when the state changes (the mega menu closes unless focus is inside). .is-live is
  *    added after the first frame, so a page opened scrolled does not animate into place.
@@ -12,7 +12,7 @@
  *    - the row: header.css shows the seven labels from 1024 px (Russian from 69rem); .is-nav-collapsed where they
  *      would still overflow their own row (the menu button then opens the menu sheet). The labels never wrap,
  *      shrink or move into "More".
- *    - the bar: the lockup (56 px, or 44 px once compact), the labels and the tools against the bar's width:
+ *    - the bar: the lockup (56 px, or 48 px once compact), the labels and the tools against the bar's width:
  *      .is-inline where they fit (the row rides in the bar, at its end), else the row's own line at the top of
  *      the page and .is-tucked once scrolled (the menu button at the end of the bar). .is-lifted marks a row that
  *      left the flow only because of scrolling (its height stays as margin); .is-docking marks its one entrance
@@ -35,8 +35,8 @@ export const MIN_SCROLL = 8;
 /** Back to the top state only this far above the threshold (no flicker at the edge). */
 export const HYSTERESIS = 8;
 
-/** The lockup in the compact bar from 1024 px: 44 of its 56 px (header.css, --lockup-scale). */
-export const COMPACT_SCALE = 44 / 56;
+/** The lockup in the compact bar from 1024 px: 48 of its 56 px (header.css, --lockup-scale; the owner, 2026-11-25). */
+export const COMPACT_SCALE = 48 / 56;
 
 /** The least space between the lockup and the first label when the row rides in the bar. */
 export const BRAND_GAP = 32;
@@ -60,7 +60,7 @@ export function overflows(needed, available) {
 
 /**
  * Where the seven labels fit in the bar beside the lockup and the tools: { top, compact } (booleans: at the top of
- * the page with the 56 px lockup, once compact with the 44 px one), or null where the row is not shown at all
+ * the page with the 56 px lockup, once compact with the 48 px one), or null where the row is not shown at all
  * (below 1024 px, Russian below 69rem, a collapsed row: the menu button is already there).
  */
 export function rowFit({ rowShown, collapsed, lockup, labels, gap, tools, bar, scale = COMPACT_SCALE }) {
@@ -246,9 +246,25 @@ function paletteReady() {
     });
 }
 
+/**
+ * The styleguide's static specimens (.d2-header--demo: no controller) need the tools' width as well, or the inline
+ * row's spacer is 0 and the last label runs under the language menu. Layout width (offsetWidth): the docked frame
+ * is zoomed.
+ */
+function specimens() {
+    document.querySelectorAll('.d2-header--demo').forEach((demo) => {
+        const tools = demo.querySelector('.d2-header__tools');
+        if (tools) demo.style.setProperty('--tools-w', `${tools.offsetWidth}px`);
+    });
+}
+
 export default function header() {
     const bar = document.querySelector('[data-d2-header]');
     if (bar) watch(bar, controller(bar));
+    if (document.querySelector('.d2-header--demo')) {
+        specimens();
+        document.fonts?.ready.then(specimens);
+    }
 
     document.addEventListener('click', (e) => {
         const trigger = e.target.closest?.('[data-d2-search]');

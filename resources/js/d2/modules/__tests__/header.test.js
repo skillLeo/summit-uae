@@ -42,7 +42,7 @@ describe('header: navigation fit', () => {
 });
 
 // D13 + the client's item 1: the header holds the lockup, the seven labels and the language menu only. The labels ride
-// in the bar, at its end, wherever they fit beside the lockup (56 px at the top of the page, 44 px once compact) and
+// in the bar, at its end, wherever they fit beside the lockup (56 px at the top of the page, 48 px once compact) and
 // the tools; elsewhere they take their own row at the top of the page and tuck behind the menu button once scrolled.
 // Widths measured on the live header (Onest and IBM Plex Sans Arabic, 15/500): label boxes with their 12 px paddings,
 // the 222 px lockup, the bar's 16 px gap, the language trigger.
@@ -58,7 +58,7 @@ describe('header: the seven labels ride in the bar where they fit', () => {
         expect(rowFit({ ...en, bar: needs(en) })).toEqual({ top: true, compact: true }); // exactly full
     });
 
-    it('fits only once compact where the 44 px lockup leaves the room the 56 px one does not', () => {
+    it('fits only once compact where the 48 px lockup leaves the room the 56 px one does not', () => {
         const bar = needs(en, COMPACT_SCALE) + 1;
         expect(rowFit({ ...en, bar })).toEqual({ top: false, compact: true });
         expect(rowState(rowFit({ ...en, bar }), false)).toEqual({ inline: false, tucked: false, lifted: false });
@@ -84,8 +84,8 @@ describe('header: the seven labels ride in the bar where they fit', () => {
         expect(rowState(null, true)).toEqual({ inline: false, tucked: false, lifted: false });
     });
 
-    it('scales the lockup from 56 to 44 px in the compact bar', () => {
-        expect(COMPACT_SCALE * 56).toBeCloseTo(44, 6);
+    it('scales the lockup from 56 to 48 px in the compact bar (the owner, 2026-11-25)', () => {
+        expect(COMPACT_SCALE * 56).toBeCloseTo(48, 6);
     });
 });
 

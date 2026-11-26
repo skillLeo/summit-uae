@@ -15,7 +15,7 @@ Home
 Privacy Policy
 Privacy Policy
 Last updated: 23 October 2026
-This policy explains how Summit Legal Consultancy handles data relating to its website and contact requests, including the form, email and WhatsApp, and what you may request in relation to your data. Matters accepted for work are also subject to the requirements of the engagement and the associated professional and legal obligations.
+This policy explains how Summit Legal Consultancy handles data relating to its website and contact requests, including email and WhatsApp, and what you may request in relation to your data. Matters accepted for work are also subject to the requirements of the engagement and the associated professional and legal obligations.
 On this page
 1. Responsible Organisation and Scope of This Policy
 2. Data We Receive
@@ -41,11 +41,11 @@ Systems used to operate and protect the website may record technical data, such 
 We use request data to understand and respond to the matter, request the necessary documents, coordinate communication or an appointment, and determine the scope of service and fees. Once an engagement is accepted, the necessary data is used to perform the agreed work and manage the matter, correspondence and related records.
 Certain data may also be needed to comply with a legal or regulatory obligation, protect the website and address misuse, or establish and defend rights in accordance with the law. We rely on consent where it is the applicable basis, and on other grounds permitted by law subject to their conditions. Browsing is not treated as general consent to any use of data.
 4. Required Data and Your Choice to Provide It
-The consultation form requires a name, a matter summary and at least one valid contact method, together with specific consent to handle the request. Language, matter type, date or deadline, its details and an attachment are optional fields. Without a contact method, we may be unable to respond to your request.
+Without a contact method, we may be unable to respond to your request.
 You may make initial contact without sending a complete file. Provide information as accurately as possible and tell us if your contact details change or you discover a material error. Provide data about another person only to the extent necessary and on a basis that entitles you to do so.
 5. Sensitive Documents and Confidentiality
 Some files may contain family, health or financial data, or information about legal proceedings. Send only what is necessary for the purpose. An appropriate method for exchanging sensitive documents can be arranged once the nature of the matter is identified.
-We do not request passwords, verification codes, private keys or a digital wallet recovery phrase through the form. We handle documents according to the limits of necessity, confidentiality and applicable obligations. Sending documents does not in itself mean that an engagement has been accepted, and declining an engagement does not permit their use for an unlawful purpose.
+We do not request passwords, verification codes, private keys or a digital wallet recovery phrase. We handle documents according to the limits of necessity, confidentiality and applicable obligations. Sending documents does not in itself mean that an engagement has been accepted, and declining an engagement does not permit their use for an unlawful purpose.
 6. Who May Receive Data
 Internal access is limited to those who need the data to handle the request or engagement. Website operations may require hosting, technical support, communication and security service providers, limited to what they need to perform their services and subject to appropriate controls.
 Necessary information may be shared with a licensed advocate, expert, translator or other relevant specialist where their involvement is needed and appropriate working arrangements have been made, or with a competent authority to fulfil a legal obligation or carry out a permitted procedure. Sending an enquiry does not authorise publication of your file or disclosure to parties unrelated to its purpose.
@@ -74,17 +74,18 @@ We may update this policy when the website, processing arrangements or applicabl
 14. Contact About Privacy
 For an enquiry or to exercise a right, state that your message concerns privacy and identify your request, the contact method previously used and the relevant data to the extent necessary. You do not need to send a complete identity document in your first message unless an appropriate verification method is requested.
 info@summitlegaluae.com
-+971 52 466 6191
++971524666191
 Contact Summit
 Legal Notice and Scope of Services
 Terms and Conditions
 === footer ===
 Summit Legal Consultancy
 Legal advice for individuals, businesses, investors and residents in the UAE, in Arabic, English and Russian.
-+971 52 466 6191
++971524666191
 Contact Us on WhatsApp
 (opens in a new tab)
 info@summitlegaluae.com
+www.summitlegaluae.com
 Business hours: Monday to Friday, 9 am to 6 pm.
 Practice Areas
 Debt Recovery and Cheque Cases
@@ -96,8 +97,8 @@ Employment Law
 Tax Disputes and Tax Compliance
 Family Law and Wills
 Compliance and Regulatory Matters
-Legal Translation
 Business Services
+View All Practice Areas
 Legal Resources
 Legal Resources Centre
 FAQs
@@ -130,6 +131,6 @@ uaetaxdisputes.com
 (opens in a new tab)
 © {{YEAR}} Summit Legal Consultancy. All rights reserved.
 Choose language
-Arabic
 English
-Russian
+العربية
+Русский

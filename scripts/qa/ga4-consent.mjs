@@ -9,7 +9,7 @@
  *     php -S 127.0.0.1:8044 ../vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php
  * and the Design 2 build (public/build-d2). SUMMIT_SHOW_PENDING=true only opens the calculators page (pending copy).
  *
- * Google is never contacted: https://www.googletagmanager.com/gtag/js is answered by a local stub, so the checks read
+ * Google is never contacted: https://www.googletagmanager.com/gtm.js (Google's tag) is answered by a local stub, so the checks read
  * what the page hands to gtag (window.dataLayer: the consent states, the config, every event and its parameters).
  * Every other request to another host is blocked. --real-gtag loads Google's real gtag.js instead (network needed)
  * and checks the _ga cookie itself: none before Accept or after Reject, one after Accept.
@@ -56,7 +56,7 @@ async function context({ width = 1440, locale = 'en' } = {}) {
     await ctx.route('**/*', (route) => {
         const url = new URL(route.request().url());
         if (url.origin === new URL(BASE).origin) return route.continue();
-        if (url.hostname === 'www.googletagmanager.com' && url.pathname === '/gtag/js') {
+        if (url.hostname === 'www.googletagmanager.com' && url.pathname === '/gtm.js') {
             return REAL ? route.continue() : route.fulfill({ status: 200, contentType: 'application/javascript', body: STUB });
         }
         if (REAL && /(^|\.)google-analytics\.com$|(^|\.)analytics\.google\.com$|^www\.googletagmanager\.com$/.test(url.hostname)) {
@@ -119,13 +119,15 @@ const neverAdGranted = (entries) =>
         JSON.stringify(entries[0]),
     );
     check('untouched: no consent update', consent.length === 1);
-    const config = entries.find((e) => e[0] === 'config');
+    // Google's tag initialises itself (gtm.js?id=G-…): no config call; the page fields are set before it.
+    check('no gtag config call (one page_view per page)', !entries.some((e) => e[0] === 'config'));
+    const fields = entries.find((e) => e[0] === 'set' && typeof e[1] === 'object');
     check(
         'page_location: no personal query, no hash; utm_* kept',
-        config?.[2]?.page_location === `${BASE}/en/?utm_source=newsletter&utm_campaign=autumn`,
-        config?.[2]?.page_location,
+        fields?.[1]?.page_location === `${BASE}/en/?utm_source=newsletter&utm_campaign=autumn`,
+        fields?.[1]?.page_location,
     );
-    check('config: Google signals and ad personalisation signals off', config?.[2]?.allow_google_signals === false && config?.[2]?.allow_ad_personalization_signals === false);
+    check('set: Google signals and ad personalisation signals off', fields?.[1]?.allow_google_signals === false && fields?.[1]?.allow_ad_personalization_signals === false);
     check('untouched: bar shown', await page.locator('[data-consent]').isVisible());
     check('untouched: no _ga and no summit_consent cookie', (await gaCookies(ctx)).length === 0 && !(await cookies(ctx)).summit_consent);
 
@@ -168,14 +170,14 @@ const neverAdGranted = (entries) =>
     check('Accept: stored as summit_consent=granted, ~6 months', stored?.value === 'granted' && stored.expires * 1000 - Date.now() > 180 * 864e5);
     if (REAL) {
         await page.waitForTimeout(3000);
-        check('Accept: Google sets _ga (real gtag.js)', (await gaCookies(ctx)).includes('_ga'), (await gaCookies(ctx)).join(','));
+        check('Accept: Google sets _ga (real Google tag)', (await gaCookies(ctx)).includes('_ga'), (await gaCookies(ctx)).join(','));
     }
 
     const next = await open(ctx, '/ar/');
     entries = await layer(next.page);
     const update = entries.findIndex((e) => e[0] === 'consent' && e[1] === 'update' && e[2]?.analytics_storage === 'granted');
-    const config = entries.findIndex((e) => e[0] === 'config');
-    check('Accept, next page: granted before the config (first hit)', update > 0 && update < config, `update ${update}, config ${config}`);
+    const js = entries.findIndex((e) => e[0] === 'js');
+    check('Accept, next page: granted before the Google tag starts (first hit)', update > 0 && update < js, `update ${update}, js ${js}`);
     check('Accept, next page: bar closed', !(await next.page.locator('[data-consent]').isVisible()));
 
     // Privacy Settings in the footer reopens it; Escape closes it and focus returns.

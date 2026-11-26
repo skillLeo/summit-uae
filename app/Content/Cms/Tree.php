@@ -140,7 +140,8 @@ final class Tree
 
     /**
      * Character limits that protect the layout (brief §8.4): for every text field (list positions as "*"), 115 % of the
-     * longest current text in any language, rounded up, so no approved text is ever blocked.
+     * longest current text in any language, rounded up, so no approved text is ever blocked. Structural leaves (URLs,
+     * targets, ids …) have none.
      *
      * @return array<string, int>
      */
@@ -160,6 +161,13 @@ final class Tree
             return;
         }
         if (self::isLeaf($node)) {
+            // Structure is not copy: a URL or a target that differs by language (an official page's English and Arabic
+            // addresses) gets no character limit, like the same value stored once.
+            $last = (string) (strrchr('.'.$path, '.') ?: '');
+            $last = substr($last, 1);
+            if (in_array($last, self::STRUCTURAL, true) || str_ends_with($last, '_target')) {
+                return;
+            }
             $max = 0;
             foreach ($node as $value) {
                 if (is_string($value)) {

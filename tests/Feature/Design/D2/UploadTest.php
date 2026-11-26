@@ -25,6 +25,8 @@ final class UploadTest extends TestCase
         parent::setUp();
         $this->seed(ContentSeeder::class);
         $this->withoutVite();
+        // The form and the requests screens are off since client PDF item 7 (WhatsApp only); this file tests their kept code.
+        $this->consultationFormOn();
     }
 
     /** @return array<string, array{string}> */

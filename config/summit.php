@@ -19,34 +19,41 @@ return [
 
     'default_locale' => 'en',
 
-    // Remembered language choice for the neutral root "/" (302 only when the cookie exists).
+    // The language menus still write this cookie (resources/js/d2/modules/lang-switch.js); the server no longer reads
+    // it: "/" is always a 301 to the default language (client PDF item 29).
     'locale_cookie' => 'summit_lang',
 
     // Canonical, hreflang and sitemap URLs always use the production www host.
     'canonical_host' => env('SUMMIT_CANONICAL_HOST', 'https://www.summitlegaluae.com'),
 
-    // Staging protection. Keep false for Lighthouse runs and production.
-    'noindex' => (bool) env('SUMMIT_NOINDEX', false),
+    // Staging protection (client PDF item 24): every page and response says noindex and robots.txt names no sitemap.
+    // SUMMIT_NOINDEX=true on the test site; without it, APP_ENV=staging is noindex by default. Production: false (or
+    // unset with APP_ENV=production). Keep false for Lighthouse runs.
+    'noindex' => (bool) env('SUMMIT_NOINDEX', env('APP_ENV') === 'staging'),
 
     /*
-    | Pages. 'built' marks templates delivered in the current phase; other
-    | registered routes render an honest, noindex preview of their approved
-    | H1 and introduction until their template is built (Phase 2).
+    | Pages. Design 2 renders every one of them in full: each is a current,
+    | indexable page with its canonical URL, hreflang links and a sitemap
+    | entry (client PDF items 21-23; App\Support\SitePages).
     */
     'pages' => [
-        'P01' => ['path' => '', 'route' => 'home', 'built' => true],
-        'P02' => ['path' => 'practice-areas/', 'route' => 'practice-areas', 'built' => false],
-        'P03' => ['path' => 'resources/', 'route' => 'resources', 'built' => false],
-        'P04' => ['path' => 'case-studies/', 'route' => 'case-studies', 'built' => false],
-        'P05' => ['path' => 'faq/', 'route' => 'faq', 'built' => false],
-        'P06' => ['path' => 'about/', 'route' => 'about', 'built' => false],
-        'P07' => ['path' => 'contact/', 'route' => 'contact', 'built' => false],
-        'P08' => ['path' => 'legal-disclaimer/', 'route' => 'legal-disclaimer', 'built' => false],
-        'L01' => ['path' => 'privacy-policy/', 'route' => 'privacy-policy', 'built' => false],
-        'L02' => ['path' => 'terms-and-conditions/', 'route' => 'terms-and-conditions', 'built' => false],
+        'P01' => ['path' => '', 'route' => 'home'],
+        'P02' => ['path' => 'practice-areas/', 'route' => 'practice-areas'],
+        'P03' => ['path' => 'resources/', 'route' => 'resources'],
+        'P04' => ['path' => 'case-studies/', 'route' => 'case-studies'],
+        'P05' => ['path' => 'faq/', 'route' => 'faq'],
+        'P06' => ['path' => 'about/', 'route' => 'about'],
+        'P07' => ['path' => 'contact/', 'route' => 'contact'],
+        'P08' => ['path' => 'legal-disclaimer/', 'route' => 'legal-disclaimer'],
+        'L01' => ['path' => 'privacy-policy/', 'route' => 'privacy-policy'],
+        'L02' => ['path' => 'terms-and-conditions/', 'route' => 'terms-and-conditions'],
     ],
 
-    // S01–S11 in the approved order.
+    // S01–S11 in the approved order; the route of each published practice area. S10 Legal Translation is gone (client
+    // PDF item 9, owner decision 6): the service is cancelled, its record is a draft (client layer) and its old address
+    // /{locale}/practice-areas/legal-translation/ answers a temporary 302 to Practice Areas (routes/web.php,
+    // 'retired_services'). The replacement S12 (Powers of Attorney) is a hidden draft: it gets its address here once
+    // its approved content is published.
     'services' => [
         'S01' => 'debt-recovery-cheque-cases',
         'S02' => 'criminal-cases',
@@ -57,8 +64,13 @@ return [
         'S07' => 'tax-disputes-compliance',
         'S08' => 'family-law-wills',
         'S09' => 'compliance-regulatory',
-        'S10' => 'legal-translation',
         'S11' => 'business-services',
+    ],
+
+    // Practice areas taken off the site: their slug (the record keeps it) and where the old address redirects (a temporary
+    // 302, so it can point at the replacement page once that is live; client PDF item 9).
+    'retired_services' => [
+        'S10' => ['slug' => 'legal-translation', 'to' => 'P02'],
     ],
 
     // G01–G09 are sections of P03.
@@ -83,11 +95,21 @@ return [
     ],
 
     /*
-    | P07 release rule (00_Site_Map, 07_Contact_Us): until the standalone
-    | Contact page is built and tested, every "Contact Us" control points to
-    | the homepage form (/xx/#consultation-form).
+    | P07 release rule (00_Site_Map, 07_Contact_Us): until the standalone Contact page was built and tested, every
+    | "Contact Us" control pointed to the homepage form (/xx/#consultation-form). Released 2026-11-25: with the form
+    | gone (client PDF item 7) the Contact page is the place for the contact channels, so every "Contact Us" (header,
+    | footer, mobile bar, 404, P07 links of the approved copy) opens /xx/contact/ (App\Support\SiteUrl::contact()).
     */
-    'contact_page_released' => false,
+    'contact_page_released' => true,
+
+    /*
+    | WhatsApp only (client PDF item 7, owner 2026-11-25): there is no consultation form on the public site. Every
+    | "Request a Legal Consultation" and every no-result message opens WhatsApp with the approved message (opened,
+    | never sent); the enquiry endpoint answers 404; the admin hides the requests inbox, the request reports, the
+    | Forms and Consent and Notifications settings and their scheduled jobs (App\Support\ConsultationForm). The
+    | code and the enquiries table are kept (no data dropped): true brings the form and the inbox back.
+    */
+    'consultation_form' => false,
 
     'contact' => [
         'whatsapp_number' => '971524666191',
@@ -116,10 +138,10 @@ return [
     | approval; only used when features.navigator_audience_step is true.
     */
     'navigator_audiences' => [
-        'individuals' => ['S01', 'S02', 'S03', 'S05', 'S06', 'S08', 'S10'],
-        'businesses' => ['S01', 'S04', 'S06', 'S07', 'S09', 'S10', 'S11'],
+        'individuals' => ['S01', 'S02', 'S03', 'S05', 'S06', 'S08'],
+        'businesses' => ['S01', 'S04', 'S06', 'S07', 'S09', 'S11'],
         'investors' => ['S03', 'S04', 'S05', 'S07', 'S09'],
-        'residents' => ['S05', 'S06', 'S08', 'S10'],
+        'residents' => ['S05', 'S06', 'S08'],
         'entrepreneurs' => ['S04', 'S07', 'S09', 'S11'],
     ],
 

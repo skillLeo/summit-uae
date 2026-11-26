@@ -26,6 +26,9 @@
         "qa:docx": "node scripts/qa/docx-conformance.mjs",
         "qa:docx:selftest": "node --test scripts/qa/docx-conformance.test.mjs",
         "qa:budgets": "node scripts/qa/budgets.mjs",
+        "qa:links": "node scripts/qa/links.mjs",
+        "qa:seo": "node scripts/qa/seo.mjs",
+        "qa:a11y": "node scripts/qa/a11y.mjs",
         "compliance": "node scripts/compliance-check.mjs"
     },
     "devDependencies": {

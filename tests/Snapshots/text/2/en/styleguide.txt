@@ -27,8 +27,6 @@ Matter Navigator
 Tools
 Cards
 Search and FAQ
-Consultation wizard
-Document upload
 Inner pages
 Foundations
 Design 2.1 (brief §3.3 and §3.4): colour, elevation, radius, space, layout, focus, motion and layers. Every value comes from resources/css/d2/tokens.css.
@@ -874,7 +872,7 @@ Tabular figures
 tabular-nums lining-nums
 Calculators, tables, prices, reference numbers (.u-tabular as a utility; the legacy .t-num).
 font-variant-numeric
-+971 52 466 6191
++971524666191
 Design 2.0 classes still work as aliases: .t-h1 = Display, .t-h4 = H3, .t-body-l = Lead, .t-meta = Small in ink-3, .t-eyebrow = UI label in ink-2 (no monospace, no capitals, no tracking), .t-num = tabular figures, .t-mono = the sans outside the documents.
 Links
 Body links: ink, underline 1 px at a 3 px offset, 2 px on hover. Nav links: ink-2, ink on hover and when current.
@@ -897,13 +895,13 @@ Practice Areas
 D2 Sans Arabic, IBM Plex Sans Arabic 400 / 500 / 600, with its own Latin for digits and codes
 400
 مناطق الممارسة
-+971 52 466 6191
++971524666191
 500
 مناطق الممارسة
-+971 52 466 6191
++971524666191
 600
 مناطق الممارسة
-+971 52 466 6191
++971524666191
 Sample documents only
 Typed fields, paper and naskh inside the illustrations (data-illustration). Never in the interface: there the legacy --font-mono, --font-doc and --font-doc-arabic are the sans.
 D2 Mono, IBM Plex Mono 400 / 500 (--font-doc-mono)
@@ -930,7 +928,7 @@ Clear Legal Guidance. Practical Solutions.
 We provide consultations in Arabic, English and Russian, explaining your options and the next step based on the facts and documents in your matter.
 Latin: Onest, H2 36/41 (28/32 on phones), tracking −0.02em, body 17/27 (16/26)
 Направления практики
-Чёткие правовые рекомендации. Практические решения.
+Понятная юридическая поддержка. Практичные решения.
 Мы консультируем на арабском, английском и русском языках. Изучив обстоятельства вашего дела и документы, объясняем возможные варианты действий и следующий шаг.
 Cyrillic: Onest, the same metrics; paragraphs hyphenate
 مناطق الممارسة
@@ -1015,7 +1013,7 @@ search
 inside dir="ltr" (an LTR island keeps the LTR form)
 In context
 Inside a control an icon takes the label's colour; phone and e-mail are isolated with <bdi>.
-+971 52 466 6191
++971524666191
 info@summitlegaluae.com
 functional icons in a secondary and a text button
 Employment Law
@@ -1114,11 +1112,15 @@ Loading
 loading
 Sizes: 44 px for every button, 52 px for the two hero buttons
 Request a Legal Consultation
+– WhatsApp
+(opens in a new tab)
 btn--ink btn--48
 View All Practice Areas
 btn--secondary btn--44
 size 40, 44 or 48: the 44 px button (the header CTA too)
 Request a Legal Consultation
+– WhatsApp
+(opens in a new tab)
 btn--gold btn--52
 Contact Us on WhatsApp
 (opens in a new tab)
@@ -1126,7 +1128,7 @@ btn--whatsapp btn--52
 size 52 or 56: the hero pair, label 16/500
 Icons, links and states in context
 Search
-+971 52 466 6191
++971524666191
 a functional leading icon (search, phone)
 Employment Law
 (opens in a new tab)
@@ -1143,6 +1145,8 @@ Search
 Loading
 loading with an icon: the spinner takes the icon slot, the width stays
 Request a Legal Consultation
+– WhatsApp
+(opens in a new tab)
 Contact Us on WhatsApp
 (opens in a new tab)
 Full width (:full="true"), the hero pair on a phone
@@ -1344,7 +1348,6 @@ Employment and Employee Entitlements
 Tax Matters
 Family and Wills
 Compliance and Regulatory Matters
-Legal Translation
 Business Services
 Other matter
 Not sure which category applies
@@ -1586,7 +1589,6 @@ Employment and Employee Entitlements
 Tax Matters
 Family and Wills
 Compliance and Regulatory Matters
-Legal Translation
 Business Services
 Other matter
 Not sure which category applies
@@ -1611,6 +1613,8 @@ The employment contract and its schedules, and any amendments to pay, commission
 Payslips, transfer records, a record of payments and deductions, and the leave balance.
 1 / 2
 Request a Legal Consultation
+– WhatsApp
+(opens in a new tab)
 a white card inside a dark section (.on-light): light controls, the ink focus ring and an ink button again
 Surfaces
 Cards, accordion, tabs, the overlays (toast, tooltip), skeleton and callout in every state, drawn with approved copy (brief §3.4, §3.5).
@@ -1628,6 +1632,8 @@ keyboard focus on its link: the ring around the card
 Employment Law
 We review salaries, final employment entitlements, notice requirements, settlement and release documents, and employment contracts. We help employees and employers prepare claims and responses under the rules governing their employment relationship.
 Request a Legal Consultation
+– WhatsApp
+(opens in a new tab)
 with a nested button (it stays its own target)
 Legal Knowledge Centre in the UAE
 Practical guides to help you understand your matter and prepare the documents before making a decision.
@@ -1640,7 +1646,6 @@ We review outstanding debts, unpaid invoices, dishonoured cheques and acknowledg
 tone sunken: the --band panel
 Family Law and Wills
 Compliance and Regulatory Matters
-Legal Translation
 padding sm (16 / 20), md (24 / 32), lg (32)
 Compliance and Regulatory Matters
 We review business activities, licences, policies, beneficial ownership records, due diligence, governance and data protection. We identify gaps and the steps needed to address them in line with the requirements applicable to the business.
@@ -1706,7 +1711,6 @@ Employment and Entitlements
 Tax Matters
 Family and Wills
 Compliance
-Legal Translation
 Business Services
 Before Requesting a Consultation
 1. When do I need legal advice?
@@ -1778,18 +1782,11 @@ Start by identifying the regulator and requirements that actually apply to the a
 63. Who is the ultimate beneficial owner?
 The natural person who ultimately owns or controls the entity under the applicable criteria. The review may go beyond the name on the licence to examine ownership structure and actual control, taking account of exceptions and the relevant register's requirements.
 Keep records explaining indirect ownership and any arrangements conferring actual control, and review the duty to update information when it changes. Merely copying the names of the apparent partners is insufficient if they do not reflect the actual position under the applicable rules.
-Legal Translation
-67. What distinguishes a legal review of a translation?
-It examines the effect of terminology and obligations, the governing language, and names and figures. A sentence may be linguistically correct yet change a right or condition in the other version. The texts must therefore be compared in the context of the full contract.
-The review also covers dates, currencies, cross-references, annexes and whether the contract specifies a prevailing language version in case of conflict. Improving a translation must be clearly distinguished from amending the agreement itself, which may require the parties' consent.
-68. Is machine translation suitable for official submission?
-It is not, by itself, treated as a certified legal translation. Check the authority's requirements, document type and language, and use a registered translator where required. Automated tools may assist with an initial understanding if accompanied by appropriate human review.
-Check confidentiality requirements before uploading a contract or personal file to any external tool. Even where the language is correct, the meaning of an obligation or exception may change if a sentence is not read in the context of the full document.
 Business Services
-71. What is the first step in setting up a company?
+67. What is the first step in setting up a company?
 Define the actual activity, customers, operating location and ownership structure, then assess the licensing authority, legal form and approvals. Licence fees alone do not reflect the requirements for operations, employees, accounts and compliance.
 Also plan post-incorporation costs, including renewals, premises, employees and regulatory requirements. The activity may require sector-specific approval in addition to the business licence.
-72. Should I choose a free zone or the mainland?
+68. Should I choose a free zone or the mainland?
 Compare the options against the activity, market, customers, premises, approvals, budget and future plans. Also check tax and operational rules. Do not assume that one option is always better or tax-exempt.
 Ask for a comparison tied to your business plan: where will services be provided, who will sign contracts, and where will the team and premises be based? The better choice may change with the operating model, even if the trade name stays the same.
 the 12 approved FAQ categories: horizontal scroll with faded edges, arrow keys (reversed in RTL), Home and End
@@ -1819,7 +1816,7 @@ Contact Us on WhatsApp
 (opens in a new tab)
 live tooltips: on an icon button (Esc hides it) and as extra information on a labelled control
 Close menu
-+971 52 466 6191
++971524666191
 a tooltip at rest, and the attribute variant (data-tooltip)
 Skeleton
 Only for real loading: --band bones that breathe (opacity), no gradient sweep; still under reduced motion.
@@ -1869,7 +1866,7 @@ Case Studies
 FAQs
 About Us
 Contact Us
-Compact, after scrolling, where the seven labels fit in the bar: the 72 px bar (--header-h) holds the full lockup eased to 44 px (a scale, 200 ms; at once with reduced motion), the labels at its end and the language menu. The current page is white with a 2 px gold bar on the header's line.
+Compact, after scrolling, where the seven labels fit in the bar: the 72 px bar (--header-h) holds the full lockup eased to 48 px (a scale, 200 ms; at once with reduced motion), the labels at its end and the language menu. The current page is white with a 2 px gold bar on the header's line.
 Choose language
 English
 Compact where the seven labels do not fit the bar (Russian; narrower windows): the navigation row slides under the masthead and the menu button appears at the end of the bar; the lockup stays in full.
@@ -1886,7 +1883,6 @@ Employment Law
 Tax Disputes and Tax Compliance
 Family Law and Wills
 Compliance and Regulatory Matters
-Legal Translation
 Business Services
 View All Practice Areas
 Employment Law
@@ -1905,9 +1901,9 @@ Contact Us
 Practice Areas mega menu, previewing Employment Law: as wide as the container, radius 16, the overlay shadow, over a 6 % ink scrim; text only (no icons, tiles or arrows), the approved labels (D48). The services list (the toggle names it), then the preview: the title, the full summary with Explore This Service directly under it, and beside them the documents. Three equal columns in every language: two Russian titles take two lines, so the summary keeps a readable measure (357 px from 1280 px); the preview's title and summary never hyphenate. Its height is set by the list (11 rows of 44 px), so the whole panel fits a 1024 x 768 or 1366 x 768 window under the 136 px header; shorter windows scroll its body behind a fade at the lower edge.
 Choose language
 English
-Arabic
 English
-Russian
+العربية
+Русский
 Home
 Practice Areas
 Legal Resources
@@ -1915,20 +1911,21 @@ Case Studies
 FAQs
 About Us
 Contact Us
-Language menu: the trigger shows the current language's approved label and a chevron; the list gives the three approved labels in the page's language, in the DOCX order, with hreflang (D12). The current one is in ink, without a tick. The list hangs 8 px under the header's bottom line, never over the navigation row (Russian labels reach under the trigger).
+Language menu (the client's final changes, item 18): one compact dropdown; the trigger shows the current language's flag, its approved name and a chevron; the list gives English, العربية and Русский, each with its flag (United Kingdom, United Arab Emirates, Russia: local SVGs, decorative) and its name in its own language (lang), with hreflang. The flag stays before the name in RTL. The current one is in ink, without a tick. The list hangs 8 px under the header's bottom line, never over the navigation row (Russian labels reach under the trigger).
 Choose language
 English
 Where the seven labels do not fit on one line (below 1024 px; Russian below 69rem, about 1,100 px; or header.js measures an overflow with other fonts or a larger text size), the row is replaced by the menu button, which opens the menu sheet with the same seven labels. Labels never wrap, shrink or move into a "More" list.
-Heights: masthead 88 / 72 / 56 at the top, 72 / 64 / 56 compact; the navigation row 48 from 1024 px only where it takes its own row at the top of the page. Lockup 56 (44 compact) / 48 / 40, always the full lockup on black, never a tile. Colours: labels #E4E4E7 (15.5:1), current and hover #FFFFFF, muted controls #A1A1AA (7.7:1) turning white on hover, the current page's 2 px gold bar, focus ring #E2CF9F 2 px with a 2 px offset. No gradient, glass, shadow or button in the header. "/" and Ctrl/Cmd+K still open the search palette.
+Heights: masthead 88 / 72 / 56 at the top, 72 / 64 / 56 compact; the navigation row 48 from 1024 px only where it takes its own row at the top of the page. Lockup 56 (48 compact) / 48 / 40, always the full lockup on black, never a tile. Colours: labels #E4E4E7 (15.5:1), current and hover #FFFFFF, muted controls #A1A1AA (7.7:1) turning white on hover, the current page's 2 px gold bar, focus ring #E2CF9F 2 px with a 2 px offset. No gradient, glass, shadow or button in the header. "/" and Ctrl/Cmd+K still open the search palette.
 Footer (the dark band)
-In the homepage DOCX order: the official gold lockup and the description; the contact controls (phone, WhatsApp with the WA01 draft, e-mail) and the homepage file's own hours sentence, without a live status (brief §3.7); Practice Areas, Legal Resources (Centre, FAQs, Case Studies) and Useful Links; the disclaimer; the specialist resources (the last group, directly above the copyright line: owner decision); the copyright line with the dynamic year and the language links. No address, no map, no cards.
-Group headings are the approved words in Minor heading style (16/600, white), never mono capitals (D01, D47). Text on dark: white headings and contact controls, #E4E4E7 links and description, #A1A1AA hours, disclaimer, domains and copyright; gold only in the lockup. The specialist sites are a two-column list (one column on phones): the name, then the domain and the external-link icon; its second column starts on a grid line of the groups above (Practice Areas from 1280 px). Link rows keep 12 px above and below the label, so a wrapped title keeps the list's rhythm. Language links carry the approved labels of the page language with hreflang (D12). One container with the header and the sections; 48 px targets on phones, 44 px from 768 px; the light-gold focus ring of .on-dark.
+In the homepage DOCX order: the official gold lockup (transparent, straight on the dark band, no tile) and the description; the contact controls (phone, WhatsApp with the WA01 draft, e-mail), the website address (the client's item 19) and the homepage file's own hours sentence, without a live status (brief §3.7); Practice Areas (ending with View All Practice Areas, item 19), Legal Resources (Centre, FAQs, Case Studies) and Useful Links; the disclaimer; the specialist resources (the last group, directly above the copyright line: owner decision); the copyright line with the dynamic year and the language links. No address, no map, no cards.
+Group headings are the approved words in Minor heading style (16/600, white), never mono capitals (D01, D47). Text on dark: white headings and contact controls, #E4E4E7 links and description, #A1A1AA hours, disclaimer, domains and copyright; gold only in the lockup. The specialist sites are a two-column list (one column on phones): the name, then the domain and the external-link icon; its second column starts on a grid line of the groups above (Practice Areas from 1280 px). Link rows keep 12 px above and below the label, so a wrapped title keeps the list's rhythm. Language links show the flag and each language's own name (item 18), with hreflang. One container with the header and the sections; 48 px targets on phones, 44 px from 768 px; the light-gold focus ring of .on-dark.
 Summit Legal Consultancy
 Legal advice for individuals, businesses, investors and residents in the UAE, in Arabic, English and Russian.
-+971 52 466 6191
++971524666191
 Contact Us on WhatsApp
 (opens in a new tab)
 info@summitlegaluae.com
+www.summitlegaluae.com
 Business hours: Monday to Friday, 9 am to 6 pm.
 Practice Areas
 Debt Recovery and Cheque Cases
@@ -1940,8 +1937,8 @@ Employment Law
 Tax Disputes and Tax Compliance
 Family Law and Wills
 Compliance and Regulatory Matters
-Legal Translation
 Business Services
+View All Practice Areas
 Legal Resources
 Legal Resources Centre
 FAQs
@@ -1974,9 +1971,9 @@ uaetaxdisputes.com
 (opens in a new tab)
 © {{YEAR}} Summit Legal Consultancy. All rights reserved.
 Choose language
-Arabic
 English
-Russian
+العربية
+Русский
 Mobile shell
 The native-app layer below 768 px (brief §6 mobile, §3.4 overlays): bottom sheets (menu, language, services), the modal dialog, the tab bar with the floating WhatsApp button, the sticky consultation bar, carousels and the installable app. Sheets and the modal are overlays: data-overlay, radius 16 and the one overlay shadow over the --scrim. The buttons open the real components; the specimens are drawn in place.
 Sheets
@@ -1984,7 +1981,7 @@ Open menu
 Choose language
 Practice Areas
 Employment Law
-Live: opens the global menu, language and services sheets and a demo sheet. The language sheet lists the three approved labels in the page language (a sheet, not a segmented group); the menu sheet opens it from its language row, and on phones with the design switcher on it also holds the Design 1 / Design 2 switch (same page, language and #anchor), so the floating switch never covers the tab bar. Below 768 px a bottom sheet (drag the handle or the header with a finger or the mouse, or pull the content down while it is at its top: past 120 px, or a flick faster than 800 px/s, closes; less springs back); from 768 px a side panel on the inline-end edge.
+Live: opens the global menu, language and services sheets and a demo sheet. The language sheet lists English, العربية and Русский, each with its flag (item 18; a sheet, not a segmented group); the menu sheet opens it from its language row, and on phones with the design switcher on it also holds the Design 1 / Design 2 switch (same page, language and #anchor), so the floating switch never covers the tab bar. Below 768 px a bottom sheet (drag the handle or the header with a finger or the mouse, or pull the content down while it is at its top: past 120 px, or a flick faster than 800 px/s, closes; less springs back); from 768 px a side panel on the inline-end edge.
 Markup data-sheet-open="id" (aria-haspopup, aria-controls and aria-expanded kept in sync) and data-sheet-close; JS openSheet(id, opener) and closeSheet() from resources/js/d2/lib/sheet.js. Page sheets render at body level with @push('sheets'). [data-sheet-no-drag] keeps a touch inside the content from pulling the sheet.
 Documents That Help Us Get Started
 The employment contract and its schedules, and any amendments to pay, commission or benefits.
@@ -2040,6 +2037,8 @@ Contact Us current, with a simulated 32 px home-indicator inset (--safe-bottom, 
 Sticky consultation bar
 Design 2.1 (brief §6): one bottom bar on phones, so the sticky bar is never drawn where the tab bar exists (every page of the Design 2 layout); service pages keep their own consultation CTAs and the floating WhatsApp button. Elsewhere: <x-d2.shell.sticky-cta target="…" until="…" :prefill="[…]">, below 768 px with JavaScript only, a white bar on the bottom edge with one full-width ink button (the approved "Request a Legal Consultation" and the page's prefill). It appears once the page's hero has scrolled out under the header, hides once the until element is reached, while a text field has focus, while the on-screen keyboard is open and while a page's own bottom dock is on screen. Sheets and dialogs cover it; toasts rise above it.
 Request a Legal Consultation
+– WhatsApp
+(opens in a new tab)
 Specimen: the bar alone at the bottom edge, 8 px plus the safe area under the button.
 Rendered here as on the service pages (it observes this card and the installable-app heading), and not drawn: this page has the tab bar.
 Rendered at body level (pushed to the "sheets" stack). Link without JavaScript: App\Design\D2\Prefill::url($prefill); with JavaScript a plain click calls prefill() (resources/js/d2/lib/prefill.js). Behaviour: resources/js/d2/modules/sticky-cta.js.
@@ -2064,8 +2063,6 @@ Family Law and Wills
 We advise on divorce, custody, maintenance and estates, and assist with preparing wills and choosing a registration route, taking account of family circumstances, assets and the applicable law.
 Compliance and Regulatory Matters
 We review activities, licences, policies, beneficial ownership records, due diligence, governance and data protection, identifying gaps and remedial steps according to the requirements applicable to the business.
-Legal Translation
-We review the legal meaning of multilingual contracts and documents, check the consistency of obligations, names and numbers, and coordinate certified translation with a registered legal translator where required.
 Business Services
 We support the choice of incorporation structure and preparation of documents for licences, amendments, renewals, attestations and transactions, explaining the scope of Summit’s work and the steps undertaken by the competent authorities.
 Always a carousel (no until), in a 390 px frame: the eleven practice areas, approved titles and summaries.
@@ -3052,6 +3049,8 @@ The reason the bank gave for not paying the cheque, and when it was returned.
 What we check
 We read the stated reason and date closely, because different reasons can lead to different next steps.
 Request a Legal Consultation
+– WhatsApp
+(opens in a new tab)
 Sample documents for illustration. What a real document shows depends on the whole file and the facts around it.
 Hero
 The home hero: the document stage (a pile of the six sample documents, the one on top with its callouts, the legend, the pager with its pause / play toggle) and the tool card. The specimens run the same scripts as the home page, in their final state: the entrance and the autoplay play only on the home page.
@@ -3816,291 +3815,6 @@ First document: one progress segment filled. Previous and next are always enable
 A document in the middle: segments filled up to it. The name is a polite live region (off while the samples play by themselves). On the home page the segment shown fills over the dwell while the samples play.
 Last document: every segment filled; next brings up the first one.
 Forced focus: the next button, then the current segment (44 px tall targets, 48 px on phones), then the pause / play toggle. Two Tab stops: the segments (a roving tabindex; ← / → wrap, mirrored in RTL; Home and End bring another document up and move focus to its segment) and the toggle (WCAG 2.2.2). Previous / next (40 px, with a 44 px hit area) are for pointers and assistive technology (tabindex -1).
-Tool card "Start your matter"
-A card (white, 1 px --line edge, radius 10, no shadow; 16 px padding on phones, the card padding from 768 px). A GET form to the consultation form without JavaScript (?audience=…&situation=S06-2#consultation-form); with it, Continue (Ink, no arrow) calls prefill({service, situation, audience}). The result shows the empty well or the chosen service’s documents, one at a time (documents are never clamped, so the card grows only after a choice). Laid out by its own width (container queries): one column, then the situation and Continue side by side (420 px), then the form and the documents side by side (52rem: the home hero from 1024 px, where the card spans the container, and from 1280 px all 12 columns under the copy and the stage).
-Start your matter
-Who is this for?
-Individual
-Business
-Investor
-Your situation
-Choose your situation
-You paid for a service or goods but did not receive what you paid for.
-You hold a cheque that was presented to the bank and returned unpaid.
-You are dealing with a debtor who delays payment or has left the country.
-You have outstanding invoices and want to understand your options before escalating the matter.
-You received a summons or a criminal complaint was made against you, and you do not know what to do first.
-You have been accused of fraud or forgery that you did not commit.
-Your name appeared in a criminal file although you were not actually involved.
-A judgment has already been issued and you want to understand whether it can be reviewed.
-You placed funds on a trading platform and they disappeared or were frozen.
-You sold digital assets and faced an accusation concerning events in which you were not involved.
-You want to trace suspicious digital transfers or establish evidence of them.
-You were defrauded through a crypto investment offer.
-A dispute with your business partner arose sooner than you expected.
-You signed a commercial contract and later discovered terms whose effect you had not understood at the time.
-You want to establish a company and structure your relationship with partners from the outset.
-You have a commercial dispute with a customer, supplier or business partner.
-You bought an off-plan property and handover has been delayed beyond your expectations.
-After purchase, you discovered a property defect that was not mentioned in the contract.
-A landlord or tenant is making a demand you believe is unlawful.
-You want a sale or tenancy agreement reviewed before signing.
-Your salary is overdue and you do not know your rights if you decide to pursue the matter.
-Your employment ended and you suspect your final entitlements were calculated incorrectly.
-You signed a settlement release and are unsure which rights you waived.
-You are an employer seeking to organise employment contracts and review your obligations.
-You received a tax penalty or decision that you believe is incorrect.
-You want to object to a tax assessment.
-Your company has expanded and you want to review its new tax obligations.
-You want to organise your tax records before the filing deadline.
-You live in the UAE, have assets or children, and have not yet made a will.
-You are facing a family dispute and want to understand your options before taking any step.
-A relative has died and you want to understand how the estate will be distributed.
-You are a non-Muslim resident and want to know how inheritance rules apply in the UAE.
-Your company has expanded or changed its activity without reviewing its regulatory obligations.
-You want to update your company’s anti-money laundering policies.
-You received an enquiry from a regulator and do not know how to respond.
-You want a compliance review before a new investment partner joins.
-You have a contract in a foreign language and want it translated before signing.
-A document must be submitted to a government authority or court and requires certified translation.
-You signed a translated document and want to check the translation’s accuracy.
-You need a translation between Arabic and English or Russian for an official transaction.
-You want to establish a company and need guidance on choosing an appropriate structure.
-Your licence needs renewing or its activities need amending.
-You need attestation or official documents for a government transaction.
-You want to organise your company’s documents before an investor or partner joins.
-Continue
-Common situations
-You hold a cheque that was presented to the bank and returned unpaid.
-A landlord or tenant is making a demand you believe is unlawful.
-Your employment ended and you suspect your final entitlements were calculated incorrectly.
-Individual (default): no situation chosen yet, the empty well.
-Start your matter
-Who is this for?
-Individual
-Business
-Investor
-Your situation
-Choose your situation
-You paid for a service or goods but did not receive what you paid for.
-You hold a cheque that was presented to the bank and returned unpaid.
-You are dealing with a debtor who delays payment or has left the country.
-You have outstanding invoices and want to understand your options before escalating the matter.
-You received a summons or a criminal complaint was made against you, and you do not know what to do first.
-You have been accused of fraud or forgery that you did not commit.
-Your name appeared in a criminal file although you were not actually involved.
-A judgment has already been issued and you want to understand whether it can be reviewed.
-You placed funds on a trading platform and they disappeared or were frozen.
-You sold digital assets and faced an accusation concerning events in which you were not involved.
-You want to trace suspicious digital transfers or establish evidence of them.
-You were defrauded through a crypto investment offer.
-A dispute with your business partner arose sooner than you expected.
-You signed a commercial contract and later discovered terms whose effect you had not understood at the time.
-You want to establish a company and structure your relationship with partners from the outset.
-You have a commercial dispute with a customer, supplier or business partner.
-You bought an off-plan property and handover has been delayed beyond your expectations.
-After purchase, you discovered a property defect that was not mentioned in the contract.
-A landlord or tenant is making a demand you believe is unlawful.
-You want a sale or tenancy agreement reviewed before signing.
-Your salary is overdue and you do not know your rights if you decide to pursue the matter.
-Your employment ended and you suspect your final entitlements were calculated incorrectly.
-You signed a settlement release and are unsure which rights you waived.
-You are an employer seeking to organise employment contracts and review your obligations.
-You received a tax penalty or decision that you believe is incorrect.
-You want to object to a tax assessment.
-Your company has expanded and you want to review its new tax obligations.
-You want to organise your tax records before the filing deadline.
-You live in the UAE, have assets or children, and have not yet made a will.
-You are facing a family dispute and want to understand your options before taking any step.
-A relative has died and you want to understand how the estate will be distributed.
-You are a non-Muslim resident and want to know how inheritance rules apply in the UAE.
-Your company has expanded or changed its activity without reviewing its regulatory obligations.
-You want to update your company’s anti-money laundering policies.
-You received an enquiry from a regulator and do not know how to respond.
-You want a compliance review before a new investment partner joins.
-You have a contract in a foreign language and want it translated before signing.
-A document must be submitted to a government authority or court and requires certified translation.
-You signed a translated document and want to check the translation’s accuracy.
-You need a translation between Arabic and English or Russian for an official transaction.
-You want to establish a company and need guidance on choosing an appropriate structure.
-Your licence needs renewing or its activities need amending.
-You need attestation or official documents for a government transaction.
-You want to organise your company’s documents before an investor or partner joins.
-Continue
-Common situations
-You hold a cheque that was presented to the bank and returned unpaid.
-Your employment ended and you suspect your final entitlements were calculated incorrectly.
-Business: the select lists only the services config('audience_map.hero') maps to it.
-Start your matter
-Who is this for?
-Individual
-Business
-Investor
-Your situation
-Choose your situation
-You paid for a service or goods but did not receive what you paid for.
-You hold a cheque that was presented to the bank and returned unpaid.
-You are dealing with a debtor who delays payment or has left the country.
-You have outstanding invoices and want to understand your options before escalating the matter.
-You received a summons or a criminal complaint was made against you, and you do not know what to do first.
-You have been accused of fraud or forgery that you did not commit.
-Your name appeared in a criminal file although you were not actually involved.
-A judgment has already been issued and you want to understand whether it can be reviewed.
-You placed funds on a trading platform and they disappeared or were frozen.
-You sold digital assets and faced an accusation concerning events in which you were not involved.
-You want to trace suspicious digital transfers or establish evidence of them.
-You were defrauded through a crypto investment offer.
-A dispute with your business partner arose sooner than you expected.
-You signed a commercial contract and later discovered terms whose effect you had not understood at the time.
-You want to establish a company and structure your relationship with partners from the outset.
-You have a commercial dispute with a customer, supplier or business partner.
-You bought an off-plan property and handover has been delayed beyond your expectations.
-After purchase, you discovered a property defect that was not mentioned in the contract.
-A landlord or tenant is making a demand you believe is unlawful.
-You want a sale or tenancy agreement reviewed before signing.
-Your salary is overdue and you do not know your rights if you decide to pursue the matter.
-Your employment ended and you suspect your final entitlements were calculated incorrectly.
-You signed a settlement release and are unsure which rights you waived.
-You are an employer seeking to organise employment contracts and review your obligations.
-You received a tax penalty or decision that you believe is incorrect.
-You want to object to a tax assessment.
-Your company has expanded and you want to review its new tax obligations.
-You want to organise your tax records before the filing deadline.
-You live in the UAE, have assets or children, and have not yet made a will.
-You are facing a family dispute and want to understand your options before taking any step.
-A relative has died and you want to understand how the estate will be distributed.
-You are a non-Muslim resident and want to know how inheritance rules apply in the UAE.
-Your company has expanded or changed its activity without reviewing its regulatory obligations.
-You want to update your company’s anti-money laundering policies.
-You received an enquiry from a regulator and do not know how to respond.
-You want a compliance review before a new investment partner joins.
-You have a contract in a foreign language and want it translated before signing.
-A document must be submitted to a government authority or court and requires certified translation.
-You signed a translated document and want to check the translation’s accuracy.
-You need a translation between Arabic and English or Russian for an official transaction.
-You want to establish a company and need guidance on choosing an appropriate structure.
-Your licence needs renewing or its activities need amending.
-You need attestation or official documents for a government transaction.
-You want to organise your company’s documents before an investor or partner joins.
-Continue
-Common situations
-A landlord or tenant is making a demand you believe is unlawful.
-Investor.
-Start your matter
-Who is this for?
-Individual
-Business
-Investor
-Your situation
-Choose your situation
-You paid for a service or goods but did not receive what you paid for.
-You hold a cheque that was presented to the bank and returned unpaid.
-You are dealing with a debtor who delays payment or has left the country.
-You have outstanding invoices and want to understand your options before escalating the matter.
-You received a summons or a criminal complaint was made against you, and you do not know what to do first.
-You have been accused of fraud or forgery that you did not commit.
-Your name appeared in a criminal file although you were not actually involved.
-A judgment has already been issued and you want to understand whether it can be reviewed.
-You placed funds on a trading platform and they disappeared or were frozen.
-You sold digital assets and faced an accusation concerning events in which you were not involved.
-You want to trace suspicious digital transfers or establish evidence of them.
-You were defrauded through a crypto investment offer.
-A dispute with your business partner arose sooner than you expected.
-You signed a commercial contract and later discovered terms whose effect you had not understood at the time.
-You want to establish a company and structure your relationship with partners from the outset.
-You have a commercial dispute with a customer, supplier or business partner.
-You bought an off-plan property and handover has been delayed beyond your expectations.
-After purchase, you discovered a property defect that was not mentioned in the contract.
-A landlord or tenant is making a demand you believe is unlawful.
-You want a sale or tenancy agreement reviewed before signing.
-Your salary is overdue and you do not know your rights if you decide to pursue the matter.
-Your employment ended and you suspect your final entitlements were calculated incorrectly.
-You signed a settlement release and are unsure which rights you waived.
-You are an employer seeking to organise employment contracts and review your obligations.
-You received a tax penalty or decision that you believe is incorrect.
-You want to object to a tax assessment.
-Your company has expanded and you want to review its new tax obligations.
-You want to organise your tax records before the filing deadline.
-You live in the UAE, have assets or children, and have not yet made a will.
-You are facing a family dispute and want to understand your options before taking any step.
-A relative has died and you want to understand how the estate will be distributed.
-You are a non-Muslim resident and want to know how inheritance rules apply in the UAE.
-Your company has expanded or changed its activity without reviewing its regulatory obligations.
-You want to update your company’s anti-money laundering policies.
-You received an enquiry from a regulator and do not know how to respond.
-You want a compliance review before a new investment partner joins.
-You have a contract in a foreign language and want it translated before signing.
-A document must be submitted to a government authority or court and requires certified translation.
-You signed a translated document and want to check the translation’s accuracy.
-You need a translation between Arabic and English or Russian for an official transaction.
-You want to establish a company and need guidance on choosing an appropriate structure.
-Your licence needs renewing or its activities need amending.
-You need attestation or official documents for a government transaction.
-You want to organise your company’s documents before an investor or partner joins.
-Continue
-Documents usually needed: 4
-The employment contract and its schedules, and any amendments to pay, commission or benefits.
-Payslips, transfer records, a record of payments and deductions, and the leave balance.
-The termination or resignation letter, notice-period correspondence, and any release or calculation of entitlements.
-Any earlier complaint, decision or judgment, proof of service, and any current deadline for a response or challenge.
-A situation chosen (S06-2): "Documents usually needed: 4" (trans_choice) and the four approved documents of the service, each in full (never clamped) and without icons.
-Start your matter
-Who is this for?
-Individual
-Business
-Investor
-Your situation
-Choose your situation
-You paid for a service or goods but did not receive what you paid for.
-You hold a cheque that was presented to the bank and returned unpaid.
-You are dealing with a debtor who delays payment or has left the country.
-You have outstanding invoices and want to understand your options before escalating the matter.
-You received a summons or a criminal complaint was made against you, and you do not know what to do first.
-You have been accused of fraud or forgery that you did not commit.
-Your name appeared in a criminal file although you were not actually involved.
-A judgment has already been issued and you want to understand whether it can be reviewed.
-You placed funds on a trading platform and they disappeared or were frozen.
-You sold digital assets and faced an accusation concerning events in which you were not involved.
-You want to trace suspicious digital transfers or establish evidence of them.
-You were defrauded through a crypto investment offer.
-A dispute with your business partner arose sooner than you expected.
-You signed a commercial contract and later discovered terms whose effect you had not understood at the time.
-You want to establish a company and structure your relationship with partners from the outset.
-You have a commercial dispute with a customer, supplier or business partner.
-You bought an off-plan property and handover has been delayed beyond your expectations.
-After purchase, you discovered a property defect that was not mentioned in the contract.
-A landlord or tenant is making a demand you believe is unlawful.
-You want a sale or tenancy agreement reviewed before signing.
-Your salary is overdue and you do not know your rights if you decide to pursue the matter.
-Your employment ended and you suspect your final entitlements were calculated incorrectly.
-You signed a settlement release and are unsure which rights you waived.
-You are an employer seeking to organise employment contracts and review your obligations.
-You received a tax penalty or decision that you believe is incorrect.
-You want to object to a tax assessment.
-Your company has expanded and you want to review its new tax obligations.
-You want to organise your tax records before the filing deadline.
-You live in the UAE, have assets or children, and have not yet made a will.
-You are facing a family dispute and want to understand your options before taking any step.
-A relative has died and you want to understand how the estate will be distributed.
-You are a non-Muslim resident and want to know how inheritance rules apply in the UAE.
-Your company has expanded or changed its activity without reviewing its regulatory obligations.
-You want to update your company’s anti-money laundering policies.
-You received an enquiry from a regulator and do not know how to respond.
-You want a compliance review before a new investment partner joins.
-You have a contract in a foreign language and want it translated before signing.
-A document must be submitted to a government authority or court and requires certified translation.
-You signed a translated document and want to check the translation’s accuracy.
-You need a translation between Arabic and English or Russian for an official transaction.
-You want to establish a company and need guidance on choosing an appropriate structure.
-Your licence needs renewing or its activities need amending.
-You need attestation or official documents for a government transaction.
-You want to organise your company’s documents before an investor or partner joins.
-Continue
-Common situations
-You hold a cheque that was presented to the bank and returned unpaid.
-A landlord or tenant is making a demand you believe is unlawful.
-Your employment ended and you suspect your final entitlements were calculated incorrectly.
-No mapping for the audience: every situation, grouped by service.
 Home sections
 Trust row, practice areas, how we work and who we help (spec §12 C1, C2, C4, C7), built from the Phase A card, chip and segmented control. Approved copy in this page’s language; proposed strings carry the proposed marker.
 Practice-area card
@@ -4207,178 +3921,6 @@ We explain employment, family, wills, estate and property matters in clear langu
 Entrepreneurs
 We help you choose a business structure, define the rights of the partners and the business, and review the contracts, powers and obligations needed to launch and sustain your operations.
 The five audiences
-Start your matter: the result half
-<x-d2.hero.tool> (D19): never an empty box. Before a choice, “Common situations” and up to three quick picks (config design.d2.home.quick_picks, set in the admin in Phase 4), the one chip without icon or dot, holding the complete approved situation (a wrapped pick keeps a radius of half the chip height). A pick follows the audience like the select; it selects its situation, shows the documents and moves focus to the select. Each pick is a submit button, so it works without JavaScript.
-Start your matter
-Who is this for?
-Individual
-Business
-Investor
-Your situation
-Choose your situation
-You paid for a service or goods but did not receive what you paid for.
-You hold a cheque that was presented to the bank and returned unpaid.
-You are dealing with a debtor who delays payment or has left the country.
-You have outstanding invoices and want to understand your options before escalating the matter.
-You received a summons or a criminal complaint was made against you, and you do not know what to do first.
-You have been accused of fraud or forgery that you did not commit.
-Your name appeared in a criminal file although you were not actually involved.
-A judgment has already been issued and you want to understand whether it can be reviewed.
-You placed funds on a trading platform and they disappeared or were frozen.
-You sold digital assets and faced an accusation concerning events in which you were not involved.
-You want to trace suspicious digital transfers or establish evidence of them.
-You were defrauded through a crypto investment offer.
-A dispute with your business partner arose sooner than you expected.
-You signed a commercial contract and later discovered terms whose effect you had not understood at the time.
-You want to establish a company and structure your relationship with partners from the outset.
-You have a commercial dispute with a customer, supplier or business partner.
-You bought an off-plan property and handover has been delayed beyond your expectations.
-After purchase, you discovered a property defect that was not mentioned in the contract.
-A landlord or tenant is making a demand you believe is unlawful.
-You want a sale or tenancy agreement reviewed before signing.
-Your salary is overdue and you do not know your rights if you decide to pursue the matter.
-Your employment ended and you suspect your final entitlements were calculated incorrectly.
-You signed a settlement release and are unsure which rights you waived.
-You are an employer seeking to organise employment contracts and review your obligations.
-You received a tax penalty or decision that you believe is incorrect.
-You want to object to a tax assessment.
-Your company has expanded and you want to review its new tax obligations.
-You want to organise your tax records before the filing deadline.
-You live in the UAE, have assets or children, and have not yet made a will.
-You are facing a family dispute and want to understand your options before taking any step.
-A relative has died and you want to understand how the estate will be distributed.
-You are a non-Muslim resident and want to know how inheritance rules apply in the UAE.
-Your company has expanded or changed its activity without reviewing its regulatory obligations.
-You want to update your company’s anti-money laundering policies.
-You received an enquiry from a regulator and do not know how to respond.
-You want a compliance review before a new investment partner joins.
-You have a contract in a foreign language and want it translated before signing.
-A document must be submitted to a government authority or court and requires certified translation.
-You signed a translated document and want to check the translation’s accuracy.
-You need a translation between Arabic and English or Russian for an official transaction.
-You want to establish a company and need guidance on choosing an appropriate structure.
-Your licence needs renewing or its activities need amending.
-You need attestation or official documents for a government transaction.
-You want to organise your company’s documents before an investor or partner joins.
-Continue
-Common situations
-You hold a cheque that was presented to the bank and returned unpaid.
-A landlord or tenant is making a demand you believe is unlawful.
-Your employment ended and you suspect your final entitlements were calculated incorrectly.
-Before a choice: the quick picks
-Start your matter
-Who is this for?
-Individual
-Business
-Investor
-Your situation
-Choose your situation
-You paid for a service or goods but did not receive what you paid for.
-You hold a cheque that was presented to the bank and returned unpaid.
-You are dealing with a debtor who delays payment or has left the country.
-You have outstanding invoices and want to understand your options before escalating the matter.
-You received a summons or a criminal complaint was made against you, and you do not know what to do first.
-You have been accused of fraud or forgery that you did not commit.
-Your name appeared in a criminal file although you were not actually involved.
-A judgment has already been issued and you want to understand whether it can be reviewed.
-You placed funds on a trading platform and they disappeared or were frozen.
-You sold digital assets and faced an accusation concerning events in which you were not involved.
-You want to trace suspicious digital transfers or establish evidence of them.
-You were defrauded through a crypto investment offer.
-A dispute with your business partner arose sooner than you expected.
-You signed a commercial contract and later discovered terms whose effect you had not understood at the time.
-You want to establish a company and structure your relationship with partners from the outset.
-You have a commercial dispute with a customer, supplier or business partner.
-You bought an off-plan property and handover has been delayed beyond your expectations.
-After purchase, you discovered a property defect that was not mentioned in the contract.
-A landlord or tenant is making a demand you believe is unlawful.
-You want a sale or tenancy agreement reviewed before signing.
-Your salary is overdue and you do not know your rights if you decide to pursue the matter.
-Your employment ended and you suspect your final entitlements were calculated incorrectly.
-You signed a settlement release and are unsure which rights you waived.
-You are an employer seeking to organise employment contracts and review your obligations.
-You received a tax penalty or decision that you believe is incorrect.
-You want to object to a tax assessment.
-Your company has expanded and you want to review its new tax obligations.
-You want to organise your tax records before the filing deadline.
-You live in the UAE, have assets or children, and have not yet made a will.
-You are facing a family dispute and want to understand your options before taking any step.
-A relative has died and you want to understand how the estate will be distributed.
-You are a non-Muslim resident and want to know how inheritance rules apply in the UAE.
-Your company has expanded or changed its activity without reviewing its regulatory obligations.
-You want to update your company’s anti-money laundering policies.
-You received an enquiry from a regulator and do not know how to respond.
-You want a compliance review before a new investment partner joins.
-You have a contract in a foreign language and want it translated before signing.
-A document must be submitted to a government authority or court and requires certified translation.
-You signed a translated document and want to check the translation’s accuracy.
-You need a translation between Arabic and English or Russian for an official transaction.
-You want to establish a company and need guidance on choosing an appropriate structure.
-Your licence needs renewing or its activities need amending.
-You need attestation or official documents for a government transaction.
-You want to organise your company’s documents before an investor or partner joins.
-Continue
-Documents usually needed: 4
-The contract or accepted quotation, purchase orders and details of the contracting party.
-Invoices, delivery records or acceptance of completed work, a payment statement and the outstanding balance claimed.
-The original cheque and the bank’s confirmation of the reason for non-payment, with a clear copy sent for the initial review.
-Correspondence, acknowledgements of debt, promises to pay, and any earlier settlements or judgments.
-After a choice (here sent back with ?situation=S01-2): the documents usually needed
-Start your matter
-Who is this for?
-Individual
-Business
-Investor
-Your situation
-Choose your situation
-You paid for a service or goods but did not receive what you paid for.
-You hold a cheque that was presented to the bank and returned unpaid.
-You are dealing with a debtor who delays payment or has left the country.
-You have outstanding invoices and want to understand your options before escalating the matter.
-You received a summons or a criminal complaint was made against you, and you do not know what to do first.
-You have been accused of fraud or forgery that you did not commit.
-Your name appeared in a criminal file although you were not actually involved.
-A judgment has already been issued and you want to understand whether it can be reviewed.
-You placed funds on a trading platform and they disappeared or were frozen.
-You sold digital assets and faced an accusation concerning events in which you were not involved.
-You want to trace suspicious digital transfers or establish evidence of them.
-You were defrauded through a crypto investment offer.
-A dispute with your business partner arose sooner than you expected.
-You signed a commercial contract and later discovered terms whose effect you had not understood at the time.
-You want to establish a company and structure your relationship with partners from the outset.
-You have a commercial dispute with a customer, supplier or business partner.
-You bought an off-plan property and handover has been delayed beyond your expectations.
-After purchase, you discovered a property defect that was not mentioned in the contract.
-A landlord or tenant is making a demand you believe is unlawful.
-You want a sale or tenancy agreement reviewed before signing.
-Your salary is overdue and you do not know your rights if you decide to pursue the matter.
-Your employment ended and you suspect your final entitlements were calculated incorrectly.
-You signed a settlement release and are unsure which rights you waived.
-You are an employer seeking to organise employment contracts and review your obligations.
-You received a tax penalty or decision that you believe is incorrect.
-You want to object to a tax assessment.
-Your company has expanded and you want to review its new tax obligations.
-You want to organise your tax records before the filing deadline.
-You live in the UAE, have assets or children, and have not yet made a will.
-You are facing a family dispute and want to understand your options before taking any step.
-A relative has died and you want to understand how the estate will be distributed.
-You are a non-Muslim resident and want to know how inheritance rules apply in the UAE.
-Your company has expanded or changed its activity without reviewing its regulatory obligations.
-You want to update your company’s anti-money laundering policies.
-You received an enquiry from a regulator and do not know how to respond.
-You want a compliance review before a new investment partner joins.
-You have a contract in a foreign language and want it translated before signing.
-A document must be submitted to a government authority or court and requires certified translation.
-You signed a translated document and want to check the translation’s accuracy.
-You need a translation between Arabic and English or Russian for an official transaction.
-You want to establish a company and need guidance on choosing an appropriate structure.
-Your licence needs renewing or its activities need amending.
-You need attestation or official documents for a government transaction.
-You want to organise your company’s documents before an investor or partner joins.
-Continue
-Documents usually needed
-Choose your situation to see them here.
-No quick pick for the chosen audience (or none configured): the plain label and one quiet line, never a box
 Matter Navigator
 The dark workbench of the home page (#navigator): the 44 approved situations as one radio group under sticky practice-area headings, search and chips that filter it, and "Your starting file" (white, radius 10, no shadow) with the document checklist, aligned first steps and mistakes (subgrid), text link cards and the actions. Specimens here are static; the live one is on the home page.
 Situation list on the dark band
@@ -4400,6 +3942,8 @@ filtered: chip "Debts and Cheques" pressed (white fill, ink label), one group le
 Choose your situation
 No situation matches this word. Try another word or clear the filter.
 Clear filter
+Contact Us on WhatsApp
+(opens in a new tab)
 empty search result: visible message + Clear filter, also sent to the polite status
 chips: pressed, focus-visible, hover. search (a --dark-2 field, radius 6; its placeholder is its own name, whole on one line from 320 px; below 768 px these frames are as wide as the live band) and the chip toolbar: one Tab stop, ← → move (mirrored in RTL), Home / End, Enter / Space press; Design 2.1 D30: the chips wrap from 768 px (every label whole, no buttons); below 768 px one sideways rail across the screen that scrolls by touch, rests with a chip starting where the faded edge ends (mandatory snap) and fades where more chips wait (alpha masks)
 Radio and checkbox states
@@ -4454,6 +3998,8 @@ Read the Guide
 Explore This Service
 Employment Law
 Request a Legal Consultation
+– WhatsApp
+(opens in a new tab)
 chosen situation, two documents ticked (Clear ticks shown), forced: Copy link focus-visible
 Choose a situation to see its starting file.
 Each starting file shows
@@ -4504,6 +4050,8 @@ Days of the notice period already worked
 This estimate is calculated in your browser and needs JavaScript. You can still request a consultation, and we will go through the figures with you.
 The employer pays wages and entitlements within 14 days of the end of the contract (Art. 53).
 Request a Legal Consultation
+– WhatsApp
+(opens in a new tab)
 Legal basis: Federal Decree-Law No. 33 of 2021, Art. 51, 53, 43, 29; Cabinet Resolution No. 1 of 2022, Art. 19, 30.
 Estimate only, based on Federal Decree-Law No. 33 of 2021. It is not legal advice and does not replace a review of your contract and records.
 Empty: example values greyed as placeholders; the result card says what is needed above "—"; no bar, no breakdown
@@ -4542,6 +4090,8 @@ Days of the notice period already worked
 This estimate is calculated in your browser and needs JavaScript. You can still request a consultation, and we will go through the figures with you.
 The employer pays wages and entitlements within 14 days of the end of the contract (Art. 53).
 Request a Legal Consultation
+– WhatsApp
+(opens in a new tab)
 Legal basis: Federal Decree-Law No. 33 of 2021, Art. 51, 53, 43, 29; Cabinet Resolution No. 1 of 2022, Art. 19, 30.
 Estimate only, based on Federal Decree-Law No. 33 of 2021. It is not legal advice and does not replace a review of your contract and records.
 Filled: 3,147 days counted (20 days of unpaid absence), basic 15,000, total 21,000, leave, notice and unpaid wages. Stacked bar (gratuity, leave, notice, unpaid), service timeline (1-year pin, 5-year boundary "21 days/yr | 30 days/yr", hatched absence notch), "May apply" on the notice
@@ -4580,6 +4130,8 @@ Days of the notice period already worked
 This estimate is calculated in your browser and needs JavaScript. You can still request a consultation, and we will go through the figures with you.
 The employer pays wages and entitlements within 14 days of the end of the contract (Art. 53).
 Request a Legal Consultation
+– WhatsApp
+(opens in a new tab)
 Legal basis: Federal Decree-Law No. 33 of 2021, Art. 51, 53, 43, 29; Cabinet Resolution No. 1 of 2022, Art. 19, 30.
 Estimate only, based on Federal Decree-Law No. 33 of 2021. It is not legal advice and does not replace a review of your contract and records.
 Badges: "Cap applied" and "Cap based on basic wage" (40 years on a basic 10,000, no total wage: limited to 24 months of the basic wage)
@@ -4618,6 +4170,8 @@ Days of the notice period already worked
 This estimate is calculated in your browser and needs JavaScript. You can still request a consultation, and we will go through the figures with you.
 The employer pays wages and entitlements within 14 days of the end of the contract (Art. 53).
 Request a Legal Consultation
+– WhatsApp
+(opens in a new tab)
 Legal basis: Federal Decree-Law No. 33 of 2021, Art. 51, 53, 43, 29; Cabinet Resolution No. 1 of 2022, Art. 19, 30.
 Estimate only, based on Federal Decree-Law No. 33 of 2021. It is not legal advice and does not replace a review of your contract and records.
 Under one year: no gratuity, with the explanation
@@ -4660,6 +4214,8 @@ Days of the notice period already worked
 This estimate is calculated in your browser and needs JavaScript. You can still request a consultation, and we will go through the figures with you.
 The employer pays wages and entitlements within 14 days of the end of the contract (Art. 53).
 Request a Legal Consultation
+– WhatsApp
+(opens in a new tab)
 Legal basis: Federal Decree-Law No. 33 of 2021, Art. 51, 53, 43, 29; Cabinet Resolution No. 1 of 2022, Art. 19, 30.
 Estimate only, based on Federal Decree-Law No. 33 of 2021. It is not legal advice and does not replace a review of your contract and records.
 Part-time (24 of 48 hours): every part pro-rated, with the share
@@ -4698,6 +4254,8 @@ Days of the notice period already worked
 This estimate is calculated in your browser and needs JavaScript. You can still request a consultation, and we will go through the figures with you.
 The employer pays wages and entitlements within 14 days of the end of the contract (Art. 53).
 Request a Legal Consultation
+– WhatsApp
+(opens in a new tab)
 Legal basis: Federal Decree-Law No. 33 of 2021, Art. 51, 53, 43, 29; Cabinet Resolution No. 1 of 2022, Art. 19, 30.
 Estimate only, based on Federal Decree-Law No. 33 of 2021. It is not legal advice and does not replace a review of your contract and records.
 Temporary work: no gratuity, leave still counted
@@ -4736,6 +4294,8 @@ Days of the notice period already worked
 This estimate is calculated in your browser and needs JavaScript. You can still request a consultation, and we will go through the figures with you.
 The employer pays wages and entitlements within 14 days of the end of the contract (Art. 53).
 Request a Legal Consultation
+– WhatsApp
+(opens in a new tab)
 Legal basis: Federal Decree-Law No. 33 of 2021, Art. 51, 53, 43, 29; Cabinet Resolution No. 1 of 2022, Art. 19, 30.
 Estimate only, based on Federal Decree-Law No. 33 of 2021. It is not legal advice and does not replace a review of your contract and records.
 Validation errors: last working day before the start date, total wage below the basic wage, negative leave, notice outside 30–90 days; the result card asks to check the highlighted fields
@@ -4750,6 +4310,8 @@ Domestic worker
 Outside this estimator
 This estimator covers the UAE Labour Law only. Your situation follows different rules — we can review it with you.
 Request a Legal Consultation
+– WhatsApp
+(opens in a new tab)
 Out of scope (DIFC, ADGM, Government, Domestic worker): the calm panel replaces the estimator, with the consultation button
 تقدير مكافأة نهاية الخدمة
 أين تعمل؟
@@ -4786,6 +4348,8 @@ Out of scope (DIFC, ADGM, Government, Domestic worker): the calm panel replaces 
 يُحسب هذا التقدير داخل متصفحك ويحتاج إلى تفعيل JavaScript. ما زال بإمكانك طلب استشارة، وسنراجع الأرقام معك.
 يدفع صاحب العمل الأجور والمستحقات خلال 14 يومًا من تاريخ انتهاء العقد (المادة 53).
 اطلب استشارة قانونية
+– واتساب
+(يُفتح في علامة تبويب جديدة)
 الأساس القانوني: المرسوم بقانون اتحادي رقم 33 لسنة 2021، المواد 51 و53 و43 و29؛ قرار مجلس الوزراء رقم 1 لسنة 2022، المادتان 19 و30.
 تقدير فقط، استنادًا إلى المرسوم بقانون اتحادي رقم 33 لسنة 2021. وهو ليس استشارة قانونية ولا يغني عن مراجعة عقدك وسجلاتك.
 RTL (Arabic, filled): the bar fills from the right, the timeline runs right to left, AED amounts and ranges are isolated with <bdi>. On English and Russian pages the Arabic web font is not loaded (fonts are subset per language), so this specimen shows the system Arabic fallback
@@ -4825,6 +4389,8 @@ Maximum increase
 Below the average
 Maximum increase
 Request a Legal Consultation
+– WhatsApp
+(opens in a new tab)
 Dubai only, for residential properties; other emirates have different rules. The averages come from the Dubai Land Department’s Smart Rental Index, in use since January 2025.
 Legal basis: Increase bands: Decree No. 43 of 2013. Notice: Law No. 26 of 2007, Art. 14, as amended by Law No. 33 of 2008.
 Estimate only. It is not legal advice and does not replace a review of your tenancy contract.
@@ -4864,6 +4430,8 @@ Maximum increase
 Below the average
 Maximum increase
 Request a Legal Consultation
+– WhatsApp
+(opens in a new tab)
 Dubai only, for residential properties; other emirates have different rules. The averages come from the Dubai Land Department’s Smart Rental Index, in use since January 2025.
 Legal basis: Increase bands: Decree No. 43 of 2013. Notice: Law No. 26 of 2007, Art. 14, as amended by Law No. 33 of 2008.
 Estimate only. It is not legal advice and does not replace a review of your tenancy contract.
@@ -4903,6 +4471,8 @@ Maximum increase
 Below the average
 Maximum increase
 Request a Legal Consultation
+– WhatsApp
+(opens in a new tab)
 Dubai only, for residential properties; other emirates have different rules. The averages come from the Dubai Land Department’s Smart Rental Index, in use since January 2025.
 Legal basis: Increase bands: Decree No. 43 of 2013. Notice: Law No. 26 of 2007, Art. 14, as amended by Law No. 33 of 2008.
 Estimate only. It is not legal advice and does not replace a review of your tenancy contract.
@@ -4942,6 +4512,8 @@ Maximum increase
 Below the average
 Maximum increase
 Request a Legal Consultation
+– WhatsApp
+(opens in a new tab)
 Dubai only, for residential properties; other emirates have different rules. The averages come from the Dubai Land Department’s Smart Rental Index, in use since January 2025.
 Legal basis: Increase bands: Decree No. 43 of 2013. Notice: Law No. 26 of 2007, Art. 14, as amended by Law No. 33 of 2008.
 Estimate only. It is not legal advice and does not replace a review of your tenancy contract.
@@ -4981,6 +4553,8 @@ Maximum increase
 Below the average
 Maximum increase
 Request a Legal Consultation
+– WhatsApp
+(opens in a new tab)
 Dubai only, for residential properties; other emirates have different rules. The averages come from the Dubai Land Department’s Smart Rental Index, in use since January 2025.
 Legal basis: Increase bands: Decree No. 43 of 2013. Notice: Law No. 26 of 2007, Art. 14, as amended by Law No. 33 of 2008.
 Estimate only. It is not legal advice and does not replace a review of your tenancy contract.
@@ -5020,6 +4594,8 @@ Maximum increase
 Below the average
 Maximum increase
 Request a Legal Consultation
+– WhatsApp
+(opens in a new tab)
 Dubai only, for residential properties; other emirates have different rules. The averages come from the Dubai Land Department’s Smart Rental Index, in use since January 2025.
 Legal basis: Increase bands: Decree No. 43 of 2013. Notice: Law No. 26 of 2007, Art. 14, as amended by Law No. 33 of 2008.
 Estimate only. It is not legal advice and does not replace a review of your tenancy contract.
@@ -5059,6 +4635,8 @@ Validation errors: negative rent, average that is not a number
 أقل من المتوسط بنسبة
 الحد الأقصى للزيادة
 اطلب استشارة قانونية
+– واتساب
+(يُفتح في علامة تبويب جديدة)
 لإمارة دبي فقط وللعقارات السكنية؛ ولدى الإمارات الأخرى قواعد مختلفة. تأتي المتوسطات من مؤشر الإيجارات الذكي لدائرة الأراضي والأملاك في دبي، المعمول به منذ يناير 2025.
 الأساس القانوني: شرائح الزيادة: المرسوم رقم 43 لسنة 2013. الإشعار: القانون رقم 26 لسنة 2007، المادة 14، المعدل بالقانون رقم 33 لسنة 2008.
 تقدير فقط. وهو ليس استشارة قانونية ولا يغني عن مراجعة عقد الإيجار.
@@ -5074,6 +4652,8 @@ Service development
 Client experience
 Working Languages: Arabic · English · Russian
 Request a consultation with Ahmed
+– WhatsApp
+(opens in a new tab)
 Default: whole-card link + nested request link
 Dr Mohamed Raouf
 Principal Legal Consultant
@@ -5082,6 +4662,8 @@ Commercial matters
 Criminal matters
 Working Languages: Arabic · English
 Request a consultation with Dr Mohamed
+– WhatsApp
+(opens in a new tab)
 Hover (forced): the card edge turns ink and the name underlines; no lift, no zoom (Design 2.1, D05)
 Ahmed Mohammadi
 Managing Director and Co-Founder
@@ -5090,6 +4672,8 @@ Service development
 Client experience
 Working Languages: Arabic · English · Russian
 Request a consultation with Ahmed
+– WhatsApp
+(opens in a new tab)
 Keyboard focus on the card link (forced ring)
 S
 Z
@@ -5100,6 +4684,8 @@ Contracts
 Civil and commercial matters
 Working Languages: Arabic · English
 Request a consultation with Sarah
+– WhatsApp
+(opens in a new tab)
 Photo pending (D43): a neutral 4:5 panel of the same size, the initials of the approved name in the sans; no serif, no ring
 Dr Mohamed Raouf
 Principal Legal Consultant
@@ -5114,7 +4700,6 @@ Static (About page): no link, no request link
 المسائل التجارية
 المسائل الجزائية
 لغات العمل: العربية · الإنجليزية
-اطلب استشارة مع د. محمد
 Other direction (approved copy of the other script)
 S
 Z
@@ -5125,6 +4710,8 @@ Contracts
 Civil and commercial matters
 Working Languages: Arabic · English
 Request a consultation with Sarah
+– WhatsApp
+(opens in a new tab)
 Wide card (560 px and more): row layout, the tablet home layout; the portrait keeps its 4:5 frame
 Home "Our Team" block (off by default, D24): three columns with shared rows (subgrid) from a 900 px list; one wide card per row from 768 px; a swipe rail below 768 px.
 Case preview (<x-d2.case.preview>, home section 06)
@@ -5243,14 +4830,12 @@ To establish the cheque details and reason for non-payment, and provide what the
 Case Studies
 A signed blank cheque did not tell the whole story
 The signature was genuine, but the circumstances in which the cheque was used and the sequence of claims required a fresh review. The matter came to us after earlier judgments had already had financial consequences. Its course then changed on appeal.
-Describe your matter
-Start a consultation request with “cheque”
+Contact Us on WhatsApp
 Results: groups under plain headings (approved navigation labels in the UI-label role, never chips), text rows (title and summary in full, never cut), matches marked, active row with the keyboard ring, "Describe your matter" last
 Search the site
 No results for “qzxqzx”
-Try another word, or describe your matter in your own words: they go into the consultation form as a draft you can edit. Nothing is sent until you submit the form.
-Describe your matter
-Start a consultation request with “qzxqzx”
+Try another word.
+Contact Us on WhatsApp
 No results: message, hint and "Describe your matter" (prefill with the typed words). Words match exactly or as a word start; Latin and Cyrillic words of five letters or more also with one typo, Arabic words never (one dot turns an Arabic word into another: "space" into "judicial"), and a sentence that falls back to half of its words never counts a near-miss, so nonsense finds nothing in every language
 Search the site
 Loading search
@@ -5260,8 +4845,7 @@ Loading: only when a query waits for the first index load
 Search the site
 Search could not be loaded. Check your connection and try again.
 Try again
-Describe your matter
-Start a consultation request with “cheque”
+Contact Us on WhatsApp
 Error: the index could not load; retry, and "Describe your matter" still works
 FAQ browser
 <x-d2.faq.browser>: approved category tabs (Phase A tabs), local search over every question and answer (normalise() + light stemming, every word must match), Phase A accordion. With JavaScript the tabbed layout is drawn from the first paint (html.js: only the initial category, or the one a #hash points into, with its tab marked), so nothing moves when the script mounts. Without JavaScript every category shows under its heading, and the search field, "Show all answers" and "Copy question link" are hidden. Specimens use three categories.
@@ -5292,6 +4876,8 @@ Request a Legal Consultation
 Get to Know Summit
 Was this about your matter?
 Start here
+– WhatsApp
+(opens in a new tab)
 Debts and Cheques
 7. How do I start recovering a commercial debt?
 Identify the debtor, outstanding balance and due date, then collect the contract, invoices, evidence of performance, payments and correspondence. The suitability of settlement, a formal notice, court proceedings or enforcement can then be reviewed against the documents and jurisdiction.
@@ -5322,6 +4908,8 @@ Commercial Transactions Law on the UAE Legislation Portal
 (opens in a new tab)
 Was this about your matter?
 Start here
+– WhatsApp
+(opens in a new tab)
 Criminal Cases
 14. What should I do if summoned by the police or prosecution?
 Verify the authority and appointment through official channels and follow the instructions. Prepare the documents and chronology, and seek an assessment of your role and the legal help you may need, without delaying attendance or destroying any evidence.
@@ -5349,6 +4937,8 @@ Support in criminal matters
 Guide to Preserving Evidence of Financial and Digital Fraud
 Was this about your matter?
 Start here
+– WhatsApp
+(opens in a new tab)
 Default, with the P05 options: "Show all answers" and "Copy question link"
 Before Requesting a Consultation
 Debts and Cheques
@@ -5515,307 +5105,6 @@ Café, Müller, Straße cafe, muller, strasse
 أَحْكَامُ الإِيجَارِ احكام الايجار
 مُكافأة نهاية الخدمة مكافاه نهايه الخدمه
 دعوى، عقــــد، ٢٠٢١ دعوي، عقد، 2021
-Consultation wizard
-The home contact section (#consultation-form) and P07: the five-step wizard on the existing enquiry endpoint (one component; each page prints its own Word file's form copy: copy="home" or copy="contact") and the contact card. The specimens here use the Contact file's copy. The steps follow the Contact file's form layout (D38) under one progress indicator (D37: a step list, "Step 1 of 5: You" in a narrow card or on a phone); "You are contacting us as" and "Keep a draft on this device" are pending client approval (D39). The attachment field is not shown: the backend does not scan uploads (App\Design\D2\Attachment). The controller is a lazy chunk (wizard/controller.js, about 11 KB gzip): it loads when the wizard comes within about one viewport, on focus or a pointer press, on d2:prefill and for #consultation-form; until then the server-rendered markup already shows the stepped layout (keyed on html.js), and a click, a submit or a prefill that arrives early is queued. The live specimens run offline and load at once: nothing is saved or sent from this page.
-Steps (live, offline)
-Each specimen is a real wizard started at one step with sample answers. Next checks the step; Back and the finished steps of the list go back without checks and never lose data. Autosave, prefill, the security check and sending are off on this page.
-You
-Your name and at least one way to reach you.
-Name*
-Enter the name you would like us to use when contacting you.
-Phone Number, Email
-One valid phone number or email address is enough. You may provide both if you wish.
-Phone Number
-Include the country code and a number where you can be reached.
-Email
-Enter an email address you check regularly.
-Preferred Language
-Choose a language
-Arabic
-English
-Russian
-Step 1, You: Context handed over by a team card and a calculator (Remove clears it), the chosen audience card (pending), then Next with an empty name and an invalid phone and e-mail: inline errors, the linked error summary in the DOCX order (name, then the contact method), focus on the first field. Both contact methods are checked when both are given; with neither, the group error appears on the fieldset and the summary links the phone input. Then the preferred language.
-Your matter
-Choose the type of matter if you know it, and describe what happened.
-Type of Legal Matter
-Choose a topic if you know it
-Debts and Cheques
-Criminal Cases
-Cryptocurrencies
-Companies and Contracts
-Property and Tenancy
-Employment and Employee Entitlements
-Tax Matters
-Family and Wills
-Compliance and Regulatory Matters
-Legal Translation
-Business Services
-Other matter
-Not sure which category applies
-Matter Summary*
-Describe what happened, who the parties are and where you need help. Mention any earlier procedure or decision.
-Step 2, Your matter: The approved matter types, the Navigator situations of the chosen service (optional), the summary.
-Deadline
-If a hearing or a response or appeal deadline applies, give its date and the authority. Both fields are optional.
-Nearest Relevant Date or Deadline
-State the nearest hearing date or response or appeal deadline, if any.
-Date or Deadline Details
-Identify the relevant authority and what the date or deadline relates to, and explain if it has already passed.
-Step 3, Deadline: The nearest date (the date picker) and the deadline details side by side (subgrid keeps labels, hints and inputs aligned).
-Step 4, Documents: The documents usually needed for the chosen service (Navigator data), ticked per service, with the service page’s note. The optional document would follow the checklist only with a scanning backend; today the step is the checklist only.
-Do not send passwords, verification codes, private keys or a cryptocurrency wallet recovery phrase. A suitable way to send sensitive documents can be arranged once the nature of the matter is identified.
-Submitting a request does not mean that an engagement has been accepted, an appointment confirmed or monitoring of legal deadlines begun. If a deadline is approaching, call directly, state it clearly and confirm that the engagement has been accepted.
-I agree to the use of my data to contact me about this request in accordance with the Privacy Policy.*
-Submit Consultation Request
-Step 5, Review: The answers with Change buttons, and the message exactly as it will be sent (summary, context lines, ticked documents). Here the visitor edited it and then changed an answer, so the update prompt shows.
-Without JavaScript
-The same markup as one plain form: only the endpoint’s own fields, POST /{locale}/enquiries, and every outcome comes back through the no-JS redirect (flash). The checklist, the review, autosave and the security check need JavaScript and are not shown (while attachments are enabled the Documents group holds the native file input, posted as multipart); phone, WhatsApp and e-mail stay next to the form. The same plain form comes back if the controller chunk cannot load.
-You
-Your name and at least one way to reach you.
-Name*
-Enter the name you would like us to use when contacting you.
-Phone Number, Email
-One valid phone number or email address is enough. You may provide both if you wish.
-Phone Number
-Include the country code and a number where you can be reached.
-Email
-Enter an email address you check regularly.
-Preferred Language
-Choose a language
-Arabic
-English
-Russian
-Your matter
-Choose the type of matter if you know it, and describe what happened.
-Type of Legal Matter
-Choose a topic if you know it
-Debts and Cheques
-Criminal Cases
-Cryptocurrencies
-Companies and Contracts
-Property and Tenancy
-Employment and Employee Entitlements
-Tax Matters
-Family and Wills
-Compliance and Regulatory Matters
-Legal Translation
-Business Services
-Other matter
-Not sure which category applies
-Matter Summary*
-Describe what happened, who the parties are and where you need help. Mention any earlier procedure or decision.
-Deadline
-If a hearing or a response or appeal deadline applies, give its date and the authority. Both fields are optional.
-Nearest Relevant Date or Deadline
-State the nearest hearing date or response or appeal deadline, if any.
-Date or Deadline Details
-Identify the relevant authority and what the date or deadline relates to, and explain if it has already passed.
-Do not send passwords, verification codes, private keys or a cryptocurrency wallet recovery phrase. A suitable way to send sensitive documents can be arranged once the nature of the matter is identified.
-Submitting a request does not mean that an engagement has been accepted, an appointment confirmed or monitoring of legal deadlines begun. If a deadline is approaching, call directly, state it clearly and confirm that the engagement has been accepted.
-I agree to the use of my data to contact me about this request in accordance with the Privacy Policy.*
-Submit Consultation Request
-+971 52 466 6191
-Contact Us on WhatsApp
-(opens in a new tab)
-info@summitlegaluae.com
-Languages: Arabic, English and Russian.
-Business hours: Monday to Friday, 9 am to 6 pm.
-Delivery states
-One at a time, at the top of the wizard; each takes focus when it appears. Every failure keeps the values and shows the direct channels. Success only on status received.
-Please check the highlighted details before submitting your request.
-Please enter your name.
-Please enter a valid phone number or email address so we can contact you.
-Please consent to the use of your data to contact you about this request in accordance with the Privacy Policy.
-errors error summary: browser checks or a 422, in form order; links go to the field (contact → phone, consent → checkbox)
-Your request could not be sent. Please try again or contact us directly.
-+971 52 466 6191
-Contact Us on WhatsApp
-(opens in a new tab)
-failed failed: status failed, 419, 413, maintenance 503, or the browser was offline
-Another request cannot be sent right now. Please try later or contact us directly.
-+971 52 466 6191
-Contact Us on WhatsApp
-(opens in a new tab)
-rate_limited rate limited: 429
-We could not confirm receipt of your request. You can contact us directly to check before submitting it again.
-+971 52 466 6191
-Contact Us on WhatsApp
-(opens in a new tab)
-info@summitlegaluae.com
-uncertain uncertain: timeout, network error or unknown answer. A retry reuses the key; an edited request gets a new one
-Please complete the security check above the button, then submit your request again.
-turnstile_incomplete the security check needs the visitor (Turnstile interaction)
-The security check could not be loaded. Check your connection and try again, or contact us directly.
-+971 52 466 6191
-Contact Us on WhatsApp
-(opens in a new tab)
-turnstile_unavailable the security check could not load
-Your request has been received. We will contact you to clarify the matter, scope of service and fees. This message does not mean that an engagement has been accepted, an appointment confirmed or monitoring of legal deadlines begun.
-Reference SLC-000000-000000
-Send a New Enquiry
-received received, with the reference
-An unfinished request is saved on this device.
-Restore draft
-Delete draft
-restore restore prompt: this device holds a draft (decided at start-up, before the controller loads); Restore, Delete draft, or typing dismisses it
-Actions
-Back, Next and Submit (Back becomes a square arrow under 768px), with “Keep a draft on this device” between them: ticked by default, it says how long the draft is kept; unticking deletes the stored draft at once and nothing is saved again during the visit (the toast reads “Draft saved on this device”). While sending, Submit is busy (aria-disabled, the spinner before the approved busy label) and the steps are inert. Every button is Ink, Secondary or Text (Submit is Ink, never gold); only Back and Next carry arrows (form-back, form-next), as the brief allows.
-Back
-Next
-Submit Consultation Request
-default
-Back
-Next
-Submit Consultation Request
-hover
-Back
-Next
-Submit Consultation Request
-focus-visible
-Back
-Sending request…
-Loading
-sending
-Documents step without a list
-Choose a type of matter in the previous step to see the documents that usually help. You can also continue without this step.
-no type of matter chosen yet
-There is no standard list for this type of matter. You can mention the documents you have in your summary.
-Other matter / Not sure which category applies
-Contact card
-Telephone, WhatsApp (the approved per-language draft, new tab, never sent; the mark is <x-d2.ui.brand-mark>: Meta's official file, or the marked placeholder until it is supplied), e-mail, the page's own approved languages line and hours sentence with the live status (modules/hours.js). Every icon on one column (D40); plain 20 px icons in ink-2, no tiles. No address, no map. Rows: hover veil, focus ring.
-+971 52 466 6191
-Contact Us on WhatsApp
-(opens in a new tab)
-info@summitlegaluae.com
-Languages: Arabic, English and Russian.
-Business hours: Monday to Friday, 9 am to 6 pm.
-home (variant home): section 09 of the homepage file, values only (no heading, no labels), languages then business hours
-Contact Details
-Telephone
-+971 52 466 6191
-WhatsApp
-Message Us on WhatsApp
-(opens in a new tab)
-Email
-info@summitlegaluae.com
-Communication Languages: Arabic · English · Russian
-Office Hours: Monday to Friday, 9 am to 6 pm UAE time.
-You can send a WhatsApp message outside office hours. Replies are subject to availability. Sending a message does not confirm an appointment or acceptance of an urgent matter.
-P07 (variant contact): Contact Details, the Contact file's labels, languages, office hours and the after-hours paragraph
-+971 52 466 6191
-Contact Us on WhatsApp
-(opens in a new tab)
-info@summitlegaluae.com
-Languages: Arabic, English and Russian.
-Business hours: Monday to Friday, 9 am to 6 pm.
-forced hover (telephone) and focus-visible (e-mail)
-Arabic (RTL)
-Step 5 and the contact card in Arabic: the step list runs right to left, arrows mirror, phone and e-mail keep their own left-to-right direction, and every line of mixed-script text takes its own direction. Its WhatsApp controls are shown without their link: a page only links the approved WhatsApp draft of its own language.
-لا ترسل كلمات المرور أو رموز التحقق أو المفاتيح الخاصة أو عبارة استرداد المحفظة الرقمية. ويمكن ترتيب وسيلة مناسبة لإرسال المستندات الحساسة بعد تحديد طبيعة الملف.
-إرسال الطلب لا يعني قبول التكليف أو تأكيد موعد أو بدء متابعة المواعيد القانونية. إذا كانت لديك مهلة قريبة، اتصل مباشرة واذكرها بوضوح، وتحقق من قبول التكليف.
-أوافق على استخدام بياناتي للتواصل بشأن هذا الطلب وفق سياسة الخصوصية.*
-إرسال طلب الاستشارة
-+971 52 466 6191
-تواصل عبر واتساب
-(يُفتح في علامة تبويب جديدة)
-info@summitlegaluae.com
-لغات التواصل: العربية والإنجليزية والروسية.
-ساعات العمل: الاثنين إلى الجمعة، من 9 صباحًا إلى 6 مساءً.
-Document upload
-The consultation form’s one optional attachment: one PDF, JPEG or PNG file of at most 10,000,000 bytes, checked in the browser with the approved messages and again by the server. Design 2.1: a field-like zone (1 px --field-border, radius 10, solid), the functional upload icon, a secondary "Choose a file" button, the accepted file as a plain row (no icon tile, no dot separator).
-App\Design\D2\Attachment::enabled() — OFF: the backend checks the type and size from the content and stores privately, but does not scan uploads, so Design 2 shows no attachment field and no hint (brief §5.2; the Word files' attachment notes), whatever SUMMIT_ATTACHMENTS_ENABLED says. <x-d2.upload.dropzone> stays dormant for when a scanner exists. The specimens below render with specimen=…, never carry name="attachment" and post nothing.
-Live specimen
-Try it: choose or drop a file. A GIF, an empty file, two files or a file over 10 MB shows the matching approved error; an accepted file becomes a chip with Remove Document. Nothing leaves the page.
-Attach a Document
-Optional
-You may attach one PDF, JPG or PNG document, up to 10 MB.
-States
-Attach a Document
-Optional
-You may attach one PDF, JPG or PNG document, up to 10 MB.
-Drag the document here
-Choose a file
-Idle
-Attach a Document
-Optional
-You may attach one PDF, JPG or PNG document, up to 10 MB.
-Drag the document here
-Choose a file
-Hover
-Attach a Document
-Optional
-You may attach one PDF, JPG or PNG document, up to 10 MB.
-Drag the document here
-Choose a file
-Keyboard focus (the input lies over the zone)
-Attach a Document
-Optional
-You may attach one PDF, JPG or PNG document, up to 10 MB.
-Release to attach the document
-Choose a file
-File dragged over the zone
-Attach a Document
-Optional
-You may attach one PDF, JPG or PNG document, up to 10 MB.
-Drag the document here
-Choose a file
-employment-contract-sample.pdf
-PDF
-2.4 MB
-Remove Document
-Accepted file
-Attach a Document
-Optional
-You may attach one PDF, JPG or PNG document, up to 10 MB.
-Drag the document here
-Choose a file
-This document format is not supported. Please choose a PDF, JPG or PNG file.
-Error: format (read from the content)
-Attach a Document
-Optional
-You may attach one PDF, JPG or PNG document, up to 10 MB.
-Drag the document here
-Choose a file
-The document exceeds 10 MB. Please choose a smaller file or contact us to arrange how to send it.
-Error: larger than 10 MB
-Attach a Document
-Optional
-You may attach one PDF, JPG or PNG document, up to 10 MB.
-Drag the document here
-Choose a file
-Only one document can be attached to a request.
-Error: more than one file
-Attach a Document
-Optional
-You may attach one PDF, JPG or PNG document, up to 10 MB.
-Drag the document here
-Choose a file
-The attached document could not be accepted. Try another copy or submit the request without an attachment.
-Error: empty or unreadable file
-Attach a Document
-Optional
-You may attach one PDF, JPG or PNG document, up to 10 MB.
-Drag the document here
-Choose a file
-Disabled (while the request is sending)
-Attach a Document
-Optional
-You may attach one PDF, JPG or PNG document, up to 10 MB.
-Without JavaScript: the native input, posted with the form
-In the wizard’s Documents step
-Where the control would be in <x-d2.wizard.form> with a scanning backend: step 4 (Documents), after the checklist of documents usually needed (the form then posts multipart/form-data; without JavaScript the step shows the native input only). The wizard appends the file to its FormData, names it on the review, counts it in the request fingerprint, sends a 422 “attachment” back to this field and empties it on “Send a New Enquiry” (d2-upload-reset). Rendered here with the wizard’s own <x-d2.wizard.step>.
-Documents
-Tick the documents you already have. You can send a request without them.
-Documents That Help Us Get Started
-The employment contract and its schedules, and any amendments to pay, commission or benefits.
-Payslips, transfer records, a record of payments and deductions, and the leave balance.
-The termination or resignation letter, notice-period correspondence, and any release or calculation of entitlements.
-Any earlier complaint, decision or judgment, proof of service, and any current deadline for a response or challenge.
-Attach a Document
-Optional
-You may attach one PDF, JPG or PNG document, up to 10 MB.
-Contract
-Input #{prefix}-attachment (name="attachment"), error #{prefix}-attachment-error with .field__error-text, root [data-field="{prefix}-attachment"]: the same contract as every wizard field. Events: d2-upload-change {file} bubbles; d2-upload-reset (or the form’s reset) empties it. attachmentOf(form) in components/upload-checks.js returns the file for a FormData built by hand.
 Inner pages
 The kit every inner page is built from: <x-d2.inner.head>, prose, layout, toc, progress, cta-card and related. Live on /legal-disclaimer/, /privacy-policy/ and /terms-and-conditions/; the generic template falls back to the same parts. Design 2.1: no icon object, eyebrow, large-title collapse, arrow or decorative glyph; headings take the role of their level.
 Head: <x-d2.inner.head>
@@ -5832,6 +5121,8 @@ Debt Recovery and Cheque Cases
 Debt Recovery and Cheque Cases in the UAE
 Another promise to pay does not tell you when you will recover what you are owed or how to protect your claim. We review the basis of the debt, the outstanding balance, the documents and any security, then assess whether a settlement or formal claim is worthwhile before you incur further costs.
 Request a Legal Consultation
+– WhatsApp
+(opens in a new tab)
 Contact Us on WhatsApp
 (opens in a new tab)
 Display size with the actions slot (service hero: gold hero primary, WhatsApp)
@@ -5867,7 +5158,7 @@ Scope of Service and Published Information
 Summit is a legal consultancy company. The work, deliverables and fees are defined in the agreed engagement. Court advocacy or representation requiring an advocate is carried out by licensed advocates. Where work requires separate professional registration or specialist expertise, it is coordinated with an appropriately qualified professional as needed.
 This is general information and does not replace a review of the facts, documents, applicable law, competent authority and relevant deadlines. Options and outcomes vary from one matter to another. Presenting this service does not guarantee a decision, recovery of funds or approval by an external authority.
 info@summitlegaluae.com
-+971 52 466 6191
++971524666191
 Contact Summit
 Every block type (section headings at level 4 here)
 1. المعلومات العامة والاستشارة الخاصة
@@ -5900,7 +5191,7 @@ Every block type (section headings at level 4 here)
 سَمِت شركة استشارات قانونية. تُحدد الأعمال والمخرجات والأتعاب في التكليف المتفق عليه، ويجري الترافع أو التمثيل الذي يتطلب محاميًا بواسطة محامين مرخصين. وتُنسق الأعمال التي تستلزم قيدًا أو اختصاصًا مهنيًا مستقلًا مع المختص المؤهل حيث يلزم.
 هذه معلومات عامة، ولا تغني عن مراجعة وقائع المسألة ومستنداتها والقانون والجهة والمواعيد المنطبقة عليها. تختلف الخيارات والنتائج بحسب كل ملف، ولا يُعد عرض الخدمة ضمانًا لقرار أو تحصيل أو موافقة من جهة خارجية.
 info@summitlegaluae.com
-+971 52 466 6191
++971524666191
 تواصل مع سَمِت
 Other direction (approved copy of the other script)
 Table of contents: <x-d2.inner.toc>
@@ -5937,6 +5228,8 @@ On this page
 6. Official Sources and Linked Websites
 Tell Us About Your Matter
 Request a Legal Consultation
+– WhatsApp
+(opens in a new tab)
 Contact Us on WhatsApp
 (opens in a new tab)
 Side rail with an aside (service pages, from 1280 px): the list above the CTA, here an action group under a hairline, not a card in the column (approved heading, here a label: the page’s final panel carries it as its H2, so heading navigation lists it once; and the actions at the rail’s full width, the standard 44 px buttons, one line in every language; the telephone and e-mail are in the final panel). The rail is capped to the window (here to a fixed height) and the list scrolls inside it, the current link kept in view, so the actions always show in full. On the Knowledge Centre below 768 px each guide starts as its card (category and title) with the proposed "Read the full guide" disclosure; a link to the guide or to an anchor inside it opens it first.
@@ -5949,24 +5242,30 @@ Sticky in the layout’s side column from 1280 px. Request (ink: gold is the pag
 Tell Us About Your Matter
 Send a summary of the matter and the main document, if available, and mention any hearing or current deadline. Before work begins, we will explain the scope of consultation, the fee and the documents required.
 Request a Legal Consultation
+– WhatsApp
+(opens in a new tab)
 Contact Us on WhatsApp
 (opens in a new tab)
-+971 52 466 6191
++971524666191
 info@summitlegaluae.com
 Office Hours: Monday to Friday, 9 am to 6 pm UAE time.
 The service is available in Arabic, English and Russian. Sending an enquiry does not mean that the engagement has been accepted or that monitoring of legal deadlines has begun.
 With an approved heading, text, note, e-mail row and the S06 pre-fill
 Request a Legal Consultation
+– WhatsApp
+(opens in a new tab)
 Contact Us on WhatsApp
 (opens in a new tab)
-+971 52 466 6191
++971524666191
 Minimal: default labels, no heading
 تحدث معنا عن ملفك
 أرسل ملخصًا للموضوع والمستند الأساسي إن توفر، واذكر أي جلسة أو مهلة قائمة. نوضح لك نطاق الاستشارة وأتعابها والمستندات اللازمة قبل بدء العمل.
 اطلب استشارة قانونية
+– واتساب
+(يُفتح في علامة تبويب جديدة)
 تواصل عبر واتساب
 (يُفتح في علامة تبويب جديدة)
-+971 52 466 6191
++971524666191
 ساعات العمل: من الاثنين إلى الجمعة، من 9 صباحًا إلى 6 مساءً بتوقيت الإمارات.
 Other direction
 Related: <x-d2.inner.related>
@@ -5982,10 +5281,11 @@ Cards: two related guides of S01
 === footer ===
 Summit Legal Consultancy
 Legal advice for individuals, businesses, investors and residents in the UAE, in Arabic, English and Russian.
-+971 52 466 6191
++971524666191
 Contact Us on WhatsApp
 (opens in a new tab)
 info@summitlegaluae.com
+www.summitlegaluae.com
 Business hours: Monday to Friday, 9 am to 6 pm.
 Practice Areas
 Debt Recovery and Cheque Cases
@@ -5997,8 +5297,8 @@ Employment Law
 Tax Disputes and Tax Compliance
 Family Law and Wills
 Compliance and Regulatory Matters
-Legal Translation
 Business Services
+View All Practice Areas
 Legal Resources
 Legal Resources Centre
 FAQs
@@ -6031,6 +5331,6 @@ uaetaxdisputes.com
 (opens in a new tab)
 © {{YEAR}} Summit Legal Consultancy. All rights reserved.
 Choose language
-Arabic
 English
-Russian
+العربية
+Русский

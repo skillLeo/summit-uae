@@ -1,9 +1,14 @@
 /*
- * Design 2.1 language menu (<x-d2.shell.langmenu>; brief §3.7, fix D12; behaviour in
- * resources/js/d2/components/langmenu.js). The panel is the shared overlay surface (.popover, popover.css).
- * Trigger: the current language's approved label and a chevron, a quiet text button like the nav links (--ink-2,
- * ink on hover and while open, an 8 % wash); no codes, no dots, no flags, no pill.
- * List: the three approved labels in the page's language; the current one in ink at 600 (aria-current), no tick.
+ * Design 2.1 language menu (<x-d2.shell.langmenu>; brief §3.7, fix D12; the client's final changes, item 18;
+ * behaviour in resources/js/d2/components/langmenu.js). The panel is the shared overlay surface (.popover,
+ * popover.css).
+ * Trigger: the current language's flag, its approved name and a chevron, a quiet text button like the nav links
+ * (--ink-2, ink on hover and while open, an 8 % wash); no codes, no dots, no pill.
+ * List: [flag] English, [flag] العربية, [flag] Русский (each name in its own language); the current one in ink at
+ * 600 (aria-current), no tick.
+ * Flags (.flag, <x-d2.ui.flag>; also the menu sheet's language row and sheet and the footer's language list):
+ * 20 x 15 px (4:3), before the name at the start side in both directions, decorative; a 1 px hairline inside the
+ * edge keeps the white and black bands of a flag apart from a white panel or the black header.
  * Place: under its trigger's end edge, 8 px below the header's bottom line (header.css computes --lang-drop for
  * the top of the page, with or without the navigation row, and for the compact bar). It never lies over the
  * navigation row: Russian labels reach under the trigger, and a half-covered label would be a target too small
@@ -16,12 +21,32 @@
     flex: none;
   }
 
+  /* A language's flag (<x-d2.ui.flag>), wherever a language is named. */
+  .flag {
+    --flag-edge: var(--line-strong);
+
+    flex: none;
+    inline-size: var(--s-5);
+    block-size: auto;
+    aspect-ratio: 4 / 3;
+    outline: var(--line-w) solid var(--flag-edge);
+    outline-offset: calc(-1 * var(--line-w));
+  }
+
+  .on-dark .flag,
+  .d2-header .langmenu__trigger .flag {
+    --flag-edge: var(--field-border-on-dark);
+  }
+
+  /* Phones: 8 px before the flag and 4 px after the chevron, so the lockup, the language menu and the menu button
+     share one bar from 375 px in every language (header.css; header.js moves the menu to the menu sheet where they
+     do not). */
   .langmenu__trigger {
     display: inline-flex;
     gap: var(--s-1);
     align-items: center;
     min-block-size: var(--target);
-    padding-inline: var(--s-3) var(--s-2);
+    padding-inline: var(--s-2) var(--s-1);
     color: var(--ink-2);
     font-size: var(--fs-ui);
     font-weight: var(--fw-medium);
@@ -39,11 +64,28 @@
     }
   }
 
+  @media (width >= 768px) {
+    .langmenu__trigger {
+      padding-inline: var(--s-3) var(--s-2);
+    }
+  }
+
   @media (pointer: coarse) {
     .langmenu__trigger,
     .langmenu__option {
       min-block-size: var(--target-touch);
     }
+  }
+
+  /* The flag sits 8 px before the name (the chevron keeps its 4 px). */
+  .langmenu__trigger .flag {
+    margin-inline-end: var(--s-1);
+  }
+
+  /* The options: the flag 8 px before the name, both at the start side. */
+  .langmenu__option {
+    gap: var(--s-2);
+    justify-content: flex-start;
   }
 
   .langmenu__chev {

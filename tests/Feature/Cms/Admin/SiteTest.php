@@ -321,22 +321,23 @@ final class SiteTest extends TestCase
 
     public function test_saving_whatsapp_changes_every_whatsapp_link_of_the_page(): void
     {
+        // One message for every language (client PDF item 6): the screen has one field and stores it for en, ar and ru.
         Livewire::test(WhatsApp::class)
-            ->fillForm(['draft.en' => 'Hello Summit, a test message from the settings screen.'])
+            ->assertFormSet(['message' => 'Hello Summit Legal Consultancy, I would like to request a legal consultation. Please contact me.'])
+            ->fillForm(['message' => 'Hello Summit, a test message from the settings screen.'])
             ->call('save')
             ->assertHasNoFormErrors();
+        $this->assertSame(array_fill_keys(['en', 'ar', 'ru'], 'Hello Summit, a test message from the settings screen.'), app(\App\Settings\WhatsAppSettings::class)->refresh()->draft);
 
         $expected = 'https://wa.me/971524666191?text='.rawurlencode('Hello Summit, a test message from the settings screen.');
-        foreach (['/en/', '/en/contact/'] as $url) {
+        foreach (['/en/', '/en/contact/', '/ar/', '/ru/practice-areas/labor-law/'] as $url) {
             preg_match_all('/href="(https:\/\/wa\.me\/[^"]+)"/', $this->get2($url), $m);
             $this->assertNotEmpty($m[1], $url);
             $this->assertSame([$expected], array_values(array_unique(array_map('html_entity_decode', $m[1]))), "{$url}: every WhatsApp link opens the one WA01 draft");
         }
-        preg_match_all('/href="(https:\/\/wa\.me\/[^"]+)"/', $this->get2('/ar/'), $m);
-        $this->assertStringNotContainsString(rawurlencode('Hello Summit, a test'), implode(' ', $m[1]), 'Arabic keeps its own draft');
         $this->assertSame($expected, WhatsApp::link('Hello Summit, a test message from the settings screen.'), 'the preview is the link the site builds');
 
-        Livewire::test(WhatsApp::class)->fillForm(['draft.ar' => ''])->call('save')->assertHasFormErrors(['draft.ar']);
+        Livewire::test(WhatsApp::class)->fillForm(['message' => ''])->call('save')->assertHasFormErrors(['message']);
     }
 
     public function test_saving_office_hours_changes_the_hours_payload(): void
@@ -357,11 +358,15 @@ final class SiteTest extends TestCase
     public function test_the_contact_settings_validate_the_link_forms(): void
     {
         Livewire::test(GeneralContact::class)
-            ->assertFormSet(['phone_display' => '+971 52 466 6191', 'phone_href' => 'tel:+971524666191'])
+            ->assertFormSet(['phone_display' => '+971524666191', 'phone_href' => 'tel:+971524666191'])
             ->fillForm(['phone_href' => 'tel:+971500000000'])
             ->call('save')
             ->assertHasFormErrors(['phone_href']);
         Livewire::test(GeneralContact::class)->fillForm(['email_href' => 'mailto:other@example.com'])->call('save')->assertHasFormErrors(['email_href']);
+        // client PDF item 5: the number as shown has no spaces, dashes or brackets
+        foreach (['+971 52 466 6191', '+971-52-466-6191', '+971 (52) 4666191'] as $spaced) {
+            Livewire::test(GeneralContact::class)->fillForm(['phone_display' => $spaced])->call('save')->assertHasFormErrors(['phone_display']);
+        }
         Livewire::test(GeneralContact::class)->fillForm(['whatsapp_number' => '+971524666191'])->call('save')->assertHasFormErrors(['whatsapp_number']);
         Livewire::test(GeneralContact::class)->call('save')->assertHasNoFormErrors();
     }

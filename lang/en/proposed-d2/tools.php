@@ -15,7 +15,7 @@
 return [
     'section' => [
         'title' => 'Check the Figures Yourself',
-        'intro' => 'Two quick estimates that run in your browser: the end-of-service gratuity and final settlement under the UAE Labour Law, and the Dubai rent increase check. Nothing you enter leaves this page unless you add it to a consultation request.',
+        'intro' => 'Two quick estimates that run in your browser: the end-of-service gratuity and final settlement under the UAE Labour Law, and the Dubai rent increase check. Nothing you enter leaves this page.',
     ],
 
     // The calculators page (Phase 2: the estimators moved off the home page, brief §5.1); noindex while pending.

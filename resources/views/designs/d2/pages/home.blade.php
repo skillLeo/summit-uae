@@ -8,9 +8,10 @@
     01_Homepage_EN_Revised.docx, same in AR and RU; D26): the approved sections 01-09 are fixed, the switchable blocks
     sit between approved sections, never inside one:
         01 hero
-           [start]      "Start your matter" (pending copy)
+           [start]      "Start your matter" (pending copy; off since client PDF item 7: it led into the form)
         02 services
-           [anatomy]    "Anatomy of a Document" (pending copy)
+           [anatomy]    "Anatomy of a Document" (pending copy; off since client PDF item 13: the hero's sample
+                        documents are the home's one interactive document section)
         03 who we help
         04 review       "What a Review of Your Matter Can Clarify"
            [navigator]  "Where Do You Stand?" (pending copy)

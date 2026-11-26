@@ -11,19 +11,21 @@
     signals are off and ad identifiers are redacted. page_location is the address without its query and #hash (only
     the utm_* campaign fields are kept: they are set by whoever wrote the link, never typed by the visitor);
     page_referrer likewise without its query. The ID is validated (^G-[A-Z0-9]{6,12}$) and escaped.
+    The tag itself is Google's current Google tag snippet (gtm.js?id=G-…, initialised on load; no gtag('config')),
+    after our consent defaults (client, 2026-11-25: G-YDERNR1R8D).
     The consent bar: d2::partials.consent; the events: resources/js/d2/modules/analytics.js.
 --}}
 @php $gaId = \App\Support\Analytics::tag($pageKey ?? null); @endphp
 @if ($gaId !== null)
-<script async src="https://www.googletagmanager.com/gtag/js?id={{ $gaId }}" nonce="{{ Vite::cspNonce() }}"></script>
+{{-- First: consent (all denied unless the visitor accepted before), ad data redaction and the cleaned page fields, so
+     the Google tag applies them to its first page_view. --}}
 <script nonce="{{ Vite::cspNonce() }}">
 window.dataLayer = window.dataLayer || [];
 function gtag() { dataLayer.push(arguments); }
 gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
 if (/(?:^|;\s*)summit_consent=granted(?:;|$)/.test(document.cookie)) { gtag('consent', 'update', { analytics_storage: 'granted' }); }
 gtag('set', 'ads_data_redaction', true);
-gtag('js', new Date());
-(function (id, campaign) {
+(function (campaign) {
     var clean = function (href, keep) {
         try {
             var url = new URL(href), query = new URLSearchParams();
@@ -32,12 +34,20 @@ gtag('js', new Date());
             return url.origin + url.pathname + (query ? '?' + query : '');
         } catch (e) { return ''; }
     };
-    gtag('config', id, {
+    gtag('set', {
         page_location: clean(location.href, campaign),
         page_referrer: clean(document.referrer, []),
         allow_google_signals: false,
         allow_ad_personalization_signals: false
     });
-})(@json($gaId), ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'utm_id']);
+})(['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'utm_id']);
+</script>
+{{-- Then Google's own snippet for this tag, exactly as Google gives it (Admin, Data streams, the Google tag): gtm.js
+     initialises the tag when it loads, so there is no gtag('config') line and one page_view per page. --}}
+<script async src="https://www.googletagmanager.com/gtm.js?id={{ $gaId }}" nonce="{{ Vite::cspNonce() }}"></script>
+<script nonce="{{ Vite::cspNonce() }}">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 </script>
 @endif

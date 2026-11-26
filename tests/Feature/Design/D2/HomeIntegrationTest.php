@@ -25,7 +25,9 @@ final class HomeIntegrationTest extends TestCase
      * 01-09 with the switchable tool blocks between them (the hero is identified by its H1). The trust row is gone
      * (D20), the calculators have their own page and the team block is off by default (D24).
      */
-    private const ORDER = ['hero-title', 'start', 'services', 'anatomy', 'who-we-help', 'review', 'navigator', 'about', 'case-studies', 'guides', 'questions', 'consultation-form'];
+    // "Start your matter" (#start) is off since the form was removed (client PDF item 7).
+    // "Anatomy of a Document" (#anatomy) is off since client PDF item 13 (homepage density).
+    private const ORDER = ['hero-title', 'services', 'who-we-help', 'review', 'navigator', 'about', 'case-studies', 'guides', 'questions', 'consultation-form'];
 
     /** Design 1 home anchors that must keep working. */
     // (faq-42 and the other FAQ-page anchors live on P05: the home's section 08 holds its eight own questions, D41 / §5.1.)

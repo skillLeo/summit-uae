@@ -214,6 +214,7 @@ final class DocsTest extends TestCase
 
     public function test_anatomy_section_renders_its_groups_and_the_no_js_fallback(): void
     {
+        $this->homeBlockOn('anatomy'); // off by default since client PDF item 13; the kept block still works
         foreach (['en', 'ar', 'ru'] as $locale) {
             app()->setLocale($locale);
             $html = $this->home($locale);
@@ -262,12 +263,11 @@ final class DocsTest extends TestCase
                 $this->assertCount(1, $hot);
                 $this->assertSame(Docs::HOTSPOTS[$type][0], $hot[0]->getAttribute('data-field'));
 
-                // the consultation link works without JavaScript
+                // the consultation link works without JavaScript: WhatsApp with the approved message (client PDF item 7)
                 $cta = $panel->querySelector('[data-anatomy-cta]');
-                $this->assertSame(ui('cta.request_consultation'), trim($cta->textContent));
-                $this->assertStringEndsWith('#consultation-form', $cta->getAttribute('href'));
-                $service = Docs::SERVICE[$type];
-                $service ? $this->assertStringContainsString('service='.$service, $cta->getAttribute('href')) : $this->assertStringNotContainsString('service=', $cta->getAttribute('href'));
+                $this->assertStringStartsWith(ui('cta.request_consultation'), trim($cta->textContent));
+                $this->assertSame(setting('whatsapp_url'), $cta->getAttribute('href'));
+                $this->assertSame('_blank', $cta->getAttribute('target'));
             }
 
             $anatomy = $this->between($html, '<section class="section anatomy"', '</section>');
@@ -284,6 +284,7 @@ final class DocsTest extends TestCase
      */
     public function test_anatomy_parts_list_and_hotspots_name_the_same_parts(): void
     {
+        $this->homeBlockOn('anatomy'); // off by default since client PDF item 13; the kept block still works
         foreach (['en', 'ar', 'ru'] as $locale) {
             app()->setLocale($locale);
             $html = $this->home($locale);

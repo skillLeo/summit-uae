@@ -7,8 +7,9 @@
  *   stems, resources-kit.js); the topic chips (aria-pressed) keep one category. The guide cards, their
  *   category groups, the full guides and their entries in the inner kit's contents (side list, bar and
  *   sheet) are filtered together. The result count (proposed, plural forms rendered by the server) or the
- *   approved "no results" message is shown in a status row (with "Clear Search and Filters") and announced
- *   through the layout's polite live region. Nothing leaves the page and nothing is stored.
+ *   approved "no results" message is shown in a status row (with "Clear Search and Filters", and with no result
+ *   "Contact Us on WhatsApp": the client's final changes, item 7, WhatsApp instead of the removed form) and
+ *   announced through the layout's polite live region. Nothing leaves the page and nothing is stored.
  * - Deep links (designer note: "restore the selected guide when following a deep link"): a link to a guide
  *   or one of its parts that the filter hides clears the filter first; every landing scrolls below the
  *   sticky header and moves keyboard focus to the target heading (resources-kit.js deepLinks). A guide's
@@ -69,6 +70,7 @@ export default (Alpine) => {
                     value: finder?.querySelector('[data-kc-topic-value]') ?? null,
                     status: finder?.querySelector('[data-kc-status]') ?? null,
                     clear: finder?.querySelector('[data-kc-clear]') ?? null,
+                    whatsapp: finder?.querySelector('[data-kc-whatsapp]') ?? null,
                     foot: finder?.querySelector('[data-kc-foot]') ?? null,
                     read: root.querySelector('[data-kc-read]'),
                     directory: root.querySelector('[data-kc-directory]'),
@@ -222,6 +224,8 @@ export default (Alpine) => {
             status(count) {
                 const el = ui.status;
                 if (!el) return;
+                // No result: "Contact Us on WhatsApp" beside the message (the client's final changes, item 7).
+                if (ui.whatsapp) ui.whatsapp.hidden = count !== 0;
                 if (count === null) {
                     el.replaceChildren();
                     el.classList.remove('is-empty');

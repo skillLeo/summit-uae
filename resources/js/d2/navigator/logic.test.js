@@ -50,6 +50,11 @@ describe('situation references and the deep link', () => {
         expect(requestUrl(base, 'S99', '<x>')).toBe('https://www.summitlegaluae.com/en/#consultation-form');
         expect(requestUrl('not a url', 'S05', 'S05-2')).toBe('not a url');
     });
+
+    it('keeps the WhatsApp link (WhatsApp only: no context, the approved message untouched)', () => {
+        const wa = 'https://wa.me/971524666191?text=Hello%20Summit%20Legal%20Consultancy';
+        expect(requestUrl(wa, 'S05', 'S05-2')).toBe(wa);
+    });
 });
 
 describe('filter', () => {

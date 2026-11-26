@@ -264,10 +264,11 @@ final class InnerKitTest extends TestCase
         $this->assertStringContainsString('<h2 class="cta-card__title" id="cta-card-title">'.e($cta['heading']).'</h2>', $html);
         $this->assertStringContainsString('href="'.e(Prefill::url(['service' => 'S06'])).'"', $html);
         $this->assertStringContainsString(e($cta['request_label']), $html);
-        $this->assertStringContainsString('href="https://wa.me/971524666191?text='.rawurlencode($s06['whatsapp_draft']).'"', $html);
+        // one WhatsApp message everywhere (client PDF item 6): the setting's link, not the page's own draft
+        $this->assertStringContainsString('href="'.e(setting('whatsapp_url')).'"', $html);
         $this->assertStringContainsString('target="_blank" rel="noopener noreferrer"', $html);
         // telephone and e-mail: the kit's contact channels (glyph + the value left to right, normal figures)
-        $this->assertMatchesRegularExpression('#<ul class="channels cta-card__channels" role="list">[\s\S]*?<a class="channel channel--phone" href="tel:\+971524666191">[\s\S]*?<bdi class="channel__text" dir="ltr">\+971 52 466 6191</bdi>#', $html);
+        $this->assertMatchesRegularExpression('#<ul class="channels cta-card__channels" role="list">[\s\S]*?<a class="channel channel--phone" href="tel:\+971524666191">[\s\S]*?<bdi class="channel__text" dir="ltr">\+971524666191</bdi>#', $html);
         $this->assertMatchesRegularExpression('#<a class="channel channel--email" href="mailto:info@summitlegaluae.com">[\s\S]*?<bdi class="channel__text" dir="ltr">info@summitlegaluae.com</bdi>#', $html);
         $this->assertStringContainsString('data-hours-status', $html);
         // the approved hours line, each time bound to its am/pm (App\Design\D2\Hours::keepTimes(), D11)
@@ -287,7 +288,9 @@ final class InnerKitTest extends TestCase
         $this->assertStringStartsWith('<div class="cta-card', trim($plain));
         $this->assertStringContainsString('href="'.e(Prefill::url()).'"', $plain, 'an unknown service code is not carried');
         $this->assertStringContainsString(e(ui('cta.request_consultation')), $plain);
-        $this->assertStringNotContainsString('wa.me', $plain);
+        // WhatsApp only (client PDF item 7): the request link itself opens WhatsApp; no WhatsApp button besides it.
+        $this->assertSame(1, substr_count($plain, 'href="https://wa.me/'));
+        $this->assertStringNotContainsString('cta-card__whatsapp', $plain);
         $this->assertStringNotContainsString('tel:', $plain);
     }
 

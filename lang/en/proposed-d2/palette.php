@@ -21,6 +21,9 @@ return [
     // No results. :query is the visitor's text (never sent anywhere).
     'no_results' => 'No results for “:query”',
     'no_results_hint' => 'Try another word, or describe your matter in your own words: they go into the consultation form as a draft you can edit. Nothing is sent until you submit the form.',
+    // WhatsApp only (client PDF item 7, no form): the hint under "No results"; the row below it is the approved
+    // "Contact Us on WhatsApp".
+    'no_results_hint_whatsapp' => 'Try another word.',
 
     // The action offered with the visitor's words (last row of the results, and the no-results state).
     'describe' => 'Describe your matter',

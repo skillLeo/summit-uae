@@ -45,6 +45,49 @@
     }
   }
 
+  /*
+   * WhatsApp only (client PDF items 6 and 7: no form). The heading, the intro and the WhatsApp button on the start
+   * side, the contact card on the end side from 1024 px (7 / 5 columns, the card one column there); stacked below,
+   * where the card keeps its tablet layout (channels and facts side by side from 768 px).
+   */
+  .contact-section__head {
+    margin-block-end: 0;
+  }
+
+  .contact-section__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+    margin-block-start: var(--s-6);
+  }
+
+  @media (width >= 1024px) {
+    .contact-section--whatsapp .contact-section__grid {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gutter);
+      align-items: start;
+    }
+
+    .contact-section--whatsapp .contact-section__main {
+      grid-column: 1 / span 6;
+    }
+
+    .contact-section--whatsapp .contact-section__aside {
+      grid-column: 8 / span 5;
+    }
+
+    .contact-section--whatsapp .contact-card {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .contact-section--whatsapp .contact-card__facts {
+      padding-block-start: var(--s-5);
+      padding-inline-start: 0;
+      border-block-start: var(--line-w) solid var(--line);
+      border-inline-start: 0;
+    }
+  }
+
   /* ------------------------------------------------------------------ contact card */
   .contact-card {
     display: grid;

@@ -51,7 +51,8 @@
         @php app()->setLocale($other); $otherMember = content()->teamMembers()[1] ?? null; @endphp
         <div class="sg-specimen" dir="{{ $otherDir }}" lang="{{ $other }}">
             @if ($otherMember)
-                <x-d2.team.profile :member="$otherMember" :href="\App\Support\SiteUrl::target((string) $otherMember['code'])" level="4" />
+                {{-- No request link: it opens WhatsApp with the page's message (client PDF item 7), not the other language's. --}}
+                <x-d2.team.profile :member="$otherMember" :href="\App\Support\SiteUrl::target((string) $otherMember['code'])" level="4" :cta="false" />
             @endif
             @php app()->setLocale($previousLocale); @endphp
             <p class="sg-label" {{ $en }} dir="ltr">{{ $t('profile_dir') }}</p>

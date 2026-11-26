@@ -130,9 +130,9 @@ test('change WA01 and see every WhatsApp link update', async ({ page, browser, b
   const en = page.locator('.cms-locale-en textarea, textarea[lang="en"]').first();
   await en.fill(draft);
   await saveSettings(page);
-  // Pages without a page-specific approved WhatsApp message (the practice-area pages carry their own DOCX draft, which
-  // equals WA01 today: an owner decision in docs/d2.1/phase-4/README.md).
-  for (const path of ['/en/', '/en/contact/', '/en/about/', '/en/faq/']) {
+  // One message on every page in every language (client PDF item 6): the practice-area pages and the Arabic and Russian
+  // pages open it too.
+  for (const path of ['/en/', '/en/contact/', '/en/about/', '/en/faq/', '/en/practice-areas/labor-law/', '/ar/', '/ru/contact/']) {
     const html = await publicHtml(browser, baseURL, path);
     const hrefs = [...html.matchAll(/href="(https:\/\/wa\.me\/[^"]+)"/g)].map((m) => m[1].replace(/&amp;/g, '&'));
     expect(hrefs.length, path).toBeGreaterThan(0);

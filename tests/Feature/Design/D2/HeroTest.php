@@ -187,6 +187,7 @@ final class HeroTest extends TestCase
 
     public function test_tool_card_is_a_get_form_to_the_consultation_form(): void
     {
+        $this->consultationFormOn(startBlock: true); // the kept "Start your matter" (client PDF item 7: off)
         $html = $this->home();
         $this->assertStringNotContainsString('<form', $this->hero($html), 'the hero holds no tool card (brief §5.1)');
         $tool = $this->between($this->start($html), '<form', '</form>');
@@ -198,8 +199,9 @@ final class HeroTest extends TestCase
             $this->assertStringContainsString(e(d2p('hero.tool.audience.'.$audience)), $tool);
         }
         $this->assertMatchesRegularExpression('/name="audience" value="individual"\s+checked/', $tool);
-        $this->assertSame(11, substr_count($tool, '<optgroup'), 'every service, grouped (JavaScript filters by audience)');
-        $this->assertSame(44, preg_match_all('/<option value="S(0[1-9]|1[01])-[1-4]"/', $tool), '44 approved situations');
+        // every published service (10 since Legal Translation left the site: client PDF item 9), grouped
+        $this->assertSame(10, substr_count($tool, '<optgroup'), 'every service, grouped (JavaScript filters by audience)');
+        $this->assertSame(40, preg_match_all('/<option value="S(0[1-9]|1[01])-[1-4]"/', $tool), '40 approved situations');
         $this->assertStringContainsString('<option value=""', $tool, 'a placeholder: nothing is chosen for the visitor');
 
         preg_match('/<script type="application\/json" data-tool-data>(.*?)<\/script>/s', $tool, $json);
@@ -230,6 +232,7 @@ final class HeroTest extends TestCase
 
     public function test_no_js_round_trip_keeps_the_choice_and_bad_values_are_ignored(): void
     {
+        $this->consultationFormOn(startBlock: true); // the kept "Start your matter" (client PDF item 7: off)
         $tool = $this->between($this->start($this->home('en', 'audience=business&situation=S04-1')), '<form', '</form>');
         $this->assertMatchesRegularExpression('/name="audience" value="business"\s+checked/', $tool);
         $this->assertStringContainsString('<option value="S04-1" selected', $tool);
@@ -423,11 +426,13 @@ final class HeroTest extends TestCase
             $html = $this->home($locale);
             $hero = $this->hero($html);
             $this->assertSame(1, preg_match_all('/class="btn btn--(gold|signature)\b/', $hero), "{$locale}: one Gold button in the hero");
-            $this->assertMatchesRegularExpression('/<a class="btn btn--gold btn--52 hero__cta" href="[^"]+#consultation-form"/', $hero);
+            // WhatsApp only (client PDF item 7): "Request a Legal Consultation" opens WhatsApp (a new tab, the mark).
+            $this->assertMatchesRegularExpression('/<a class="btn btn--gold btn--52 hero__cta" href="'.preg_quote(e(setting('whatsapp_url')), '/').'" target="_blank" rel="noopener noreferrer"/', $hero);
             $this->assertMatchesRegularExpression('/<a class="btn btn--whatsapp btn--52 hero__cta" href="'.preg_quote(e(setting('whatsapp_url')), '/').'"/', $hero);
             $this->assertStringNotContainsString('data-metal-anchor', $hero);
-            // The home sections of this area (Start your matter to the Navigator) and the Navigator's sheet hold no other gold.
-            $start = strpos($html, '<section class="section start"');
+            // The home sections of this area (the services to the Navigator; "Start your matter" is off since the form was
+            // removed) and the Navigator's sheet hold no other gold.
+            $start = strpos($html, '<section class="section svc"');
             $end = strpos($html, '</section>', strpos($html, 'data-navigator-config'));
             $this->assertNotFalse($start);
             $this->assertNotFalse($end);

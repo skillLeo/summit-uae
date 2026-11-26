@@ -57,6 +57,8 @@ final class RequestsInboxTest extends TestCase
         ]);
         Http::preventStrayRequests();
         RateLimiter::clear('x');
+        // The form and the requests screens are off since client PDF item 7 (WhatsApp only); this file tests their kept code.
+        $this->consultationFormOn();
     }
 
     protected function tearDown(): void

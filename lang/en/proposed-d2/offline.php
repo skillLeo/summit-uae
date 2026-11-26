@@ -26,5 +26,5 @@ return [
     'docs_text' => 'Gather the papers related to your matter, so they are ready when you contact us.',
 
     // What needs the network again.
-    'later' => 'Other pages, the tools and the consultation form need a connection.',
+    'later' => 'Other pages and the tools need a connection.',
 ];

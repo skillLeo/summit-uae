@@ -141,10 +141,10 @@ final class FaqTest extends TestCase
                 $this->assertStringContainsString(e($block['text']), $section, "{$faq['anchor']} answer");
             }
         }
-        $this->assertSame(74, substr_count($section, '<details class="acc__item"'), 'every question is in the HTML (readable without JavaScript)');
+        $this->assertSame(70, substr_count($section, '<details class="acc__item"'), 'every question is in the HTML (readable without JavaScript)');
         // The FAQ file's note 7: twelve category H2 headings and question H3 headings.
-        $this->assertSame(12, substr_count($section, '<h2 class="tabs__panel-title">'));
-        $this->assertSame(74, substr_count($section, '<h3 class="acc__title">'));
+        $this->assertSame(11, substr_count($section, '<h2 class="tabs__panel-title">'));
+        $this->assertSame(70, substr_count($section, '<h3 class="acc__title">'));
     }
 
     /**
@@ -209,7 +209,7 @@ final class FaqTest extends TestCase
     {
         app()->setLocale('en');
         $section = $this->browser('en');
-        $this->assertSame(12, substr_count($section, 'class="faq-panel__aside"'));
+        $this->assertSame(11, substr_count($section, 'class="faq-panel__aside"'));
         $this->assertStringContainsString(e(ui('footer.useful_links')), $section);
         // cat-07's approved links: the service, its guide and the official portal (new tab, noopener).
         $this->assertStringContainsString('href="'.\App\Support\SiteUrl::service('S06').'"', $section);
@@ -242,12 +242,13 @@ final class FaqTest extends TestCase
                 $this->assertSame($external ? 1 : 0, substr_count($inner, 'data-icon="external"'), "{$locale}: {$href}");
                 $this->assertSame($external ? 1 : 0, substr_count($inner, 'data-icon='), "{$locale}: {$href} has only the external mark, if any");
             }
-            $this->assertDoesNotMatchRegularExpression('#data-faq-start="[^"]*"[^>]*>(?:(?!</a>).)*btn__icon#s', $section, "{$locale}: Start here without an arrow");
+            // Start here opens WhatsApp (client PDF item 7): its one icon is the WhatsApp mark, never an arrow.
+            $this->assertDoesNotMatchRegularExpression('#data-faq-start="[^"]*"[^>]*>(?:(?!</a>).)*data-icon="(?!whatsapp")#s', $section, "{$locale}: Start here without an arrow");
         }
 
         app()->setLocale('en');
         $html = Blade::render('<x-d2.faq.browser id="faq-browser" :panel-level="2" :question-level="3" :copy-links="true" :expand-all="true" />');
-        $this->assertSame(74, preg_match_all('#<button[^>]*data-faq-copy-link="faq-\d{2}"[^>]*>\s*<span class="btn__spinner" aria-hidden="true"></span>\s*<span class="btn__label">'.preg_quote(e(ui('faq.copy_link')), '#').'</span>#', $html), 'Copy question link is a text button');
+        $this->assertSame(70, preg_match_all('#<button[^>]*data-faq-copy-link="faq-\d{2}"[^>]*>\s*<span class="btn__spinner" aria-hidden="true"></span>\s*<span class="btn__label">'.preg_quote(e(ui('faq.copy_link')), '#').'</span>#', $html), 'Copy question link is a text button');
         $this->assertStringNotContainsString('data-icon="link"', $html);
     }
 
@@ -306,15 +307,16 @@ final class FaqTest extends TestCase
         app()->setLocale('ru');
         $html = Blade::render('<x-d2.faq.browser id="faq-browser" :panel-level="2" :question-level="3" :copy-links="true" :expand-all="true" />');
 
+        // faq-67 to faq-70 and cat-11 (Legal Translation) left the site with the service (PDF item 9).
         for ($n = 1; $n <= 74; $n++) {
-            $this->assertStringContainsString(sprintf('id="faq-%02d"', $n), $html);
+            $this->{$n >= 67 && $n <= 70 ? 'assertStringNotContainsString' : 'assertStringContainsString'}(sprintf('id="faq-%02d"', $n), $html);
         }
         for ($n = 1; $n <= 12; $n++) {
-            $this->assertStringContainsString(sprintf('id="cat-%02d" data-tab-panel', $n), $html);
+            $this->{$n === 11 ? 'assertStringNotContainsString' : 'assertStringContainsString'}(sprintf('id="cat-%02d" data-tab-panel', $n), $html);
         }
-        $this->assertSame(74, substr_count($html, '<details class="acc__item"'));
-        $this->assertSame(74, substr_count($html, 'data-faq-copy-link="faq-'));
-        $this->assertSame(12, substr_count($html, 'data-faq-expand="data-faq-expand"'));
+        $this->assertSame(70, substr_count($html, '<details class="acc__item"'));
+        $this->assertSame(70, substr_count($html, 'data-faq-copy-link="faq-'));
+        $this->assertSame(11, substr_count($html, 'data-faq-expand="data-faq-expand"'));
         $this->assertStringContainsString('<h2 class="tabs__panel-title">', $html);
         $this->assertStringContainsString('<h3 class="acc__title">', $html);
         $this->assertStringContainsString(e(ui('faq.copy_link', 'ru')), $html);
@@ -327,6 +329,6 @@ final class FaqTest extends TestCase
         $html = Blade::render('<x-d2.faq.browser id="x" :search="false" :links="false" />');
         $this->assertStringNotContainsString('role="search"', $html);
         $this->assertStringNotContainsString('faq-panel__aside', $html);
-        $this->assertSame(74, substr_count($html, '<details class="acc__item"'));
+        $this->assertSame(70, substr_count($html, '<details class="acc__item"'));
     }
 }

@@ -87,6 +87,18 @@
         ),
     ]] : [];
     $count = fn (int $n) => new HtmlString(str_replace('__N__', '<bdi>'.$n.'</bdi>', e(trans_choice('proposed.d2.resources_page.category_count', $n, ['count' => '__N__']))));
+
+    // The client's final changes, items 11 and 12: the note on external links (client-approved copy; Arabic and
+    // Russian pages only, the English page has none): the interface string ui('resources.external_note') of the
+    // client-approved layer (database/content/client), editable in the admin; no text in a language, no note (never the
+    // English fallback). Its lead-in ("… :") is set in ink.
+    $noteKey = 'resources.external_note';
+    $externalNote = content()->hasUi($noteKey) ? ui($noteKey) : '';
+    // An empty text of this language in the CMS (the English page): no note, never the missing-content marker.
+    if (str_starts_with($externalNote, '⟦')) {
+        $externalNote = '';
+    }
+    [$noteLead, $noteText] = str_contains($externalNote, ':') ? array_map('trim', explode(':', $externalNote, 2)) : ['', $externalNote];
 @endphp
 <div class="kc" x-data="d2Resources">
     <x-d2.inner.head :title="$h1" :crumbs="$crumbs" :intro="[$c['lead'] ?? null, $c['intro'] ?? null]" title-id="knowledge-top" class="kc-head inner-head--rail">
@@ -159,6 +171,12 @@
 
     <x-d2.inner.progress target="kc-guides" />
     <x-d2.inner.layout :toc="$toc" toc-prefix="kc-guide" main-id="kc-guides" class="kc-read" data-kc-read>
+        {{-- Items 11 and 12: the note on external links, once, before the guides that hold the official sources. --}}
+        @if (trim($externalNote) !== '')
+            <div class="kc-extnote" role="note" data-kc-extnote>
+                <p class="kc-extnote__text">@if ($noteLead !== '')<strong class="kc-extnote__lead">{{ $noteLead }}:</strong> @endif{{ $noteText }}</p>
+            </div>
+        @endif
         @foreach ($articles as $guide)
             <x-d2.resources.article :guide="$guide" :category="$categoryNames[$guide['category'] ?? ''] ?? null" />
         @endforeach

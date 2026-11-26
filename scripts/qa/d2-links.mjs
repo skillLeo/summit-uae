@@ -6,7 +6,7 @@
  *   QA_BASE_URL=http://127.0.0.1:8042 node scripts/qa/d2-links.mjs [--locales=en,ar] [--json=report.json] [--verbose]
  *
  * Crawls every Design 2 route in EN, AR and RU: home, styleguide, offline, P02-P08, L01, L02, the eleven services,
- * a 404 (an unknown path, expected to answer 404) and the root language chooser "/". On every page it reads
+ * a 404 (an unknown path, expected to answer 404) and the root "/" (a 301 to /en/, followed). On every page it reads
  * the server-rendered HTML (progressive enhancement: what works without JavaScript) and checks:
  *   - every internal link (<a>, <area>, <link>: alternates, canonical, manifest, icons, font preloads) and
  *     every internal <img src>: the status (2xx; a 3xx is reported as a redirect and followed);
@@ -41,7 +41,7 @@ const LOCALES = (option('locales') || 'en,ar,ru').split(',').filter(Boolean);
 const JSON_OUT = option('json');
 const VERBOSE = args.includes('--verbose');
 
-// config/summit.php: 'pages' (P02-P08, L01, L02) and 'services' (S01-S11), plus the home, styleguide and
+// config/summit.php: 'pages' (P02-P08, L01, L02) and 'services' (S01-S09, S11), plus the home, styleguide and
 // offline routes of routes/web.php.
 const PAGE_PATHS = {
     P01: '', styleguide: 'styleguide/', offline: 'offline/',
@@ -52,7 +52,7 @@ const SERVICES = {
     S01: 'debt-recovery-cheque-cases', S02: 'criminal-cases', S03: 'crypto-digital-currency-cases',
     S04: 'corporate-commercial-law', S05: 'real-estate-rental-disputes', S06: 'labor-law',
     S07: 'tax-disputes-compliance', S08: 'family-law-wills', S09: 'compliance-regulatory',
-    S10: 'legal-translation', S11: 'business-services',
+    S11: 'business-services', // S10 Legal Translation left the site (client PDF item 9): its address 302s to P02
 };
 const MISSING = 'd2-link-check-missing-page/';
 
@@ -252,7 +252,7 @@ function queryWarnings(url) {
 
 // ------------------------------------------------------------------------------------------- crawl
 
-const seeds = [{ url: `${BASE}/`, expect: 200, label: 'chooser' }];
+const seeds = [{ url: `${BASE}/`, expect: 200, label: 'root' }]; // "/" is a 301 to /en/ (followed): the final status
 for (const locale of LOCALES) {
     for (const [code, path] of Object.entries(PAGE_PATHS)) seeds.push({ url: `${BASE}/${locale}/${path}`, expect: 200, label: `${locale} ${code}` });
     for (const [code, slug] of Object.entries(SERVICES)) seeds.push({ url: `${BASE}/${locale}/practice-areas/${slug}/`, expect: 200, label: `${locale} ${code}` });

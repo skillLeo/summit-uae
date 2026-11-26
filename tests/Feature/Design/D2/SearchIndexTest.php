@@ -67,7 +67,7 @@ final class SearchIndexTest extends TestCase
             $items = $data['items'];
 
             $types = array_count_values(array_column($items, 'type'));
-            $this->assertSame(['service' => 11, 'guide' => 9, 'faq' => 74, 'case' => 6], $types, $locale);
+            $this->assertSame(['service' => 10, 'guide' => 9, 'faq' => 70, 'case' => 6], $types, $locale); // (10 since Legal Translation left the site: client PDF item 9)
             // Grouped in a fixed order: services, guides, FAQs, case studies.
             $this->assertSame(['service', 'guide', 'faq', 'case'], array_values(array_unique(array_column($items, 'type'))));
 
@@ -166,7 +166,8 @@ final class SearchIndexTest extends TestCase
                 $this->assertStringContainsString('<div class="palette__group-label">'.e(ui($key, $locale)).'</div>', $palette, "{$locale}: {$key} heading");
             }
             preg_match_all('/data-icon="([^"]+)"/', $palette, $icons);
-            $this->assertSame([], array_values(array_diff(array_unique($icons[1]), ['search', 'close', 'check', 'warning', 'error'])), "{$locale}: functional icons only");
+            // (whatsapp: the mark of "Contact Us on WhatsApp", the row that replaced "Describe your matter": client PDF item 7)
+            $this->assertSame([], array_values(array_diff(array_unique($icons[1]), ['search', 'close', 'check', 'warning', 'error', 'whatsapp'])), "{$locale}: functional icons only");
             foreach (array_slice(content()->services($locale), 0, 6) as $service) {
                 $this->assertMatchesRegularExpression('#id="palette-o-'.$service['code'].'"[^>]*>\s*<span class="palette-option__text">\s*<span class="palette-option__title">'.preg_quote(e($service['title']), '#').'</span>\s*</span>#', $palette, "{$locale}: {$service['code']} by its full title");
             }

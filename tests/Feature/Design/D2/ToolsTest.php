@@ -149,9 +149,9 @@ final class ToolsTest extends TestCase
         $section = $this->section($this->page('/en/calculators/'));
         $this->assertSame(2, substr_count($section, 'class="tool__nojs"'));
         $this->assertStringContainsString(e(d2p('tools.common.nojs')), $section);
-        // Consultation links: service + tool only, never a figure (and no <form>: nothing can be submitted).
-        $this->assertStringContainsString('/en/?service=S06&amp;tool=gratuity#consultation-form', $section);
-        $this->assertStringContainsString('/en/?service=S05&amp;tool=rent#consultation-form', $section);
+        // Consultation links: WhatsApp with the approved message and nothing else, never a figure (client PDF item 7; and
+        // no <form>: nothing can be submitted).
+        $this->assertSame(3, substr_count($section, 'href="'.e(setting('whatsapp_url')).'" target="_blank" rel="noopener noreferrer"'));
         $this->assertStringNotContainsString('<form', $section);
         $this->assertStringContainsString(e(ui('cta.request_consultation')), $section);
         // CSP: no inline style attribute anywhere in the section.
@@ -266,7 +266,7 @@ final class ToolsTest extends TestCase
             $this->assertNotEmpty($m[1]);
             // (chevron / chevron-start: the tabs' pointer scroll buttons; carousel-prev / -next: the calendar's months)
             $this->assertSame([], array_values(array_diff(array_unique($m[1]), ['info', 'warning', 'error', 'check', 'chevron-down', 'calendar', 'minus', 'plus', 'external',
-                'chevron', 'chevron-start', 'carousel-prev', 'carousel-next'])), "{$locale}: decorative icons");
+                'chevron', 'chevron-start', 'carousel-prev', 'carousel-next', 'whatsapp'])), "{$locale}: decorative icons"); // whatsapp: the mark on the links that open WhatsApp (client PDF item 7)
         }
     }
 

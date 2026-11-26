@@ -11,7 +11,7 @@
     'requestLabel' => null,    // approved request label (default ui('cta.request_consultation'))
     'whatsapp' => true,        // WhatsApp button (approved per-language draft; opens WhatsApp, never sends)
     'whatsappLabel' => null,   // approved label (default ui('cta.whatsapp'))
-    'whatsappDraft' => null,   // approved page-specific draft (e.g. a service's whatsapp_draft); default setting('whatsapp_url')
+    'whatsappDraft' => null,   // unused since client PDF item 6 (one WhatsApp message everywhere: setting('whatsapp_url'))
     'phone' => true,           // telephone row (tel:+971524666191)
     'email' => false,          // e-mail row (mailto:info@summitlegaluae.com)
     'hours' => true,           // the approved office-hours sentence + live status ([data-hours-status], modules/hours.js)
@@ -54,9 +54,8 @@
         'service' => is_string($service) && array_key_exists($service, config('summit.services')) ? $service : null,
         'situation' => $situation, 'audience' => $audience, 'consultant' => $consultant, 'tool' => $tool,
     ], fn ($v) => is_string($v) && $v !== ''));
-    $whatsappUrl = is_string($whatsappDraft) && trim($whatsappDraft) !== ''
-        ? 'https://wa.me/'.setting('whatsapp_number').'?text='.rawurlencode($whatsappDraft)
-        : (string) setting('whatsapp_url');
+    // One WhatsApp message on every page in every language (client PDF item 6): whatsappDraft is no longer used.
+    $whatsappUrl = (string) setting('whatsapp_url');
     $titleId = $id.'-title';
     $tag = $hasHeading ? 'aside' : 'div';
 @endphp

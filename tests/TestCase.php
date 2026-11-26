@@ -27,6 +27,29 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
+     * The consultation form and the requests screens are off since client PDF item 7 (WhatsApp only,
+     * App\Support\ConsultationForm); their code is kept, and its tests switch them on again. $startBlock also switches
+     * on the "Start your matter" home block (off by default since then; its Continue leads into the form).
+     */
+    protected function consultationFormOn(bool $startBlock = false): void
+    {
+        config(['summit.consultation_form' => true]);
+        if ($startBlock) {
+            $page = \App\Models\Content\Page::query()->findOrFail(\App\Content\Cms\HomeBlocks::PAGE);
+            $page->blocks = array_map(fn (array $b) => $b['type'] === 'start' ? ['enabled' => true] + $b : $b, $page->blocks);
+            $page->save();
+        }
+    }
+
+    /** Switch a home block on (the CMS row of P01): "anatomy" is off since client PDF item 13, its code is kept. */
+    protected function homeBlockOn(string $type): void
+    {
+        $page = \App\Models\Content\Page::query()->findOrFail(\App\Content\Cms\HomeBlocks::PAGE);
+        $page->blocks = array_map(fn (array $b) => $b['type'] === $type ? ['enabled' => true] + $b : $b, $page->blocks);
+        $page->save();
+    }
+
+    /**
      * Laravel's test client trims trailing slashes; Summit page URLs end with "/" (and
      * EnsureTrailingSlash 301s the slashless form), so keep the slash when a test asks for it.
      */

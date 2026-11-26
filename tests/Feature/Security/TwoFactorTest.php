@@ -73,7 +73,7 @@ final class TwoFactorTest extends TestCase
             ->assertRedirect();
         $this->assertTrue(session(\App\Filament\Http\Middleware\EnsureTwoFactor::SKIPPED));
         $this->actingAs($user)->get('/admin')->assertOk();
-        $this->actingAs($user)->get('/admin/requests')->assertOk();
+        $this->actingAs($user)->get('/admin/pages')->assertOk(); // (the requests inbox is hidden since client PDF item 7)
 
         // the next sign-in asks again
         event(new \Illuminate\Auth\Events\Login('web', $user, false));

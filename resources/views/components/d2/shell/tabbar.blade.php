@@ -80,7 +80,7 @@
     {{-- Not inside the navigation landmark: it is a contact action, not a page. --}}
     {{-- .is-away until modules/tabbar.js has looked at the page (no flash of the button over the hero's own WhatsApp
          button); without JavaScript it shows (tabbar.css). --}}
-    <a @class(['btn', 'btn--secondary', 'btn--48', 'icon-btn', 'wa-fab', 'wa-fab--static' => $static, 'is-away' => ! $static])
+    <a @class(['btn', 'btn--whatsapp', 'btn--48', 'icon-btn', 'wa-fab', 'wa-fab--static' => $static, 'is-away' => ! $static])
         href="{{ setting('whatsapp_url') }}" target="_blank" rel="noopener noreferrer"
         aria-label="{{ ui('cta.whatsapp') }} {{ d2p('controls.new_tab') }}"
         @if ($static) inert aria-hidden="true" tabindex="-1" @else data-wa-fab @endif>

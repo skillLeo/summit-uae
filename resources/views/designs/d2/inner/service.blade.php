@@ -31,10 +31,8 @@
     $service = content()->service($code) ?? [];
     $s = $service['sections'] ?? [];
     $consult = Prefill::url(['service' => $code]);
-    $draft = trim((string) ($service['whatsapp_draft'] ?? ''));
-    $whatsapp = $draft !== ''
-        ? 'https://wa.me/'.config('summit.contact.whatsapp_number').'?text='.rawurlencode($draft)
-        : (string) setting('whatsapp_url');
+    // One WhatsApp message on every page in every language (client PDF item 6): the setting's link, never a page draft.
+    $whatsapp = (string) setting('whatsapp_url');
     $cta = $s['cta'] ?? [];
     $situations = array_values(array_filter((array) ($service['situations'] ?? []), 'is_string'));
     $faqItems = array_values(array_filter((array) ($s['faq']['items'] ?? []), 'is_array'));
@@ -212,7 +210,7 @@
                  carries the approved heading "Tell Us About Your Matter" (heading navigation lists it once). --}}
             <x-d2.inner.cta-card id="svc-cta-card" class="svc-side" :heading="$cta['heading'] ?? null" :heading-level="0" :service="$code"
                 :request-label="$cta['request_label'] ?? null" :whatsapp-label="$cta['whatsapp_label'] ?? null"
-                :whatsapp-draft="$draft !== '' ? $draft : null" :phone="! $hasToc" :email="! $hasToc" :hours="! $hasToc" />
+                :phone="! $hasToc" :email="! $hasToc" :hours="! $hasToc" />
         </x-slot:aside>
     </x-d2.inner.layout>
 </div>

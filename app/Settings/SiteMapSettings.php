@@ -10,7 +10,10 @@ use Spatie\LaravelSettings\Settings;
  */
 class SiteMapSettings extends Settings
 {
-    /** @var array<string, array<string, string>> locale => link key => label */
+    /**
+     * locale => link key => label. No @var type here: spatie/laravel-settings builds a cast from a docblock type and
+     * fails on this nested array (a settings migration's $this->migrator->update() loads every settings class).
+     */
     public array $link_registry;
 
     public static function group(): string

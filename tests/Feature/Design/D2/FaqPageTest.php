@@ -84,11 +84,13 @@ final class FaqPageTest extends TestCase
         foreach ([$c['search']['heading'], $c['category_menu']['heading'], $c['consultation']['heading'], $c['scope']['heading']] as $heading) {
             $this->assertSame(1, $x->query('//main//h2[normalize-space()="'.$this->text($heading).'"]')->length, $heading);
         }
-        // P07 is not released: the hero CTA goes to the home form.
+        // WhatsApp only (client PDF item 7): the hero CTA (a consultation request, P07) opens WhatsApp in a new tab.
         $cta = $this->one($x, '//header[contains(@class,"inner-head")]//a[contains(@class,"btn")][normalize-space(.//*[@class="btn__label"])="'.$this->text($c['hero']['cta']['label']).'"]');
         $this->assertSame(SiteUrl::consultation(), $cta->getAttribute('href'));
-        $this->assertStringContainsString('#consultation-form', $cta->getAttribute('href'));
-        $this->assertStringContainsString('<meta name="robots" content="noindex, follow">', $html);
+        $this->assertSame(setting('whatsapp_url'), $cta->getAttribute('href'));
+        $this->assertSame('_blank', $cta->getAttribute('target'));
+        // A current page with its canonical URL (client PDF item 21).
+        $this->assertStringNotContainsString('<meta name="robots" content="noindex', $html);
     }
 
     #[DataProvider('locales')]
@@ -96,7 +98,8 @@ final class FaqPageTest extends TestCase
     {
         $x = $this->dom($this->page($locale));
         $faqs = content()->faqs();
-        $this->assertCount(74, $faqs);
+        // 70 on the site: the Legal Translation category (cat-11, faq-67 to faq-70) left with the service (PDF item 9).
+        $this->assertCount(70, $faqs);
 
         foreach ($faqs as $faq) {
             $item = $this->one($x, '//details[@id="'.$faq['anchor'].'"]');
@@ -104,6 +107,11 @@ final class FaqPageTest extends TestCase
             $this->assertStringContainsString($this->text($faq['answer'][0]['text']), $this->text($item->textContent), $faq['anchor'].' answer');
         }
         for ($i = 1; $i <= 74; $i++) {
+            if ($i >= 67 && $i <= 70) {
+                $this->assertSame(0, $x->query(sprintf('//*[@id="faq-%02d"]', $i))->length, "faq-{$i}: Legal Translation, off the site");
+
+                continue;
+            }
             $this->one($x, sprintf('//*[@id="faq-%02d"]', $i));
         }
         foreach (content()->faqCategories() as $category) {
@@ -111,6 +119,11 @@ final class FaqPageTest extends TestCase
             $this->assertSame($category['anchor'], $panel->getAttribute('id'));
         }
         for ($i = 1; $i <= 12; $i++) {
+            if ($i === 11) {
+                $this->assertSame(0, $x->query('//*[@id="cat-11"]')->length, 'cat-11: Legal Translation, off the site');
+
+                continue;
+            }
             $this->one($x, sprintf('//*[@id="cat-%02d"]', $i));
         }
         $this->one($x, '//*[@id="faq-browser"][@data-faq-browser]');
@@ -127,8 +140,11 @@ final class FaqPageTest extends TestCase
         $nav = $this->one($x, '//nav[@id="faq-topics"]');
         $this->assertSame('faq-topics-title', $nav->getAttribute('aria-labelledby'));
         $links = $x->query('.//a[@data-faq-topic]', $nav);
-        $this->assertSame(12, $links->length);
-        foreach ($menu['items'] as $i => $item) {
+        // The menu's items whose category is on the site (the Legal Translation category left with the service).
+        $items = array_values(array_filter($menu['items'], fn ($item) => isset($counts[$item['target']])));
+        $this->assertSame(11, $links->length);
+        $this->assertCount(11, $items);
+        foreach ($items as $i => $item) {
             /** @var DOMElement $link */
             $link = $links->item($i);
             $this->assertSame('#'.$item['target'], $link->getAttribute('href'));
@@ -158,11 +174,12 @@ final class FaqPageTest extends TestCase
         $c = content()->page('P05')['content'];
 
         $ask = $this->one($x, '//section[@id="faq-ask"]');
-        $this->assertSame(1, $x->query('.//a[@href="'.SiteUrl::consultation().'"]', $ask)->length);
-        $whatsapp = $this->one($x, '//section[@id="faq-ask"]//a[starts-with(@href,"https://wa.me/971524666191?text=")]');
+        // WhatsApp only (client PDF item 7): the request and the WhatsApp button both open WhatsApp.
+        $this->assertSame(2, $x->query('.//a[@href="'.SiteUrl::consultation().'"]', $ask)->length);
+        $whatsapp = $this->one($x, '//section[@id="faq-ask"]//a[contains(@class,"btn--whatsapp")][starts-with(@href,"https://wa.me/971524666191?text=")]');
         $this->assertSame(setting('whatsapp_url'), $whatsapp->getAttribute('href'));
         $this->assertSame('_blank', $whatsapp->getAttribute('target'));
-        $this->assertSame('+971 52 466 6191', $this->text($this->one($x, '//section[@id="faq-ask"]//a[@href="tel:+971524666191"]//bdi[@dir="ltr"]')->textContent));
+        $this->assertSame('+971524666191', $this->text($this->one($x, '//section[@id="faq-ask"]//a[@href="tel:+971524666191"]//bdi[@dir="ltr"]')->textContent));
         $this->assertSame('info@summitlegaluae.com', $this->text($this->one($x, '//section[@id="faq-ask"]//a[@href="mailto:info@summitlegaluae.com"]//bdi[@dir="ltr"]')->textContent));
         // Design 2.1 (one contact-channel pattern): the kit's channel rows, never buttons labelled with the number
         $this->assertSame(2, $x->query('//section[@id="faq-ask"]//ul[contains(@class,"pp-cta__channels")]/li/a[contains(@class,"channel ")]')->length);

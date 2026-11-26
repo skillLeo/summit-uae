@@ -20,15 +20,22 @@
     $alt = is_string($d['image_alt'] ?? null) && $d['image_alt'] !== '' ? $d['image_alt'] : MediaFiles::alt($uuid, app()->getLocale());
     $position = MediaFiles::objectPosition($uuid);
     $end = ($d['image_side'] ?? 'start') === 'end';
+    // Performance (client PDF item 31): the stored size reserves the image's box before it loads (no layout shift) and
+    // "sizes" lets the browser pick the srcset width the column needs (half the container from 1024 px) instead of
+    // assuming the full window.
+    $media = MediaFiles::byUuid($uuid);
+    $width = (int) ($media?->getCustomProperty('width') ?? 0);
+    $height = (int) ($media?->getCustomProperty('height') ?? 0);
+    $sizes = '(min-width: 1024px) 50vw, 100vw';
 @endphp
 <section class="section block-lib {{ $bg }} {{ $end ? 'block-lib--image-end' : '' }}" id="{{ $id }}" @if (filled($d['heading'] ?? null)) aria-labelledby="{{ $id }}-title" @endif data-copy-source="{{ $block['copy_source'] }}">
     <div class="container block-lib__grid">
         @if ($src !== null)
             <figure class="block-lib__figure">
                 <picture>
-                    @if (($avif = MediaFiles::srcset($uuid, 'avif')) !== '')<source type="image/avif" srcset="{{ $avif }}">@endif
-                    @if (($webp = MediaFiles::srcset($uuid, 'webp')) !== '')<source type="image/webp" srcset="{{ $webp }}">@endif
-                    <img src="{{ $src }}" alt="{{ $alt }}" loading="lazy" decoding="async" @if ($position) data-focus="{{ $position }}" @endif>
+                    @if (($avif = MediaFiles::srcset($uuid, 'avif')) !== '')<source type="image/avif" srcset="{{ $avif }}" sizes="{{ $sizes }}">@endif
+                    @if (($webp = MediaFiles::srcset($uuid, 'webp')) !== '')<source type="image/webp" srcset="{{ $webp }}" sizes="{{ $sizes }}">@endif
+                    <img src="{{ $src }}" alt="{{ $alt }}" @if ($width > 0 && $height > 0) width="{{ $width }}" height="{{ $height }}" @endif loading="lazy" decoding="async" @if ($position) data-focus="{{ $position }}" @endif>
                 </picture>
             </figure>
         @endif

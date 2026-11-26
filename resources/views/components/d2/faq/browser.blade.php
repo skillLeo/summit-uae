@@ -148,6 +148,9 @@
             <div class="faq-browser__state">
                 <p class="faq-browser__status" role="status" data-faq-status></p>
                 <x-d2.ui.button class="faq-browser__reset" variant="text" size="40" icon="close" data-faq-reset hidden>{{ ui('faq.search_reset') }}</x-d2.ui.button>
+                {{-- No result: WhatsApp with the approved message instead of a consultation form (client PDF item 7);
+                     shown only while the search finds nothing (.is-empty, sections/faq.css). --}}
+                <x-d2.ui.button class="faq-browser__whatsapp" variant="whatsapp" size="40" :href="setting('whatsapp_url')" data-faq-whatsapp>{{ ui('cta.whatsapp') }}</x-d2.ui.button>
             </div>
         </div>
     @endif

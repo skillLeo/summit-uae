@@ -74,6 +74,8 @@ final class EnquiryTest extends TestCase
                 ? Http::response(['success' => $this->turnstilePasses, 'error-codes' => $this->turnstilePasses ? [] : ['invalid-input-response']])
                 : Http::failedConnection()($request),
         ]);
+        // The form and the requests screens are off since client PDF item 7 (WhatsApp only); this file tests their kept code.
+        $this->consultationFormOn();
     }
 
     // ------------------------------------------------------------------ helpers
@@ -576,7 +578,7 @@ final class EnquiryTest extends TestCase
 
         $response->assertStatus(303);
         $location = (string) $response->headers->get('Location');
-        $this->assertSame('/en/', parse_url($location, PHP_URL_PATH));
+        $this->assertSame(parse_url(\App\Support\SiteUrl::consultation('en'), PHP_URL_PATH), parse_url($location, PHP_URL_PATH));
         $this->assertSame('consultation-form', parse_url($location, PHP_URL_FRAGMENT));
         $response->assertSessionHasErrors(['name' => 'en:form.name.error']);
         $response->assertSessionHas('enquiry_status', 'invalid');
@@ -591,7 +593,7 @@ final class EnquiryTest extends TestCase
         $response = $this->submitWithoutJavaScript($this->payload(), 'ar');
 
         $response->assertStatus(303);
-        $this->assertSame('/ar/', parse_url((string) $response->headers->get('Location'), PHP_URL_PATH));
+        $this->assertSame(parse_url(\App\Support\SiteUrl::consultation('ar'), PHP_URL_PATH), parse_url((string) $response->headers->get('Location'), PHP_URL_PATH));
         $reference = Enquiry::sole()->reference;
         $response->assertSessionHas('enquiry_reference', $reference);
         $response->assertSessionHas('enquiry_status', 'received');

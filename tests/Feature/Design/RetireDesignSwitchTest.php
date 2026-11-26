@@ -34,7 +34,7 @@ final class RetireDesignSwitchTest extends TestCase
 
     public function test_old_switch_links_redirect_permanently_to_the_same_address_without_the_parameter(): void
     {
-        $base = url('/');
+        $base = ''; // root-relative Location (App\Support\SiteUrl::redirectTarget(): never built from the Host header)
         foreach ([
             '/en/?design=1' => '/en/',
             '/ar/?design=2' => '/ar/',
@@ -60,7 +60,7 @@ final class RetireDesignSwitchTest extends TestCase
     public function test_an_old_share_link_loses_its_three_parameters(): void
     {
         $this->get('/en/?design_preview=1&expires=1795000000&signature='.str_repeat('a', 64).'&utm_source=x')
-            ->assertStatus(301)->assertHeader('Location', url('/').'/en/?utm_source=x');
+            ->assertStatus(301)->assertHeader('Location', '/en/?utm_source=x');
     }
 
     public function test_other_requests_and_parameters_are_left_alone(): void

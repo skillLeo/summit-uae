@@ -97,6 +97,8 @@
         </div>
     </div>
 
+    {{-- "Start your matter" fed the consultation form: shown only while the form is on (client PDF item 7). --}}
+    @if (\App\Support\ConsultationForm::enabled())
     {{-- ------------------------------------------------------------------ tool card --}}
     <h3 class="sg-sub" {!! $en !!}>{{ $t('tool') }}</h3>
     <p class="sg-note" {!! $en !!}>{{ $t('tool_note') }}</p>
@@ -122,4 +124,5 @@
             <p class="sg-label" {!! $en !!}>{{ $t('tool_unmapped') }}</p>
         </div>
     </div>
+    @endif
 </section>

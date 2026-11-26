@@ -166,13 +166,50 @@ final class FooterTest extends TestCase
         }
     }
 
+    /**
+     * The client's final changes, item 19: the transparent gold lockup straight on the dark footer (no tile), and
+     * Summit Legal Consultancy, the phone, the e-mail, www.summitlegaluae.com, Practice Areas, Resources, Case
+     * Studies, FAQ, About, Contact, Privacy Policy, Legal Disclaimer and Terms and Conditions. The phone and every
+     * label come from the settings and the approved content, so their later changes reach the footer as they are.
+     */
+    public function test_the_footer_holds_every_entry_of_the_clients_item_19(): void
+    {
+        foreach (self::LOCALES as $locale) {
+            app()->setLocale($locale);
+            $footer = $this->footer($this->d2("/{$locale}/about/"));
+
+            // The lockup: the gold vector inline, in --on-dark-gold, with no box behind it.
+            $this->assertMatchesRegularExpression('/<a class="d2-footer__logo" href="'.preg_quote(SiteUrl::home(), '/').'" aria-label="[^"]+"><svg class="d2-footer__lockup" aria-hidden="true" focusable="false"/', $footer);
+            $css = (string) preg_replace('#/\*.*?\*/#s', '', (string) file_get_contents(resource_path('css/d2/components/footer.css')));
+            $this->assertMatchesRegularExpression('/\.d2-footer__logo \{\s*display: inline-flex;\s*color: var\(--on-dark-gold\);\s*border-radius: var\(--radius-control\);\s*\}/', $css, 'no background, border or padding behind the lockup');
+            $this->assertDoesNotMatchRegularExpression('/\.d2-footer__(logo|lockup)[^{]*\{[^}]*(background|border:|outline:|padding|box-shadow)/', $css);
+
+            // The brand name (the copyright line; the hidden H2), the phone and the e-mail from the settings.
+            $this->assertStringContainsString(e(ui('footer.brand')), $footer);
+            $this->assertStringContainsString('href="'.e(setting('phone_href')).'"', $footer);
+            $this->assertStringContainsString('dir="ltr">'.e(setting('phone_display')).'</bdi>', $footer);
+            $this->assertStringContainsString('href="'.e(setting('email_href')).'"', $footer);
+
+            // The website: the canonical host, left to right, after the e-mail, in the same tab (the site itself).
+            $this->assertSame(1, preg_match('/<a class="d2-footer__channel" href="https:\/\/www\.summitlegaluae\.com\/" data-footer-website>\s*<svg class="icon d2-footer__channel-icon"[^>]*data-icon="website"[^>]*aria-hidden="true"[^>]*>.*?<\/svg>\s*<bdi class="d2-footer__channel-text" dir="ltr">www\.summitlegaluae\.com<\/bdi>\s*<\/a>/s', $footer), $locale);
+            $this->assertLessThan(strpos($footer, 'data-footer-website'), strpos($footer, 'href="'.e(setting('email_href')).'"'), 'after the e-mail');
+
+            // Practice Areas: the group and the Practice Areas page itself (the approved "View All Practice Areas").
+            $this->assertStringContainsString('<a class="d2-footer__link d2-footer__link--all" href="'.SiteUrl::page('P02').'">'.e(ui('cta.view_all_practice_areas')).'</a>', $footer);
+            // Resources, FAQ, Case Studies, About, Contact, the Legal Notice, Privacy Policy, Terms and Conditions.
+            foreach ([SiteUrl::page('P03'), SiteUrl::page('P05'), SiteUrl::page('P04'), SiteUrl::page('P06'), SiteUrl::contact(), SiteUrl::page('P08'), SiteUrl::page('L01'), SiteUrl::page('L02')] as $href) {
+                $this->assertStringContainsString('<a class="d2-footer__link" href="'.$href.'">', $footer, "{$locale}: {$href}");
+            }
+        }
+    }
+
     public function test_contact_controls_and_the_homepage_hours_sentence_without_a_live_status(): void
     {
         foreach (self::LOCALES as $locale) {
             app()->setLocale($locale);
             $footer = $this->footer($this->d2("/{$locale}/"));
 
-            $this->assertMatchesRegularExpression('/<a class="d2-footer__channel" href="tel:\+971524666191">.*?<bdi class="d2-footer__channel-text" dir="ltr">\+971 52 466 6191<\/bdi>/s', $footer);
+            $this->assertMatchesRegularExpression('/<a class="d2-footer__channel" href="tel:\+971524666191">.*?<bdi class="d2-footer__channel-text" dir="ltr">\+971524666191<\/bdi>/s', $footer);
             $this->assertMatchesRegularExpression('/<a class="d2-footer__channel" href="mailto:info@summitlegaluae\.com">.*?<bdi class="d2-footer__channel-text d2-footer__email" dir="ltr">info@summitlegaluae\.com<\/bdi>/s', $footer);
             // WhatsApp: the approved WA01 draft of this language, a new tab, never sent; the official mark
             // (<x-d2.ui.brand-mark>: Meta's dark-background file on this dark band, or its marked placeholder).
@@ -217,25 +254,27 @@ final class FooterTest extends TestCase
         }
     }
 
-    public function test_language_links_show_the_approved_labels_of_the_page_language(): void
+    /** The client's item 18: [flag] English, [flag] العربية, [flag] Русский, as in the header's language menu. */
+    public function test_language_links_show_a_flag_and_the_name_of_each_language(): void
     {
-        $approved = ['en' => ['Arabic', 'English', 'Russian'], 'ar' => ['العربية', 'الإنجليزية', 'الروسية'], 'ru' => ['Арабский', 'Английский', 'Русский']];
+        $approved = ['English', 'العربية', 'Русский'];
+        $flags = ['en' => 'gb', 'ar' => 'ae', 'ru' => 'ru'];
         foreach (self::LOCALES as $locale) {
             app()->setLocale($locale);
             $footer = $this->footer($this->d2("/{$locale}/about/"));
 
             $this->assertSame(1, preg_match('/<div class="d2-footer__langs" id="d2-footer-languages" role="group" aria-labelledby="d2-footer-languages-label">(.*?)<\/div>/s', $footer, $group));
             $this->assertStringContainsString('<span class="d2-footer__langs-label" id="d2-footer-languages-label">'.e(ui('a11y.choose_language')).'</span>', $group[1]);
-            preg_match_all('/<a class="d2-footer__lang()" href="([^"]+)" hreflang="([a-z]+)"\s+data-lang-switch="([a-z]+)"\s*(aria-current="true")?\s*>(.*?)<\/a>/s', $group[1], $links, PREG_SET_ORDER);
+            preg_match_all('/<a class="d2-footer__lang()" href="([^"]+)" hreflang="([a-z]+)" lang="\3"\s+data-lang-switch="([a-z]+)"\s*(aria-current="true")?\s*><img class="flag" src="([^"]+)" alt="" aria-hidden="true"[^>]*>\s*<span class="d2-footer__lang-name" dir="(?:ltr|rtl)">(.*?)<\/span><\/a>/s', $group[1], $links, PREG_SET_ORDER);
             $this->assertCount(3, $links, $locale);
-            $this->assertSame(['ar', 'en', 'ru'], array_column($links, 3), "{$locale}: Arabic, English, Russian (DOCX order)");
-            // D12: the approved labels in the page language; the text is in the page language, so no lang attribute.
-            $this->assertSame($approved[$locale], array_map(fn ($l) => $this->text($l[6]), $links), $locale);
-            $this->assertStringNotContainsString(' lang="', $group[1], $locale);
+            $this->assertSame(['en', 'ar', 'ru'], array_column($links, 3), "{$locale}: English, Arabic, Russian (item 18)");
+            // Each name is the approved label of its own language (lang), the flag decorative before it.
+            $this->assertSame($approved, array_map(fn ($l) => $this->text($l[7]), $links), $locale);
             foreach ($links as $link) {
                 $this->assertSame($link[3], $link[4]);
                 $this->assertSame($link[3] === $locale, $link[5] !== '', "{$locale}: only the page language is current (aria-current)");
                 $this->assertStringEndsWith('/'.$link[3].'/about/', $link[2], "{$locale}: the same page in that language");
+                $this->assertSame(asset('images/d2/flags/'.$flags[$link[3]].'.svg'), $link[6], "{$locale}: the {$link[3]} flag");
             }
         }
 

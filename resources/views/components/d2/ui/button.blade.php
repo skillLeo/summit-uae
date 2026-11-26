@@ -39,11 +39,14 @@
     $variants = ['ink', 'primary', 'gold', 'signature', 'secondary', 'text', 'ghost', 'night', 'whatsapp'];
     $variant = in_array($variant, $variants, true) ? $variant : 'primary';
     $size = in_array((int) $size, [40, 44, 48, 52, 56], true) ? (int) $size : 48;
-    $icon ??= $variant === 'whatsapp' ? 'whatsapp' : null;
+    // A link that opens WhatsApp (every "Request a Legal Consultation" since the form was removed: client PDF item 7)
+    // carries the WhatsApp mark and opens in a new tab like the whatsapp variant.
+    $opensWhatsApp = \App\Support\SiteUrl::isWhatsApp(is_string($href) ? $href : null);
+    $icon ??= $variant === 'whatsapp' || $opensWhatsApp ? 'whatsapp' : null;
     // D03: arrows and "go" chevrons are decoration in a button; the allowed ones have explicit names (Icons::ALIASES).
     $icon = is_string($icon) && $icon !== '' && ! \App\Design\D2\Icons::isArrow($icon) ? $icon : null;
     $iconEnd = is_string($iconEnd) && $iconEnd !== '' && ! \App\Design\D2\Icons::isArrow($iconEnd) ? $iconEnd : null;
-    $external ??= $href && ($variant === 'whatsapp' || $attributes->get('target') === '_blank');
+    $external ??= $href && ($variant === 'whatsapp' || $opensWhatsApp || $attributes->get('target') === '_blank');
     $inert = $disabled || $loading;
     $tag = $href ? 'a' : 'button';
     $defaults = $href
@@ -67,6 +70,9 @@
     @if ($iconEnd)
         <span class="btn__icon btn__icon--end" aria-hidden="true"><x-d2.ui.icon :name="$iconEnd" /></span>
     @endif
+    {{-- A link that opens WhatsApp under a label that does not say so ("Request a Legal Consultation", client PDF item 7)
+         names WhatsApp for screen readers (PDF item 32); the visible mark stays decorative. --}}
+    @if ($opensWhatsApp && ! $inert && ! \App\Design\D2\WhatsAppLogo::named(strip_tags((string) $slot)))<span class="sr-only"> – {{ \App\Design\D2\WhatsAppLogo::name() }}</span>@endif
     @if ($loading)<span class="sr-only" @proposed>{{ d2p('controls.loading') }}</span>@endif
     @if ($href && $external && ! $inert)<span class="sr-only" @proposed>{{ d2p('controls.new_tab') }}</span>@endif
 </{{ $tag }}>

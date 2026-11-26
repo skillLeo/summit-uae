@@ -40,6 +40,15 @@
         'r' => \App\Filament\Resources\Enquiries\EnquiryResource::getUrl('index'),
         'p' => \App\Filament\Resources\ContentPages\ContentPageResource::getUrl('index'),
     ];
+    // WhatsApp only (client PDF item 7, App\Support\ConsultationForm off): no requests inbox, so no G then R and no
+    // inbox keys.
+    if (! \App\Support\ConsultationForm::enabled()) {
+        unset($groups[__('requests.shortcuts.inbox')], $routes['r']);
+        $groups[__('requests.shortcuts.global')] = array_values(array_filter(
+            $groups[__('requests.shortcuts.global')],
+            fn (array $row): bool => $row[1] !== __('requests.shortcuts.go_requests'),
+        ));
+    }
 @endphp
 <dialog id="slc-shortcuts" class="slc-shortcuts" aria-labelledby="slc-shortcuts-title">
     <div class="slc-shortcuts__head">

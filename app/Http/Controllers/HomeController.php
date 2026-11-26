@@ -31,7 +31,9 @@ final class HomeController extends Controller
         }
 
         return view('pages.home', [
-            'seo' => Seo::make($page['seo_title'] ?? ui('brand.name'), $page['meta_description'] ?? null, index: $request->query() === []),
+            // A query string (?navigator=S05-2, ?utm_source=…) is a variant of the same page: its canonical URL is the
+            // clean /xx/ address (client PDF item 21), so the variants consolidate there instead of being noindex.
+            'seo' => Seo::make($page['seo_title'] ?? ui('brand.name'), $page['meta_description'] ?? null, index: true),
             'pageKey' => 'home',
             'navCurrent' => 'home',
             'page' => $page,

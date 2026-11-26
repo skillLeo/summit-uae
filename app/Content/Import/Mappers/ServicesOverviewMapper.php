@@ -243,7 +243,8 @@ final class ServicesOverviewMapper extends Mapper
             && preg_match('#^/(en|ar|ru)/'.preg_quote($registered, '#').'$#', $path) === 1;
 
         if (preg_match('/^S\d{2}$/', $target) === 1) {
-            $slug = config("summit.services.{$target}");
+            // A retired service (summit.retired_services: Legal Translation, client PDF item 9) keeps its address in the DOCX.
+            $slug = config("summit.services.{$target}") ?? config("summit.retired_services.{$target}.slug");
 
             return is_string($slug) && $page("practice-areas/{$slug}/") && $fragment === '';
         }

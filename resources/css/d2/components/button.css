@@ -9,7 +9,9 @@
  *   secondary .btn--secondary              white, 1px --line-strong, ink label (on dark: the night look).
  *   text      .btn--text, .btn--ghost      no fill, ink label underlined (1px at a 3px offset, 2px on hover).
  *   night     .btn--night                  ink on dark: --dark-2 fill, 1px --line-on-dark, white label.
- *   whatsapp  .btn--whatsapp               the white secondary button with an ink label and the official glyph.
+ *   whatsapp  .btn--whatsapp               the official WhatsApp green with Meta's white glyph, an ink label and one
+ *                                          soft shadow (client PDF item 6, 2026-11-25: replaces the white secondary
+ *                                          look and the "no shadow" rule for this one button).
  * Sizes: 44 px (--button-h; the size values 40, 44 and 48), label 15/500, padding-inline 20; hero 52 px
  * (--button-h-hero; the values 52 and 56), label 16/500, padding-inline 24. Radius 6 (--radius-control).
  * No gradient, glow, shadow, hover lift or arrow. Hover: the fill 8% lighter or darker (--ink-hover, --gold-hover,
@@ -120,8 +122,8 @@
     --wa-placeholder: var(--ink-3);
   }
 
-  /* secondary and the WhatsApp button: white, 1px --line-strong edge, ink label, the light-surface glyph. */
-  :is(.btn--secondary, .btn--whatsapp) {
+  /* secondary: white, 1px --line-strong edge, ink label, the light-surface glyph. */
+  .btn--secondary {
     --btn-bg: var(--canvas);
     --btn-fg: var(--ink);
     --btn-edge: var(--line-strong);
@@ -129,6 +131,23 @@
     --wa-light: block;
     --wa-dark: none;
     --wa-placeholder: var(--ink-3);
+  }
+
+  /*
+   * WhatsApp (client PDF item 6): the official WhatsApp green, Meta's white glyph (the dark-surface file), an ink label
+   * (white text on this green fails contrast: 1.98:1), one soft shadow; the hover deepens the green. The same on light
+   * and dark surfaces, so the rules for dark surfaces below never reach it.
+   */
+  .btn.btn--whatsapp {
+    --btn-bg: var(--whatsapp-fill);
+    --btn-fg: var(--ink);
+    --btn-edge: transparent;
+    --btn-wash: var(--whatsapp-wash);
+    --wa-light: none;
+    --wa-dark: block;
+    --wa-placeholder: var(--ink-2);
+
+    box-shadow: var(--shadow-whatsapp);
   }
 
   /* text (Design 2.0: ghost): an underlined label, no fill, no edge, no side padding. */

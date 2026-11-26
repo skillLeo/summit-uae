@@ -347,6 +347,14 @@
     margin-inline-start: auto;
   }
 
+  /* No result (the client's final changes, item 7): "Contact Us on WhatsApp" after the message; on phones it takes
+     the row's whole width, under the message. */
+  @media (width < 768px) {
+    .kc-find__whatsapp {
+      flex: 1 1 100%;
+    }
+  }
+
   /* ================================================================ directory */
   .kc-find + .kc-dir,
   .kc-find + .kc-dir[hidden] + .kc-help {
@@ -603,6 +611,31 @@
 
   .kc-guide + .kc-guide {
     margin-block-start: var(--s-16);
+  }
+
+  /* The client's final changes, items 11 and 12: the note on external links (Arabic and Russian pages), once, at
+     the start of the guides that hold the official sources. A small information box: white, a 1 px gold edge,
+     radius 10, Small text in ink-2 with its lead-in in ink at 600; no icon and no tint, so it never reads as a
+     warning or an error. */
+  .kc-extnote {
+    margin-block-end: var(--s-12);
+    padding: var(--s-4) var(--s-5);
+    color: var(--ink-2);
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+    background: var(--canvas);
+    border: var(--line-w) solid var(--gold);
+    border-radius: var(--radius-card);
+  }
+
+  /* Small text fills the box (the 64ch measure of running text would leave a ragged gap at its end edge). */
+  .kc-extnote__text {
+    max-inline-size: none;
+  }
+
+  .kc-extnote__lead {
+    color: var(--ink);
+    font-weight: var(--fw-semibold);
   }
 
   /* from 768 px a chapter break: a hairline 64 px under the previous guide and 64 px above the next one */

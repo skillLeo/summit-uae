@@ -6,7 +6,7 @@
 Главная
 Направления практики
 Правовая информация
-Примеры из практики
+Юридические кейсы
 Частые вопросы
 О нас
 Связаться с нами
@@ -28,8 +28,6 @@ Matter Navigator
 Tools
 Cards
 Search and FAQ
-Consultation wizard
-Document upload
 Inner pages
 Foundations
 Design 2.1 (brief §3.3 and §3.4): colour, elevation, radius, space, layout, focus, motion and layers. Every value comes from resources/css/d2/tokens.css.
@@ -801,7 +799,7 @@ One per page. Arabic: line height 1.3, tracking 0.
 --lh-display
 --fw-semibold
 --ls-display
-Чёткие правовые рекомендации. Практические решения.
+Понятная юридическая поддержка. Практичные решения.
 .t-h2
 H2 (h2)
 36 / 28, 1.15, −0.02em, 600
@@ -835,7 +833,7 @@ Section intros. Arabic: 1.75.
 --fs-lead
 --lh-lead
 --fw-regular
-Понятная правовая поддержка для частных лиц, компаний, инвесторов и резидентов на основе тщательного изучения фактов, документов и юридических процедур в Объединённых Арабских Эмиратах.
+Понятная юридическая поддержка для частных лиц, компаний, инвесторов и резидентов — основанная на точном понимании фактов, документов и юридических процедур в Объединённых Арабских Эмиратах.
 .t-body
 Body (body, p)
 17 / 16, 1.6, 400
@@ -875,7 +873,7 @@ Tabular figures
 tabular-nums lining-nums
 Calculators, tables, prices, reference numbers (.u-tabular as a utility; the legacy .t-num).
 font-variant-numeric
-+971 52 466 6191
++971524666191
 Design 2.0 classes still work as aliases: .t-h1 = Display, .t-h4 = H3, .t-body-l = Lead, .t-meta = Small in ink-3, .t-eyebrow = UI label in ink-2 (no monospace, no capitals, no tracking), .t-num = tabular figures, .t-mono = the sans outside the documents.
 Links
 Body links: ink, underline 1 px at a 3 px offset, 2 px on hover. Nav links: ink-2, ink on hover and when current.
@@ -898,13 +896,13 @@ Practice Areas
 D2 Sans Arabic, IBM Plex Sans Arabic 400 / 500 / 600, with its own Latin for digits and codes
 400
 مناطق الممارسة
-+971 52 466 6191
++971524666191
 500
 مناطق الممارسة
-+971 52 466 6191
++971524666191
 600
 مناطق الممارسة
-+971 52 466 6191
++971524666191
 Sample documents only
 Typed fields, paper and naskh inside the illustrations (data-illustration). Never in the interface: there the legacy --font-mono, --font-doc and --font-doc-arabic are the sans.
 D2 Mono, IBM Plex Mono 400 / 500 (--font-doc-mono)
@@ -931,7 +929,7 @@ Clear Legal Guidance. Practical Solutions.
 We provide consultations in Arabic, English and Russian, explaining your options and the next step based on the facts and documents in your matter.
 Latin: Onest, H2 36/41 (28/32 on phones), tracking −0.02em, body 17/27 (16/26)
 Направления практики
-Чёткие правовые рекомендации. Практические решения.
+Понятная юридическая поддержка. Практичные решения.
 Мы консультируем на арабском, английском и русском языках. Изучив обстоятельства вашего дела и документы, объясняем возможные варианты действий и следующий шаг.
 Cyrillic: Onest, the same metrics; paragraphs hyphenate
 مناطق الممارسة
@@ -1016,7 +1014,7 @@ search
 inside dir="ltr" (an LTR island keeps the LTR form)
 In context
 Inside a control an icon takes the label's colour; phone and e-mail are isolated with <bdi>.
-+971 52 466 6191
++971524666191
 info@summitlegaluae.com
 functional icons in a secondary and a text button
 Трудовое право
@@ -1115,11 +1113,15 @@ disabled
 loading
 Sizes: 44 px for every button, 52 px for the two hero buttons
 Запросить юридическую консультацию
+– WhatsApp
+(откроется в новой вкладке)
 btn--ink btn--48
 Все направления практики
 btn--secondary btn--44
 size 40, 44 or 48: the 44 px button (the header CTA too)
 Запросить юридическую консультацию
+– WhatsApp
+(откроется в новой вкладке)
 btn--gold btn--52
 Написать в WhatsApp
 (откроется в новой вкладке)
@@ -1127,7 +1129,7 @@ btn--whatsapp btn--52
 size 52 or 56: the hero pair, label 16/500
 Icons, links and states in context
 Найти
-+971 52 466 6191
++971524666191
 a functional leading icon (search, phone)
 Трудовое право
 (откроется в новой вкладке)
@@ -1144,6 +1146,8 @@ icon-end="arrow" renders nothing (D03): no arrows in buttons, links or card corn
 Загрузка
 loading with an icon: the spinner takes the icon slot, the width stays
 Запросить юридическую консультацию
+– WhatsApp
+(откроется в новой вкладке)
 Написать в WhatsApp
 (откроется в новой вкладке)
 Full width (:full="true"), the hero pair on a phone
@@ -1345,7 +1349,6 @@ disabled
 Налоги
 Семейные вопросы и завещания
 Комплаенс и регуляторные вопросы
-Юридический перевод
 Услуги для бизнеса
 Другой вопрос
 Не знаю, какую категорию выбрать
@@ -1530,13 +1533,13 @@ keyboard focus
 Написать в WhatsApp
 disabled
 btn--secondary secondary on a dark surface: the night look
-Все примеры из практики
+Все юридические кейсы
 default
-Все примеры из практики
+Все юридические кейсы
 hover
-Все примеры из практики
+Все юридические кейсы
 keyboard focus
-Все примеры из практики
+Все юридические кейсы
 disabled
 btn--text text: an underlined label (1 px at a 3 px offset, 2 px on hover), no fill, no side padding. Design 2.0 name: ghost
 Все вопросы и ответы
@@ -1587,7 +1590,6 @@ default, wrap-placeholder
 Налоги
 Семейные вопросы и завещания
 Комплаенс и регуляторные вопросы
-Юридический перевод
 Услуги для бизнеса
 Другой вопрос
 Не знаю, какую категорию выбрать
@@ -1612,6 +1614,8 @@ progress, badge and keys on dark
 Расчётные листки, сведения о переводах, выплатах и удержаниях, остаток неиспользованного отпуска.
 1 / 2
 Запросить юридическую консультацию
+– WhatsApp
+(откроется в новой вкладке)
 a white card inside a dark section (.on-light): light controls, the ink focus ring and an ink button again
 Surfaces
 Cards, accordion, tabs, the overlays (toast, tooltip), skeleton and callout in every state, drawn with approved copy (brief §3.4, §3.5).
@@ -1629,6 +1633,8 @@ keyboard focus on its link: the ring around the card
 Трудовое право
 Мы анализируем вопросы оплаты труда, окончательных выплат при увольнении, уведомлений о прекращении трудовых отношений, документов о расчёте и урегулировании взаимных требований, а также трудовые договоры. Помогаем работникам и работодателям подготовить требования и ответы с учётом норм, применимых к их трудовым отношениям.
 Запросить юридическую консультацию
+– WhatsApp
+(откроется в новой вкладке)
 with a nested button (it stays its own target)
 Центр правовых знаний в ОАЭ
 Практические руководства, которые помогут разобраться в вопросе и подготовить документы до принятия решения.
@@ -1641,7 +1647,6 @@ a container card (a form or a panel): no link, no hover
 tone sunken: the --band panel
 Семейное право и завещания
 Комплаенс и регуляторные вопросы
-Юридический перевод
 padding sm (16 / 20), md (24 / 32), lg (32)
 Комплаенс и регуляторные вопросы
 Мы проверяем деятельность, лицензии, внутренние политики, сведения о конечных бенефициарных владельцах, процедуры надлежащей проверки, корпоративное управление и защиту данных. Выявляем пробелы и определяем меры по их устранению с учётом требований, применимых к организации.
@@ -1707,7 +1712,6 @@ Underline tabs to switch between tools or views: labels 15/500 in ink-2, the sel
 Налоги
 Семейные вопросы и завещания
 Комплаенс
-Юридический перевод
 Услуги для бизнеса
 Перед обращением за консультацией
 1. Когда мне нужна юридическая консультация?
@@ -1779,18 +1783,11 @@ Underline tabs to switch between tools or views: labels 15/500 in ink-2, the sel
 63. Кто является конечным бенефициарным владельцем?
 Это физическое лицо, которому в конечном счёте принадлежит компания или которое её контролирует по применимым критериям. Анализ может выходить за пределы имени в лицензии и охватывать структуру собственности и фактический контроль с учётом исключений и требований соответствующего реестра.
 Сохраняйте документы, раскрывающие косвенное владение и договорённости, обеспечивающие фактический контроль, и проверяйте обязанность обновлять сведения при изменениях. Недостаточно переписать имена формальных участников, если они не отражают реальное положение по применимым правилам.
-Юридический перевод
-67. В чём особенность юридической проверки перевода?
-Проверяются правовое значение терминов и обязательств, приоритет языковой версии, имена и цифры. Лингвистически правильная фраза может изменять право или условие в другой редакции. Поэтому тексты сопоставляются в контексте договора целиком.
-Анализ охватывает также даты, валюты, ссылки, приложения и наличие условия о преобладающей языковой версии при расхождениях. Необходимо различать улучшение перевода и изменение самого соглашения, для которого может требоваться согласие сторон.
-68. Подходит ли машинный перевод для официального представления?
-Сам по себе он не считается заверенным юридическим переводом. Проверьте требования органа, вид документа и язык; при необходимости привлеките зарегистрированного переводчика. Автоматические инструменты могут помочь первоначальному пониманию при надлежащей проверке человеком.
-Проверьте требования конфиденциальности до загрузки договора или личных документов во внешний инструмент. Даже при правильном языке смысл обязательства или исключения может измениться, если фраза рассматривается вне контекста документа целиком.
 Услуги для бизнеса
-71. С чего начать создание компании?
+67. С чего начать создание компании?
 Определите фактическую деятельность, клиентов, место работы и структуру собственности, затем изучите лицензирующий орган, организационно-правовую форму и согласования. Одни только лицензионные сборы не отражают требования к работе, персоналу, учёту и соблюдению обязательных норм.
 Рассчитайте также расходы после регистрации: продление лицензии, помещение, персонал и выполнение регуляторных требований. Помимо лицензии компании для деятельности может потребоваться согласование отраслевого органа.
-72. Что выбрать: свободную зону или основную территорию ОАЭ?
+68. Что выбрать: свободную зону или основную территорию ОАЭ?
 Сравните варианты с учётом деятельности, рынка, клиентов, помещения, согласований, бюджета и будущих планов. Проверьте также налоговые и операционные правила. Не исходите из того, что один вариант всегда лучше или во всех случаях освобождён от налогов.
 Запросите сравнение применительно к вашему бизнес-плану: где будут оказываться услуги, кто подпишет договоры, где разместятся команда и офис? При изменении модели работы подходящий вариант может измениться, даже если коммерческое наименование останется прежним.
 the 12 approved FAQ categories: horizontal scroll with faded edges, arrow keys (reversed in RTL), Home and End
@@ -1820,7 +1817,7 @@ live: bottom centre, auto-hide after 4 s, pauses on hover, at most two visible
 (откроется в новой вкладке)
 live tooltips: on an icon button (Esc hides it) and as extra information on a labelled control
 Закрыть меню
-+971 52 466 6191
++971524666191
 a tooltip at rest, and the attribute variant (data-tooltip)
 Skeleton
 Only for real loading: --band bones that breathe (opacity), no gradient sweep; still under reduced motion.
@@ -1856,7 +1853,7 @@ Header
 Главная
 Направления практики
 Правовая информация
-Примеры из практики
+Юридические кейсы
 Частые вопросы
 О нас
 Связаться с нами
@@ -1877,7 +1874,6 @@ Compact where the seven labels do not fit the bar (Russian; narrower windows): t
 Налоговые споры и соблюдение налоговых требований
 Семейное право и завещания
 Комплаенс и регуляторные вопросы
-Юридический перевод
 Услуги для бизнеса
 Все направления практики
 Трудовое право
@@ -1889,37 +1885,38 @@ Compact where the seven labels do not fit the bar (Russian; narrower windows): t
 Уведомление об увольнении или заявление об увольнении по собственному желанию, переписка за период предупреждения и документы об отсутствии претензий или расчёте причитающихся сумм.
 Ранее поданная жалоба, вынесенное решение органа или суда, подтверждение вручения и действующие сроки для ответа или оспаривания.
 Правовая информация
-Примеры из практики
+Юридические кейсы
 Частые вопросы
 О нас
 Связаться с нами
 Practice Areas mega menu, previewing Employment Law: as wide as the container, radius 16, the overlay shadow, over a 6 % ink scrim; text only (no icons, tiles or arrows), the approved labels (D48). The services list (the toggle names it), then the preview: the title, the full summary with Explore This Service directly under it, and beside them the documents. Three equal columns in every language: two Russian titles take two lines, so the summary keeps a readable measure (357 px from 1280 px); the preview's title and summary never hyphenate. Its height is set by the list (11 rows of 44 px), so the whole panel fits a 1024 x 768 or 1366 x 768 window under the 136 px header; shorter windows scroll its body behind a fade at the lower edge.
 Выбрать язык
 Русский
-Арабский
-Английский
+English
+العربية
 Русский
 Главная
 Направления практики
 Правовая информация
-Примеры из практики
+Юридические кейсы
 Частые вопросы
 О нас
 Связаться с нами
-Language menu: the trigger shows the current language's approved label and a chevron; the list gives the three approved labels in the page's language, in the DOCX order, with hreflang (D12). The current one is in ink, without a tick. The list hangs 8 px under the header's bottom line, never over the navigation row (Russian labels reach under the trigger).
+Language menu (the client's final changes, item 18): one compact dropdown; the trigger shows the current language's flag, its approved name and a chevron; the list gives English, العربية and Русский, each with its flag (United Kingdom, United Arab Emirates, Russia: local SVGs, decorative) and its name in its own language (lang), with hreflang. The flag stays before the name in RTL. The current one is in ink, without a tick. The list hangs 8 px under the header's bottom line, never over the navigation row (Russian labels reach under the trigger).
 Выбрать язык
 Русский
 Where the seven labels do not fit on one line (below 1024 px; Russian below 69rem, about 1,100 px; or header.js measures an overflow with other fonts or a larger text size), the row is replaced by the menu button, which opens the menu sheet with the same seven labels. Labels never wrap, shrink or move into a "More" list.
-Heights: masthead 88 / 72 / 56 at the top, 72 / 64 / 56 compact; the navigation row 48 from 1024 px only where it takes its own row at the top of the page. Lockup 56 (44 compact) / 48 / 40, always the full lockup on black, never a tile. Colours: labels #E4E4E7 (15.5:1), current and hover #FFFFFF, muted controls #A1A1AA (7.7:1) turning white on hover, the current page's 2 px gold bar, focus ring #E2CF9F 2 px with a 2 px offset. No gradient, glass, shadow or button in the header. "/" and Ctrl/Cmd+K still open the search palette.
+Heights: masthead 88 / 72 / 56 at the top, 72 / 64 / 56 compact; the navigation row 48 from 1024 px only where it takes its own row at the top of the page. Lockup 56 (48 compact) / 48 / 40, always the full lockup on black, never a tile. Colours: labels #E4E4E7 (15.5:1), current and hover #FFFFFF, muted controls #A1A1AA (7.7:1) turning white on hover, the current page's 2 px gold bar, focus ring #E2CF9F 2 px with a 2 px offset. No gradient, glass, shadow or button in the header. "/" and Ctrl/Cmd+K still open the search palette.
 Footer (the dark band)
-In the homepage DOCX order: the official gold lockup and the description; the contact controls (phone, WhatsApp with the WA01 draft, e-mail) and the homepage file's own hours sentence, without a live status (brief §3.7); Practice Areas, Legal Resources (Centre, FAQs, Case Studies) and Useful Links; the disclaimer; the specialist resources (the last group, directly above the copyright line: owner decision); the copyright line with the dynamic year and the language links. No address, no map, no cards.
-Group headings are the approved words in Minor heading style (16/600, white), never mono capitals (D01, D47). Text on dark: white headings and contact controls, #E4E4E7 links and description, #A1A1AA hours, disclaimer, domains and copyright; gold only in the lockup. The specialist sites are a two-column list (one column on phones): the name, then the domain and the external-link icon; its second column starts on a grid line of the groups above (Practice Areas from 1280 px). Link rows keep 12 px above and below the label, so a wrapped title keeps the list's rhythm. Language links carry the approved labels of the page language with hreflang (D12). One container with the header and the sections; 48 px targets on phones, 44 px from 768 px; the light-gold focus ring of .on-dark.
+In the homepage DOCX order: the official gold lockup (transparent, straight on the dark band, no tile) and the description; the contact controls (phone, WhatsApp with the WA01 draft, e-mail), the website address (the client's item 19) and the homepage file's own hours sentence, without a live status (brief §3.7); Practice Areas (ending with View All Practice Areas, item 19), Legal Resources (Centre, FAQs, Case Studies) and Useful Links; the disclaimer; the specialist resources (the last group, directly above the copyright line: owner decision); the copyright line with the dynamic year and the language links. No address, no map, no cards.
+Group headings are the approved words in Minor heading style (16/600, white), never mono capitals (D01, D47). Text on dark: white headings and contact controls, #E4E4E7 links and description, #A1A1AA hours, disclaimer, domains and copyright; gold only in the lockup. The specialist sites are a two-column list (one column on phones): the name, then the domain and the external-link icon; its second column starts on a grid line of the groups above (Practice Areas from 1280 px). Link rows keep 12 px above and below the label, so a wrapped title keeps the list's rhythm. Language links show the flag and each language's own name (item 18), with hreflang. One container with the header and the sections; 48 px targets on phones, 44 px from 768 px; the light-gold focus ring of .on-dark.
 Summit Legal Consultancy
 Юридические консультации для частных лиц, компаний, инвесторов и резидентов в ОАЭ на арабском, английском и русском языках.
-+971 52 466 6191
++971524666191
 Написать в WhatsApp
 (откроется в новой вкладке)
 info@summitlegaluae.com
+www.summitlegaluae.com
 Часы работы: с понедельника по пятницу, с 9:00 до 18:00.
 Направления практики
 Взыскание долгов и дела по чекам
@@ -1931,12 +1928,12 @@ info@summitlegaluae.com
 Налоговые споры и соблюдение налоговых требований
 Семейное право и завещания
 Комплаенс и регуляторные вопросы
-Юридический перевод
 Услуги для бизнеса
+Все направления практики
 Правовая информация
 Центр правовой информации
 Частые вопросы
-Примеры из практики
+Юридические кейсы
 Полезные ссылки
 О нас
 Связаться с нами
@@ -1965,8 +1962,8 @@ uaetaxdisputes.com
 (откроется в новой вкладке)
 © {{YEAR}} Summit Legal Consultancy. Все права защищены.
 Выбрать язык
-Арабский
-Английский
+English
+العربية
 Русский
 Mobile shell
 The native-app layer below 768 px (brief §6 mobile, §3.4 overlays): bottom sheets (menu, language, services), the modal dialog, the tab bar with the floating WhatsApp button, the sticky consultation bar, carousels and the installable app. Sheets and the modal are overlays: data-overlay, radius 16 and the one overlay shadow over the --scrim. The buttons open the real components; the specimens are drawn in place.
@@ -1975,7 +1972,7 @@ Sheets
 Выбрать язык
 Направления практики
 Трудовое право
-Live: opens the global menu, language and services sheets and a demo sheet. The language sheet lists the three approved labels in the page language (a sheet, not a segmented group); the menu sheet opens it from its language row, and on phones with the design switcher on it also holds the Design 1 / Design 2 switch (same page, language and #anchor), so the floating switch never covers the tab bar. Below 768 px a bottom sheet (drag the handle or the header with a finger or the mouse, or pull the content down while it is at its top: past 120 px, or a flick faster than 800 px/s, closes; less springs back); from 768 px a side panel on the inline-end edge.
+Live: opens the global menu, language and services sheets and a demo sheet. The language sheet lists English, العربية and Русский, each with its flag (item 18; a sheet, not a segmented group); the menu sheet opens it from its language row, and on phones with the design switcher on it also holds the Design 1 / Design 2 switch (same page, language and #anchor), so the floating switch never covers the tab bar. Below 768 px a bottom sheet (drag the handle or the header with a finger or the mouse, or pull the content down while it is at its top: past 120 px, or a flick faster than 800 px/s, closes; less springs back); from 768 px a side panel on the inline-end edge.
 Markup data-sheet-open="id" (aria-haspopup, aria-controls and aria-expanded kept in sync) and data-sheet-close; JS openSheet(id, opener) and closeSheet() from resources/js/d2/lib/sheet.js. Page sheets render at body level with @push('sheets'). [data-sheet-no-drag] keeps a touch inside the content from pulling the sheet.
 Какие документы помогут начать работу
 Трудовой договор и приложения к нему, изменения условий оплаты, комиссионного вознаграждения или льгот.
@@ -2035,6 +2032,8 @@ Contact Us current, with a simulated 32 px home-indicator inset (--safe-bottom, 
 Sticky consultation bar
 Design 2.1 (brief §6): one bottom bar on phones, so the sticky bar is never drawn where the tab bar exists (every page of the Design 2 layout); service pages keep their own consultation CTAs and the floating WhatsApp button. Elsewhere: <x-d2.shell.sticky-cta target="…" until="…" :prefill="[…]">, below 768 px with JavaScript only, a white bar on the bottom edge with one full-width ink button (the approved "Request a Legal Consultation" and the page's prefill). It appears once the page's hero has scrolled out under the header, hides once the until element is reached, while a text field has focus, while the on-screen keyboard is open and while a page's own bottom dock is on screen. Sheets and dialogs cover it; toasts rise above it.
 Запросить юридическую консультацию
+– WhatsApp
+(откроется в новой вкладке)
 Specimen: the bar alone at the bottom edge, 8 px plus the safe area under the button.
 Rendered here as on the service pages (it observes this card and the installable-app heading), and not drawn: this page has the tab bar.
 Rendered at body level (pushed to the "sheets" stack). Link without JavaScript: App\Design\D2\Prefill::url($prefill); with JavaScript a plain click calls prefill() (resources/js/d2/lib/prefill.js). Behaviour: resources/js/d2/modules/sticky-cta.js.
@@ -2059,8 +2058,6 @@ Carousel
 Мы консультируем по вопросам развода, опеки над детьми, содержания и наследства, помогаем подготовить завещание и выбрать порядок его регистрации с учётом семейных обстоятельств, активов и применимого права.
 Комплаенс и регуляторные вопросы
 Мы проверяем виды деятельности, лицензии, внутренние политики, сведения о конечных бенефициарных владельцах, процедуры надлежащей проверки, корпоративное управление и защиту данных. Определяем недостатки и меры по их устранению с учётом требований, применимых к организации.
-Юридический перевод
-Мы проверяем юридический смысл многоязычных договоров и документов, согласованность обязательств, имён, наименований и числовых данных. При необходимости координируем заверенный перевод с зарегистрированным юридическим переводчиком.
 Услуги для бизнеса
 Мы помогаем выбрать структуру регистрации и подготовить документы для получения лицензий, внесения изменений, продления, удостоверения и проведения процедур, разъясняя объём работы Summit и действия, относящиеся к компетенции соответствующих органов.
 Always a carousel (no until), in a 390 px frame: the eleven practice areas, approved titles and summaries.
@@ -2072,7 +2069,7 @@ Filtered cards (hidden) lose their marker; the markers follow the slides.
 Keyboard focus on a card the edge cuts snaps that card in; a #fragment inside a card (#preview-case-04, #guide-g04-title, #gc-gc-02) snaps it to the start on load and on hashchange.
 Under html.js the markers' row is reserved from the first paint (.carousel--ready once they are drawn), so nothing below the rail moves when the script starts.
 Props: labelledby (heading id) or label, until 768 | 1280 (a plain list from that width, laid out by list-class), :list-attributes (the caller's own hooks on the <ul>), :dots. Knobs: --carousel-card, --carousel-gap, --carousel-bleed. Event d2-carousel-change { index, count }.
-Примеры из практики
+Юридические кейсы
 Чек, подписанный без заполнения реквизитов, не раскрывал всей истории
 Предмет дела: чеки, денежное требование и ранее вынесенные судебные решения
 Он оплатил автомобиль, а затем узнал о его прошлом то, чего не знал при покупке
@@ -3047,6 +3044,8 @@ AED
 Что мы проверяем
 Мы внимательно читаем указанную причину и дату: разные причины могут вести к разным дальнейшим шагам.
 Запросить юридическую консультацию
+– WhatsApp
+(откроется в новой вкладке)
 Образцы документов приведены для иллюстрации. Что показывает настоящий документ, зависит от всех материалов и обстоятельств дела.
 Hero
 The home hero: the document stage (a pile of the six sample documents, the one on top with its callouts, the legend, the pager with its pause / play toggle) and the tool card. The specimens run the same scripts as the home page, in their final state: the entrance and the autoplay play only on the home page.
@@ -3811,291 +3810,6 @@ First document: one progress segment filled. Previous and next are always enable
 A document in the middle: segments filled up to it. The name is a polite live region (off while the samples play by themselves). On the home page the segment shown fills over the dwell while the samples play.
 Last document: every segment filled; next brings up the first one.
 Forced focus: the next button, then the current segment (44 px tall targets, 48 px on phones), then the pause / play toggle. Two Tab stops: the segments (a roving tabindex; ← / → wrap, mirrored in RTL; Home and End bring another document up and move focus to its segment) and the toggle (WCAG 2.2.2). Previous / next (40 px, with a 44 px hit area) are for pointers and assistive technology (tabindex -1).
-Tool card "Start your matter"
-A card (white, 1 px --line edge, radius 10, no shadow; 16 px padding on phones, the card padding from 768 px). A GET form to the consultation form without JavaScript (?audience=…&situation=S06-2#consultation-form); with it, Continue (Ink, no arrow) calls prefill({service, situation, audience}). The result shows the empty well or the chosen service’s documents, one at a time (documents are never clamped, so the card grows only after a choice). Laid out by its own width (container queries): one column, then the situation and Continue side by side (420 px), then the form and the documents side by side (52rem: the home hero from 1024 px, where the card spans the container, and from 1280 px all 12 columns under the copy and the stage).
-Начните с вашего вопроса
-Для кого этот запрос?
-Частное лицо
-Бизнес
-Инвестор
-Ваша ситуация
-Выберите вашу ситуацию
-Вы оплатили услугу или товар, но не получили встречного исполнения.
-У вас есть чек, предъявленный в банк и возвращённый без оплаты.
-Должник затягивает оплату или выехал из страны.
-У вас накопились неоплаченные счета и вы хотите понять возможные действия до обострения спора.
-Вы получили вызов или в отношении вас подано заявление и вы не знаете, с чего начать.
-Вас обвиняют в мошенничестве или подделке документов, которых вы не совершали.
-Ваше имя фигурирует в уголовном деле, хотя вы фактически не участвовали в соответствующих событиях.
-По делу уже вынесено решение и вы хотите выяснить возможность его пересмотра.
-Вы внесли средства на торговую платформу, после чего они исчезли или были заблокированы.
-Вы продали цифровые активы и столкнулись с обвинением в событиях, к которым не имеете отношения.
-Вы хотите отследить подозрительные переводы цифровых активов или подтвердить их документально.
-Вы стали жертвой мошенничества под видом инвестиций в криптовалюту.
-Конфликт с деловым партнёром возник раньше, чем вы ожидали.
-После подписания коммерческого договора выяснилось, что вы не до конца понимали последствия отдельных условий.
-Вы хотите создать компанию и с самого начала урегулировать отношения между участниками.
-У вас возник коммерческий спор с клиентом, поставщиком или деловым партнёром.
-Вы приобрели строящийся объект, но его передача задерживается дольше, чем вы ожидали.
-После покупки вы обнаружили недостаток недвижимости, не указанный в договоре.
-Арендодатель или арендатор предъявляет требование, которое вы считаете неправомерным.
-Вы хотите проверить договор купли-продажи или аренды до подписания.
-Вам задерживают заработную плату и вы хотите понять свои права перед обращением за её взысканием.
-Ваши трудовые отношения прекращены и вы сомневаетесь в правильности окончательного расчёта.
-Вы подписали документ об окончательном урегулировании и не уверены, от каких требований отказались.
-Вы работодатель и хотите привести в порядок трудовые договоры и проверить свои обязательства.
-Вам назначен налоговый штраф или вынесено решение, которое вы считаете ошибочным.
-Вы хотите оспорить налоговое начисление.
-Ваша компания расширилась и вы хотите проверить возникшие налоговые обязательства.
-Вы хотите подготовить налоговые документы до срока подачи декларации.
-Вы живёте в ОАЭ, имеете имущество или детей, но ещё не составили завещание.
-У вас возник семейный конфликт и вы хотите понять свои возможности до принятия решений.
-Умер ваш родственник и вы хотите разобраться в порядке распределения наследства.
-Вы резидент, не исповедующий ислам, и хотите понять, как в ОАЭ применяются правила наследования.
-Ваша компания расширилась или изменила деятельность, но вы ещё не проверили связанные с этим регуляторные обязательства.
-Вы хотите обновить политики компании по противодействию отмыванию денежных средств.
-Вы получили запрос регулирующего органа и не знаете, как на него ответить.
-Вы хотите проверить соблюдение обязательных требований перед вступлением нового инвестиционного партнёра.
-У вас есть договор на иностранном языке и вы хотите перевести его до подписания.
-Документ необходимо представить в государственный орган или суд и требуется заверенный перевод.
-Вы подписали переведённый документ и хотите проверить точность перевода.
-Для официальной процедуры вам нужен перевод между арабским и английским или русским языками.
-Вы хотите создать компанию и нуждаетесь в помощи при выборе подходящей структуры.
-Вам необходимо продлить лицензию или изменить указанные в ней виды деятельности.
-Вам нужны удостоверение документов или официальные документы для обращения в государственный орган.
-Вы хотите привести документы компании в порядок перед вступлением инвестора или нового участника.
-Продолжить
-Частые ситуации
-У вас есть чек, предъявленный в банк и возвращённый без оплаты.
-Арендодатель или арендатор предъявляет требование, которое вы считаете неправомерным.
-Ваши трудовые отношения прекращены и вы сомневаетесь в правильности окончательного расчёта.
-Individual (default): no situation chosen yet, the empty well.
-Начните с вашего вопроса
-Для кого этот запрос?
-Частное лицо
-Бизнес
-Инвестор
-Ваша ситуация
-Выберите вашу ситуацию
-Вы оплатили услугу или товар, но не получили встречного исполнения.
-У вас есть чек, предъявленный в банк и возвращённый без оплаты.
-Должник затягивает оплату или выехал из страны.
-У вас накопились неоплаченные счета и вы хотите понять возможные действия до обострения спора.
-Вы получили вызов или в отношении вас подано заявление и вы не знаете, с чего начать.
-Вас обвиняют в мошенничестве или подделке документов, которых вы не совершали.
-Ваше имя фигурирует в уголовном деле, хотя вы фактически не участвовали в соответствующих событиях.
-По делу уже вынесено решение и вы хотите выяснить возможность его пересмотра.
-Вы внесли средства на торговую платформу, после чего они исчезли или были заблокированы.
-Вы продали цифровые активы и столкнулись с обвинением в событиях, к которым не имеете отношения.
-Вы хотите отследить подозрительные переводы цифровых активов или подтвердить их документально.
-Вы стали жертвой мошенничества под видом инвестиций в криптовалюту.
-Конфликт с деловым партнёром возник раньше, чем вы ожидали.
-После подписания коммерческого договора выяснилось, что вы не до конца понимали последствия отдельных условий.
-Вы хотите создать компанию и с самого начала урегулировать отношения между участниками.
-У вас возник коммерческий спор с клиентом, поставщиком или деловым партнёром.
-Вы приобрели строящийся объект, но его передача задерживается дольше, чем вы ожидали.
-После покупки вы обнаружили недостаток недвижимости, не указанный в договоре.
-Арендодатель или арендатор предъявляет требование, которое вы считаете неправомерным.
-Вы хотите проверить договор купли-продажи или аренды до подписания.
-Вам задерживают заработную плату и вы хотите понять свои права перед обращением за её взысканием.
-Ваши трудовые отношения прекращены и вы сомневаетесь в правильности окончательного расчёта.
-Вы подписали документ об окончательном урегулировании и не уверены, от каких требований отказались.
-Вы работодатель и хотите привести в порядок трудовые договоры и проверить свои обязательства.
-Вам назначен налоговый штраф или вынесено решение, которое вы считаете ошибочным.
-Вы хотите оспорить налоговое начисление.
-Ваша компания расширилась и вы хотите проверить возникшие налоговые обязательства.
-Вы хотите подготовить налоговые документы до срока подачи декларации.
-Вы живёте в ОАЭ, имеете имущество или детей, но ещё не составили завещание.
-У вас возник семейный конфликт и вы хотите понять свои возможности до принятия решений.
-Умер ваш родственник и вы хотите разобраться в порядке распределения наследства.
-Вы резидент, не исповедующий ислам, и хотите понять, как в ОАЭ применяются правила наследования.
-Ваша компания расширилась или изменила деятельность, но вы ещё не проверили связанные с этим регуляторные обязательства.
-Вы хотите обновить политики компании по противодействию отмыванию денежных средств.
-Вы получили запрос регулирующего органа и не знаете, как на него ответить.
-Вы хотите проверить соблюдение обязательных требований перед вступлением нового инвестиционного партнёра.
-У вас есть договор на иностранном языке и вы хотите перевести его до подписания.
-Документ необходимо представить в государственный орган или суд и требуется заверенный перевод.
-Вы подписали переведённый документ и хотите проверить точность перевода.
-Для официальной процедуры вам нужен перевод между арабским и английским или русским языками.
-Вы хотите создать компанию и нуждаетесь в помощи при выборе подходящей структуры.
-Вам необходимо продлить лицензию или изменить указанные в ней виды деятельности.
-Вам нужны удостоверение документов или официальные документы для обращения в государственный орган.
-Вы хотите привести документы компании в порядок перед вступлением инвестора или нового участника.
-Продолжить
-Частые ситуации
-У вас есть чек, предъявленный в банк и возвращённый без оплаты.
-Ваши трудовые отношения прекращены и вы сомневаетесь в правильности окончательного расчёта.
-Business: the select lists only the services config('audience_map.hero') maps to it.
-Начните с вашего вопроса
-Для кого этот запрос?
-Частное лицо
-Бизнес
-Инвестор
-Ваша ситуация
-Выберите вашу ситуацию
-Вы оплатили услугу или товар, но не получили встречного исполнения.
-У вас есть чек, предъявленный в банк и возвращённый без оплаты.
-Должник затягивает оплату или выехал из страны.
-У вас накопились неоплаченные счета и вы хотите понять возможные действия до обострения спора.
-Вы получили вызов или в отношении вас подано заявление и вы не знаете, с чего начать.
-Вас обвиняют в мошенничестве или подделке документов, которых вы не совершали.
-Ваше имя фигурирует в уголовном деле, хотя вы фактически не участвовали в соответствующих событиях.
-По делу уже вынесено решение и вы хотите выяснить возможность его пересмотра.
-Вы внесли средства на торговую платформу, после чего они исчезли или были заблокированы.
-Вы продали цифровые активы и столкнулись с обвинением в событиях, к которым не имеете отношения.
-Вы хотите отследить подозрительные переводы цифровых активов или подтвердить их документально.
-Вы стали жертвой мошенничества под видом инвестиций в криптовалюту.
-Конфликт с деловым партнёром возник раньше, чем вы ожидали.
-После подписания коммерческого договора выяснилось, что вы не до конца понимали последствия отдельных условий.
-Вы хотите создать компанию и с самого начала урегулировать отношения между участниками.
-У вас возник коммерческий спор с клиентом, поставщиком или деловым партнёром.
-Вы приобрели строящийся объект, но его передача задерживается дольше, чем вы ожидали.
-После покупки вы обнаружили недостаток недвижимости, не указанный в договоре.
-Арендодатель или арендатор предъявляет требование, которое вы считаете неправомерным.
-Вы хотите проверить договор купли-продажи или аренды до подписания.
-Вам задерживают заработную плату и вы хотите понять свои права перед обращением за её взысканием.
-Ваши трудовые отношения прекращены и вы сомневаетесь в правильности окончательного расчёта.
-Вы подписали документ об окончательном урегулировании и не уверены, от каких требований отказались.
-Вы работодатель и хотите привести в порядок трудовые договоры и проверить свои обязательства.
-Вам назначен налоговый штраф или вынесено решение, которое вы считаете ошибочным.
-Вы хотите оспорить налоговое начисление.
-Ваша компания расширилась и вы хотите проверить возникшие налоговые обязательства.
-Вы хотите подготовить налоговые документы до срока подачи декларации.
-Вы живёте в ОАЭ, имеете имущество или детей, но ещё не составили завещание.
-У вас возник семейный конфликт и вы хотите понять свои возможности до принятия решений.
-Умер ваш родственник и вы хотите разобраться в порядке распределения наследства.
-Вы резидент, не исповедующий ислам, и хотите понять, как в ОАЭ применяются правила наследования.
-Ваша компания расширилась или изменила деятельность, но вы ещё не проверили связанные с этим регуляторные обязательства.
-Вы хотите обновить политики компании по противодействию отмыванию денежных средств.
-Вы получили запрос регулирующего органа и не знаете, как на него ответить.
-Вы хотите проверить соблюдение обязательных требований перед вступлением нового инвестиционного партнёра.
-У вас есть договор на иностранном языке и вы хотите перевести его до подписания.
-Документ необходимо представить в государственный орган или суд и требуется заверенный перевод.
-Вы подписали переведённый документ и хотите проверить точность перевода.
-Для официальной процедуры вам нужен перевод между арабским и английским или русским языками.
-Вы хотите создать компанию и нуждаетесь в помощи при выборе подходящей структуры.
-Вам необходимо продлить лицензию или изменить указанные в ней виды деятельности.
-Вам нужны удостоверение документов или официальные документы для обращения в государственный орган.
-Вы хотите привести документы компании в порядок перед вступлением инвестора или нового участника.
-Продолжить
-Частые ситуации
-Арендодатель или арендатор предъявляет требование, которое вы считаете неправомерным.
-Investor.
-Начните с вашего вопроса
-Для кого этот запрос?
-Частное лицо
-Бизнес
-Инвестор
-Ваша ситуация
-Выберите вашу ситуацию
-Вы оплатили услугу или товар, но не получили встречного исполнения.
-У вас есть чек, предъявленный в банк и возвращённый без оплаты.
-Должник затягивает оплату или выехал из страны.
-У вас накопились неоплаченные счета и вы хотите понять возможные действия до обострения спора.
-Вы получили вызов или в отношении вас подано заявление и вы не знаете, с чего начать.
-Вас обвиняют в мошенничестве или подделке документов, которых вы не совершали.
-Ваше имя фигурирует в уголовном деле, хотя вы фактически не участвовали в соответствующих событиях.
-По делу уже вынесено решение и вы хотите выяснить возможность его пересмотра.
-Вы внесли средства на торговую платформу, после чего они исчезли или были заблокированы.
-Вы продали цифровые активы и столкнулись с обвинением в событиях, к которым не имеете отношения.
-Вы хотите отследить подозрительные переводы цифровых активов или подтвердить их документально.
-Вы стали жертвой мошенничества под видом инвестиций в криптовалюту.
-Конфликт с деловым партнёром возник раньше, чем вы ожидали.
-После подписания коммерческого договора выяснилось, что вы не до конца понимали последствия отдельных условий.
-Вы хотите создать компанию и с самого начала урегулировать отношения между участниками.
-У вас возник коммерческий спор с клиентом, поставщиком или деловым партнёром.
-Вы приобрели строящийся объект, но его передача задерживается дольше, чем вы ожидали.
-После покупки вы обнаружили недостаток недвижимости, не указанный в договоре.
-Арендодатель или арендатор предъявляет требование, которое вы считаете неправомерным.
-Вы хотите проверить договор купли-продажи или аренды до подписания.
-Вам задерживают заработную плату и вы хотите понять свои права перед обращением за её взысканием.
-Ваши трудовые отношения прекращены и вы сомневаетесь в правильности окончательного расчёта.
-Вы подписали документ об окончательном урегулировании и не уверены, от каких требований отказались.
-Вы работодатель и хотите привести в порядок трудовые договоры и проверить свои обязательства.
-Вам назначен налоговый штраф или вынесено решение, которое вы считаете ошибочным.
-Вы хотите оспорить налоговое начисление.
-Ваша компания расширилась и вы хотите проверить возникшие налоговые обязательства.
-Вы хотите подготовить налоговые документы до срока подачи декларации.
-Вы живёте в ОАЭ, имеете имущество или детей, но ещё не составили завещание.
-У вас возник семейный конфликт и вы хотите понять свои возможности до принятия решений.
-Умер ваш родственник и вы хотите разобраться в порядке распределения наследства.
-Вы резидент, не исповедующий ислам, и хотите понять, как в ОАЭ применяются правила наследования.
-Ваша компания расширилась или изменила деятельность, но вы ещё не проверили связанные с этим регуляторные обязательства.
-Вы хотите обновить политики компании по противодействию отмыванию денежных средств.
-Вы получили запрос регулирующего органа и не знаете, как на него ответить.
-Вы хотите проверить соблюдение обязательных требований перед вступлением нового инвестиционного партнёра.
-У вас есть договор на иностранном языке и вы хотите перевести его до подписания.
-Документ необходимо представить в государственный орган или суд и требуется заверенный перевод.
-Вы подписали переведённый документ и хотите проверить точность перевода.
-Для официальной процедуры вам нужен перевод между арабским и английским или русским языками.
-Вы хотите создать компанию и нуждаетесь в помощи при выборе подходящей структуры.
-Вам необходимо продлить лицензию или изменить указанные в ней виды деятельности.
-Вам нужны удостоверение документов или официальные документы для обращения в государственный орган.
-Вы хотите привести документы компании в порядок перед вступлением инвестора или нового участника.
-Продолжить
-Обычно нужны 4 документа
-Трудовой договор и приложения к нему, изменения условий оплаты, комиссионного вознаграждения или льгот.
-Расчётные листки, сведения о переводах, выплатах и удержаниях, остаток неиспользованного отпуска.
-Уведомление об увольнении или заявление об увольнении по собственному желанию, переписка за период предупреждения и документы об отсутствии претензий или расчёте причитающихся сумм.
-Ранее поданная жалоба, вынесенное решение органа или суда, подтверждение вручения и действующие сроки для ответа или оспаривания.
-A situation chosen (S06-2): "Documents usually needed: 4" (trans_choice) and the four approved documents of the service, each in full (never clamped) and without icons.
-Начните с вашего вопроса
-Для кого этот запрос?
-Частное лицо
-Бизнес
-Инвестор
-Ваша ситуация
-Выберите вашу ситуацию
-Вы оплатили услугу или товар, но не получили встречного исполнения.
-У вас есть чек, предъявленный в банк и возвращённый без оплаты.
-Должник затягивает оплату или выехал из страны.
-У вас накопились неоплаченные счета и вы хотите понять возможные действия до обострения спора.
-Вы получили вызов или в отношении вас подано заявление и вы не знаете, с чего начать.
-Вас обвиняют в мошенничестве или подделке документов, которых вы не совершали.
-Ваше имя фигурирует в уголовном деле, хотя вы фактически не участвовали в соответствующих событиях.
-По делу уже вынесено решение и вы хотите выяснить возможность его пересмотра.
-Вы внесли средства на торговую платформу, после чего они исчезли или были заблокированы.
-Вы продали цифровые активы и столкнулись с обвинением в событиях, к которым не имеете отношения.
-Вы хотите отследить подозрительные переводы цифровых активов или подтвердить их документально.
-Вы стали жертвой мошенничества под видом инвестиций в криптовалюту.
-Конфликт с деловым партнёром возник раньше, чем вы ожидали.
-После подписания коммерческого договора выяснилось, что вы не до конца понимали последствия отдельных условий.
-Вы хотите создать компанию и с самого начала урегулировать отношения между участниками.
-У вас возник коммерческий спор с клиентом, поставщиком или деловым партнёром.
-Вы приобрели строящийся объект, но его передача задерживается дольше, чем вы ожидали.
-После покупки вы обнаружили недостаток недвижимости, не указанный в договоре.
-Арендодатель или арендатор предъявляет требование, которое вы считаете неправомерным.
-Вы хотите проверить договор купли-продажи или аренды до подписания.
-Вам задерживают заработную плату и вы хотите понять свои права перед обращением за её взысканием.
-Ваши трудовые отношения прекращены и вы сомневаетесь в правильности окончательного расчёта.
-Вы подписали документ об окончательном урегулировании и не уверены, от каких требований отказались.
-Вы работодатель и хотите привести в порядок трудовые договоры и проверить свои обязательства.
-Вам назначен налоговый штраф или вынесено решение, которое вы считаете ошибочным.
-Вы хотите оспорить налоговое начисление.
-Ваша компания расширилась и вы хотите проверить возникшие налоговые обязательства.
-Вы хотите подготовить налоговые документы до срока подачи декларации.
-Вы живёте в ОАЭ, имеете имущество или детей, но ещё не составили завещание.
-У вас возник семейный конфликт и вы хотите понять свои возможности до принятия решений.
-Умер ваш родственник и вы хотите разобраться в порядке распределения наследства.
-Вы резидент, не исповедующий ислам, и хотите понять, как в ОАЭ применяются правила наследования.
-Ваша компания расширилась или изменила деятельность, но вы ещё не проверили связанные с этим регуляторные обязательства.
-Вы хотите обновить политики компании по противодействию отмыванию денежных средств.
-Вы получили запрос регулирующего органа и не знаете, как на него ответить.
-Вы хотите проверить соблюдение обязательных требований перед вступлением нового инвестиционного партнёра.
-У вас есть договор на иностранном языке и вы хотите перевести его до подписания.
-Документ необходимо представить в государственный орган или суд и требуется заверенный перевод.
-Вы подписали переведённый документ и хотите проверить точность перевода.
-Для официальной процедуры вам нужен перевод между арабским и английским или русским языками.
-Вы хотите создать компанию и нуждаетесь в помощи при выборе подходящей структуры.
-Вам необходимо продлить лицензию или изменить указанные в ней виды деятельности.
-Вам нужны удостоверение документов или официальные документы для обращения в государственный орган.
-Вы хотите привести документы компании в порядок перед вступлением инвестора или нового участника.
-Продолжить
-Частые ситуации
-У вас есть чек, предъявленный в банк и возвращённый без оплаты.
-Арендодатель или арендатор предъявляет требование, которое вы считаете неправомерным.
-Ваши трудовые отношения прекращены и вы сомневаетесь в правильности окончательного расчёта.
-No mapping for the audience: every situation, grouped by service.
 Home sections
 Trust row, practice areas, how we work and who we help (spec §12 C1, C2, C4, C7), built from the Phase A card, chip and segmented control. Approved copy in this page’s language; proposed strings carry the proposed marker.
 Practice-area card
@@ -4202,178 +3916,6 @@ Who we help
 Предпринимателям
 Мы помогаем выбрать структуру для создания бизнеса, определить права партнёров и самого предприятия, проверить договоры, полномочия и обязательства, необходимые для начала и дальнейшего ведения деятельности.
 The five audiences
-Start your matter: the result half
-<x-d2.hero.tool> (D19): never an empty box. Before a choice, “Common situations” and up to three quick picks (config design.d2.home.quick_picks, set in the admin in Phase 4), the one chip without icon or dot, holding the complete approved situation (a wrapped pick keeps a radius of half the chip height). A pick follows the audience like the select; it selects its situation, shows the documents and moves focus to the select. Each pick is a submit button, so it works without JavaScript.
-Начните с вашего вопроса
-Для кого этот запрос?
-Частное лицо
-Бизнес
-Инвестор
-Ваша ситуация
-Выберите вашу ситуацию
-Вы оплатили услугу или товар, но не получили встречного исполнения.
-У вас есть чек, предъявленный в банк и возвращённый без оплаты.
-Должник затягивает оплату или выехал из страны.
-У вас накопились неоплаченные счета и вы хотите понять возможные действия до обострения спора.
-Вы получили вызов или в отношении вас подано заявление и вы не знаете, с чего начать.
-Вас обвиняют в мошенничестве или подделке документов, которых вы не совершали.
-Ваше имя фигурирует в уголовном деле, хотя вы фактически не участвовали в соответствующих событиях.
-По делу уже вынесено решение и вы хотите выяснить возможность его пересмотра.
-Вы внесли средства на торговую платформу, после чего они исчезли или были заблокированы.
-Вы продали цифровые активы и столкнулись с обвинением в событиях, к которым не имеете отношения.
-Вы хотите отследить подозрительные переводы цифровых активов или подтвердить их документально.
-Вы стали жертвой мошенничества под видом инвестиций в криптовалюту.
-Конфликт с деловым партнёром возник раньше, чем вы ожидали.
-После подписания коммерческого договора выяснилось, что вы не до конца понимали последствия отдельных условий.
-Вы хотите создать компанию и с самого начала урегулировать отношения между участниками.
-У вас возник коммерческий спор с клиентом, поставщиком или деловым партнёром.
-Вы приобрели строящийся объект, но его передача задерживается дольше, чем вы ожидали.
-После покупки вы обнаружили недостаток недвижимости, не указанный в договоре.
-Арендодатель или арендатор предъявляет требование, которое вы считаете неправомерным.
-Вы хотите проверить договор купли-продажи или аренды до подписания.
-Вам задерживают заработную плату и вы хотите понять свои права перед обращением за её взысканием.
-Ваши трудовые отношения прекращены и вы сомневаетесь в правильности окончательного расчёта.
-Вы подписали документ об окончательном урегулировании и не уверены, от каких требований отказались.
-Вы работодатель и хотите привести в порядок трудовые договоры и проверить свои обязательства.
-Вам назначен налоговый штраф или вынесено решение, которое вы считаете ошибочным.
-Вы хотите оспорить налоговое начисление.
-Ваша компания расширилась и вы хотите проверить возникшие налоговые обязательства.
-Вы хотите подготовить налоговые документы до срока подачи декларации.
-Вы живёте в ОАЭ, имеете имущество или детей, но ещё не составили завещание.
-У вас возник семейный конфликт и вы хотите понять свои возможности до принятия решений.
-Умер ваш родственник и вы хотите разобраться в порядке распределения наследства.
-Вы резидент, не исповедующий ислам, и хотите понять, как в ОАЭ применяются правила наследования.
-Ваша компания расширилась или изменила деятельность, но вы ещё не проверили связанные с этим регуляторные обязательства.
-Вы хотите обновить политики компании по противодействию отмыванию денежных средств.
-Вы получили запрос регулирующего органа и не знаете, как на него ответить.
-Вы хотите проверить соблюдение обязательных требований перед вступлением нового инвестиционного партнёра.
-У вас есть договор на иностранном языке и вы хотите перевести его до подписания.
-Документ необходимо представить в государственный орган или суд и требуется заверенный перевод.
-Вы подписали переведённый документ и хотите проверить точность перевода.
-Для официальной процедуры вам нужен перевод между арабским и английским или русским языками.
-Вы хотите создать компанию и нуждаетесь в помощи при выборе подходящей структуры.
-Вам необходимо продлить лицензию или изменить указанные в ней виды деятельности.
-Вам нужны удостоверение документов или официальные документы для обращения в государственный орган.
-Вы хотите привести документы компании в порядок перед вступлением инвестора или нового участника.
-Продолжить
-Частые ситуации
-У вас есть чек, предъявленный в банк и возвращённый без оплаты.
-Арендодатель или арендатор предъявляет требование, которое вы считаете неправомерным.
-Ваши трудовые отношения прекращены и вы сомневаетесь в правильности окончательного расчёта.
-Before a choice: the quick picks
-Начните с вашего вопроса
-Для кого этот запрос?
-Частное лицо
-Бизнес
-Инвестор
-Ваша ситуация
-Выберите вашу ситуацию
-Вы оплатили услугу или товар, но не получили встречного исполнения.
-У вас есть чек, предъявленный в банк и возвращённый без оплаты.
-Должник затягивает оплату или выехал из страны.
-У вас накопились неоплаченные счета и вы хотите понять возможные действия до обострения спора.
-Вы получили вызов или в отношении вас подано заявление и вы не знаете, с чего начать.
-Вас обвиняют в мошенничестве или подделке документов, которых вы не совершали.
-Ваше имя фигурирует в уголовном деле, хотя вы фактически не участвовали в соответствующих событиях.
-По делу уже вынесено решение и вы хотите выяснить возможность его пересмотра.
-Вы внесли средства на торговую платформу, после чего они исчезли или были заблокированы.
-Вы продали цифровые активы и столкнулись с обвинением в событиях, к которым не имеете отношения.
-Вы хотите отследить подозрительные переводы цифровых активов или подтвердить их документально.
-Вы стали жертвой мошенничества под видом инвестиций в криптовалюту.
-Конфликт с деловым партнёром возник раньше, чем вы ожидали.
-После подписания коммерческого договора выяснилось, что вы не до конца понимали последствия отдельных условий.
-Вы хотите создать компанию и с самого начала урегулировать отношения между участниками.
-У вас возник коммерческий спор с клиентом, поставщиком или деловым партнёром.
-Вы приобрели строящийся объект, но его передача задерживается дольше, чем вы ожидали.
-После покупки вы обнаружили недостаток недвижимости, не указанный в договоре.
-Арендодатель или арендатор предъявляет требование, которое вы считаете неправомерным.
-Вы хотите проверить договор купли-продажи или аренды до подписания.
-Вам задерживают заработную плату и вы хотите понять свои права перед обращением за её взысканием.
-Ваши трудовые отношения прекращены и вы сомневаетесь в правильности окончательного расчёта.
-Вы подписали документ об окончательном урегулировании и не уверены, от каких требований отказались.
-Вы работодатель и хотите привести в порядок трудовые договоры и проверить свои обязательства.
-Вам назначен налоговый штраф или вынесено решение, которое вы считаете ошибочным.
-Вы хотите оспорить налоговое начисление.
-Ваша компания расширилась и вы хотите проверить возникшие налоговые обязательства.
-Вы хотите подготовить налоговые документы до срока подачи декларации.
-Вы живёте в ОАЭ, имеете имущество или детей, но ещё не составили завещание.
-У вас возник семейный конфликт и вы хотите понять свои возможности до принятия решений.
-Умер ваш родственник и вы хотите разобраться в порядке распределения наследства.
-Вы резидент, не исповедующий ислам, и хотите понять, как в ОАЭ применяются правила наследования.
-Ваша компания расширилась или изменила деятельность, но вы ещё не проверили связанные с этим регуляторные обязательства.
-Вы хотите обновить политики компании по противодействию отмыванию денежных средств.
-Вы получили запрос регулирующего органа и не знаете, как на него ответить.
-Вы хотите проверить соблюдение обязательных требований перед вступлением нового инвестиционного партнёра.
-У вас есть договор на иностранном языке и вы хотите перевести его до подписания.
-Документ необходимо представить в государственный орган или суд и требуется заверенный перевод.
-Вы подписали переведённый документ и хотите проверить точность перевода.
-Для официальной процедуры вам нужен перевод между арабским и английским или русским языками.
-Вы хотите создать компанию и нуждаетесь в помощи при выборе подходящей структуры.
-Вам необходимо продлить лицензию или изменить указанные в ней виды деятельности.
-Вам нужны удостоверение документов или официальные документы для обращения в государственный орган.
-Вы хотите привести документы компании в порядок перед вступлением инвестора или нового участника.
-Продолжить
-Обычно нужны 4 документа
-Договор или принятое ценовое предложение, заказы на закупку и сведения о стороне договора.
-Счета, подтверждения поставки или приёмки выполненных работ, сведения о платежах и расчёт требуемого остатка задолженности.
-Оригинал чека и документ банка с указанием причины отказа в оплате; для предварительного анализа направьте чёткую копию.
-Переписка, документы о признании долга, обещания оплаты, а также ранее заключённые соглашения об урегулировании или вынесенные судебные решения, если они имеются.
-After a choice (here sent back with ?situation=S01-2): the documents usually needed
-Начните с вашего вопроса
-Для кого этот запрос?
-Частное лицо
-Бизнес
-Инвестор
-Ваша ситуация
-Выберите вашу ситуацию
-Вы оплатили услугу или товар, но не получили встречного исполнения.
-У вас есть чек, предъявленный в банк и возвращённый без оплаты.
-Должник затягивает оплату или выехал из страны.
-У вас накопились неоплаченные счета и вы хотите понять возможные действия до обострения спора.
-Вы получили вызов или в отношении вас подано заявление и вы не знаете, с чего начать.
-Вас обвиняют в мошенничестве или подделке документов, которых вы не совершали.
-Ваше имя фигурирует в уголовном деле, хотя вы фактически не участвовали в соответствующих событиях.
-По делу уже вынесено решение и вы хотите выяснить возможность его пересмотра.
-Вы внесли средства на торговую платформу, после чего они исчезли или были заблокированы.
-Вы продали цифровые активы и столкнулись с обвинением в событиях, к которым не имеете отношения.
-Вы хотите отследить подозрительные переводы цифровых активов или подтвердить их документально.
-Вы стали жертвой мошенничества под видом инвестиций в криптовалюту.
-Конфликт с деловым партнёром возник раньше, чем вы ожидали.
-После подписания коммерческого договора выяснилось, что вы не до конца понимали последствия отдельных условий.
-Вы хотите создать компанию и с самого начала урегулировать отношения между участниками.
-У вас возник коммерческий спор с клиентом, поставщиком или деловым партнёром.
-Вы приобрели строящийся объект, но его передача задерживается дольше, чем вы ожидали.
-После покупки вы обнаружили недостаток недвижимости, не указанный в договоре.
-Арендодатель или арендатор предъявляет требование, которое вы считаете неправомерным.
-Вы хотите проверить договор купли-продажи или аренды до подписания.
-Вам задерживают заработную плату и вы хотите понять свои права перед обращением за её взысканием.
-Ваши трудовые отношения прекращены и вы сомневаетесь в правильности окончательного расчёта.
-Вы подписали документ об окончательном урегулировании и не уверены, от каких требований отказались.
-Вы работодатель и хотите привести в порядок трудовые договоры и проверить свои обязательства.
-Вам назначен налоговый штраф или вынесено решение, которое вы считаете ошибочным.
-Вы хотите оспорить налоговое начисление.
-Ваша компания расширилась и вы хотите проверить возникшие налоговые обязательства.
-Вы хотите подготовить налоговые документы до срока подачи декларации.
-Вы живёте в ОАЭ, имеете имущество или детей, но ещё не составили завещание.
-У вас возник семейный конфликт и вы хотите понять свои возможности до принятия решений.
-Умер ваш родственник и вы хотите разобраться в порядке распределения наследства.
-Вы резидент, не исповедующий ислам, и хотите понять, как в ОАЭ применяются правила наследования.
-Ваша компания расширилась или изменила деятельность, но вы ещё не проверили связанные с этим регуляторные обязательства.
-Вы хотите обновить политики компании по противодействию отмыванию денежных средств.
-Вы получили запрос регулирующего органа и не знаете, как на него ответить.
-Вы хотите проверить соблюдение обязательных требований перед вступлением нового инвестиционного партнёра.
-У вас есть договор на иностранном языке и вы хотите перевести его до подписания.
-Документ необходимо представить в государственный орган или суд и требуется заверенный перевод.
-Вы подписали переведённый документ и хотите проверить точность перевода.
-Для официальной процедуры вам нужен перевод между арабским и английским или русским языками.
-Вы хотите создать компанию и нуждаетесь в помощи при выборе подходящей структуры.
-Вам необходимо продлить лицензию или изменить указанные в ней виды деятельности.
-Вам нужны удостоверение документов или официальные документы для обращения в государственный орган.
-Вы хотите привести документы компании в порядок перед вступлением инвестора или нового участника.
-Продолжить
-Какие документы обычно нужны
-Выберите ситуацию, и они появятся здесь.
-No quick pick for the chosen audience (or none configured): the plain label and one quiet line, never a box
 Matter Navigator
 The dark workbench of the home page (#navigator): the 44 approved situations as one radio group under sticky practice-area headings, search and chips that filter it, and "Your starting file" (white, radius 10, no shadow) with the document checklist, aligned first steps and mistakes (subgrid), text link cards and the actions. Specimens here are static; the live one is on the home page.
 Situation list on the dark band
@@ -4395,6 +3937,8 @@ filtered: chip "Debts and Cheques" pressed (white fill, ink label), one group le
 Выберите ситуацию
 Нет ситуаций с этим словом. Попробуйте другое слово или сбросьте фильтр.
 Сбросить фильтр
+Написать в WhatsApp
+(откроется в новой вкладке)
 empty search result: visible message + Clear filter, also sent to the polite status
 chips: pressed, focus-visible, hover. search (a --dark-2 field, radius 6; its placeholder is its own name, whole on one line from 320 px; below 768 px these frames are as wide as the live band) and the chip toolbar: one Tab stop, ← → move (mirrored in RTL), Home / End, Enter / Space press; Design 2.1 D30: the chips wrap from 768 px (every label whole, no buttons); below 768 px one sideways rail across the screen that scrolls by touch, rests with a chip starting where the faded edge ends (mandatory snap) and fades where more chips wait (alpha masks)
 Radio and checkbox states
@@ -4449,6 +3993,8 @@ Header: service (H3), the approved "This service may be relevant if:" and the ch
 Подробнее об услуге
 Трудовое право
 Запросить юридическую консультацию
+– WhatsApp
+(откроется в новой вкладке)
 chosen situation, two documents ticked (Clear ticks shown), forced: Copy link focus-visible
 Выберите ситуацию, чтобы увидеть её досье.
 В каждом досье
@@ -4499,6 +4045,8 @@ ADGM
 Расчёт выполняется в вашем браузере и требует JavaScript. Вы всё равно можете запросить консультацию, и мы разберём цифры вместе с вами.
 Работодатель выплачивает зарплату и причитающиеся суммы в течение 14 дней с даты окончания договора (ст. 53).
 Запросить юридическую консультацию
+– WhatsApp
+(откроется в новой вкладке)
 Правовая основа: Федеральный декрет-закон № 33 от 2021 года, ст. 51, 53, 43, 29; Постановление Кабинета министров № 1 от 2022 года, ст. 19, 30.
 Только оценка на основе Федерального декрета-закона № 33 от 2021 года. Это не юридическая консультация, и она не заменяет проверку вашего договора и документов.
 Empty: example values greyed as placeholders; the result card says what is needed above "—"; no bar, no breakdown
@@ -4537,6 +4085,8 @@ ADGM
 Расчёт выполняется в вашем браузере и требует JavaScript. Вы всё равно можете запросить консультацию, и мы разберём цифры вместе с вами.
 Работодатель выплачивает зарплату и причитающиеся суммы в течение 14 дней с даты окончания договора (ст. 53).
 Запросить юридическую консультацию
+– WhatsApp
+(откроется в новой вкладке)
 Правовая основа: Федеральный декрет-закон № 33 от 2021 года, ст. 51, 53, 43, 29; Постановление Кабинета министров № 1 от 2022 года, ст. 19, 30.
 Только оценка на основе Федерального декрета-закона № 33 от 2021 года. Это не юридическая консультация, и она не заменяет проверку вашего договора и документов.
 Filled: 3,147 days counted (20 days of unpaid absence), basic 15,000, total 21,000, leave, notice and unpaid wages. Stacked bar (gratuity, leave, notice, unpaid), service timeline (1-year pin, 5-year boundary "21 days/yr | 30 days/yr", hatched absence notch), "May apply" on the notice
@@ -4575,6 +4125,8 @@ ADGM
 Расчёт выполняется в вашем браузере и требует JavaScript. Вы всё равно можете запросить консультацию, и мы разберём цифры вместе с вами.
 Работодатель выплачивает зарплату и причитающиеся суммы в течение 14 дней с даты окончания договора (ст. 53).
 Запросить юридическую консультацию
+– WhatsApp
+(откроется в новой вкладке)
 Правовая основа: Федеральный декрет-закон № 33 от 2021 года, ст. 51, 53, 43, 29; Постановление Кабинета министров № 1 от 2022 года, ст. 19, 30.
 Только оценка на основе Федерального декрета-закона № 33 от 2021 года. Это не юридическая консультация, и она не заменяет проверку вашего договора и документов.
 Badges: "Cap applied" and "Cap based on basic wage" (40 years on a basic 10,000, no total wage: limited to 24 months of the basic wage)
@@ -4613,6 +4165,8 @@ ADGM
 Расчёт выполняется в вашем браузере и требует JavaScript. Вы всё равно можете запросить консультацию, и мы разберём цифры вместе с вами.
 Работодатель выплачивает зарплату и причитающиеся суммы в течение 14 дней с даты окончания договора (ст. 53).
 Запросить юридическую консультацию
+– WhatsApp
+(откроется в новой вкладке)
 Правовая основа: Федеральный декрет-закон № 33 от 2021 года, ст. 51, 53, 43, 29; Постановление Кабинета министров № 1 от 2022 года, ст. 19, 30.
 Только оценка на основе Федерального декрета-закона № 33 от 2021 года. Это не юридическая консультация, и она не заменяет проверку вашего договора и документов.
 Under one year: no gratuity, with the explanation
@@ -4655,6 +4209,8 @@ ADGM
 Расчёт выполняется в вашем браузере и требует JavaScript. Вы всё равно можете запросить консультацию, и мы разберём цифры вместе с вами.
 Работодатель выплачивает зарплату и причитающиеся суммы в течение 14 дней с даты окончания договора (ст. 53).
 Запросить юридическую консультацию
+– WhatsApp
+(откроется в новой вкладке)
 Правовая основа: Федеральный декрет-закон № 33 от 2021 года, ст. 51, 53, 43, 29; Постановление Кабинета министров № 1 от 2022 года, ст. 19, 30.
 Только оценка на основе Федерального декрета-закона № 33 от 2021 года. Это не юридическая консультация, и она не заменяет проверку вашего договора и документов.
 Part-time (24 of 48 hours): every part pro-rated, with the share
@@ -4693,6 +4249,8 @@ ADGM
 Расчёт выполняется в вашем браузере и требует JavaScript. Вы всё равно можете запросить консультацию, и мы разберём цифры вместе с вами.
 Работодатель выплачивает зарплату и причитающиеся суммы в течение 14 дней с даты окончания договора (ст. 53).
 Запросить юридическую консультацию
+– WhatsApp
+(откроется в новой вкладке)
 Правовая основа: Федеральный декрет-закон № 33 от 2021 года, ст. 51, 53, 43, 29; Постановление Кабинета министров № 1 от 2022 года, ст. 19, 30.
 Только оценка на основе Федерального декрета-закона № 33 от 2021 года. Это не юридическая консультация, и она не заменяет проверку вашего договора и документов.
 Temporary work: no gratuity, leave still counted
@@ -4731,6 +4289,8 @@ ADGM
 Расчёт выполняется в вашем браузере и требует JavaScript. Вы всё равно можете запросить консультацию, и мы разберём цифры вместе с вами.
 Работодатель выплачивает зарплату и причитающиеся суммы в течение 14 дней с даты окончания договора (ст. 53).
 Запросить юридическую консультацию
+– WhatsApp
+(откроется в новой вкладке)
 Правовая основа: Федеральный декрет-закон № 33 от 2021 года, ст. 51, 53, 43, 29; Постановление Кабинета министров № 1 от 2022 года, ст. 19, 30.
 Только оценка на основе Федерального декрета-закона № 33 от 2021 года. Это не юридическая консультация, и она не заменяет проверку вашего договора и документов.
 Validation errors: last working day before the start date, total wage below the basic wage, negative leave, notice outside 30–90 days; the result card asks to check the highlighted fields
@@ -4745,6 +4305,8 @@ ADGM
 Вне рамок этого расчёта
 Этот расчёт охватывает только Трудовой закон ОАЭ. Ваша ситуация регулируется другими правилами — мы можем разобрать её вместе с вами.
 Запросить юридическую консультацию
+– WhatsApp
+(откроется в новой вкладке)
 Out of scope (DIFC, ADGM, Government, Domestic worker): the calm panel replaces the estimator, with the consultation button
 تقدير مكافأة نهاية الخدمة
 أين تعمل؟
@@ -4781,6 +4343,8 @@ Out of scope (DIFC, ADGM, Government, Domestic worker): the calm panel replaces 
 يُحسب هذا التقدير داخل متصفحك ويحتاج إلى تفعيل JavaScript. ما زال بإمكانك طلب استشارة، وسنراجع الأرقام معك.
 يدفع صاحب العمل الأجور والمستحقات خلال 14 يومًا من تاريخ انتهاء العقد (المادة 53).
 اطلب استشارة قانونية
+– واتساب
+(يُفتح في علامة تبويب جديدة)
 الأساس القانوني: المرسوم بقانون اتحادي رقم 33 لسنة 2021، المواد 51 و53 و43 و29؛ قرار مجلس الوزراء رقم 1 لسنة 2022، المادتان 19 و30.
 تقدير فقط، استنادًا إلى المرسوم بقانون اتحادي رقم 33 لسنة 2021. وهو ليس استشارة قانونية ولا يغني عن مراجعة عقدك وسجلاتك.
 RTL (Arabic, filled): the bar fills from the right, the timeline runs right to left, AED amounts and ranges are isolated with <bdi>. On English and Russian pages the Arabic web font is not loaded (fonts are subset per language), so this specimen shows the system Arabic fallback
@@ -4820,6 +4384,8 @@ Rent increase check
 Ниже среднего на
 Максимальное повышение
 Запросить юридическую консультацию
+– WhatsApp
+(откроется в новой вкладке)
 Только для Дубая и жилой недвижимости; в других эмиратах действуют иные правила. Средние значения берутся из «умного» индекса аренды (Smart Rental Index) Земельного департамента Дубая, который действует с января 2025 года.
 Правовая основа: Шкала повышения: Декрет № 43 от 2013 года. Уведомление: Закон № 26 от 2007 года, ст. 14, с изменениями, внесёнными Законом № 33 от 2008 года.
 Только оценка. Это не юридическая консультация, и она не заменяет проверку вашего договора аренды.
@@ -4859,6 +4425,8 @@ Empty: the band scale explains the five bands before any figure is entered
 Ниже среднего на
 Максимальное повышение
 Запросить юридическую консультацию
+– WhatsApp
+(откроется в новой вкладке)
 Только для Дубая и жилой недвижимости; в других эмиратах действуют иные правила. Средние значения берутся из «умного» индекса аренды (Smart Rental Index) Земельного департамента Дубая, который действует с января 2025 года.
 Правовая основа: Шкала повышения: Декрет № 43 от 2013 года. Уведомление: Закон № 26 от 2007 года, ст. 14, с изменениями, внесёнными Законом № 33 от 2008 года.
 Только оценка. Это не юридическая консультация, и она не заменяет проверку вашего договора аренды.
@@ -4898,6 +4466,8 @@ Filled, notice on time: 22.34% below the average → up to 10% (AED 8,000.00 a y
 Ниже среднего на
 Максимальное повышение
 Запросить юридическую консультацию
+– WhatsApp
+(откроется в новой вкладке)
 Только для Дубая и жилой недвижимости; в других эмиратах действуют иные правила. Средние значения берутся из «умного» индекса аренды (Smart Rental Index) Земельного департамента Дубая, который действует с января 2025 года.
 Правовая основа: Шкала повышения: Декрет № 43 от 2013 года. Уведомление: Закон № 26 от 2007 года, ст. 14, с изменениями, внесёнными Законом № 33 от 2008 года.
 Только оценка. Это не юридическая консультация, и она не заменяет проверку вашего договора аренды.
@@ -4937,6 +4507,8 @@ Notice too late: 75 days before expiry → warning
 Ниже среднего на
 Максимальное повышение
 Запросить юридическую консультацию
+– WhatsApp
+(откроется в новой вкладке)
 Только для Дубая и жилой недвижимости; в других эмиратах действуют иные правила. Средние значения берутся из «умного» индекса аренды (Smart Rental Index) Земельного департамента Дубая, который действует с января 2025 года.
 Правовая основа: Шкала повышения: Декрет № 43 от 2013 года. Уведомление: Закон № 26 от 2007 года, ст. 14, с изменениями, внесёнными Законом № 33 от 2008 года.
 Только оценка. Это не юридическая консультация, и она не заменяет проверку вашего договора аренды.
@@ -4976,6 +4548,8 @@ Notice after the expiry date → warning
 Ниже среднего на
 Максимальное повышение
 Запросить юридическую консультацию
+– WhatsApp
+(откроется в новой вкладке)
 Только для Дубая и жилой недвижимости; в других эмиратах действуют иные правила. Средние значения берутся из «умного» индекса аренды (Smart Rental Index) Земельного департамента Дубая, который действует с января 2025 года.
 Правовая основа: Шкала повышения: Декрет № 43 от 2013 года. Уведомление: Закон № 26 от 2007 года, ст. 14, с изменениями, внесёнными Законом № 33 от 2008 года.
 Только оценка. Это не юридическая консультация, и она не заменяет проверку вашего договора аренды.
@@ -5015,6 +4589,8 @@ Rent at or above the index average → no increase (first band)
 Ниже среднего на
 Максимальное повышение
 Запросить юридическую консультацию
+– WhatsApp
+(откроется в новой вкладке)
 Только для Дубая и жилой недвижимости; в других эмиратах действуют иные правила. Средние значения берутся из «умного» индекса аренды (Smart Rental Index) Земельного департамента Дубая, который действует с января 2025 года.
 Правовая основа: Шкала повышения: Декрет № 43 от 2013 года. Уведомление: Закон № 26 от 2007 года, ст. 14, с изменениями, внесёнными Законом № 33 от 2008 года.
 Только оценка. Это не юридическая консультация, и она не заменяет проверку вашего договора аренды.
@@ -5054,6 +4630,8 @@ Validation errors: negative rent, average that is not a number
 أقل من المتوسط بنسبة
 الحد الأقصى للزيادة
 اطلب استشارة قانونية
+– واتساب
+(يُفتح في علامة تبويب جديدة)
 لإمارة دبي فقط وللعقارات السكنية؛ ولدى الإمارات الأخرى قواعد مختلفة. تأتي المتوسطات من مؤشر الإيجارات الذكي لدائرة الأراضي والأملاك في دبي، المعمول به منذ يناير 2025.
 الأساس القانوني: شرائح الزيادة: المرسوم رقم 43 لسنة 2013. الإشعار: القانون رقم 26 لسنة 2007، المادة 14، المعدل بالقانون رقم 33 لسنة 2008.
 تقدير فقط. وهو ليس استشارة قانونية ولا يغني عن مراجعة عقد الإيجار.
@@ -5069,6 +4647,8 @@ Portrait in a 4:5 frame everywhere (AVIF / WebP 480 and 800 w, lazy, explicit si
 Работа с клиентами
 Рабочие языки: арабский · английский · русский
 Запросить консультацию у Ахмеда
+– WhatsApp
+(откроется в новой вкладке)
 Default: whole-card link + nested request link
 Д-р Мохамед Рауф
 Главный юридический консультант
@@ -5077,6 +4657,8 @@ Default: whole-card link + nested request link
 Уголовные вопросы
 Рабочие языки: арабский · английский
 Запросить консультацию у д-ра Мохамеда
+– WhatsApp
+(откроется в новой вкладке)
 Hover (forced): the card edge turns ink and the name underlines; no lift, no zoom (Design 2.1, D05)
 Ахмед Мохаммади
 Управляющий директор и соучредитель
@@ -5085,6 +4667,8 @@ Hover (forced): the card edge turns ink and the name underlines; no lift, no zoo
 Работа с клиентами
 Рабочие языки: арабский · английский · русский
 Запросить консультацию у Ахмеда
+– WhatsApp
+(откроется в новой вкладке)
 Keyboard focus on the card link (forced ring)
 С
 З
@@ -5095,6 +4679,8 @@ Keyboard focus on the card link (forced ring)
 Гражданские и коммерческие вопросы
 Рабочие языки: арабский · английский
 Запросить консультацию у Сары
+– WhatsApp
+(откроется в новой вкладке)
 Photo pending (D43): a neutral 4:5 panel of the same size, the initials of the approved name in the sans; no serif, no ring
 Д-р Мохамед Рауф
 Главный юридический консультант
@@ -5109,7 +4695,6 @@ Static (About page): no link, no request link
 المسائل التجارية
 المسائل الجزائية
 لغات العمل: العربية · الإنجليزية
-اطلب استشارة مع د. محمد
 Other direction (approved copy of the other script)
 С
 З
@@ -5120,6 +4705,8 @@ Other direction (approved copy of the other script)
 Гражданские и коммерческие вопросы
 Рабочие языки: арабский · английский
 Запросить консультацию у Сары
+– WhatsApp
+(откроется в новой вкладке)
 Wide card (560 px and more): row layout, the tablet home layout; the portrait keeps its 4:5 frame
 Home "Our Team" block (off by default, D24): three columns with shared rows (subgrid) from a 900 px list; one wide card per row from 768 px; a swipe rail below 768 px.
 Case preview (<x-d2.case.preview>, home section 06)
@@ -5235,17 +4822,15 @@ Empty: the first six practice areas in the approved order, titles only (their su
 Само по себе отсутствие достаточных средств на счёте не означает совершения преступления. Чек может подлежать принудительному исполнению, тогда как иные уголовно наказуемые действия требуют отдельного уголовного разбирательства. Необходимо изучить причину неоплаты, обстоятельства использования чека и соответствующие положения закона.
 9. Зачем сохранять оригинал чека и справку банка?
 Они подтверждают реквизиты чека и причину неоплаты и могут потребоваться для соответствующей процедуры. Справка банка способна повлиять на выбор пути принудительного исполнения. Сохраняйте также подтверждения платежей и оснований отношений сторон для оценки возможного спора об обязательстве.
-Примеры из практики
+Юридические кейсы
 Чек, подписанный без заполнения реквизитов, не раскрывал всей истории
 Подпись была подлинной, однако обстоятельства использования чека и последовательность предъявленных требований нуждались в повторном изучении. Дело поступило к нам после вынесения судебных решений, уже повлёкших финансовые последствия. Затем его ход изменился при обжаловании.
-Опишите ваш вопрос
-Начать запрос консультации с текстом «чек»
+Написать в WhatsApp
 Results: groups under plain headings (approved navigation labels in the UI-label role, never chips), text rows (title and summary in full, never cut), matches marked, active row with the keyboard ring, "Describe your matter" last
 Поиск по сайту
 По запросу «qzxqzx» ничего не найдено
-Попробуйте другое слово или опишите ситуацию своими словами: текст попадёт в форму запроса консультации как черновик, который можно изменить. До отправки формы данные никуда не передаются.
-Опишите ваш вопрос
-Начать запрос консультации с текстом «qzxqzx»
+Попробуйте другое слово.
+Написать в WhatsApp
 No results: message, hint and "Describe your matter" (prefill with the typed words). Words match exactly or as a word start; Latin and Cyrillic words of five letters or more also with one typo, Arabic words never (one dot turns an Arabic word into another: "space" into "judicial"), and a sentence that falls back to half of its words never counts a near-miss, so nonsense finds nothing in every language
 Поиск по сайту
 Загрузка поиска
@@ -5255,8 +4840,7 @@ Loading: only when a query waits for the first index load
 Поиск по сайту
 Не удалось загрузить поиск. Проверьте подключение и попробуйте ещё раз.
 Повторить
-Опишите ваш вопрос
-Начать запрос консультации с текстом «чек»
+Написать в WhatsApp
 Error: the index could not load; retry, and "Describe your matter" still works
 FAQ browser
 <x-d2.faq.browser>: approved category tabs (Phase A tabs), local search over every question and answer (normalise() + light stemming, every word must match), Phase A accordion. With JavaScript the tabbed layout is drawn from the first paint (html.js: only the initial category, or the one a #hash points into, with its tab marked), so nothing moves when the script mounts. Without JavaScript every category shows under its heading, and the search field, "Show all answers" and "Copy question link" are hidden. Specimens use three categories.
@@ -5287,6 +4871,8 @@ FAQ browser
 Познакомьтесь с Summit
 Это касается вашей ситуации?
 Начать здесь
+– WhatsApp
+(откроется в новой вкладке)
 Долги и чеки
 7. С чего начать взыскание коммерческой задолженности?
 Определите должника, остаток задолженности и срок оплаты, затем соберите договор, счета, подтверждения исполнения, сведения о платежах и переписку. После этого с учётом документов и компетенции соответствующих органов оцениваются урегулирование, направление официального требования, обращение в суд или принудительное исполнение.
@@ -5317,6 +4903,8 @@ FAQ browser
 (откроется в новой вкладке)
 Это касается вашей ситуации?
 Начать здесь
+– WhatsApp
+(откроется в новой вкладке)
 Уголовные дела
 14. Что делать при вызове в полицию или прокуратуру?
 Проверьте орган и назначенное время через официальные каналы и соблюдайте указания. Подготовьте документы и хронологию событий, запросите оценку своей роли и необходимой юридической помощи. Не откладывайте явку и не уничтожайте доказательства.
@@ -5344,6 +4932,8 @@ FAQ browser
 Руководство по сохранению доказательств финансового и цифрового мошенничества
 Это касается вашей ситуации?
 Начать здесь
+– WhatsApp
+(откроется в новой вкладке)
 Default, with the P05 options: "Show all answers" and "Copy question link"
 Перед обращением за консультацией
 Долги и чеки
@@ -5510,307 +5100,6 @@ Café, Müller, Straße cafe, muller, strasse
 أَحْكَامُ الإِيجَارِ احكام الايجار
 مُكافأة نهاية الخدمة مكافاه نهايه الخدمه
 دعوى، عقــــد، ٢٠٢١ دعوي، عقد، 2021
-Consultation wizard
-The home contact section (#consultation-form) and P07: the five-step wizard on the existing enquiry endpoint (one component; each page prints its own Word file's form copy: copy="home" or copy="contact") and the contact card. The specimens here use the Contact file's copy. The steps follow the Contact file's form layout (D38) under one progress indicator (D37: a step list, "Step 1 of 5: You" in a narrow card or on a phone); "You are contacting us as" and "Keep a draft on this device" are pending client approval (D39). The attachment field is not shown: the backend does not scan uploads (App\Design\D2\Attachment). The controller is a lazy chunk (wizard/controller.js, about 11 KB gzip): it loads when the wizard comes within about one viewport, on focus or a pointer press, on d2:prefill and for #consultation-form; until then the server-rendered markup already shows the stepped layout (keyed on html.js), and a click, a submit or a prefill that arrives early is queued. The live specimens run offline and load at once: nothing is saved or sent from this page.
-Steps (live, offline)
-Each specimen is a real wizard started at one step with sample answers. Next checks the step; Back and the finished steps of the list go back without checks and never lose data. Autosave, prefill, the security check and sending are off on this page.
-О вас
-Ваше имя и хотя бы один способ связи с вами.
-Имя*
-Укажите имя, по которому к вам обращаться.
-Номер телефона, Электронная почта
-Достаточно корректного номера телефона или адреса электронной почты. При желании можно указать оба.
-Номер телефона
-Укажите код страны и номер, по которому с вами можно связаться.
-Электронная почта
-Укажите адрес электронной почты, которую вы регулярно проверяете.
-Предпочтительный язык
-Выберите язык
-Арабский
-Английский
-Русский
-Step 1, You: Context handed over by a team card and a calculator (Remove clears it), the chosen audience card (pending), then Next with an empty name and an invalid phone and e-mail: inline errors, the linked error summary in the DOCX order (name, then the contact method), focus on the first field. Both contact methods are checked when both are given; with neither, the group error appears on the fieldset and the summary links the phone input. Then the preferred language.
-Ваш вопрос
-Выберите категорию вопроса, если знаете её, и опишите, что произошло.
-Категория юридического вопроса
-Выберите тему, если она вам известна
-Долги и чеки
-Уголовные дела
-Криптовалюты
-Компании и договоры
-Недвижимость и аренда
-Трудовые отношения и выплаты работникам
-Налоги
-Семейные вопросы и завещания
-Комплаенс и регуляторные вопросы
-Юридический перевод
-Услуги для бизнеса
-Другой вопрос
-Не знаю, какую категорию выбрать
-Краткое описание вопроса*
-Опишите, что произошло, кто участвует в ситуации и в чём нужна помощь. Укажите ранее проведённые процедуры и принятые решения.
-Step 2, Your matter: The approved matter types, the Navigator situations of the chosen service (optional), the summary.
-Сроки
-Если назначено заседание или установлен срок для ответа или обжалования, укажите дату и орган. Оба поля необязательны.
-Ближайшая дата по делу
-Укажите ближайшую дату заседания или срок ответа либо обжалования, если они установлены.
-Сведения о дате или сроке
-Укажите соответствующий орган и поясните, к чему относится дата или срок; сообщите, если они уже прошли.
-Step 3, Deadline: The nearest date (the date picker) and the deadline details side by side (subgrid keeps labels, hints and inputs aligned).
-Step 4, Documents: The documents usually needed for the chosen service (Navigator data), ticked per service, with the service page’s note. The optional document would follow the checklist only with a scanning backend; today the step is the checklist only.
-Не отправляйте пароли, коды подтверждения, закрытые ключи или фразу восстановления криптовалютного кошелька. Подходящий способ передачи конфиденциальных документов можно согласовать после выяснения характера дела.
-Отправка запроса не означает принятия поручения, подтверждения записи или начала контроля юридически значимых сроков. Если срок приближается, позвоните напрямую, ясно сообщите о нём и убедитесь, что поручение принято.
-Даю согласие на использование моих данных для связи со мной по этому запросу в соответствии с Политикой конфиденциальности.*
-Отправить запрос на консультацию
-Step 5, Review: The answers with Change buttons, and the message exactly as it will be sent (summary, context lines, ticked documents). Here the visitor edited it and then changed an answer, so the update prompt shows.
-Without JavaScript
-The same markup as one plain form: only the endpoint’s own fields, POST /{locale}/enquiries, and every outcome comes back through the no-JS redirect (flash). The checklist, the review, autosave and the security check need JavaScript and are not shown (while attachments are enabled the Documents group holds the native file input, posted as multipart); phone, WhatsApp and e-mail stay next to the form. The same plain form comes back if the controller chunk cannot load.
-О вас
-Ваше имя и хотя бы один способ связи с вами.
-Имя*
-Укажите имя, по которому к вам обращаться.
-Номер телефона, Электронная почта
-Достаточно корректного номера телефона или адреса электронной почты. При желании можно указать оба.
-Номер телефона
-Укажите код страны и номер, по которому с вами можно связаться.
-Электронная почта
-Укажите адрес электронной почты, которую вы регулярно проверяете.
-Предпочтительный язык
-Выберите язык
-Арабский
-Английский
-Русский
-Ваш вопрос
-Выберите категорию вопроса, если знаете её, и опишите, что произошло.
-Категория юридического вопроса
-Выберите тему, если она вам известна
-Долги и чеки
-Уголовные дела
-Криптовалюты
-Компании и договоры
-Недвижимость и аренда
-Трудовые отношения и выплаты работникам
-Налоги
-Семейные вопросы и завещания
-Комплаенс и регуляторные вопросы
-Юридический перевод
-Услуги для бизнеса
-Другой вопрос
-Не знаю, какую категорию выбрать
-Краткое описание вопроса*
-Опишите, что произошло, кто участвует в ситуации и в чём нужна помощь. Укажите ранее проведённые процедуры и принятые решения.
-Сроки
-Если назначено заседание или установлен срок для ответа или обжалования, укажите дату и орган. Оба поля необязательны.
-Ближайшая дата по делу
-Укажите ближайшую дату заседания или срок ответа либо обжалования, если они установлены.
-Сведения о дате или сроке
-Укажите соответствующий орган и поясните, к чему относится дата или срок; сообщите, если они уже прошли.
-Не отправляйте пароли, коды подтверждения, закрытые ключи или фразу восстановления криптовалютного кошелька. Подходящий способ передачи конфиденциальных документов можно согласовать после выяснения характера дела.
-Отправка запроса не означает принятия поручения, подтверждения записи или начала контроля юридически значимых сроков. Если срок приближается, позвоните напрямую, ясно сообщите о нём и убедитесь, что поручение принято.
-Даю согласие на использование моих данных для связи со мной по этому запросу в соответствии с Политикой конфиденциальности.*
-Отправить запрос на консультацию
-+971 52 466 6191
-Написать в WhatsApp
-(откроется в новой вкладке)
-info@summitlegaluae.com
-Языки общения: арабский, английский и русский.
-Часы работы: с понедельника по пятницу, с 9:00 до 18:00.
-Delivery states
-One at a time, at the top of the wizard; each takes focus when it appears. Every failure keeps the values and shows the direct channels. Success only on status received.
-Проверьте отмеченные данные перед отправкой запроса.
-Укажите имя.
-Укажите корректный номер телефона или адрес электронной почты для связи.
-Подтвердите согласие на использование ваших данных для связи по запросу в соответствии с Политикой конфиденциальности.
-errors error summary: browser checks or a 422, in form order; links go to the field (contact → phone, consent → checkbox)
-Не удалось отправить запрос. Попробуйте ещё раз или свяжитесь с нами напрямую.
-+971 52 466 6191
-Написать в WhatsApp
-(откроется в новой вкладке)
-failed failed: status failed, 419, 413, maintenance 503, or the browser was offline
-Сейчас нельзя отправить ещё один запрос. Попробуйте позже или свяжитесь с нами напрямую.
-+971 52 466 6191
-Написать в WhatsApp
-(откроется в новой вкладке)
-rate_limited rate limited: 429
-Мы не смогли подтвердить получение запроса. Перед повторной отправкой вы можете связаться с нами напрямую для проверки.
-+971 52 466 6191
-Написать в WhatsApp
-(откроется в новой вкладке)
-info@summitlegaluae.com
-uncertain uncertain: timeout, network error or unknown answer. A retry reuses the key; an edited request gets a new one
-Пройдите проверку безопасности над кнопкой и отправьте запрос ещё раз.
-turnstile_incomplete the security check needs the visitor (Turnstile interaction)
-Не удалось загрузить проверку безопасности. Проверьте подключение и повторите попытку или свяжитесь с нами напрямую.
-+971 52 466 6191
-Написать в WhatsApp
-(откроется в новой вкладке)
-turnstile_unavailable the security check could not load
-Ваш запрос получен. Мы свяжемся с вами, чтобы уточнить характер вопроса, объём услуг и стоимость. Это сообщение не означает принятия поручения, подтверждения записи или начала контроля юридически значимых сроков.
-Номер запроса SLC-000000-000000
-Отправить новый запрос
-received received, with the reference
-На этом устройстве сохранён незавершённый запрос.
-Восстановить черновик
-Удалить черновик
-restore restore prompt: this device holds a draft (decided at start-up, before the controller loads); Restore, Delete draft, or typing dismisses it
-Actions
-Back, Next and Submit (Back becomes a square arrow under 768px), with “Keep a draft on this device” between them: ticked by default, it says how long the draft is kept; unticking deletes the stored draft at once and nothing is saved again during the visit (the toast reads “Draft saved on this device”). While sending, Submit is busy (aria-disabled, the spinner before the approved busy label) and the steps are inert. Every button is Ink, Secondary or Text (Submit is Ink, never gold); only Back and Next carry arrows (form-back, form-next), as the brief allows.
-Назад
-Далее
-Отправить запрос на консультацию
-default
-Назад
-Далее
-Отправить запрос на консультацию
-hover
-Назад
-Далее
-Отправить запрос на консультацию
-focus-visible
-Назад
-Отправка запроса…
-Загрузка
-sending
-Documents step without a list
-Выберите категорию вопроса на предыдущем шаге, чтобы увидеть документы, которые обычно помогают. Этот шаг можно пропустить.
-no type of matter chosen yet
-Для этой категории нет стандартного списка. Перечислите имеющиеся документы в описании ситуации.
-Other matter / Not sure which category applies
-Contact card
-Telephone, WhatsApp (the approved per-language draft, new tab, never sent; the mark is <x-d2.ui.brand-mark>: Meta's official file, or the marked placeholder until it is supplied), e-mail, the page's own approved languages line and hours sentence with the live status (modules/hours.js). Every icon on one column (D40); plain 20 px icons in ink-2, no tiles. No address, no map. Rows: hover veil, focus ring.
-+971 52 466 6191
-Написать в WhatsApp
-(откроется в новой вкладке)
-info@summitlegaluae.com
-Языки общения: арабский, английский и русский.
-Часы работы: с понедельника по пятницу, с 9:00 до 18:00.
-home (variant home): section 09 of the homepage file, values only (no heading, no labels), languages then business hours
-Контактные данные
-Телефон
-+971 52 466 6191
-WhatsApp
-Напишите нам в WhatsApp
-(откроется в новой вкладке)
-Электронная почта
-info@summitlegaluae.com
-Языки общения: арабский · английский · русский
-Часы работы: с понедельника по пятницу, с 9:00 до 18:00 по времени ОАЭ.
-Вы можете написать в WhatsApp вне рабочего времени. Ответ предоставляется по мере возможности. Отправка сообщения не означает подтверждения записи или принятия срочного вопроса в работу.
-P07 (variant contact): Contact Details, the Contact file's labels, languages, office hours and the after-hours paragraph
-+971 52 466 6191
-Написать в WhatsApp
-(откроется в новой вкладке)
-info@summitlegaluae.com
-Языки общения: арабский, английский и русский.
-Часы работы: с понедельника по пятницу, с 9:00 до 18:00.
-forced hover (telephone) and focus-visible (e-mail)
-Arabic (RTL)
-Step 5 and the contact card in Arabic: the step list runs right to left, arrows mirror, phone and e-mail keep their own left-to-right direction, and every line of mixed-script text takes its own direction. Its WhatsApp controls are shown without their link: a page only links the approved WhatsApp draft of its own language.
-لا ترسل كلمات المرور أو رموز التحقق أو المفاتيح الخاصة أو عبارة استرداد المحفظة الرقمية. ويمكن ترتيب وسيلة مناسبة لإرسال المستندات الحساسة بعد تحديد طبيعة الملف.
-إرسال الطلب لا يعني قبول التكليف أو تأكيد موعد أو بدء متابعة المواعيد القانونية. إذا كانت لديك مهلة قريبة، اتصل مباشرة واذكرها بوضوح، وتحقق من قبول التكليف.
-أوافق على استخدام بياناتي للتواصل بشأن هذا الطلب وفق سياسة الخصوصية.*
-إرسال طلب الاستشارة
-+971 52 466 6191
-تواصل عبر واتساب
-(يُفتح في علامة تبويب جديدة)
-info@summitlegaluae.com
-لغات التواصل: العربية والإنجليزية والروسية.
-ساعات العمل: الاثنين إلى الجمعة، من 9 صباحًا إلى 6 مساءً.
-Document upload
-The consultation form’s one optional attachment: one PDF, JPEG or PNG file of at most 10,000,000 bytes, checked in the browser with the approved messages and again by the server. Design 2.1: a field-like zone (1 px --field-border, radius 10, solid), the functional upload icon, a secondary "Choose a file" button, the accepted file as a plain row (no icon tile, no dot separator).
-App\Design\D2\Attachment::enabled() — OFF: the backend checks the type and size from the content and stores privately, but does not scan uploads, so Design 2 shows no attachment field and no hint (brief §5.2; the Word files' attachment notes), whatever SUMMIT_ATTACHMENTS_ENABLED says. <x-d2.upload.dropzone> stays dormant for when a scanner exists. The specimens below render with specimen=…, never carry name="attachment" and post nothing.
-Live specimen
-Try it: choose or drop a file. A GIF, an empty file, two files or a file over 10 MB shows the matching approved error; an accepted file becomes a chip with Remove Document. Nothing leaves the page.
-Прикрепить документ
-Необязательно
-Можно прикрепить один документ в формате PDF, JPG или PNG размером не более 10 МБ.
-States
-Прикрепить документ
-Необязательно
-Можно прикрепить один документ в формате PDF, JPG или PNG размером не более 10 МБ.
-Перетащите документ сюда
-Выбрать файл
-Idle
-Прикрепить документ
-Необязательно
-Можно прикрепить один документ в формате PDF, JPG или PNG размером не более 10 МБ.
-Перетащите документ сюда
-Выбрать файл
-Hover
-Прикрепить документ
-Необязательно
-Можно прикрепить один документ в формате PDF, JPG или PNG размером не более 10 МБ.
-Перетащите документ сюда
-Выбрать файл
-Keyboard focus (the input lies over the zone)
-Прикрепить документ
-Необязательно
-Можно прикрепить один документ в формате PDF, JPG или PNG размером не более 10 МБ.
-Отпустите, чтобы прикрепить документ
-Выбрать файл
-File dragged over the zone
-Прикрепить документ
-Необязательно
-Можно прикрепить один документ в формате PDF, JPG или PNG размером не более 10 МБ.
-Перетащите документ сюда
-Выбрать файл
-employment-contract-sample.pdf
-PDF
-2,4 МБ
-Удалить документ
-Accepted file
-Прикрепить документ
-Необязательно
-Можно прикрепить один документ в формате PDF, JPG или PNG размером не более 10 МБ.
-Перетащите документ сюда
-Выбрать файл
-Формат документа не поддерживается. Выберите файл PDF, JPG или PNG.
-Error: format (read from the content)
-Прикрепить документ
-Необязательно
-Можно прикрепить один документ в формате PDF, JPG или PNG размером не более 10 МБ.
-Перетащите документ сюда
-Выбрать файл
-Размер документа превышает 10 МБ. Выберите файл меньшего размера или свяжитесь с нами, чтобы согласовать способ передачи.
-Error: larger than 10 MB
-Прикрепить документ
-Необязательно
-Можно прикрепить один документ в формате PDF, JPG или PNG размером не более 10 МБ.
-Перетащите документ сюда
-Выбрать файл
-К запросу можно прикрепить только один документ.
-Error: more than one file
-Прикрепить документ
-Необязательно
-Можно прикрепить один документ в формате PDF, JPG или PNG размером не более 10 МБ.
-Перетащите документ сюда
-Выбрать файл
-Не удалось принять прикреплённый документ. Попробуйте другую копию или отправьте запрос без вложения.
-Error: empty or unreadable file
-Прикрепить документ
-Необязательно
-Можно прикрепить один документ в формате PDF, JPG или PNG размером не более 10 МБ.
-Перетащите документ сюда
-Выбрать файл
-Disabled (while the request is sending)
-Прикрепить документ
-Необязательно
-Можно прикрепить один документ в формате PDF, JPG или PNG размером не более 10 МБ.
-Without JavaScript: the native input, posted with the form
-In the wizard’s Documents step
-Where the control would be in <x-d2.wizard.form> with a scanning backend: step 4 (Documents), after the checklist of documents usually needed (the form then posts multipart/form-data; without JavaScript the step shows the native input only). The wizard appends the file to its FormData, names it on the review, counts it in the request fingerprint, sends a 422 “attachment” back to this field and empties it on “Send a New Enquiry” (d2-upload-reset). Rendered here with the wizard’s own <x-d2.wizard.step>.
-Документы
-Отметьте документы, которые у вас уже есть. Запрос можно отправить и без них.
-Какие документы помогут начать работу
-Трудовой договор и приложения к нему, изменения условий оплаты, комиссионного вознаграждения или льгот.
-Расчётные листки, сведения о переводах, выплатах и удержаниях, остаток неиспользованного отпуска.
-Уведомление об увольнении или заявление об увольнении по собственному желанию, переписка за период предупреждения и документы об отсутствии претензий или расчёте причитающихся сумм.
-Ранее поданная жалоба, вынесенное решение органа или суда, подтверждение вручения и действующие сроки для ответа или оспаривания.
-Прикрепить документ
-Необязательно
-Можно прикрепить один документ в формате PDF, JPG или PNG размером не более 10 МБ.
-Contract
-Input #{prefix}-attachment (name="attachment"), error #{prefix}-attachment-error with .field__error-text, root [data-field="{prefix}-attachment"]: the same contract as every wizard field. Events: d2-upload-change {file} bubbles; d2-upload-reset (or the form’s reset) empties it. attachmentOf(form) in components/upload-checks.js returns the file for a FormData built by hand.
 Inner pages
 The kit every inner page is built from: <x-d2.inner.head>, prose, layout, toc, progress, cta-card and related. Live on /legal-disclaimer/, /privacy-policy/ and /terms-and-conditions/; the generic template falls back to the same parts. Design 2.1: no icon object, eyebrow, large-title collapse, arrow or decorative glyph; headings take the role of their level.
 Head: <x-d2.inner.head>
@@ -5827,6 +5116,8 @@ Document size with the meta slot (legal pages)
 Взыскание долгов и дела по чекам в ОАЭ
 Очередное обещание заплатить не даёт ответа на вопросы, когда вы получите причитающиеся вам средства и как защитить свои права. Мы изучаем основание возникновения долга, непогашенную сумму, документы и обеспечение, а затем оцениваем целесообразность урегулирования или предъявления официальных требований, прежде чем вы понесёте дополнительные расходы.
 Запросить юридическую консультацию
+– WhatsApp
+(откроется в новой вкладке)
 Написать в WhatsApp
 (откроется в новой вкладке)
 Display size with the actions slot (service hero: gold hero primary, WhatsApp)
@@ -5862,7 +5153,7 @@ Approved DOCX structures in their stored order: section headings (the role of th
 Summit — компания, оказывающая юридические консультационные услуги. Работы, их результаты и вознаграждение определяются в согласованном поручении. Ведение дела в суде или представительство, для которого требуется адвокат, осуществляют адвокаты, имеющие соответствующую лицензию. Работы, требующие отдельной профессиональной регистрации или специальных знаний, при необходимости организуются с участием квалифицированного специалиста.
 Эта информация носит общий характер и не заменяет анализа обстоятельств, документов, применимого права, компетенции соответствующих органов и действующих сроков. Варианты действий и результаты зависят от конкретного дела. Описание услуги не является гарантией определённого решения, взыскания средств или согласования со стороны внешнего органа.
 info@summitlegaluae.com
-+971 52 466 6191
++971524666191
 Связаться с Summit
 Every block type (section headings at level 4 here)
 1. المعلومات العامة والاستشارة الخاصة
@@ -5895,7 +5186,7 @@ Every block type (section headings at level 4 here)
 سَمِت شركة استشارات قانونية. تُحدد الأعمال والمخرجات والأتعاب في التكليف المتفق عليه، ويجري الترافع أو التمثيل الذي يتطلب محاميًا بواسطة محامين مرخصين. وتُنسق الأعمال التي تستلزم قيدًا أو اختصاصًا مهنيًا مستقلًا مع المختص المؤهل حيث يلزم.
 هذه معلومات عامة، ولا تغني عن مراجعة وقائع المسألة ومستنداتها والقانون والجهة والمواعيد المنطبقة عليها. تختلف الخيارات والنتائج بحسب كل ملف، ولا يُعد عرض الخدمة ضمانًا لقرار أو تحصيل أو موافقة من جهة خارجية.
 info@summitlegaluae.com
-+971 52 466 6191
++971524666191
 تواصل مع سَمِت
 Other direction (approved copy of the other script)
 Table of contents: <x-d2.inner.toc>
@@ -5932,6 +5223,8 @@ Other direction: the current bar sits on the inline-start edge
 6. Официальные источники и связанные сайты
 Расскажите нам о вашем вопросе
 Запросить юридическую консультацию
+– WhatsApp
+(откроется в новой вкладке)
 Написать в WhatsApp
 (откроется в новой вкладке)
 Side rail with an aside (service pages, from 1280 px): the list above the CTA, here an action group under a hairline, not a card in the column (approved heading, here a label: the page’s final panel carries it as its H2, so heading navigation lists it once; and the actions at the rail’s full width, the standard 44 px buttons, one line in every language; the telephone and e-mail are in the final panel). The rail is capped to the window (here to a fixed height) and the list scrolls inside it, the current link kept in view, so the actions always show in full. On the Knowledge Centre below 768 px each guide starts as its card (category and title) with the proposed "Read the full guide" disclosure; a link to the guide or to an anchor inside it opens it first.
@@ -5944,24 +5237,30 @@ Sticky in the layout’s side column from 1280 px. Request (ink: gold is the pag
 Расскажите нам о вашем вопросе
 Направьте краткое описание ситуации и основной документ, если он имеется. Укажите назначенное заседание или действующий срок. До начала работы мы разъясним объём консультации, её стоимость и перечень необходимых документов.
 Запросить юридическую консультацию
+– WhatsApp
+(откроется в новой вкладке)
 Написать в WhatsApp
 (откроется в новой вкладке)
-+971 52 466 6191
++971524666191
 info@summitlegaluae.com
 Часы работы: с понедельника по пятницу, с 9:00 до 18:00 по времени ОАЭ.
 Услуга доступна на арабском, английском и русском языках. Отправка обращения не означает принятия поручения или начала контроля юридически значимых сроков.
 With an approved heading, text, note, e-mail row and the S06 pre-fill
 Запросить юридическую консультацию
+– WhatsApp
+(откроется в новой вкладке)
 Написать в WhatsApp
 (откроется в новой вкладке)
-+971 52 466 6191
++971524666191
 Minimal: default labels, no heading
 تحدث معنا عن ملفك
 أرسل ملخصًا للموضوع والمستند الأساسي إن توفر، واذكر أي جلسة أو مهلة قائمة. نوضح لك نطاق الاستشارة وأتعابها والمستندات اللازمة قبل بدء العمل.
 اطلب استشارة قانونية
+– واتساب
+(يُفتح في علامة تبويب جديدة)
 تواصل عبر واتساب
 (يُفتح في علامة تبويب جديدة)
-+971 52 466 6191
++971524666191
 ساعات العمل: من الاثنين إلى الجمعة، من 9 صباحًا إلى 6 مساءً بتوقيت الإمارات.
 Other direction
 Related: <x-d2.inner.related>
@@ -5977,10 +5276,11 @@ Cards: two related guides of S01
 === footer ===
 Summit Legal Consultancy
 Юридические консультации для частных лиц, компаний, инвесторов и резидентов в ОАЭ на арабском, английском и русском языках.
-+971 52 466 6191
++971524666191
 Написать в WhatsApp
 (откроется в новой вкладке)
 info@summitlegaluae.com
+www.summitlegaluae.com
 Часы работы: с понедельника по пятницу, с 9:00 до 18:00.
 Направления практики
 Взыскание долгов и дела по чекам
@@ -5992,12 +5292,12 @@ info@summitlegaluae.com
 Налоговые споры и соблюдение налоговых требований
 Семейное право и завещания
 Комплаенс и регуляторные вопросы
-Юридический перевод
 Услуги для бизнеса
+Все направления практики
 Правовая информация
 Центр правовой информации
 Частые вопросы
-Примеры из практики
+Юридические кейсы
 Полезные ссылки
 О нас
 Связаться с нами
@@ -6026,6 +5326,6 @@ uaetaxdisputes.com
 (откроется в новой вкладке)
 © {{YEAR}} Summit Legal Consultancy. Все права защищены.
 Выбрать язык
-Арабский
-Английский
+English
+العربية
 Русский

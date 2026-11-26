@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Support\Languages;
 use App\Support\Seo;
+use App\Support\SitePages;
 use App\Support\SiteUrl;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -11,40 +12,66 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
 
-/** Root language chooser, XML sitemap, web manifest, offline page and styleguide. */
+/** Root redirect, XML sitemap, web manifest, offline page and styleguide. */
 final class SiteController extends Controller
 {
-    /** "/": a 302 to the language the visitor chose before (cookie only), otherwise a chooser. */
-    public function root(Request $request): RedirectResponse|Response
+    /**
+     * "/" (client PDF item 29): a permanent 301 to the default language's home page (Settings, Languages: English,
+     * /en/), for every visitor and every crawler alike. Never by Accept-Language, IP or cookie, so the answer is the
+     * same for everyone and cacheable. The target is an existing page that never redirects back (no loop); the
+     * query string is kept (campaign tags of a shared link survive the hop).
+     */
+    public function root(Request $request): RedirectResponse
     {
-        Languages::filter(); // a language that is off (Settings, Languages) is neither offered nor followed
-        $remembered = (string) $request->cookie(config('summit.locale_cookie'));
-        if (array_key_exists($remembered, config('summit.locales'))) {
-            return redirect()->to(SiteUrl::home($remembered), 302);
-        }
-        app()->setLocale(config('summit.default_locale'));
+        Languages::filter(); // a language that is off (Settings, Languages) is never the target
+        // A root-relative Location ("/en/"), never built from the Host header (SiteUrl::redirectTarget()), and the clean
+        // folder address, never under the front controller: "/index.php" goes to /en/ too (client PDF item 20).
+        $target = SiteUrl::redirectTarget(SiteUrl::pagePath('P01', Languages::defaultLocale()), $request->getQueryString());
 
-        return response()->view('pages.chooser', [
-            'locale' => config('summit.default_locale'),
-            'dir' => 'ltr',
-            'seo' => Seo::make(ui('brand.name'), null, index: false, path: '/en/'),
-        ]);
+        return new RedirectResponse($target, 301);
     }
 
-    /** Released pages only (the three homepages in Phase 1), with reciprocal alternates. */
+    /**
+     * /sitemap.xml (client PDF item 23): every current page (App\Support\SitePages: the home page, P02-P08, L01, L02 and
+     * the published practice areas, from the content, so a removed service drops out by itself) in each language in
+     * which it exists, on the production host, with reciprocal hreflang alternates and x-default. Never the 404,
+     * calculators, styleguide, offline, admin or preview addresses. The file itself is not indexed.
+     */
     public function sitemap(): Response
     {
         Languages::apply();
-        $released = [['code' => 'P01', 'path' => '']];
-        foreach (config('summit.pages') as $code => $page) {
-            if ($code !== 'P01' && ($page['built'] ?? false)) {
-                $released[] = ['code' => $code, 'path' => $page['path']];
-            }
-        }
 
         return response()
-            ->view('sitemap', ['pages' => $released, 'locales' => config('summit.locales')])
-            ->header('Content-Type', 'application/xml; charset=UTF-8');
+            ->view('sitemap', [
+                'pages' => SitePages::all(),
+                'locales' => config('summit.locales'),
+                'default' => config('summit.default_locale'),
+            ])
+            ->header('Content-Type', 'application/xml; charset=UTF-8')
+            ->header('X-Robots-Tag', 'noindex');
+    }
+
+    /**
+     * /robots.txt (client PDF item 24; it replaces the static public/robots.txt). On the production site, exactly:
+     *
+     *     User-agent: *
+     *     Allow: /
+     *
+     *     Sitemap: https://www.summitlegaluae.com/sitemap.xml
+     *
+     * No Disallow rule (the admin and the previews send their own "noindex" header). When the site may not be indexed
+     * (Seo::siteIndexable(): SUMMIT_NOINDEX, on by default with APP_ENV=staging, or the SEO screen's switch), crawling
+     * stays allowed, so crawlers can read the noindex of every page and response, and no sitemap is named.
+     */
+    public function robots(): Response
+    {
+        $lines = ['User-agent: *', 'Allow: /'];
+        if (Seo::siteIndexable()) {
+            $lines[] = '';
+            $lines[] = 'Sitemap: '.SiteUrl::canonical('sitemap.xml');
+        }
+
+        return response(implode("\n", $lines)."\n", 200, ['Content-Type' => 'text/plain; charset=UTF-8']);
     }
 
     public function manifest(): JsonResponse

@@ -4,8 +4,6 @@ namespace App\Filament\Cms\Pages\Settings;
 
 use App\Content\Cms\Editing\Limits;
 use App\Content\Cms\Tree;
-use App\Filament\Cms\Forms\CmsForm;
-use App\Filament\Cms\Forms\Translatable;
 use App\Filament\Cms\Pages\Settings\Concerns\EditsSettings;
 use App\Filament\Cms\Support\CmsLabels;
 use App\Settings\ContactSettings;
@@ -22,10 +20,12 @@ use Illuminate\Support\HtmlString;
 use UnitEnum;
 
 /**
- * WhatsApp (docs/briefs/design-2.1-and-admin-cms.md §12.3; App\Settings\WhatsAppSettings): the WA01 draft per language.
- * It is THE one draft every WhatsApp control of the site opens (a DOCX rule; never sent automatically), so the screen
- * shows the final link per language exactly as App\Content\ContentRepository::whatsappUrl() builds it:
- * https://wa.me/<the WhatsApp number of General and Contact>?text=<the draft, URL-encoded>.
+ * WhatsApp (docs/briefs/design-2.1-and-admin-cms.md §12.3; App\Settings\WhatsAppSettings): the one WhatsApp message.
+ * Client PDF item 6: one standard message, in English, on every page in every language (no Arabic or Russian
+ * version), for every WhatsApp control of the site (never sent automatically). The screen edits that one message and
+ * stores it for en, ar and ru alike (the settings keep their per-language shape), and shows the final link exactly as
+ * App\Content\ContentRepository::whatsappUrl() builds it: https://wa.me/<the WhatsApp number of General and
+ * Contact>?text=<the message, URL-encoded>.
  */
 class WhatsApp extends SettingsPage
 {
@@ -61,17 +61,16 @@ class WhatsApp extends SettingsPage
     public function form(Schema $schema): Schema
     {
         return $schema->columns(1)->components([
-            CmsForm::localeSwitcher(),
             Section::make((string) __('cms_site.whatsapp.draft'))
                 ->description((string) __('cms_site.whatsapp.draft_hint'))
                 ->schema([
-                    Translatable::make('draft', fn (string $locale) => Textarea::make($locale)->rows(4)->autosize()->required()->live(onBlur: true),
-                        (string) __('cms_site.whatsapp.draft_label'), self::limit()),
+                    // one message, written in English for every language (lang="en": the e2e flow finds it so too)
+                    Textarea::make('message')->label((string) __('cms_site.whatsapp.draft_label'))->rows(4)->autosize()->required()
+                        ->maxLength(self::limit())->live(onBlur: true)->extraInputAttributes(['lang' => 'en', 'dir' => 'ltr']),
                 ]),
             Section::make((string) __('cms_site.whatsapp.preview'))
                 ->description((string) __('cms_site.whatsapp.preview_hint'))
-                ->schema(array_map(fn (string $locale) => Text::make(fn (Get $get) => self::previewLine($locale, $get('draft.'.$locale)))
-                    ->extraAttributes(['class' => 'cms-wa-preview']), Tree::LOCALES)),
+                ->schema([Text::make(fn (Get $get) => self::previewLine($get('message')))->extraAttributes(['class' => 'cms-wa-preview'])]),
         ]);
     }
 
@@ -86,10 +85,10 @@ class WhatsApp extends SettingsPage
         return 'https://wa.me/'.$number.'?text='.rawurlencode($draft);
     }
 
-    private static function previewLine(string $locale, mixed $draft): HtmlString
+    private static function previewLine(mixed $draft): HtmlString
     {
         $link = self::link(is_string($draft) ? $draft : null);
-        $label = '<span class="cms-wa-preview__lang">'.e(CmsLabels::locale($locale)).'</span>';
+        $label = '<span class="cms-wa-preview__lang">'.e(implode(' · ', array_map(fn (string $l) => CmsLabels::locale($l), Tree::LOCALES))).'</span>';
         $value = $link === null
             ? '<span class="cms-wa-preview__missing">'.e((string) __('cms.locale.missing')).'</span>'
             : '<a class="cms-wa-preview__link" href="'.e($link).'" target="_blank" rel="noopener" dir="ltr">'.e($link).'</a>';
@@ -114,24 +113,22 @@ class WhatsApp extends SettingsPage
         return ['draft' => (string) __('cms_site.whatsapp.draft')];
     }
 
+    /** The one message: the English draft (the others are the same since client PDF item 6). */
     protected function settingsToForm(array $data): array
     {
-        $data['draft'] = array_merge(array_fill_keys(Tree::LOCALES, null), (array) ($data['draft'] ?? []));
+        $draft = (array) ($data['draft'] ?? []);
+        $data['message'] = $draft['en'] ?? (reset($draft) ?: null);
+        unset($data['draft']);
 
         return $data;
     }
 
-    /** The drafts in en, ar, ru order (the stored order), trimmed of surrounding blank lines only. */
+    /** The message for en, ar and ru alike (the stored order), trimmed of surrounding blank lines only. */
     protected function formToSettings(array $data): array
     {
-        $draft = [];
-        foreach (Tree::LOCALES as $locale) {
-            $text = $data['draft'][$locale] ?? null;
-            if (is_string($text) && trim($text) !== '') {
-                $draft[$locale] = str_replace("\r\n", "\n", trim($text));
-            }
-        }
-        $data['draft'] = $draft;
+        $text = is_string($data['message'] ?? null) ? str_replace("\r\n", "\n", trim($data['message'])) : '';
+        $data['draft'] = $text === '' ? [] : array_fill_keys(Tree::LOCALES, $text);
+        unset($data['message']);
 
         return $data;
     }

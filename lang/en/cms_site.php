@@ -347,7 +347,7 @@ return [
         'enabled' => 'Languages that are on',
         'enabled_hint' => 'English is always on: every text falls back to it.',
         'default' => 'Default language',
-        'default_hint' => 'Search engines get it as the x-default language link, and pages that are not found use it. The page at / stays the language chooser.',
+        'default_hint' => 'Search engines get it as the x-default language link, and pages that are not found use it. The address / sends every visitor to its home page (a permanent redirect).',
         'suggestion' => 'Language-suggestion bar',
         'suggestion_hint' => 'Design 1 offers the page in the language the browser prefers; it never redirects. Design 2 has no suggestion bar.',
         'suggestion_env' => 'As the server setting SUMMIT_LANGUAGE_SUGGESTION (currently: :state)',
@@ -497,7 +497,7 @@ return [
         'phone' => 'Phone',
         'phone_hint' => 'The number as shown and as dialled must be the same number.',
         'phone_display' => 'Phone as shown',
-        'phone_display_hint' => 'International format with spaces, for example +971 52 466 6191.',
+        'phone_display_hint' => 'Shown exactly as written, without spaces, dashes or brackets: +971524666191 (client PDF item 5).',
         'phone_href' => 'Phone link',
         'phone_href_hint' => 'tel: and the digits without spaces, for example tel:+971524666191.',
         'email' => 'E-mail',
@@ -539,12 +539,12 @@ return [
 
     'whatsapp' => [
         'title' => 'WhatsApp',
-        'subheading' => 'The WA01 message: the one draft every WhatsApp button and link of the site opens. Visitors send it themselves; it is never sent automatically.',
+        'subheading' => 'The one WhatsApp message every WhatsApp button and link of the site opens, in English on English, Arabic and Russian pages alike (client decision, final changes item 6). Visitors send it themselves; it is never sent automatically.',
         'draft' => 'WA01 message',
-        'draft_hint' => 'One message per language, used everywhere on the site.',
-        'draft_label' => 'Message',
+        'draft_hint' => 'One message in English, used everywhere on the site in every language.',
+        'draft_label' => 'Message (English)',
         'preview' => 'Final links',
-        'preview_hint' => 'What every WhatsApp control opens, per language: the number of General and Contact with the message. Updates when you leave the field.',
+        'preview_hint' => 'What every WhatsApp control opens on every page in every language: the number of General and Contact with the message. Updates when you leave the field.',
     ],
 
 ];

@@ -4,14 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Content\ContentRepository;
 use App\Support\Seo;
+use App\Support\SitePages;
 use App\Support\SiteUrl;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 /**
- * Registered routes whose templates arrive in Phase 2 (P02–P08, L01, L02, S01–S11).
- * They render an honest, noindex preview: approved breadcrumb, H1 and introduction only.
- * Nothing is invented and nothing is silently redirected to the homepage.
+ * The registered pages P02-P08, L01, L02 and the practice areas (S01-S11), rendered by Design 2's full templates
+ * (d2::pages.preview chooses the template from the route). Each is a current, indexable page with its canonical URL
+ * and hreflang links (client PDF items 21, 22); the controller gives the approved SEO title, meta description,
+ * breadcrumb, H1 and introduction. Nothing is invented and nothing is silently redirected to the homepage.
  */
 final class PagePreviewController extends Controller
 {
@@ -53,8 +55,12 @@ final class PagePreviewController extends Controller
      */
     private function render(array $page, array $content, ?string $nav, array $crumbs): View
     {
+        // Design 2 renders every registered page in full: each one is a current page of the site with its own
+        // canonical URL (client PDF item 21) when it exists in this language (App\Support\SitePages).
+        $entry = SitePages::current();
+
         return view('pages.preview', [
-            'seo' => Seo::make($page['seo_title'] ?? ($page['h1'] ?? ui('brand.name')), $page['meta_description'] ?? null, index: false),
+            'seo' => Seo::make($page['seo_title'] ?? ($page['h1'] ?? ui('brand.name')), $page['meta_description'] ?? null, index: SitePages::existsIn($entry, app()->getLocale())),
             'pageKey' => 'preview',
             'navCurrent' => $nav,
             'h1' => $page['h1'] ?? '',
