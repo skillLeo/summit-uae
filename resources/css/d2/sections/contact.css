@@ -61,6 +61,13 @@
     margin-block-start: var(--s-6);
   }
 
+  /* Phones: the WhatsApp button spans the column, like the hero's pair. */
+  @media (width < 768px) {
+    .contact-section__actions {
+      display: grid;
+    }
+  }
+
   @media (width >= 1024px) {
     .contact-section--whatsapp .contact-section__grid {
       grid-template-columns: repeat(12, minmax(0, 1fr));

@@ -180,6 +180,8 @@
     }
 
     .inner-head__actions > .btn {
+      --btn-pad: var(--s-4);
+
       padding-block: var(--s-3);
       text-wrap: balance;
     }

@@ -112,11 +112,12 @@
     --wa-placeholder: var(--on-dark-3);
   }
 
-  /* gold: the hero's primary button only (D06). Flat, never a gradient. */
+  /* gold: the main contact button ("Request a Legal Consultation"). Flat, never a gradient; hover lightens it. It
+     carries no WhatsApp mark (the green button beside it does). */
   :is(.btn--gold, .btn--signature) {
     --btn-bg: var(--gold);
     --btn-fg: var(--ink);
-    --btn-wash: var(--hover-tint);
+    --btn-wash: var(--gold-hover-light);
     --wa-light: block;
     --wa-dark: none;
     --wa-placeholder: var(--ink-3);
@@ -142,12 +143,50 @@
     --btn-bg: var(--whatsapp-fill);
     --btn-fg: var(--ink);
     --btn-edge: transparent;
-    --btn-wash: var(--whatsapp-wash);
+    --btn-wash: var(--whatsapp-hover);
     --wa-light: none;
     --wa-dark: block;
     --wa-placeholder: var(--ink-2);
+  }
 
-    box-shadow: var(--shadow-whatsapp);
+  /* Meta's glyph shown in ink on the green (its white file, same shape, drawn ink: 9.9:1, never white on green). */
+  .btn.btn--whatsapp .brand-mark__img {
+    filter: brightness(0) invert(4.3%);
+  }
+
+  /*
+   * The two contact buttons share one look (owner, 2026-11-26): gold "Request a Legal Consultation" and green "Contact
+   * Us on WhatsApp". 48 px (52 px at the hero sizes 52 / 56), 8 px radius, 28 px sides, a 16/500 label, a 20 px icon
+   * 10 px from it, and the same soft shadow on both (PDF item 6). Hover: the fill a little lighter (gold) or deeper
+   * (green) as the wash, the shadow a little stronger; press scale(.98); no lift, no gradient.
+   */
+  :is(.btn--gold, .btn--signature, .btn.btn--whatsapp) {
+    --btn-h: var(--cta-h);
+    --btn-pad: var(--cta-pad);
+
+    gap: var(--cta-gap);
+    border-radius: var(--radius-cta);
+    box-shadow: var(--shadow-cta);
+    font-size: var(--fs-minor);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-minor);
+    transition:
+      scale var(--dur-press) var(--ease-out),
+      box-shadow var(--dur-hover) var(--ease-out);
+  }
+
+  :is(.btn--gold, .btn--signature, .btn.btn--whatsapp):is(.btn--52, .btn--56) {
+    --btn-h: var(--button-h-hero);
+  }
+
+  @media (hover: hover) {
+    :is(.btn--gold, .btn--signature, .btn.btn--whatsapp):hover:not([aria-disabled="true"]) {
+      box-shadow: var(--shadow-cta-hover);
+    }
+  }
+
+  :is(.btn--gold, .btn--signature, .btn.btn--whatsapp).is-hover {
+    box-shadow: var(--shadow-cta-hover);
   }
 
   /* text (Design 2.0: ghost): an underlined label, no fill, no edge, no side padding. */

@@ -14,7 +14,7 @@
  *             ends, onAdvance() brings up the next document, which settles again, and so on.
  * Timer handle: { pause(), play(), cancel(), finished: Promise } (a WAAPI Animation fits).
  */
-export const DWELL_MS = 2800;
+export const DWELL_MS = 2000;
 
 /**
  * @param {{

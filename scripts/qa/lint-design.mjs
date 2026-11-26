@@ -1744,7 +1744,8 @@ export function pageLint(o) {
             const problems = [];
             const differs = compareWhatsApp(href, expected);
             if (differs) problems.push(differs);
-            if (!marks.length) problems.push('no [data-brand="whatsapp"] mark');
+            // The gold main contact button carries no mark: the green WhatsApp button beside it does (owner, 2026-11-26).
+            if (!marks.length && !a.matches('.btn--gold, .btn--signature')) problems.push('no [data-brand="whatsapp"] mark');
             else if (linkShown && !marks.some((m) => m.getClientRects().length > 0 && m.checkVisibility({ opacityProperty: true, visibilityProperty: true }) && m.getBoundingClientRect().width > 0)) problems.push('the WhatsApp mark is not visible');
             // A shown link counts when the placeholder is what it shows (with one of Meta's two files dropped, the other
             // surface's slot stays a hidden placeholder); a hidden link (closed sheet) counts when it holds one.

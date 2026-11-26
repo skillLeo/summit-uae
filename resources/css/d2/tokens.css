@@ -53,6 +53,17 @@
   --whatsapp-fill: #25D366;
   --whatsapp-wash: rgb(11 11 12 / 0.1);       /* hover: the green 10% deeper */
   --shadow-whatsapp: 0 1px 2px rgb(11 11 12 / 0.1), 0 4px 12px -2px rgb(18 140 76 / 0.28);
+  /* The two contact buttons (owner, 2026-11-26): the gold "Request a Legal Consultation" and the green "Contact Us on
+     WhatsApp" share one look: 8 px radius, 28 px sides, a 16/500 label, a 20 px icon 10 px from it, and the same soft
+     shadow (PDF item 6), a little stronger on hover. Hover lightens the gold and deepens the green; no lift. */
+  --gold-hover-light: #D9BE8A;  /* hover of the gold contact button (ink text 10.6:1) */
+  --whatsapp-hover: #1FBF5B;    /* hover of the WhatsApp button (ink text 8.1:1) */
+  --radius-cta: 8px;
+  --cta-pad: 28px;
+  --cta-gap: 10px;
+  --cta-h: 48px;                /* 52 px in a hero (--button-h-hero) */
+  --shadow-cta: 0 1px 2px rgb(11 11 12 / 0.08), 0 4px 12px rgb(11 11 12 / 0.08);
+  --shadow-cta-hover: 0 1px 3px rgb(11 11 12 / 0.1), 0 6px 16px rgb(11 11 12 / 0.12);
   --success-on-dark: #5CC08A;   /* status dots and icons on dark (never text on light): 8.77:1 */
   --warning-on-dark: #E8B04F;   /* status dots and icons on dark: 10.08:1 */
   --danger-on-dark: #F0786C;    /* status dots and icons on dark: 7.13:1 */

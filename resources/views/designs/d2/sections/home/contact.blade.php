@@ -48,7 +48,7 @@
                         @endif
                     </div>
                     <div class="contact-section__actions">
-                        <x-d2.ui.button variant="whatsapp" size="52" :href="setting('whatsapp_url')">{{ ui('cta.whatsapp') }}</x-d2.ui.button>
+                        <x-d2.ui.button variant="whatsapp" size="48" :href="setting('whatsapp_url')">{{ ui('cta.whatsapp') }}</x-d2.ui.button>
                     </div>
                 </div>
                 <div class="contact-section__aside">

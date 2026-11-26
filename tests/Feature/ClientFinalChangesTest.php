@@ -101,7 +101,9 @@ final class ClientFinalChangesTest extends TestCase
         $home = $this->html('/ar/');
         $this->assertMatchesRegularExpression('#<a class="btn btn--whatsapp btn--48 icon-btn wa-fab[^"]*"#', $home);
         $css = (string) file_get_contents(resource_path('css/d2/components/button.css'));
-        $this->assertMatchesRegularExpression('/\.btn\.btn--whatsapp \{[^}]*--btn-bg: var\(--whatsapp-fill\);[^}]*--btn-fg: var\(--ink\);[^}]*--wa-light: none;\s*--wa-dark: block;[^}]*box-shadow: var\(--shadow-whatsapp\);/s', $css);
+        $this->assertMatchesRegularExpression('/\.btn\.btn--whatsapp \{[^}]*--btn-bg: var\(--whatsapp-fill\);[^}]*--btn-fg: var\(--ink\);[^}]*--wa-light: none;\s*--wa-dark: block;/s', $css);
+        // One soft shadow, shared with the gold contact button (owner, 2026-11-26).
+        $this->assertMatchesRegularExpression('/:is\(\.btn--gold, \.btn--signature, \.btn\.btn--whatsapp\) \{[^}]*box-shadow: var\(--shadow-cta\);/s', $css);
         $this->assertStringContainsString('--whatsapp-fill: #25D366;', (string) file_get_contents(resource_path('css/d2/tokens.css')));
     }
 

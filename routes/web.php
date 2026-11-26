@@ -11,6 +11,7 @@ use App\Http\Middleware\EnsureConsultationForm;
 use App\Http\Middleware\EnsureTrailingSlash;
 use App\Http\Middleware\SetLocale;
 use App\Support\SiteUrl;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Route;
 
 // The published slugs of the CMS (pages, practice areas) decide the addresses below (App\Content\Cms\Editing\Slugs; brief
@@ -22,6 +23,18 @@ Route::get('/', [SiteController::class, 'root'])->name('root');
 Route::get('/sitemap.xml', [SiteController::class, 'sitemap'])->name('sitemap');
 // Production rules or the test site's (client PDF item 24); replaces the static public/robots.txt.
 Route::get('/robots.txt', [SiteController::class, 'robots'])->name('robots');
+
+// The old static summitlegaluae.com (before the launch) served every page also as …/index.html (200), and an icon at
+// /favicon-192.png. Old links and bookmarks to them keep working with a 301 to the page's folder address (the new
+// site's address of the same page) and to the current icon. Root-relative targets (SiteUrl::redirectTarget). The other
+// old addresses (/en/…, /ar/…, /ru/…) are the new site's own: see tests/Feature/LegacyUrlsTest.php and
+// docs/launch/production-launch-checklist.md.
+Route::get('{legacyIndex}', function (string $legacyIndex) {
+    $folder = substr($legacyIndex, 0, -strlen('index.html'));
+
+    return new RedirectResponse(SiteUrl::redirectTarget($folder === '' ? config('summit.default_locale', 'en').'/' : $folder), 301);
+})->where('legacyIndex', '(?:[a-z0-9-]+/)*index\\.html');
+Route::get('/favicon-192.png', fn () => new RedirectResponse(SiteUrl::redirectTarget('icons/icon-192.png'), 301));
 
 Route::prefix('{locale}')
     ->where(['locale' => implode('|', array_keys(config('summit.locales')))])

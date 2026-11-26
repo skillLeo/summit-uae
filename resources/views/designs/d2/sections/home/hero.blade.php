@@ -59,8 +59,8 @@
                 @endif
             </div>
             <div class="hero__actions">
-                {{-- The page's one Gold button (flat --gold, D06); every other button on the home is Ink or Secondary.
-                     Both CTAs are the 52 px hero size (24 px sides, a 16/500 label: brief §3.5). --}}
+                {{-- The shared contact pair (owner, 2026-11-26): the gold main button first, then the green WhatsApp
+                     button; both 52 px, one shared look (components/button.css). Both open WhatsApp (PDF item 6). --}}
                 <x-d2.ui.button class="hero__cta" variant="gold" size="52" :href="SiteUrl::consultation()">{{ ui('cta.request_consultation') }}</x-d2.ui.button>
                 <x-d2.ui.button class="hero__cta" variant="whatsapp" size="52" :href="setting('whatsapp_url')">{{ ui('cta.whatsapp') }}</x-d2.ui.button>
             </div>

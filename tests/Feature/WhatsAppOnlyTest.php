@@ -134,7 +134,12 @@ final class WhatsAppOnlyTest extends TestCase
                     $this->assertStringContainsString('href="'.e($wa).'"', $attributes, "{$path}: the link opens WhatsApp");
                     $this->assertStringContainsString('target="_blank"', $attributes, $path);
                     $this->assertStringContainsString('rel="noopener noreferrer"', $attributes, $path);
-                    $this->assertStringContainsString('data-brand="whatsapp"', $body, "{$path}: the WhatsApp mark");
+                    // The gold main contact button carries no mark (the green button beside it does: owner, 2026-11-26).
+                    if (str_contains($attributes, 'btn--gold')) {
+                        $this->assertStringNotContainsString('data-brand="whatsapp"', $body, "{$path}: no WhatsApp mark on the gold button");
+                    } else {
+                        $this->assertStringContainsString('data-brand="whatsapp"', $body, "{$path}: the WhatsApp mark");
+                    }
                     // PDF item 32: the accessible name says where it goes (the brand's name, visually hidden)
                     $this->assertStringContainsString('<span class="sr-only"> – '.($locale === 'ar' ? 'واتساب' : 'WhatsApp').'</span>', $body, "{$path}: WhatsApp in the name");
                 }

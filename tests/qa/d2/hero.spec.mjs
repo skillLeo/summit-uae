@@ -18,7 +18,7 @@
  * in from the inline-end side mirrored in RTL (from the right in LTR, from the left in RTL) · reduced motion: the
  * first frame already shows the final composition and the stage is pixel-identical in the first painted frame and
  * at 3000 ms (no autoplay under reduced motion).
- * The owner's autoplay: the first automatic switch comes a dwell (HeroStage::DWELL, 2.8 s) after the top document's
+ * The owner's autoplay: the first automatic switch comes a dwell (DWELL_MS, 2 s) after the top document's
  * callouts are drawn (about 2.3 s after the clock's origin), so every sample up to 3000 ms still shows the composed
  * pile with the first document on top; the harness's pointer stays off the stage (no pointer depth).
  */

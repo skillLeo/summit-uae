@@ -42,7 +42,8 @@
     // A link that opens WhatsApp (every "Request a Legal Consultation" since the form was removed: client PDF item 7)
     // carries the WhatsApp mark and opens in a new tab like the whatsapp variant.
     $opensWhatsApp = \App\Support\SiteUrl::isWhatsApp(is_string($href) ? $href : null);
-    $icon ??= $variant === 'whatsapp' || $opensWhatsApp ? 'whatsapp' : null;
+    // The gold contact button carries no mark: the green WhatsApp button beside it does (owner, 2026-11-26).
+    $icon ??= $variant === 'whatsapp' || ($opensWhatsApp && ! in_array($variant, ['gold', 'signature'], true)) ? 'whatsapp' : null;
     // D03: arrows and "go" chevrons are decoration in a button; the allowed ones have explicit names (Icons::ALIASES).
     $icon = is_string($icon) && $icon !== '' && ! \App\Design\D2\Icons::isArrow($icon) ? $icon : null;
     $iconEnd = is_string($iconEnd) && $iconEnd !== '' && ! \App\Design\D2\Icons::isArrow($iconEnd) ? $iconEnd : null;

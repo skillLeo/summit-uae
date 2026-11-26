@@ -35,8 +35,13 @@ final class CleanUrlsTest extends TestCase
     {
         $this->get('/en/resources/')->assertOk();
         $this->get('/en/resources')->assertStatus(301)->assertHeader('Location', '/en/resources/');
-        foreach (['/14-resources.html', '/en/14-resources.html', '/en/resources/index.html', '/en/index.html', '/index.html', '/en/practice-areas/labor-law.html'] as $uri) {
+        foreach (['/14-resources.html', '/en/14-resources.html', '/en/practice-areas/labor-law.html'] as $uri) {
             $this->get($uri)->assertNotFound();
+        }
+        // The old static site's …/index.html copies are never served: a 301 to the folder address (the launch keeps
+        // old links: tests/Feature/LegacyUrlsTest.php).
+        foreach (['/en/resources/index.html' => '/en/resources/', '/en/index.html' => '/en/', '/index.html' => '/en/'] as $uri => $folder) {
+            $this->get($uri)->assertStatus(301)->assertHeader('Location', $folder);
         }
     }
 

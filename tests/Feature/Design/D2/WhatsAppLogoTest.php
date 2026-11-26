@@ -78,9 +78,10 @@ final class WhatsAppLogoTest extends TestCase
     /** @return list<string> the inner HTML of every wa.me / api.whatsapp.com link */
     private function whatsappLinks(string $html): array
     {
-        preg_match_all('#<a\b[^>]*href="https://(?:wa\.me|api\.whatsapp\.com)/[^"]*"[^>]*>(.*?)</a>#s', $html, $m);
+        preg_match_all('#<a\b([^>]*)href="https://(?:wa\.me|api\.whatsapp\.com)/[^"]*"[^>]*>(.*?)</a>#s', $html, $m, PREG_SET_ORDER);
 
-        return $m[1];
+        // The gold main contact button carries no mark: the green WhatsApp button beside it does (owner, 2026-11-26).
+        return array_values(array_map(fn ($x) => $x[2], array_filter($m, fn ($x) => ! str_contains($x[0], 'btn--gold'))));
     }
 
     public function test_until_metas_files_are_dropped_every_mark_is_the_marked_placeholder(): void

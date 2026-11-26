@@ -47,7 +47,7 @@
           "none",
           "inherit",
           "var(--shadow-overlay)",
-          "/^var\\(--(shadow-(1|2|3|4|header|pill|inset-input|kbd|kbd-night|night|night-inset|night-3|whatsapp)|ring-success)\\)$/"
+          "/^var\\(--(shadow-(1|2|3|4|header|pill|inset-input|kbd|kbd-night|night|night-inset|night-3|whatsapp|cta|cta-hover)|ring-success)\\)$/"
         ],
         "font-size": [
           "inherit",
